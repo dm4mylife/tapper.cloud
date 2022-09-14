@@ -1,23 +1,15 @@
 package pages;
 
 import io.qameta.allure.Step;
-import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.util.Date;
-import java.util.NoSuchElementException;
+import org.openqa.selenium.*;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.*;
+
 import java.util.Random;
 
-import static constants.Constant.TimeoutVar.*;
+import static com.codeborne.selenide.Condition.attribute;
+
 
 
 public class BasePage {
@@ -28,33 +20,20 @@ public class BasePage {
         this.driver = driver;
     }
 
-    public WebElement waitElementIsVisible(WebElement element) {
-
-        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT)).until(ExpectedConditions.visibilityOf(element));
-        return element;
-    }
-
-    @Step("Переход на страницу {url}")
-    public void open(String url) {
-        driver.get(url);
-
-    }
-
-    @Step("Клик по кнопке ${locator}")
+    @Step("Кнопка видна и клик по ней ${locator}")
     public void click(By locator) {
 
-        WebElement element = driver.findElement(locator);
-        waitElementIsVisible(element).click();
+        $(locator).shouldBe(visible).click();
 
     }
 
-    @Step("Адаптивная задержка перед появлением элемента")
-    public Wait<WebDriver> fluentWait() {
-
-        return new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(WITH_TIME_OUT))
-                .pollingEvery(Duration.ofSeconds(POLLING_EVERY))
-                .ignoring(NoSuchElementException.class);
+    @Step("Элемент присутствует и видим на странице")
+    public void isElementVisible(By locator) {
+        $(locator).shouldBe(visible);
+    }
+    @Step("Элемент не видим на странице")
+    public void isElementInVisible(By locator) {
+        $(locator).shouldNotBe(visible);
     }
 
     @Step("Удаление текста из поля")
@@ -79,24 +58,14 @@ public class BasePage {
 
     }
 
-    /* @Attachment(value = "Page screenshot", type = "image/png")
-    public  makeScreenshot() throws IOException {
-
-        Date dateNow = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("hh_mm_ss");
-        String fileName = format.format(dateNow) + ".png";
-
-        File screenShot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-
-        FileUtils.copyFile(screenShot,new File("C:\\Screenshots\\" + fileName));
-        return screenshots;
-    } */
-
-
-
-    @Rule
-    public byte[] AttachScreen() {
-        return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+    @Step("Проверка заголовка")
+    public void checkPageTitle() {
+        $("title").shouldHave(attribute("text", "gg"));
     }
+    @Step("Открытие страницы")
+    public void openPage(String url) {
+        open(url);
+    }
+
 
 }

@@ -2,14 +2,9 @@ package tests;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import common.Actions;
-import io.qameta.allure.Attachment;
-import io.qameta.allure.Description;
-import org.junit.Rule;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.TestWatcher;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
 
@@ -24,12 +19,10 @@ public class BaseTest {
         driver.quit();
     }
 
-    @BeforeEach
-    static void screens() {
-        SelenideLogger.addListener("AllureSelenide", New AllureSelenide());
+    @BeforeAll
+    static void setupAllureReports() {
+        SelenideLogger.addListener("AllureSelenide",  new AllureSelenide().screenshots(true).savePageSource(false));
     }
-
-
 
 }
 
