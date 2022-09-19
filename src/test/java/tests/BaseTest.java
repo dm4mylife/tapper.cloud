@@ -1,22 +1,45 @@
 package tests;
 
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import common.Actions;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.openqa.selenium.WebDriver;
-import pages.BasePage;
+
+import static common.ConfigDriver.PLATFORM_AND_BROWSER;
+
 
 public class BaseTest {
 
-    public static WebDriver driver = Actions.createWebDriver();
 
-    protected BasePage basePage = new BasePage(driver);
+
+    @BeforeAll
+    public static void setUp() {
+
+        if (PLATFORM_AND_BROWSER.equals("win+chrome")) {
+
+            WebDriverManager.chromedriver().setup();
+            Configuration.browser = "chrome";
+            Configuration.driverManagerEnabled = true;
+            Configuration.browserSize = "1920x1080";
+
+        } else {
+
+            Assertions.fail("Incorrect type or browser name" + PLATFORM_AND_BROWSER);
+        }
+
+
+    }
+
+
 
     @AfterAll
-    static void teardown() {
-        driver.quit();
+    static void tearDown() {
+        Selenide.closeWebDriver();
     }
 
     @BeforeAll

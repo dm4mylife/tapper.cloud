@@ -1,8 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: searchingInHearder.searchingInHeaderTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 1, Skipped: 2, Time elapsed: 13.491 s <<< FAILURE! - in searchingInHearder.searchingInHeaderTest
-searchingInHearder.searchingInHeaderTest.simpleBaseTestForDebugging  Time elapsed: 5.252 s  <<< ERROR!
-java.lang.IllegalStateException: No webdriver is bound to current thread: 1. You need to call open(url) first.
-	at searchingInHearder.searchingInHeaderTest.simpleBaseTestForDebugging(searchingInHeaderTest.java:44)
+Tests run: 15, Failures: 1, Errors: 0, Skipped: 1, Time elapsed: 62.118 s <<< FAILURE! - in searchingInHearder.searchingInHeaderTest
+searchingInHearder.searchingInHeaderTest.isLinksCorrectInContainer(String)[9]  Time elapsed: 8.111 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should be visible {.title-search-result}
+Element: '<div class="title-search-result" displayed:false></div>'
+Actual value: hidden
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663567749557.0.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663567749557.0.html
+Timeout: 4 s.
+	at searchingInHearder.searchingInHeaderTest.isLinksCorrectInContainer(searchingInHeaderTest.java:84)
 
