@@ -1,4 +1,3 @@
-Tests.class
 common\BaseActions.class
 constants\Constant$TimeoutVar.class
 constants\Constant$Urls.class

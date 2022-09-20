@@ -16,7 +16,6 @@ import static common.ConfigDriver.PLATFORM_AND_BROWSER;
 public class BaseTest {
 
 
-
     @BeforeAll
     public static void setUp() {
 
@@ -34,7 +33,6 @@ public class BaseTest {
 
 
     }
-
 
 
     @AfterAll

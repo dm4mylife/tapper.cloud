@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+Test set: searchingInHeader.SearchingInHeaderTests
+-------------------------------------------------------------------------------
+Tests run: 17, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 84.274 s <<< FAILURE! - in searchingInHeader.SearchingInHeaderTests
+searchingInHeader.SearchingInHeaderTests.checkIsLinksCorrectInContainer(String)[9]  Time elapsed: 8.472 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should be visible {.title-search-result}
+Element: '<div class="title-search-result" displayed:false></div>'
+Actual value: hidden
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663679658434.0.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663679658434.0.html
+Timeout: 4 s.
+	at searchingInHeader.SearchingInHeaderTests.checkIsLinksCorrectInContainer(SearchingInHeaderTests.java:77)
+
+searchingInHeader.SearchingInHeaderTests.checkIsLinksCorrectInContainer(String)[12]  Time elapsed: 2.746 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Комплект.В ссылке оказалось Средство Jewel Clean для чистки ювелирных изделий из золота и платины с бриллиантами, рубинами, сапфирами Артикул: Z5020-A116017
+1398
+	at searchingInHeader.SearchingInHeaderTests.checkIsLinksCorrectInContainer(SearchingInHeaderTests.java:85)
+
