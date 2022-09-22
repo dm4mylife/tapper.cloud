@@ -5,10 +5,9 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Attachment;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.*;
 
 import static common.ConfigDriver.PLATFORM_AND_BROWSER;
 
@@ -16,8 +15,8 @@ import static common.ConfigDriver.PLATFORM_AND_BROWSER;
 public class BaseTest {
 
 
-    @BeforeAll
-    public static void setUp() {
+    @AfterEach
+     void setUp() {
 
         if (PLATFORM_AND_BROWSER.equals("win+chrome")) {
 
@@ -35,15 +34,17 @@ public class BaseTest {
     }
 
 
-    @AfterAll
-    static void tearDown() {
-        Selenide.closeWebDriver();
+    @AfterEach
+     void tearDown() {
+        Selenide.closeWindow();
     }
 
-    @BeforeAll
-    static void setupAllureReports() {
+    @BeforeEach
+      void setupAllureReports() {
         SelenideLogger.addListener("AllureSelenide",  new AllureSelenide().screenshots(true).savePageSource(false));
     }
+
+
 
 }
 

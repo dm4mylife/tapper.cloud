@@ -63,7 +63,7 @@ public class BaseActions {
         Random r = new Random();
         for(int i = 0; i < text.length(); i++) {
             try {
-                Thread.sleep((int)(r.nextGaussian() * 15 + 100));
+                Thread.sleep((int)(r.nextGaussian() * 15 + 50));
             } catch(InterruptedException e) {
                 System.out.println("Error " + e);
             }

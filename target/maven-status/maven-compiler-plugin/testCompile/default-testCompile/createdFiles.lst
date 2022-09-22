@@ -1,2 +1,6 @@
+search\tests\SearchingByMainCategoriesTests.class
+search\tests\SearchingByStonesTests.class
 tests\BaseTest.class
-searchingInHeader\SearchingInHeaderTests.class
+search\tests\SearchingByCategoryWithStonesTests.class
+search\tests\SearchingByCollectionsTests.class
+search\tests\SearchingInHeaderTests.class

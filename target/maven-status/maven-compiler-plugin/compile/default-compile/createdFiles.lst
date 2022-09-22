@@ -3,4 +3,5 @@ constants\Constant$TimeoutVar.class
 constants\Constant$Urls.class
 constants\Constant.class
 common\ConfigDriver.class
+pages\SearchPage.class
 pages\RootPage.class

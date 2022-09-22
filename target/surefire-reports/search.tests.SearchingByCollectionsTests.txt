@@ -1,0 +1,130 @@
+-------------------------------------------------------------------------------
+Test set: search.tests.SearchingByCollectionsTests
+-------------------------------------------------------------------------------
+Tests run: 21, Failures: 21, Errors: 0, Skipped: 0, Time elapsed: 198.843 s <<< FAILURE! - in search.tests.SearchingByCollectionsTests
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[29]  Time elapsed: 3.008 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Royal Diamond.В ссылке оказалось Кольцо c бриллиантами Артикул: R01-ROYAL-35292-300
+5725000
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[30]  Time elapsed: 2.426 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Snowflake.В ссылке оказалось Серьги c бриллиантами Артикул: E108-1982225CD
+91960
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[31]  Time elapsed: 2.333 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Tenero.В ссылке оказалось Колье c бриллиантом и сапфиром Артикул: N2018-NC010027ASA
+30950
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[32]  Time elapsed: 2.495 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Trendy Oro.В ссылке оказалось Серьги Артикул: E2042-ODR-0057
+12663
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[33]  Time elapsed: 2.575 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Vittoria.В ссылке оказалось Серьги Артикул: E01-Y-60375-Z
+22471
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[34]  Time elapsed: 2.458 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Waterfalls.В ссылке оказалось Серьги c бриллиантами Артикул: E4195-SME-6481-DIA
+1236000
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[35]  Time elapsed: 3.127 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Вишня в цвету.В ссылке оказалось Подвеска c топазами и эмалью Артикул: P2018-PR05005CPZ
+11321
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[36]  Time elapsed: 3.896 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Детская коллекция.В ссылке оказалось Серьги c фианитами Артикул: E2031-KID-0019
+8232
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[37]  Time elapsed: 3.957 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Драгоценное наследие.В ссылке оказалось Кольцо c бриллиантами и цветными сапфирами Артикул: R01-RS-33990-SC
+178495
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[38]  Time elapsed: 3.985 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Мой первый бриллиант.В ссылке оказалось Подвеска c бриллиантом Артикул: P01-33683
+5396
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[39]  Time elapsed: 2.187 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Мужская.В ссылке оказалось Кольцо c бриллиантами Артикул: M753-RG007082-R17
+45747
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[40]  Time elapsed: 3.926 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Обручальные кольца.В ссылке оказалось Кольцо Артикул: R127-UFOH1261
+104495
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[41]  Time elapsed: 2.937 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Отражение небес.В ссылке оказалось Подвеска Артикул: P108-1983086DB-R17
+12596
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[42]  Time elapsed: 4.52 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Помолвочные кольца.В ссылке оказалось Кольцо c бриллиантом Артикул: R01-BS-005
+8997
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[43]  Time elapsed: 3.51 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Русская классика.В ссылке оказалось Колье Артикул: N77-N59519
+37996
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[44]  Time elapsed: 4.872 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Серебро с бриллиантами.В ссылке оказалось Серьги c бриллиантами Артикул: E01-SDI-35390
+66405
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[45]  Time elapsed: 3.307 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Символ веры.В ссылке оказалось Крест Артикул: J2020-096290-435
+18143
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[46]  Time elapsed: 2.006 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Танзаниты.В ссылке оказалось Кольцо c бриллиантами и танзанитом Артикул: R755-37303R079
+109950
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[47]  Time elapsed: 2.318 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Трилогия.В ссылке оказалось Подвеска c рубином и бриллиантами Артикул: P01-R-34497-RU
+30447
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[48]  Time elapsed: 1.759 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Флирт.В ссылке оказалось Подвеска c бриллиантом Артикул: P01-33644
+15396
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[49]  Time elapsed: 3.509 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Вне коллекций.В ссылке оказалось Кольцо c бриллиантами Артикул: R4194-ALX-R021L
+2187000
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+

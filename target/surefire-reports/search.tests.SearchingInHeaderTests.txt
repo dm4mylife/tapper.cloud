@@ -1,0 +1,92 @@
+-------------------------------------------------------------------------------
+Test set: search.tests.SearchingInHeaderTests
+-------------------------------------------------------------------------------
+Tests run: 37, Failures: 10, Errors: 7, Skipped: 3, Time elapsed: 73.068 s <<< FAILURE! - in search.tests.SearchingInHeaderTests
+search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(String)[1]  Time elapsed: 2.991 s  <<< ERROR!
+java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
+	at search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(SearchingInHeaderTests.java:57)
+
+search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(String)[2]  Time elapsed: 0.183 s  <<< ERROR!
+java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
+	at search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(SearchingInHeaderTests.java:57)
+
+search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(String)[3]  Time elapsed: 0.234 s  <<< ERROR!
+java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
+	at search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(SearchingInHeaderTests.java:57)
+
+search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(String)[1]  Time elapsed: 0.199 s  <<< ERROR!
+java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
+	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:67)
+
+search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(String)[2]  Time elapsed: 0.2 s  <<< ERROR!
+java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
+	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:67)
+
+search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(String)[3]  Time elapsed: 0.252 s  <<< ERROR!
+java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
+	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:67)
+
+search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(String)[4]  Time elapsed: 0.216 s  <<< ERROR!
+java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
+	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:67)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[1]  Time elapsed: 5.867 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Solo 1920.В ссылке оказалось Колье c бриллиантом Артикул: N01-SP77-100
+499000
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[2]  Time elapsed: 4.667 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Brilliance.В ссылке оказалось Кольцо c бриллиантами Артикул: R127-UFOQ3321G
+58745
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[3]  Time elapsed: 3.438 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Millennium.В ссылке оказалось Серьги c выращенными бриллиантами Артикул: E01-MLN149-010
+17955
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[4]  Time elapsed: 3.723 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Champagne.В ссылке оказалось Серьги c бриллиантами Артикул: E01-CHAMPAGNE
+445455
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[5]  Time elapsed: 2.715 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Empire.В ссылке оказалось Серьги c бриллиантами и сапфирами Артикул: E01-34007-SA
+181396
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[6]  Time elapsed: 2.752 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Энигма.В ссылке оказалось Кольцо c бриллиантами Артикул: R01-33883
+23547
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[7]  Time elapsed: 2.872 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Arabella.В ссылке оказалось Браслет Артикул: B01-60104-Z
+8418
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[8]  Time elapsed: 4.514 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Black&White.В ссылке оказалось Кольцо c агатом и бриллиантами Артикул: R2018-RR07015AWA-R17
+26196
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[9]  Time elapsed: 3.282 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Bonita.В ссылке оказалось Браслет Артикул: B2037-B1209
+15005
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingInHeaderTests.test  Time elapsed: 67.396 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Ошибка в совпадении по запросу Средство.В ссылке оказалось Кольцо c бриллиантом Артикул: R01-SDI-00168
+4275
+	at search.tests.SearchingInHeaderTests.test(SearchingInHeaderTests.java:39)
+
