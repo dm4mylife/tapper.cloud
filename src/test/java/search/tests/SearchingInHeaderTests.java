@@ -1,25 +1,18 @@
 package search.tests;
 
-
-
-import io.qameta.allure.Attachment;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import org.junit.jupiter.api.*;
-
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import pages.SearchPage;
 import tests.BaseTest;
 
-
+import static constants.Constant.Urls.ROOT_URL;
 
 
 @Epic("Поиск в шапке")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Execution(ExecutionMode.SAME_THREAD)
 public class SearchingInHeaderTests extends BaseTest {
 
     SearchPage searchPage  = new SearchPage();
@@ -28,14 +21,6 @@ public class SearchingInHeaderTests extends BaseTest {
 
     //  <---------- Tests ---------->
 
-    @Disabled
-    @Test
-    @DisplayName("тестовый для дебага")
-    @Attachment(value = "Page screenshot", type = "image/png")
-
-    public void test() {
-        searchPage.simpleBaseTestForDebugging();
-    }
 
     @Test
     @Order(1)
@@ -43,9 +28,8 @@ public class SearchingInHeaderTests extends BaseTest {
     @Description("При вводе запроса должна появится форма с результатами по запросу")
     public void checkInitialFastSearch() {
         searchPage.checkIsSearchResultContainerVisibleAndInvisible();
-
-
     }
+
 
     @Description("Ввод артикула, переход на страницу результатов, переход в детальную карточку артикула")
     @DisplayName("Поиск по артикулу")
@@ -56,7 +40,6 @@ public class SearchingInHeaderTests extends BaseTest {
     }
 
 
-
     @DisplayName("Поиск по ID")
     @Description("Ввод ID, переход на страницу результатов, переход в детальную карточку ID")
     @ParameterizedTest(name = "#{index}. Поиск по ID - {0}")
@@ -64,7 +47,5 @@ public class SearchingInHeaderTests extends BaseTest {
     public void checkIsIDSearchCorrect(String element_ID) {
         searchPage.checkIsIDSearchCorrect(element_ID);
     }
-
-
 
 }

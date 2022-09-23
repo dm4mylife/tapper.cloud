@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="search.tests.SearchingInHeaderTests" time="73.068" tests="37" errors="7" skipped="3" failures="10">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="search.tests.SearchingInHeaderTests" time="96.628" tests="8" errors="0" skipped="0" failures="2">
   <properties>
     <property name="java.specification.version" value="16"/>
     <property name="webdriver.chrome.driver" value="C:\Users\user\.cache\selenium\chromedriver\win32\105.0.5195.52\chromedriver.exe"/>
@@ -16,8 +16,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="RU"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-16.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire2243362006233324852\surefirebooter2331083926998571747.jar C:\Users\user\AppData\Local\Temp\surefire2243362006233324852 2022-09-22T17-44-21_083-jvmRun1 surefire10105119471990498577tmp surefire_013972853324606791270tmp"/>
+    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire16383249332811924931\surefirebooter14467811104682245008.jar C:\Users\user\AppData\Local\Temp\surefire16383249332811924931 2022-09-23T18-57-22_045-jvmRun1 surefire4527992406813747575tmp surefire_03886928795075771502tmp"/>
     <property name="jdk.debug" value="release"/>
+    <property name="test" value="SearchingInHeaderTests"/>
     <property name="surefire.test.class.path" value="C:\Users\user\IdeaProjects\work_test_automation\target\test-classes;C:\Users\user\IdeaProjects\work_test_automation\target\classes;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-java\4.4.0\selenium-java-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.4.0\selenium-chrome-driver-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.4.0\selenium-chromium-driver-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v102\4.4.0\selenium-devtools-v102-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v103\4.4.0\selenium-devtools-v103-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v104\4.4.0\selenium-devtools-v104-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v85\4.4.0\selenium-devtools-v85-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.4.0\selenium-edge-driver-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.4.0\selenium-firefox-driver-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.4.0\selenium-ie-driver-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-opera-driver\4.4.0\selenium-opera-driver-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.4.0\selenium-remote-driver-4.4.0.jar;C:\Users\user\.m2\repository\com\beust\jcommander\1.82\jcommander-1.82.jar;C:\Users\user\.m2\repository\io\netty\netty-buffer\4.1.78.Final\netty-buffer-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-http\4.1.78.Final\netty-codec-http-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec\4.1.78.Final\netty-codec-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler\4.1.78.Final\netty-handler-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-common\4.1.78.Final\netty-common-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-classes-epoll\4.1.78.Final\netty-transport-classes-epoll-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-classes-kqueue\4.1.78.Final\netty-transport-classes-kqueue-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.78.Final\netty-transport-native-epoll-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.78.Final\netty-transport-native-kqueue-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-unix-common\4.1.78.Final\netty-transport-native-unix-common-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport\4.1.78.Final\netty-transport-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-resolver\4.1.78.Final\netty-resolver-4.1.78.Final.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-api\1.16.0\opentelemetry-api-1.16.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-context\1.16.0\opentelemetry-context-1.16.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.16.0\opentelemetry-exporter-logging-1.16.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.16.0\opentelemetry-sdk-metrics-1.16.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.16.0-alpha\opentelemetry-sdk-logs-1.16.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.16.0\opentelemetry-sdk-common-1.16.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.16.0\opentelemetry-sdk-extension-autoconfigure-spi-1.16.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.16.0-alpha\opentelemetry-sdk-extension-autoconfigure-1.16.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.16.0\opentelemetry-sdk-trace-1.16.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.16.0\opentelemetry-sdk-1.16.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-semconv\1.16.0-alpha\opentelemetry-semconv-1.16.0-alpha.jar;C:\Users\user\.m2\repository\io\ous\jtoml\2.0.0\jtoml-2.0.0.jar;C:\Users\user\.m2\repository\org\asynchttpclient\async-http-client\2.12.3\async-http-client-2.12.3.jar;C:\Users\user\.m2\repository\org\asynchttpclient\async-http-client-netty-utils\2.12.3\async-http-client-netty-utils-2.12.3.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-socks\4.1.60.Final\netty-codec-socks-4.1.60.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler-proxy\4.1.60.Final\netty-handler-proxy-4.1.60.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.60.Final\netty-transport-native-epoll-4.1.60.Final-linux-x86_64.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.60.Final\netty-transport-native-kqueue-4.1.60.Final-osx-x86_64.jar;C:\Users\user\.m2\repository\org\reactivestreams\reactive-streams\1.0.3\reactive-streams-1.0.3.jar;C:\Users\user\.m2\repository\com\typesafe\netty\netty-reactive-streams\2.0.4\netty-reactive-streams-2.0.4.jar;C:\Users\user\.m2\repository\com\sun\activation\jakarta.activation\1.2.2\jakarta.activation-1.2.2.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-http\4.4.0\selenium-http-4.4.0.jar;C:\Users\user\.m2\repository\dev\failsafe\failsafe\3.2.4\failsafe-3.2.4.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.4.0\selenium-safari-driver-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-api\4.4.0\selenium-api-4.4.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-support\4.4.0\selenium-support-4.4.0.jar;C:\Users\user\.m2\repository\com\google\auto\service\auto-service-annotations\1.0.1\auto-service-annotations-1.0.1.jar;C:\Users\user\.m2\repository\com\google\auto\service\auto-service\1.0.1\auto-service-1.0.1.jar;C:\Users\user\.m2\repository\com\google\auto\auto-common\1.2\auto-common-1.2.jar;C:\Users\user\.m2\repository\com\google\guava\guava\31.1-jre\guava-31.1-jre.jar;C:\Users\user\.m2\repository\com\google\guava\failureaccess\1.0.1\failureaccess-1.0.1.jar;C:\Users\user\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\user\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\user\.m2\repository\org\checkerframework\checker-qual\3.12.0\checker-qual-3.12.0.jar;C:\Users\user\.m2\repository\com\google\errorprone\error_prone_annotations\2.11.0\error_prone_annotations-2.11.0.jar;C:\Users\user\.m2\repository\com\google\j2objc\j2objc-annotations\1.3\j2objc-annotations-1.3.jar;C:\Users\user\.m2\repository\net\bytebuddy\byte-buddy\1.12.10\byte-buddy-1.12.10.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-json\4.4.0\selenium-json-4.4.0.jar;C:\Users\user\.m2\repository\io\github\bonigarcia\webdrivermanager\5.3.0\webdrivermanager-5.3.0.jar;C:\Users\user\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\user\.m2\repository\com\google\code\gson\gson\2.9.1\gson-2.9.1.jar;C:\Users\user\.m2\repository\com\github\docker-java\docker-java\3.2.13\docker-java-3.2.13.jar;C:\Users\user\.m2\repository\com\github\docker-java\docker-java-core\3.2.13\docker-java-core-3.2.13.jar;C:\Users\user\.m2\repository\com\github\docker-java\docker-java-api\3.2.13\docker-java-api-3.2.13.jar;C:\Users\user\.m2\repository\org\bouncycastle\bcpkix-jdk15on\1.64\bcpkix-jdk15on-1.64.jar;C:\Users\user\.m2\repository\org\bouncycastle\bcprov-jdk15on\1.64\bcprov-jdk15on-1.64.jar;C:\Users\user\.m2\repository\org\slf4j\jcl-over-slf4j\1.7.30\jcl-over-slf4j-1.7.30.jar;C:\Users\user\.m2\repository\com\github\docker-java\docker-java-transport-httpclient5\3.2.13\docker-java-transport-httpclient5-3.2.13.jar;C:\Users\user\.m2\repository\com\github\docker-java\docker-java-transport\3.2.13\docker-java-transport-3.2.13.jar;C:\Users\user\.m2\repository\net\java\dev\jna\jna\5.8.0\jna-5.8.0.jar;C:\Users\user\.m2\repository\org\brotli\dec\0.1.2\dec-0.1.2.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-lang3\3.12.0\commons-lang3-3.12.0.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.1.3\httpclient5-5.1.3.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.1.3\httpcore5-5.1.3.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\core5\httpcore5-h2\5.1.3\httpcore5-h2-5.1.3.jar;C:\Users\user\.m2\repository\commons-codec\commons-codec\1.15\commons-codec-1.15.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter\5.9.0\junit-jupiter-5.9.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.0\junit-jupiter-api-5.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-commons\1.9.0\junit-platform-commons-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.0\junit-jupiter-engine-5.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-engine\1.9.0\junit-platform-engine-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.0\junit-jupiter-params-5.9.0.jar;C:\Users\user\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-junit5\2.19.0\allure-junit5-2.19.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-junit-platform\2.19.0\allure-junit-platform-2.19.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-test-filter\2.19.0\allure-test-filter-2.19.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-launcher\1.8.2\junit-platform-launcher-1.8.2.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-maven\2.11.2\allure-maven-2.11.2.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\user\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.13.0\jackson-databind-2.13.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.13.0\jackson-annotations-2.13.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.13.0\jackson-core-2.13.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-plugin-api\3.8.3\maven-plugin-api-3.8.3.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-utils\3.3.0\plexus-utils-3.3.0.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.6.0\plexus-classworlds-2.6.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-core\3.8.3\maven-core-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-model\3.8.3\maven-model-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-settings\3.8.3\maven-settings-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-settings-builder\3.8.3\maven-settings-builder-3.8.3.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-sec-dispatcher\2.0\plexus-sec-dispatcher-2.0.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-cipher\2.0\plexus-cipher-2.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-builder-support\3.8.3\maven-builder-support-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-repository-metadata\3.8.3\maven-repository-metadata-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-artifact\3.8.3\maven-artifact-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-model-builder\3.8.3\maven-model-builder-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-resolver-provider\3.8.3\maven-resolver-provider-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-impl\1.6.3\maven-resolver-impl-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-api\1.6.3\maven-resolver-api-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-spi\1.6.3\maven-resolver-spi-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-util\1.6.3\maven-resolver-util-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-shared-utils\3.3.4\maven-shared-utils-3.3.4.jar;C:\Users\user\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.plexus\0.3.5\org.eclipse.sisu.plexus-0.3.5.jar;C:\Users\user\.m2\repository\javax\annotation\javax.annotation-api\1.2\javax.annotation-api-1.2.jar;C:\Users\user\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.3.5\org.eclipse.sisu.inject-0.3.5.jar;C:\Users\user\.m2\repository\com\google\inject\guice\4.2.2\guice-4.2.2-no_aop.jar;C:\Users\user\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar;C:\Users\user\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.26\plexus-interpolation-1.26.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-component-annotations\2.1.0\plexus-component-annotations-2.1.0.jar;C:\Users\user\.m2\repository\org\apache\maven\reporting\maven-reporting-impl\3.0.0\maven-reporting-impl-3.0.0.jar;C:\Users\user\.m2\repository\org\apache\maven\reporting\maven-reporting-api\3.0\maven-reporting-api-3.0.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-sink-api\1.7\doxia-sink-api-1.7.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-logging-api\1.7\doxia-logging-api-1.7.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-decoration-model\1.7.4\doxia-decoration-model-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-core\1.7\doxia-core-1.7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-container-default\1.0-alpha-30\plexus-container-default-1.0-alpha-30.jar;C:\Users\user\.m2\repository\commons-lang\commons-lang\2.4\commons-lang-2.4.jar;C:\Users\user\.m2\repository\xmlunit\xmlunit\1.5\xmlunit-1.5.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-site-renderer\1.7.4\doxia-site-renderer-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-skin-model\1.7.4\doxia-skin-model-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-module-xhtml\1.7\doxia-module-xhtml-1.7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-i18n\1.0-beta-7\plexus-i18n-1.0-beta-7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-velocity\1.2\plexus-velocity-1.2.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity\1.7\velocity-1.7.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity-tools\2.0\velocity-tools-2.0.jar;C:\Users\user\.m2\repository\commons-digester\commons-digester\1.8\commons-digester-1.8.jar;C:\Users\user\.m2\repository\commons-chain\commons-chain\1.1\commons-chain-1.1.jar;C:\Users\user\.m2\repository\commons-validator\commons-validator\1.3.1\commons-validator-1.3.1.jar;C:\Users\user\.m2\repository\dom4j\dom4j\1.1\dom4j-1.1.jar;C:\Users\user\.m2\repository\oro\oro\2.0.8\oro-2.0.8.jar;C:\Users\user\.m2\repository\sslext\sslext\1.2-0\sslext-1.2-0.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-core\1.3.8\struts-core-1.3.8.jar;C:\Users\user\.m2\repository\antlr\antlr\2.7.2\antlr-2.7.2.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-taglib\1.3.8\struts-taglib-1.3.8.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-tiles\1.3.8\struts-tiles-1.3.8.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-artifact-transfer\0.13.1\maven-artifact-transfer-0.13.1.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-common-artifact-filters\3.1.0\maven-common-artifact-filters-3.1.0.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-inject-plexus\1.4.2\sisu-inject-plexus-1.4.2.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-inject-bean\1.4.2\sisu-inject-bean-1.4.2.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-guice\2.1.7\sisu-guice-2.1.7-noaop.jar;C:\Users\user\.m2\repository\commons-beanutils\commons-beanutils\1.9.4\commons-beanutils-1.9.4.jar;C:\Users\user\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\user\.m2\repository\net\lingala\zip4j\zip4j\1.3.2\zip4j-1.3.2.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-exec\1.3\commons-exec-1.3.jar;C:\Users\user\.m2\repository\org\apache\maven\plugin-tools\maven-plugin-annotations\3.6.1\maven-plugin-annotations-3.6.1.jar;C:\Users\user\.m2\repository\org\apache\maven\plugins\maven-jxr-plugin\3.1.1\maven-jxr-plugin-3.1.1.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-jxr\3.1.1\maven-jxr-3.1.1.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity-engine-core\2.0\velocity-engine-core-2.0.jar;C:\Users\user\.m2\repository\org\apache\maven\wagon\wagon-provider-api\2.4\wagon-provider-api-2.4.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-java\1.0.6\plexus-java-1.0.6.jar;C:\Users\user\.m2\repository\org\ow2\asm\asm\9.0\asm-9.0.jar;C:\Users\user\.m2\repository\com\thoughtworks\qdox\qdox\2.0.0\qdox-2.0.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-java-commons\2.19.0\allure-java-commons-2.19.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-model\2.19.0\allure-model-2.19.0.jar;C:\Users\user\.m2\repository\org\aspectj\aspectjweaver\1.9.9.1\aspectjweaver-1.9.9.1.jar;C:\Users\user\.m2\repository\org\apache\maven\plugins\maven-surefire-plugin\3.0.0-M5\maven-surefire-plugin-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\maven-surefire-common\3.0.0-M5\maven-surefire-common-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-api\3.0.0-M5\surefire-api-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-logger-api\3.0.0-M5\surefire-logger-api-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-extensions-api\3.0.0-M5\surefire-extensions-api-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-booter\3.0.0-M5\surefire-booter-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.0.0-M5\surefire-extensions-spi-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-toolchain\3.0-alpha-2\maven-toolchain-3.0-alpha-2.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.0.0-M4\surefire-shared-utils-3.0.0-M4.jar;C:\Users\user\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-selenide\2.19.0\allure-selenide-2.19.0.jar;C:\Users\user\.m2\repository\com\codeborne\selenide-core\6.7.4\selenide-core-6.7.4.jar;C:\Users\user\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\user\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-compress\1.21\commons-compress-1.21.jar;C:\Users\user\.m2\repository\com\codeborne\selenide\6.7.4\selenide-6.7.4.jar;C:\Users\user\.m2\repository\org\slf4j\slf4j-nop\1.7.13\slf4j-nop-1.7.13.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\user"/>
@@ -31,7 +32,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire2243362006233324852\surefirebooter2331083926998571747.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire16383249332811924931\surefirebooter14467811104682245008.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="16.0.2+7-67"/>
@@ -57,187 +58,66 @@
     <property name="java.class.version" value="60.0"/>
     <property name="webdriver.http.factory" value="selenide-netty-client-factory"/>
   </properties>
-  <testcase name="" classname="search.tests.SearchingByCategoryWithStonesTests" time="0">
-    <skipped message="class search.tests.SearchingByCategoryWithStonesTests is @Disabled"/>
-  </testcase>
-  <testcase name="checkArticleSearchCorrect(String)[1]" classname="search.tests.SearchingInHeaderTests" time="2.991">
-    <error type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
-	at search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(SearchingInHeaderTests.java:57)
-]]></error>
-  </testcase>
-  <testcase name="checkArticleSearchCorrect(String)[2]" classname="search.tests.SearchingInHeaderTests" time="0.183">
-    <error type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
-	at search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(SearchingInHeaderTests.java:57)
-]]></error>
-  </testcase>
-  <testcase name="checkArticleSearchCorrect(String)[3]" classname="search.tests.SearchingInHeaderTests" time="0.234">
-    <error type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
-	at search.tests.SearchingInHeaderTests.checkArticleSearchCorrect(SearchingInHeaderTests.java:57)
-]]></error>
-  </testcase>
-  <testcase name="checkIsIDSearchCorrect(String)[1]" classname="search.tests.SearchingInHeaderTests" time="0.199">
-    <error type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
-	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:67)
-]]></error>
-  </testcase>
-  <testcase name="checkIsIDSearchCorrect(String)[2]" classname="search.tests.SearchingInHeaderTests" time="0.2">
-    <error type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
-	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:67)
-]]></error>
-  </testcase>
-  <testcase name="checkIsIDSearchCorrect(String)[3]" classname="search.tests.SearchingInHeaderTests" time="0.252">
-    <error type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
-	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:67)
-]]></error>
-  </testcase>
-  <testcase name="checkIsIDSearchCorrect(String)[4]" classname="search.tests.SearchingInHeaderTests" time="0.216">
-    <error type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: No webdriver is bound to current thread: 17. You need to call open(url) first.
-	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:67)
-]]></error>
-  </testcase>
-  <testcase name="test" classname="search.tests.SearchingInHeaderTests" time="67.396">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Средство.В ссылке оказалось Кольцо c бриллиантом Артикул: R01-SDI-00168
-4275
-	at search.tests.SearchingInHeaderTests.test(SearchingInHeaderTests.java:39)
-]]></failure>
-  </testcase>
-  <testcase name="checkInitialFastSearch" classname="search.tests.SearchingInHeaderTests" time="0">
-    <skipped message="public void search.tests.SearchingInHeaderTests.checkInitialFastSearch() is @Disabled"/>
-  </testcase>
-  <testcase name="" classname="search.tests.SearchingByMainCategoriesTests" time="0">
-    <skipped message="class search.tests.SearchingByMainCategoriesTests is @Disabled"/>
-  </testcase>
-  <testcase name="openPageForConcurrentExecution" classname="search.tests.SearchingByStonesTests" time="30.205">
-    <system-err><![CDATA[Starting ChromeDriver 105.0.5195.52 (412c95e518836d8a7d97250d62b29c2ae6a26a85-refs/branch-heads/5195@{#853}) on port 62746
-Only local connections are allowed.
-Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
-Starting ChromeDriver 105.0.5195.52 (412c95e518836d8a7d97250d62b29c2ae6a26a85-refs/branch-heads/5195@{#853}) on port 52561
+  <testcase name="checkInitialFastSearch" classname="search.tests.SearchingInHeaderTests" time="16.815">
+    <system-err><![CDATA[Starting ChromeDriver 105.0.5195.52 (412c95e518836d8a7d97250d62b29c2ae6a26a85-refs/branch-heads/5195@{#853}) on port 52667
 Only local connections are allowed.
 Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
 ChromeDriver was started successfully.
-Starting ChromeDriver 105.0.5195.52 (412c95e518836d8a7d97250d62b29c2ae6a26a85-refs/branch-heads/5195@{#853}) on port 50810
-OnlCyh rloomcealD rciovnener cwtaiso nsst aarrtee da lsluocwceeds.sful
-lPyl.eas
-e see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
-ChromeDriver was started successfully.
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.remote.ProtocolHandshake createSession
+сент. 23, 2022 6:57:36 PM org.openqa.selenium.remote.ProtocolHandshake createSession
 INFO: Detected upstream dialect: W3C
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.remote.ProtocolHandshake createSession
-INFO: Detected upstream dialect: W3C
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.remote.ProtocolHandshake createSession
-INFO: Detected upstream dialect: W3C
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+сент. 23, 2022 6:57:36 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
 WARNING: Unable to find an exact match for CDP version 105, so returning the closest version found: 104
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-INFO: Found CDP implementation for version 105 of 104
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find an exact match for CDP version 105, so returning the closest version found: 104
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-INFO: Found CDP implementation for version 105 of 104
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find an exact match for CDP version 105, so returning the closest version found: 104
-сент. 22, 2022 5:44:40 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+сент. 23, 2022 6:57:36 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
 INFO: Found CDP implementation for version 105 of 104
 ]]></system-err>
   </testcase>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[1]" classname="search.tests.SearchingByStonesTests" time="2.877"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[2]" classname="search.tests.SearchingByStonesTests" time="1.988"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[3]" classname="search.tests.SearchingByStonesTests" time="4.642"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[4]" classname="search.tests.SearchingByStonesTests" time="4.258"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[5]" classname="search.tests.SearchingByStonesTests" time="1.558"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[6]" classname="search.tests.SearchingByStonesTests" time="1.458"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[7]" classname="search.tests.SearchingByStonesTests" time="2.142"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[8]" classname="search.tests.SearchingByStonesTests" time="2.078"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[9]" classname="search.tests.SearchingByStonesTests" time="1.568"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[10]" classname="search.tests.SearchingByStonesTests" time="2.392"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[11]" classname="search.tests.SearchingByStonesTests" time="1.62"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[12]" classname="search.tests.SearchingByStonesTests" time="3.753"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[13]" classname="search.tests.SearchingByStonesTests" time="1.273"/>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[14]" classname="search.tests.SearchingByStonesTests" time="1.617">
-    <system-err><![CDATA[сент. 22, 2022 5:45:38 PM org.openqa.selenium.remote.http.WebSocket$Listener onError
-WARNING: Connection reset
-java.net.SocketException: Connection reset
-	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:394)
-	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:426)
-	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:258)
-	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1132)
-	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:357)
-	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:151)
-	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:722)
-	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:658)
-	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:584)
-	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:496)
-	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
-	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.base/java.lang.Thread.run(Thread.java:831)
-
-]]></system-err>
-  </testcase>
-  <testcase name="checkOnlyStonesSearchCorrect(String)[15]" classname="search.tests.SearchingByStonesTests" time="2.224"/>
-  <testcase name="openPageForConcurrentExecution" classname="search.tests.SearchingByCollectionsTests" time="37.006"/>
-  <testcase name="checkCollectionsSearchCorrect(String)[1]" classname="search.tests.SearchingByCollectionsTests" time="5.867">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Solo 1920.В ссылке оказалось Колье c бриллиантом Артикул: N01-SP77-100
-499000
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+  <testcase name="checkArticleSearchCorrect(String)[1]" classname="search.tests.SearchingInHeaderTests" time="15.014"/>
+  <testcase name="checkArticleSearchCorrect(String)[2]" classname="search.tests.SearchingInHeaderTests" time="16.033"/>
+  <testcase name="checkArticleSearchCorrect(String)[3]" classname="search.tests.SearchingInHeaderTests" time="7.812"/>
+  <testcase name="checkIsIDSearchCorrect(String)[1]" classname="search.tests.SearchingInHeaderTests" time="5.446">
+    <failure type="com.codeborne.selenide.ex.ElementNotFound"><![CDATA[com.codeborne.selenide.ex.ElementNotFound: 
+Element not found {.search-result-grid .title-search-item a}
+Expected: visible
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663941509710.0.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663941509710.0.html
+Timeout: 4 s.
+Caused by: NoSuchElementException: no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:48)
+Caused by: org.openqa.selenium.NoSuchElementException: 
+no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+  (Session info: chrome=105.0.5195.127)
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
+Build info: version: '4.4.0', revision: 'e5c75ed026a'
+System info: host: 'PC013', ip: '26.155.93.71', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [20bb69eab767c3a59dfb2eaa29f6b422, findElement {using=css selector, value=.search-result-grid .title-search-item a}]
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 105.0.5195.127, chrome: {chromedriverVersion: 105.0.5195.52 (412c95e51883..., userDataDir: C:\Users\user\AppData\Local...}, goog:chromeOptions: {debuggerAddress: localhost:56791}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:56791/devtoo..., se:cdpVersion: 105.0.5195.127, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: 20bb69eab767c3a59dfb2eaa29f6b422
+	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:48)
 ]]></failure>
   </testcase>
-  <testcase name="checkCollectionsSearchCorrect(String)[2]" classname="search.tests.SearchingByCollectionsTests" time="4.667">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Brilliance.В ссылке оказалось Кольцо c бриллиантами Артикул: R127-UFOQ3321G
-58745
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+  <testcase name="checkIsIDSearchCorrect(String)[2]" classname="search.tests.SearchingInHeaderTests" time="6.149">
+    <failure type="com.codeborne.selenide.ex.ElementNotFound"><![CDATA[com.codeborne.selenide.ex.ElementNotFound: 
+Element not found {.search-result-grid .title-search-item a}
+Expected: visible
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663941515910.1.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663941515910.1.html
+Timeout: 4 s.
+Caused by: NoSuchElementException: no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:48)
+Caused by: org.openqa.selenium.NoSuchElementException: 
+no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+  (Session info: chrome=105.0.5195.127)
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
+Build info: version: '4.4.0', revision: 'e5c75ed026a'
+System info: host: 'PC013', ip: '26.155.93.71', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [20bb69eab767c3a59dfb2eaa29f6b422, findElement {using=css selector, value=.search-result-grid .title-search-item a}]
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 105.0.5195.127, chrome: {chromedriverVersion: 105.0.5195.52 (412c95e51883..., userDataDir: C:\Users\user\AppData\Local...}, goog:chromeOptions: {debuggerAddress: localhost:56791}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:56791/devtoo..., se:cdpVersion: 105.0.5195.127, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: 20bb69eab767c3a59dfb2eaa29f6b422
+	at search.tests.SearchingInHeaderTests.checkIsIDSearchCorrect(SearchingInHeaderTests.java:48)
 ]]></failure>
   </testcase>
-  <testcase name="checkCollectionsSearchCorrect(String)[3]" classname="search.tests.SearchingByCollectionsTests" time="3.438">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Millennium.В ссылке оказалось Серьги c выращенными бриллиантами Артикул: E01-MLN149-010
-17955
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
-]]></failure>
-  </testcase>
-  <testcase name="checkCollectionsSearchCorrect(String)[4]" classname="search.tests.SearchingByCollectionsTests" time="3.723">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Champagne.В ссылке оказалось Серьги c бриллиантами Артикул: E01-CHAMPAGNE
-445455
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
-]]></failure>
-  </testcase>
-  <testcase name="checkCollectionsSearchCorrect(String)[5]" classname="search.tests.SearchingByCollectionsTests" time="2.715">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Empire.В ссылке оказалось Серьги c бриллиантами и сапфирами Артикул: E01-34007-SA
-181396
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
-]]></failure>
-  </testcase>
-  <testcase name="checkCollectionsSearchCorrect(String)[6]" classname="search.tests.SearchingByCollectionsTests" time="2.752">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Энигма.В ссылке оказалось Кольцо c бриллиантами Артикул: R01-33883
-23547
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
-]]></failure>
-  </testcase>
-  <testcase name="checkCollectionsSearchCorrect(String)[7]" classname="search.tests.SearchingByCollectionsTests" time="2.872">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Arabella.В ссылке оказалось Браслет Артикул: B01-60104-Z
-8418
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
-]]></failure>
-  </testcase>
-  <testcase name="checkCollectionsSearchCorrect(String)[8]" classname="search.tests.SearchingByCollectionsTests" time="4.514">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Black&White.В ссылке оказалось Кольцо c агатом и бриллиантами Артикул: R2018-RR07015AWA-R17
-26196
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
-]]></failure>
-  </testcase>
-  <testcase name="checkCollectionsSearchCorrect(String)[9]" classname="search.tests.SearchingByCollectionsTests" time="3.282">
-    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
-Ошибка в совпадении по запросу Bonita.В ссылке оказалось Браслет Артикул: B2037-B1209
-15005
-	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
-]]></failure>
-  </testcase>
+  <testcase name="checkIsIDSearchCorrect(String)[3]" classname="search.tests.SearchingInHeaderTests" time="10.643"/>
+  <testcase name="checkIsIDSearchCorrect(String)[4]" classname="search.tests.SearchingInHeaderTests" time="13.258"/>
 </testsuite>

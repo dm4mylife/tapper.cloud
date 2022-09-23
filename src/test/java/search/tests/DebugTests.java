@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import pages.SearchPage;
 import tests.BaseTest;
 
-
+@Disabled
 @Epic("Debug")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -23,11 +23,8 @@ public class DebugTests extends BaseTest {
 
     //  <---------- Tests ---------->
 
-    @Disabled
     @Test
     @DisplayName("тестовый для дебага")
-    @Attachment(value = "Page screenshot", type = "image/png")
-
     public void test() {
         searchPage.simpleBaseTestForDebugging();
     }

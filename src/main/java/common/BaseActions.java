@@ -1,9 +1,7 @@
 package common;
 
 
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.*;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
@@ -100,15 +98,12 @@ public class BaseActions {
     }
 
     @Step("Проверка что текст {text} содержится в элементах коллекции")
-    public void isElementsContainsText(ElementsCollection elements,String text) {
+    public void isElementContainsTextInCollection(ElementsCollection elements, String text) {
 
-        for(WebElement element: elements) {
+        for(SelenideElement element: elements) {
 
-            String linkText = element.getText();
+            element.shouldHave(Condition.matchText(text));
 
-            if (!linkText.contains(text)) {
-                fail("Ошибка в совпадении по запросу " + text + ".В ссылке оказалось " + element.getText());
-            }
 
         }
     }

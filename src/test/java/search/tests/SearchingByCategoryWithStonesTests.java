@@ -35,7 +35,7 @@ public class SearchingByCategoryWithStonesTests {
             "Колье с жемчугом","Браслеты плетения бисмарк","Кресты с бриллиантами","Золотые цепи плетения сингапур",
             "Броши из изумруда","Запонки с бриллиантом","Пирсинг золотой"})
 
-    public void checkMainCategorySearchCorrect(String requestText) {
+    public void checkIsCategoryWithStonesSearchCorrect(String requestText) {
 
         searchPage.checkIsCategoryWithStonesSearchCorrect(requestText);
 

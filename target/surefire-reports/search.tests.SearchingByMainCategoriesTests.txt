@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+Test set: search.tests.SearchingByMainCategoriesTests
+-------------------------------------------------------------------------------
+Tests run: 14, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 48.476 s <<< FAILURE! - in search.tests.SearchingByMainCategoriesTests
+search.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(String)[5]  Time elapsed: 0.183 s  <<< ERROR!
+java.lang.IllegalArgumentException: timeout value is negative
+	at search.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(SearchingByMainCategoriesTests.java:42)
+
+search.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(String)[9]  Time elapsed: 6.465 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should be visible {.title-search-result}
+Element: '<div class="title-search-result" displayed:false></div>'
+Actual value: hidden
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663938668094.0.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663938668094.0.html
+Timeout: 4 s.
+	at search.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(SearchingByMainCategoriesTests.java:42)
+
+search.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(String)[12]  Time elapsed: 6.968 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Комплект" {.search-result-grid .title-search-item a.snapshot(8 elements)[6]}
+Element: '<a href="/catalog/cleaners/Z5020-A116017/">Средство Jewel Clean для чистки ювелирных изделий из золота и платины с бриллиантами, рубинами, сапфирами Артикул: Z5020-A116017
+1398</a>'
+Actual value: text="Средство Jewel Clean для чистки ювелирных изделий из золота и платины с бриллиантами, рубинами, сапфирами Артикул: Z5020-A116017
+1398"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663938679155.1.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1663938679155.1.html
+Timeout: 4 s.
+	at search.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(SearchingByMainCategoriesTests.java:42)
+

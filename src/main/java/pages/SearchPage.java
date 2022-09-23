@@ -25,7 +25,7 @@ public class SearchPage extends BaseActions {
         baseActions.openPage("https://miuz.ru/catalog/rings/R01-PL-34397/");
         baseActions.sendHumanKeys(searchInput,"Кольцо с бриллиантом");
         baseActions.isElementVisible(searchContainer);
-        baseActions.isElementsContainsText($$(linksInSearchContainer),"Средство");
+        baseActions.isElementContainsText(linkInSearchContainer,"Средство");
 
     }
 
@@ -47,7 +47,7 @@ public class SearchPage extends BaseActions {
         baseActions.isElementVisible(searchContainer);
 
         linksInSearchContainer.shouldHave(size(8));
-        baseActions.isElementsContainsText(linksInSearchContainer,requestText);
+        baseActions.isElementContainsTextInCollection(linksInSearchContainer,requestText);
 
     }
 
@@ -59,7 +59,7 @@ public class SearchPage extends BaseActions {
 
         baseActions.isElementVisible(linkInSearchContainer);
         linksInSearchContainer.shouldHave(size(8));
-        baseActions.isElementsContainsText(linksInSearchContainer,requestText);
+        baseActions.isElementContainsTextInCollection(linksInSearchContainer,requestText);
 
     }
 
