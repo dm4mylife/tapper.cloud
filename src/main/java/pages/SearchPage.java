@@ -31,23 +31,25 @@ public class SearchPage extends BaseActions {
 
     public void checkIsSearchResultContainerVisibleAndInvisible() {
 
-        baseActions.openPage(ROOT_URL);
-        baseActions.click(searchInput);
-        baseActions.sendHumanKeys(searchInput, "Кольцо");
-        baseActions.isElementVisible(searchContainer);
-        baseActions.deleteTextInInput(searchInput);
-        baseActions.isElementInVisible(searchContainer);
+            baseActions.openPage(ROOT_URL);
+            baseActions.click(searchInput);
+            baseActions.sendHumanKeys(searchInput, "Кольцо");
+            baseActions.isElementVisible(searchContainer);
+            baseActions.deleteTextInInput(searchInput);
+            baseActions.isElementInVisible(searchContainer);
 
     }
 
     public void checkIsCategorySearchCorrect(String requestText) {
 
-        baseActions.deleteTextInInput(searchInput);
-        baseActions.sendHumanKeys(searchInput,requestText);
-        baseActions.isElementVisible(searchContainer);
+            baseActions.deleteTextInInput(searchInput);
+            baseActions.sendHumanKeys(searchInput, requestText);
+            baseActions.isElementVisible(searchContainer);
 
-        linksInSearchContainer.shouldHave(size(8));
-        baseActions.isElementContainsTextInCollection(linksInSearchContainer,requestText);
+            linksInSearchContainer.shouldHave(size(8));
+            baseActions.isElementContainsTextInCollection(linksInSearchContainer, requestText);
+
+
 
     }
 
@@ -65,6 +67,8 @@ public class SearchPage extends BaseActions {
 
     public void checkIsArticleSearchCorrect(String article) {
 
+
+
         baseActions.deleteTextInInput(searchInput);
         baseActions.sendHumanKeys(searchInput,article);
 
@@ -81,23 +85,27 @@ public class SearchPage extends BaseActions {
         baseActions.isTextContainsInURL(article);
 
 
+
     }
 
     public void checkIsIDSearchCorrect(String element_ID) {
 
-        baseActions.deleteTextInInput(searchInput);
-        baseActions.sendHumanKeys(searchInput,element_ID);
 
-        baseActions.isElementVisible(linkInSearchContainer);
 
-        baseActions.sendKeys(searchInput, Keys.ENTER);
+            baseActions.deleteTextInInput(searchInput);
+            baseActions.sendHumanKeys(searchInput,element_ID);
 
-        baseActions.isTextContainsInURL(element_ID);
-        baseActions.isClickable(resultPageProductContainer);
+            baseActions.isElementVisible(linkInSearchContainer);
 
-        baseActions.click(resultPageProductContainer);
+            baseActions.sendKeys(searchInput, Keys.ENTER);
 
-        baseActions.isTextContainsInURL(element_ID);
+            baseActions.isTextContainsInURL(element_ID);
+            baseActions.isClickable(resultPageProductContainer);
+
+            baseActions.click(resultPageProductContainer);
+
+            baseActions.isTextContainsInURL(element_ID);
+
 
 
     }

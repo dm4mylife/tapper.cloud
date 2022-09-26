@@ -30,7 +30,7 @@ public class SearchingByCollectionsTests {
     @ValueSource(strings = {"Solo 1920", "Brilliance", "Millennium", "Champagne", "Empire", "Энигма", "Arabella",
             "Black&White", "Bonita", "Caprice", "Contrast", "Estella", "Festa", "Fit", "Flaming Ice", "Grace",
             "Infinite love", "Le Chic", "Leviev", "Liola", "Love", "Lunia", "Mia", "Millennium Premium",
-            "My lovely kids", "Naomi", "Princess", "Royal", "Royal Diamond", "Snowflake", "Tenero", "Trendy Oro",
+             "Naomi", "Princess", "Royal", "Royal Diamond", "Snowflake", "Tenero", "Trendy Oro",
             "Vittoria", "Waterfalls", "Вишня в цвету", "Детская коллекция", "Драгоценное наследие",
             "Мой первый бриллиант", "Мужская", "Обручальные кольца", "Отражение небес", "Помолвочные кольца",
             "Русская классика", "Серебро с бриллиантами", "Символ веры", "Танзаниты", "Трилогия", "Флирт",

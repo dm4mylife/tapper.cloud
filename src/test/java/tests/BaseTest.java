@@ -12,9 +12,7 @@ import org.junit.jupiter.api.*;
 
 import static common.ConfigDriver.PLATFORM_AND_BROWSER;
 
-
 public class BaseTest {
-
 
     @BeforeAll
      static void setUp() {
@@ -26,12 +24,11 @@ public class BaseTest {
 
     }
 
-
     @AfterAll
      static void tearDown() {
-        Selenide.closeWindow();
         Selenide.closeWebDriver();
     }
+
 
     @BeforeEach
       void setupAllureReports() {

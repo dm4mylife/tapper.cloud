@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
 import java.util.Random;
 
 
@@ -18,6 +19,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class BaseActions {
 
+    @Step("Принудительно закрывать веб-драйвер")
+    public void closeWebDriver() {
+        Selenide.closeWebDriver();
+    }
+
     @Step("Кнопка видна и клик по ней")
     public void click(SelenideElement element) {
 
@@ -27,7 +33,7 @@ public class BaseActions {
 
     @Step("Элемент присутствует и видим на странице")
     public void isElementVisible(SelenideElement element) {
-        element.shouldBe(visible);
+        element.shouldBe(visible, Duration.ofSeconds(10));
     }
 
     @Step("Элемент не видим на странице")

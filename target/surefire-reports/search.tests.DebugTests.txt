@@ -1,0 +1,28 @@
+-------------------------------------------------------------------------------
+Test set: search.tests.DebugTests
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 40.593 s <<< FAILURE! - in search.tests.DebugTests
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[1]  Time elapsed: 12.235 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Кольцо с бриллиантом" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/rings/R01-SDI-00168/">Кольцо c бриллиантом Артикул: R01-SDI-00168
+4275</a>'
+Actual value: text="Кольцо c бриллиантом Артикул: R01-SDI-00168
+4275"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190380451.0.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190380451.0.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.DebugTests.test  Time elapsed: 37.287 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Средство" {.search-result-grid .title-search-item a}
+Element: '<a href="/catalog/rings/R01-SDI-00168/">Кольцо c бриллиантом Артикул: R01-SDI-00168
+4275</a>'
+Actual value: text="Кольцо c бриллиантом Артикул: R01-SDI-00168
+4275"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190382037.1.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190382037.1.html
+Timeout: 4 s.
+	at search.tests.DebugTests.test(DebugTests.java:29)
+

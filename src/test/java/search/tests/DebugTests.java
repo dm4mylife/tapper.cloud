@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import pages.SearchPage;
 import tests.BaseTest;
 
-@Disabled
+
 @Epic("Debug")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Execution(ExecutionMode.SAME_THREAD)

@@ -1,0 +1,138 @@
+-------------------------------------------------------------------------------
+Test set: search.tests.SearchingByCategoryWithStonesTests
+-------------------------------------------------------------------------------
+Tests run: 51, Failures: 10, Errors: 1, Skipped: 0, Time elapsed: 135.808 s <<< FAILURE! - in search.tests.SearchingByCategoryWithStonesTests
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[2]  Time elapsed: 10.622 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Серьги с сапфиром" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/earrings/E2017-E312796SAP/">Серьги Артикул: E2017-E312796SAP
+59996</a>'
+Actual value: text="Серьги Артикул: E2017-E312796SAP
+59996"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190391539.2.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190391539.2.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[3]  Time elapsed: 13.981 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Золотые подвески с изумрудом" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/pendants/P01-34168-EM/">Подвеска c изумрудами Артикул: P01-34168-EM
+12245</a>'
+Actual value: text="Подвеска c изумрудами Артикул: P01-34168-EM
+12245"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190405564.3.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190405564.3.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[4]  Time elapsed: 9.836 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Колье с жемчугом" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/necklace/N174-KT0987N/">Колье c жемчугом Артикул: N174-KT0987N
+4393</a>'
+Actual value: text="Колье c жемчугом Артикул: N174-KT0987N
+4393"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190415240.4.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190415240.4.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[5]  Time elapsed: 12.657 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Браслеты плетения бисмарк" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/bracelets/B2039-670008024/">Браслет Артикул: B2039-670008024
+21502</a>'
+Actual value: text="Браслет Артикул: B2039-670008024
+21502"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190428111.5.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190428111.5.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[25]  Time elapsed: 9.481 s  <<< FAILURE!
+com.codeborne.selenide.ex.ListSizeMismatch: 
+List size mismatch: expected: = 8, actual: 6, collection: .search-result-grid .title-search-item a
+Elements: [
+	<a href="/catalog/bracelets/B01-35040-RU/">Браслет c рубином Артикул: B01-35040-RU
+12796</a>,
+	<a href="/catalog/bracelets/B01-WS-35033/">Браслет c сапфиром Артикул: B01-WS-35033
+13796</a>,
+	<a href="/catalog/bracelets/B01-WS-35032/">Браслет c сапфиром Артикул: B01-WS-35032
+14596</a>,
+	<a href="/catalog/bracelets/B01-35035-B/">Браслет c бриллиантами Артикул: B01-35035-B
+22995</a>,
+	<a href="/catalog/bracelets/B01-35234/">Браслет c бриллиантами Артикул: B01-35234
+24245</a>,
+	<a href="/catalog/bracelets/B01-35233/">Браслет c бриллиантами Артикул: B01-35233
+20745</a>
+]
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190437879.6.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190437879.6.html
+Timeout: 4 s.
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[6]  Time elapsed: 10.999 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Кресты с бриллиантами" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/crosses/J01-35747/">Крест c бриллиантами Артикул: J01-35747
+481245</a>'
+Actual value: text="Крест c бриллиантами Артикул: J01-35747
+481245"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190438529.7.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190438529.7.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[31]  Time elapsed: 0.228 s  <<< ERROR!
+java.lang.IllegalArgumentException: timeout value is negative
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[7]  Time elapsed: 11.314 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Золотые цепи плетения сингапур" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/chain/C37-CPN20412025/">Цепь Артикул: C37-CPN20412025
+9015</a>'
+Actual value: text="Цепь Артикул: C37-CPN20412025
+9015"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190450466.8.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190450466.8.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[8]  Time elapsed: 10.146 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Броши из изумруда" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/brooches/H2018-HR030123AEB/">Брошь c бриллиантами и изумрудами Артикул: H2018-HR030123AEB
+145596</a>'
+Actual value: text="Брошь c бриллиантами и изумрудами Артикул: H2018-HR030123AEB
+145596"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190460465.9.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190460465.9.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[9]  Time elapsed: 9.943 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Запонки с бриллиантом" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/cufflinks/K2022-SCF6534TN/">Запонки c бриллиантами и танзанитами Артикул: K2022-SCF6534TN
+499500</a>'
+Actual value: text="Запонки c бриллиантами и танзанитами Артикул: K2022-SCF6534TN
+499500"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190470602.10.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190470602.10.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[10]  Time elapsed: 8.769 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Пирсинг золотой" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/piercing/I01-60008-Z/">Пирсинг c фианитами Артикул: I01-60008-Z
+4536</a>'
+Actual value: text="Пирсинг c фианитами Артикул: I01-60008-Z
+4536"
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190479650.11.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664190479650.11.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:40)
+

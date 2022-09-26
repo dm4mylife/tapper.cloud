@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import pages.SearchPage;
+import tests.BaseTest;
 
 import static constants.Constant.Urls.ROOT_URL;
 
@@ -21,6 +22,7 @@ public class SearchingByMainCategoriesTests {
 
 
     SearchPage searchPage  = new SearchPage();
+
 
     @Test
     @Order(1)
