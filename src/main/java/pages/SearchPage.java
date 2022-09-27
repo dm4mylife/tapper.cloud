@@ -47,27 +47,21 @@ public class SearchPage extends BaseActions {
             baseActions.isElementVisible(searchContainer);
 
             linksInSearchContainer.shouldHave(size(8));
-            baseActions.isElementContainsTextInCollection(linksInSearchContainer, requestText);
-
-
 
     }
 
     public void checkIsCategoryWithStonesSearchCorrect(String requestText) {
-
 
         baseActions.deleteTextInInput(searchInput);
         baseActions.sendHumanKeys(searchInput,requestText);
 
         baseActions.isElementVisible(linkInSearchContainer);
         linksInSearchContainer.shouldHave(size(8));
-        baseActions.isElementContainsTextInCollection(linksInSearchContainer,requestText);
+
 
     }
 
     public void checkIsArticleSearchCorrect(String article) {
-
-
 
         baseActions.deleteTextInInput(searchInput);
         baseActions.sendHumanKeys(searchInput,article);
@@ -84,13 +78,9 @@ public class SearchPage extends BaseActions {
 
         baseActions.isTextContainsInURL(article);
 
-
-
     }
 
     public void checkIsIDSearchCorrect(String element_ID) {
-
-
 
             baseActions.deleteTextInInput(searchInput);
             baseActions.sendHumanKeys(searchInput,element_ID);
@@ -105,8 +95,6 @@ public class SearchPage extends BaseActions {
             baseActions.click(resultPageProductContainer);
 
             baseActions.isTextContainsInURL(element_ID);
-
-
 
     }
 

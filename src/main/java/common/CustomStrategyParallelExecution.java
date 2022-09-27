@@ -4,25 +4,26 @@ import org.junit.platform.engine.ConfigurationParameters;
 import org.junit.platform.engine.support.hierarchical.ParallelExecutionConfiguration;
 import org.junit.platform.engine.support.hierarchical.ParallelExecutionConfigurationStrategy;
 
+
 public class CustomStrategyParallelExecution implements ParallelExecutionConfiguration, ParallelExecutionConfigurationStrategy {
     @Override
     public int getParallelism() {
-        return 3;
+        return 4;
     }
 
     @Override
     public int getMinimumRunnable() {
-        return 3;
+        return 4;
     }
 
     @Override
     public int getMaxPoolSize() {
-        return 3;
+        return 4;
     }
 
     @Override
     public int getCorePoolSize() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -35,3 +36,4 @@ public class CustomStrategyParallelExecution implements ParallelExecutionConfigu
         return this;
     }
 }
+

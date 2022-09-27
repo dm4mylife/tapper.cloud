@@ -31,9 +31,9 @@ public class BaseActions {
 
     }
 
-    @Step("Элемент присутствует и видим на странице")
+    @Step("Элемент присутствует на странице")
     public void isElementVisible(SelenideElement element) {
-        element.shouldBe(visible, Duration.ofSeconds(10));
+        element.shouldBe(enabled, Duration.ofSeconds(10));
     }
 
     @Step("Элемент не видим на странице")
@@ -113,5 +113,7 @@ public class BaseActions {
 
         }
     }
+
+
 
 }

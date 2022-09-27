@@ -1,2 +1,2 @@
-build\reports\tests\*.png
-build\reports\tests\*.html
+\build\reports\tests\*.png
+\build\reports\tests\*.html
