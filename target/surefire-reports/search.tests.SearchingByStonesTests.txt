@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: search.tests.SearchingByStonesTests
--------------------------------------------------------------------------------
-Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 103.976 s - in search.tests.SearchingByStonesTests

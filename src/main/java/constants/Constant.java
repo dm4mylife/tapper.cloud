@@ -1,16 +1,19 @@
 package constants;
 
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
+
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+
 public class Constant {
 
-    public static class TimeoutVar {
-
-        public static final int EXPLICIT_WAIT = 4;
-        public static final int WITH_TIME_OUT = 6;
-        public static final int POLLING_EVERY = 3;
-    }
 
     public static class Urls {
 
         public static final String ROOT_URL  = "https://miuz.ru";
+        public static final String ROOT_CATALOG_URL  = "https://miuz.ru/catalog/";
     }
+
+
 }

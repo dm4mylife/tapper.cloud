@@ -1,7 +1,8 @@
-search\tests\SearchingByStonesTests.class
-search\tests\SearchingInHeaderTests.class
-search\tests\SearchingByMainCategoriesTests.class
+searching\tests\SearchingByCollectionsTests.class
+catalog\tests\initialCatalogTests.class
+searching\tests\SearchingByMainCategoriesTests.class
+searching\tests\DebugTests.class
+searching\tests\SearchingByStonesTests.class
 tests\BaseTest.class
-search\tests\DebugTests.class
-search\tests\SearchingByCategoryWithStonesTests.class
-search\tests\SearchingByCollectionsTests.class
+searching\tests\SearchingInHeaderTests.class
+searching\tests\SearchingByCategoryWithStonesTests.class

@@ -33,7 +33,18 @@ public class BaseActions {
 
     @Step("Элемент присутствует на странице")
     public void isElementVisible(SelenideElement element) {
-        element.shouldBe(enabled, Duration.ofSeconds(10));
+        element.shouldBe(enabled);
+    }
+
+    @Step("Принудительное ожидание")
+    public void forceWait(Long ms) {
+        Selenide.sleep(ms);
+    }
+
+    @Step("Плавный скрол до видимого элемента")
+    public void scrollIntoView(SelenideElement element) {
+
+        element.scrollIntoView("{block: 'end',  behavior: 'smooth' }");
     }
 
     @Step("Элемент не видим на странице")

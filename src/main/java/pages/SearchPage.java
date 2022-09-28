@@ -1,23 +1,15 @@
 package pages;
 
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Selenide.*;
 import static constants.Constant.Urls.ROOT_URL;
+import static constants.Selectors.SearchPage.*;
 
 public class SearchPage extends BaseActions {
 
     BaseActions baseActions = new BaseActions();
-
-    private final SelenideElement searchInput = $("#search_textbox_input_top");
-    private final SelenideElement searchContainer = $(".title-search-result");
-    private final ElementsCollection linksInSearchContainer = $$(".search-result-grid .title-search-item a");
-    private final SelenideElement linkInSearchContainer = $(".search-result-grid .title-search-item a");
-    private final SelenideElement resultPageProductContainer = $("a[data-target='click_search_listing']");
 
 
     public void simpleBaseTestForDebugging() {

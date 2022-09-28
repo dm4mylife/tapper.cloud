@@ -1,8 +1,11 @@
+common\CustomStrategyParallelExecution.class
 common\BaseActions.class
-constants\Constant$TimeoutVar.class
 constants\Constant$Urls.class
 constants\Constant.class
+constants\Selectors$RootCatalogPage.class
 common\ConfigDriver.class
-common\CustomStrategyParallelExecution.class
+pages\RootCatalogPage.class
+constants\Selectors.class
 pages\SearchPage.class
+constants\Selectors$SearchPage.class
 pages\RootPage.class
