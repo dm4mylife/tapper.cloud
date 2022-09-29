@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: searching.tests.SearchingByCategoryWithStonesTests
+-------------------------------------------------------------------------------
+Tests run: 40, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 82.178 s <<< FAILURE! - in searching.tests.SearchingByCategoryWithStonesTests
+searching.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[15]  Time elapsed: 0.276 s  <<< ERROR!
+java.lang.IllegalArgumentException: timeout value is negative
+	at searching.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:35)
+

@@ -11,10 +11,8 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 import java.util.Random;
 
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static org.junit.jupiter.api.Assertions.fail;
 
 
 public class BaseActions {
@@ -34,6 +32,11 @@ public class BaseActions {
     @Step("Элемент присутствует на странице")
     public void isElementVisible(SelenideElement element) {
         element.shouldBe(enabled);
+    }
+
+    @Step("Элемент присутствует на странице (ожидание 10сек)")
+    public void isElementVisibleLongWait(SelenideElement element) {
+        element.shouldBe(enabled, Duration.ofSeconds(10));
     }
 
     @Step("Принудительное ожидание")
@@ -124,7 +127,6 @@ public class BaseActions {
 
         }
     }
-
 
 
 }

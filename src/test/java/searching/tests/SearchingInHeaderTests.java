@@ -4,9 +4,10 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import pages.SearchPage;
 import tests.BaseTest;
+
 
 
 @Epic("Поиск в шапке")
@@ -28,11 +29,10 @@ public class SearchingInHeaderTests extends BaseTest {
         searchPage.checkIsSearchResultContainerVisibleAndInvisible();
     }
 
-
-    @Description("Ввод артикула, переход на страницу результатов, переход в детальную карточку артикула")
     @DisplayName("Поиск по артикулу")
+    @Description("Ввод артикула, переход на страницу результатов, переход в детальную карточку артикула")
     @ParameterizedTest(name = "#{index}. Поиск по артикулу - {0}")
-    @ValueSource(strings = {"R01-WED-00171-4","E2034-20OR2999L","C30-NC12-206PG-05040"})
+    @MethodSource("constants.SearchingData#articles")
     public void checkArticleSearchCorrect(String requestText) {
         searchPage.checkIsArticleSearchCorrect(requestText);
     }
@@ -41,7 +41,7 @@ public class SearchingInHeaderTests extends BaseTest {
     @DisplayName("Поиск по ID")
     @Description("Ввод ID, переход на страницу результатов, переход в детальную карточку ID")
     @ParameterizedTest(name = "#{index}. Поиск по ID - {0}")
-    @ValueSource(strings = {"65059253","65717917","65754114","66558219"})
+    @MethodSource("constants.SearchingData#ids")
     public void checkIsIDSearchCorrect(String element_ID) {
         searchPage.checkIsIDSearchCorrect(element_ID);
     }

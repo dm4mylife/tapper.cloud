@@ -77,7 +77,7 @@ public class SearchPage extends BaseActions {
             baseActions.deleteTextInInput(searchInput);
             baseActions.sendHumanKeys(searchInput,element_ID);
 
-            baseActions.isElementVisible(linkInSearchContainer);
+            baseActions.isElementVisibleLongWait(linkInSearchContainer);
 
             baseActions.sendKeys(searchInput, Keys.ENTER);
 

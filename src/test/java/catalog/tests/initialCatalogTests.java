@@ -1,29 +1,37 @@
 package catalog.tests;
 
-import com.codeborne.selenide.SelenideElement;
-import common.BaseActions;
-import org.junit.jupiter.api.Test;
-import pages.RootCatalogPage;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import org.junit.jupiter.api.*;
+import pages.MainCatalogPage;
 import tests.BaseTest;
 
-import static com.codeborne.selenide.Condition.attribute;
-import static com.codeborne.selenide.Condition.attributeMatching;
-import static com.codeborne.selenide.Selenide.$;
-import static constants.Selectors.RootCatalogPage.catalogProducts;
+import static constants.Constant.Urls.ROOT_CATALOG_URL;
 
+@Epic("Каталог")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class initialCatalogTests extends BaseTest {
 
-     RootCatalogPage rootCatalogPage = new RootCatalogPage();
+     MainCatalogPage mainCatalogPage = new MainCatalogPage();
 
-     BaseActions baseActions = new BaseActions();
 
      @Test
-     public void debugTest() {
+     @Order(1)
+     @DisplayName("Листинг каталога")
+     @Description("Проверка что каталог не пустой и он есть на странице")
+     public void checkIsCatalogNotEmpty() {
 
-     rootCatalogPage.openPage("https://miuz.ru/catalog/");
-     rootCatalogPage.checkIsCatalogNotEmpty();
-     rootCatalogPage.checkIsCatalogProductsHasImage();
+          mainCatalogPage.openPage(ROOT_CATALOG_URL);
+          mainCatalogPage.checkIsCatalogNotEmpty();
 
+     }
+
+     @Test
+     @DisplayName("Фотографии изделий каталога")
+     @Description("Проверка что на главной странице нет карточек товара без фотографий")
+     public void checkIsCatalogProductsHasImage() {
+
+          mainCatalogPage.checkIsCatalogProductsHasImage();
 
      }
 

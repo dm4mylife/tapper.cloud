@@ -1,3 +1,4 @@
+catalog\tests\CatalogDebugTests.class
 searching\tests\SearchingByCollectionsTests.class
 catalog\tests\initialCatalogTests.class
 searching\tests\SearchingByMainCategoriesTests.class

@@ -6,6 +6,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import pages.SearchPage;
 import tests.BaseTest;
@@ -28,14 +29,11 @@ public class SearchingByCategoryWithStonesTests extends BaseTest {
         searchPage.openPage(ROOT_URL);
     }
 
-    @Description("Количество совпадений должны быть 8 (на всю ширину контейнера)")
-    @ParameterizedTest(name = "#{index}. {0}")
-    @Feature("Поиск по запросу изделий с камнями")
     @DisplayName("Поиск по запросу изделий с камнями")
-    @ValueSource(strings = {"Кольцо с бриллиантом","Серьги с сапфиром","Золотые подвески с изумрудом",
-            "Колье с жемчугом","Браслеты плетения бисмарк","Кресты с бриллиантами","Золотые цепи плетения сингапур",
-            "Броши из изумруда","Запонки с бриллиантом","Пирсинг золотой"})
-
+    @Description("Количество совпадений должны быть 8 (на всю ширину контейнера)")
+    @Feature("Поиск по запросу изделий с камнями")
+    @ParameterizedTest(name = "#{index}. {0}")
+    @MethodSource("constants.SearchingData#categoryWithStones")
     public void checkIsCategoryWithStonesSearchCorrect(String requestText) {
 
         searchPage.checkIsCategoryWithStonesSearchCorrect(requestText);

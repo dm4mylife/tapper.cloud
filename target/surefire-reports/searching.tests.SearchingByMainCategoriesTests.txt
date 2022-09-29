@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: searching.tests.SearchingByMainCategoriesTests
+-------------------------------------------------------------------------------
+Tests run: 14, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 58.059 s <<< FAILURE! - in searching.tests.SearchingByMainCategoriesTests
+searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(String)[9]  Time elapsed: 9.735 s  <<< FAILURE!
+com.codeborne.selenide.ex.ListSizeMismatch: 
+List size mismatch: expected: = 8, actual: 0, collection: .search-result-grid .title-search-item a
+Elements: []
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664449244612.0.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664449244612.0.html
+Timeout: 4 s.
+	at searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(SearchingByMainCategoriesTests.java:39)
+

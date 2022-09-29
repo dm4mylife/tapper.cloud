@@ -6,6 +6,7 @@ import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import pages.SearchPage;
@@ -28,13 +29,11 @@ public class SearchingByMainCategoriesTests extends BaseTest {
         searchPage.openPage(ROOT_URL);
     }
 
-    @ParameterizedTest(name = "#{index}. Значение в поиске - {0}")
-    @Feature("Проверка по имени ключевых категорий изделий")
     @DisplayName("Проверка по имени ключевых категорий изделий")
+    @Feature("Проверка по имени ключевых категорий изделий")
     @Description("Кол-во совпадений должны быть 8 (на всю ширину формы)" + "Все совпадения должны содержать в имени ")
-    @ValueSource(strings = {"Кольцо","Серьги","Колье","Серьги","Браслет","Крест","Цепь","Броши и заколки",
-            "Запонки и зажимы","Часы", "Пирсинг","Комплект","Оправа"})
-
+    @ParameterizedTest(name = "#{index}. Значение в поиске - {0}")
+    @MethodSource("constants.SearchingData#mainCategories")
     public void checkMainCategorySearchCorrect(String requestText) {
 
         searchPage.checkIsCategorySearchCorrect(requestText);
