@@ -1,0 +1,1 @@
+{"d518c34864fa9f3c7ec9061032cb0185":{"statistic":{"failed":0,"broken":0,"skipped":0,"passed":2,"unknown":0,"total":2},"items":[{"uid":"f1bf457ce7edb3e0","status":"passed","time":{"start":1662621360489,"stop":1662621374616,"duration":14127}},{"uid":"8476015cd30708be","status":"passed","time":{"start":1662621360489,"stop":1662621374616,"duration":14127}}]}}

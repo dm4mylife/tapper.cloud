@@ -3,6 +3,8 @@ package catalog.tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import org.junit.jupiter.api.*;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 import pages.MainCatalogPage;
 import tests.BaseTest;
 

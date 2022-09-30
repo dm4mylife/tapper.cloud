@@ -1,2 +1,244 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Thu Sep 08 12:16:00 YEKT 2022","Thu Sep 08 12:16:14 YEKT 2022","14127","","Tests","","Tests","tests","Поиск в хеддере","Some detailed test description"
+"passed","Fri Sep 30 15:51:32 YEKT 2022","Fri Sep 30 15:51:33 YEKT 2022","1209","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #4.  Алпанит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:51 YEKT 2022","Fri Sep 30 15:51:52 YEKT 2022","1076","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #15.  Иолит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:40 YEKT 2022","Fri Sep 30 15:51:41 YEKT 2022","1226","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #9.  Бирюза","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:12 YEKT 2022","Fri Sep 30 15:52:12 YEKT 2022","844","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #30.  Оникс","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:10 YEKT 2022","Fri Sep 30 15:52:12 YEKT 2022","1263","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #29.  Пластик","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:12 YEKT 2022","Fri Sep 30 15:52:15 YEKT 2022","2926","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #48.  Вне коллекций","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:19 YEKT 2022","Fri Sep 30 15:50:40 YEKT 2022","20663","","searching.tests.SearchingInHeaderTests","","searching.tests.SearchingInHeaderTests","checkInitialFastSearch","Проверка формы быстрого поиска","При вводе запроса должна появится форма с результатами по запросу"
+"passed","Fri Sep 30 15:52:37 YEKT 2022","Fri Sep 30 15:52:38 YEKT 2022","1555","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #45.  Халцедон","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:37 YEKT 2022","Fri Sep 30 15:51:38 YEKT 2022","1803","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #33.  Waterfalls","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:34 YEKT 2022","Fri Sep 30 15:51:35 YEKT 2022","1582","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #31.  Trendy Oro","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:20 YEKT 2022","Fri Sep 30 15:51:26 YEKT 2022","6040","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","openPageForConcurrentExecution","Открытие корневой страницы",""
+"passed","Fri Sep 30 15:51:01 YEKT 2022","Fri Sep 30 15:51:03 YEKT 2022","1456","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #12.  Estella","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:54 YEKT 2022","Fri Sep 30 15:51:57 YEKT 2022","2595","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #40.  Отражение небес","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:58 YEKT 2022","Fri Sep 30 15:51:02 YEKT 2022","4379","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #5. Браслеты плетения бисмарк","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:51:05 YEKT 2022","Fri Sep 30 15:51:07 YEKT 2022","1783","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #5. Значение в поиске - Браслет","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:52:42 YEKT 2022","Fri Sep 30 15:52:44 YEKT 2022","1124","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #49.  Цаворит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:02 YEKT 2022","Fri Sep 30 15:51:10 YEKT 2022","7909","","searching.tests.SearchingInHeaderTests","","searching.tests.SearchingInHeaderTests","checkArticleSearchCorrect","Поиск по артикулу #2. Поиск по артикулу - E2034-20OR2999L","Ввод артикула, переход на страницу результатов, переход в детальную карточку артикула"
+"passed","Fri Sep 30 15:52:44 YEKT 2022","Fri Sep 30 15:52:45 YEKT 2022","1005","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #50.  Цитрин","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:35 YEKT 2022","Fri Sep 30 15:51:36 YEKT 2022","1231","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #6.  Аметрин","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:39 YEKT 2022","Fri Sep 30 15:51:40 YEKT 2022","922","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #8.  Берил","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:28 YEKT 2022","Fri Sep 30 15:51:31 YEKT 2022","2547","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #28.  Royal Diamond","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:27 YEKT 2022","Fri Sep 30 15:52:28 YEKT 2022","1440","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #41.  Танзанит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:00 YEKT 2022","Fri Sep 30 15:52:01 YEKT 2022","1079","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #22.  Кунцит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:48 YEKT 2022","Fri Sep 30 15:52:00 YEKT 2022","11798","","searching.tests.SearchingInHeaderTests","","searching.tests.SearchingInHeaderTests","checkIsIDSearchCorrect","Поиск по ID #4. Поиск по ID - 66558219","Ввод ID, переход на страницу результатов, переход в детальную карточку ID"
+"passed","Fri Sep 30 15:51:41 YEKT 2022","Fri Sep 30 15:51:43 YEKT 2022","2692","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #35.  Детская коллекция","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:17 YEKT 2022","Fri Sep 30 15:51:20 YEKT 2022","2650","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #10. Пирсинг золотой","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:52:48 YEKT 2022","Fri Sep 30 15:52:49 YEKT 2022","1061","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #54.  Янтарь","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:49 YEKT 2022","Fri Sep 30 15:50:51 YEKT 2022","1755","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #5.  Empire","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:54 YEKT 2022","Fri Sep 30 15:51:55 YEKT 2022","1112","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #17.  Кварц","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:03 YEKT 2022","Fri Sep 30 15:52:05 YEKT 2022","1405","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #24.  Морганит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:44 YEKT 2022","Fri Sep 30 15:50:48 YEKT 2022","3648","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #2. Серьги с сапфиром","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:51:18 YEKT 2022","Fri Sep 30 15:51:19 YEKT 2022","1220","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #23.  Mia","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:24 YEKT 2022","Fri Sep 30 15:52:25 YEKT 2022","1131","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #39.  Стекло","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:19 YEKT 2022","Fri Sep 30 15:50:32 YEKT 2022","13326","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","openPageForConcurrentExecution","Открытие корневой страницы",""
+"passed","Fri Sep 30 15:52:10 YEKT 2022","Fri Sep 30 15:52:11 YEKT 2022","1473","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #46.  Трилогия","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:33 YEKT 2022","Fri Sep 30 15:51:35 YEKT 2022","1554","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #5.  Аметист","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:01 YEKT 2022","Fri Sep 30 15:51:03 YEKT 2022","2153","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #2. Значение в поиске - Серьги","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:51:07 YEKT 2022","Fri Sep 30 15:51:08 YEKT 2022","1266","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #6. Значение в поиске - Крест","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:52:08 YEKT 2022","Fri Sep 30 15:52:10 YEKT 2022","1818","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #45.  Танзаниты","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:10 YEKT 2022","Fri Sep 30 15:51:12 YEKT 2022","2731","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #8. Значение в поиске - Броши и заколки","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:50:32 YEKT 2022","Fri Sep 30 15:50:44 YEKT 2022","11524","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #1. Кольцо с бриллиантом","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:51:05 YEKT 2022","Fri Sep 30 15:51:07 YEKT 2022","1929","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #15.  Flaming Ice","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:15 YEKT 2022","Fri Sep 30 15:52:16 YEKT 2022","1060","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #33.  Бриллиант","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:03 YEKT 2022","Fri Sep 30 15:51:04 YEKT 2022","1371","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #13.  Festa","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:15 YEKT 2022","Fri Sep 30 15:51:16 YEKT 2022","1313","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #21.  Love","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:38 YEKT 2022","Fri Sep 30 15:52:40 YEKT 2022","1500","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #46.  Хризолит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:10 YEKT 2022","Fri Sep 30 15:51:18 YEKT 2022","8625","","searching.tests.SearchingInHeaderTests","","searching.tests.SearchingInHeaderTests","checkArticleSearchCorrect","Поиск по артикулу #3. Поиск по артикулу - C30-NC12-206PG-05040","Ввод артикула, переход на страницу результатов, переход в детальную карточку артикула"
+"passed","Fri Sep 30 15:51:43 YEKT 2022","Fri Sep 30 15:51:47 YEKT 2022","3219","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #36.  Драгоценное наследие","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:11 YEKT 2022","Fri Sep 30 15:52:12 YEKT 2022","1233","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #47.  Флирт","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:18 YEKT 2022","Fri Sep 30 15:52:20 YEKT 2022","1470","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #36.  Сапфир","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:43 YEKT 2022","Fri Sep 30 15:51:44 YEKT 2022","1135","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #11.  Бриллиант","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:20 YEKT 2022","Fri Sep 30 15:52:23 YEKT 2022","3074","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #37.  Сваровски Камень","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:41 YEKT 2022","Fri Sep 30 15:52:42 YEKT 2022","1181","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #48.  Хрусталь","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:06 YEKT 2022","Fri Sep 30 15:51:11 YEKT 2022","4945","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #7. Золотые цепи плетения сингапур","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:50:19 YEKT 2022","Fri Sep 30 15:50:29 YEKT 2022","9509","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","openPageForConcurrentExecution","Открытие корневой страницы",""
+"passed","Fri Sep 30 15:51:41 YEKT 2022","Fri Sep 30 15:51:48 YEKT 2022","7661","","searching.tests.SearchingInHeaderTests","","searching.tests.SearchingInHeaderTests","checkIsIDSearchCorrect","Поиск по ID #3. Поиск по ID - 65754114","Ввод ID, переход на страницу результатов, переход в детальную карточку ID"
+"passed","Fri Sep 30 15:51:14 YEKT 2022","Fri Sep 30 15:51:15 YEKT 2022","1244","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #20.  Liola","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:36 YEKT 2022","Fri Sep 30 15:50:47 YEKT 2022","10385","","catalog.tests.initialCatalogTests","","catalog.tests.initialCatalogTests","checkIsCatalogProductsHasImage","Фотографии изделий каталога","Проверка что на главной странице нет карточек товара без фотографий"
+"passed","Fri Sep 30 15:51:31 YEKT 2022","Fri Sep 30 15:51:33 YEKT 2022","1627","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #29.  Snowflake","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:08 YEKT 2022","Fri Sep 30 15:51:11 YEKT 2022","2598","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #17.  Infinite love","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:13 YEKT 2022","Fri Sep 30 15:51:17 YEKT 2022","3706","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #9. Запонки с бриллиантом","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:52:25 YEKT 2022","Fri Sep 30 15:52:27 YEKT 2022","1371","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #40.  Султанит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:59 YEKT 2022","Fri Sep 30 15:52:00 YEKT 2022","1223","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #21.  Кристалл","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:50 YEKT 2022","Fri Sep 30 15:51:51 YEKT 2022","1640","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #14.  Изумруд","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:51 YEKT 2022","Fri Sep 30 15:51:54 YEKT 2022","3456","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #39.  Обручальные кольца","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:40 YEKT 2022","Fri Sep 30 15:51:02 YEKT 2022","22000","","searching.tests.SearchingInHeaderTests","","searching.tests.SearchingInHeaderTests","checkArticleSearchCorrect","Поиск по артикулу #1. Поиск по артикулу - R01-WED-00171-4","Ввод артикула, переход на страницу результатов, переход в детальную карточку артикула"
+"passed","Fri Sep 30 15:51:58 YEKT 2022","Fri Sep 30 15:51:59 YEKT 2022","1167","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #20.  Корунд","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:19 YEKT 2022","Fri Sep 30 15:50:36 YEKT 2022","17233","","catalog.tests.initialCatalogTests","","catalog.tests.initialCatalogTests","checkIsCatalogNotEmpty","Листинг каталога","Проверка что каталог не пустой и он есть на странице"
+"passed","Fri Sep 30 15:51:00 YEKT 2022","Fri Sep 30 15:51:01 YEKT 2022","1465","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #11.  Contrast","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:51 YEKT 2022","Fri Sep 30 15:50:53 YEKT 2022","1830","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #6.  Энигма","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:22 YEKT 2022","Fri Sep 30 15:51:24 YEKT 2022","1558","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #25.  Naomi","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:04 YEKT 2022","Fri Sep 30 15:51:05 YEKT 2022","1148","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #4. Значение в поиске - Серьги","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:51:26 YEKT 2022","Fri Sep 30 15:51:28 YEKT 2022","2250","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #27.  Royal","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:28 YEKT 2022","Fri Sep 30 15:52:30 YEKT 2022","1401","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #42.  Топаз","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:05 YEKT 2022","Fri Sep 30 15:52:06 YEKT 2022","1728","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #25.  Лунный Камень","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:47 YEKT 2022","Fri Sep 30 15:50:49 YEKT 2022","2021","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #4.  Champagne","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:57 YEKT 2022","Fri Sep 30 15:50:58 YEKT 2022","1288","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #9.  Bonita","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:06 YEKT 2022","Fri Sep 30 15:52:08 YEKT 2022","1662","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #26.  Наноситал","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:55 YEKT 2022","Fri Sep 30 15:50:57 YEKT 2022","2335","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #8.  Black&White","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:13 YEKT 2022","Fri Sep 30 15:51:14 YEKT 2022","1169","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #19.  Leviev","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:08 YEKT 2022","Fri Sep 30 15:52:09 YEKT 2022","963","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #27.  Бриллиант","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:33 YEKT 2022","Fri Sep 30 15:51:34 YEKT 2022","1148","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #30.  Tenero","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:35 YEKT 2022","Fri Sep 30 15:51:37 YEKT 2022","1254","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #32.  Vittoria","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:16 YEKT 2022","Fri Sep 30 15:51:18 YEKT 2022","1521","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #22.  Lunia","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:18 YEKT 2022","Fri Sep 30 15:50:18 YEKT 2022","53","","catalog.tests.CatalogDebugTests","","catalog.tests.CatalogDebugTests","test","тестовый для дебага",""
+"passed","Fri Sep 30 15:50:53 YEKT 2022","Fri Sep 30 15:50:55 YEKT 2022","1842","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #7.  Arabella","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:47 YEKT 2022","Fri Sep 30 15:51:50 YEKT 2022","3088","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #37.  Мой первый бриллиант","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:50 YEKT 2022","Fri Sep 30 15:51:51 YEKT 2022","1235","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #38.  Мужская","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:36 YEKT 2022","Fri Sep 30 15:51:39 YEKT 2022","2620","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #7.  Без камней","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:06 YEKT 2022","Fri Sep 30 15:52:08 YEKT 2022","2065","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #44.  Символ веры","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:55 YEKT 2022","Fri Sep 30 15:51:56 YEKT 2022","1525","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #18.  Керамика","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:30 YEKT 2022","Fri Sep 30 15:51:32 YEKT 2022","2003","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #3.  Александрит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:24 YEKT 2022","Fri Sep 30 15:51:26 YEKT 2022","2323","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #26.  Princess","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:03 YEKT 2022","Fri Sep 30 15:52:06 YEKT 2022","3022","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #43.  Серебро с бриллиантами","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:17 YEKT 2022","Fri Sep 30 15:52:18 YEKT 2022","1150","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #35.  Перидот","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:14 YEKT 2022","Fri Sep 30 15:52:15 YEKT 2022","1354","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #32.  Рубин","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:45 YEKT 2022","Fri Sep 30 15:52:46 YEKT 2022","1011","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #51.  Шнурок","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:08 YEKT 2022","Fri Sep 30 15:51:09 YEKT 2022","1458","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #7. Значение в поиске - Цепь","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:51:02 YEKT 2022","Fri Sep 30 15:51:06 YEKT 2022","3637","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #6. Кресты с бриллиантами","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:50:29 YEKT 2022","Fri Sep 30 15:50:40 YEKT 2022","10838","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #1.  Solo 1920","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"failed","Fri Sep 30 15:51:12 YEKT 2022","Fri Sep 30 15:51:20 YEKT 2022","7739","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #9. Значение в поиске - Запонки и зажимы","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:51:19 YEKT 2022","Fri Sep 30 15:51:22 YEKT 2022","3078","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #24.  Millennium Premium","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"skipped","Fri Sep 30 15:50:18 YEKT 2022","Fri Sep 30 15:50:18 YEKT 2022","2","","searching.tests.DebugTests","","searching.tests.DebugTests","test","тестовый для дебага",""
+"passed","Fri Sep 30 15:51:25 YEKT 2022","Fri Sep 30 15:51:27 YEKT 2022","1686","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #13. Значение в поиске - Оправа","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:51:18 YEKT 2022","Fri Sep 30 15:51:29 YEKT 2022","11003","","searching.tests.SearchingInHeaderTests","","searching.tests.SearchingInHeaderTests","checkIsIDSearchCorrect","Поиск по ID #1. Поиск по ID - 65059253","Ввод ID, переход на страницу результатов, переход в детальную карточку ID"
+"failed","Fri Sep 30 15:52:31 YEKT 2022","Fri Sep 30 15:52:37 YEKT 2022","5733","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #44.  Фианит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:29 YEKT 2022","Fri Sep 30 15:51:41 YEKT 2022","11302","","searching.tests.SearchingInHeaderTests","","searching.tests.SearchingInHeaderTests","checkIsIDSearchCorrect","Поиск по ID #2. Поиск по ID - 65717917","Ввод ID, переход на страницу результатов, переход в детальную карточку ID"
+"passed","Fri Sep 30 15:51:48 YEKT 2022","Fri Sep 30 15:51:50 YEKT 2022","1372","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #13.  Жемчуг","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:12 YEKT 2022","Fri Sep 30 15:52:14 YEKT 2022","1393","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #31.  Родолит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:38 YEKT 2022","Fri Sep 30 15:51:41 YEKT 2022","2240","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #34.  Вишня в цвету","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:26 YEKT 2022","Fri Sep 30 15:51:28 YEKT 2022","1583","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #1.  Агат","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:01 YEKT 2022","Fri Sep 30 15:52:03 YEKT 2022","2091","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #23.  Лондон Топаз","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:11 YEKT 2022","Fri Sep 30 15:51:13 YEKT 2022","2805","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #8. Броши из изумруда","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:50:58 YEKT 2022","Fri Sep 30 15:51:01 YEKT 2022","2082","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #1. Значение в поиске - Кольцо","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:50:48 YEKT 2022","Fri Sep 30 15:50:54 YEKT 2022","5952","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #3. Золотые подвески с изумрудом","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:51:20 YEKT 2022","Fri Sep 30 15:51:21 YEKT 2022","1233","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #10. Значение в поиске - Часы","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:50:58 YEKT 2022","Fri Sep 30 15:51:00 YEKT 2022","1415","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #10.  Caprice","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:21 YEKT 2022","Fri Sep 30 15:51:23 YEKT 2022","1607","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #11. Значение в поиске - Пирсинг","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:51:57 YEKT 2022","Fri Sep 30 15:52:00 YEKT 2022","3312","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #41.  Помолвочные кольца","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:23 YEKT 2022","Fri Sep 30 15:51:25 YEKT 2022","2045","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #12. Значение в поиске - Комплект","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:52:09 YEKT 2022","Fri Sep 30 15:52:10 YEKT 2022","1419","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #28.  Перламутр","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:50 YEKT 2022","Fri Sep 30 15:50:58 YEKT 2022","8317","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","openPageForConcurrentExecution","Открытие корневой страницы",""
+"passed","Fri Sep 30 15:52:40 YEKT 2022","Fri Sep 30 15:52:41 YEKT 2022","1471","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #47.  Хромдиопсид","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:04 YEKT 2022","Fri Sep 30 15:51:05 YEKT 2022","916","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #14.  Fit","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:00 YEKT 2022","Fri Sep 30 15:52:03 YEKT 2022","2461","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #42.  Русская классика","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:23 YEKT 2022","Fri Sep 30 15:52:24 YEKT 2022","1312","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #38.  Силикон","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:46 YEKT 2022","Fri Sep 30 15:52:47 YEKT 2022","1478","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #52.  Шпинель","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:07 YEKT 2022","Fri Sep 30 15:51:08 YEKT 2022","1425","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #16.  Grace","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:28 YEKT 2022","Fri Sep 30 15:51:30 YEKT 2022","2168","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #2.  Аквамарин","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:54 YEKT 2022","Fri Sep 30 15:50:58 YEKT 2022","4004","","searching.tests.SearchingByCategoryWithStonesTests","","searching.tests.SearchingByCategoryWithStonesTests","checkIsCategoryWithStonesSearchCorrect","Поиск по запросу изделий с камнями #4. Колье с жемчугом","Количество совпадений должны быть 8 (на всю ширину контейнера)"
+"passed","Fri Sep 30 15:51:52 YEKT 2022","Fri Sep 30 15:51:54 YEKT 2022","1367","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #16.  Каучук","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:40 YEKT 2022","Fri Sep 30 15:50:45 YEKT 2022","5131","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #2.  Brilliance","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:56 YEKT 2022","Fri Sep 30 15:51:58 YEKT 2022","1222","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #19.  Кианит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:03 YEKT 2022","Fri Sep 30 15:51:04 YEKT 2022","1038","","searching.tests.SearchingByMainCategoriesTests","","searching.tests.SearchingByMainCategoriesTests","checkMainCategorySearchCorrect","Проверка по имени ключевых категорий изделий #3. Значение в поиске - Колье","Кол-во совпадений должны быть 8 (на всю ширину формы)Все совпадения должны содержать в имени "
+"passed","Fri Sep 30 15:52:30 YEKT 2022","Fri Sep 30 15:52:31 YEKT 2022","1417","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #43.  Турмалин","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:50:45 YEKT 2022","Fri Sep 30 15:50:47 YEKT 2022","2261","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #3.  Millennium","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:11 YEKT 2022","Fri Sep 30 15:51:13 YEKT 2022","1703","","searching.tests.SearchingByCollectionsTests","","searching.tests.SearchingByCollectionsTests","checkCollectionsSearchCorrect","Поиск по запросу коллекции #18.  Le Chic","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:45 YEKT 2022","Fri Sep 30 15:51:48 YEKT 2022","3639","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #12.  Выращенный Бриллиант","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:47 YEKT 2022","Fri Sep 30 15:52:48 YEKT 2022","1286","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #53.  Эмаль","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:52:16 YEKT 2022","Fri Sep 30 15:52:17 YEKT 2022","941","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #34.  Опал","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"
+"passed","Fri Sep 30 15:51:41 YEKT 2022","Fri Sep 30 15:51:43 YEKT 2022","2352","","searching.tests.SearchingByStonesTests","","searching.tests.SearchingByStonesTests","checkOnlyStonesSearchCorrect","Поиск по запросу  камня #10.  Бриллианит","Количество совпадений должны быть 8 (на всю ширину контейнера)
+"

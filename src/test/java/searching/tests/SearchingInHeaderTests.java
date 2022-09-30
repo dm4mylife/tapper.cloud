@@ -5,6 +5,7 @@ import io.qameta.allure.Epic;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.runners.Suite;
 import pages.SearchPage;
 import tests.BaseTest;
 

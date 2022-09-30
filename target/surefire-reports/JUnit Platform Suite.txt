@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: JUnit Platform Suite
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in JUnit Platform Suite
+JUnit Platform Suite.JUnit Platform Suite  Time elapsed: 0 s  <<< ERROR!
+org.junit.platform.commons.JUnitException: TestEngine with ID 'junit-platform-suite' failed to execute tests
+Caused by: java.lang.NoSuchMethodError: 'org.junit.platform.launcher.core.LauncherDiscoveryResult org.junit.platform.launcher.core.LauncherDiscoveryResult.withRetainedEngines(java.util.function.Predicate)'
+

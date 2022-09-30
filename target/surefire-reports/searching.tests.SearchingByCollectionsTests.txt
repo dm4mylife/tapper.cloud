@@ -1,25 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: searching.tests.SearchingByCollectionsTests
 -------------------------------------------------------------------------------
-Tests run: 46, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 146.237 s <<< FAILURE! - in searching.tests.SearchingByCollectionsTests
-searching.tests.SearchingByStonesTests.checkOnlyStonesSearchCorrect(String)[12]  Time elapsed: 7.522 s  <<< FAILURE!
-com.codeborne.selenide.ex.ElementNotFound: 
-Element not found {.search-result-grid .title-search-item a}
-Expected: enabled
-Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664449284584.1.png
-Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664449284584.1.html
-Timeout: 4 s.
-Caused by: NoSuchElementException: no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
-	at searching.tests.SearchingByStonesTests.checkOnlyStonesSearchCorrect(SearchingByStonesTests.java:34)
-Caused by: org.openqa.selenium.NoSuchElementException: 
-no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
-  (Session info: chrome=105.0.5195.127)
-For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
-Build info: version: '4.4.0', revision: 'e5c75ed026a'
-System info: host: 'PC013', ip: '26.155.93.71', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.2'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [c79686d8208d3eaff1f539ab7631ff75, findElement {using=css selector, value=.search-result-grid .title-search-item a}]
-Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 105.0.5195.127, chrome: {chromedriverVersion: 105.0.5195.52 (412c95e51883..., userDataDir: C:\Users\user\AppData\Local...}, goog:chromeOptions: {debuggerAddress: localhost:54934}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:54934/devtoo..., se:cdpVersion: 105.0.5195.127, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: c79686d8208d3eaff1f539ab7631ff75
-	at searching.tests.SearchingByStonesTests.checkOnlyStonesSearchCorrect(SearchingByStonesTests.java:34)
-
+Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 125.136 s - in searching.tests.SearchingByCollectionsTests

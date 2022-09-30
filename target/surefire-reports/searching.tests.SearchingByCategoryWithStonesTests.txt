@@ -1,8 +1,21 @@
 -------------------------------------------------------------------------------
 Test set: searching.tests.SearchingByCategoryWithStonesTests
 -------------------------------------------------------------------------------
-Tests run: 40, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 82.178 s <<< FAILURE! - in searching.tests.SearchingByCategoryWithStonesTests
-searching.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[15]  Time elapsed: 0.276 s  <<< ERROR!
+Tests run: 44, Failures: 1, Errors: 2, Skipped: 0, Time elapsed: 71.74 s <<< FAILURE! - in searching.tests.SearchingByCategoryWithStonesTests
+searching.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[6]  Time elapsed: 1.006 s  <<< ERROR!
 java.lang.IllegalArgumentException: timeout value is negative
 	at searching.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:35)
+
+searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(String)[4]  Time elapsed: 0.846 s  <<< ERROR!
+java.lang.IllegalArgumentException: timeout value is negative
+	at searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(SearchingByMainCategoriesTests.java:39)
+
+searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(String)[9]  Time elapsed: 8.728 s  <<< FAILURE!
+com.codeborne.selenide.ex.ListSizeMismatch: 
+List size mismatch: expected: = 8, actual: 0, collection: .search-result-grid .title-search-item a
+Elements: []
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664536922277.0.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664536922277.0.html
+Timeout: 4 s.
+	at searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(SearchingByMainCategoriesTests.java:39)
 
