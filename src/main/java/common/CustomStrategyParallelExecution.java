@@ -28,7 +28,7 @@ public class CustomStrategyParallelExecution implements ParallelExecutionConfigu
 
     @Override
     public int getKeepAliveSeconds() {
-        return 30;
+        return 50;
     }
 
     @Override

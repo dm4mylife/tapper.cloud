@@ -1,6 +1,7 @@
 package pages;
 
 import common.BaseActions;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -10,7 +11,6 @@ import static constants.Selectors.SearchPage.*;
 public class SearchPage extends BaseActions {
 
     BaseActions baseActions = new BaseActions();
-
 
     public void simpleBaseTestForDebugging() {
 
@@ -28,7 +28,7 @@ public class SearchPage extends BaseActions {
             baseActions.sendHumanKeys(searchInput, "Кольцо");
             baseActions.isElementVisible(searchContainer);
             baseActions.deleteTextInInput(searchInput);
-            baseActions.isElementInVisible(searchContainer);
+            baseActions.isElementInvisible(searchContainer);
 
     }
 
@@ -96,6 +96,7 @@ public class SearchPage extends BaseActions {
         baseActions.sendHumanKeys(searchInput,requestText);
 
         baseActions.isElementVisible(linkInSearchContainer);
+
         linksInSearchContainer.shouldHave(size(8));
 
     }
@@ -108,5 +109,6 @@ public class SearchPage extends BaseActions {
         baseActions.isElementVisible(linkInSearchContainer);
 
     }
+
 
 }

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: searching.tests.SearchingInHeaderTests
 -------------------------------------------------------------------------------
-Tests run: 40, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 109.915 s - in searching.tests.SearchingInHeaderTests
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 108.296 s - in searching.tests.SearchingInHeaderTests

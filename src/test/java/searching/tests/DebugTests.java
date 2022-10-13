@@ -7,6 +7,7 @@ import tests.BaseTest;
 
 @Disabled
 @Epic("Debug")
+@DisplayName("Debug")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class DebugTests extends BaseTest {

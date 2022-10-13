@@ -2,16 +2,19 @@ package searching.tests;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import pages.SearchPage;
 import tests.BaseTest;
 
 import static constants.Constant.Urls.ROOT_URL;
 
-@Epic("Поиск по камням")
+@Epic("Поиск")
+@DisplayName("Поиск")
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class SearchingByStonesTests extends BaseTest {
@@ -20,15 +23,18 @@ public class SearchingByStonesTests extends BaseTest {
 
     @Test
     @Order(1)
+    @Story("Открытие корневой страницы")
     @DisplayName("Открытие корневой страницы")
     public void openPageForConcurrentExecution() {
         searchPage.openPage(ROOT_URL);
     }
 
+
+    @Feature("Поиск по камням")
+    @DisplayName("Поиск по камням")
     @Description("Количество совпадений должны быть 8 (на всю ширину контейнера)\n")
-    @DisplayName("Поиск по запросу  камня")
-    @ParameterizedTest(name = "#{index}.  {0}")
-    @MethodSource("constants.SearchingData#stones")
+    @ParameterizedTest(name = "#{index}. {0}")
+    @MethodSource("constants.DDT.SearchingData#stones")
     public void checkOnlyStonesSearchCorrect(String requestText) {
 
         searchPage.checkIsOnlyStonesSearchCorrect(requestText);

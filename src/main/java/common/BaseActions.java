@@ -11,16 +11,13 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 import java.util.Random;
 
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 
 public class BaseActions {
-
-    @Step("Принудительно закрывать веб-драйвер")
-    public void closeWebDriver() {
-        Selenide.closeWebDriver();
-    }
 
     @Step("Кнопка видна и клик по ней")
     public void click(SelenideElement element) {
@@ -31,7 +28,27 @@ public class BaseActions {
 
     @Step("Элемент присутствует на странице")
     public void isElementVisible(SelenideElement element) {
-        element.shouldBe(enabled);
+        element.shouldBe(visible);
+    }
+
+    @Step("Элемент присутствует и кликабельный на странице")
+    public void isElementVisibleAndClickable(SelenideElement element) {
+        element.shouldBe(visible,enabled);
+    }
+
+    @Step("Наведение на элемент мышью")
+    public void moveMouseToElement(SelenideElement element) {
+        element.hover();
+    }
+
+    @Step("Генерация рандомного значения от {min} до {max}")
+    public int generateRandomNumber(int min,int max) {
+        return (int)Math.floor(Math.random()*(max-min+1)+min);
+    }
+
+    @Step("Получить аттрибут у элемента")
+    public String getElementAttribute(SelenideElement element, String attribute) {
+        return element.getAttribute(attribute);
     }
 
     @Step("Элемент присутствует на странице (ожидание 10сек)")
@@ -48,10 +65,11 @@ public class BaseActions {
     public void scrollIntoView(SelenideElement element) {
 
         element.scrollIntoView("{block: 'end',  behavior: 'smooth' }");
+
     }
 
     @Step("Элемент не видим на странице")
-    public void isElementInVisible(SelenideElement element) {
+    public void isElementInvisible(SelenideElement element) {
         element.shouldNotBe(visible);
     }
 
@@ -62,17 +80,16 @@ public class BaseActions {
 
     @Step("Видимы ли элементы в коллекции")
     public boolean isElementVisibleInCollections(SelenideElement element) {
-        try {
-            return element.isDisplayed();
-        }
-        catch (StaleElementReferenceException e) {
-            return false;
-        }
+        return element.isDisplayed();
+    }
+
+    @Step("Количество элементов соответствует заданному значению: {counter}")
+    public void isElementsSizeGreaterThanNumber(ElementsCollection elements, int number) {
+        elements.shouldHave(sizeGreaterThan(number));
     }
 
     @Step("Удаление текста из поля в элементе ")
     public void deleteTextInInput(SelenideElement element) {
-
        element.clear();
     }
 

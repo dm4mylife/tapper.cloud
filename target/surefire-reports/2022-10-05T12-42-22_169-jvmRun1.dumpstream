@@ -1,0 +1,18 @@
+# Created at 2022-10-05T12:42:57.305
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream '12:42:'.
+
+# Created at 2022-10-05T12:42:57.311
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream '57.283 [ForkJoinPool-1-worker-3] ERROR io.qameta.allure.util.NamingUtils - Could not find parameter counter'.
+
+# Created at 2022-10-05T12:43:02.042
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream '12:43:'.
+
+# Created at 2022-10-05T12:43:02.043
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream '02.041 [ForkJoinPool-1-worker-3] ERROR io.qameta.allure.util.NamingUtils - Could not find parameter counter'.
+
+# Created at 2022-10-05T12:43:09.658
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream '12:43:'.
+
+# Created at 2022-10-05T12:43:09.660
+Corrupted STDOUT by directly writing to native stream in forked JVM 1. Stream '09.657 [ForkJoinPool-1-worker-3] ERROR io.qameta.allure.util.NamingUtils - Could not find parameter counter'.
+

@@ -1,4 +1,28 @@
 -------------------------------------------------------------------------------
 Test set: catalog.tests.CatalogDebugTests
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.682 s - in catalog.tests.CatalogDebugTests
+Tests run: 9, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 40.477 s <<< FAILURE! - in catalog.tests.CatalogDebugTests
+catalog.tests.CatalogDebugTests.test  Time elapsed: 4.374 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at catalog.tests.CatalogDebugTests.test(CatalogDebugTests.java:31)
+
+catalog.tests.CatalogDebugTests.test  Time elapsed: 8.213 s  <<< FAILURE!
+com.codeborne.selenide.ex.InvalidStateException: 
+Invalid element state [.catalog__items [class="product"][26]]: element click intercepted: Element <div class="product" style="position: absolute; left: 616px; top: 1800px;">...</div> is not clickable at point (1100, 18). Other element would receive the click: <a href="/" class="header__logo">...</a>
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664890621487.0.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1664890621487.0.html
+Timeout: 4 s.
+Caused by: ElementClickInterceptedException: element click intercepted: Element <div class="product" style="position: absolute; left: 616px; top: 1800px;">...</div> is not clickable at point (1100, 18). Other element would receive the click: <a href="/" class="header__logo">...</a>
+	at catalog.tests.CatalogDebugTests.test(CatalogDebugTests.java:31)
+Caused by: org.openqa.selenium.ElementClickInterceptedException: 
+element click intercepted: Element <div class="product" style="position: absolute; left: 616px; top: 1800px;">...</div> is not clickable at point (1100, 18). Other element would receive the click: <a href="/" class="header__logo">...</a>
+  (Session info: headless chrome=106.0.5249.62)
+Build info: version: '4.4.0', revision: 'e5c75ed026a'
+System info: host: 'PC013', ip: '26.155.93.71', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [7025bbc7c27c50f5bdb6f0e416371236, clickElement {id=95c78df4-8a70-4a8f-9bb9-76e19b04561c}]
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 106.0.5249.62, chrome: {chromedriverVersion: 106.0.5249.61 (511755355844..., userDataDir: C:\Users\user\AppData\Local...}, goog:chromeOptions: {debuggerAddress: localhost:53852}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:53852/devtoo..., se:cdpVersion: 106.0.5249.62, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Element: [[ChromeDriver: chrome on WINDOWS (7025bbc7c27c50f5bdb6f0e416371236)] -> css selector: .catalog__items [class="product"]]
+Session ID: 7025bbc7c27c50f5bdb6f0e416371236
+	at catalog.tests.CatalogDebugTests.test(CatalogDebugTests.java:31)
+

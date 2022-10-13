@@ -3,13 +3,11 @@ package tests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import com.google.common.collect.ImmutableMap;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
 
 
 public class BaseTest {
@@ -30,14 +28,6 @@ public class BaseTest {
         options.addArguments("enable-automation");
         Configuration.browserCapabilities = options;
 
-        allureEnvironmentWriter(
-                ImmutableMap.<String, String>builder()
-                        .put("Бразуер", "Chrome")
-                        .put("Версия браузера", "105.0.5195.127")
-                        .put("Сайт", "https://miuz.ru")
-                        .put("Площадка", "Продакшн")
-                        .put("Компания", "Факт")
-                        .build());
 
     }
 
@@ -46,7 +36,7 @@ public class BaseTest {
         Selenide.closeWindow();
     }
 
-    @BeforeEach
+    @AfterEach
       void setupAllureReports() {
         SelenideLogger.addListener("AllureSelenide",  new AllureSelenide().screenshots(true).savePageSource(false));
     }

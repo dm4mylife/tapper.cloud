@@ -1,8 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: searching.tests.SearchingByMainCategoriesTests
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 42.864 s <<< FAILURE! - in searching.tests.SearchingByMainCategoriesTests
-searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(String)[12]  Time elapsed: 0.333 s  <<< ERROR!
-java.lang.IllegalArgumentException: timeout value is negative
-	at searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(SearchingByMainCategoriesTests.java:39)
+Tests run: 21, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 39.295 s <<< FAILURE! - in searching.tests.SearchingByMainCategoriesTests
+searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(String)[9]  Time elapsed: 7.386 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should be visible {.title-search-result}
+Element: '<div class="title-search-result" displayed:false></div>'
+Actual value: hidden
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1665478837119.1.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1665478837119.1.html
+Timeout: 4 s.
+	at searching.tests.SearchingByMainCategoriesTests.checkMainCategorySearchCorrect(SearchingByMainCategoriesTests.java:41)
 

@@ -1,4 +1,25 @@
 -------------------------------------------------------------------------------
 Test set: searching.tests.SearchingByStonesTests
 -------------------------------------------------------------------------------
-Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 88.728 s - in searching.tests.SearchingByStonesTests
+Tests run: 36, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 97.355 s <<< FAILURE! - in searching.tests.SearchingByStonesTests
+searching.tests.SearchingByStonesTests.checkOnlyStonesSearchCorrect(String)[44]  Time elapsed: 5.702 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementNotFound: 
+Element not found {.search-result-grid .title-search-item a}
+Expected: visible
+Screenshot: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1665478911354.2.png
+Page source: file:/C:/Users/user/IdeaProjects/work_test_automation/build/reports/tests/1665478911354.2.html
+Timeout: 4 s.
+Caused by: NoSuchElementException: no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+	at searching.tests.SearchingByStonesTests.checkOnlyStonesSearchCorrect(SearchingByStonesTests.java:40)
+Caused by: org.openqa.selenium.NoSuchElementException: 
+no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+  (Session info: headless chrome=106.0.5249.62)
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
+Build info: version: '4.4.0', revision: 'e5c75ed026a'
+System info: host: 'PC013', ip: '26.155.93.71', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [26dc79323a77aacb457a683ac0d55208, findElement {using=css selector, value=.search-result-grid .title-search-item a}]
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 106.0.5249.62, chrome: {chromedriverVersion: 106.0.5249.61 (511755355844..., userDataDir: C:\Users\user\AppData\Local...}, goog:chromeOptions: {debuggerAddress: localhost:58770}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:58770/devtoo..., se:cdpVersion: 106.0.5249.62, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: 26dc79323a77aacb457a683ac0d55208
+	at searching.tests.SearchingByStonesTests.checkOnlyStonesSearchCorrect(SearchingByStonesTests.java:40)
+

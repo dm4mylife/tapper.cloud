@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: searching.tests.SearchingByCollectionsTests
 -------------------------------------------------------------------------------
-Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 125.136 s - in searching.tests.SearchingByCollectionsTests
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 125.186 s - in searching.tests.SearchingByCollectionsTests

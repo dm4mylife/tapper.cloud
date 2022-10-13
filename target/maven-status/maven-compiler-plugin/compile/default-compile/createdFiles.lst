@@ -1,7 +1,6 @@
-constants\SearchingData.class
 common\CustomStrategyParallelExecution.class
 pages\MainCatalogPage.class
-pages\MainPage.class
+constants\DDT\SearchingData.class
 common\BaseActions.class
 constants\Constant$Urls.class
 constants\Constant.class

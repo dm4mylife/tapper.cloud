@@ -4,17 +4,17 @@ package searching.tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import pages.SearchPage;
 import tests.BaseTest;
 
 import static constants.Constant.Urls.ROOT_URL;
 
-
-@Epic("Поиск по категориям с камнями")
+@Epic("Поиск")
+@DisplayName("Поиск")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class SearchingByCategoryWithStonesTests extends BaseTest {
@@ -24,16 +24,17 @@ public class SearchingByCategoryWithStonesTests extends BaseTest {
 
     @Test
     @Order(1)
+    @Story("Открытие корневой страницы")
     @DisplayName("Открытие корневой страницы")
     public void openPageForConcurrentExecution() {
         searchPage.openPage(ROOT_URL);
     }
 
-    @DisplayName("Поиск по запросу изделий с камнями")
+    @Feature("Поиск по категориям с камнями")
+    @DisplayName("Поиск по категориям с камнями")
     @Description("Количество совпадений должны быть 8 (на всю ширину контейнера)")
-    @Feature("Поиск по запросу изделий с камнями")
     @ParameterizedTest(name = "#{index}. {0}")
-    @MethodSource("constants.SearchingData#categoryWithStones")
+    @MethodSource("constants.DDT.SearchingData#categoryWithStones")
     public void checkIsCategoryWithStonesSearchCorrect(String requestText) {
 
         searchPage.checkIsCategoryWithStonesSearchCorrect(requestText);
