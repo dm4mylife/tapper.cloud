@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+Test set: search.tests.SearchingByCollectionsTests
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 125.748 s <<< FAILURE! - in search.tests.SearchingByCollectionsTests
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[48]  Time elapsed: 5.022 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementNotFound: 
+Element not found {.search-result-grid .title-search-item a}
+Expected: visible
+Screenshot: file:/C:/work/automation/automation-qa/build/reports/tests/1664107810397.19.png
+Page source: file:/C:/work/automation/automation-qa/build/reports/tests/1664107810397.19.html
+Timeout: 4 s.
+Caused by: NoSuchElementException: no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+Caused by: org.openqa.selenium.NoSuchElementException: 
+no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+  (Session info: chrome=105.0.5195.127)
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
+Build info: version: '4.4.0', revision: 'e5c75ed026a'
+System info: host: 'WIN-UJN5UBMF8DD', ip: '192.168.1.100', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [28e6927492a0f29666edd798d719cd8b, findElement {using=css selector, value=.search-result-grid .title-search-item a}]
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 105.0.5195.127, chrome: {chromedriverVersion: 105.0.5195.52 (412c95e51883..., userDataDir: C:\Users\user\AppData\Local...}, goog:chromeOptions: {debuggerAddress: localhost:61933}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:61933/devtoo..., se:cdpVersion: 105.0.5195.127, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: 28e6927492a0f29666edd798d719cd8b
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+

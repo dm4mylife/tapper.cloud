@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: search.tests.SearchingByCategoryWithStonesTests
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 103.194 s <<< FAILURE! - in search.tests.SearchingByCategoryWithStonesTests
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[10]  Time elapsed: 7.124 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Пирсинг золотой" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/piercing/I01-60008-Z/">Пирсинг c фианитами Артикул: I01-60008-Z
+4536</a>'
+Actual value: text="Пирсинг c фианитами Артикул: I01-60008-Z
+4536"
+Screenshot: file:/C:/work/automation/automation-qa/build/reports/tests/1664107791509.18.png
+Page source: file:/C:/work/automation/automation-qa/build/reports/tests/1664107791509.18.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:41)
+

@@ -1,0 +1,61 @@
+-------------------------------------------------------------------------------
+Test set: search.tests.SearchingByStonesTests
+-------------------------------------------------------------------------------
+Tests run: 27, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 94.917 s <<< FAILURE! - in search.tests.SearchingByStonesTests
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[7]  Time elapsed: 8.941 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Золотые цепи плетения сингапур" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/chain/C37-CPN20412025/">Цепь Артикул: C37-CPN20412025
+9015</a>'
+Actual value: text="Цепь Артикул: C37-CPN20412025
+9015"
+Screenshot: file:/C:/work/automation/automation-qa/build/reports/tests/1664107768137.14.png
+Page source: file:/C:/work/automation/automation-qa/build/reports/tests/1664107768137.14.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:41)
+
+search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(String)[34]  Time elapsed: 5.428 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementNotFound: 
+Element not found {.search-result-grid .title-search-item a}
+Expected: visible
+Screenshot: file:/C:/work/automation/automation-qa/build/reports/tests/1664107771226.15.png
+Page source: file:/C:/work/automation/automation-qa/build/reports/tests/1664107771226.15.html
+Timeout: 4 s.
+Caused by: NoSuchElementException: no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+Caused by: org.openqa.selenium.NoSuchElementException: 
+no such element: Unable to locate element: {"method":"css selector","selector":".search-result-grid .title-search-item a"}
+  (Session info: chrome=105.0.5195.127)
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
+Build info: version: '4.4.0', revision: 'e5c75ed026a'
+System info: host: 'WIN-UJN5UBMF8DD', ip: '192.168.1.100', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '16.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [28e6927492a0f29666edd798d719cd8b, findElement {using=css selector, value=.search-result-grid .title-search-item a}]
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 105.0.5195.127, chrome: {chromedriverVersion: 105.0.5195.52 (412c95e51883..., userDataDir: C:\Users\user\AppData\Local...}, goog:chromeOptions: {debuggerAddress: localhost:61933}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:61933/devtoo..., se:cdpVersion: 105.0.5195.127, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: 28e6927492a0f29666edd798d719cd8b
+	at search.tests.SearchingByCollectionsTests.checkCollectionsSearchCorrect(SearchingByCollectionsTests.java:41)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[8]  Time elapsed: 8.583 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Броши из изумруда" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/brooches/H2018-HR030123AEB/">Брошь c бриллиантами и изумрудами Артикул: H2018-HR030123AEB
+145596</a>'
+Actual value: text="Брошь c бриллиантами и изумрудами Артикул: H2018-HR030123AEB
+145596"
+Screenshot: file:/C:/work/automation/automation-qa/build/reports/tests/1664107776837.16.png
+Page source: file:/C:/work/automation/automation-qa/build/reports/tests/1664107776837.16.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:41)
+
+search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(String)[9]  Time elapsed: 7.606 s  <<< FAILURE!
+com.codeborne.selenide.ex.ElementShould: 
+Element should have match text "Запонки с бриллиантом" {.search-result-grid .title-search-item a.snapshot(8 elements)[0]}
+Element: '<a href="/catalog/cufflinks/K2022-SCF6534TN/">Запонки c бриллиантами и танзанитами Артикул: K2022-SCF6534TN
+499500</a>'
+Actual value: text="Запонки c бриллиантами и танзанитами Артикул: K2022-SCF6534TN
+499500"
+Screenshot: file:/C:/work/automation/automation-qa/build/reports/tests/1664107784391.17.png
+Page source: file:/C:/work/automation/automation-qa/build/reports/tests/1664107784391.17.html
+Timeout: 4 s.
+	at search.tests.SearchingByCategoryWithStonesTests.checkIsCategoryWithStonesSearchCorrect(SearchingByCategoryWithStonesTests.java:41)
+
