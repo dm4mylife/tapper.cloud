@@ -7,43 +7,69 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class Selectors {
 
-    public static class SearchPage {
+    public static class RootPage {
 
-        public static final SelenideElement searchInput =
-                $("#search_textbox_input_top");
-        public static final SelenideElement searchContainer =
-                $(".title-search-result");
-        public static final ElementsCollection linksInSearchContainer =
-                $$(".search-result-grid .title-search-item a");
-        public static final SelenideElement linkInSearchContainer =
-                $(".search-result-grid .title-search-item a");
-        public static final SelenideElement resultPageProductContainer =
-                $("a[data-target='click_search_listing']");
+        public static final SelenideElement tableNumber = $(".vOrderHeader__table");
+        public static final SelenideElement paymentButton = $("button.payment-btn.main-btn");
+        public static final SelenideElement pagePreLoader = $(".vLightPreloader");
+        public static final SelenideElement tabBar = $(".menu");
+        public static final SelenideElement currentTips = $(".tips__sum input");
+        public static final SelenideElement Tips0 = $x("//*[contains(@class,'tips__list-item')][text()=' 0% ']");
+        public static final SelenideElement Tips10 = $x("//*[contains(@class,'tips__list-item')][text()=' 10% ']");
+        public static final SelenideElement Tips15 = $x("//*[contains(@class,'tips__list-item')][text()=' 15% ']");
+        public static final SelenideElement Tips20 = $x("//*[contains(@class,'tips__list-item')][text()=' 20% ']");
+        public static final SelenideElement Tips25 = $x("//*[contains(@class,'tips__list-item')][text()=' 25% ']");
+        public static final SelenideElement activeTipsButton = $x("//*[@class='tips__list-item active']");
+        public static final SelenideElement tipsSum = $(".tips__sum input");
+        public static final SelenideElement totalPay = $(".check__totalPay-heading+span");
+        public static final SelenideElement serviceCharge = $(".payment__conditions:first-of-type");
+        public static final SelenideElement confPolicy = $(".payment__conditions:last-of-type");
+        public static final SelenideElement paymentStatusAfterPay = $(".review__status");
+        public static final SelenideElement paymentStatusBeforeNewOrder = $(".vEmptyOrderModal__heading");
+        public static final SelenideElement totalSumInWalletCounter = $(".priceCard>span");
+        public static final ElementsCollection sumsOfAllPositionsInMenu = $$(".dishList__item .sum");
+        public static final ElementsCollection dishListsItemsWithSharing = $$(".dishList__item.active");
+        public static final SelenideElement dishListContainer = $(".dishList");
+        public static final SelenideElement tabBarMenuIcon = $(".div .menuOpen");
+        public static final SelenideElement tabBarWalletIcon = $(".div .creditCardOpen");
+        public static final SelenideElement emptyOrderHeading = $(".vEmptyOrderModal__heading");
+        public static final SelenideElement divideCheckSlider = $(".divide__check span.slider");
+        public static final SelenideElement callWaiterButton = $(".callWaiter");
+        public static final SelenideElement callWaiterContainer = $(".callWaiter-modal");
+        public static final SelenideElement callWaiterButtonSend = $(".callWaiter-btn.send");
+        public static final SelenideElement callWaiterButtonCancel = $(".callWaiter-btn.cancel");
+        public static final SelenideElement callWaiterCommentArea = $(".callWaiter__textarea");
+        public static final SelenideElement callWaiterOverlay = $(".modal__overlay");
+        public static final SelenideElement menuDishesContainer = $(".menuDishes");
+
+
+        public static final SelenideElement shareButton = $(".share-btn main-btn");
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
-    public static class RootCatalogPage {
+    public static class Best2PayPage {
 
-        public static final ElementsCollection catalogProducts =
-                $$(".catalog__items [class=\"product\"]");
-        public static final SelenideElement firstElementCatalogProducts =
-                $x("//*[@class=\"catalog__items\"]/*[@class=\"product\"][1]");
-        public static final SelenideElement middleRandomElementCatalogProductsOpenedByHover =
-                $x("//*[@class=\"catalog__items\"]/*[@class=\"product\"][10]/div[@class=\"product__overlay\"]/div[@class=\"product__info\"]");
-        public static final SelenideElement first15ElementCatalogProducts =
-                $(".catalog__items .product:nth-child(20)");
-        public static final SelenideElement first30ElementCatalogProducts =
-                $(".catalog__items .product:nth-child(40)");
-        public static final SelenideElement first45ElementCatalogProducts =
-                $(".catalog__items .product:nth-child(60)");
-        public static final SelenideElement first60ElementCatalogProducts =
-                $("footer");
-        public static final SelenideElement show20ElementsOnPage =
-                $x("//*[@class=\"sort\"]//*[contains(@class,\"sort__block-link\")][contains(@onclick,\"20\")]");
-        public static final SelenideElement show50ElementsOnPage =
-                $x("//*[@class=\"sort\"]//*[contains(@class,\"sort__block-link\")][contains(@onclick,\"50\")]");
-        public static final SelenideElement show100ElementsOnPage =
-                $x("//*[@class=\"sort\"]//*[contains(@class,\"sort__block-link\")][contains(@onclick,\"100\")]");
+
+
+        public static final SelenideElement paymentContainer = $(".div.container");
+        public static final SelenideElement cardNumber = $(".input.input--pan input");
+        public static final SelenideElement dateExpire = $(".input.input--date .input__field--date");
+        public static final SelenideElement cvv = $(".input--cvv .input__field--cvv");
+        public static final SelenideElement email = $("#email");
+        public static final SelenideElement payButton = $("#submitButton");
     }
 
 

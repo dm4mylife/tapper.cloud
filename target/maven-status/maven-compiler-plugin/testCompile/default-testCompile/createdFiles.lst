@@ -1,9 +1,2 @@
-catalog\tests\CatalogDebugTests.class
-searching\tests\SearchingByCollectionsTests.class
-catalog\tests\initialCatalogTests.class
-searching\tests\SearchingByMainCategoriesTests.class
 searching\tests\DebugTests.class
-searching\tests\SearchingByStonesTests.class
 tests\BaseTest.class
-searching\tests\SearchingInHeaderTests.class
-searching\tests\SearchingByCategoryWithStonesTests.class

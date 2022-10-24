@@ -1,11 +1,11 @@
 common\CustomStrategyParallelExecution.class
-pages\MainCatalogPage.class
+pages\Best2PayPage.class
 constants\DDT\SearchingData.class
 common\BaseActions.class
 constants\Constant$Urls.class
+constants\Selectors$RootPage.class
 constants\Constant.class
-constants\Selectors$RootCatalogPage.class
 common\ConfigDriver.class
 constants\Selectors.class
-pages\SearchPage.class
-constants\Selectors$SearchPage.class
+constants\Selectors$Best2PayPage.class
+pages\RootPage.class

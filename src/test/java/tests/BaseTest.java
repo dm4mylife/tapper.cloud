@@ -18,14 +18,12 @@ public class BaseTest {
         WebDriverManager.chromedriver().setup();
         Configuration.driverManagerEnabled = true;
         Configuration.browser = "chrome";
-        Configuration.headless = true;
+        Configuration.headless = false;
         Configuration.browserSize = "1920x1080";
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-extensions");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-gpu");
-        options.addArguments("--dns-prefetch-disable");
-        options.addArguments("enable-automation");
         Configuration.browserCapabilities = options;
 
 

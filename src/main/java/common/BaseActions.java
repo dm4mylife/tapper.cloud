@@ -5,13 +5,12 @@ import com.codeborne.selenide.*;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 import java.util.Random;
 
-import static com.codeborne.selenide.CollectionCondition.size;
+
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -29,6 +28,15 @@ public class BaseActions {
     @Step("Элемент присутствует на странице")
     public void isElementVisible(SelenideElement element) {
         element.shouldBe(visible);
+    }
+    @Step("Список элементов присутствует на странице")
+    public void isElementsListVisible(ElementsCollection elements) {
+        elements = elements.filterBy(visible);
+        elements.shouldBe(sizeGreaterThan(0));
+    }
+    @Step("Элемент присутствует на странице в ходе длительной загрузки ({time}сек.)")
+    public void isElementVisibleDuringLongTime(SelenideElement element, int time) {
+        element.shouldBe(visible, Duration.ofSeconds(time));
     }
 
     @Step("Элемент присутствует и кликабельный на странице")
@@ -62,9 +70,16 @@ public class BaseActions {
     }
 
     @Step("Плавный скрол до видимого элемента")
-    public void scrollIntoView(SelenideElement element) {
+    public void scroll(SelenideElement element) {
 
-        element.scrollIntoView("{block: 'end',  behavior: 'smooth' }");
+        element.scrollIntoView("{block: 'end', behavior: 'smooth'}");
+
+    }
+
+    @Step("Принудительно прячем таббар")
+    public void hideTapBar() {
+
+        Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'none'");
 
     }
 

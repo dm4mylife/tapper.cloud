@@ -1,8 +1,8 @@
-C:\Users\user\IdeaProjects\work_test_automation\src\main\java\common\BaseActions.java
-C:\Users\user\IdeaProjects\work_test_automation\src\main\java\common\ConfigDriver.java
-C:\Users\user\IdeaProjects\work_test_automation\src\main\java\constants\DDT\SearchingData.java
-C:\Users\user\IdeaProjects\work_test_automation\src\main\java\constants\Selectors.java
-C:\Users\user\IdeaProjects\work_test_automation\src\main\java\pages\MainCatalogPage.java
-C:\Users\user\IdeaProjects\work_test_automation\src\main\java\common\CustomStrategyParallelExecution.java
-C:\Users\user\IdeaProjects\work_test_automation\src\main\java\pages\SearchPage.java
-C:\Users\user\IdeaProjects\work_test_automation\src\main\java\constants\Constant.java
+C:\tapper.cloud\src\main\java\constants\DDT\SearchingData.java
+C:\tapper.cloud\src\main\java\pages\Best2PayPage.java
+C:\tapper.cloud\src\main\java\common\ConfigDriver.java
+C:\tapper.cloud\src\main\java\common\CustomStrategyParallelExecution.java
+C:\tapper.cloud\src\main\java\common\BaseActions.java
+C:\tapper.cloud\src\main\java\constants\Selectors.java
+C:\tapper.cloud\src\main\java\pages\RootPage.java
+C:\tapper.cloud\src\main\java\constants\Constant.java
