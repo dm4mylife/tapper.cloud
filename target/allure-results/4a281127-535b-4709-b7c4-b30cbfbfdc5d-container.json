@@ -1,0 +1,1 @@
+{"uuid":"4a281127-535b-4709-b7c4-b30cbfbfdc5d","name":"Вводим тестовые данные для оплаты","children":["dc671c33-dc53-412c-ab98-cb0f2caaadcd"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876889360,"stop":1666876889360}],"start":1666876883848,"stop":1666876889361}

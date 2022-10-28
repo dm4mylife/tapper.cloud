@@ -3,7 +3,7 @@ package common;
 
 import com.codeborne.selenide.*;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.util.Random;
 
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -24,16 +25,30 @@ public class BaseActions {
         element.shouldBe(visible).click();
 
     }
+    @Step("Кнопка видна и клик по ней (JS)")
+    public void clickByJS(String selector) {
+
+        Selenide.executeJavaScript("document.querySelector(\"" + selector + "\").click();");
+
+    }
+
 
     @Step("Элемент присутствует на странице")
     public void isElementVisible(SelenideElement element) {
         element.shouldBe(visible);
     }
+
     @Step("Список элементов присутствует на странице")
     public void isElementsListVisible(ElementsCollection elements) {
         elements = elements.filterBy(visible);
         elements.shouldBe(sizeGreaterThan(0));
     }
+
+    @Step("Список элементов НЕ присутствует на странице")
+    public void isElementsListInVisible(ElementsCollection elements) {
+        elements.shouldBe(size(0));
+    }
+
     @Step("Элемент присутствует на странице в ходе длительной загрузки ({time}сек.)")
     public void isElementVisibleDuringLongTime(SelenideElement element, int time) {
         element.shouldBe(visible, Duration.ofSeconds(time));
@@ -69,17 +84,40 @@ public class BaseActions {
         Selenide.sleep(ms);
     }
 
-    @Step("Плавный скрол до видимого элемента")
+    @Step("Плавный скрол до видимого элемента (без JS)")
     public void scroll(SelenideElement element) {
+        element.scrollIntoView(false);
 
-        element.scrollIntoView("{block: 'end', behavior: 'smooth'}");
 
     }
+
+    @Step("Плавный скрол до видимого элемента (только JS)")
+    public void scrollByJS(String selector) {
+
+        Selenide.executeJavaScript("document.querySelector(\"" + selector + "\").scrollIntoView({block: 'end',  behavior: 'smooth' })");
+
+
+    }
+    @Step("Плавный скрол до самого низа страницы")
+    public void scrollTillBottom() {
+
+        Selenide.executeJavaScript("window.scrollTo({top: 5000,  behavior: 'smooth' })");
+        Selenide.sleep(2000);
+
+    }
+
 
     @Step("Принудительно прячем таббар")
     public void hideTapBar() {
 
         Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'none'");
+
+    }
+
+    @Step("Принудительно раскрываем таббар")
+    public void showTapBar() {
+
+        Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'block'");
 
     }
 
@@ -141,7 +179,9 @@ public class BaseActions {
     @Step("Проверка что текст {text} содержится в текущем URL")
     public void isTextContainsInURL(String text) {
 
-        Assertions.assertTrue(WebDriverRunner.url().matches("(.*)"+ text + "(.*)"));
+        Assert.assertTrue(WebDriverRunner.url().matches("(.*)"+ text + "(.*)"));
+
+
     }
 
     @Step("Проверка что текст {text} содержится полностью в элементе")
@@ -156,9 +196,30 @@ public class BaseActions {
 
             element.shouldHave(Condition.matchText(text));
 
-
         }
     }
 
+    @Step("Преобразовываем текст из селектора в нужный тип данных")
+    public int convertSelectorTextIntoIntByRgx(SelenideElement selector, String regex) {
+
+        String text = selector.getText().replaceAll(regex,"");
+        return Integer.parseInt(text);
+
+    }
+    @Step("Преобразовываем текст из селектора в нужный тип данных")
+    public double convertSelectorTextIntoDoubleByRgx(SelenideElement selector, String regex) {
+
+        String text = selector.getText().replaceAll(regex,"");
+        return Double.parseDouble(text);
+
+    }
+    @Step("Преобразовываем текст из селектора в нужный тип данных")
+    public String convertSelectorTextIntoStrByRgx(SelenideElement selector, String regex) {
+
+        return selector.getText().replaceAll(regex,"");
+
+
+
+    }
 
 }

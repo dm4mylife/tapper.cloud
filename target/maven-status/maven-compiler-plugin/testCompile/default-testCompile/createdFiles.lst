@@ -1,2 +1,6 @@
-searching\tests\DebugTests.class
+tapper\tests\DesktopInitialAndCommonChecksTests.class
+api\APIDebugTests.class
 tests\BaseTest.class
+tapper\tests\DebugTests.class
+tapper\tests\e2e\BasicTest.class
+tapper\tests\MobileInitialAndCommonChecksTests.class

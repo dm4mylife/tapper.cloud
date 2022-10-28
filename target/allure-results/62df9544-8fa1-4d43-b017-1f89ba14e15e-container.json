@@ -1,0 +1,1 @@
+{"uuid":"62df9544-8fa1-4d43-b017-1f89ba14e15e","name":"Отображение блока отзыва","children":["16c3b79d-ba72-4ef7-9067-35e211395017"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876897394,"stop":1666876897394}],"start":1666876894426,"stop":1666876897396}

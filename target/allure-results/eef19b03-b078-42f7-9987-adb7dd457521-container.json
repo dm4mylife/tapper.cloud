@@ -1,0 +1,1 @@
+{"uuid":"eef19b03-b078-42f7-9987-adb7dd457521","name":"Жмём на кнопку завершить","children":["607e8458-c902-4a8c-9a1f-fbb407a8a79d"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876900487,"stop":1666876900487}],"start":1666876900333,"stop":1666876900488}

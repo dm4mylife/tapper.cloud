@@ -1,0 +1,1 @@
+{"uuid":"6344d0de-4e69-48d1-8c82-693f32f96633","name":"Отображение процесса оплаты","children":["3cf51f8d-bf1c-443e-8326-44645cbae4c0"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876894421,"stop":1666876894421}],"start":1666876891192,"stop":1666876894423}

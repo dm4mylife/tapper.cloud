@@ -1,0 +1,1 @@
+{"uuid":"a2e391fc-c6c3-40e3-bbed-44b51d99c9d0","name":"Нажимаем на кнопку оплаты","children":["3aafa9d2-67e6-4654-a148-4af7b08c028d"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876891125,"stop":1666876891125}],"start":1666876889362,"stop":1666876891127}

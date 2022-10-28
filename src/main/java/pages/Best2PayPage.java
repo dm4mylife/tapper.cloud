@@ -1,9 +1,13 @@
 package pages;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import common.BaseActions;
 
 import static constants.Constant.TestData.*;
 import static constants.Selectors.Best2PayPage.*;
+import static constants.Selectors.RootPage.paymentProcessContainer;
 
 
 public class Best2PayPage extends BaseActions {
@@ -13,9 +17,18 @@ public class Best2PayPage extends BaseActions {
     public void isTestBest2PayUrl() {
 
         baseActions.isTextContainsInURL(TEST_BEST2PAY_URL);
+
+
     }
 
-    public void isPaymentContainerShown() {
+    public void isVpnPopUpShown() {
+
+        vpnPopup.shouldHave(Condition.cssValue("display","flex"));
+    }
+
+    public void isPaymentContainerAndVpnShown() {
+
+        isVpnPopUpShown();
         baseActions.isElementVisibleDuringLongTime(paymentContainer,10);
     }
 
@@ -40,6 +53,7 @@ public class Best2PayPage extends BaseActions {
 
     public void typeEmail() {
 
+        baseActions.click(sendCheckByEmail);
         baseActions.sendHumanKeys(email,TEST_EMAIL);
 
     }
@@ -49,5 +63,25 @@ public class Best2PayPage extends BaseActions {
         baseActions.click(payButton);
 
     }
+
+    public void checkPayMethods() {
+
+        baseActions.isElementVisible(payMethodCard);
+        baseActions.isElementVisible(payMethodYandexPay);
+        baseActions.isElementVisible(payMethodSBP);
+
+    }
+
+
+    public void checkPayMethodsAndTypeAllCreditCardData() {
+
+        checkPayMethods();
+        typeCardNumber();
+        typeDateExpire();
+        typeCVV();
+        typeEmail();
+
+    }
+
 
 }

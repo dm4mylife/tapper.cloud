@@ -15,7 +15,7 @@ public class BaseTest {
     @BeforeAll
      static void setUp() {
 
-        WebDriverManager.chromedriver().setup();
+       // WebDriverManager.chromedriver().setup();
         Configuration.driverManagerEnabled = true;
         Configuration.browser = "chrome";
         Configuration.headless = false;
@@ -31,11 +31,12 @@ public class BaseTest {
 
     @AfterAll
      static void tearDown() {
-        Selenide.closeWindow();
+        Selenide.closeWebDriver();
     }
 
     @AfterEach
       void setupAllureReports() {
+
         SelenideLogger.addListener("AllureSelenide",  new AllureSelenide().screenshots(true).savePageSource(false));
     }
 

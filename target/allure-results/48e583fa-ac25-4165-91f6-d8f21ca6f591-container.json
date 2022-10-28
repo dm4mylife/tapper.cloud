@@ -1,0 +1,1 @@
+{"uuid":"48e583fa-ac25-4165-91f6-d8f21ca6f591","name":"Отображение кнопки 'Оплатить'' и 'Поделиться счётом'","children":["96f11432-48d1-4a86-85aa-12f49260f851"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876883645,"stop":1666876883645}],"start":1666876883516,"stop":1666876883647}

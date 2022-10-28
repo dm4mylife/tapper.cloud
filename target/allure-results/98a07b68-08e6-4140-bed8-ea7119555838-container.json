@@ -1,0 +1,1 @@
+{"uuid":"98a07b68-08e6-4140-bed8-ea7119555838","name":"Отображение в ожидании заказа на столе","children":["0ad5dc0d-c8b2-49f8-9793-acaa5c41df5e"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876900549,"stop":1666876900549}],"start":1666876900489,"stop":1666876900550}

@@ -1,0 +1,1 @@
+{"uuid":"44cf48fe-8a35-45ad-ae20-ec23478617fe","name":"Проверям что нас перекинуло на страницу эквайринга","children":["56e6f571-710a-4f43-a960-9f84f7bb3197"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876883838,"stop":1666876883838}],"start":1666876883823,"stop":1666876883842}

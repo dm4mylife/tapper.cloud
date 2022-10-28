@@ -1,10 +1,12 @@
+api\EndPoints.class
 common\CustomStrategyParallelExecution.class
 pages\Best2PayPage.class
-constants\DDT\SearchingData.class
+constants\Constant$TestData.class
+api\ApiRKeeper.class
 common\BaseActions.class
-constants\Constant$Urls.class
 constants\Selectors$RootPage.class
 constants\Constant.class
+pages\ReviewPage.class
 common\ConfigDriver.class
 constants\Selectors.class
 constants\Selectors$Best2PayPage.class
