@@ -1,1 +1,0 @@
-{"uuid":"94ac52e3-d99f-49bf-a333-43037c5543c1","name":"Отображение логотипа\\анимации","children":["f3688198-685a-4a61-9d35-cd2d2d2e69ca"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876882233,"stop":1666876882233}],"start":1666876882059,"stop":1666876882234}

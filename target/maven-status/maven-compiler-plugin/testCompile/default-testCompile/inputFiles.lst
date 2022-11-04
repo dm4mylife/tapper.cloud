@@ -1,6 +1,6 @@
-C:\tapper.cloud\src\test\java\tapper\tests\e2e\BasicTest.java
-C:\tapper.cloud\src\test\java\tapper\tests\MobileInitialAndCommonChecksTests.java
 C:\tapper.cloud\src\test\java\tapper\tests\DebugTests.java
-C:\tapper.cloud\src\test\java\tapper\tests\DesktopInitialAndCommonChecksTests.java
+C:\tapper.cloud\src\test\java\tapper\tests\AllFunctionAreCorrect.java
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\BasicFullPaymentTest.java
 C:\tapper.cloud\src\test\java\api\APIDebugTests.java
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\BasicPartialPaymentTest.java
 C:\tapper.cloud\src\test\java\tests\BaseTest.java

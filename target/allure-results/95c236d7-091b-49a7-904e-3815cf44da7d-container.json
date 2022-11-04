@@ -1,1 +1,0 @@
-{"uuid":"95c236d7-091b-49a7-904e-3815cf44da7d","name":"Отображение прелоадера страницы","children":["d6ec2f4e-6e47-4979-a09d-98c9df002baa"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876883819,"stop":1666876883819}],"start":1666876883744,"stop":1666876883821}

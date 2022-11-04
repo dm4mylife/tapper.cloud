@@ -1,5 +1,6 @@
 package api;
 
+import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.Assert;
@@ -10,12 +11,13 @@ import static io.restassured.RestAssured.given;
 
 public class ApiRKeeper {
 
+        @Step("Создание заказа")
         public String createOrder() {
 
             String requestBody = "{\n" +
                     "  \"subDomen\": \"testrkeeper\",\n" +
                     "  \"tableCode\": 12,\n" +
-                    "  \"waiterCode\": 20,\n" +
+                    "  \"waiterCode\": 9999,\n" +
                     "  \"persistentComment\": 100500\n" +
                     "}";
 
@@ -27,8 +29,8 @@ public class ApiRKeeper {
                     .when()
                     .post(createOrder)
                     .then()
+                    .log().all()
                     .statusCode(200)
-                    .log().headers()
                     .extract()
                     .response();
 
@@ -44,13 +46,13 @@ public class ApiRKeeper {
         }
 
 
-
+        @Step("Наполнение заказа")
         public void fillingOrder(String visit) {
 
 
             String requestBody = "{\n" +
                     "  \"subDomen\": \"testrkeeper\",\n" +
-                    "  \"quantity\": 1000,\n" +
+                    "  \"quantity\": 15000,\n" +
                     "  \"visit\": \"" + visit + "\",\n" +
                     "  \"dishId\": \"1000303\"\n" +
                     "}";
@@ -63,8 +65,8 @@ public class ApiRKeeper {
                     .when()
                     .post(fillingOrder)
                     .then()
+                    .log().all()
                     .statusCode(200)
-                    .log().headers()
                     .extract()
                     .response();
 

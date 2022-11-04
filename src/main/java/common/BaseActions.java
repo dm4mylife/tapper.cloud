@@ -2,7 +2,10 @@ package common;
 
 
 import com.codeborne.selenide.*;
+
 import io.qameta.allure.Step;
+
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -20,21 +23,17 @@ import static com.codeborne.selenide.Selenide.*;
 public class BaseActions {
 
     @Step("Кнопка видна и клик по ней")
-    public void click(SelenideElement element) {
-
+    public void click(@NotNull SelenideElement element) {
         element.shouldBe(visible).click();
-
     }
+
     @Step("Кнопка видна и клик по ней (JS)")
     public void clickByJS(String selector) {
-
         Selenide.executeJavaScript("document.querySelector(\"" + selector + "\").click();");
-
     }
 
-
     @Step("Элемент присутствует на странице")
-    public void isElementVisible(SelenideElement element) {
+    public void isElementVisible(@NotNull SelenideElement element) {
         element.shouldBe(visible);
     }
 
@@ -45,22 +44,22 @@ public class BaseActions {
     }
 
     @Step("Список элементов НЕ присутствует на странице")
-    public void isElementsListInVisible(ElementsCollection elements) {
+    public void isElementsListInVisible(@NotNull ElementsCollection elements) {
         elements.shouldBe(size(0));
     }
 
     @Step("Элемент присутствует на странице в ходе длительной загрузки ({time}сек.)")
-    public void isElementVisibleDuringLongTime(SelenideElement element, int time) {
+    public void isElementVisibleDuringLongTime(@NotNull SelenideElement element, int time) {
         element.shouldBe(visible, Duration.ofSeconds(time));
     }
 
     @Step("Элемент присутствует и кликабельный на странице")
-    public void isElementVisibleAndClickable(SelenideElement element) {
+    public void isElementVisibleAndClickable(@NotNull SelenideElement element) {
         element.shouldBe(visible,enabled);
     }
 
     @Step("Наведение на элемент мышью")
-    public void moveMouseToElement(SelenideElement element) {
+    public void moveMouseToElement(@NotNull SelenideElement element) {
         element.hover();
     }
 
@@ -70,12 +69,12 @@ public class BaseActions {
     }
 
     @Step("Получить аттрибут у элемента")
-    public String getElementAttribute(SelenideElement element, String attribute) {
+    public String getElementAttribute(@NotNull SelenideElement element, String attribute) {
         return element.getAttribute(attribute);
     }
 
     @Step("Элемент присутствует на странице (ожидание 10сек)")
-    public void isElementVisibleLongWait(SelenideElement element) {
+    public void isElementVisibleLongWait(@NotNull SelenideElement element) {
         element.shouldBe(enabled, Duration.ofSeconds(10));
     }
 
@@ -85,76 +84,66 @@ public class BaseActions {
     }
 
     @Step("Плавный скрол до видимого элемента (без JS)")
-    public void scroll(SelenideElement element) {
+    public void scroll(@NotNull SelenideElement element) {
         element.scrollIntoView(false);
-
-
     }
 
     @Step("Плавный скрол до видимого элемента (только JS)")
     public void scrollByJS(String selector) {
-
         Selenide.executeJavaScript("document.querySelector(\"" + selector + "\").scrollIntoView({block: 'end',  behavior: 'smooth' })");
-
-
+        Selenide.sleep(500);
     }
+
     @Step("Плавный скрол до самого низа страницы")
     public void scrollTillBottom() {
 
         Selenide.executeJavaScript("window.scrollTo({top: 5000,  behavior: 'smooth' })");
-        Selenide.sleep(2000);
+        Selenide.sleep(1000);
 
     }
 
-
     @Step("Принудительно прячем таббар")
     public void hideTapBar() {
-
         Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'none'");
-
     }
 
     @Step("Принудительно раскрываем таббар")
     public void showTapBar() {
-
         Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'block'");
-
     }
 
     @Step("Элемент не видим на странице")
-    public void isElementInvisible(SelenideElement element) {
+    public void isElementInvisible(@NotNull SelenideElement element) {
         element.shouldNotBe(visible);
     }
 
     @Step("Элемент присутствует и видим на странице")
-    public void isClickable(SelenideElement element) {
+    public void isClickable(@NotNull SelenideElement element) {
         element.shouldBe(visible).shouldBe(enabled);
     }
 
     @Step("Видимы ли элементы в коллекции")
-    public boolean isElementVisibleInCollections(SelenideElement element) {
+    public boolean isElementVisibleInCollections(@NotNull SelenideElement element) {
         return element.isDisplayed();
     }
 
     @Step("Количество элементов соответствует заданному значению: {counter}")
-    public void isElementsSizeGreaterThanNumber(ElementsCollection elements, int number) {
+    public void isElementsSizeGreaterThanNumber(@NotNull ElementsCollection elements, int number) {
         elements.shouldHave(sizeGreaterThan(number));
     }
 
     @Step("Удаление текста из поля в элементе ")
-    public void deleteTextInInput(SelenideElement element) {
+    public void deleteTextInInput(@NotNull SelenideElement element) {
        element.clear();
     }
 
     @Step("Ввод данных {text} с задержкой")
-    public void sendHumanKeys(SelenideElement element, String text) {
+    public void sendHumanKeys(SelenideElement element, @NotNull String text) {
         Random r = new Random();
         for(int i = 0; i < text.length(); i++) {
-            try {
-                Thread.sleep((int)(r.nextGaussian() * 15 + 50));
-            } catch(InterruptedException e) {
-                System.out.println("Error " + e);
-            }
+
+            Selenide.sleep((int)(r.nextGaussian() * 15 + 50));
+
             String s = String.valueOf(text.charAt(i));
             element.sendKeys(s);
         }
@@ -162,7 +151,7 @@ public class BaseActions {
     }
 
     @Step("Ввод данных {text} без задержки")
-    public void sendKeys(WebElement element, Keys text) {
+    public void sendKeys(@NotNull WebElement element, Keys text) {
         element.sendKeys(text);
     }
 
@@ -171,7 +160,7 @@ public class BaseActions {
         $("title").shouldHave(attribute("text", "gg"));
     }
 
-    @Step("Открытие страницы")
+    @Step("Открытие страницы {url}")
     public void openPage(String url) {
         open(url);
     }
@@ -185,12 +174,12 @@ public class BaseActions {
     }
 
     @Step("Проверка что текст {text} содержится полностью в элементе")
-    public void isElementContainsText(SelenideElement element, String text) {
+    public void isElementContainsText(@NotNull SelenideElement element, String text) {
         element.shouldHave(matchText(text));
     }
 
     @Step("Проверка что текст {text} содержится в элементах коллекции")
-    public void isElementContainsTextInCollection(ElementsCollection elements, String text) {
+    public void isElementContainsTextInCollection(@NotNull ElementsCollection elements, String text) {
 
         for(SelenideElement element: elements) {
 
@@ -199,27 +188,27 @@ public class BaseActions {
         }
     }
 
-    @Step("Преобразовываем текст из селектора в нужный тип данных")
-    public int convertSelectorTextIntoIntByRgx(SelenideElement selector, String regex) {
+    @Step("Преобразовываем\\вырезаем текст из селектора в число")
+    public int convertSelectorTextIntoIntByRgx(@NotNull SelenideElement selector, String regex) {
 
         String text = selector.getText().replaceAll(regex,"");
         return Integer.parseInt(text);
 
     }
-    @Step("Преобразовываем текст из селектора в нужный тип данных")
-    public double convertSelectorTextIntoDoubleByRgx(SelenideElement selector, String regex) {
+
+    @Step("Преобразовываем\\вырезаем текст из селектора в дабл")
+    public double convertSelectorTextIntoDoubleByRgx(@NotNull SelenideElement selector, String regex) {
 
         String text = selector.getText().replaceAll(regex,"");
         return Double.parseDouble(text);
 
     }
-    @Step("Преобразовываем текст из селектора в нужный тип данных")
-    public String convertSelectorTextIntoStrByRgx(SelenideElement selector, String regex) {
 
+    @Step("Преобразовываем\\вырезаем текст из селектора строку")
+    public String convertSelectorTextIntoStrByRgx(@NotNull SelenideElement selector, String regex) {
         return selector.getText().replaceAll(regex,"");
 
-
-
     }
+
 
 }

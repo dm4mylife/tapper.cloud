@@ -1,1 +1,0 @@
-{"uuid":"b129aa19-0880-4d16-9e02-7a4463cb842d","name":"Клик по кнопке 'Оплатить'","children":["cbcf15dc-635f-46de-be1a-813b5fcefacb"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876883739,"stop":1666876883739}],"start":1666876883649,"stop":1666876883740}

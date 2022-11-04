@@ -3,94 +3,92 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import constants.Selectors;
+import io.qameta.allure.Step;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$x;
-import static constants.Constant.TestData.TEST_REVIEW_COMMENT;
-import static constants.Selectors.RootPage.*;
-import static constants.Selectors.ReviewPage.paymentStatusAfterPay;
+import static constants.Constant.TestData.*;
+import static constants.Selectors.Best2PayPage.paymentProcessContainer;
+import static constants.Selectors.Common.pagePreLoader;
+import static constants.Selectors.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
 
     BaseActions baseActions = new BaseActions();
 
+    @Step("Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны")
     public void isPaymentProcessContainerShown() {
 
         baseActions.isElementVisibleDuringLongTime(paymentProcessContainer,30);
-        baseActions.isElementVisibleDuringLongTime(Selectors.ReviewPage.paymentProcessStatus, 30);
+        baseActions.isElementVisibleDuringLongTime(paymentProcessStatus, 30);
 
-        Selectors.ReviewPage.paymentProcessStatus.shouldHave(matchText("Производится оплата"), Duration.ofSeconds(30));
-        System.out.println(Selectors.ReviewPage.paymentProcessStatus.getText());
-        Selectors.ReviewPage.paymentProcessStatus.shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
-        System.out.println(Selectors.ReviewPage.paymentProcessStatus.getText());
+        paymentProcessStatus.shouldHave(matchText("Производится оплата"), Duration.ofSeconds(30));
+        paymentProcessStatus.shouldNotHave(text("Оплата не прошла"));
+        paymentProcessStatus.shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
+
 
     }
 
+    @Step("Проверка заголовка статуса и что все элементы отзыва отображаются")
     public void isReviewBlockCorrect() {
 
-        baseActions.isElementVisibleDuringLongTime(Selectors.ReviewPage.reviewContainer,10);
-        isPaymentStatusSuccess();
-        baseActions.isElementVisible(Selectors.ReviewPage.reviewStars);
-        baseActions.isElementVisible(Selectors.ReviewPage.reviewTextArea);
-        baseActions.isElementVisible(Selectors.ReviewPage.finishReviewButton);
+        baseActions.isElementVisibleDuringLongTime(reviewContainer,10);
 
+        baseActions.isElementVisible(reviewStars);
+        baseActions.isElementVisible(reviewTextArea);
+        baseActions.isElementVisible(finishReviewButton);
+
+    }
+    @Step("Заголовок соответствует частичной оплате")
+    public void partialPaymentHeading() {
+
+        paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
 
     }
 
-    public void isPaymentStatusSuccess() {
+    @Step("Заголовок соответствует полной оплате")
+    public void fullPaymentHeading() {
 
         paymentStatusAfterPay.shouldHave(text(" Статус заказа: Полностью оплачен "));
 
     }
 
+    @Step("Выставляем 5 звёзд")
     public void rate5Stars() {
 
-        baseActions.click(Selectors.ReviewPage.review5Stars);
-        Selectors.ReviewPage.currentActiveStar.shouldBe(visible);
-
+        baseActions.click(review5Stars);
+        currentActiveStar.shouldBe(visible);
 
     }
 
+    @Step("Выбираем рандомное пожелание")
     public void chooseRandomWhatDoULike() {
 
-        baseActions.isElementVisible(Selectors.ReviewPage.whatDoULikeList);
-
-        String rndNumber = String.valueOf(baseActions.generateRandomNumber(1,5));
-        String xPath = "//li[@class=\"review__list-item\"]" + "[" + rndNumber + "]";
-        SelenideElement randomItem = $x(xPath);
-
-        baseActions.click(randomItem);
-        baseActions.isElementVisible(Selectors.ReviewPage.activeWhatDoULikeListRandomOption);
+        baseActions.isElementVisible(whatDoULikeList);
+        baseActions.click(whatDoULikeListRandomOption.get(generateRandomNumber(1,5)-1));
+        baseActions.isElementVisible(activeWhatDoULikeListRandomOption);
 
 
     }
 
+    @Step("Вводим коммент в поле ввода, проверям что сохранился текст")
     public void typeReviewComment() {
 
-        baseActions.sendHumanKeys(Selectors.ReviewPage.reviewTextArea,TEST_REVIEW_COMMENT);
-        Selectors.ReviewPage.reviewTextArea.shouldHave(value(TEST_REVIEW_COMMENT));
+        baseActions.sendHumanKeys(reviewTextArea,TEST_REVIEW_COMMENT);
+        reviewTextArea.shouldHave(value(TEST_REVIEW_COMMENT));
+
 
     }
 
+    @Step("Клик в кнопку отправить отзыв и ожидание прелоадера")
     public void clickOnFinishButton() {
 
-        baseActions.click(Selectors.ReviewPage.finishReviewButton);
+        baseActions.click(finishReviewButton);
         baseActions.isElementVisible(pagePreLoader);
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

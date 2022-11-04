@@ -1,1 +1,0 @@
-{"uuid":"e45849f4-b7a3-4b1e-bc8c-5841fe2137cb","name":"Переходим на стол tapper","children":["f6500202-eb7a-4116-9223-b39dac519965"],"befores":[],"afters":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1666876882054,"stop":1666876882054}],"start":1666876877770,"stop":1666876882057}

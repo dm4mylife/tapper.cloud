@@ -1,6 +1,6 @@
-tapper\tests\DesktopInitialAndCommonChecksTests.class
+tapper\tests\AllFunctionAreCorrect.class
 api\APIDebugTests.class
 tests\BaseTest.class
+tapper\tests\e2e\BasicPartialPaymentTest.class
 tapper\tests\DebugTests.class
-tapper\tests\e2e\BasicTest.class
-tapper\tests\MobileInitialAndCommonChecksTests.class
+tapper\tests\e2e\BasicFullPaymentTest.class
