@@ -8,9 +8,11 @@ constants\Selectors$Common.class
 pages\nestedTestsManager\Best2PayPageNestedTests.class
 api\EndPoints.class
 constants\Selectors$RootPage$TapBar.class
+constants\Constant$ApiData.class
 pages\Best2PayPage.class
 constants\Selectors$RKeeperAdmin.class
 constants\Constant$TestDataRKeeperAdmin.class
+constants\Constant$RequestBody.class
 constants\Constant$TestData.class
 constants\Selectors$RootPage$TipsAndCheck.class
 constants\Selectors$RootPage$PayBlock.class

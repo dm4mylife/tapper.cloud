@@ -14,7 +14,7 @@ public class Best2PayPageNestedTests extends Best2PayPage {
         best2PayPage.checkPayMethods();
         best2PayPage.typeCardNumber();
         best2PayPage.typeDateExpire();
-        best2PayPage.typeCVС();
+        best2PayPage.typeCVV();
         best2PayPage.typeEmail();
 
     }

@@ -23,37 +23,48 @@ public class Selectors {
 
             public static final SelenideElement tableNumber = $(".vOrderHeader__table");
             public static final SelenideElement emptyOrderHeading = $(".vEmptyOrderModal__heading");
+            public static final SelenideElement separateOrderHeading = $(".vOrderHeader__separate");
+            public static final SelenideElement dishesSumChangedHeading = $(".vAuthentication.active");
+
+
+
             public static final SelenideElement divideCheckSlider = $(".divide__check span.slider");
 
             public static final SelenideElement menuDishesContainer = $(".menuDishes");
             public static final SelenideElement dishListContainerWithDishes = $(".dishList ul.dishList__list");
 
-            public static final ElementsCollection allDishesInOrder = $$(".dishList__list li [class='dishList__item']");
+
+
+            public static final ElementsCollection allDishesInOrder = $$("li [class='dishList__item']");
             public static final ElementsCollection paidDishes = $$(".dishList__item.paid");
-            public static final ElementsCollection disabledSharedDishes = $$(".dishList__item.disabled");
+            public static final ElementsCollection disabledDishes = $$("[class='dishList__item disabled']");
+            public static final ElementsCollection allNonPaidAndNonDisabledDishes = $$(".dishList [class=\"dishList__item\"]");
 
 
-            public static final ElementsCollection nonPaidAndNonSharedDishes =
+
+            public static final ElementsCollection allDishesWhenDivided = $$(".dishList__item.active");
+            public static final ElementsCollection paidDishesWhenDivided = $$(".dishList__item.active.paid");
+
+            public static final ElementsCollection nonPaidAndNonDisabledDishesWhenDivided =
                     $$x("//*[@class=\"dishList__item active\"][not(@class=\"paid\") and not(@class=\"disabled\")]");
-            public static final ElementsCollection nonPaidAndNonSharedDishesSum =
+            public static final ElementsCollection nonPaidAndNonDisabledDishesSumWhenDivided =
                     $$x("//*[@class=\"dishList__item active\"][not(@class=\"paid\") and not(@class=\"disabled\")]//*[@class='sum']");
-            public static final ElementsCollection nonPaidAndNonSharedDishesName =
+            public static final ElementsCollection nonPaidAndNonDisabledDishesNameWhenDivided =
                     $$x("//*[@class=\"dishList__item active\"][not(@class=\"paid\") and not(@class=\"disabled\")]//*[@class='dish__checkbox-content']");
-            public static final ElementsCollection nonPaidAndNonSharedDishesInput =
+            public static final ElementsCollection nonPaidAndNonDisabledDishesInputWhenDivided =
                     $$x("//*[@class=\"dishList__item active\"][not(@class=\"paid\") and not(@class=\"disabled\")]//input");
 
-            public static final ElementsCollection dishesWithSharing = $$(".dishList__item.active");
-            public static final ElementsCollection orderPositionsSpinners = $$(".dishList__item-status img");
+            public static final ElementsCollection disabledDishesWhenDivided =
+                    $$("[class='dishList__item active disabled']");
 
-            public static final ElementsCollection nonPaidSharedDishes =
+            public static final ElementsCollection disabledAndPainDishesWhenDivided =
+                    $$x("//*[@class=\"dishList__list\"]//*[contains(@class,'disabled') or contains(@class,'paid')]");
+
+
+            public static final ElementsCollection nonPaidDishesWhenDivided =
                     $$(".dishList__list li [class='dishList__item active']");
 
-
-
-            public static final ElementsCollection nonPaidSharedDishesSum =
-                    $$(".dishList__list li [class='dishList__item active'] .sum");
-            public static final ElementsCollection nonPaidSharedDishesCheckboxes =
-                    $$(".dishList__list li [class='dishList__item active'] input+span");
+            public static final ElementsCollection orderPositionsSpinners = $$(".dishList .dishList__list .dishList__item-status img");
 
         }
 
@@ -63,6 +74,10 @@ public class Selectors {
             public static final SelenideElement checkTipsSumWithDivide = $(".check__tips .check__tips-sum");
             public static final ElementsCollection tipsPercentList= $$(".tips__percents-list li");
             public static final SelenideElement tipsInCheck= $(".check .check__tips-heading");
+            public static final SelenideElement anotherGuestSum =
+                    $x("//*[@class=\"check__tips-heading\"][text()=\"Другой пользователь:\"]/following-sibling::span");
+            public static final SelenideElement markedDishes =
+                    $x("//*[@class=\"check__tips-heading\"][text()=\"Отмеченные позиции:\"]/following-sibling::span");
 
 
             public static final SelenideElement resetTipsButton = $(".tips__sum-btn[type='reset']");
@@ -74,6 +89,7 @@ public class Selectors {
             public static final SelenideElement tipsSum = $(".tips__sum input");
             public static final SelenideElement totalPay = $(".check__totalPay-heading+span");
 
+            public static final SelenideElement chosenDishesHeadingInCheck = $x("//*[@class=\"check__marked\"]/*[text()=\"Отмеченные позиции:\"]");
 
             public static final SelenideElement tipsErrorMsg = $(".tips__error");
 
@@ -156,7 +172,7 @@ public class Selectors {
 
         public static final SelenideElement paymentStatusAfterPay = $(".review__status");
         public static final SelenideElement reviewContainer = $(".review .container");
-        public static final SelenideElement finishReviewButton = $("button.main-btn");
+        public static final SelenideElement finishReviewButton = $(".review__common .main-btn");
         public static final SelenideElement reviewTextArea = $(".review__textarea");
         public static final SelenideElement reviewStars = $(".review__stars");
         public static final SelenideElement review5Stars = $(".review__stars .review__stars-item:nth-child(6)");
@@ -165,6 +181,8 @@ public class Selectors {
         public static final ElementsCollection whatDoULikeListRandomOption = $$x("//li[@class='review__list-item']");
         public static final SelenideElement activeWhatDoULikeListRandomOption = $x("//li[@class='review__list-item active']");
         public static final SelenideElement paymentProcessStatus = $(".payment-process__status");
+        public static final SelenideElement suggestionHeading = $(".suggestions .suggestions__title");
+        public static final ElementsCollection suggestionOptions = $$(".suggestions .suggestions__list-item");
 
     }
 

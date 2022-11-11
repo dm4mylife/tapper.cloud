@@ -1,6 +1,10 @@
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\PartialPaymentNoTipsScTest.java
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\DivideCheckAndPartialPaymentTest.java
 C:\tapper.cloud\src\test\java\tapper\tests\DebugTests.java
-C:\tapper.cloud\src\test\java\tapper\tests\AllFunctionAreCorrect.java
-C:\tapper.cloud\src\test\java\tapper\tests\e2e\BasicFullPaymentTest.java
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\DivideCheckAndFullPaymentTest.java
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\PartialAndFullPaymentIn2OrdersTest.java
 C:\tapper.cloud\src\test\java\api\APIDebugTests.java
-C:\tapper.cloud\src\test\java\tapper\tests\e2e\BasicPartialPaymentTest.java
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\FullPaymentTest.java
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\PartialPaymentTest.java
+C:\tapper.cloud\src\test\java\tapper\tests\e2e\DivideCheckAndPayTillEndTest.java
 C:\tapper.cloud\src\test\java\tests\BaseTest.java

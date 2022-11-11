@@ -8,37 +8,45 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BaseTest {
 
     @BeforeAll
+    @DisplayName("Установка, настройка, инициализиция браузера")
      static void setUp() {
 
 
         Configuration.driverManagerEnabled = true;
-        Configuration.browser = "chrome";
         Configuration.headless = false;
         Configuration.browserSize = "1920x1080";
         ChromeOptions options = new ChromeOptions();
-       // options.addArguments("--auto-open-devtools-for-tabs");
+        options.addArguments("--enable-automation");
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-infobars");
         options.addArguments("--disable-notifications");
         options.addArguments("--no-sandbox");
-        //options.addArguments("--disable-gpu");
-        Configuration.browserCapabilities = options;
+        options.addArguments("--incognito");
 
+        //options.addArguments("--disable-gpu");
+        //options.addArguments("--auto-open-devtools-for-tabs");
+
+        Configuration.browserCapabilities = options;
 
     }
 
     @AfterAll
+    @DisplayName("Закрытие браузера")
     static void tearDown() {
         Selenide.closeWebDriver();
     }
 
     @BeforeAll
+    @DisplayName("Установка отчёта")
     static void setupAllureReports() {
         SelenideLogger.addListener("AllureSelenide",  new AllureSelenide().screenshots(true).savePageSource(false));
     }

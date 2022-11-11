@@ -3,13 +3,22 @@ package api;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+
 
 import static api.EndPoints.*;
-import static constants.Constant.TestData.API_URI;
+import static constants.Constant.TestData.API_STAGE_URI;
+import static constants.Constant.TestData.API_TEST_URI;
 import static io.restassured.RestAssured.given;
 
 public class ApiRKeeper {
+
+
+
+    /* RestAssuredConfig config = RestAssured.config()
+            .httpClient(HttpClientConfig.httpClientConfig()
+                    .setParam(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000)
+                    .setParam(CoreConnectionPNames.SO_TIMEOUT, 10000)); */
 
         @Step("Создание заказа")
         public String createOrder() {
@@ -17,7 +26,7 @@ public class ApiRKeeper {
             String requestBody = "{\n" +
                     "  \"subDomen\": \"testrkeeper\",\n" +
                     "  \"tableCode\": 12,\n" +
-                    "  \"waiterCode\": 9999,\n" +
+                    "  \"waiterCode\": 23,\n" +
                     "  \"persistentComment\": 100500\n" +
                     "}";
 
@@ -25,55 +34,46 @@ public class ApiRKeeper {
                     .contentType(ContentType.JSON)
                     .and()
                     .body(requestBody)
-                    .baseUri(API_URI)
+                    .baseUri(API_STAGE_URI)
                     .when()
                     .post(createOrder)
                     .then()
-                    .log().all()
+                    .log().status()
                     .statusCode(200)
                     .extract()
                     .response();
 
+            System.out.println(response.getTime() / 1000 + "sec response time");
 
-            Assert.assertTrue(response.jsonPath().getBoolean("success"));
+            Assertions.assertTrue(response.jsonPath().getBoolean("success"));
 
-
-            String visit = response.jsonPath().getString("result.visit");
-            System.out.println(visit);
-
-            return visit;
+            return response.jsonPath().getString("result.visit");
 
         }
 
 
         @Step("Наполнение заказа")
-        public void fillingOrder(String visit) {
-
-
-            String requestBody = "{\n" +
-                    "  \"subDomen\": \"testrkeeper\",\n" +
-                    "  \"quantity\": 15000,\n" +
-                    "  \"visit\": \"" + visit + "\",\n" +
-                    "  \"dishId\": \"1000303\"\n" +
-                    "}";
+        public void fillingOrder(String requestBody) {
 
             Response response = given()
                     .contentType(ContentType.JSON)
                     .and()
                     .body(requestBody)
-                    .baseUri(API_URI)
+                    .baseUri(API_STAGE_URI)
                     .when()
                     .post(fillingOrder)
                     .then()
-                    .log().all()
+                    .log().status()
                     .statusCode(200)
                     .extract()
                     .response();
 
-            Assert.assertTrue(response.jsonPath().getBoolean("success"));
-            Assert.assertNotEquals(null,response.jsonPath().getMap("result"));
-            Assert.assertNull(response.jsonPath().getString("result.Error"));
-            Assert.assertNull(response.jsonPath().getString("result.Errors"));
+            System.out.println(response.getTime() / 1000 + "sec response time");
+
+            Assertions.assertTrue(response.jsonPath().getBoolean("success"));
+            Assertions.assertNotEquals(null,response.jsonPath().getMap("result"));
+            Assertions.assertNull(response.jsonPath().getString("result.Error"));
+            Assertions.assertNull(response.jsonPath().getString("result.Errors"));
         }
 
 
@@ -94,7 +94,7 @@ public class ApiRKeeper {
                     .contentType(ContentType.JSON)
                     .and()
                     .body(requestBody)
-                    .baseUri(API_URI)
+                    .baseUri(API_TEST_URI)
                     .when()
                     .post(deleteOrder)
                     .then()
@@ -104,8 +104,8 @@ public class ApiRKeeper {
                     .response();
 
 
-            Assert.assertTrue(response.jsonPath().getBoolean("success"));
-            Assert.assertEquals("Ok",response.jsonPath().getString("result.@attributes.Status"));
+            Assertions.assertTrue(response.jsonPath().getBoolean("success"));
+            Assertions.assertEquals("Ok",response.jsonPath().getString("result.@attributes.Status"));
 
 
         }

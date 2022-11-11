@@ -6,10 +6,12 @@ import com.codeborne.selenide.*;
 import io.qameta.allure.Step;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.Assert;
+
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.Random;
 
@@ -22,6 +24,11 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class BaseActions {
 
+    @Step("Открытие страницы {url}")
+    public void openPage(String url) {
+        open(url);
+    }
+
     @Step("Кнопка видна и клик по ней")
     public void click(@NotNull SelenideElement element) {
         element.shouldBe(visible).click();
@@ -32,9 +39,25 @@ public class BaseActions {
         Selenide.executeJavaScript("document.querySelector(\"" + selector + "\").click();");
     }
 
+    @Step("Скрол до элемента и клик по нему")
+    public void scrollAndClick(SelenideElement element) {
+        element.scrollIntoView(false);
+        element.click();
+    }
+
     @Step("Элемент присутствует на странице")
     public void isElementVisible(@NotNull SelenideElement element) {
         element.shouldBe(visible);
+    }
+
+    @Step("Элемент присутствует на странице в ходе длительной загрузки ({time}сек.)")
+    public void isElementVisibleDuringLongTime(@NotNull SelenideElement element, int time) {
+        element.shouldBe(visible, Duration.ofSeconds(time));
+    }
+
+    @Step("Элемент не видим на странице")
+    public void isElementInvisible(@NotNull SelenideElement element) {
+        element.shouldNotBe(visible);
     }
 
     @Step("Список элементов присутствует на странице")
@@ -48,34 +71,14 @@ public class BaseActions {
         elements.shouldBe(size(0));
     }
 
-    @Step("Элемент присутствует на странице в ходе длительной загрузки ({time}сек.)")
-    public void isElementVisibleDuringLongTime(@NotNull SelenideElement element, int time) {
-        element.shouldBe(visible, Duration.ofSeconds(time));
-    }
-
     @Step("Элемент присутствует и кликабельный на странице")
     public void isElementVisibleAndClickable(@NotNull SelenideElement element) {
         element.shouldBe(visible,enabled);
     }
 
-    @Step("Наведение на элемент мышью")
-    public void moveMouseToElement(@NotNull SelenideElement element) {
-        element.hover();
-    }
-
     @Step("Генерация рандомного значения от {min} до {max}")
     public int generateRandomNumber(int min,int max) {
         return (int)Math.floor(Math.random()*(max-min+1)+min);
-    }
-
-    @Step("Получить аттрибут у элемента")
-    public String getElementAttribute(@NotNull SelenideElement element, String attribute) {
-        return element.getAttribute(attribute);
-    }
-
-    @Step("Элемент присутствует на странице (ожидание 10сек)")
-    public void isElementVisibleLongWait(@NotNull SelenideElement element) {
-        element.shouldBe(enabled, Duration.ofSeconds(10));
     }
 
     @Step("Принудительное ожидание")
@@ -97,7 +100,7 @@ public class BaseActions {
     @Step("Плавный скрол до самого низа страницы")
     public void scrollTillBottom() {
 
-        Selenide.executeJavaScript("window.scrollTo({top: 5000,  behavior: 'smooth' })");
+        Selenide.executeJavaScript("window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: \"smooth\" });\n;");
         Selenide.sleep(1000);
 
     }
@@ -112,24 +115,9 @@ public class BaseActions {
         Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'block'");
     }
 
-    @Step("Элемент не видим на странице")
-    public void isElementInvisible(@NotNull SelenideElement element) {
-        element.shouldNotBe(visible);
-    }
-
-    @Step("Элемент присутствует и видим на странице")
-    public void isClickable(@NotNull SelenideElement element) {
-        element.shouldBe(visible).shouldBe(enabled);
-    }
-
     @Step("Видимы ли элементы в коллекции")
     public boolean isElementVisibleInCollections(@NotNull SelenideElement element) {
         return element.isDisplayed();
-    }
-
-    @Step("Количество элементов соответствует заданному значению: {counter}")
-    public void isElementsSizeGreaterThanNumber(@NotNull ElementsCollection elements, int number) {
-        elements.shouldHave(sizeGreaterThan(number));
     }
 
     @Step("Удаление текста из поля в элементе ")
@@ -155,20 +143,10 @@ public class BaseActions {
         element.sendKeys(text);
     }
 
-    @Step("Проверка заголовка")
-    public void checkPageTitle() {
-        $("title").shouldHave(attribute("text", "gg"));
-    }
-
-    @Step("Открытие страницы {url}")
-    public void openPage(String url) {
-        open(url);
-    }
-
     @Step("Проверка что текст {text} содержится в текущем URL")
     public void isTextContainsInURL(String text) {
 
-        Assert.assertTrue(WebDriverRunner.url().matches("(.*)"+ text + "(.*)"));
+        Assertions.assertTrue(WebDriverRunner.url().matches("(.*)"+ text + "(.*)"));
 
 
     }
@@ -208,6 +186,13 @@ public class BaseActions {
     public String convertSelectorTextIntoStrByRgx(@NotNull SelenideElement selector, String regex) {
         return selector.getText().replaceAll(regex,"");
 
+    }
+
+    @Step("Обрезаем у дабла всё до двух чисел после запятой")
+    public double convertDouble(@NotNull Double doubleNumber) {
+
+        String formattedDouble = new DecimalFormat("#0.00").format(doubleNumber).replace(",", ".");
+        return Double.parseDouble(formattedDouble);
     }
 
 

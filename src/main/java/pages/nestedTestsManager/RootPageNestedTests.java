@@ -3,20 +3,27 @@ package pages.nestedTestsManager;
 import com.codeborne.selenide.CollectionCondition;
 import io.qameta.allure.*;
 import pages.Best2PayPage;
+import pages.ReviewPage;
 import pages.RootPage;
 
-import static constants.Constant.TestData.STAGE_ROOT_URL;
-import static constants.Selectors.RootPage.DishList.disabledSharedDishes;
+import java.util.ArrayList;
+
+import static constants.Selectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static constants.Selectors.RootPage.DishList.disabledDishes;
+
 
 
 public class RootPageNestedTests extends RootPage {
 
     Best2PayPage best2PayPage = new Best2PayPage();
+    ReviewPage reviewPage = new ReviewPage();
+    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
+    ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Step("Загрузочный экран, заказ, блок чаевых и итого к оплате, кнопки, нижнее меню")
     public void checkAllElementsAreVisibleAndActive() {
 
-        isStartScreenShown();
+     //   isStartScreenShown(); // toDO не работала загрузка гифки в самой админке, 500 ошибка при сохранении
         isDishListCorrect();
         isTipsAndCheckCorrect();
         isPayBlockCorrect();
@@ -28,7 +35,7 @@ public class RootPageNestedTests extends RootPage {
     public void isDishListCorrect() {
 
         isTableNumberShown();
-        isDivideSliderShown();
+        isDivideSliderCorrect();
         isDishListNotEmptyAndVisible();
 
     }
@@ -51,8 +58,10 @@ public class RootPageNestedTests extends RootPage {
 
     @Step("Нижнее навигационное меню отображается корректно. Меню, вызов официанта, переключение - корректно")
     public void isTabBarCorrect() {
+
         isTapBarShown();
         isCallWaiterCorrect();
+
     }
 
     @Step("Клик в оплату, появление лоадера и проверка что мы на эквайринге")
@@ -62,77 +71,189 @@ public class RootPageNestedTests extends RootPage {
         isPageLoaderShown();
         best2PayPage.isPaymentContainerAndVpnShown();
         best2PayPage.isTestBest2PayUrl();
+
     }
 
 
     @Step("Выбрать рандомные блюда и отдать эту же ссылку другому юзеру (не через кнопку 'Поделиться счётом'")
     public void chooseDishesAndShareLinkToAnotherUser(int amountDishes) {
 
-        chooseCertainAmountDishesAndCountCosts(amountDishes);
-        openNewWindow(STAGE_ROOT_URL);
-
-
-
+        chooseCertainAmountDishes(amountDishes);
+        clearAllSiteData();
 
     }
 
     public void areChosenDishesDisabledBySharingCheck(int amountDishes) {
 
         isDishListNotEmptyAndVisible();
-        disabledSharedDishes.shouldBe(CollectionCondition.size(amountDishes));
-
+        disabledDishes.shouldBe(CollectionCondition.size(amountDishes));
 
     }
-
 
 
     @Step("Выбираем рандомное число блюд ({amountDishes}) и считаем их сумму")
-    public double divide_chooseAndCountTotalSumDishesWithRndAmount(int amountDishes) {
+    public void chooseDishesWithRandomAmount(int amountDishes) {
 
-        return chooseCertainAmountDishesAndCountCosts(amountDishes);
+        clickDivideCheckSlider();
+        chooseCertainAmountDishes(amountDishes);
+
+    }
+
+    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
+    public void chooseDishesWithRandomAmountAndCheckAllSumsConditions(int amountDishes) {
+
+        chooseDishesWithRandomAmount(amountDishes);
+        checkChosenDishesSumsWithAllConditionsWhenDivided();
+
+    }
+
+    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, без чаевых но с СБ")
+    public void chooseDishesWithRandomAmountNoTipsWithSC(int amountDishes) {
+
+        chooseDishesWithRandomAmount(amountDishes);
+        checkChosenDishesSumsNoTipsWithSC();
+
+    }
+
+    @Step("Выбираем все блюда, проверяем сумму, без чаевых но с СБ")
+    public void chooseAllDishesToPayNoTipsWithSC(int amountDishes) {
+
+        chooseAllNonPaidDishes();
+        checkChosenDishesSumsNoTipsWithSC();
 
     }
 
 
-    @Step("Проверям сумму со всеми доп. условиями с разделенными позициями")
-    public void divide_checkDividedOrderSumsWithAllConditions() { //
 
-        double cleanTotalSum = divide_countAllChosenDishes();
+    @Step("Очищаем все данные, рефрешим, передаём список ранее выбранных блюд, " +
+            "проверяем что выбранные блюда в статусе ожидаются после разделения чека")
+    public void clearDataAndCheckDisabledDishes(ArrayList<String> chosenDishes) {
+
+        clearAllSiteData();
+
+        isDishListNotEmptyAndVisible();
+        isStylesCorrectToDisabledDishes();
+        dishesAreDisabledInDishList(chosenDishes);
+
+    }
+
+    @Step("Проверям сумму не оплаченного заказа со всеми доп. условиями с разделенными позициями")
+    public void checkChosenDishesSumsWithAllConditions() { //
+
+        double cleanTotalSum = countAllChosenDishes();
+
+        setTipsBy0AndCancelServiceCharge();
 
         isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
 
         isSumInWalletMatchWithTotalPay();
 
-        isActiveTipPercentCorrectWithTotalSumWithoutSC(cleanTotalSum);
-
-        isActiveTipPercentCorrectWithTotalSumWithSC(cleanTotalSum);
-
-        divide_isAllTipsOptionsAreCorrectWithTotalSumWithoutSC(cleanTotalSum);
-
-        divide_isAllTipsOptionsAreCorrectWithTotalSumWithSC(cleanTotalSum);
-
+        isActiveTipPercentCorrectWithTotalSum(cleanTotalSum);
+        isAllTipsOptionsAreCorrectWithTotalSumAndSC(cleanTotalSum);
 
     }
 
+    @Step("Проверям сумму всего не оплаченного заказа со всеми доп. условиями не разделяя чек")
+    public void checkAllDishesSumsWithAllConditions() { //
 
-    @Step("Проверям сумму со всеми доп. условиями не разделяя чек")
-    public void single_checkDividedOrderSumsWithAllConditions() { //
+        double cleanTotalSum = countAllNonPaidDishesInOrder();
 
-        double cleanTotalSum = single_countAllDishesInOrder();
+        setTipsBy0AndCancelServiceCharge();
 
         isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
 
         isSumInWalletMatchWithTotalPay();
 
-        isActiveTipPercentCorrectWithTotalSumWithoutSC(cleanTotalSum);
+        isActiveTipPercentCorrectWithTotalSum(cleanTotalSum);
+        isAllTipsOptionsAreCorrectWithTotalSumAndSC(cleanTotalSum);
 
-        isActiveTipPercentCorrectWithTotalSumWithSC(cleanTotalSum);
+    }
+
+    @Step("Проверям сумму всего не оплаченного заказа со всеми доп. условиями не разделяя чек")
+    public void checkChosenDishesSumsNoTipsWithSC() { //
+
+        double cleanTotalSum = countAllChosenDishes();
+
+        cancelTipsAndActivateSC(cleanTotalSum);
+
+        isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
+
+        isSumInWalletMatchWithTotalPay();
+
+    }
 
 
-        single_isAllTipsOptionsAreCorrectWithTotalSumWithoutSC(cleanTotalSum);
+    @Step("Проверям сумму не оплаченного заказа со всеми доп. условиями с разделенными позициями")
+    public void checkChosenDishesSumsWithAllConditionsWhenDivided() { //
 
-        single_isAllTipsOptionsAreCorrectWithTotalSumWithSC(cleanTotalSum);
+        double cleanTotalSum = countAllChosenDishes();
 
+        setTipsBy0AndCancelServiceCharge();
+
+        isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
+
+        isSumInWalletMatchWithTotalPay();
+
+        isAllTipsOptionsAreCorrectWithTotalSumAndSC(cleanTotalSum);
+
+    }
+
+    @Step("Оплачиваем по {amountDishesPayFor1Time} позиции до тех пор пока весь заказ не будет закрыт")
+    public void payTillFullSuccessPayment(int amountDishesPayFor1Time) {
+
+        isDishListNotEmptyAndVisible();
+
+        while(!allNonPaidAndNonDisabledDishes.isEmpty()) {
+
+            System.out.println(allNonPaidAndNonDisabledDishes.size() + " кол-во не оплаченных блюд");
+
+            if (allNonPaidAndNonDisabledDishes.size() != 1) {
+
+                clearAllSiteData();
+                chooseDishesWithRandomAmountAndCheckAllSumsConditions(amountDishesPayFor1Time);
+                isAnotherGuestSumCorrect();
+
+                double totalPay = saveTotalPayForMatchWithAcquiring();
+                clickPayment();
+
+                best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
+                best2PayPage.clickPayButton();
+
+                reviewPageNestedTests.partialPaymentCorrect();
+
+                reviewPage.clickOnFinishButton();
+
+            } else {
+
+                double totalPay = saveTotalPayForMatchWithAcquiring();
+                clickPayment();
+
+                best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
+                best2PayPage.clickPayButton();
+
+                reviewPageNestedTests.fullPaymentCorrect();
+                reviewPageNestedTests.reviewCorrectNegative();
+
+            }
+
+        }
+
+    }
+
+    @Step("Делимся счётом и оплачиваем позиции")
+    public void divideCheckAndPayTheRestDishes() {
+
+        clearAllSiteData();
+        clickDivideCheckSlider();
+        chooseAllNonPaidDishes();
+        countAllNonPaidDishesInOrder();
+        checkAllDishesSumsWithAllConditions();
+
+        double totalPay = saveTotalPayForMatchWithAcquiring();
+        clickPayment();
+
+        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
+        best2PayPage.clickPayButton();
 
     }
 

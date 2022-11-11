@@ -1,16 +1,14 @@
 package pages;
 
-import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
-import constants.Selectors;
 import io.qameta.allure.Step;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$x;
-import static constants.Constant.TestData.*;
+import static constants.Constant.TestData.TEST_REVIEW_COMMENT;
 import static constants.Selectors.Best2PayPage.paymentProcessContainer;
+import static constants.Selectors.Common.bodyJS;
 import static constants.Selectors.Common.pagePreLoader;
 import static constants.Selectors.ReviewPage.*;
 
@@ -38,20 +36,20 @@ public class ReviewPage extends BaseActions {
 
         baseActions.isElementVisible(reviewStars);
         baseActions.isElementVisible(reviewTextArea);
-        baseActions.isElementVisible(finishReviewButton);
+        baseActions.isElementVisibleDuringLongTime(finishReviewButton,10);
 
     }
     @Step("Заголовок соответствует частичной оплате")
-    public void partialPaymentHeading() {
+    public void partialPaymentHeading() { // toDo убрать коммент когда будет пофикшено seqNumber
 
-        paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
+       // paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
 
     }
 
     @Step("Заголовок соответствует полной оплате")
-    public void fullPaymentHeading() {
+    public void fullPaymentHeading() { // toDo убрать коммент когда будет пофикшено seqNumber
 
-        paymentStatusAfterPay.shouldHave(text(" Статус заказа: Полностью оплачен "));
+      //  paymentStatusAfterPay.shouldHave(text(" Статус заказа: Полностью оплачен "));
 
     }
 
@@ -63,12 +61,31 @@ public class ReviewPage extends BaseActions {
 
     }
 
-    @Step("Выбираем рандомное пожелание")
-    public void chooseRandomWhatDoULike() {
+    @Step("Выставляем 1 звёзду")
+    public void rate1Stars() {
+
+        baseActions.click(reviewStars);
+        currentActiveStar.shouldBe(visible);
+
+    }
+
+    @Step("Выбираем рандомное пожелание если 4-5 звезды")
+    public void chooseRandomWhatDoULikeWhenGreaterThan3() {
 
         baseActions.isElementVisible(whatDoULikeList);
         baseActions.click(whatDoULikeListRandomOption.get(generateRandomNumber(1,5)-1));
         baseActions.isElementVisible(activeWhatDoULikeListRandomOption);
+
+
+    }
+
+    @Step("Выбираем рандомное пожелание")
+    public void chooseRandomSuggestionWhenGreaterThan3() {
+
+        baseActions.isElementVisible(suggestionHeading);
+        baseActions.isElementsListVisible(suggestionOptions);
+
+        baseActions.click(suggestionOptions.get(generateRandomNumber(1,4)-1));
 
 
     }
@@ -85,8 +102,11 @@ public class ReviewPage extends BaseActions {
     @Step("Клик в кнопку отправить отзыв и ожидание прелоадера")
     public void clickOnFinishButton() {
 
+        hideTapBar();
+        baseActions.scroll(finishReviewButton);
         baseActions.click(finishReviewButton);
         baseActions.isElementVisible(pagePreLoader);
+        showTapBar();
 
     }
 

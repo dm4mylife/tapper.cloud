@@ -2,15 +2,16 @@ package pages;
 
 import com.codeborne.selenide.Condition;
 import common.BaseActions;
-import constants.Selectors;
 import io.qameta.allure.Step;
-import org.junit.Assert;
+
+
+import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
 
 import static constants.Constant.TestData.*;
 import static constants.Selectors.Best2PayPage.*;
-import static constants.Selectors.RootPage.TipsAndCheck.totalPay;
+
 
 
 public class Best2PayPage extends BaseActions {
@@ -30,8 +31,9 @@ public class Best2PayPage extends BaseActions {
     @Step("Проверка попапа ВПН и что форма оплаты появилась")
     public void isPaymentContainerAndVpnShown() {
 
-        isVpnPopUpShown();
         baseActions.isElementVisibleDuringLongTime(paymentContainer,10);
+        isVpnPopUpShown();
+
     }
 
     @Step("Проверка что доступны 3 способа оплаты")
@@ -56,8 +58,8 @@ public class Best2PayPage extends BaseActions {
 
     }
 
-    @Step("Ввод CVC")
-    public void typeCVС() {
+    @Step("Ввод CVV")
+    public void typeCVV() {
         baseActions.sendHumanKeys(cvv,TEST_PAYMENT_CARD_CVV);
     }
 
@@ -75,9 +77,8 @@ public class Best2PayPage extends BaseActions {
     public void isTotalPayInTapperMatchTotalPayB2B(double totalPayTapper) {
 
         double totalPayB2BDouble = baseActions.convertSelectorTextIntoDoubleByRgx(totalPayB2B,"\\s");
-        System.out.println(totalPayB2BDouble + " total b2b");
 
-        Assert.assertEquals(totalPayTapper,totalPayB2BDouble, 0.01);
+        Assertions.assertEquals(totalPayTapper,totalPayB2BDouble, 0.01);
         System.out.println("Сумма в тапере " + totalPayTapper + " сходится с суммой в эквайринге " + totalPayB2BDouble);
 
     }
