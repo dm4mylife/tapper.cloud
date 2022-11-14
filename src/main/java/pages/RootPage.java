@@ -4,6 +4,7 @@ import com.codeborne.selenide.*;
 import common.BaseActions;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
+import io.qameta.allure.Flaky;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.selenide.LogType;
@@ -858,10 +859,13 @@ public class RootPage extends BaseActions {
 
     }
 
+    @Flaky
     @Step("Проверка кнопки поделиться счётом, кнопка отображается и вызывает меню шаринга")
-    public void isShareButtonShown() {
+    public void isShareButtonShown() { // toDo какая-то беда с этим navigator.share(). тест то падает, то нет, будет пока флаки
 
         baseActions.isElementVisibleAndClickable(shareButton);
+
+        baseActions.forceWait(2000L);
 
         boolean isShareActive = Boolean.TRUE.equals(Selenide.executeJavaScript(isShareButtonCorrect));
 
