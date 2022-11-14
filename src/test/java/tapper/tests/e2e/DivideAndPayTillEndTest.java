@@ -17,14 +17,14 @@ import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static constants.Constant.ApiData.*;
-import static constants.Constant.ApiData.WAITER_ROBOCOP;
-import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
-import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
+import static api.ApiData.orderData.*;
+import static api.ApiData.orderData.WAITER_ROBOCOP;
+import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static constants.Constant.TestData.*;
 
 
-@Order(7)
+@Order(8)
 @Epic("E2E - тесты (полные)")
 @Feature("keeper - оплата, разделяя счёт по позиции до самого конца - рандомные поз без скидки - чай+сбор - карта")
 @DisplayName("keeper - оплата, разделяя счёт по позиции до самого конца - рандомные поз без скидки - чай+сбор - карта")

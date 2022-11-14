@@ -17,17 +17,19 @@ import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.$$;
-import static constants.Constant.ApiData.*;
-import static constants.Constant.ApiData.WAITER_ROBOCOP;
-import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
-import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
+import static api.ApiData.orderData.*;
+import static api.ApiData.orderData.WAITER_ROBOCOP;
+import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static constants.Constant.TestData.IPHONE12PRO;
 import static constants.Constant.TestData.STAGE_RKEEPER_URL;
 
 
-@Order(3)
+@Order(6)
 @Epic("E2E - тесты (полные)")
 @Feature("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор - карта - отзыв")
 @DisplayName("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор - карта - отзыв")
@@ -60,12 +62,12 @@ public class DivideCheckAndPartPayTest extends BaseTest {
 
     @Test
     @Order(2)
-    @Step("Проверям работу всех активных элементов на странице")
-    @DisplayName("Проверям работу всех активных элементов на странице")
+    @Step("Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
+    @DisplayName("Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
     public void openAndCheck() {
 
-        Configuration.browserSize = IPHONE12PRO;
         rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
         rootPageNestedTests.checkAllElementsAreVisibleAndActive();
 
     }
@@ -78,7 +80,7 @@ public class DivideCheckAndPartPayTest extends BaseTest {
 
         rootPageNestedTests.chooseDishesWithRandomAmountAndCheckAllSumsConditions(1);
 
-        ArrayList<String> chosenDishes = rootPage.countDisabledDishesAndSetCollection();
+        HashMap<Integer, Map<String,Double>> chosenDishes = rootPage.countDisabledDishesAndSetCollection();
 
         rootPageNestedTests.clearDataAndCheckDisabledDishes(chosenDishes);
 
@@ -127,6 +129,14 @@ public class DivideCheckAndPartPayTest extends BaseTest {
 
     }
 
+    @Test
+    @Order(8)
+    @Step("Закрываем заказ, очищаем кассу")
+    @DisplayName("Закрываем заказ, очищаем кассу")
+    public void closeOrder() {
 
+        rootPageNestedTests.closeOrder();
+
+    }
 
 }

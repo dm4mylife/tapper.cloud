@@ -6,12 +6,18 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
+import io.qameta.allure.selenide.LogType;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.logging.LoggingPreferences;
 
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
 
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.JSScripts.isShareButtonCorrect;
@@ -29,6 +35,92 @@ import static constants.Selectors.RootPage.TipsAndCheck.*;
 public class RootPage extends BaseActions {
 
     BaseActions baseActions = new BaseActions();
+
+
+    @Step("Сбор всех блюд со страницы таппера и проверка с блюдами на кассе")
+    public void matchTapperOrderWithOrderInKeeeper(HashMap<Integer, Map<String,Double>> allDishesInfoFromKeeper) {
+
+        HashMap<Integer, Map<String,Double>> tapperDishes = new HashMap<>();
+        int i = 0;
+
+        for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
+
+            Map<String,Double> temporaryMap = new HashMap<>();
+
+            String name = element.$(".dish__checkbox-text").getText() ;
+            double price = baseActions.convertSelectorTextIntoDoubleByRgx(element.$(".sum"),"\\s₽");
+
+            temporaryMap.put(name,price);
+            tapperDishes.put(i,temporaryMap);
+
+            i++;
+
+        }
+
+        System.out.println(tapperDishes);
+        System.out.println(allDishesInfoFromKeeper);
+        Assertions.assertEquals(allDishesInfoFromKeeper,tapperDishes," не совпадает список в заказе");
+        System.out.println("Позиции и суммы на кассе полностью совпадают с тем что на столе таппера");
+
+    }
+
+    @Step("Получаем информацию о заказе с кассы")
+    public HashMap<Integer, Map<String,Double>> getOrderInfoFromKeeperAndConvToHashMap(Response rs) {
+
+        System.out.println(rs);
+        HashMap<Integer, Map<String,Double>> allDishesInfo = new HashMap<>();
+
+        int i = 0;
+
+        for (; i < rs.jsonPath().getList("result.ordersElementAll").size(); i++ ) {
+
+            Map<String,Double> temporaryMap = new HashMap<>();
+
+            String name = rs.jsonPath().getString("result.ordersElementAll[" + i + "].name");
+            double priceStringJSON = rs.jsonPath().getDouble("result.ordersElementAll[" + i + "].price");
+
+            double priceDouble = baseActions.convertDouble(priceStringJSON);
+            priceDouble = priceDouble / 100;
+
+
+            temporaryMap.put(name,priceDouble);
+            allDishesInfo.put(i,temporaryMap);
+
+        }
+
+        return allDishesInfo;
+
+    }
+
+    public String getCookieSession() {
+
+        String js = """
+                function getCookie(name) {
+                  const value = `; ${document.cookie}`;
+                  const parts = value.split(`; ${name}=`);
+                        if (parts.length === 2) return parts.pop().split(';').shift();
+                }; return getCookie("session")""";
+
+       return Selenide.executeJavaScript(js);
+
+    }
+
+    public String getCookieGuest() {
+
+        String js = """
+                function getCookie(name) {
+                  const value = `; ${document.cookie}`;
+                  const parts = value.split(`; ${name}=`);
+                        if (parts.length === 2) return parts.pop().split(';').shift();
+                }; return getCookie("guest")""";
+
+        return Selenide.executeJavaScript(js);
+
+    }
+
+
+
+
 
     @Step("Переход на страницу {url}")
     public void openTapperLink(String url) {
@@ -102,6 +194,7 @@ public class RootPage extends BaseActions {
     @Step("Меню корректно отображается")
     public void isDishListNotEmptyAndVisible() {
         dishListContainerWithDishes.shouldBe(visible, Duration.ofSeconds(30));
+
     }
 
     public void isTipsDisabledInAdmin() {
@@ -143,7 +236,7 @@ public class RootPage extends BaseActions {
         Selenide.clearBrowserCookies();
         Selenide.clearBrowserLocalStorage();
         Selenide.refresh();
-        baseActions.forceWait(1000L); // иначе никак 422
+        baseActions.forceWait(3000L); // toDo принудительно ждём, т.к. ошибка 422, вероятно сокет не успевает
 
     }
 
@@ -321,7 +414,7 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Проверям что разные проценты чаевых рассчитываются корректно во всех полях и в суммах вместе с СБ не разделяя счёт")
-    public void isAllTipsOptionsAreCorrectWithTotalSumAndSC(double totalSum) { //toDo вывести логи сумм в шаги, в текстовый вид отчёта. Переработать вывод
+    public void isAllTipsOptionsAreCorrectWithTotalSumAndSC(double totalSum) {
         checkAllTipsOptions(totalSum);
     }
 
@@ -546,35 +639,57 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Забираем коллекцию заблокированных позиций в заказе для следующего теста")
-    public ArrayList<String> countDisabledDishesAndSetCollection() {
+    public HashMap<Integer, Map<String,Double>> countDisabledDishesAndSetCollection() {
 
-        ArrayList<String> chosenDishes = new ArrayList<>();
+
+        HashMap<Integer, Map<String,Double>> tapperDishes = new HashMap<>();
+        int i = 0;
 
         for (SelenideElement element : nonPaidDishesWhenDivided) {
 
+            Map<String,Double> temporaryMap = new HashMap<>();
+
             if (!element.$("input+span").getCssValue("background-image").equals("none")) {
 
-                chosenDishes.add(element.$(".dish__checkbox-text").getText());
+                String name = element.$(".dish__checkbox-text").getText() ;
+                double price = baseActions.convertSelectorTextIntoDoubleByRgx(element.$(".sum"),"\\s₽");
 
+                temporaryMap.put(name,price);
+                tapperDishes.put(i,temporaryMap);
+
+                i++;
             }
 
         }
 
-        return chosenDishes;
+        return tapperDishes;
 
     }
 
     @Step("Проверяем что блюда, которые выбраны ранее, в статусе 'Ожидается'")
-    public void dishesAreDisabledInDishList(ArrayList<String> chosenDishes) {
+    public void dishesAreDisabledInDishList(HashMap<Integer, Map<String,Double>> chosenDishes) {
 
         int successAmount = 0;
         System.out.println(disabledDishes.size() + " disabled dishes size");
+
+
+
+
+
+
 
         for ( int i = 0; i < chosenDishes.size(); i++) {
 
             for (int k = 0; k < disabledDishes.size(); k++) {
 
-                if(disabledDishes.get(i).$(".dish__checkbox-text").getText().equals(chosenDishes.get(k))) {
+                String dishNameInCurrentDividedMenu = disabledDishes.get(i).$(".dish__checkbox-text").getText();
+                System.out.println(dishNameInCurrentDividedMenu);
+                boolean isDishNameSameAsDividedEarlier = chosenDishes.get(k).containsKey(dishNameInCurrentDividedMenu);
+                System.out.println(isDishNameSameAsDividedEarlier);
+
+                if(isDishNameSameAsDividedEarlier) {
+
+                    System.out.println("work match");
                     /* System.out.println(disabledSharedDishes.get(i).$(".dish__checkbox-text").getText());
                     System.out.println(chosenDishes.get(k)); */
                     successAmount++;

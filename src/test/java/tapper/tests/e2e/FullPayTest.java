@@ -4,10 +4,12 @@ package tapper.tests.e2e;
 import api.ApiRKeeper;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.Cookie;
 import pages.*;
 
 import io.qameta.allure.Epic;
@@ -19,10 +21,12 @@ import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static constants.Constant.ApiData.*;
-import static constants.Constant.ApiData.WAITER_ROBOCOP;
-import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
-import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
+import java.util.Set;
+
+import static api.ApiData.orderData.*;
+import static api.ApiData.orderData.WAITER_ROBOCOP;
+import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static constants.Constant.TestData.IPHONE12PRO;
 import static constants.Constant.TestData.STAGE_RKEEPER_URL;
 
@@ -55,17 +59,20 @@ public class FullPayTest extends BaseTest {
         String visit = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT,TABLE_3, WAITER_ROBOCOP));
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"10000"));
 
+
+
     }
 
     @Test
     @Order(2)
-    @Step("Проверка всех элементов")
-    @DisplayName("Проверка всех элементов")
+    @Step("Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
+    @DisplayName("Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
     public void openAndCheck() {
 
-        Configuration.browserSize = IPHONE12PRO;
         rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
         rootPageNestedTests.checkAllElementsAreVisibleAndActive();
+
     }
 
     @Test

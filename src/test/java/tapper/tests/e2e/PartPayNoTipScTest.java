@@ -16,15 +16,15 @@ import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static constants.Constant.ApiData.*;
-import static constants.Constant.ApiData.WAITER_ROBOCOP;
-import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
-import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
+import static api.ApiData.orderData.*;
+import static api.ApiData.orderData.WAITER_ROBOCOP;
+import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static constants.Constant.TestData.IPHONE12PRO;
 import static constants.Constant.TestData.STAGE_RKEEPER_URL;
 
 
-@Order(5)
+@Order(3)
 @Epic("E2E - тесты (полные)")
 @Feature("keeper - частичная оплата - рандомные поз без скидки - без чая, с сб - карта - отзыв")
 @DisplayName("keeper - частичная оплата - рандомные поз без скидки - без чая, с сб - карта - отзыв")
@@ -56,12 +56,12 @@ public class PartPayNoTipScTest extends BaseTest {
 
     @Test
     @Order(2)
-    @Step("Проверям работу всех активных элементов на странице")
-    @DisplayName("Проверям работу всех активных элементов на странице")
+    @Step("Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
+    @DisplayName("Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
     public void openAndCheck() {
 
-        Configuration.browserSize = IPHONE12PRO;
         rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
         rootPageNestedTests.checkAllElementsAreVisibleAndActive();
 
     }
@@ -110,6 +110,15 @@ public class PartPayNoTipScTest extends BaseTest {
 
     }
 
+    @Test
+    @Order(7)
+    @Step("Закрываем заказ, очищаем кассу")
+    @DisplayName("Закрываем заказ, очищаем кассу")
+    public void closeOrder() {
+
+        rootPageNestedTests.closeOrder();
+
+    }
 
 
 }

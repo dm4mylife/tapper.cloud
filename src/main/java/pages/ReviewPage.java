@@ -40,16 +40,16 @@ public class ReviewPage extends BaseActions {
 
     }
     @Step("Заголовок соответствует частичной оплате")
-    public void partialPaymentHeading() { // toDo убрать коммент когда будет пофикшено seqNumber
+    public void partialPaymentHeading() {
 
-       // paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
+       paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
 
     }
 
     @Step("Заголовок соответствует полной оплате")
-    public void fullPaymentHeading() { // toDo убрать коммент когда будет пофикшено seqNumber
+    public void fullPaymentHeading() {
 
-      //  paymentStatusAfterPay.shouldHave(text(" Статус заказа: Полностью оплачен "));
+        paymentStatusAfterPay.shouldHave(text(" Статус заказа: Полностью оплачен "));
 
     }
 

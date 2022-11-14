@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.e2e.FullPaymentTest
--------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 41.63 s - in tapper.tests.e2e.FullPaymentTest

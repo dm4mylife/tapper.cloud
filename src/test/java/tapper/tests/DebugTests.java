@@ -2,6 +2,7 @@ package tapper.tests;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Selenide;
 import common.ConfigDriver;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
@@ -14,9 +15,6 @@ import tests.BaseTest;
 
 
 import static com.codeborne.selenide.Selenide.$;
-import static constants.Constant.ApiData.BARNOE_PIVO;
-import static constants.Constant.ApiData.R_KEEPER_RESTAURANT;
-import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
 
 @Disabled
 @Epic("Debug")
@@ -47,7 +45,20 @@ public class DebugTests extends BaseTest {
     public void test() {
 
 
+        int counter = 0;
 
+        rootPage.openTapperLink("https://tapper.cloud/nalubaloo/1001000");
+
+        while(counter < 200) {
+
+            System.out.println(counter);
+            Selenide.clearBrowserCookies();
+            Selenide.clearBrowserLocalStorage();
+            Selenide.refresh();
+
+
+            counter++;
+        }
 
 
 

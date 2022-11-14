@@ -15,10 +15,10 @@ import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static constants.Constant.ApiData.*;
-import static constants.Constant.ApiData.WAITER_ROBOCOP;
-import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
-import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
+import static api.ApiData.orderData.*;
+import static api.ApiData.orderData.WAITER_ROBOCOP;
+import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static constants.Constant.TestData.IPHONE12PRO;
 import static constants.Constant.TestData.STAGE_RKEEPER_URL;
 
@@ -51,15 +51,14 @@ public class PartPayTipSCTest extends BaseTest {
 
     }
 
-
     @Test
     @Order(2)
-    @Step("Проверка всех элементов")
-    @DisplayName("Проверка всех элементов")
+    @Step("Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
+    @DisplayName("Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
     public void openAndCheck() {
 
-        Configuration.browserSize = IPHONE12PRO;
         rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
         rootPageNestedTests.checkAllElementsAreVisibleAndActive();
 
     }
@@ -106,6 +105,19 @@ public class PartPayTipSCTest extends BaseTest {
         reviewPageNestedTests.reviewCorrectPositive();
 
     }
+
+    @Test
+    @Order(7)
+    @Step("Закрываем заказ, очищаем кассу")
+    @DisplayName("Закрываем заказ, очищаем кассу")
+    public void closeOrder() {
+
+        rootPageNestedTests.closeOrder();
+
+    }
+
+
+
 
 
 

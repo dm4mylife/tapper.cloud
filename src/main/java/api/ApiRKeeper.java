@@ -6,10 +6,8 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static api.EndPoints.*;
+import static api.ApiData.*;
+import static api.ApiData.EndPoints.orderGet;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.API_TEST_URI;
 import static io.restassured.RestAssured.given;
@@ -17,11 +15,28 @@ import static io.restassured.RestAssured.given;
 public class ApiRKeeper {
 
 
+    @Step("Получаем информацию по заказу")
+    public Response getOrder(String requestBody) {
 
-    /* RestAssuredConfig config = RestAssured.config()
-            .httpClient(HttpClientConfig.httpClientConfig()
-                    .setParam(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000)
-                    .setParam(CoreConnectionPNames.SO_TIMEOUT, 10000)); */
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .body(requestBody)
+                .baseUri(API_STAGE_URI)
+                .when()
+                .post(orderGet)
+                .then()
+                .log().status()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        System.out.println(response.getTime() / 1000 + "sec response time");
+
+        return response;
+    }
+
+
 
         @Step("Создание заказа")
         public String createOrder(String requestBody) {
@@ -33,16 +48,14 @@ public class ApiRKeeper {
                     .body(requestBody)
                     .baseUri(API_STAGE_URI)
                     .when()
-                    .post(createOrder)
+                    .post(EndPoints.createOrder)
                     .then()
                     .log().status()
                     .statusCode(200)
                     .extract()
                     .response();
 
-
             System.out.println(response.getTime() / 1000 + "sec response time");
-
             Assertions.assertTrue(response.jsonPath().getBoolean("success"));
 
             return response.jsonPath().getString("result.visit");
@@ -59,7 +72,7 @@ public class ApiRKeeper {
                     .body(requestBody)
                     .baseUri(API_STAGE_URI)
                     .when()
-                    .post(fillingOrder)
+                    .post(EndPoints.fillingOrder)
                     .then()
                     .log().status()
                     .statusCode(200)
@@ -72,13 +85,8 @@ public class ApiRKeeper {
             Assertions.assertNotEquals(null,response.jsonPath().getMap("result"));
             Assertions.assertNull(response.jsonPath().getString("result.Error"));
             Assertions.assertNull(response.jsonPath().getString("result.Errors"));
+
         }
-
-
-
-
-
-
 
 
         public void deleteOrderEmpty(String visitId) {
@@ -94,7 +102,7 @@ public class ApiRKeeper {
                     .body(requestBody)
                     .baseUri(API_TEST_URI)
                     .when()
-                    .post(deleteOrder)
+                    .post(EndPoints.deleteOrder)
                     .then()
                     .statusCode(200)
                     .log().all()

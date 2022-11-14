@@ -1,13 +1,20 @@
 package pages.nestedTestsManager;
 
+import api.ApiRKeeper;
 import com.codeborne.selenide.CollectionCondition;
 import io.qameta.allure.*;
+import io.restassured.response.Response;
 import pages.Best2PayPage;
 import pages.ReviewPage;
 import pages.RootPage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import static api.ApiData.QueryParams.rqParamsOrderGet;
+import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
+import static api.ApiData.orderData.TABLE_3_ID;
 import static constants.Selectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
 import static constants.Selectors.RootPage.DishList.disabledDishes;
 
@@ -19,6 +26,27 @@ public class RootPageNestedTests extends RootPage {
     ReviewPage reviewPage = new ReviewPage();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
+    ApiRKeeper apiRKeeper = new ApiRKeeper();
+
+
+    @Step("Проверка что меню на кассе одинаково с меню в таппере")
+    public void isOrderInKeeperCorrectWithTapper() {
+
+        forceWait(2500L); // toDO не успевают ранее скрипты загрузиться для executeJavascript
+
+        HashMap<String,String> cookie = getCookieSessionAndGuest();
+
+        Response rs =
+                apiRKeeper.getOrder(rqParamsOrderGet(TABLE_3_ID, R_KEEPER_RESTAURANT,
+                        cookie.get("guest"), cookie.get("session") ));
+
+        HashMap<Integer, Map<String, Double>> orderInKeeper = getOrderInfoFromKeeperAndConvToHashMap(rs);
+
+        isDishListNotEmptyAndVisible();
+        matchTapperOrderWithOrderInKeeeper(orderInKeeper);
+
+    }
+
 
     @Step("Загрузочный экран, заказ, блок чаевых и итого к оплате, кнопки, нижнее меню")
     public void checkAllElementsAreVisibleAndActive() {
@@ -134,11 +162,24 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Забираем из кук session и guest")
+    public HashMap<String,String> getCookieSessionAndGuest() {
+
+        String guest = getCookieGuest();
+        String session = getCookieSession();
+
+        HashMap<String,String> cookie = new HashMap<>();
+        cookie.put("guest",guest);
+        cookie.put("session",session);
+
+        return cookie;
+
+    }
 
 
     @Step("Очищаем все данные, рефрешим, передаём список ранее выбранных блюд, " +
             "проверяем что выбранные блюда в статусе ожидаются после разделения чека")
-    public void clearDataAndCheckDisabledDishes(ArrayList<String> chosenDishes) {
+    public void clearDataAndCheckDisabledDishes(HashMap<Integer, Map<String,Double>> chosenDishes) {
 
         clearAllSiteData();
 
@@ -279,6 +320,22 @@ public class RootPageNestedTests extends RootPage {
 
         best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
         best2PayPage.clickPayButton();
+
+    }
+
+
+    @Step("Закрываем заказ полностью") // toDo костыльное решение по закрытию заказа пока пишется api
+    public void closeOrder() {
+
+
+        double totalPay = saveTotalPayForMatchWithAcquiring();
+        clickPayment();
+
+        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
+        best2PayPage.clickPayButton();
+
+        reviewPageNestedTests.fullPaymentCorrect();
+        reviewPage.clickOnFinishButton();
 
     }
 
