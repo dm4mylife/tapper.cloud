@@ -13,9 +13,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    
+
   build:
     runs-on: ubuntu-latest
     steps:
