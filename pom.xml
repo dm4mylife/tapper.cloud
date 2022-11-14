@@ -179,7 +179,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
-
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.4/aspectjweaver-1.9.4.jar"
                     </argLine>

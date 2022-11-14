@@ -6,6 +6,9 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static api.EndPoints.*;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.API_TEST_URI;
@@ -21,14 +24,8 @@ public class ApiRKeeper {
                     .setParam(CoreConnectionPNames.SO_TIMEOUT, 10000)); */
 
         @Step("Создание заказа")
-        public String createOrder() {
+        public String createOrder(String requestBody) {
 
-            String requestBody = "{\n" +
-                    "  \"subDomen\": \"testrkeeper\",\n" +
-                    "  \"tableCode\": 12,\n" +
-                    "  \"waiterCode\": 23,\n" +
-                    "  \"persistentComment\": 100500\n" +
-                    "}";
 
             Response response = given()
                     .contentType(ContentType.JSON)
@@ -42,6 +39,7 @@ public class ApiRKeeper {
                     .statusCode(200)
                     .extract()
                     .response();
+
 
             System.out.println(response.getTime() / 1000 + "sec response time");
 

@@ -7,8 +7,9 @@ import pages.Best2PayPage;
 import pages.RootPage;
 
 import static com.codeborne.selenide.Selenide.$;
-import static constants.Constant.ApiData.R_KEEPER_RESTAURANT;
-import static constants.Constant.RequestBody.rqBodyFillingOrder;
+import static constants.Constant.ApiData.*;
+import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
+import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
 
 
 @Disabled
@@ -33,14 +34,14 @@ public class APIDebugTests extends BaseActions {
     public void lazyCreateOrderAndFill() {
 
         System.out.println("create order");
-        String visit = apiRKeeper.createOrder();
+        String visit = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT,TABLE_3, WAITER_ROBOCOP));
 
         System.out.println("\nfilling order 1");
-        apiRKeeper.fillingOrder(rqBodyFillingOrder(R_KEEPER_RESTAURANT,visit,"1000303","3000"));
-         System.out.println("\nfilling order 2");
-      //  apiRKeeper.fillingOrder(rqBodyFillingOrder("testrkeeper",visit,"1000264","3000"));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"3000"));
+        System.out.println("\nfilling order 2");
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT,visit,GLAZUNYA,"3000"));
         System.out.println("\nfilling order 3");
-       // apiRKeeper.fillingOrder(rqBodyFillingOrder("testrkeeper",visit,"1000263","3000"));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT,visit,SOLYANKA,"3000"));
 
     }
 

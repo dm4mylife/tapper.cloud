@@ -202,6 +202,17 @@ public class RootPage extends BaseActions {
 
     }
 
+    @Step("Выставляем чаевые на 0 и деактивируем СБ")
+    public void cancelTipsAndDisableSC(double cleanTotalSum) {
+
+        setTipsToZero(cleanTotalSum);
+        disableServiceChargeIfActivated();
+
+
+    }
+
+
+
 
     @Step("Выставляем чаевые на 0, проверяем что кнопка активна и суммы пересчитались")
     public void setTipsToZero(double totalSum) {
@@ -812,6 +823,9 @@ public class RootPage extends BaseActions {
         }
 
     }
+
+
+
 
     @Step("Сохранение общей суммы в таппере для передачи в другой тест")
     public double saveTotalPayForMatchWithAcquiring() {

@@ -2,9 +2,6 @@ package tapper.tests;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.As;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import common.ConfigDriver;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
@@ -19,8 +16,7 @@ import tests.BaseTest;
 import static com.codeborne.selenide.Selenide.$;
 import static constants.Constant.ApiData.BARNOE_PIVO;
 import static constants.Constant.ApiData.R_KEEPER_RESTAURANT;
-import static constants.Constant.RequestBody.rqBodyFillingOrder;
-import static constants.Constant.TestData.*;
+import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
 
 @Disabled
 @Epic("Debug")
@@ -50,9 +46,6 @@ public class DebugTests extends BaseTest {
     @DisplayName("Debugging")
     public void test() {
 
-
-        String visit = apiRKeeper.createOrder();
-        apiRKeeper.fillingOrder(rqBodyFillingOrder(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"3000"));
 
 
 

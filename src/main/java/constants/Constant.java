@@ -1,5 +1,8 @@
 package constants;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonParser;
+
 public class Constant {
 
     public static class TestData {
@@ -54,18 +57,41 @@ public class Constant {
 
     }
 
-    public static class RequestBody {
+    public static class QueryParams {
 
-        public static String rqBodyFillingOrder(String subDomen, String visit, String dishId, String quantity) {
+        public static String rqParamsCreateOrderBasic(String subDomen, String tableCode, String waiterCode) {
+
+
+
 
             return "{\n" +
-           "  \"subDomen\": \"" + subDomen + "\",\n" +
-           "  \"quantity\": " + quantity + ",\n" +
-           "  \"visit\": \"" + visit + "\",\n" +
-           "  \"dishId\": \"" + dishId + "\"\n" +
-           "}";
+                    "  \"subDomen\": \"" + subDomen + "\",\n" +
+                    "  \"tableCode\": " + tableCode + ",\n" +
+                    "  \"waiterCode\": \"" + waiterCode + "\",\n" +
+                    "  \"persistentComment\": 100500\n" +
+                    "}";
+
 
         }
+
+
+        public static String rqParamsFillingOrderBasic(String subDomen, String visit, String dishId, String quantity) {
+
+            return "{\n" +
+                   "  \"subDomen\": \"" + subDomen + "\",\n" +
+                   "  \"quantity\": " + quantity + ",\n" +
+                   "  \"visit\": \"" + visit + "\",\n" +
+                   "  \"dishId\": \"" + dishId + "\"\n" +
+                   "}";
+
+
+
+
+        }
+
+
+
+
 
 
 
@@ -79,7 +105,11 @@ public class Constant {
 
 
         public static final String R_KEEPER_RESTAURANT = "testrkeeper";
+        public static final String TABLE_3 = "12";
+        public static final String WAITER_ROBOCOP = "23";
         public static final String BARNOE_PIVO = "1000303";
+        public static final String GLAZUNYA = "1000263";
+        public static final String SOLYANKA = "1000176";
 
     }
 

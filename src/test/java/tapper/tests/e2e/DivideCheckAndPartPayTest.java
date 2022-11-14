@@ -3,13 +3,11 @@ package tapper.tests.e2e;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.junit5.ScreenShooterExtension;
-import com.codeborne.selenide.junit5.TextReportExtension;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import pages.Best2PayPage;
 import pages.ReviewPage;
 import pages.RootPage;
@@ -18,20 +16,26 @@ import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static constants.Constant.ApiData.BARNOE_PIVO;
-import static constants.Constant.ApiData.R_KEEPER_RESTAURANT;
-import static constants.Constant.RequestBody.rqBodyFillingOrder;
+import java.util.ArrayList;
+
+import static com.codeborne.selenide.Selenide.$$;
+import static constants.Constant.ApiData.*;
+import static constants.Constant.ApiData.WAITER_ROBOCOP;
+import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
+import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
 import static constants.Constant.TestData.IPHONE12PRO;
 import static constants.Constant.TestData.STAGE_RKEEPER_URL;
 
 
-@Order(2)
+@Order(3)
 @Epic("E2E - тесты (полные)")
-@Feature("keeper - частичная оплата - рандом поз без скидки - чай+сбор - карта - отзыв")
-@DisplayName("keeper - частичная оплата - рандом поз без скидки - чай+сбор - карта - отзыв")
+@Feature("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор - карта - отзыв")
+@DisplayName("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор - карта - отзыв")
+
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class PartialPaymentTest extends BaseTest {
+public class DivideCheckAndPartPayTest extends BaseTest {
 
     RootPage rootPage = new RootPage();
     Best2PayPage best2PayPage = new Best2PayPage();
@@ -46,18 +50,18 @@ public class PartialPaymentTest extends BaseTest {
     @Order(1)
     @Step("Создание заказа в r_keeper")
     @DisplayName("Создание заказа в r_keeper")
+    @Description("Ресторан {R_KEEPER_RESTAURANT} - блюдо - {BARNOE_PIVO}")
     public void createAndFillOrder() {
 
-        String visit = apiRKeeper.createOrder();
-        apiRKeeper.fillingOrder(rqBodyFillingOrder(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"3000"));
+        String visit = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT,TABLE_3, WAITER_ROBOCOP));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"3000"));
 
     }
 
-
     @Test
     @Order(2)
-    @Step("Проверка всех элементов")
-    @DisplayName("Проверка всех элементов")
+    @Step("Проверям работу всех активных элементов на странице")
+    @DisplayName("Проверям работу всех активных элементов на странице")
     public void openAndCheck() {
 
         Configuration.browserSize = IPHONE12PRO;
@@ -68,16 +72,31 @@ public class PartialPaymentTest extends BaseTest {
 
     @Test
     @Order(3)
-    @Step("Выбираем рандомно блюда, проверяем все суммы и условия, оплачиваем")
-    @DisplayName("Выбираем рандомно блюда, проверяем все суммы и условия, оплачиваем")
-    public void checkSumTipsSC() {
+    @Step("Выбираем рандомно блюда, проверяем все суммы и условия, проверяем что после шаринга выбранные позиции в ожидаются")
+    @DisplayName("Выбираем рандомно блюда, проверяем все суммы и условия, проверяем что после шаринга выбранные позиции в ожидаются")
+    public void chooseDishesAndCheckAfterDivided() {
 
         rootPageNestedTests.chooseDishesWithRandomAmountAndCheckAllSumsConditions(1);
+
+        ArrayList<String> chosenDishes = rootPage.countDisabledDishesAndSetCollection();
+
+        rootPageNestedTests.clearDataAndCheckDisabledDishes(chosenDishes);
 
     }
 
     @Test
     @Order(4)
+    @Step("Выбираем рандомно оставшиеся блюда для оплаты, проверяем все суммы, в том числе ожидаемых")
+    @DisplayName("Выбираем рандомно оставшиеся блюда для оплаты, проверяем все суммы, в том числе ожидаемых")
+    public void chooseDishesForPay() {
+
+        rootPageNestedTests.chooseDishesWithRandomAmountAndCheckAllSumsConditions(1);
+        rootPage.isAnotherGuestSumCorrect();
+
+    }
+
+    @Test
+    @Order(5)
     @Step("Переход на эквайринг, ввод данных, оплата")
     @DisplayName("Переход на эквайринг, ввод данных, оплата")
     public void payAndGoToAcquiring() {
@@ -90,17 +109,16 @@ public class PartialPaymentTest extends BaseTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     @Step("Проверка что оплата полностью корректна, все статусы о транзакции поочередно исполняются")
     @DisplayName("Проверка что оплата полностью корректна, все статусы о транзакции поочередно исполняются")
     public void paymentCorrect() {
 
         reviewPageNestedTests.partialPaymentCorrect();
-
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     @Step("Оставление 5 отзыва с рандомным пожеланием")
     @DisplayName("Оставление 5 отзыва с рандомным пожеланием")
     public void reviewCorrect() {

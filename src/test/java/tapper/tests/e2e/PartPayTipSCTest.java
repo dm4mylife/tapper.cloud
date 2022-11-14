@@ -2,42 +2,34 @@ package tapper.tests.e2e;
 
 
 import api.ApiRKeeper;
-
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.junit5.ScreenShooterExtension;
-import com.codeborne.selenide.junit5.TextReportExtension;
-import io.qameta.allure.*;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
-import pages.*;
-
 import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
 import pages.Best2PayPage;
+import pages.ReviewPage;
 import pages.RootPage;
 import pages.nestedTestsManager.Best2PayPageNestedTests;
 import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static constants.Constant.ApiData.BARNOE_PIVO;
-import static constants.Constant.ApiData.R_KEEPER_RESTAURANT;
-import static constants.Constant.RequestBody.rqBodyFillingOrder;
+import static constants.Constant.ApiData.*;
+import static constants.Constant.ApiData.WAITER_ROBOCOP;
+import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
+import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
 import static constants.Constant.TestData.IPHONE12PRO;
 import static constants.Constant.TestData.STAGE_RKEEPER_URL;
 
 
-@Order(1)
+@Order(2)
 @Epic("E2E - тесты (полные)")
-@Feature("keeper - полная оплата - поз без скидки - чай+сбор - карта - отзыв")
-@DisplayName("keeper - полная оплата - поз без скидки - чай+сбор - карта - отзыв")
-
-
+@Feature("keeper - частичная оплата - рандом поз без скидки - чай+сбор - карта - отзыв")
+@DisplayName("keeper - частичная оплата - рандом поз без скидки - чай+сбор - карта - отзыв")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class FullPaymentTest extends BaseTest {
+public class PartPayTipSCTest extends BaseTest {
 
     RootPage rootPage = new RootPage();
     Best2PayPage best2PayPage = new Best2PayPage();
@@ -54,10 +46,11 @@ public class FullPaymentTest extends BaseTest {
     @DisplayName("Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        String visit = apiRKeeper.createOrder();
-        apiRKeeper.fillingOrder(rqBodyFillingOrder(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"10000"));
+        String visit = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT,TABLE_3, WAITER_ROBOCOP));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"3000"));
 
     }
+
 
     @Test
     @Order(2)
@@ -68,15 +61,16 @@ public class FullPaymentTest extends BaseTest {
         Configuration.browserSize = IPHONE12PRO;
         rootPage.openTapperLink(STAGE_RKEEPER_URL);
         rootPageNestedTests.checkAllElementsAreVisibleAndActive();
+
     }
 
     @Test
     @Order(3)
-    @Step("Проверка суммы, чаевых, сервисного сбора, оплачиваем все позиции")
-    @DisplayName("Проверка суммы, чаевых, сервисного сбора, оплачиваем все позиции")
+    @Step("Выбираем рандомно блюда, проверяем все суммы и условия, оплачиваем")
+    @DisplayName("Выбираем рандомно блюда, проверяем все суммы и условия, оплачиваем")
     public void checkSumTipsSC() {
 
-      rootPageNestedTests.checkAllDishesSumsWithAllConditions();
+        rootPageNestedTests.chooseDishesWithRandomAmountAndCheckAllSumsConditions(1);
 
     }
 
@@ -99,7 +93,7 @@ public class FullPaymentTest extends BaseTest {
     @DisplayName("Проверка что оплата полностью корректна, все статусы о транзакции поочередно исполняются")
     public void paymentCorrect() {
 
-        reviewPageNestedTests.fullPaymentCorrect();
+        reviewPageNestedTests.partialPaymentCorrect();
 
     }
 

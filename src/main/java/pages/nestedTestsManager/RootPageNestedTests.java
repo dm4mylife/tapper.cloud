@@ -107,7 +107,7 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, без чаевых но с СБ")
+    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, без чаевых, с сервисным сбором")
     public void chooseDishesWithRandomAmountNoTipsWithSC(int amountDishes) {
 
         chooseDishesWithRandomAmount(amountDishes);
@@ -115,8 +115,19 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, без чаевых, без сервисного сбора")
+    public void chooseDishesWithRandomAmountNoTipsNoSC(int amountDishes) {
+
+        chooseDishesWithRandomAmount(amountDishes);
+        checkChosenDishesSumsNoTipsNoSC();
+
+    }
+
+
+
+
     @Step("Выбираем все блюда, проверяем сумму, без чаевых но с СБ")
-    public void chooseAllDishesToPayNoTipsWithSC(int amountDishes) {
+    public void chooseAllDishesToPayNoTipsWithSC() {
 
         chooseAllNonPaidDishes();
         checkChosenDishesSumsNoTipsWithSC();
@@ -153,7 +164,7 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Проверям сумму всего не оплаченного заказа со всеми доп. условиями не разделяя чек")
+    @Step("Проверям сумму всего не оплаченного заказа. С чаевыми, с СБ")
     public void checkAllDishesSumsWithAllConditions() { //
 
         double cleanTotalSum = countAllNonPaidDishesInOrder();
@@ -169,7 +180,7 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Проверям сумму всего не оплаченного заказа со всеми доп. условиями не разделяя чек")
+    @Step("Проверям сумму выбранных позиций заказа. Без чаевых, с СБ")
     public void checkChosenDishesSumsNoTipsWithSC() { //
 
         double cleanTotalSum = countAllChosenDishes();
@@ -182,8 +193,22 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Проверям сумму выбранных позиций заказа. Без чаевых и СБ")
+    public void checkChosenDishesSumsNoTipsNoSC() { //
 
-    @Step("Проверям сумму не оплаченного заказа со всеми доп. условиями с разделенными позициями")
+        double cleanTotalSum = countAllChosenDishes();
+
+        cancelTipsAndDisableSC(cleanTotalSum);
+
+        isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
+
+        isSumInWalletMatchWithTotalPay();
+
+    }
+
+
+
+    @Step("Проверям сумму выбранных позиций заказа с разделенными позициями. Без чаевых, без СБ")
     public void checkChosenDishesSumsWithAllConditionsWhenDivided() { //
 
         double cleanTotalSum = countAllChosenDishes();

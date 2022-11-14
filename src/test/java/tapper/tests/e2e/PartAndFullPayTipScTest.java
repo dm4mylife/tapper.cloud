@@ -3,16 +3,8 @@ package tapper.tests.e2e;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.junit5.ScreenShooterExtension;
-import com.codeborne.selenide.junit5.TextReportExtension;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Step;
-import org.checkerframework.checker.units.qual.C;
+import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.chrome.ChromeOptions;
 import pages.Best2PayPage;
 import pages.ReviewPage;
 import pages.RootPage;
@@ -21,22 +13,20 @@ import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static constants.Constant.ApiData.BARNOE_PIVO;
-import static constants.Constant.ApiData.R_KEEPER_RESTAURANT;
-import static constants.Constant.RequestBody.rqBodyFillingOrder;
+import static constants.Constant.ApiData.*;
+import static constants.Constant.ApiData.WAITER_ROBOCOP;
+import static constants.Constant.QueryParams.rqParamsCreateOrderBasic;
+import static constants.Constant.QueryParams.rqParamsFillingOrderBasic;
 import static constants.Constant.TestData.*;
-import static constants.Selectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
-import static constants.Selectors.RootPage.DishList.nonPaidAndNonDisabledDishesWhenDivided;
 
 
-@Order(7)
+@Order(6) // last DivideCheckAndPayTillEnd
 @Epic("E2E - тесты (полные)")
-@Feature("keeper - оплата, разделяя счёт по позиции до самого конца - рандомные поз без скидки - чай+сбор - карта")
-@DisplayName("keeper - оплата, разделяя счёт по позиции до самого конца - рандомные поз без скидки - чай+сбор - карта")
-
+@Feature("keeper - полная оплата, разделяя счёт по позиции в 2 заказа - рандомные поз без скидки - чай+сбор - карта - отзыв")
+@DisplayName("keeper - полная оплата, разделяя счёт по позиции в 2 заказа - рандомные поз без скидки - чай+сбор - карта - отзыв")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class DivideCheckAndPayTillEndTest extends BaseTest {
+public class PartAndFullPayTipScTest extends BaseTest {
 
     RootPage rootPage = new RootPage();
     Best2PayPage best2PayPage = new Best2PayPage();
@@ -48,14 +38,16 @@ public class DivideCheckAndPayTillEndTest extends BaseTest {
 
 
     @Test
+    @Link("https://foundarium.testit.software/projects/1/tests/384")
+    @TmsLink("https://foundarium.testit.software/projects/1/tests/384")
     @Order(1)
     @Step("Создание заказа в r_keeper")
     @DisplayName("Создание заказа в r_keeper")
-    @Description("Ресторан {R_KEEPER_RESTAURANT} - блюдо - {BARNOE_PIVO}")
+
     public void createAndFillOrder() {
 
-        String visit = apiRKeeper.createOrder();
-        apiRKeeper.fillingOrder(rqBodyFillingOrder(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"10000"));
+        String visit = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT,TABLE_3, WAITER_ROBOCOP));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT,visit,BARNOE_PIVO,"4000"));
 
     }
 
@@ -65,14 +57,7 @@ public class DivideCheckAndPayTillEndTest extends BaseTest {
     @DisplayName("Проверям работу всех активных элементов на странице")
     public void openAndCheck() {
 
-        //Configuration.browserSize = IPHONE12PRO;
-
-        ChromeOptions options = new ChromeOptions();
-
-        options.addArguments("--auto-open-devtools-for-tabs");
-
-        Configuration.browserCapabilities = options;
-
+        Configuration.browserSize = IPHONE12PRO;
         rootPage.openTapperLink(STAGE_RKEEPER_URL);
         rootPageNestedTests.checkAllElementsAreVisibleAndActive();
 
@@ -114,12 +99,31 @@ public class DivideCheckAndPayTillEndTest extends BaseTest {
 
     @Test
     @Order(6)
-    @Step("Разделям счёт, оплачиваем одну позицию и так пока весь заказ не будет оплачен")
-    @DisplayName("Разделям счёт, оплачиваем одну позицию и так пока весь заказ не будет оплачен")
+    @Step("Разделяем счёт, оплачиваем оставшиеся позиции")
+    @DisplayName("Разделяем счёт, оплачиваем оставшиеся позиции")
     public void payTillEnd() {
 
-      rootPageNestedTests.payTillFullSuccessPayment(1);
+      rootPageNestedTests.checkAllDishesSumsWithAllConditions();
+
+        double totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
+        rootPageNestedTests.clickPayment();
+        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
+        best2PayPage.clickPayButton();
 
     }
+
+    @Test
+    @Order(7)
+    @Step("Оставление отрицательный отзыв с рандомным пожеланием")
+    @DisplayName("Оставление отрицательный отзыв с рандомным пожеланием")
+    public void reviewCorrect() {
+
+        reviewPageNestedTests.fullPaymentCorrect();
+        reviewPageNestedTests.reviewCorrectNegative();
+
+    }
+
+
+
 
 }
