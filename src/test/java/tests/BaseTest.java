@@ -24,7 +24,7 @@ public class BaseTest {
     static void setUp() {
 
         Configuration.driverManagerEnabled = true;
-        Configuration.headless = false;
+        Configuration.headless = true;
         //Configuration.browserSize = "1920x1080";
         Configuration.browser = "chrome";
         Configuration.browserSize = IPHONE12PRO;
@@ -47,7 +47,7 @@ public class BaseTest {
         options.addArguments("--disable-notifications");
         options.addArguments("--no-sandbox");
         options.addArguments("--incognito");
-
+        options.addArguments("--disable-dev-shm-usage");
         //options.addArguments("--disable-gpu");
         //options.addArguments("--auto-open-devtools-for-tabs");
 
