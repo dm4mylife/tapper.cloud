@@ -27,7 +27,7 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn test
+      run: mvn clean test
       continue-on-error: true
 
     - name: Get Allure history

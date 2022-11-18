@@ -24,8 +24,8 @@ import static constants.Selectors.Best2PayPage.transaction_id;
 
 @Order(12)
 @Epic("E2E - тесты (полные)")
-@Feature("keeper - оплата, разделяя счёт по позиции до самого конца - рандомные поз без скидки - чай+сбор - карта")
-@DisplayName("keeper - оплата, разделяя счёт по позиции до самого конца - рандомные поз без скидки - чай+сбор - карта")
+@Feature("keeper - оплата, разделяя счёт по позиции до самого конца - обычные - чай+сбор")
+@DisplayName("keeper - оплата, разделяя счёт по позиции до самого конца - обычные - чай+сбор")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 

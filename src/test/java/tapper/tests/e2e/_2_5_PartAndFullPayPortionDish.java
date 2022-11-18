@@ -24,8 +24,8 @@ import static constants.Selectors.Best2PayPage.transaction_id;
 
 @Order(25)
 @Epic("E2E - тесты (полные)")
-@Feature("keeper - частичная и полная оплата - порционная позиция - чай+сбор - карта - отзыв")
-@DisplayName("keeper - частичная и полная оплата - порционная позиция - чай+сбор - карта - отзыв")
+@Feature("keeper - частичная и полная оплата - порционная позиция - чай+сбор")
+@DisplayName("keeper - частичная и полная оплата - порционная позиция - чай+сбор")
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 
 public class _2_5_PartAndFullPayPortionDish extends BaseTest {

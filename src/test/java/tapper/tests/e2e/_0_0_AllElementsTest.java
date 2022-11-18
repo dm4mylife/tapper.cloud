@@ -20,7 +20,7 @@ import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_URL;
 import static constants.Constant.TestData.TIME_WAIT_FOR_FULL_LOAD;
 
-@Order(0)
+@Order(1)
 @Epic("E2E - тесты (полные)")
 @Feature("Общая функциональность таппера")
 @DisplayName("Общая функциональность таппера")

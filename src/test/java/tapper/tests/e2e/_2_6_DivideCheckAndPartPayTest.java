@@ -25,8 +25,8 @@ import static constants.Selectors.Best2PayPage.transaction_id;
 
 @Order(26)
 @Epic("E2E - тесты (полные)")
-@Feature("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор - карта - отзыв")
-@DisplayName("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор - карта - отзыв")
+@Feature("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор")
+@DisplayName("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _2_6_DivideCheckAndPartPayTest extends BaseTest {

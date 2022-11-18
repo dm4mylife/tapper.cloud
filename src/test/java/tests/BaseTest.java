@@ -26,6 +26,7 @@ public class BaseTest {
         Configuration.driverManagerEnabled = true;
         Configuration.headless = false;
         //Configuration.browserSize = "1920x1080";
+        Configuration.browser = "chrome";
         Configuration.browserSize = IPHONE12PRO;
         ChromeOptions options = new ChromeOptions();
 
