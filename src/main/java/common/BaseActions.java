@@ -2,24 +2,18 @@ package common;
 
 
 import com.codeborne.selenide.*;
-
 import io.qameta.allure.Step;
-
 import org.jetbrains.annotations.NotNull;
-
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.Random;
 
-
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.open;
 
 
 public class BaseActions {
@@ -55,6 +49,16 @@ public class BaseActions {
         element.shouldBe(visible, Duration.ofSeconds(time));
     }
 
+    @Step("Получаем текст из селектора")
+    public String getSelectorText(SelenideElement element) {
+        return element.getText();
+    }
+
+    @Step("Элемент должен содержать значение {value}")
+    public SelenideElement elementShouldHaveValue(SelenideElement element, String value) {
+        return element.shouldHave(value(value));
+    }
+
     @Step("Элемент не видим на странице")
     public void isElementInvisible(@NotNull SelenideElement element) {
         element.shouldNotBe(visible);
@@ -73,16 +77,16 @@ public class BaseActions {
 
     @Step("Элемент присутствует и кликабельный на странице")
     public void isElementVisibleAndClickable(@NotNull SelenideElement element) {
-        element.shouldBe(visible,enabled);
+        element.shouldBe(visible, enabled);
     }
 
     @Step("Генерация рандомного значения от {min} до {max}")
-    public int generateRandomNumber(int min,int max) {
-        return (int)Math.floor(Math.random()*(max-min+1)+min);
+    public int generateRandomNumber(int min, int max) {
+        return (int) Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    @Step("Принудительное ожидание")
-    public void forceWait(Long ms) {
+    @Step("Принудительное ожидание из-за долгой загрузки страницы,элементов,скриптов ({ms} мс)")
+    public void forceWait(int ms) {
         Selenide.sleep(ms);
     }
 
@@ -122,15 +126,15 @@ public class BaseActions {
 
     @Step("Удаление текста из поля в элементе ")
     public void deleteTextInInput(@NotNull SelenideElement element) {
-       element.clear();
+        element.clear();
     }
 
     @Step("Ввод данных {text} с задержкой")
     public void sendHumanKeys(SelenideElement element, @NotNull String text) {
         Random r = new Random();
-        for(int i = 0; i < text.length(); i++) {
+        for (int i = 0; i < text.length(); i++) {
 
-            Selenide.sleep((int)(r.nextGaussian() * 15 + 50));
+            Selenide.sleep((int) (r.nextGaussian() * 15 + 50));
 
             String s = String.valueOf(text.charAt(i));
             element.sendKeys(s);
@@ -139,15 +143,14 @@ public class BaseActions {
     }
 
     @Step("Ввод данных {text} без задержки")
-    public void sendKeys(@NotNull WebElement element, Keys text) {
+    public void sendKeys(@NotNull SelenideElement element, String text) {
         element.sendKeys(text);
     }
 
     @Step("Проверка что текст {text} содержится в текущем URL")
     public void isTextContainsInURL(String text) {
 
-        Assertions.assertTrue(WebDriverRunner.url().matches("(.*)"+ text + "(.*)"));
-
+        Assertions.assertTrue(WebDriverRunner.url().matches("(.*)" + text + "(.*)"));
 
     }
 
@@ -159,7 +162,7 @@ public class BaseActions {
     @Step("Проверка что текст {text} содержится в элементах коллекции")
     public void isElementContainsTextInCollection(@NotNull ElementsCollection elements, String text) {
 
-        for(SelenideElement element: elements) {
+        for (SelenideElement element : elements) {
 
             element.shouldHave(Condition.matchText(text));
 
@@ -169,7 +172,7 @@ public class BaseActions {
     @Step("Преобразовываем\\вырезаем текст из селектора в число")
     public int convertSelectorTextIntoIntByRgx(@NotNull SelenideElement selector, String regex) {
 
-        String text = selector.getText().replaceAll(regex,"");
+        String text = selector.getText().replaceAll(regex, "");
         return Integer.parseInt(text);
 
     }
@@ -177,14 +180,14 @@ public class BaseActions {
     @Step("Преобразовываем\\вырезаем текст из селектора в дабл")
     public double convertSelectorTextIntoDoubleByRgx(@NotNull SelenideElement selector, String regex) {
 
-        String text = selector.getText().replaceAll(regex,"");
+        String text = selector.getText().replaceAll(regex, "");
         return Double.parseDouble(text);
 
     }
 
     @Step("Преобразовываем\\вырезаем текст из селектора строку")
     public String convertSelectorTextIntoStrByRgx(@NotNull SelenideElement selector, String regex) {
-        return selector.getText().replaceAll(regex,"");
+        return selector.getText().replaceAll(regex, "");
 
     }
 
@@ -194,6 +197,5 @@ public class BaseActions {
         String formattedDouble = new DecimalFormat("#0.00").format(doubleNumber).replace(",", ".");
         return Double.parseDouble(formattedDouble);
     }
-
 
 }

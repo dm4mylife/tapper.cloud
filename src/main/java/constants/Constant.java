@@ -1,8 +1,5 @@
 package constants;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonParser;
-
 public class Constant {
 
     public static class TestData {
@@ -18,7 +15,10 @@ public class Constant {
         public static final String TEST_PAYMENT_CARD_EXPIRE_MONTH = "12";
         public static final String TEST_PAYMENT_CARD_EXPIRE_YEAR = "24";
         public static final String TEST_PAYMENT_CARD_CVV = "123";
-        public static final String TEST_EMAIL = "autotest@mail.ru";
+        public static final String TEST_YANDEX_LOGIN_EMAIL = "autotests@tapper.cloud";
+        public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
+        public static final Integer TIME_WAIT_FOR_FULL_LOAD = 4000;
+
         public static final String TEST_WAITER_COMMENT = "test\\тест";
         public static final String TEST_REVIEW_COMMENT = "test\\тест";
         public static final String API_TEST_URI = "https://taper.zedform.ru/api/";
@@ -28,6 +28,7 @@ public class Constant {
         public static final Double SERVICE_PRICE_PERCENT_FROM_TIPS = 5.0;
         public static final String TIPS_ERROR_MSG = " Минимальная сумма чаевых 49 ₽ ";
         public static final String MIN_SUM_FOR_TIPS_ERROR = "48";
+        public static final String YANDEX_MAIL_URL = "https://passport.yandex.ru/auth?retpath=https%3A%2F%2Fmail.yandex.ru%2F&backpath=https%3A%2F%2Fmail.yandex.ru%2F%3Fnoretpath%3D1&from=mail&origin=hostroot_homer_auth_ru";
 
 
     }
@@ -44,15 +45,27 @@ public class Constant {
     public static class JSScripts {
 
         public static final String isShareButtonCorrect = """
-               function check() {
-                       if (navigator.share) {
-                           return true;
-                       } else {
-                           return false;
-                       }
-                      \s
-                   };\s
-                   return check();""";
+                function check() {
+                   if (navigator.share) {
+                       return true;
+                   } else {
+                       return false;
+                   }
+                }; return check();""";
+
+        public static final String userSession = """
+                function getCookie(name) {
+                  const value = `; ${document.cookie}`;
+                  const parts = value.split(`; ${name}=`);
+                        if (parts.length === 2) return parts.pop().split(';').shift();
+                }; return getCookie("session")""";
+
+        public static final String userGuest = """
+                function getCookie(name) {
+                  const value = `; ${document.cookie}`;
+                  const parts = value.split(`; ${name}=`);
+                        if (parts.length === 2) return parts.pop().split(';').shift();
+                }; return getCookie("guest")""";
 
 
     }

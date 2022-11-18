@@ -8,7 +8,6 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.TEST_REVIEW_COMMENT;
 import static constants.Selectors.Best2PayPage.paymentProcessContainer;
-import static constants.Selectors.Common.bodyJS;
 import static constants.Selectors.Common.pagePreLoader;
 import static constants.Selectors.ReviewPage.*;
 
@@ -19,38 +18,34 @@ public class ReviewPage extends BaseActions {
     @Step("Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны")
     public void isPaymentProcessContainerShown() {
 
-        baseActions.isElementVisibleDuringLongTime(paymentProcessContainer,30);
-        baseActions.isElementVisibleDuringLongTime(paymentProcessStatus, 30);
+        baseActions.isElementVisibleDuringLongTime(paymentProcessContainer, 10);
+        baseActions.isElementVisibleDuringLongTime(paymentProcessStatus, 10);
 
         paymentProcessStatus.shouldHave(matchText("Производится оплата"), Duration.ofSeconds(30));
         paymentProcessStatus.shouldNotHave(text("Оплата не прошла"));
-        paymentProcessStatus.shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
-
+        paymentProcessStatus.shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(10));
 
     }
 
     @Step("Проверка заголовка статуса и что все элементы отзыва отображаются")
     public void isReviewBlockCorrect() {
 
-        baseActions.isElementVisibleDuringLongTime(reviewContainer,10);
+        baseActions.isElementVisibleDuringLongTime(reviewContainer, 10);
 
         baseActions.isElementVisible(reviewStars);
         baseActions.isElementVisible(reviewTextArea);
-        baseActions.isElementVisibleDuringLongTime(finishReviewButton,10);
+        baseActions.isElementVisibleDuringLongTime(finishReviewButton, 10);
 
     }
+
     @Step("Заголовок соответствует частичной оплате")
     public void partialPaymentHeading() {
-
-       paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
-
+        paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
     }
 
     @Step("Заголовок соответствует полной оплате")
     public void fullPaymentHeading() {
-
         paymentStatusAfterPay.shouldHave(text(" Статус заказа: Полностью оплачен "));
-
     }
 
     @Step("Выставляем 5 звёзд")
@@ -73,7 +68,7 @@ public class ReviewPage extends BaseActions {
     public void chooseRandomWhatDoULikeWhenGreaterThan3() {
 
         baseActions.isElementVisible(whatDoULikeList);
-        baseActions.click(whatDoULikeListRandomOption.get(generateRandomNumber(1,5)-1));
+        baseActions.click(whatDoULikeListRandomOption.get(generateRandomNumber(1, 5) - 1));
         baseActions.isElementVisible(activeWhatDoULikeListRandomOption);
 
 
@@ -85,7 +80,7 @@ public class ReviewPage extends BaseActions {
         baseActions.isElementVisible(suggestionHeading);
         baseActions.isElementsListVisible(suggestionOptions);
 
-        baseActions.click(suggestionOptions.get(generateRandomNumber(1,4)-1));
+        baseActions.click(suggestionOptions.get(generateRandomNumber(1, 4) - 1));
 
 
     }
@@ -93,7 +88,7 @@ public class ReviewPage extends BaseActions {
     @Step("Вводим коммент в поле ввода, проверям что сохранился текст")
     public void typeReviewComment() {
 
-        baseActions.sendHumanKeys(reviewTextArea,TEST_REVIEW_COMMENT);
+        baseActions.sendHumanKeys(reviewTextArea, TEST_REVIEW_COMMENT);
         reviewTextArea.shouldHave(value(TEST_REVIEW_COMMENT));
 
 
@@ -103,12 +98,11 @@ public class ReviewPage extends BaseActions {
     public void clickOnFinishButton() {
 
         hideTapBar();
-        baseActions.scroll(finishReviewButton);
+        scrollTillBottom();
         baseActions.click(finishReviewButton);
         baseActions.isElementVisible(pagePreLoader);
         showTapBar();
 
     }
-
 
 }

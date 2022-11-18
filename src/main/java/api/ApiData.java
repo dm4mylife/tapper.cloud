@@ -8,9 +8,11 @@ public class ApiData {
         public static final String fillingOrder = "rkeeper/fillingorder";
         public static final String deleteOrder = "rkeeper/delorder";
         public static final String orderGet = "order/get";
+        public static final String b2bPaymentTransactionStatus = "https://apitapper.zedform.ru/api/payment/transaction-status/";
+        public static final String deletePosition = "rkeeper-automation/delete-position";
+
 
     }
-
 
     public static class orderData {
 
@@ -24,9 +26,7 @@ public class ApiData {
         public static final String GOVYADINA_PORTION = "1000147";
         public static final String BARANINA = "1000148";
 
-
     }
-
 
     public static class QueryParams {
 
@@ -44,11 +44,11 @@ public class ApiData {
         public static String rqParamsFillingOrderBasic(String subDomen, String visit, String dishId, String quantity) {
 
             return "{\n" +
-                   "  \"subDomen\": \"" + subDomen + "\",\n" +
-                   "  \"quantity\": " + quantity + ",\n" +
-                   "  \"visit\": \"" + visit + "\",\n" +
-                   "  \"dishId\": \"" + dishId + "\"\n" +
-                   "}";
+                    "  \"subDomen\": \"" + subDomen + "\",\n" +
+                    "  \"quantity\": " + quantity + ",\n" +
+                    "  \"visit\": \"" + visit + "\",\n" +
+                    "  \"dishId\": \"" + dishId + "\"\n" +
+                    "}";
 
         }
 
@@ -63,10 +63,18 @@ public class ApiData {
 
         }
 
+        public static String rqParamsDeletePosition(String domen, String guid, String station, String uni, String quantity) {
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": \"" + station + "\",\n" +
+                    "  \"item_code\": \"" + uni + "\"\n" +
+                    "  \"quantity\": " + quantity + "\n" +
+                    "}";
+
+        }
 
     }
-
-
-
 
 }

@@ -3,7 +3,6 @@ package constants;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
-
 import static com.codeborne.selenide.Selenide.*;
 
 public class Selectors {
@@ -26,39 +25,34 @@ public class Selectors {
             public static final SelenideElement separateOrderHeading = $(".vOrderHeader__separate");
             public static final SelenideElement dishesSumChangedHeading = $(".vAuthentication.active");
 
-
-
             public static final SelenideElement divideCheckSlider = $(".divide__check span.slider");
 
             public static final SelenideElement menuDishesContainer = $(".menuDishes");
             public static final SelenideElement dishListContainerWithDishes = $(".dishList ul.dishList__list");
 
-
-
             public static final ElementsCollection allDishesInOrder = $$("li [class='dishList__item']");
             public static final ElementsCollection paidDishes = $$(".dishList__item.paid");
             public static final ElementsCollection disabledDishes = $$("[class='dishList__item disabled']");
-            public static final ElementsCollection allNonPaidAndNonDisabledDishes = $$(".dishList [class=\"dishList__item\"]");
-
+            public static final ElementsCollection allNonPaidAndNonDisabledDishes = $$(".dishList [class='dishList__item']");
 
 
             public static final ElementsCollection allDishesWhenDivided = $$(".dishList__item.active");
             public static final ElementsCollection paidDishesWhenDivided = $$(".dishList__item.active.paid");
 
-            public static final ElementsCollection nonPaidAndNonDisabledDishesWhenDivided =
-                    $$x("//*[@class=\"dishList__item active\"][not(@class=\"paid\") and not(@class=\"disabled\")]");
-            public static final ElementsCollection nonPaidAndNonDisabledDishesSumWhenDivided =
-                    $$x("//*[@class=\"dishList__item active\"][not(@class=\"paid\") and not(@class=\"disabled\")]//*[@class='sum']");
+            public static final ElementsCollection allNonPaidAndNonDisabledDishesWhenDivided =
+                    $$x("//*[@class='dishList__item active'][not(@class='paid') and not(@class='disabled')]");
+            public static final ElementsCollection allNonPaidAndNonDisabledDishesSumWhenDivided =
+                    $$x("//*[@class='dishList__item active'][not(@class='paid') and not(@class='disabled')]//*[@class='sum']");
             public static final ElementsCollection nonPaidAndNonDisabledDishesNameWhenDivided =
-                    $$x("//*[@class=\"dishList__item active\"][not(@class=\"paid\") and not(@class=\"disabled\")]//*[@class='dish__checkbox-content']");
+                    $$x("//*[@class='dishList__item active'][not(@class='paid') and not(@class='disabled')]//*[@class='dish__checkbox-content']");
             public static final ElementsCollection nonPaidAndNonDisabledDishesInputWhenDivided =
-                    $$x("//*[@class=\"dishList__item active\"][not(@class=\"paid\") and not(@class=\"disabled\")]//input");
+                    $$x("//*[@class='dishList__item active'][not(@class='paid') and not(@class='disabled')]//input");
 
             public static final ElementsCollection disabledDishesWhenDivided =
                     $$("[class='dishList__item active disabled']");
 
             public static final ElementsCollection disabledAndPainDishesWhenDivided =
-                    $$x("//*[@class=\"dishList__list\"]//*[contains(@class,'disabled') or contains(@class,'paid')]");
+                    $$x("//*[@class='dishList__list']//*[contains(@class,'disabled') or contains(@class,'paid')]");
 
 
             public static final ElementsCollection nonPaidDishesWhenDivided =
@@ -72,13 +66,13 @@ public class Selectors {
 
             public static final SelenideElement tipsWaiter = $(".tips__waiter");
             public static final SelenideElement checkTipsSumWithDivide = $(".check__tips .check__tips-sum");
-            public static final ElementsCollection tipsPercentList= $$(".tips__percents-list li");
-            public static final SelenideElement tipsInCheck= $(".check .check__tips-heading");
+            public static final ElementsCollection tipsPercentList = $$(".tips__percents-list li");
+            public static final SelenideElement tipsInCheckField = $(".check .check__tips-heading");
+            public static final SelenideElement tipsInCheckSum = $(".check .check__tips .check__tips-sum");
             public static final SelenideElement anotherGuestSum =
-                    $x("//*[@class=\"check__tips-heading\"][text()=\"Другой пользователь:\"]/following-sibling::span");
+                    $x("//*[@class='check__tips-heading'][text()='Другой пользователь:']/following-sibling::span");
             public static final SelenideElement markedDishes =
-                    $x("//*[@class=\"check__tips-heading\"][text()=\"Отмеченные позиции:\"]/following-sibling::span");
-
+                    $x("//*[@class='check__tips-heading'][text()='Отмеченные позиции:']/following-sibling::span");
 
             public static final SelenideElement resetTipsButton = $(".tips__sum-btn[type='reset']");
             public static final SelenideElement tipsContainer = $(".tips");
@@ -89,28 +83,32 @@ public class Selectors {
             public static final SelenideElement tipsSum = $(".tips__sum input");
             public static final SelenideElement totalPay = $(".check__totalPay-heading+span");
 
-            public static final SelenideElement chosenDishesHeadingInCheck = $x("//*[@class=\"check__marked\"]/*[text()=\"Отмеченные позиции:\"]");
+            public static final SelenideElement chosenDishesHeadingInCheck =
+                    $x("//*[@class='check__marked']/*[text()='Отмеченные позиции:']");
+            public static final SelenideElement chosenDishesSum =
+                    $x("//*[@class='check__marked'][.//*[text()='Отмеченные позиции:']]/span[2]");
 
             public static final SelenideElement tipsErrorMsg = $(".tips__error");
-
             public static final SelenideElement Tips0 =
-                $x("//*[contains(@class,'tips__list-item')][text()=' 0% ']");
+                    $x("//*[contains(@class,'tips__list-item')][text()=' 0% ']");
             public static final SelenideElement Tips10 =
-                $x("//*[contains(@class,'tips__list-item')][text()=' 10% ']");
+                    $x("//*[contains(@class,'tips__list-item')][text()=' 10% ']");
             public static final SelenideElement Tips15 =
-                $x("//*[contains(@class,'tips__list-item')][text()=' 15% ']");
+                    $x("//*[contains(@class,'tips__list-item')][text()=' 15% ']");
             public static final SelenideElement Tips20 =
-                $x("//*[contains(@class,'tips__list-item')][text()=' 20% ']");
+                    $x("//*[contains(@class,'tips__list-item')][text()=' 20% ']");
             public static final SelenideElement Tips25 =
-                $x("//*[contains(@class,'tips__list-item')][text()=' 25% ']");
+                    $x("//*[contains(@class,'tips__list-item')][text()=' 25% ']");
             public static final ElementsCollection notDisabledTipsPercentOptions =
-                $$x("//*[contains(@class,'tips__list-item')][not(@class='tips__list-item disabled')]");
+                    $$x("//*[contains(@class,'tips__list-item')][not(@class='tips__list-item disabled')]");
+            public static final ElementsCollection notDisabledAndZeroTipsPercentOptions =
+                    $$x("//*[contains(@class,'tips__list-item')][not(@class='tips__list-item disabled') and not(text()=' 0% ')]");
             public static final ElementsCollection notActiveTipsPercentOptions =
                     $$("[class='tips__list-item']");
+
         }
 
         public static class PayBlock {
-
 
             public static final SelenideElement checkContainer = $(".check");
             public static final SelenideElement paymentButton = $("button.payment-btn.main-btn");
@@ -142,8 +140,6 @@ public class Selectors {
             public static final SelenideElement successCallWaiterHeading = $(".callWaiter-modal .successfulSending");
             public static final SelenideElement closeCallWaiterFormInSuccess = $(".callWaiter-modal .successfulSendin__btn");
 
-
-
         }
 
     }
@@ -156,15 +152,14 @@ public class Selectors {
         public static final SelenideElement cardNumber = $(".input.input--pan input");
         public static final SelenideElement dateExpire = $(".input.input--date .input__field--date");
         public static final SelenideElement cvv = $(".input--cvv .input__field--cvv");
-        public static final SelenideElement email = $("#cardEmailField");
+        public static final SelenideElement email = $("#email");
         public static final SelenideElement payButton = $("#submitButton");
         public static final SelenideElement sendCheckByEmail = $("#cardEmail+.checkbox__body");
         public static final SelenideElement payMethodCard = $("#paymentTypeCard");
         public static final SelenideElement payMethodYandexPay = $(".yandexpay.payment-method__button");
         public static final SelenideElement payMethodSBP = $("#sbpButton");
         public static final SelenideElement totalPayB2B = $("#totalAmountValue");
-
-
+        public static final SelenideElement transaction_id = $("form [name='reference']");
 
     }
 
@@ -192,12 +187,24 @@ public class Selectors {
         public static final SelenideElement password = $("#password");
         public static final SelenideElement logInButton = $(".vButton");
         public static final SelenideElement configuration =
-            $(".VMenuProfileLink:nth-of-type(2) .VMenuProfileLink__clickArea");
+                $(".VMenuProfileLink:nth-of-type(2) .VMenuProfileLink__clickArea");
         public static final SelenideElement optionTabTips =
-            $x("//*[@class='logsPage-tabs__btn'][text()='Чаевые']");
+                $x("//*[@class='logsPage-tabs__btn'][text()='Чаевые']");
         public static final SelenideElement tipsDisabled = $("#DISABLED");
 
     }
 
+    public static class YandexMail {
+
+        public static final SelenideElement orderHeading =
+                $x("//*[contains(@class,'mail-MessagesList')]/div[.//span[text()='Кассовый чек']]");
+
+        public static final SelenideElement succesPaymentHeading =
+                $x("//*[contains(@class,'mail-MessagesList')]/div[.//span[text()='Успешная оплата']]");
+
+        public static final SelenideElement dropdownListOrder =
+                $(".mail-MessagesList div:first-child .mail-MessageSnippet-Content");
+
+    }
 
 }

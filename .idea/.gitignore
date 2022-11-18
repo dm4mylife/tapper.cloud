@@ -1,3 +1,9 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/build/reports/tests/*.png
+/build/reports/tests/*.html
+/target/allure-results/*.png
+/target/allure-results/*attachment.txt
+/target/allure-results/*result.json
+/target/allure-results/*result.json

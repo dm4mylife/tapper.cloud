@@ -19,4 +19,16 @@ public class Best2PayPageNestedTests extends Best2PayPage {
 
     }
 
+    @Step("Ввод данных и оплатить")
+    public void typeDataAndPay() {
+
+        best2PayPage.checkPayMethods();
+        best2PayPage.typeCardNumber();
+        best2PayPage.typeDateExpire();
+        best2PayPage.typeCVV();
+        best2PayPage.typeEmail();
+        best2PayPage.clickPayButton();
+
+    }
+
 }

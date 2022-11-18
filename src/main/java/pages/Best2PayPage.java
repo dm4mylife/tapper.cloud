@@ -3,15 +3,12 @@ package pages;
 import com.codeborne.selenide.Condition;
 import common.BaseActions;
 import io.qameta.allure.Step;
-
-
 import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
 
 import static constants.Constant.TestData.*;
 import static constants.Selectors.Best2PayPage.*;
-
 
 
 public class Best2PayPage extends BaseActions {
@@ -25,13 +22,13 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Проверка попапа ВПН")
     public void isVpnPopUpShown() {
-        vpnPopup.shouldHave(Condition.cssValue("display","flex"), Duration.ofSeconds(10));
+        vpnPopup.shouldHave(Condition.cssValue("display", "flex"), Duration.ofSeconds(10));
     }
 
     @Step("Проверка попапа ВПН и что форма оплаты появилась")
     public void isPaymentContainerAndVpnShown() {
 
-        baseActions.isElementVisibleDuringLongTime(paymentContainer,10);
+        baseActions.isElementVisibleDuringLongTime(paymentContainer, 10);
         isVpnPopUpShown();
 
     }
@@ -47,20 +44,20 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Ввод номера карты")
     public void typeCardNumber() {
-        baseActions.sendHumanKeys(cardNumber,TEST_PAYMENT_CARD_NUMBER);
+        baseActions.sendHumanKeys(cardNumber, TEST_PAYMENT_CARD_NUMBER);
     }
 
     @Step("Ввод даты истечения карты")
     public void typeDateExpire() {
 
-        baseActions.sendHumanKeys(dateExpire,TEST_PAYMENT_CARD_EXPIRE_MONTH);
-        baseActions.sendHumanKeys(dateExpire,TEST_PAYMENT_CARD_EXPIRE_YEAR);
+        baseActions.sendHumanKeys(dateExpire, TEST_PAYMENT_CARD_EXPIRE_MONTH);
+        baseActions.sendHumanKeys(dateExpire, TEST_PAYMENT_CARD_EXPIRE_YEAR);
 
     }
 
     @Step("Ввод CVV")
     public void typeCVV() {
-        baseActions.sendHumanKeys(cvv,TEST_PAYMENT_CARD_CVV);
+        baseActions.sendHumanKeys(cvv, TEST_PAYMENT_CARD_CVV);
     }
 
     @Step("Клик по кнопке отправить по email и ввод почты")
@@ -68,17 +65,16 @@ public class Best2PayPage extends BaseActions {
 
         baseActions.click(sendCheckByEmail);
         baseActions.isElementVisible(email);
-        baseActions.sendHumanKeys(email,TEST_EMAIL);
-
+        baseActions.sendHumanKeys(email, TEST_YANDEX_LOGIN_EMAIL);
 
     }
 
     @Step("Проверка что сумма 'Итого к оплате' в таппере сходится с суммой в эквайринге")
     public void isTotalPayInTapperMatchTotalPayB2B(double totalPayTapper) {
 
-        double totalPayB2BDouble = baseActions.convertSelectorTextIntoDoubleByRgx(totalPayB2B,"\\s");
+        double totalPayB2BDouble = baseActions.convertSelectorTextIntoDoubleByRgx(totalPayB2B, "\\s");
 
-        Assertions.assertEquals(totalPayTapper,totalPayB2BDouble, 0.01);
+        Assertions.assertEquals(totalPayTapper, totalPayB2BDouble, 0.01);
         System.out.println("Сумма в тапере " + totalPayTapper + " сходится с суммой в эквайринге " + totalPayB2BDouble);
 
     }
@@ -87,6 +83,5 @@ public class Best2PayPage extends BaseActions {
     public void clickPayButton() {
         baseActions.click(payButton);
     }
-
 
 }
