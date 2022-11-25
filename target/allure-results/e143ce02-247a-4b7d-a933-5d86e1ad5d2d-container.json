@@ -1,0 +1,1 @@
+{"uuid":"e143ce02-247a-4b7d-a933-5d86e1ad5d2d","name":"0. Открываем пустой стол","children":["ce4b28b7-00d6-4061-bd07-f59b8f8192b6"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669368814294,"stop":1669368814300}],"afters":[],"start":1669368814240,"stop":1669368821925}

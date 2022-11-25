@@ -5,7 +5,7 @@ api\ApiData.class
 constants\Selectors$RootPage$DishList.class
 api\ApiRKeeper.class
 api\ApiData$EndPoints.class
-common\ConfigDriver.class
+constants\Selectors$YandexMail.class
 constants\Selectors$Common.class
 pages\nestedTestsManager\Best2PayPageNestedTests.class
 api\ApiData$QueryParams.class
@@ -22,6 +22,7 @@ api\testPojo$OrdersElementAll.class
 common\BaseActions.class
 constants\Selectors$RootPage.class
 constants\Constant.class
+pages\nestedTestsManager\NestedTests.class
 pages\ReviewPage.class
 constants\Selectors.class
 constants\Selectors$Best2PayPage.class

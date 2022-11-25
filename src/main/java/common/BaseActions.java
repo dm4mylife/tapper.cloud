@@ -1,10 +1,11 @@
 package common;
 
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.Assertions;
 
 import java.text.DecimalFormat;
 import java.time.Duration;
@@ -14,6 +15,8 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.WebDriverConditions.urlStartingWith;
 
 
 public class BaseActions {
@@ -109,6 +112,7 @@ public class BaseActions {
 
     }
 
+
     @Step("Принудительно прячем таббар")
     public void hideTapBar() {
         Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'none'");
@@ -117,16 +121,6 @@ public class BaseActions {
     @Step("Принудительно раскрываем таббар")
     public void showTapBar() {
         Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'block'");
-    }
-
-    @Step("Видимы ли элементы в коллекции")
-    public boolean isElementVisibleInCollections(@NotNull SelenideElement element) {
-        return element.isDisplayed();
-    }
-
-    @Step("Удаление текста из поля в элементе ")
-    public void deleteTextInInput(@NotNull SelenideElement element) {
-        element.clear();
     }
 
     @Step("Ввод данных {text} с задержкой")
@@ -148,25 +142,10 @@ public class BaseActions {
     }
 
     @Step("Проверка что текст {text} содержится в текущем URL")
-    public void isTextContainsInURL(String text) {
+    public void isTextContainsInURL(String url) {
 
-        Assertions.assertTrue(WebDriverRunner.url().matches("(.*)" + text + "(.*)"));
+        webdriver().shouldHave(urlStartingWith(url), Duration.ofSeconds(20));
 
-    }
-
-    @Step("Проверка что текст {text} содержится полностью в элементе")
-    public void isElementContainsText(@NotNull SelenideElement element, String text) {
-        element.shouldHave(matchText(text));
-    }
-
-    @Step("Проверка что текст {text} содержится в элементах коллекции")
-    public void isElementContainsTextInCollection(@NotNull ElementsCollection elements, String text) {
-
-        for (SelenideElement element : elements) {
-
-            element.shouldHave(Condition.matchText(text));
-
-        }
     }
 
     @Step("Преобразовываем\\вырезаем текст из селектора в число")

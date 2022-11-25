@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tapper.tests.e2e._0_5_CheckDefaultTipsLogicBySumTest
+-------------------------------------------------------------------------------
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 50.911 s - in tapper.tests.e2e._0_5_CheckDefaultTipsLogicBySumTest

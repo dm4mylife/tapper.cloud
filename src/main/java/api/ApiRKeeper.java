@@ -26,7 +26,7 @@ public class ApiRKeeper {
                 .when()
                 .post(orderGet)
                 .then()
-                .log().status()
+                .log().all()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -120,8 +120,8 @@ public class ApiRKeeper {
                 .contentType(ContentType.JSON)
                 .and()
                 .when()
-                .queryParam("subDomen",R_KEEPER_RESTAURANT)
-                .queryParam("visitId",visit)
+                .queryParam("subDomen", R_KEEPER_RESTAURANT)
+                .queryParam("visitId", visit)
                 .baseUri(API_STAGE_URI)
                 .post(deleteOrder)
                 .then()
@@ -133,7 +133,7 @@ public class ApiRKeeper {
         System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
 
         Assertions.assertTrue(response.jsonPath().getBoolean("success"));
-        Assertions.assertEquals(response.jsonPath().getString("result['@attributes'].Status"),"Ok");
+        Assertions.assertEquals(response.jsonPath().getString("result['@attributes'].Status"), "Ok");
 
         System.out.println("Транзакция удалена со стола");
         return response;
@@ -141,16 +141,16 @@ public class ApiRKeeper {
     }
 
     @Step("Удаление позиции заказа")
-    public Response deletePosition(String guid,String uni,String quantity) {
+    public Response deletePosition(String guid, String uni, String quantity) {
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
-                .queryParam("domen",R_KEEPER_RESTAURANT)
-                .queryParam("guid",guid)
-                .queryParam("station","1")
-                .queryParam("item_code",uni)
-                .queryParam("quantity",quantity)
+                .queryParam("domen", R_KEEPER_RESTAURANT)
+                .queryParam("guid", guid)
+                .queryParam("station", "1")
+                .queryParam("item_code", uni)
+                .queryParam("quantity", quantity)
                 .when()
                 .post("https://apitapper.zedform.ru/api/rkeeper-automation/delete-position")
                 .then()
@@ -162,7 +162,7 @@ public class ApiRKeeper {
         System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
 
         Assertions.assertTrue(response.jsonPath().getBoolean("success"));
-        Assertions.assertEquals(response.jsonPath().getString("message"),"Операция прошла успешно");
+        Assertions.assertEquals(response.jsonPath().getString("message"), "Операция прошла успешно");
 
         System.out.println("\nУдалили");
 
@@ -171,14 +171,14 @@ public class ApiRKeeper {
     }
 
     @Step("Закрываем заказ")
-    public Response payOrder(String guid,String pay) {
+    public Response payOrder(String guid, String pay) {
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
-                .queryParam("subDomen",R_KEEPER_RESTAURANT)
-                .queryParam("orderId",guid)
-                .queryParam("pay",pay)
+                .queryParam("subDomen", R_KEEPER_RESTAURANT)
+                .queryParam("orderId", guid)
+                .queryParam("pay", pay)
                 .when()
                 .post("https://apitapper.zedform.ru/api/rkeeper/payordertmp")
                 .then()
@@ -190,7 +190,7 @@ public class ApiRKeeper {
         System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
 
         Assertions.assertTrue(response.jsonPath().getBoolean("success"));
-        Assertions.assertEquals(response.jsonPath().getString("message"),"Операция прошла успешно");
+        Assertions.assertEquals(response.jsonPath().getString("message"), "Операция прошла успешно");
 
         System.out.println("\nОплатили заказ, закрыли на кассе");
 
@@ -199,18 +199,18 @@ public class ApiRKeeper {
     }
 
     @Step("Добавление модификатора в заказ")
-    public Response addModificatorOrder(String guid,String dishId, String quantity, String modificator, String modificator_quantity) {
+    public Response addModificatorOrder(String guid, String dishId, String quantity, String modificator, String modificator_quantity) {
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
-                .queryParam("domen",R_KEEPER_RESTAURANT)
-                .queryParam("guid",guid)
-                .queryParam("station","1")
-                .queryParam("dish",dishId)
-                .queryParam("quantity",quantity)
-                .queryParam("modificator",modificator)
-                .queryParam("modificator_quantity",modificator_quantity)
+                .queryParam("domen", R_KEEPER_RESTAURANT)
+                .queryParam("guid", guid)
+                .queryParam("station", "1")
+                .queryParam("dish", dishId)
+                .queryParam("quantity", quantity)
+                .queryParam("modificator", modificator)
+                .queryParam("modificator_quantity", modificator_quantity)
                 .when()
                 .post("https://apitapper.zedform.ru/api/rkeeper-automation/add-modificator-order")
                 .then()
@@ -222,7 +222,7 @@ public class ApiRKeeper {
         System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
 
         Assertions.assertTrue(response.jsonPath().getBoolean("success"));
-        Assertions.assertEquals(response.jsonPath().getString("message"),"Операция прошла успешно");
+        Assertions.assertEquals(response.jsonPath().getString("message"), "Операция прошла успешно");
 
         System.out.println("\nДобавили модификатор для заказа");
 
@@ -230,5 +230,59 @@ public class ApiRKeeper {
 
     }
 
+    @Step("Добавление наценки в заказ")
+    public Response addMarginOrder(String guid, String dishId, String quantity, String modificator, String modificator_quantity) {
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .queryParam("domen", R_KEEPER_RESTAURANT)
+                .queryParam("guid", guid)
+                .queryParam("station", "1")
+                .queryParam("dish", dishId)
+                .queryParam("quantity", quantity)
+                .queryParam("modificator", modificator)
+                .queryParam("modificator_quantity", modificator_quantity)
+                .when()
+                .post("https://apitapper.zedform.ru/api/rkeeper-automation/add-modificator-order")
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
+
+        Assertions.assertTrue(response.jsonPath().getBoolean("success"));
+        Assertions.assertEquals(response.jsonPath().getString("message"), "Операция прошла успешно");
+
+        System.out.println("\nДобавили модификатор для заказа");
+
+        return response;
+
+    }
+
+    @Step("Получение информации о заказе на столе")
+    public Response getOrderInfo(String id_table) {
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .queryParam("id_table", id_table)
+                .queryParam("subDomen", R_KEEPER_RESTAURANT)
+                .when()
+                .post("https://apitapper.zedform.ru/api/rkeeper/order")
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
+        System.out.println("\nПолучили информацию по заказу");
+
+        return response;
+
+    }
 
 }

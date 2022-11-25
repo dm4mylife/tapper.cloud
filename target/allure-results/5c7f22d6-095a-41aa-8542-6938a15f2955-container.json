@@ -1,0 +1,1 @@
+{"uuid":"5c7f22d6-095a-41aa-8542-6938a15f2955","name":"3. Проверка суммы, чаевых, сервисного сбора","children":["3728dcc0-3cbf-48e4-9e4e-9defeadc8243"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669368926242,"stop":1669368926242}],"afters":[],"start":1669368926240,"stop":1669368936948}

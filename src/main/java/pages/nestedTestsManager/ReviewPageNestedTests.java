@@ -75,6 +75,8 @@ public class ReviewPageNestedTests {
         Response rs = apiRKeeper.getB2BPayment(trans_id);
         Map<String, Integer> rsPaymentData = getPayDataFromResponseAndConvToHashMap(rs);
 
+        System.out.println(paymentData + " tapper data");
+        System.out.println(rsPaymentData + " b2b data");
         Assertions.assertEquals(rsPaymentData, paymentData, "Суммы в таппере не сходятся с транзакцией b2p");
         System.out.println("Все суммы в таппере сходятся с транзакцией b2p");
 

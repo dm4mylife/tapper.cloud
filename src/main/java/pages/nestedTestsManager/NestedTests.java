@@ -1,7 +1,9 @@
 package pages.nestedTestsManager;
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
 import pages.Best2PayPage;
 import pages.ReviewPage;
 import pages.RootPage;
@@ -11,6 +13,8 @@ import java.util.HashMap;
 import static com.codeborne.selenide.Selenide.$;
 import static constants.Constant.TestData.*;
 import static constants.Selectors.Best2PayPage.transaction_id;
+import static constants.Selectors.RootPage.DishList.dishesSumChangedHeading;
+import static constants.Selectors.RootPage.TipsAndCheck.totalPay;
 import static constants.Selectors.YandexMail.dropdownListOrder;
 
 
@@ -71,5 +75,24 @@ public class NestedTests extends RootPage {
         click(dropdownListOrder);
 
     }
+
+    @Step("Проверка суммы что суммы изменились после того как изменился заказ на кассе и в таппере нажали оплатить")
+    public void checkIfSumsChangedAfterEditingOrder() {
+
+        double totalPaySum = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        rootPage.clickOnPaymentButton();
+        rootPage.isElementVisibleDuringLongTime(dishesSumChangedHeading, 5);
+        dishesSumChangedHeading.shouldHave(Condition.text("Сумма заказа изменилась"));
+        rootPage.forceWait(2000); // toDo меню не успевает обновится после ошибки изменения суммы оплаты
+        double totalPaySumAfterChanging = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+
+        System.out.println(totalPaySum + " сумма до изменения заказа");
+        System.out.println(totalPaySumAfterChanging + " сумма после изменения заказа");
+        Assertions.assertNotEquals(totalPaySum, totalPaySumAfterChanging,
+                "После изменения заказа на кассе, заказ в таппере не поменялся");
+
+
+    }
+
 
 }

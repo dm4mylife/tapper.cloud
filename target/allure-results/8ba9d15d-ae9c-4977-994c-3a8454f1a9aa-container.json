@@ -1,0 +1,1 @@
+{"uuid":"8ba9d15d-ae9c-4977-994c-3a8454f1a9aa","name":"2.6. Оплачиваем заказ","children":["76b47672-c18f-4b6a-955c-d6bd91dfb296"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669368853351,"stop":1669368853351}],"afters":[],"start":1669368853349,"stop":1669368863605}

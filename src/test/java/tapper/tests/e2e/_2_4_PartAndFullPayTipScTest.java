@@ -19,7 +19,7 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.STAGE_RKEEPER_URL;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.Selectors.Best2PayPage.transaction_id;
 
 @Order(24)
@@ -31,19 +31,16 @@ import static constants.Selectors.Best2PayPage.transaction_id;
 
 public class _2_4_PartAndFullPayTipScTest extends BaseTest {
 
+    static double totalPay;
+    static HashMap<String, Integer> paymentDataKeeper;
+    static String transactionId;
     RootPage rootPage = new RootPage();
     Best2PayPage best2PayPage = new Best2PayPage();
     ReviewPage reviewPage = new ReviewPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
-
-
-    static double totalPay;
-    static HashMap<String, Integer> paymentDataKeeper;
-    static String transactionId;
 
     @Test
     @DisplayName("1. Создание заказа в r_keeper")
@@ -56,10 +53,10 @@ public class _2_4_PartAndFullPayTipScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2. Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
+    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }

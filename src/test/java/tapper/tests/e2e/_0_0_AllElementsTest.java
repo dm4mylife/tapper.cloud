@@ -2,14 +2,14 @@ package tapper.tests.e2e;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Condition;
+import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import pages.Best2PayPage;
 import pages.RootPage;
 import pages.nestedTestsManager.Best2PayPageNestedTests;
-import pages.nestedTestsManager.NestedTests;
 import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
@@ -17,10 +17,12 @@ import tests.BaseTest;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.STAGE_RKEEPER_URL;
-import static constants.Constant.TestData.TIME_WAIT_FOR_FULL_LOAD;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Selectors.RootPage.DishList.*;
+import static constants.Selectors.RootPage.TapBar.closeCallWaiterText;
 
-@Order(1)
+
+@Order(0)
 @Epic("E2E - тесты (полные)")
 @Feature("Общая функциональность таппера")
 @DisplayName("Общая функциональность таппера")
@@ -28,15 +30,36 @@ import static constants.Constant.TestData.TIME_WAIT_FOR_FULL_LOAD;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _0_0_AllElementsTest extends BaseTest {
 
+    static String visit;
+    static String guid;
+    static String uni;
+    static String testText = "Общая функциональность таппера";
+    BaseActions baseActions = new BaseActions();
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
-    static String visit;
-    static String guid;
-    static String uni;
+    @Test
+    @DisplayName("0. Открываем пустой стол")
+    public void openEmptyTable() {
+        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+
+    }
+
+    @Test
+    @DisplayName("1.0. Проверка заголовка, номера стола, лого часов, подписи и вызов официанта")
+    public void isTableNumberShown() {
+
+        baseActions.isElementVisible(headerTitle);
+        baseActions.isElementVisible(tableNumber);
+        baseActions.isElementVisible(emptyTableLogoClock);
+        emptyOrderHeading.shouldHave(Condition.text("Скоро здесь появится ваш заказ"));
+        baseActions.isElementVisible(closeCallWaiterText);
+
+    }
+
 
     @Test
     @DisplayName("1.1 Создание заказа в r_keeper")
@@ -55,7 +78,7 @@ public class _0_0_AllElementsTest extends BaseTest {
     @Test
     @DisplayName("1.2. Открытие стола")
     public void openTable() {
-        rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
     }
 
     @Test
@@ -64,7 +87,6 @@ public class _0_0_AllElementsTest extends BaseTest {
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
     }
 
-    @Disabled
     @Test
     @DisplayName("1.4. Проверяем анимацию\\картинку при загрузке стола")
     public void isStartScreenShown() {
@@ -75,12 +97,6 @@ public class _0_0_AllElementsTest extends BaseTest {
     @DisplayName("1.5. Проверяем что стол не пустой и содержит заказ")
     public void isDishListNotEmptyAndVisible() {
         rootPage.isDishListNotEmptyAndVisible();
-    }
-
-    @Test
-    @DisplayName("1.6. Проверяем что номер стола отображается")
-    public void isTableNumberShown() {
-        rootPage.isTableNumberShown();
     }
 
     @Test
@@ -163,6 +179,5 @@ public class _0_0_AllElementsTest extends BaseTest {
     public void isTableEmpty() {
         rootPage.isEmptyOrder();
     }
-
 
 }

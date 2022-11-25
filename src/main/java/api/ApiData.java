@@ -17,14 +17,19 @@ public class ApiData {
     public static class orderData {
 
         public static final String R_KEEPER_RESTAURANT = "testrkeeper";
-        public static final String TABLE_3 = "12";
+        public static final String TABLE_3 = "12"; //5
+        public static final String TABLE_10 = "10"; //5
         public static final String TABLE_3_ID = "1000046";
+        public static final String TABLE_10_ID = "1000044";
+
         public static final String WAITER_ROBOCOP = "23";
-        public static final String BARNOE_PIVO = "1000303";
-        public static final String GLAZUNYA = "1000263";
-        public static final String SOLYANKA = "1000176";
-        public static final String GOVYADINA_PORTION = "1000147";
-        public static final String BARANINA = "1000148";
+        public static final String BARNOE_PIVO = "1000361";
+        public static final String GLAZUNYA = "1000368";
+        public static final String TORT = "1000385";
+        public static final String SOLYANKA = "1000364";
+        public static final String GOVYADINA_PORTION = "1000363";
+        public static final String BARANINA = "1000367";
+        public static final String LIMONAD_MOD = "1000362";
 
     }
 

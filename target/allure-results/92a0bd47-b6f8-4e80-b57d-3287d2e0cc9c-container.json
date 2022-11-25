@@ -1,1 +1,0 @@
-{"uuid":"92a0bd47-b6f8-4e80-b57d-3287d2e0cc9c","name":"4. Переход на эквайринг, ввод данных, оплата","children":["ecfc3ed3-90c5-404a-bda3-03b58bc1507f"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1668572050398,"stop":1668572050398}],"afters":[],"start":1668572050395,"stop":1668572066836}

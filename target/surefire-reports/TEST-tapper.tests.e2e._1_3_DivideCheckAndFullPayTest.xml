@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="58.584" tests="8" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="16"/>
+    <property name="webdriver.chrome.driver" value="C:\Users\user\.cache\selenium\chromedriver\win32\107.0.5304.62\chromedriver.exe"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1251"/>
+    <property name="java.class.path" value="C:\tapper.cloud\target\test-classes;C:\tapper.cloud\target\classes;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-java\4.6.0\selenium-java-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.6.0\selenium-chrome-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.6.0\selenium-chromium-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v105\4.6.0\selenium-devtools-v105-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v106\4.6.0\selenium-devtools-v106-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v107\4.6.0\selenium-devtools-v107-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v85\4.6.0\selenium-devtools-v85-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.6.0\selenium-edge-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.6.0\selenium-firefox-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.6.0\selenium-ie-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.6.0\selenium-remote-driver-4.6.0.jar;C:\Users\user\.m2\repository\com\beust\jcommander\1.82\jcommander-1.82.jar;C:\Users\user\.m2\repository\io\netty\netty-buffer\4.1.84.Final\netty-buffer-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-http\4.1.84.Final\netty-codec-http-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec\4.1.84.Final\netty-codec-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler\4.1.84.Final\netty-handler-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-common\4.1.84.Final\netty-common-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-classes-epoll\4.1.84.Final\netty-transport-classes-epoll-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-classes-kqueue\4.1.84.Final\netty-transport-classes-kqueue-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.84.Final\netty-transport-native-epoll-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.84.Final\netty-transport-native-kqueue-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-unix-common\4.1.84.Final\netty-transport-native-unix-common-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport\4.1.84.Final\netty-transport-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-resolver\4.1.84.Final\netty-resolver-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-api\1.19.0\opentelemetry-api-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-context\1.19.0\opentelemetry-context-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.19.0\opentelemetry-exporter-logging-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.19.0\opentelemetry-sdk-metrics-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.19.0-alpha\opentelemetry-sdk-logs-1.19.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-api-logs\1.19.0-alpha\opentelemetry-api-logs-1.19.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.19.0\opentelemetry-sdk-common-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.19.0\opentelemetry-sdk-extension-autoconfigure-spi-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.19.0-alpha\opentelemetry-sdk-extension-autoconfigure-1.19.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-exporter-common\1.19.0\opentelemetry-exporter-common-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.19.0\opentelemetry-sdk-trace-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.19.0\opentelemetry-sdk-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-semconv\1.19.0-alpha\opentelemetry-semconv-1.19.0-alpha.jar;C:\Users\user\.m2\repository\io\ous\jtoml\2.0.0\jtoml-2.0.0.jar;C:\Users\user\.m2\repository\org\asynchttpclient\async-http-client\2.12.3\async-http-client-2.12.3.jar;C:\Users\user\.m2\repository\org\asynchttpclient\async-http-client-netty-utils\2.12.3\async-http-client-netty-utils-2.12.3.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-socks\4.1.60.Final\netty-codec-socks-4.1.60.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler-proxy\4.1.60.Final\netty-handler-proxy-4.1.60.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.60.Final\netty-transport-native-epoll-4.1.60.Final-linux-x86_64.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.60.Final\netty-transport-native-kqueue-4.1.60.Final-osx-x86_64.jar;C:\Users\user\.m2\repository\org\reactivestreams\reactive-streams\1.0.3\reactive-streams-1.0.3.jar;C:\Users\user\.m2\repository\com\typesafe\netty\netty-reactive-streams\2.0.4\netty-reactive-streams-2.0.4.jar;C:\Users\user\.m2\repository\com\sun\activation\jakarta.activation\1.2.2\jakarta.activation-1.2.2.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-http\4.6.0\selenium-http-4.6.0.jar;C:\Users\user\.m2\repository\dev\failsafe\failsafe\3.3.0\failsafe-3.3.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.6.0\selenium-manager-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.6.0\selenium-safari-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-api\4.6.0\selenium-api-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-support\4.6.0\selenium-support-4.6.0.jar;C:\Users\user\.m2\repository\com\google\auto\service\auto-service-annotations\1.0.1\auto-service-annotations-1.0.1.jar;C:\Users\user\.m2\repository\com\google\auto\service\auto-service\1.0.1\auto-service-1.0.1.jar;C:\Users\user\.m2\repository\com\google\auto\auto-common\1.2\auto-common-1.2.jar;C:\Users\user\.m2\repository\com\google\guava\guava\31.1-jre\guava-31.1-jre.jar;C:\Users\user\.m2\repository\com\google\guava\failureaccess\1.0.1\failureaccess-1.0.1.jar;C:\Users\user\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\user\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\user\.m2\repository\org\checkerframework\checker-qual\3.12.0\checker-qual-3.12.0.jar;C:\Users\user\.m2\repository\com\google\errorprone\error_prone_annotations\2.11.0\error_prone_annotations-2.11.0.jar;C:\Users\user\.m2\repository\com\google\j2objc\j2objc-annotations\1.3\j2objc-annotations-1.3.jar;C:\Users\user\.m2\repository\net\bytebuddy\byte-buddy\1.12.18\byte-buddy-1.12.18.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-json\4.6.0\selenium-json-4.6.0.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\user\.m2\repository\io\rest-assured\rest-assured\5.2.0\rest-assured-5.2.0.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy\4.0.1\groovy-4.0.1.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy-xml\4.0.1\groovy-xml-4.0.1.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\user\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\user\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\user\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\user\.m2\repository\io\rest-assured\xml-path\5.2.0\xml-path-5.2.0.jar;C:\Users\user\.m2\repository\io\rest-assured\json-path\5.2.0\json-path-5.2.0.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy-json\4.0.1\groovy-json-4.0.1.jar;C:\Users\user\.m2\repository\io\rest-assured\rest-assured-common\5.2.0\rest-assured-common-5.2.0.jar;C:\Users\user\.m2\repository\io\rest-assured\json-schema-validator\5.2.0\json-schema-validator-5.2.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\json-schema-validator\2.2.14\json-schema-validator-2.2.14.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\jackson-coreutils-equivalence\1.0\jackson-coreutils-equivalence-1.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\jackson-coreutils\2.0\jackson-coreutils-2.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\msg-simple\1.2\msg-simple-1.2.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\btf\1.3\btf-1.3.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\json-schema-core\1.2.14\json-schema-core-1.2.14.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\uri-template\0.10\uri-template-0.10.jar;C:\Users\user\.m2\repository\org\mozilla\rhino\1.7.7.2\rhino-1.7.7.2.jar;C:\Users\user\.m2\repository\com\sun\mail\mailapi\1.6.2\mailapi-1.6.2.jar;C:\Users\user\.m2\repository\joda-time\joda-time\2.10.5\joda-time-2.10.5.jar;C:\Users\user\.m2\repository\com\googlecode\libphonenumber\libphonenumber\8.11.1\libphonenumber-8.11.1.jar;C:\Users\user\.m2\repository\net\sf\jopt-simple\jopt-simple\5.0.4\jopt-simple-5.0.4.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter\5.9.0\junit-jupiter-5.9.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.0\junit-jupiter-engine-5.9.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.0\junit-jupiter-params-5.9.0.jar;C:\Users\user\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-engine\1.9.0\junit-platform-engine-1.9.0.jar;C:\Users\user\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-commons\1.9.0\junit-platform-commons-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-launcher\1.9.0\junit-platform-launcher-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite\1.9.0\junit-platform-suite-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-api\1.9.0\junit-platform-suite-api-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-engine\1.9.0\junit-platform-suite-engine-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-commons\1.9.0\junit-platform-suite-commons-1.9.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-junit5\2.20.0\allure-junit5-2.20.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-junit-platform\2.20.0\allure-junit-platform-2.20.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-test-filter\2.20.0\allure-test-filter-2.20.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-maven\2.11.2\allure-maven-2.11.2.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.13.0\jackson-databind-2.13.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.13.0\jackson-annotations-2.13.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.13.0\jackson-core-2.13.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-plugin-api\3.8.3\maven-plugin-api-3.8.3.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-utils\3.3.0\plexus-utils-3.3.0.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.6.0\plexus-classworlds-2.6.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-core\3.8.3\maven-core-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-model\3.8.3\maven-model-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-settings\3.8.3\maven-settings-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-settings-builder\3.8.3\maven-settings-builder-3.8.3.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-sec-dispatcher\2.0\plexus-sec-dispatcher-2.0.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-cipher\2.0\plexus-cipher-2.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-builder-support\3.8.3\maven-builder-support-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-repository-metadata\3.8.3\maven-repository-metadata-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-artifact\3.8.3\maven-artifact-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-model-builder\3.8.3\maven-model-builder-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-resolver-provider\3.8.3\maven-resolver-provider-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-impl\1.6.3\maven-resolver-impl-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-api\1.6.3\maven-resolver-api-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-spi\1.6.3\maven-resolver-spi-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-util\1.6.3\maven-resolver-util-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-shared-utils\3.3.4\maven-shared-utils-3.3.4.jar;C:\Users\user\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.plexus\0.3.5\org.eclipse.sisu.plexus-0.3.5.jar;C:\Users\user\.m2\repository\javax\annotation\javax.annotation-api\1.2\javax.annotation-api-1.2.jar;C:\Users\user\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.3.5\org.eclipse.sisu.inject-0.3.5.jar;C:\Users\user\.m2\repository\com\google\inject\guice\4.2.2\guice-4.2.2-no_aop.jar;C:\Users\user\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar;C:\Users\user\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.26\plexus-interpolation-1.26.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-component-annotations\2.1.0\plexus-component-annotations-2.1.0.jar;C:\Users\user\.m2\repository\org\apache\maven\reporting\maven-reporting-impl\3.0.0\maven-reporting-impl-3.0.0.jar;C:\Users\user\.m2\repository\org\apache\maven\reporting\maven-reporting-api\3.0\maven-reporting-api-3.0.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-sink-api\1.7\doxia-sink-api-1.7.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-logging-api\1.7\doxia-logging-api-1.7.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-decoration-model\1.7.4\doxia-decoration-model-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-core\1.7\doxia-core-1.7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-container-default\1.0-alpha-30\plexus-container-default-1.0-alpha-30.jar;C:\Users\user\.m2\repository\junit\junit\3.8.1\junit-3.8.1.jar;C:\Users\user\.m2\repository\commons-lang\commons-lang\2.4\commons-lang-2.4.jar;C:\Users\user\.m2\repository\xmlunit\xmlunit\1.5\xmlunit-1.5.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-site-renderer\1.7.4\doxia-site-renderer-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-skin-model\1.7.4\doxia-skin-model-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-module-xhtml\1.7\doxia-module-xhtml-1.7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-i18n\1.0-beta-7\plexus-i18n-1.0-beta-7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-velocity\1.2\plexus-velocity-1.2.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity\1.7\velocity-1.7.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity-tools\2.0\velocity-tools-2.0.jar;C:\Users\user\.m2\repository\commons-digester\commons-digester\1.8\commons-digester-1.8.jar;C:\Users\user\.m2\repository\commons-chain\commons-chain\1.1\commons-chain-1.1.jar;C:\Users\user\.m2\repository\commons-validator\commons-validator\1.3.1\commons-validator-1.3.1.jar;C:\Users\user\.m2\repository\dom4j\dom4j\1.1\dom4j-1.1.jar;C:\Users\user\.m2\repository\oro\oro\2.0.8\oro-2.0.8.jar;C:\Users\user\.m2\repository\sslext\sslext\1.2-0\sslext-1.2-0.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-core\1.3.8\struts-core-1.3.8.jar;C:\Users\user\.m2\repository\antlr\antlr\2.7.2\antlr-2.7.2.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-taglib\1.3.8\struts-taglib-1.3.8.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-tiles\1.3.8\struts-tiles-1.3.8.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-artifact-transfer\0.13.1\maven-artifact-transfer-0.13.1.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-common-artifact-filters\3.1.0\maven-common-artifact-filters-3.1.0.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-inject-plexus\1.4.2\sisu-inject-plexus-1.4.2.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-inject-bean\1.4.2\sisu-inject-bean-1.4.2.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-guice\2.1.7\sisu-guice-2.1.7-noaop.jar;C:\Users\user\.m2\repository\commons-beanutils\commons-beanutils\1.9.4\commons-beanutils-1.9.4.jar;C:\Users\user\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\user\.m2\repository\net\lingala\zip4j\zip4j\1.3.2\zip4j-1.3.2.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-exec\1.3\commons-exec-1.3.jar;C:\Users\user\.m2\repository\org\apache\maven\plugin-tools\maven-plugin-annotations\3.6.1\maven-plugin-annotations-3.6.1.jar;C:\Users\user\.m2\repository\org\apache\maven\plugins\maven-jxr-plugin\3.1.1\maven-jxr-plugin-3.1.1.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-jxr\3.1.1\maven-jxr-3.1.1.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity-engine-core\2.0\velocity-engine-core-2.0.jar;C:\Users\user\.m2\repository\org\apache\maven\wagon\wagon-provider-api\2.4\wagon-provider-api-2.4.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-java\1.0.6\plexus-java-1.0.6.jar;C:\Users\user\.m2\repository\org\ow2\asm\asm\9.0\asm-9.0.jar;C:\Users\user\.m2\repository\com\thoughtworks\qdox\qdox\2.0.0\qdox-2.0.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-java-commons\2.20.0\allure-java-commons-2.20.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-model\2.20.0\allure-model-2.20.0.jar;C:\Users\user\.m2\repository\org\aspectj\aspectjweaver\1.9.9.1\aspectjweaver-1.9.9.1.jar;C:\Users\user\.m2\repository\org\apache\maven\plugins\maven-surefire-plugin\3.0.0-M5\maven-surefire-plugin-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\maven-surefire-common\3.0.0-M5\maven-surefire-common-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-extensions-api\3.0.0-M5\surefire-extensions-api-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-booter\3.0.0-M5\surefire-booter-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.0.0-M5\surefire-extensions-spi-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-toolchain\3.0-alpha-2\maven-toolchain-3.0-alpha-2.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.0.0-M4\surefire-shared-utils-3.0.0-M4.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-selenide\2.20.0\allure-selenide-2.20.0.jar;C:\Users\user\.m2\repository\com\codeborne\selenide-core\6.9.0\selenide-core-6.9.0.jar;C:\Users\user\.m2\repository\io\github\bonigarcia\webdrivermanager\5.3.0\webdrivermanager-5.3.0.jar;C:\Users\user\.m2\repository\com\google\code\gson\gson\2.9.1\gson-2.9.1.jar;C:\Users\user\.m2\repository\org\brotli\dec\0.1.2\dec-0.1.2.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-lang3\3.12.0\commons-lang3-3.12.0.jar;C:\Users\user\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-compress\1.21\commons-compress-1.21.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.1.3\httpclient5-5.1.3.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.1.3\httpcore5-5.1.3.jar;C:\Users\user\.m2\repository\com\codeborne\selenide\6.9.0\selenide-6.9.0.jar;C:\Users\user\.m2\repository\org\slf4j\slf4j-api\2.0.3\slf4j-api-2.0.3.jar;C:\Users\user\.m2\repository\org\slf4j\slf4j-reload4j\2.0.3\slf4j-reload4j-2.0.3.jar;C:\Users\user\.m2\repository\ch\qos\reload4j\reload4j\1.2.22\reload4j-1.2.22.jar;C:\Users\user\.m2\repository\io\github\artsok\rerunner-jupiter\2.1.6\rerunner-jupiter-2.1.6.jar;C:\Users\user\.m2\repository\org\jetbrains\annotations\23.0.0\annotations-23.0.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-surefire-provider\1.3.2\junit-platform-surefire-provider-1.3.2.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-api\2.22.0\surefire-api-2.22.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-logger-api\2.22.0\surefire-logger-api-2.22.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\common-java5\2.22.0\common-java5-2.22.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.0\junit-jupiter-api-5.9.0.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Yekaterinburg"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="16"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="RU"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-16.0.2\bin"/>
+    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire17804832036654410430\surefirebooter14823803940199832103.jar C:\Users\user\AppData\Local\Temp\surefire17804832036654410430 2022-11-25T14-33-31_380-jvmRun1 surefire18358056717909054562tmp surefire_01803608227477452912tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\tapper.cloud\target\test-classes;C:\tapper.cloud\target\classes;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-java\4.6.0\selenium-java-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.6.0\selenium-chrome-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.6.0\selenium-chromium-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v105\4.6.0\selenium-devtools-v105-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v106\4.6.0\selenium-devtools-v106-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v107\4.6.0\selenium-devtools-v107-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v85\4.6.0\selenium-devtools-v85-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.6.0\selenium-edge-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.6.0\selenium-firefox-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.6.0\selenium-ie-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.6.0\selenium-remote-driver-4.6.0.jar;C:\Users\user\.m2\repository\com\beust\jcommander\1.82\jcommander-1.82.jar;C:\Users\user\.m2\repository\io\netty\netty-buffer\4.1.84.Final\netty-buffer-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-http\4.1.84.Final\netty-codec-http-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec\4.1.84.Final\netty-codec-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler\4.1.84.Final\netty-handler-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-common\4.1.84.Final\netty-common-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-classes-epoll\4.1.84.Final\netty-transport-classes-epoll-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-classes-kqueue\4.1.84.Final\netty-transport-classes-kqueue-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.84.Final\netty-transport-native-epoll-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.84.Final\netty-transport-native-kqueue-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-unix-common\4.1.84.Final\netty-transport-native-unix-common-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport\4.1.84.Final\netty-transport-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-resolver\4.1.84.Final\netty-resolver-4.1.84.Final.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-api\1.19.0\opentelemetry-api-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-context\1.19.0\opentelemetry-context-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.19.0\opentelemetry-exporter-logging-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.19.0\opentelemetry-sdk-metrics-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.19.0-alpha\opentelemetry-sdk-logs-1.19.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-api-logs\1.19.0-alpha\opentelemetry-api-logs-1.19.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.19.0\opentelemetry-sdk-common-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.19.0\opentelemetry-sdk-extension-autoconfigure-spi-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.19.0-alpha\opentelemetry-sdk-extension-autoconfigure-1.19.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-exporter-common\1.19.0\opentelemetry-exporter-common-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.19.0\opentelemetry-sdk-trace-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.19.0\opentelemetry-sdk-1.19.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-semconv\1.19.0-alpha\opentelemetry-semconv-1.19.0-alpha.jar;C:\Users\user\.m2\repository\io\ous\jtoml\2.0.0\jtoml-2.0.0.jar;C:\Users\user\.m2\repository\org\asynchttpclient\async-http-client\2.12.3\async-http-client-2.12.3.jar;C:\Users\user\.m2\repository\org\asynchttpclient\async-http-client-netty-utils\2.12.3\async-http-client-netty-utils-2.12.3.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-socks\4.1.60.Final\netty-codec-socks-4.1.60.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler-proxy\4.1.60.Final\netty-handler-proxy-4.1.60.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.60.Final\netty-transport-native-epoll-4.1.60.Final-linux-x86_64.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.60.Final\netty-transport-native-kqueue-4.1.60.Final-osx-x86_64.jar;C:\Users\user\.m2\repository\org\reactivestreams\reactive-streams\1.0.3\reactive-streams-1.0.3.jar;C:\Users\user\.m2\repository\com\typesafe\netty\netty-reactive-streams\2.0.4\netty-reactive-streams-2.0.4.jar;C:\Users\user\.m2\repository\com\sun\activation\jakarta.activation\1.2.2\jakarta.activation-1.2.2.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-http\4.6.0\selenium-http-4.6.0.jar;C:\Users\user\.m2\repository\dev\failsafe\failsafe\3.3.0\failsafe-3.3.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.6.0\selenium-manager-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.6.0\selenium-safari-driver-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-api\4.6.0\selenium-api-4.6.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-support\4.6.0\selenium-support-4.6.0.jar;C:\Users\user\.m2\repository\com\google\auto\service\auto-service-annotations\1.0.1\auto-service-annotations-1.0.1.jar;C:\Users\user\.m2\repository\com\google\auto\service\auto-service\1.0.1\auto-service-1.0.1.jar;C:\Users\user\.m2\repository\com\google\auto\auto-common\1.2\auto-common-1.2.jar;C:\Users\user\.m2\repository\com\google\guava\guava\31.1-jre\guava-31.1-jre.jar;C:\Users\user\.m2\repository\com\google\guava\failureaccess\1.0.1\failureaccess-1.0.1.jar;C:\Users\user\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\user\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\user\.m2\repository\org\checkerframework\checker-qual\3.12.0\checker-qual-3.12.0.jar;C:\Users\user\.m2\repository\com\google\errorprone\error_prone_annotations\2.11.0\error_prone_annotations-2.11.0.jar;C:\Users\user\.m2\repository\com\google\j2objc\j2objc-annotations\1.3\j2objc-annotations-1.3.jar;C:\Users\user\.m2\repository\net\bytebuddy\byte-buddy\1.12.18\byte-buddy-1.12.18.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-json\4.6.0\selenium-json-4.6.0.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\user\.m2\repository\io\rest-assured\rest-assured\5.2.0\rest-assured-5.2.0.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy\4.0.1\groovy-4.0.1.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy-xml\4.0.1\groovy-xml-4.0.1.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\user\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\user\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\user\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\user\.m2\repository\io\rest-assured\xml-path\5.2.0\xml-path-5.2.0.jar;C:\Users\user\.m2\repository\io\rest-assured\json-path\5.2.0\json-path-5.2.0.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy-json\4.0.1\groovy-json-4.0.1.jar;C:\Users\user\.m2\repository\io\rest-assured\rest-assured-common\5.2.0\rest-assured-common-5.2.0.jar;C:\Users\user\.m2\repository\io\rest-assured\json-schema-validator\5.2.0\json-schema-validator-5.2.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\json-schema-validator\2.2.14\json-schema-validator-2.2.14.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\jackson-coreutils-equivalence\1.0\jackson-coreutils-equivalence-1.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\jackson-coreutils\2.0\jackson-coreutils-2.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\msg-simple\1.2\msg-simple-1.2.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\btf\1.3\btf-1.3.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\json-schema-core\1.2.14\json-schema-core-1.2.14.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\uri-template\0.10\uri-template-0.10.jar;C:\Users\user\.m2\repository\org\mozilla\rhino\1.7.7.2\rhino-1.7.7.2.jar;C:\Users\user\.m2\repository\com\sun\mail\mailapi\1.6.2\mailapi-1.6.2.jar;C:\Users\user\.m2\repository\joda-time\joda-time\2.10.5\joda-time-2.10.5.jar;C:\Users\user\.m2\repository\com\googlecode\libphonenumber\libphonenumber\8.11.1\libphonenumber-8.11.1.jar;C:\Users\user\.m2\repository\net\sf\jopt-simple\jopt-simple\5.0.4\jopt-simple-5.0.4.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter\5.9.0\junit-jupiter-5.9.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.0\junit-jupiter-engine-5.9.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.0\junit-jupiter-params-5.9.0.jar;C:\Users\user\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-engine\1.9.0\junit-platform-engine-1.9.0.jar;C:\Users\user\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-commons\1.9.0\junit-platform-commons-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-launcher\1.9.0\junit-platform-launcher-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite\1.9.0\junit-platform-suite-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-api\1.9.0\junit-platform-suite-api-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-engine\1.9.0\junit-platform-suite-engine-1.9.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-commons\1.9.0\junit-platform-suite-commons-1.9.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-junit5\2.20.0\allure-junit5-2.20.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-junit-platform\2.20.0\allure-junit-platform-2.20.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-test-filter\2.20.0\allure-test-filter-2.20.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-maven\2.11.2\allure-maven-2.11.2.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.13.0\jackson-databind-2.13.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.13.0\jackson-annotations-2.13.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.13.0\jackson-core-2.13.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-plugin-api\3.8.3\maven-plugin-api-3.8.3.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-utils\3.3.0\plexus-utils-3.3.0.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.6.0\plexus-classworlds-2.6.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-core\3.8.3\maven-core-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-model\3.8.3\maven-model-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-settings\3.8.3\maven-settings-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-settings-builder\3.8.3\maven-settings-builder-3.8.3.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-sec-dispatcher\2.0\plexus-sec-dispatcher-2.0.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-cipher\2.0\plexus-cipher-2.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-builder-support\3.8.3\maven-builder-support-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-repository-metadata\3.8.3\maven-repository-metadata-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-artifact\3.8.3\maven-artifact-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-model-builder\3.8.3\maven-model-builder-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-resolver-provider\3.8.3\maven-resolver-provider-3.8.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-impl\1.6.3\maven-resolver-impl-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-api\1.6.3\maven-resolver-api-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-spi\1.6.3\maven-resolver-spi-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-util\1.6.3\maven-resolver-util-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-shared-utils\3.3.4\maven-shared-utils-3.3.4.jar;C:\Users\user\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.plexus\0.3.5\org.eclipse.sisu.plexus-0.3.5.jar;C:\Users\user\.m2\repository\javax\annotation\javax.annotation-api\1.2\javax.annotation-api-1.2.jar;C:\Users\user\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.3.5\org.eclipse.sisu.inject-0.3.5.jar;C:\Users\user\.m2\repository\com\google\inject\guice\4.2.2\guice-4.2.2-no_aop.jar;C:\Users\user\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar;C:\Users\user\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.26\plexus-interpolation-1.26.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-component-annotations\2.1.0\plexus-component-annotations-2.1.0.jar;C:\Users\user\.m2\repository\org\apache\maven\reporting\maven-reporting-impl\3.0.0\maven-reporting-impl-3.0.0.jar;C:\Users\user\.m2\repository\org\apache\maven\reporting\maven-reporting-api\3.0\maven-reporting-api-3.0.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-sink-api\1.7\doxia-sink-api-1.7.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-logging-api\1.7\doxia-logging-api-1.7.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-decoration-model\1.7.4\doxia-decoration-model-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-core\1.7\doxia-core-1.7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-container-default\1.0-alpha-30\plexus-container-default-1.0-alpha-30.jar;C:\Users\user\.m2\repository\junit\junit\3.8.1\junit-3.8.1.jar;C:\Users\user\.m2\repository\commons-lang\commons-lang\2.4\commons-lang-2.4.jar;C:\Users\user\.m2\repository\xmlunit\xmlunit\1.5\xmlunit-1.5.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-site-renderer\1.7.4\doxia-site-renderer-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-skin-model\1.7.4\doxia-skin-model-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-module-xhtml\1.7\doxia-module-xhtml-1.7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-i18n\1.0-beta-7\plexus-i18n-1.0-beta-7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-velocity\1.2\plexus-velocity-1.2.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity\1.7\velocity-1.7.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity-tools\2.0\velocity-tools-2.0.jar;C:\Users\user\.m2\repository\commons-digester\commons-digester\1.8\commons-digester-1.8.jar;C:\Users\user\.m2\repository\commons-chain\commons-chain\1.1\commons-chain-1.1.jar;C:\Users\user\.m2\repository\commons-validator\commons-validator\1.3.1\commons-validator-1.3.1.jar;C:\Users\user\.m2\repository\dom4j\dom4j\1.1\dom4j-1.1.jar;C:\Users\user\.m2\repository\oro\oro\2.0.8\oro-2.0.8.jar;C:\Users\user\.m2\repository\sslext\sslext\1.2-0\sslext-1.2-0.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-core\1.3.8\struts-core-1.3.8.jar;C:\Users\user\.m2\repository\antlr\antlr\2.7.2\antlr-2.7.2.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-taglib\1.3.8\struts-taglib-1.3.8.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-tiles\1.3.8\struts-tiles-1.3.8.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-artifact-transfer\0.13.1\maven-artifact-transfer-0.13.1.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-common-artifact-filters\3.1.0\maven-common-artifact-filters-3.1.0.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-inject-plexus\1.4.2\sisu-inject-plexus-1.4.2.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-inject-bean\1.4.2\sisu-inject-bean-1.4.2.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-guice\2.1.7\sisu-guice-2.1.7-noaop.jar;C:\Users\user\.m2\repository\commons-beanutils\commons-beanutils\1.9.4\commons-beanutils-1.9.4.jar;C:\Users\user\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\user\.m2\repository\net\lingala\zip4j\zip4j\1.3.2\zip4j-1.3.2.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-exec\1.3\commons-exec-1.3.jar;C:\Users\user\.m2\repository\org\apache\maven\plugin-tools\maven-plugin-annotations\3.6.1\maven-plugin-annotations-3.6.1.jar;C:\Users\user\.m2\repository\org\apache\maven\plugins\maven-jxr-plugin\3.1.1\maven-jxr-plugin-3.1.1.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-jxr\3.1.1\maven-jxr-3.1.1.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity-engine-core\2.0\velocity-engine-core-2.0.jar;C:\Users\user\.m2\repository\org\apache\maven\wagon\wagon-provider-api\2.4\wagon-provider-api-2.4.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-java\1.0.6\plexus-java-1.0.6.jar;C:\Users\user\.m2\repository\org\ow2\asm\asm\9.0\asm-9.0.jar;C:\Users\user\.m2\repository\com\thoughtworks\qdox\qdox\2.0.0\qdox-2.0.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-java-commons\2.20.0\allure-java-commons-2.20.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-model\2.20.0\allure-model-2.20.0.jar;C:\Users\user\.m2\repository\org\aspectj\aspectjweaver\1.9.9.1\aspectjweaver-1.9.9.1.jar;C:\Users\user\.m2\repository\org\apache\maven\plugins\maven-surefire-plugin\3.0.0-M5\maven-surefire-plugin-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\maven-surefire-common\3.0.0-M5\maven-surefire-common-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-extensions-api\3.0.0-M5\surefire-extensions-api-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-booter\3.0.0-M5\surefire-booter-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.0.0-M5\surefire-extensions-spi-3.0.0-M5.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-toolchain\3.0-alpha-2\maven-toolchain-3.0-alpha-2.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.0.0-M4\surefire-shared-utils-3.0.0-M4.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-selenide\2.20.0\allure-selenide-2.20.0.jar;C:\Users\user\.m2\repository\com\codeborne\selenide-core\6.9.0\selenide-core-6.9.0.jar;C:\Users\user\.m2\repository\io\github\bonigarcia\webdrivermanager\5.3.0\webdrivermanager-5.3.0.jar;C:\Users\user\.m2\repository\com\google\code\gson\gson\2.9.1\gson-2.9.1.jar;C:\Users\user\.m2\repository\org\brotli\dec\0.1.2\dec-0.1.2.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-lang3\3.12.0\commons-lang3-3.12.0.jar;C:\Users\user\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-compress\1.21\commons-compress-1.21.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.1.3\httpclient5-5.1.3.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.1.3\httpcore5-5.1.3.jar;C:\Users\user\.m2\repository\com\codeborne\selenide\6.9.0\selenide-6.9.0.jar;C:\Users\user\.m2\repository\org\slf4j\slf4j-api\2.0.3\slf4j-api-2.0.3.jar;C:\Users\user\.m2\repository\org\slf4j\slf4j-reload4j\2.0.3\slf4j-reload4j-2.0.3.jar;C:\Users\user\.m2\repository\ch\qos\reload4j\reload4j\1.2.22\reload4j-1.2.22.jar;C:\Users\user\.m2\repository\io\github\artsok\rerunner-jupiter\2.1.6\rerunner-jupiter-2.1.6.jar;C:\Users\user\.m2\repository\org\jetbrains\annotations\23.0.0\annotations-23.0.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-surefire-provider\1.3.2\junit-platform-surefire-provider-1.3.2.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-api\2.22.0\surefire-api-2.22.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-logger-api\2.22.0\surefire-logger-api-2.22.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\common-java5\2.22.0\common-java5-2.22.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.0\junit-jupiter-api-5.9.0.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\user"/>
+    <property name="user.language" value="ru"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2021-07-20"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-16.0.2"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\tapper.cloud"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire17804832036654410430\surefirebooter14823803940199832103.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="16.0.2+7-67"/>
+    <property name="user.name" value="user"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="Cp1251"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\user\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\user\AppData\Local\Temp\"/>
+    <property name="java.version" value="16.0.2"/>
+    <property name="user.dir" value="C:\tapper.cloud"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-16.0.2\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\work\apache-maven-3.8.1\bin;C:\Program Files\Java\jdk-16.0.2\bin;C:\Users\user\scoop\shims;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\user\AppData\Roaming\npm;C:\Program Files\Java\jdk-16.0.2\bin;C:\work\apache-maven-3.8.1\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\bin;;C:\Users\user\AppData\Local\GitHubDesktop\bin;C:\Users\user\AppData\Local\Programs\EmEditor;C:\Program Files\TestProject Agent;."/>
+    <property name="junit.jupiter.extensions.autodetection.enabled" value="true"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="16.0.2+7-67"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="60.0"/>
+    <property name="webdriver.http.factory" value="selenide-netty-client-factory"/>
+  </properties>
+  <testcase name="createAndFillOrder" classname="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="1.599">
+    <system-out><![CDATA[{
+    "success": true,
+    "result": {
+        "visit": "548146074",
+        "orderIdent": "256",
+        "guid": "{38FCFC40-A511-4A48-91E2-6F82E5AE94D3}",
+        "url": "http://code.ucs.ru/qr?id=AB642685147F4091961D68CE3897D63A38FCFC40A5114A4891E26F82E5AE94D385709A44",
+        "orderName": "3.1",
+        "version": "0",
+        "crc32": "0",
+        "orderSum": "0",
+        "unpaidSum": "0",
+        "discountSum": "0",
+        "totalPieces": "0",
+        "seqNumber": "108",
+        "paid": "1",
+        "finished": "0",
+        "persistentComment": "100500",
+        "nonPersistentComment": "",
+        "openTime": "2022-11-25T14:50:03",
+        "cookMins": "0"
+    }
+}
+0sec response time
+
+Заказ создался на кассе
+{
+    "success": true,
+    "result": {
+        "@attributes": {
+            "ServerVersion": "7.7.0.120",
+            "XmlVersion": "248",
+            "NetName": "TAPPER",
+            "Status": "Ok",
+            "CMD": "SaveOrder",
+            "ErrorText": "",
+            "DateTime": "2022-11-25T14:50:04",
+            "WorkTime": "15",
+            "Processed": "1",
+            "ArrivalDateTime": "2022-11-25T14:50:04"
+        },
+        "Order": {
+            "@attributes": {
+                "visit": "548146074",
+                "orderIdent": "256",
+                "guid": "{38FCFC40-A511-4A48-91E2-6F82E5AE94D3}",
+                "url": "http://code.ucs.ru/qr?id=AB642685147F4091961D68CE3897D63A38FCFC40A5114A4891E26F82E5AE94D385709A44",
+                "orderName": "3.1",
+                "version": "1",
+                "crc32": "-2059315928",
+                "orderSum": "155000",
+                "unpaidSum": "155000",
+                "discountSum": "0",
+                "totalPieces": "10000",
+                "seqNumber": "108",
+                "paid": "0",
+                "finished": "0",
+                "persistentComment": "100500",
+                "nonPersistentComment": "",
+                "openTime": "2022-11-25T14:50:03",
+                "cookMins": "0",
+                "basicSum": "155000",
+                "nationalSum": "155000"
+            },
+            "Creator": {
+                "@attributes": {
+                    "id": "9001",
+                    "code": "9001",
+                    "name": "Система"
+                },
+                "Role": {
+                    "@attributes": {
+                        "id": "100010",
+                        "code": "100010",
+                        "name": "Система"
+                    }
+                }
+            },
+            "Waiter": {
+                "@attributes": {
+                    "id": "1000073",
+                    "code": "23",
+                    "name": "Robocop"
+                },
+                "Role": {
+                    "@attributes": {
+                        "id": "100005",
+                        "code": "5",
+                        "name": "Официанты"
+                    }
+                }
+            },
+            "OrderCategory": {
+                "@attributes": {
+                    "id": "10033",
+                    "code": "1",
+                    "name": "Основная"
+                }
+            },
+            "OrderType": {
+                "@attributes": {
+                    "id": "10069",
+                    "code": "9001",
+                    "name": "не выбрано"
+                }
+            },
+            "Table": {
+                "@attributes": {
+                    "id": "1000046",
+                    "code": "12",
+                    "name": "3"
+                }
+            },
+            "ExternalProps": {
+                "Prop": {
+                    "@attributes": {
+                        "name": "{7DC7AF79-1D00-4573-BE8A-A02C6FA3B430}",
+                        "value": "A24"
+                    }
+                }
+            },
+            "Session": {
+                "@attributes": {
+                    "uni": "1",
+                    "line_guid": "{FDBEA90A-E565-47D7-BC05-2FA1032B2566}",
+                    "state": "4",
+                    "sessionID": "1",
+                    "isDraft": "0",
+                    "remindTime": "2022-11-25T14:50:04",
+                    "startService": "2022-11-25T14:50:04",
+                    "printed": "1",
+                    "cookMins": "0"
+                },
+                "Station": {
+                    "@attributes": {
+                        "id": "0",
+                        "name": ""
+                    }
+                },
+                "Author": {
+                    "@attributes": {
+                        "id": "9001",
+                        "code": "9001",
+                        "name": "Система"
+                    },
+                    "Role": {
+                        "@attributes": {
+                            "id": "100010",
+                            "code": "100010",
+                            "name": "Система"
+                        }
+                    }
+                },
+                "Creator": {
+                    "@attributes": {
+                        "id": "9001",
+                        "code": "9001",
+                        "name": "Система"
+                    },
+                    "Role": {
+                        "@attributes": {
+                            "id": "100010",
+                            "code": "100010",
+                            "name": "Система"
+                        }
+                    }
+                },
+                "Dish": {
+                    "@attributes": {
+                        "id": "1000361",
+                        "code": "121",
+                        "name": "Барное пиво",
+                        "uni": "2",
+                        "line_guid": "{2C95DE59-9017-4B7F-BD52-8B93A4B54CFF}",
+                        "state": "4",
+                        "guid": "{BAC2D91B-BE01-4BC8-97BA-A5AF714C19DF}",
+                        "price": "15500",
+                        "amount": "155000",
+                        "quantity": "10000",
+                        "srcQuantity": "10000"
+                    }
+                },
+                "PriceScale": {
+                    "@attributes": {
+                        "id": "3",
+                        "code": "1",
+                        "name": "Основная"
+                    }
+                },
+                "TradeGroup": {
+                    "@attributes": {
+                        "id": "7",
+                        "code": "1",
+                        "name": "По умолчанию"
+                    }
+                }
+            }
+        },
+        "Session": {
+            "@attributes": {
+                "line_guid": "{FDBEA90A-E565-47D7-BC05-2FA1032B2566}",
+                "sessionID": "1"
+            }
+        }
+    }
+}
+0sec response time
+
+Заказ наполнился
+]]></system-out>
+  </testcase>
+  <testcase name="openAndCheck" classname="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="5.928">
+    <system-err><![CDATA[Starting ChromeDriver 107.0.5304.62 (1eec40d3a5764881c92085aaee66d25075c159aa-refs/branch-heads/5304@{#942}) on port 19432
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.
+]]></system-err>
+  </testcase>
+  <testcase name="chooseDishesAndCheckAfterDivided" classname="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="12.181">
+    <system-out><![CDATA[
+Количество рандомных позиций для оплаты: 3
+10 общее число позиций
+Блюдо - Барное пиво - 155.0. Общая цена 155.0
+Блюдо - Барное пиво - 155.0. Общая цена 310.0
+Блюдо - Барное пиво - 155.0. Общая цена 465.0
+1. Барное пиво - 155.0. Общая сумма: 155.0
+2. Барное пиво - 155.0. Общая сумма: 310.0
+3. Барное пиво - 155.0. Общая сумма: 465.0
+Сумма в поле 'Отмеченные позиции' 465.0 совпадает с общей чистой суммой заказа 465.0
+
+465.0 total sum
+6.97 serviceChargeSumClear
+Сумма в 'Итого к оплате' 471.97 совпадает с суммой в иконке кошелька вместе с СБ 471.97
+
+Сервисный сбор6.97рассчитывается корректно из чаевых и суммы заказа и совпадает с полем СБ 6.97
+6.97 sc
+0.0 tips
+465.0 order_amount
+465.0 общая сумма в 'Итого к оплате'
+20% активные чаевые
+
+Процент чаевых 20.0
+Сумма в 'Итого к оплате' 558.0
+Сумма 'Итого к оплате' вместе с чаевыми 558.0
+Процент скидки установленный по умолчанию совпадает с общей ценой за все блюда без СБ
+
+Скидка - 0
+6.97 чистый сервисный сбор по текущей проценту чаевых: 0
+0.0 чистые чаевые по общей сумме за блюда
+465.0 чистая сумма за блюда без чаевых и без сервисного сбора
+465.0 чистая сумма за блюда c чаевым и без сервисного сбора
+471.97 чистая сумма за блюда c чаевым и сервисным сбором
+471.97 сумма в поле 'Итого к оплате' c учетом чаевых и сервисного сбора
+
+Скидка - 15
+10.47 чистый сервисный сбор по текущей проценту чаевых: 15
+70.0 чистые чаевые по общей сумме за блюда
+465.0 чистая сумма за блюда без чаевых и без сервисного сбора
+535.0 чистая сумма за блюда c чаевым и без сервисного сбора
+545.47 чистая сумма за блюда c чаевым и сервисным сбором
+545.47 сумма в поле 'Итого к оплате' c учетом чаевых и сервисного сбора
+
+Скидка - 20
+11.63 чистый сервисный сбор по текущей проценту чаевых: 20
+93.0 чистые чаевые по общей сумме за блюда
+465.0 чистая сумма за блюда без чаевых и без сервисного сбора
+558.0 чистая сумма за блюда c чаевым и без сервисного сбора
+569.63 чистая сумма за блюда c чаевым и сервисным сбором
+569.63 сумма в поле 'Итого к оплате' c учетом чаевых и сервисного сбора
+
+Скидка - 25
+12.77 чистый сервисный сбор по текущей проценту чаевых: 25
+116.0 чистые чаевые по общей сумме за блюда
+465.0 чистая сумма за блюда без чаевых и без сервисного сбора
+581.0 чистая сумма за блюда c чаевым и без сервисного сбора
+593.77 чистая сумма за блюда c чаевым и сервисным сбором
+593.77 сумма в поле 'Итого к оплате' c учетом чаевых и сервисного сбора
+
+25% активные чаевые
+]]></system-out>
+  </testcase>
+  <testcase name="savePaymentDataForAcquiring" classname="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="4.46">
+    <system-out><![CDATA[12.77 sc
+116.0 tips
+465.0 order_amount
+{order_amount=46500, fee=1277, tips=11600} данные для б2п
+]]></system-out>
+  </testcase>
+  <testcase name="payAndGoToAcquiring" classname="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="5.856">
+    <system-out><![CDATA[Сумма в тапере 593.77 сходится с суммой в эквайринге 593.77
+]]></system-out>
+  </testcase>
+  <testcase name="checkPayment" classname="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="8.309">
+    <system-out><![CDATA[0sec response time
+Транзакция получена
+{order_amount=46500, fee=1277, tips=11600} tapper data
+{order_amount=46500, fee=1277, tips=11600} b2b data
+Все суммы в таппере сходятся с транзакцией b2p
+]]></system-out>
+  </testcase>
+  <testcase name="clearDataAndChoseAgain" classname="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="5.527">
+    <system-out><![CDATA[21.72 sc
+109.0 tips
+1085.0 order_amount
+{order_amount=108500, fee=2172, tips=10900} данные для б2п
+]]></system-out>
+  </testcase>
+  <testcase name="payAndGoToAcquiringAgain" classname="tapper.tests.e2e._1_3_DivideCheckAndFullPayTest" time="14.583">
+    <system-out><![CDATA[Сумма в тапере 1215.72 сходится с суммой в эквайринге 1215.72
+0sec response time
+Транзакция получена
+{order_amount=108500, fee=2172, tips=10900} tapper data
+{order_amount=108500, fee=2172, tips=10900} b2b data
+Все суммы в таппере сходятся с транзакцией b2p
+]]></system-out>
+  </testcase>
+</testsuite>

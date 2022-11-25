@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tapper.tests.e2e._0_3_DisabledDishesWhenDividedByTimeLimitTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 332.239 s - in tapper.tests.e2e._0_3_DisabledDishesWhenDividedByTimeLimitTest

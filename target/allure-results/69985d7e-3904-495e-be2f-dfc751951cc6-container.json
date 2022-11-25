@@ -1,0 +1,1 @@
+{"uuid":"69985d7e-3904-495e-be2f-dfc751951cc6","name":"1.5. Проверяем что стол не пустой и содержит заказ","children":["d07d23df-b906-493a-87e2-6fa8ca206737"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669368845790,"stop":1669368845790}],"afters":[],"start":1669368845790,"stop":1669368845870}

@@ -2,21 +2,22 @@ package pages.nestedTestsManager;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import pages.Best2PayPage;
 import pages.ReviewPage;
 import pages.RootPage;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static api.ApiData.QueryParams.rqParamsOrderGet;
-import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
-import static api.ApiData.orderData.TABLE_3_ID;
 import static constants.Selectors.Best2PayPage.transaction_id;
-import static constants.Selectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
-import static constants.Selectors.RootPage.DishList.disabledDishes;
+import static constants.Selectors.RootPage.DishList.*;
+import static constants.Selectors.RootPage.TipsAndCheck.discountField;
 import static constants.Selectors.RootPage.TipsAndCheck.resetTipsButton;
 
 
@@ -29,19 +30,16 @@ public class RootPageNestedTests extends RootPage {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
 
+    @Disabled
     @Step("Проверка что позиции в заказе на кассе и в таппере одинаковы")
-    public void isOrderInKeeperCorrectWithTapper() {
+    public void isOrderInKeeperCorrectWithTapper() { // toDO доделать, слишком много разных условий
 
-        HashMap<String, String> cookie = getCookieSessionAndGuest();
+        //   Response rs = apiRKeeper.orderInfo();
 
-        Response rs =
-                apiRKeeper.getOrder(rqParamsOrderGet(TABLE_3_ID, R_KEEPER_RESTAURANT,
-                        cookie.get("guest"), cookie.get("session")));
-
-        HashMap<Integer, Map<String, Double>> orderInKeeper = getOrderInfoFromKeeperAndConvToHashMap(rs);
+        //   HashMap<Integer, Map<String, Double>> orderInKeeper = getOrderInfoFromKeeperAndConvToHashMap(rs);
 
         isDishListNotEmptyAndVisible();
-        matchTapperOrderWithOrderInKeeper(orderInKeeper);
+        //  matchTapperOrderWithOrderInKeeper(orderInKeeper);
 
     }
 
@@ -92,10 +90,12 @@ public class RootPageNestedTests extends RootPage {
     @Step("Клик в оплату, появление лоадера и проверка что мы на эквайринге")
     public void clickPayment() {
 
+        scrollTillBottom();
         clickOnPaymentButton();
         isPageLoaderShown();
-        best2PayPage.isPaymentContainerAndVpnShown();
+        dishesSumChangedHeading.shouldNotHave(Condition.visible, Duration.ofSeconds(2));
         best2PayPage.isTestBest2PayUrl();
+        best2PayPage.isPaymentContainerAndVpnShown();
 
     }
 
@@ -123,14 +123,39 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Выбираем рандомное число блюд ({amountDishes}) и считаем их сумму вместо со скидкой на заказ")
+    public void chooseDishesWithRandomAmountWithAmount(int amountDishes) {
+
+        clickDivideCheckSlider();
+        chooseCertainAmountDishes(amountDishes);
+
+    }
+
     @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
     public void chooseDishesWithRandomAmountWithTipsWithSC(int amountDishes) {
 
-        chooseDishesWithRandomAmount(amountDishes);
-        checkChosenDishesSumsWithTipsWithSC();
+        clickDivideCheckSlider();
+        chooseCertainAmountDishes(amountDishes);
+
+        double cleanTotalSum = countAllChosenDishesDivided();
+        checkSumWithAllConditions(cleanTotalSum);
+
         setRandomTipsOption();
 
     }
+
+
+    @Step("Проверка что чистая сумма позиций совпадает с общей суммой в 'Итого к оплате', " +
+            "все опции чаевых корректны с\\без СБ, СБ считается по формуле корректно")
+    public void checkSumWithAllConditions(double cleanDishesSum) {
+
+        checkCleanSumMatchWithTotalPay(cleanDishesSum);
+        checkTipsOptionWithSC(cleanDishesSum);
+        checkTipsOptionWithoutSC(cleanDishesSum);
+        checkScLogic(cleanDishesSum);
+
+    }
+
 
     @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, без чаевых, с сервисным сбором")
     public void chooseDishesWithRandomAmountNoTipsWithSC(int amountDishes) {
@@ -195,6 +220,35 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Проверяем сумму со скидкой за заказ по всем позициям с 'Итого к оплате' и счётчиком в иконке кошелька без СБ и чаевых ")
+    public void checkTotalDishDiscountSumWithTotalPayInCheckAndInWalletCounter(double cleanTotalSum, String id_table) {
+
+        disableTipsAndSC(cleanTotalSum);
+
+        Response rsGetOrder = apiRKeeper.getOrderInfo(id_table);
+        double rsDiscount = rsGetOrder.jsonPath().getDouble("Session.Discount['@attributes'].amount");
+        System.out.println(rsDiscount + " discount from rs");
+
+        double tapperDiscount = rootPage.convertSelectorTextIntoDoubleByRgx(discountField, "[^\\.\\d]+");
+        System.out.println(tapperDiscount + " tapper discount");
+
+        double cleanTotalSumWithDiscount = cleanTotalSum + tapperDiscount;
+        System.out.println(cleanTotalSum + " clean total sum without discount");
+
+
+        Assertions.assertEquals(rsDiscount, tapperDiscount,
+                "Скидка на кассе не совпадает со скидкой в таппере в поле 'Скидка'");
+
+        Assertions.assertEquals(cleanTotalSum, cleanTotalSumWithDiscount,
+                "Чистая сумма за позиции не совпадает с чистой суммой без скидки в 'Итого к оплате'");
+
+        isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
+        isSumInWalletMatchWithTotalPay();
+
+        activateRandomTipsAndSC();
+
+    }
+
     @Step("Оплачиваем все блюда без разделения")
     public void payAllDishesNotDividedCheck() {
 
@@ -236,6 +290,16 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Проверяем сумму выбранных позиций заказа с разделенными позициями с чаевыми и СБ")
+    public void checkChosenDishesSumsWithTipsWithSC() { //
+
+        double cleanTotalSum = countAllChosenDishesDivided();
+        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
+
+        areTipsOptionsCorrect(cleanTotalSum);
+
+    }
+
     @Step("Проверяем сумму всего не оплаченного заказа c чаевыми и с СБ")
     public void checkAllDishesSumsWithAllConditions() { //
 
@@ -248,21 +312,18 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Проверяем сумму выбранных позиций заказа с разделенными позициями с чаевыми и СБ")
-    public void checkChosenDishesSumsWithTipsWithSC() { //
+    @Step("Проверяем сумму всего не оплаченного заказа c чаевыми и с СБ и со скидкой на весь заказ")
+    public void checkAllDishesWithDiscountSumsWithAllConditions(String id_table) { //
 
-        double cleanTotalSum = countAllChosenDishesDivided();
-        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
+        double cleanTotalSum = countAllNonPaidDishesInOrder();
+
+
+        checkTotalDishDiscountSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum, id_table);
 
         areTipsOptionsCorrect(cleanTotalSum);
 
-    }
+        cancelTipsAndActivateSC(cleanTotalSum);
 
-    @Step("Проверяем что все варианты чаевых корректны")
-    public void areTipsOptionsCorrect(double cleanTotalSum) {
-
-        isActiveTipPercentCorrectWithTotalSumAndSC(cleanTotalSum);
-        isAllTipsOptionsAreCorrectWithTotalSumAndSC(cleanTotalSum);
 
     }
 
@@ -274,7 +335,7 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Проверяем сумму выбранных позиций заказа без чаевых и СБ")
+    @Step("Проверяем сумму выбранных позиций заказа без чаевых и без СБ")
     public void checkChosenDishesSumsNoTipsNoSC() { //
 
         double cleanTotalSum = countAllChosenDishesDivided();
@@ -284,8 +345,16 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Проверяем что все варианты чаевых корректны")
+    public void areTipsOptionsCorrect(double cleanTotalSum) {
+
+        isActiveTipPercentCorrectWithTotalSumAndSC(cleanTotalSum);
+        isAllTipsOptionsAreCorrectWithTotalSumAndSC(cleanTotalSum);
+
+    }
+
     @Step("Оплачиваем по {amountDishesPayFor1Time} позиции до тех пор пока весь заказ не будет закрыт")
-    public void payTillFullSuccessPayment(int amountDishesPayFor1Time) {
+    public void payTillFullSuccessPayment(int amountDishes) {
 
         isDishListNotEmptyAndVisible();
 
@@ -293,10 +362,10 @@ public class RootPageNestedTests extends RootPage {
 
             System.out.println(allNonPaidAndNonDisabledDishes.size() + " кол-во не оплаченных блюд");
 
-            if (allNonPaidAndNonDisabledDishes.size() != 3) {
+            if (allNonPaidAndNonDisabledDishes.size() != amountDishes) {
 
                 clearAllSiteData();
-                chooseDishesWithRandomAmountWithTipsWithSC(amountDishesPayFor1Time);
+                chooseDishesWithRandomAmountWithTipsWithSC(amountDishes);
                 isAnotherGuestSumCorrect();
 
                 double totalPay = saveTotalPayForMatchWithAcquiring();
@@ -329,6 +398,7 @@ public class RootPageNestedTests extends RootPage {
             }
 
             reviewPage.clickOnFinishButton();
+            forceWait(4000); // toDO есть предположение что предоплата не успевает доходить до кассы
 
         }
 
@@ -354,15 +424,14 @@ public class RootPageNestedTests extends RootPage {
     @Step("Закрываем заказ полностью") // toDo костыльное решение по закрытию заказа пока пишется api
     public void closeOrder() {
 
-        double totalPay = saveTotalPayForMatchWithAcquiring();
         clickPayment();
 
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
-        best2PayPage.clickPayButton();
+        best2PayPageNestedTests.typeDataAndPay();
 
         reviewPageNestedTests.fullPaymentCorrect();
         reviewPage.clickOnFinishButton();
         rootPage.isEmptyOrder();
+        forceWait(2000);
 
     }
 

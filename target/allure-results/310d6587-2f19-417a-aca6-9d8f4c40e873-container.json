@@ -1,0 +1,1 @@
+{"uuid":"310d6587-2f19-417a-aca6-9d8f4c40e873","name":"1. Создание заказа в r_keeper","children":["b8125d9a-9929-41cb-a37d-c38ddd639ce2"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669369817438,"stop":1669369817438}],"afters":[],"start":1669369817436,"stop":1669369823377}

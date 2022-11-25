@@ -44,20 +44,20 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Ввод номера карты")
     public void typeCardNumber() {
-        baseActions.sendHumanKeys(cardNumber, TEST_PAYMENT_CARD_NUMBER);
+        baseActions.sendKeys(cardNumber, TEST_PAYMENT_CARD_NUMBER);
     }
 
     @Step("Ввод даты истечения карты")
     public void typeDateExpire() {
 
-        baseActions.sendHumanKeys(dateExpire, TEST_PAYMENT_CARD_EXPIRE_MONTH);
-        baseActions.sendHumanKeys(dateExpire, TEST_PAYMENT_CARD_EXPIRE_YEAR);
+        baseActions.sendKeys(dateExpire, TEST_PAYMENT_CARD_EXPIRE_MONTH);
+        baseActions.sendKeys(dateExpire, TEST_PAYMENT_CARD_EXPIRE_YEAR);
 
     }
 
     @Step("Ввод CVV")
     public void typeCVV() {
-        baseActions.sendHumanKeys(cvv, TEST_PAYMENT_CARD_CVV);
+        baseActions.sendKeys(cvv, TEST_PAYMENT_CARD_CVV);
     }
 
     @Step("Клик по кнопке отправить по email и ввод почты")
@@ -65,7 +65,7 @@ public class Best2PayPage extends BaseActions {
 
         baseActions.click(sendCheckByEmail);
         baseActions.isElementVisible(email);
-        baseActions.sendHumanKeys(email, TEST_YANDEX_LOGIN_EMAIL);
+        baseActions.sendKeys(email, TEST_YANDEX_LOGIN_EMAIL);
 
     }
 

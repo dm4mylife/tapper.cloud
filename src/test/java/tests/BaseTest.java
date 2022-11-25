@@ -10,12 +10,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.util.logging.Level;
-
-import static constants.Constant.TestData.IPHONE12PRO;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BaseTest {
@@ -24,22 +21,12 @@ public class BaseTest {
     static void setUp() {
 
         Configuration.driverManagerEnabled = true;
-        Configuration.headless = true;
-        //Configuration.browserSize = "1920x1080";
+        Configuration.headless = false;
         Configuration.browser = "chrome";
-        Configuration.browserSize = IPHONE12PRO;
+        Configuration.browserSize = "414x896";
+
+
         ChromeOptions options = new ChromeOptions();
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        ChromeOptions chromeOptions = new ChromeOptions();
-        LoggingPreferences logPrefs = new LoggingPreferences();
-
-        logPrefs.enable(org.openqa.selenium.logging.LogType.BROWSER, Level.ALL);
-        logPrefs.enable(org.openqa.selenium.logging.LogType.PERFORMANCE, Level.ALL);
-        capabilities.setCapability("goog:loggingPrefs", logPrefs);
-        capabilities.setCapability(ChromeOptions.CAPABILITY, capabilities);
-
-        Configuration.browserCapabilities = chromeOptions;
 
         options.addArguments("--enable-automation");
         options.addArguments("--disable-extensions");
@@ -48,8 +35,13 @@ public class BaseTest {
         options.addArguments("--no-sandbox");
         options.addArguments("--incognito");
         options.addArguments("--disable-dev-shm-usage");
+
+        Map<String, String> mobileEmulation = new HashMap<>();
+        //  options.setExperimentalOption("mobileEmulation", mobileEmulation);
+        //  mobileEmulation.put("deviceName", "iPhone 12 Pro");
+
         //options.addArguments("--disable-gpu");
-        //options.addArguments("--auto-open-devtools-for-tabs");
+        // options.addArguments("--auto-open-devtools-for-tabs");
 
         Configuration.browserCapabilities = options;
 
@@ -63,7 +55,12 @@ public class BaseTest {
 
     @BeforeEach
     void setupAllureReports() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
+
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().
+                screenshots(true).
+                savePageSource(false).
+                includeSelenideSteps(false));
+
     }
 
 

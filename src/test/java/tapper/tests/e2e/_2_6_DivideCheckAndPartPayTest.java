@@ -2,6 +2,7 @@ package tapper.tests.e2e;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
@@ -14,23 +15,29 @@ import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.STAGE_RKEEPER_URL;
+import static com.codeborne.selenide.Condition.exist;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.Selectors.Best2PayPage.transaction_id;
+import static constants.Selectors.RootPage.DishList.dishesStatus;
 
 @Order(26)
 @Epic("E2E - тесты (полные)")
-@Feature("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор")
-@DisplayName("keeper - частичная оплата когда разделили счёт - рандомные поз без скидки - чай+сбор")
+@Feature("keeper - частичная оплата когда разделили счёт - обычные позиции - чай+сбор")
+@DisplayName("keeper - частичная оплата когда разделили счёт - обычные позиции - чай+сбор")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _2_6_DivideCheckAndPartPayTest extends BaseTest {
 
+    static double totalPay;
+    static HashMap<String, Integer> paymentDataKeeper;
+    static String transactionId;
     RootPage rootPage = new RootPage();
     Best2PayPage best2PayPage = new Best2PayPage();
     ReviewPage reviewPage = new ReviewPage();
@@ -38,11 +45,6 @@ public class _2_6_DivideCheckAndPartPayTest extends BaseTest {
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
-
-
-    static double totalPay;
-    static HashMap<String, Integer> paymentDataKeeper;
-    static String transactionId;
     HashMap<Integer, Map<String, Double>> chosenDishes;
 
     @Test
@@ -51,15 +53,15 @@ public class _2_6_DivideCheckAndPartPayTest extends BaseTest {
 
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP));
         String visit = rs.jsonPath().getString("result.visit");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
 
     }
 
     @Test
-    @DisplayName("2. Проверяем работу всех активных элементов на странице")
+    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -116,9 +118,16 @@ public class _2_6_DivideCheckAndPartPayTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("8. Закрываем заказ, очищаем кассу")
+    @DisplayName("8. Проверяем что ранее выбранные позиции все еще в статусе ожидаются, после закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
+        for (SelenideElement element : dishesStatus) {
+
+            System.out.println(element);
+            element.shouldNotBe(exist, Duration.ofSeconds(300));
+
+        }
+        rootPage.forceWait(1000); // toDO счетчик итого после сброса статуса ожидается у позиций, обновляется медленее чем пойдут другие тесты. подумать
         rootPageNestedTests.closeOrder();
 
     }

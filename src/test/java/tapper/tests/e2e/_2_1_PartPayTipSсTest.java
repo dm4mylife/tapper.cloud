@@ -10,7 +10,6 @@ import pages.Best2PayPage;
 import pages.ReviewPage;
 import pages.RootPage;
 import pages.nestedTestsManager.Best2PayPageNestedTests;
-import pages.nestedTestsManager.NestedTests;
 import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
@@ -20,18 +19,24 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.STAGE_RKEEPER_URL;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.Selectors.Best2PayPage.transaction_id;
 
 @Order(21)
 @Epic("E2E - тесты (полные)")
-@Feature("keeper - частичная оплата - обычные позиции - чай+сбор - карта")
-@DisplayName("keeper - частичная оплата - обычные позиции - чай+сбор - карта")
+@Feature("keeper - частичная оплата - обычные позиции - чай+сбор")
+@DisplayName("keeper - частичная оплата - обычные позиции - чай+сбор")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 
 public class _2_1_PartPayTipSсTest extends BaseTest {
 
+    static double totalPay;
+    static HashMap<String, Integer> paymentData;
+    static String transactionId;
+    static String visit;
+    static String guid;
+    static String uni;
     RootPage rootPage = new RootPage();
     Best2PayPage best2PayPage = new Best2PayPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -39,14 +44,6 @@ public class _2_1_PartPayTipSсTest extends BaseTest {
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
-
-    static double totalPay;
-    static HashMap<String, Integer> paymentData;
-    static String transactionId;
-
-    static String visit;
-    static String guid;
-    static String uni;
 
     @Test
     @DisplayName("1. Создание заказа в r_keeper")
@@ -60,17 +57,13 @@ public class _2_1_PartPayTipSсTest extends BaseTest {
         guid = rsCreateOrder.jsonPath().getString("result.guid");
         uni = rsFillingOrder.jsonPath().getString("result.Order.Session.Dish[\"@attributes\"].uni");
 
-        System.out.println(guid + " guid");
-        System.out.println(visit + " visit");
-        System.out.println(uni + " uni");
-
     }
 
     @Test
-    @DisplayName("2. Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
+    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -118,6 +111,7 @@ public class _2_1_PartPayTipSсTest extends BaseTest {
     public void closeOrder() {
 
         rootPageNestedTests.closeOrder();
+
     }
 
 }

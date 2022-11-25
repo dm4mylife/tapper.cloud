@@ -1,0 +1,1 @@
+{"uuid":"a5a4a6bb-9618-4613-b0ec-5cfac1b44728","name":"2.7. Проверяем оплату","children":["2904e6cb-2417-4151-b3a2-7320eea3a023"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669368863608,"stop":1669368863608}],"afters":[],"start":1669368863606,"stop":1669368870490}

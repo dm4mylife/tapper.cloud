@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tapper.tests.e2e._2_4_PartAndFullPayTipScTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 60.395 s - in tapper.tests.e2e._2_4_PartAndFullPayTipScTest

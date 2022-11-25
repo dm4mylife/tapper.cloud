@@ -10,7 +10,6 @@ import pages.Best2PayPage;
 import pages.ReviewPage;
 import pages.RootPage;
 import pages.nestedTestsManager.Best2PayPageNestedTests;
-import pages.nestedTestsManager.NestedTests;
 import pages.nestedTestsManager.ReviewPageNestedTests;
 import pages.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
@@ -20,7 +19,7 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.STAGE_RKEEPER_URL;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.Selectors.Best2PayPage.transaction_id;
 
 @Order(22)
@@ -32,6 +31,9 @@ import static constants.Selectors.Best2PayPage.transaction_id;
 
 public class _2_2_PartPayNoTipScTest extends BaseTest {
 
+    static double totalPay;
+    static HashMap<String, Integer> paymentData;
+    static String transactionId;
     RootPage rootPage = new RootPage();
     Best2PayPage best2PayPage = new Best2PayPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -39,12 +41,6 @@ public class _2_2_PartPayNoTipScTest extends BaseTest {
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
-    NestedTests nestedTests = new NestedTests();
-
-    static double totalPay;
-    static HashMap<String, Integer> paymentData;
-    static String transactionId;
-
 
     @Test
     @DisplayName("1. Создание заказа в r_keeper")
@@ -57,10 +53,10 @@ public class _2_2_PartPayNoTipScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2. Проверяем работу всех активных элементов на странице, проверка блюд на кассе и в таппере")
+    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_URL);
+        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }

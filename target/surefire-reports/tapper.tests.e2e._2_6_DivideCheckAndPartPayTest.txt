@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tapper.tests.e2e._2_6_DivideCheckAndPartPayTest
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 312.289 s - in tapper.tests.e2e._2_6_DivideCheckAndPartPayTest

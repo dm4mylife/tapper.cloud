@@ -1,0 +1,1 @@
+{"uuid":"4ab73755-51cd-415e-9ff5-ac62dbccd19a","name":"7. Закрываем заказ","children":["258d5513-549d-47d9-aff1-c33f847689c4"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669369674842,"stop":1669369674842}],"afters":[],"start":1669369674840,"stop":1669369675986}

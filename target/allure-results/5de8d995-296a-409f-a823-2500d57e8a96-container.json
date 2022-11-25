@@ -1,0 +1,1 @@
+{"uuid":"5de8d995-296a-409f-a823-2500d57e8a96","name":"7. Разделяем счёт, оплачиваем оставшиеся позиции","children":["f53c58d2-4a33-41a7-8886-8f8f991244be"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669369920492,"stop":1669369920492}],"afters":[],"start":1669369920491,"stop":1669369940437}

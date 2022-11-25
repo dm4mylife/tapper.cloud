@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class testPojo {
 
-    public class OrdersElementAll{
+    public class OrdersElementAll {
         public String position_id;
         public int sort;
         public String name;
@@ -19,10 +19,9 @@ public class testPojo {
         public int amount;
     }
 
-    public class Root{
+    public class Root {
         public ArrayList<OrdersElementAll> ordersElementAll;
     }
-
 
 
 }

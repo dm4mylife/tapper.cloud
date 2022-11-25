@@ -1,0 +1,1 @@
+{"uuid":"8d540e3c-cd5d-47ca-beb4-3d988350a349","name":"2.1. Добавляем еще одно блюдо в заказ","children":["cd5bf3ec-b13e-445e-9073-443ab39a8217"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669369363935,"stop":1669369363935}],"afters":[],"start":1669369363934,"stop":1669369365902}
