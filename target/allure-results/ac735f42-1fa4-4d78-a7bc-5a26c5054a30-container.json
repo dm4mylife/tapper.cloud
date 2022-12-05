@@ -1,1 +1,0 @@
-{"uuid":"ac735f42-1fa4-4d78-a7bc-5a26c5054a30","name":"1. Открытие стола","children":["3dd2b91e-8c1b-4ae5-a87e-7b12b83e621b"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669368874341,"stop":1669368874341}],"afters":[],"start":1669368874339,"stop":1669368880341}

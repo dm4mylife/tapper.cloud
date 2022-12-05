@@ -1,0 +1,165 @@
+{
+  "uid" : "8acbf2ae88268520",
+  "name" : "2.0. Проверяем что кнопка оплатить есть и работает корректно",
+  "fullName" : "tapper.tests.keeper_e2e._0_common._0_0_AllElementsTest.isPaymentButtonShown",
+  "historyId" : "36ab69093942642d7532415b4a24d9fe",
+  "time" : {
+    "start" : 1669983413386,
+    "stop" : 1669983413954,
+    "duration" : 568
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1669983390630,
+      "stop" : 1669983390659,
+      "duration" : 29
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Кнопка 'Оплатить' отображается корректно",
+      "time" : {
+        "start" : 1669983413387,
+        "stop" : 1669983413953,
+        "duration" : 566
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Плавный скрол до видимого элемента (только JS)",
+        "time" : {
+          "start" : 1669983413387,
+          "stop" : 1669983413896,
+          "duration" : 509
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "selector",
+          "value" : "body"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует на странице в ходе длительной загрузки (15сек.)",
+        "time" : {
+          "start" : 1669983413939,
+          "stop" : 1669983413953,
+          "duration" : 14
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"payment-btn main-btn\" type=\"submit\">Оплатить</button>"
+        }, {
+          "name" : "time",
+          "value" : "15"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 2
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : true,
+    "stepsCount" : 3
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1669983435977,
+      "stop" : 1669983452213,
+      "duration" : 16236
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._0_common._0_0_AllElementsTest]/[method:isPaymentButtonShown()]"
+  }, {
+    "name" : "epic",
+    "value" : "E2E - тесты (полные)"
+  }, {
+    "name" : "feature",
+    "value" : "Общая функциональность таппера"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "12432@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._0_common._0_0_AllElementsTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._0_common._0_0_AllElementsTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "isPaymentButtonShown"
+  }, {
+    "name" : "suite",
+    "value" : "Общая функциональность таппера"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "8acbf2ae88268520.json",
+  "parameterValues" : [ ]
+}

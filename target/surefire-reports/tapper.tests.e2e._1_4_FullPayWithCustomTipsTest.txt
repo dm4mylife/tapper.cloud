@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.e2e._1_4_FullPayWithCustomTipsTest
--------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.289 s - in tapper.tests.e2e._1_4_FullPayWithCustomTipsTest

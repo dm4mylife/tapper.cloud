@@ -1,1 +1,0 @@
-{"uuid":"60d13a5f-28d4-4ed0-abc5-81455df0a60c","name":"2.5. Проверяем функционал вызова официанта","children":["57bc2714-4875-4c57-ac7a-82639de443a1"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669368851012,"stop":1669368851012}],"afters":[],"start":1669368851010,"stop":1669368853344}

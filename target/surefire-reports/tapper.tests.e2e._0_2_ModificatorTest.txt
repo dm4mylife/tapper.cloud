@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.e2e._0_2_ModificatorTest
--------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 39.273 s - in tapper.tests.e2e._0_2_ModificatorTest

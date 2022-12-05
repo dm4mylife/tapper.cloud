@@ -1,0 +1,150 @@
+{
+  "uid" : "1b313cfd43be35e7",
+  "name" : "1. Создание заказа в r_keeper",
+  "fullName" : "tapper.tests.keeper_e2e._6_waiter._6_6_NonVerifiedPartNoCardNoScTest.createAndFillOrder",
+  "historyId" : "dd046ab0b4ef48a46d7d4871d26855fc",
+  "time" : {
+    "start" : 1669985850342,
+    "stop" : 1669985868538,
+    "duration" : 18196
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1669985850340,
+      "stop" : 1669985850340,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Создание заказа",
+      "time" : {
+        "start" : 1669985850342,
+        "stop" : 1669985850992,
+        "duration" : 650
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "requestBody",
+        "value" : "{\n  \"subDomen\": \"testrkeeper\",\n  \"tableCode\": 12,\n  \"waiterCode\": \"2333\",\n  \"persistentComment\": 100500\n}"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Наполнение заказа",
+      "time" : {
+        "start" : 1669985851000,
+        "stop" : 1669985868538,
+        "duration" : 17538
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "requestBody",
+        "value" : "{\n  \"subDomen\": \"testrkeeper\",\n  \"quantity\": 10000,\n  \"visit\": \"548605389\",\n  \"dishId\": \"1000361\"\n}"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : true,
+    "stepsCount" : 2
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1669985917665,
+      "stop" : 1669985933897,
+      "duration" : 16232
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._6_waiter._6_6_NonVerifiedPartNoCardNoScTest]/[method:createAndFillOrder()]"
+  }, {
+    "name" : "feature",
+    "value" : "Официант"
+  }, {
+    "name" : "story",
+    "value" : "Официант не верифицирован, без привязанной карты, частичная оплата  -СБ"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "12432@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_6_NonVerifiedPartNoCardNoScTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_6_NonVerifiedPartNoCardNoScTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "createAndFillOrder"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_6_NonVerifiedPartNoCardNoScTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "1b313cfd43be35e7.json",
+  "parameterValues" : [ ]
+}

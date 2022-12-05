@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.e2e._0_4_AddDishInExistOrderTest
--------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 49.465 s - in tapper.tests.e2e._0_4_AddDishInExistOrderTest

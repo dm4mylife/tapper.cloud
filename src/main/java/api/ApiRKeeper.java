@@ -9,7 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 import static api.ApiData.EndPoints;
 import static api.ApiData.EndPoints.*;
-import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
+import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static io.restassured.RestAssured.given;
 
@@ -273,16 +274,72 @@ public class ApiRKeeper {
                 .when()
                 .post("https://apitapper.zedform.ru/api/rkeeper/order")
                 .then()
-                .log().body()
+             //   .log().body()
                 .statusCode(200)
                 .extract()
                 .response();
 
         System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
-        System.out.println("\nПолучили информацию по заказу");
+        System.out.println("\nПолучили информацию по заказу\n");
 
         return response;
 
     }
+
+    @Step("Создание заказа со всеми типами модификаторов")
+    public void fillOrderWithAllModiDishes(String guid) {
+
+        addModificatorOrder(guid, BORSH, "1000", FREE_NECESSARY_MODI_SALT, "1");
+        addModificatorOrder(guid, BORSH, "1000", FREE_NECESSARY_MODI_SALT, "2");
+        addModificatorOrder(guid, BORSH, "2000", FREE_NECESSARY_MODI_SALT, "1"); // toDO еще нужно по 2+ разных модиков
+
+        addModificatorOrder(guid, BORSH, "1000", FREE_NECESSARY_MODI_PEPPER, "1");
+        addModificatorOrder(guid, BORSH, "1000", FREE_NECESSARY_MODI_PEPPER, "2");
+        addModificatorOrder(guid, BORSH, "2000", FREE_NECESSARY_MODI_PEPPER, "1");
+
+        addModificatorOrder(guid, XOLODEC, "1000", FREE_NON_NECESSARY_MODI_BUTTER, "1");
+        // addModificatorOrder(guid, XOLODEC, "1000", FREE_NON_NECESSARY_MODI_BUTTER, "2");
+        addModificatorOrder(guid, XOLODEC, "2000", FREE_NON_NECESSARY_MODI_BUTTER, "1");
+
+        addModificatorOrder(guid, XOLODEC, "1000", FREE_NON_NECESSARY_MODI_MAYONES, "1");
+        //  addModificatorOrder(guid, XOLODEC, "1000", FREE_NON_NECESSARY_MODI_MAYONES, "2");
+        addModificatorOrder(guid, XOLODEC, "2000", FREE_NON_NECESSARY_MODI_MAYONES, "1");
+
+        addModificatorOrder(guid, CAESAR, "1000", PAID_NECESSARY_MODI_BANAN_SIROP, "1");
+        addModificatorOrder(guid, CAESAR, "1000", PAID_NECESSARY_MODI_BANAN_SIROP, "2");
+        addModificatorOrder(guid, CAESAR, "2000", PAID_NECESSARY_MODI_BANAN_SIROP, "1");
+
+        addModificatorOrder(guid, CAESAR, "1000", PAID_NECESSARY_MODI_KARAMEL_SIROP, "1");
+        addModificatorOrder(guid, CAESAR, "1000", PAID_NECESSARY_MODI_KARAMEL_SIROP, "2");
+        addModificatorOrder(guid, CAESAR, "2000", PAID_NECESSARY_MODI_KARAMEL_SIROP, "1");
+
+        addModificatorOrder(guid, RAGU, "1000", PAID_NON_NECESSARY_MODI_SOUS, "1");
+        //   addModificatorOrder(guid, RAGU, "1000", PAID_NON_NECESSARY_MODI_SOUS, "2");
+        addModificatorOrder(guid, RAGU, "2000", PAID_NON_NECESSARY_MODI_SOUS, "1");
+
+        addModificatorOrder(guid, RAGU, "1000", PAID_NON_NECESSARY_MODI_SALAT, "1");
+        // addModificatorOrder(guid, RAGU, "1000", PAID_NON_NECESSARY_MODI_SALAT, "2");
+        addModificatorOrder(guid, RAGU, "2000", PAID_NON_NECESSARY_MODI_SALAT, "1");
+
+        addModificatorOrder(guid, VODKA, "1000", PAID_NON_NECESSARY_MIX_MODI_SALO, "1");
+        //   addModificatorOrder(guid, VODKA, "1000", PAID_NON_NECESSARY_MIX_MODI_SALO, "2");
+        addModificatorOrder(guid, VODKA, "2000", PAID_NON_NECESSARY_MIX_MODI_SALO, "1");
+
+        addModificatorOrder(guid, VODKA, "1000", PAID_NON_NECESSARY_MIX_MODI_BREAD, "1");
+        // addModificatorOrder(guid, VODKA, "1000", PAID_NON_NECESSARY_MIX_MODI_BREAD, "2");
+        addModificatorOrder(guid, VODKA, "2000", PAID_NON_NECESSARY_MIX_MODI_BREAD, "1");
+
+        addModificatorOrder(guid, PASTA, "1000", FREE_NECESSARY_MODI_SOUS, "1");
+        //  addModificatorOrder(guid, PASTA, "1000", FREE_NECESSARY_MODI_SOUS, "2");
+        addModificatorOrder(guid, PASTA, "2000", FREE_NECESSARY_MODI_SOUS, "1");
+
+        addModificatorOrder(guid, PASTA, "1000", PAID_NECESSARY_MODI_BACON, "1");
+        //   addModificatorOrder(guid, PASTA, "1000", PAID_NECESSARY_MODI_BACON, "2");
+        addModificatorOrder(guid, PASTA, "2000", PAID_NECESSARY_MODI_BACON, "1");
+
+
+    }
+
+
 
 }

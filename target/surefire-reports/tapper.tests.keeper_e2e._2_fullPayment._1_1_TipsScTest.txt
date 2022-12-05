@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tapper.tests.keeper_e2e._2_fullPayment._1_1_TipsScTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 54.364 s - in tapper.tests.keeper_e2e._2_fullPayment._1_1_TipsScTest

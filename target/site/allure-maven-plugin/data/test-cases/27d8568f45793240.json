@@ -1,0 +1,1038 @@
+{
+  "uid" : "27d8568f45793240",
+  "name" : "2.2. Проверяем 5 опцию чаевых",
+  "fullName" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest.setScAndCheckTipsWith5thOption",
+  "historyId" : "87b6d32ea541273d60d29e386d97fcf7",
+  "time" : {
+    "start" : 1669983649281,
+    "stop" : 1669983660881,
+    "duration" : 11600
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1669983572545,
+      "stop" : 1669983572545,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Проверяем установку чаевых по умолчанию по сумме, формирование СБ от чаевых, и корректность суммы оплаты в таппере и б2п",
+      "time" : {
+        "start" : 1669983649282,
+        "stop" : 1669983660881,
+        "duration" : 11599
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Проверка что логика установленных чаевых по умолчанию от общей суммы корректна",
+        "time" : {
+          "start" : 1669983650299,
+          "stop" : 1669983650702,
+          "duration" : 403
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Считаем сумму не оплаченных позиций в заказе не разделяя",
+          "time" : {
+            "start" : 1669983650299,
+            "stop" : 1669983650649,
+            "duration" : 350
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1669983650351,
+              "stop" : 1669983650361,
+              "duration" : 10
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span class=\"sum\" data-v-e5a69182>155 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1669983650415,
+              "stop" : 1669983650425,
+              "duration" : 10
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span class=\"sum\" data-v-e5a69182>70 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1669983650480,
+              "stop" : 1669983650491,
+              "duration" : 11
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span class=\"sum\" data-v-e5a69182>70 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1669983650545,
+              "stop" : 1669983650561,
+              "duration" : 16
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span class=\"sum\" data-v-e5a69182>70 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1669983650621,
+              "stop" : 1669983650632,
+              "duration" : 11
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span class=\"sum\" data-v-e5a69182>70 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 5
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 6
+      }, {
+        "name" : "Считаем сумму не оплаченных позиций в заказе не разделяя",
+        "time" : {
+          "start" : 1669983650702,
+          "stop" : 1669983650929,
+          "duration" : 227
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1669983650734,
+            "stop" : 1669983650743,
+            "duration" : 9
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<span class=\"sum\" data-v-e5a69182>155 ₽</span>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 0
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1669983650778,
+            "stop" : 1669983650789,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<span class=\"sum\" data-v-e5a69182>70 ₽</span>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 0
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1669983650824,
+            "stop" : 1669983650833,
+            "duration" : 9
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<span class=\"sum\" data-v-e5a69182>70 ₽</span>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 0
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1669983650866,
+            "stop" : 1669983650876,
+            "duration" : 10
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<span class=\"sum\" data-v-e5a69182>70 ₽</span>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 0
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1669983650910,
+            "stop" : 1669983650920,
+            "duration" : 10
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<span class=\"sum\" data-v-e5a69182>70 ₽</span>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 0
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 5
+      }, {
+        "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+        "time" : {
+          "start" : 1669983650978,
+          "stop" : 1669983650988,
+          "duration" : 10
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "selector",
+          "value" : "<label class=\"payment__conditions\">Я хочу взять на себя сервисный сбор Tapper (9.78\n₽\n)</label>"
+        }, {
+          "name" : "regex",
+          "value" : "[^\\d\\.]+"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+        "time" : {
+          "start" : 1669983650989,
+          "stop" : 1669983650989,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "doubleNumber",
+          "value" : "9.78"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+        "time" : {
+          "start" : 1669983650989,
+          "stop" : 1669983650989,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "doubleNumber",
+          "value" : "6.5249999999999995"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+        "time" : {
+          "start" : 1669983650989,
+          "stop" : 1669983650989,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "doubleNumber",
+          "value" : "3.25"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Деактивируем СБ если активен",
+        "time" : {
+          "start" : 1669983650989,
+          "stop" : 1669983652026,
+          "duration" : 1037
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Плавный скрол до самого низа страницы",
+          "time" : {
+            "start" : 1669983650989,
+            "stop" : 1669983652002,
+            "duration" : 1013
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : false,
+          "stepsCount" : 0
+        }, {
+          "name" : "Кнопка видна и клик по ней (JS)",
+          "time" : {
+            "start" : 1669983652017,
+            "stop" : 1669983652026,
+            "duration" : 9
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : ".payment__conditions:first-of-type"
+          } ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 0
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 2
+      }, {
+        "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+        "time" : {
+          "start" : 1669983652064,
+          "stop" : 1669983652078,
+          "duration" : 14
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "selector",
+          "value" : "<span data-v-c8fe04fa>500 ₽</span>"
+        }, {
+          "name" : "regex",
+          "value" : "\\s₽"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Клик в оплату, появление лоадера и проверка что мы на эквайринге",
+        "time" : {
+          "start" : 1669983652078,
+          "stop" : 1669983655917,
+          "duration" : 3839
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Плавный скрол до самого низа страницы",
+          "time" : {
+            "start" : 1669983652078,
+            "stop" : 1669983653082,
+            "duration" : 1004
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : false,
+          "stepsCount" : 0
+        }, {
+          "name" : "Клик по кнопке оплаты",
+          "time" : {
+            "start" : 1669983653082,
+            "stop" : 1669983654177,
+            "duration" : 1095
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Плавный скрол до самого низа страницы",
+            "time" : {
+              "start" : 1669983653082,
+              "stop" : 1669983654096,
+              "duration" : 1014
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : false,
+            "stepsCount" : 0
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1669983654131,
+              "stop" : 1669983654177,
+              "duration" : 46
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<button class=\"payment-btn main-btn\" type=\"submit\">Оплатить</button>"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 2
+        }, {
+          "name" : "Отображается лоадер на странице",
+          "time" : {
+            "start" : 1669983654177,
+            "stop" : 1669983654226,
+            "duration" : 49
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Элемент присутствует на странице в ходе длительной загрузки (6сек.)",
+            "time" : {
+              "start" : 1669983654213,
+              "stop" : 1669983654226,
+              "duration" : 13
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"vLightPreloader\"></div>"
+            }, {
+              "name" : "time",
+              "value" : "6"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 1
+        }, {
+          "name" : "Проверка что мы находимся на странице эквайринга",
+          "time" : {
+            "start" : 1669983654234,
+            "stop" : 1669983655831,
+            "duration" : 1597
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Проверка что текст {text} содержится в текущем URL",
+            "time" : {
+              "start" : 1669983654234,
+              "stop" : 1669983655831,
+              "duration" : 1597
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "url",
+              "value" : "https://test.best2pay.net/"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 1
+        }, {
+          "name" : "Проверка попапа ВПН и что форма оплаты появилась",
+          "time" : {
+            "start" : 1669983655831,
+            "stop" : 1669983655917,
+            "duration" : 86
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Элемент присутствует на странице в ходе длительной загрузки (10сек.)",
+            "time" : {
+              "start" : 1669983655889,
+              "stop" : 1669983655903,
+              "duration" : 14
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"container\">Оплата заказа\nБанковская карта\nНомер карты\nСрок действия\nCVV\nОтправить чек\nСумма к оплате\n500\nОплатить\nНажимая на кнопку «Оплатить», вы соглашаетесь с условиями оферты</div>"
+            }, {
+              "name" : "time",
+              "value" : "10"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          }, {
+            "name" : "Проверка попапа ВПН",
+            "time" : {
+              "start" : 1669983655903,
+              "stop" : 1669983655917,
+              "duration" : 14
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : false,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 2
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 11
+      }, {
+        "name" : "Забрать итоговую сумму для оплаты со страницы транзакции",
+        "time" : {
+          "start" : 1669983655917,
+          "stop" : 1669983655961,
+          "duration" : 44
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1669983655952,
+            "stop" : 1669983655961,
+            "duration" : 9
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"form__amount-value\" id=\"totalAmountValue\">500</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s"
+          } ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 0
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 1
+      }, {
+        "name" : "Активируем СБ если не активен",
+        "time" : {
+          "start" : 1669983656260,
+          "stop" : 1669983656275,
+          "duration" : 15
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : false,
+        "stepsCount" : 0
+      }, {
+        "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+        "time" : {
+          "start" : 1669983656283,
+          "stop" : 1669983656949,
+          "duration" : 666
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "selector",
+          "value" : "NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".check__totalPay-heading+span\"}"
+        }, {
+          "name" : "regex",
+          "value" : "\\s₽"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Клик в оплату, появление лоадера и проверка что мы на эквайринге",
+        "time" : {
+          "start" : 1669983656949,
+          "stop" : 1669983660545,
+          "duration" : 3596
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Плавный скрол до самого низа страницы",
+          "time" : {
+            "start" : 1669983656949,
+            "stop" : 1669983657966,
+            "duration" : 1017
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : false,
+          "stepsCount" : 0
+        }, {
+          "name" : "Клик по кнопке оплаты",
+          "time" : {
+            "start" : 1669983657966,
+            "stop" : 1669983659079,
+            "duration" : 1113
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Плавный скрол до самого низа страницы",
+            "time" : {
+              "start" : 1669983657966,
+              "stop" : 1669983658984,
+              "duration" : 1018
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : false,
+            "stepsCount" : 0
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1669983659022,
+              "stop" : 1669983659079,
+              "duration" : 57
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<button class=\"payment-btn main-btn\" type=\"submit\">Оплатить</button>"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 2
+        }, {
+          "name" : "Отображается лоадер на странице",
+          "time" : {
+            "start" : 1669983659079,
+            "stop" : 1669983659127,
+            "duration" : 48
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Элемент присутствует на странице в ходе длительной загрузки (6сек.)",
+            "time" : {
+              "start" : 1669983659115,
+              "stop" : 1669983659127,
+              "duration" : 12
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"vLightPreloader\"></div>"
+            }, {
+              "name" : "time",
+              "value" : "6"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 1
+        }, {
+          "name" : "Проверка что мы находимся на странице эквайринга",
+          "time" : {
+            "start" : 1669983659134,
+            "stop" : 1669983660457,
+            "duration" : 1323
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Проверка что текст {text} содержится в текущем URL",
+            "time" : {
+              "start" : 1669983659134,
+              "stop" : 1669983660457,
+              "duration" : 1323
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "url",
+              "value" : "https://test.best2pay.net/"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 1
+        }, {
+          "name" : "Проверка попапа ВПН и что форма оплаты появилась",
+          "time" : {
+            "start" : 1669983660457,
+            "stop" : 1669983660545,
+            "duration" : 88
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Элемент присутствует на странице в ходе длительной загрузки (10сек.)",
+            "time" : {
+              "start" : 1669983660518,
+              "stop" : 1669983660532,
+              "duration" : 14
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"container\">Оплата заказа\nБанковская карта\nНомер карты\nСрок действия\nCVV\nОтправить чек\nСумма к оплате\n509.77\nОплатить\nНажимая на кнопку «Оплатить», вы соглашаетесь с условиями оферты</div>"
+            }, {
+              "name" : "time",
+              "value" : "10"
+            } ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : true,
+            "stepsCount" : 0
+          }, {
+            "name" : "Проверка попапа ВПН",
+            "time" : {
+              "start" : 1669983660532,
+              "stop" : 1669983660545,
+              "duration" : 13
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "shouldDisplayMessage" : false,
+            "attachmentsCount" : 0,
+            "hasContent" : false,
+            "stepsCount" : 0
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 2
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 11
+      }, {
+        "name" : "Забрать итоговую сумму для оплаты со страницы транзакции",
+        "time" : {
+          "start" : 1669983660545,
+          "stop" : 1669983660591,
+          "duration" : 46
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1669983660580,
+            "stop" : 1669983660591,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"form__amount-value\" id=\"totalAmountValue\">509.77</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s"
+          } ],
+          "shouldDisplayMessage" : false,
+          "attachmentsCount" : 0,
+          "hasContent" : true,
+          "stepsCount" : 0
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 1
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "tapperTotalPay",
+        "value" : "0.0"
+      }, {
+        "name" : "b2pTotalPay",
+        "value" : "0.0"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 51
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : true,
+    "stepsCount" : 52
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1669983677977,
+      "stop" : 1669983694281,
+      "duration" : 16304
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest]/[method:setScAndCheckTipsWith5thOption()]"
+  }, {
+    "name" : "story",
+    "value" : "Проверка логики установки дефолтных чаевых от суммы заказа, ввод кастомных чаевых, ошибки суммы"
+  }, {
+    "name" : "feature",
+    "value" : "Чаевые"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "12432@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "setScAndCheckTipsWith5thOption"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "27d8568f45793240.json",
+  "parameterValues" : [ ]
+}

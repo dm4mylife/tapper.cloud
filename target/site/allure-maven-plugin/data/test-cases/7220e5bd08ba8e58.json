@@ -1,0 +1,510 @@
+{
+  "uid" : "7220e5bd08ba8e58",
+  "name" : "2.5. Проверяем функционал вызова официанта",
+  "fullName" : "tapper.tests.keeper_e2e._0_common._0_0_AllElementsTest.isCallWaiterCorrect",
+  "historyId" : "456925f7667ad38a7b390559e23cbd62",
+  "time" : {
+    "start" : 1669983416121,
+    "stop" : 1669983418474,
+    "duration" : 2353
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1669983390630,
+      "stop" : 1669983390659,
+      "duration" : 29
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Вызов официанта. Проверки на элементы, кликабельность, заполнение, открытие\\закрытие",
+      "time" : {
+        "start" : 1669983416121,
+        "stop" : 1669983418474,
+        "duration" : 2353
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Плавный скрол до видимого элемента (без JS)",
+        "time" : {
+          "start" : 1669983416162,
+          "stop" : 1669983416170,
+          "duration" : 8
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter\"></div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует и кликабельный на странице",
+        "time" : {
+          "start" : 1669983416202,
+          "stop" : 1669983416224,
+          "duration" : 22
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter\"></div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1669983416257,
+          "stop" : 1669983416309,
+          "duration" : 52
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter\"></div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1669983416352,
+          "stop" : 1669983416367,
+          "duration" : 15
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter__heading\">Вызов официанта</div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент не видим на странице",
+        "time" : {
+          "start" : 1669983416376,
+          "stop" : 1669983416384,
+          "duration" : 8
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".mainPage .callWaiter__text\"}"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1669983416427,
+          "stop" : 1669983416440,
+          "duration" : 13
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter-modal\">Вызов официанта\nОтправить\nОтменить</div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1669983416480,
+          "stop" : 1669983416493,
+          "duration" : 13
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"modal__overlay\"></div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует и кликабельный на странице",
+        "time" : {
+          "start" : 1669983416535,
+          "stop" : 1669983416557,
+          "duration" : 22
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"callWaiter-btn send\" type=\"submit\">Отправить</button>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует и кликабельный на странице",
+        "time" : {
+          "start" : 1669983416598,
+          "stop" : 1669983416621,
+          "duration" : 23
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter-btn cancel\">Отменить</div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1669983416661,
+          "stop" : 1669983416673,
+          "duration" : 12
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter-modal__close\"></div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1669983416715,
+          "stop" : 1669983416728,
+          "duration" : 13
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<textarea class=\"callWaiter__textarea\" name=\"callWaiter\" placeholder=\"Комментарий...\" required type=\"textarea\"></textarea>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1669983416758,
+          "stop" : 1669983416802,
+          "duration" : 44
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter\"></div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1669983416833,
+          "stop" : 1669983416889,
+          "duration" : 56
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter-btn cancel\">Отменить</div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент не видим на странице",
+        "time" : {
+          "start" : 1669983416895,
+          "stop" : 1669983416901,
+          "duration" : 6
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".callWaiter-modal\"}"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1669983416932,
+          "stop" : 1669983416975,
+          "duration" : 43
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"callWaiter\"></div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Ввод данных test\\тест с задержкой",
+        "time" : {
+          "start" : 1669983417027,
+          "stop" : 1669983417647,
+          "duration" : 620
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<textarea class=\"callWaiter__textarea\" name=\"callWaiter\" placeholder=\"Комментарий...\" required type=\"textarea\"></textarea>"
+        }, {
+          "name" : "text",
+          "value" : "test\\тест"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент должен содержать значение test\\тест",
+        "time" : {
+          "start" : 1669983417676,
+          "stop" : 1669983417688,
+          "duration" : 12
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<textarea class=\"callWaiter__textarea\" name=\"callWaiter\" placeholder=\"Комментарий...\" required type=\"textarea\" value=\"test\\тест\"></textarea>"
+        }, {
+          "name" : "value",
+          "value" : "test\\тест"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1669983417726,
+          "stop" : 1669983417781,
+          "duration" : 55
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"callWaiter-btn send\" type=\"submit\">Отправить</button>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1669983417839,
+          "stop" : 1669983417851,
+          "duration" : 12
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"successfulSending\">Оу майн гот это же текст для отправки сообщения!</div>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1669983417900,
+          "stop" : 1669983417954,
+          "duration" : 54
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"successfulSendin__btn\" type=\"submit\">Закрыть</button>"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      }, {
+        "name" : "Плавный скрол до видимого элемента (только JS)",
+        "time" : {
+          "start" : 1669983417959,
+          "stop" : 1669983418474,
+          "duration" : 515
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "selector",
+          "value" : "body"
+        } ],
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 0,
+        "hasContent" : true,
+        "stepsCount" : 0
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 21
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : true,
+    "stepsCount" : 22
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1669983435977,
+      "stop" : 1669983452213,
+      "duration" : 16236
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._0_common._0_0_AllElementsTest]/[method:isCallWaiterCorrect()]"
+  }, {
+    "name" : "epic",
+    "value" : "E2E - тесты (полные)"
+  }, {
+    "name" : "feature",
+    "value" : "Общая функциональность таппера"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "12432@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._0_common._0_0_AllElementsTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._0_common._0_0_AllElementsTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "isCallWaiterCorrect"
+  }, {
+    "name" : "suite",
+    "value" : "Общая функциональность таппера"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "7220e5bd08ba8e58.json",
+  "parameterValues" : [ ]
+}

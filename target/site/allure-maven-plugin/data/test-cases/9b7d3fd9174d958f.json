@@ -1,0 +1,372 @@
+{
+  "uid" : "9b7d3fd9174d958f",
+  "name" : "1. Создание заказа в r_keeper",
+  "fullName" : "tapper.tests.keeper_e2e._7_modificator._7_0_PaidFullPayTest.createAndFillOrder",
+  "historyId" : "1237168aa002239bc78e86ca9d75c4d0",
+  "time" : {
+    "start" : 1669986001741,
+    "stop" : 1669986007054,
+    "duration" : 5313
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1669986001739,
+      "stop" : 1669986001739,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Создание заказа",
+      "time" : {
+        "start" : 1669986001741,
+        "stop" : 1669986003564,
+        "duration" : 1823
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "requestBody",
+        "value" : "{\n  \"subDomen\": \"testrkeeper\",\n  \"tableCode\": 12,\n  \"waiterCode\": \"23\",\n  \"persistentComment\": 100500\n}"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1669986003579,
+        "stop" : 1669986004001,
+        "duration" : 422
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{A664114E-9B51-46C2-B82C-5C673644F9F4}"
+      }, {
+        "name" : "dishId",
+        "value" : "1000362"
+      }, {
+        "name" : "quantity",
+        "value" : "1000"
+      }, {
+        "name" : "modificator",
+        "value" : "1000111"
+      }, {
+        "name" : "modificator_quantity",
+        "value" : "1"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1669986004001,
+        "stop" : 1669986004431,
+        "duration" : 430
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{A664114E-9B51-46C2-B82C-5C673644F9F4}"
+      }, {
+        "name" : "dishId",
+        "value" : "1000362"
+      }, {
+        "name" : "quantity",
+        "value" : "1000"
+      }, {
+        "name" : "modificator",
+        "value" : "1000112"
+      }, {
+        "name" : "modificator_quantity",
+        "value" : "1"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1669986004431,
+        "stop" : 1669986004847,
+        "duration" : 416
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{A664114E-9B51-46C2-B82C-5C673644F9F4}"
+      }, {
+        "name" : "dishId",
+        "value" : "1000362"
+      }, {
+        "name" : "quantity",
+        "value" : "1000"
+      }, {
+        "name" : "modificator",
+        "value" : "1000111"
+      }, {
+        "name" : "modificator_quantity",
+        "value" : "3"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1669986004847,
+        "stop" : 1669986005293,
+        "duration" : 446
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{A664114E-9B51-46C2-B82C-5C673644F9F4}"
+      }, {
+        "name" : "dishId",
+        "value" : "1000362"
+      }, {
+        "name" : "quantity",
+        "value" : "1000"
+      }, {
+        "name" : "modificator",
+        "value" : "1000112"
+      }, {
+        "name" : "modificator_quantity",
+        "value" : "2"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1669986005293,
+        "stop" : 1669986005719,
+        "duration" : 426
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{A664114E-9B51-46C2-B82C-5C673644F9F4}"
+      }, {
+        "name" : "dishId",
+        "value" : "1000363"
+      }, {
+        "name" : "quantity",
+        "value" : "1000"
+      }, {
+        "name" : "modificator",
+        "value" : "1000117"
+      }, {
+        "name" : "modificator_quantity",
+        "value" : "1"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1669986005719,
+        "stop" : 1669986006160,
+        "duration" : 441
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{A664114E-9B51-46C2-B82C-5C673644F9F4}"
+      }, {
+        "name" : "dishId",
+        "value" : "1000363"
+      }, {
+        "name" : "quantity",
+        "value" : "1000"
+      }, {
+        "name" : "modificator",
+        "value" : "1000117"
+      }, {
+        "name" : "modificator_quantity",
+        "value" : "2"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1669986006160,
+        "stop" : 1669986006597,
+        "duration" : 437
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{A664114E-9B51-46C2-B82C-5C673644F9F4}"
+      }, {
+        "name" : "dishId",
+        "value" : "1000363"
+      }, {
+        "name" : "quantity",
+        "value" : "1000"
+      }, {
+        "name" : "modificator",
+        "value" : "1000118"
+      }, {
+        "name" : "modificator_quantity",
+        "value" : "1"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1669986006597,
+        "stop" : 1669986007054,
+        "duration" : 457
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{A664114E-9B51-46C2-B82C-5C673644F9F4}"
+      }, {
+        "name" : "dishId",
+        "value" : "1000363"
+      }, {
+        "name" : "quantity",
+        "value" : "1000"
+      }, {
+        "name" : "modificator",
+        "value" : "1000388"
+      }, {
+        "name" : "modificator_quantity",
+        "value" : "1"
+      } ],
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : true,
+    "stepsCount" : 9
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1669986060195,
+      "stop" : 1669986076393,
+      "duration" : 16198
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0,
+    "hasContent" : false,
+    "stepsCount" : 0
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._7_modificator._7_0_PaidFullPayTest]/[method:createAndFillOrder()]"
+  }, {
+    "name" : "story",
+    "value" : "Платные модификаторы - полная оплата"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "feature",
+    "value" : "Модификаторы"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "12432@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._7_modificator._7_0_PaidFullPayTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._7_modificator._7_0_PaidFullPayTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "createAndFillOrder"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._7_modificator._7_0_PaidFullPayTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "9b7d3fd9174d958f.json",
+  "parameterValues" : [ ]
+}

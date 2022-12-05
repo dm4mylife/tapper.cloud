@@ -1,0 +1,114 @@
+{
+  "total" : 35,
+  "items" : [ {
+    "uid" : "ac1c911211f28a2d05e412e665dfcfca",
+    "name" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_5_AddAfterPartAndPartTest",
+    "statistic" : {
+      "failed" : 4,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 6,
+      "unknown" : 0,
+      "total" : 10
+    }
+  }, {
+    "uid" : "8f66aef932f48efbc8a8cd2b6cdec275",
+    "name" : "tapper.tests.keeper_e2e._7_modificator._7_0_PaidFullPayTest",
+    "statistic" : {
+      "failed" : 4,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 3,
+      "unknown" : 0,
+      "total" : 7
+    }
+  }, {
+    "uid" : "19b6b16dee4e98e23e557d53b7817a3a",
+    "name" : "tapper.tests.keeper_e2e._5_sockets._5_2_FullCheckEveryStatusTest",
+    "statistic" : {
+      "failed" : 2,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 7,
+      "unknown" : 0,
+      "total" : 9
+    }
+  }, {
+    "uid" : "ae2a90023feeae33b48fee01a5850a4b",
+    "name" : "Общая функциональность таппера",
+    "statistic" : {
+      "failed" : 1,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 19,
+      "unknown" : 0,
+      "total" : 20
+    }
+  }, {
+    "uid" : "fea94cd47978476938a4ec6680723f24",
+    "name" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest",
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 14,
+      "unknown" : 0,
+      "total" : 14
+    }
+  }, {
+    "uid" : "92975714b23190c3e9246fc31c1bed49",
+    "name" : "tapper.tests.keeper_e2e._5_sockets._5_1_PartCheckEveryStatusTest",
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 12,
+      "unknown" : 0,
+      "total" : 12
+    }
+  }, {
+    "uid" : "bdba0fbbeca7e1bfc3005b5fd5ca30f6",
+    "name" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_3_AddAndPartTest",
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 10,
+      "unknown" : 0,
+      "total" : 10
+    }
+  }, {
+    "uid" : "ef585aaae5961c7d6344631bdabe5af5",
+    "name" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_4_RemoveAndPartTest",
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 10,
+      "unknown" : 0,
+      "total" : 10
+    }
+  }, {
+    "uid" : "b8ad3bc097ed964568032db26b9714fa",
+    "name" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_6_RemoveAfterPartAndPartTest",
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 10,
+      "unknown" : 0,
+      "total" : 10
+    }
+  }, {
+    "uid" : "cc7d8c76e9a98c5fc60fbad6b6ba099e",
+    "name" : "tapper.tests.keeper_e2e._1_partialPayment._2_0_TipsScTest",
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 8,
+      "unknown" : 0,
+      "total" : 8
+    }
+  } ]
+}

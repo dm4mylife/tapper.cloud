@@ -13,12 +13,12 @@ import pages.RootPage;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static constants.Selectors.Best2PayPage.transaction_id;
 import static constants.Selectors.RootPage.DishList.*;
 import static constants.Selectors.RootPage.TipsAndCheck.discountField;
-import static constants.Selectors.RootPage.TipsAndCheck.resetTipsButton;
 
 
 public class RootPageNestedTests extends RootPage {
@@ -34,32 +34,8 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверка что позиции в заказе на кассе и в таппере одинаковы")
     public void isOrderInKeeperCorrectWithTapper() { // toDO доделать, слишком много разных условий
 
-        //   Response rs = apiRKeeper.orderInfo();
-
-        //   HashMap<Integer, Map<String, Double>> orderInKeeper = getOrderInfoFromKeeperAndConvToHashMap(rs);
-
         isDishListNotEmptyAndVisible();
-        //  matchTapperOrderWithOrderInKeeper(orderInKeeper);
-
-    }
-
-    @Step("Загрузочный экран, заказ, блок чаевых и итого к оплате, кнопки, нижнее меню")
-    public void checkAllElementsAreVisibleAndActive() {
-
-        //   isStartScreenShown(); // toDO не работала загрузка гифки в самой админке, 500 ошибка при сохранении
-        isDishListCorrect();
-        isTipsAndCheckCorrect();
-        isPayBlockCorrect();
-        isTabBarCorrect();
-
-    }
-
-    @Step("Номер стола, кнопка разделить счёт отображаются. Заказ есть и не пустой")
-    public void isDishListCorrect() {
-
-        isTableNumberShown();
-        isDivideSliderCorrect();
-        isDishListNotEmptyAndVisible();
+       // matchTapperOrderWithOrderInKeeper(orderInKeeper);
 
     }
 
@@ -99,43 +75,46 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Выбрать рандомные блюда и отдать эту же ссылку другому юзеру (не через кнопку 'Поделиться счётом'")
-    public void chooseDishesAndShareLinkToAnotherUser(int amountDishes) {
+    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
+    public void chooseDishesWithRandomAmountWithTipsWithSCVerifiedNonCard(int amountDishes) {
 
+        clickDivideCheckSlider();
         chooseCertainAmountDishes(amountDishes);
-        clearAllSiteData();
+
+        double cleanTotalSum = countAllChosenDishesDivided();
+        checkSumWithAllConditionsWithNoWaiterCard(cleanTotalSum);
 
     }
 
-    @Step("Проверка что выбранные блюда заблокированы для выбора, если их уже выбрал другой пользователь")
-    public void areChosenDishesDisabledBySharingCheck(int amountDishes) {
-
-        isDishListNotEmptyAndVisible();
-        disabledDishes.shouldBe(CollectionCondition.size(amountDishes));
-
-    }
-
-    @Step("Выбираем рандомное число блюд ({amountDishes}) и считаем их сумму")
+    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
     public void chooseDishesWithRandomAmount(int amountDishes) {
 
         clickDivideCheckSlider();
         chooseCertainAmountDishes(amountDishes);
 
+        double cleanTotalSum = countAllChosenDishesDivided();
+        checkSumWithAllConditions(cleanTotalSum);
+
     }
 
-    @Step("Выбираем рандомное число блюд ({amountDishes}) и считаем их сумму вместо со скидкой на заказ")
-    public void chooseDishesWithRandomAmountWithAmount(int amountDishes) {
+    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки без чаевых, без СБ")
+    public void chooseDishesWithRandomAmountWithNoTipsNoSc(int amountDishes) {
 
         clickDivideCheckSlider();
         chooseCertainAmountDishes(amountDishes);
 
+        double cleanTotalSum = countAllChosenDishesDivided();
+        checkSumWithAllConditions(cleanTotalSum);
+
+        deactivateTipsAndDeactivateSc();
+
     }
 
-    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
-    public void chooseDishesWithRandomAmountWithTipsWithSC(int amountDishes) {
+    @Step("Выбираем по позиционно все блюда, проверяем сумму, проводим все проверки с чаевыми и СБ")
+    public void chooseAllDishesWithTipsWithSC() {
 
         clickDivideCheckSlider();
-        chooseCertainAmountDishes(amountDishes);
+        chooseAllNonPaidDishes();
 
         double cleanTotalSum = countAllChosenDishesDivided();
         checkSumWithAllConditions(cleanTotalSum);
@@ -144,6 +123,17 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Выбираем все блюда, проверяем сумму, проводим все проверки с чаевыми и СБ")
+    public void chooseAllDishesWithTipsWithSCNotDivided() {
+
+        countAllDishesNotDivided();
+
+        double cleanTotalSum = countAllDishesNotDivided();
+        checkSumWithAllConditions(cleanTotalSum);
+
+        setRandomTipsOption();
+
+    }
 
     @Step("Проверка что чистая сумма позиций совпадает с общей суммой в 'Итого к оплате', " +
             "все опции чаевых корректны с\\без СБ, СБ считается по формуле корректно")
@@ -156,43 +146,23 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    @Step("Официант верифицирован, но без карты. Проверка что чистая сумма позиций совпадает с общей суммой в 'Итого к оплате', " +
+            "чаевые отключены, СБ считается по формуле корректно и включено")
+    public void checkSumWithAllConditionsWithNoWaiterCard(double cleanDishesSum) {
 
-    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, без чаевых, с сервисным сбором")
-    public void chooseDishesWithRandomAmountNoTipsWithSC(int amountDishes) {
-
-        chooseDishesWithRandomAmount(amountDishes);
-        checkChosenDishesSumsNoTipsWithSC();
-        click(resetTipsButton);
-
-    }
-
-    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, без чаевых, без сервисного сбора")
-    public void chooseDishesWithRandomAmountNoTipsNoSC(int amountDishes) {
-
-        chooseDishesWithRandomAmount(amountDishes);
-        checkChosenDishesSumsNoTipsNoSC();
+        checkCleanSumMatchWithTotalPay(cleanDishesSum);
+        checkIsNoTipsElementsIfVerifiedNonCard();
+        checkScLogic(cleanDishesSum);
 
     }
 
-    @Step("Выбираем все блюда, проверяем сумму, без чаевых но с СБ")
-    public void chooseAllDishesToPayNoTipsWithSC() {
+    @Step("Официант не верифицирован. Проверка что чистая сумма позиций совпадает с общей суммой в 'Итого к оплате', " +
+            "чаевые отключены, СБ считается по формуле корректно и включено")
+    public void checkSumWithAllConditionsWithNoVerifiedWaiter(double cleanDishesSum) {
 
-        chooseAllNonPaidDishes();
-        checkChosenDishesSumsNoTipsWithSC();
-
-    }
-
-    @Step("Забираем из кук session и guest")
-    public HashMap<String, String> getCookieSessionAndGuest() {
-
-        String guest = getCookieGuest();
-        String session = getCookieSession();
-
-        HashMap<String, String> cookie = new HashMap<>();
-        cookie.put("guest", guest);
-        cookie.put("session", session);
-
-        return cookie;
+        checkCleanSumMatchWithTotalPay(cleanDishesSum);
+        checkIsNoTipsElementsIfNonVerifiedNonCard();
+        checkScLogic(cleanDishesSum);
 
     }
 
@@ -211,92 +181,45 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверяем сумму за сами блюда с 'Итого к оплате' и счётчиком в иконке кошелька без СБ и чаевых")
     public void checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(double cleanTotalSum) {
 
-        disableTipsAndSC(cleanTotalSum);
+        deactivateTipsAndDeactivateSc();
 
         isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
         isSumInWalletMatchWithTotalPay();
 
-        activateRandomTipsAndSC();
+        activateRandomTipsAndActivateSc();
 
     }
 
-    @Step("Проверяем сумму со скидкой за заказ по всем позициям с 'Итого к оплате' и счётчиком в иконке кошелька без СБ и чаевых ")
-    public void checkTotalDishDiscountSumWithTotalPayInCheckAndInWalletCounter(double cleanTotalSum, String id_table) {
+    @Step("Отключаем чаевые и выключаем сервисный сбор")
+    public void deactivateTipsAndDeactivateSc() {
 
-        disableTipsAndSC(cleanTotalSum);
-
-        Response rsGetOrder = apiRKeeper.getOrderInfo(id_table);
-        double rsDiscount = rsGetOrder.jsonPath().getDouble("Session.Discount['@attributes'].amount");
-        System.out.println(rsDiscount + " discount from rs");
-
-        double tapperDiscount = rootPage.convertSelectorTextIntoDoubleByRgx(discountField, "[^\\.\\d]+");
-        System.out.println(tapperDiscount + " tapper discount");
-
-        double cleanTotalSumWithDiscount = cleanTotalSum + tapperDiscount;
-        System.out.println(cleanTotalSum + " clean total sum without discount");
-
-
-        Assertions.assertEquals(rsDiscount, tapperDiscount,
-                "Скидка на кассе не совпадает со скидкой в таппере в поле 'Скидка'");
-
-        Assertions.assertEquals(cleanTotalSum, cleanTotalSumWithDiscount,
-                "Чистая сумма за позиции не совпадает с чистой суммой без скидки в 'Итого к оплате'");
-
-        isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
-        isSumInWalletMatchWithTotalPay();
-
-        activateRandomTipsAndSC();
+        resetTips();
+        deactivateServiceChargeIfActivated();
 
     }
 
-    @Step("Оплачиваем все блюда без разделения")
-    public void payAllDishesNotDividedCheck() {
+    @Step("Отключаем чаевые и включаем сервисный сбор")
+    public void deactivateTipsAndActivateSc() {
 
-        hideTapBar();
-        scrollTillBottom();
-        rootPage.clickOnPaymentButton();
+        resetTips();
+        activateServiceChargeIfDeactivated();
 
-    }
-
-    @Step("Отключаем чаевые и сервисный сбор")
-    public void disableTipsAndSC(double cleanTotalSum) {
-
-        disableServiceChargeIfActivated();
-        setTipsToZero(cleanTotalSum);
 
     }
 
     @Step("Включаем рандомные чаевые и сервисный сбор")
-    public void activateRandomTipsAndSC() {
+    public void activateRandomTipsAndActivateSc() {
 
-        activateServiceChargeIfDisabled();
         setRandomTipsOption();
+        activateServiceChargeIfDeactivated();
 
     }
 
-    @Step("Проверяем сумму не оплаченного заказа со всеми доп. условиями с разделенными позициями")
-    public void checkChosenDishesSumsWithAllConditions() { //
+    @Step("Включаем рандомные чаевые и сервисный сбор")
+    public void activateRandomTipsAndDeactivateSc() {
 
-        double cleanTotalSum = countAllChosenDishesDivided();
-
-        setTipsBy0AndCancelServiceCharge();
-
-        isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
-
-        isSumInWalletMatchWithTotalPay();
-
-        isActiveTipPercentCorrectWithTotalSumAndSC(cleanTotalSum);
-        isAllTipsOptionsAreCorrectWithTotalSumAndSC(cleanTotalSum);
-
-    }
-
-    @Step("Проверяем сумму выбранных позиций заказа с разделенными позициями с чаевыми и СБ")
-    public void checkChosenDishesSumsWithTipsWithSC() { //
-
-        double cleanTotalSum = countAllChosenDishesDivided();
-        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
-
-        areTipsOptionsCorrect(cleanTotalSum);
+        setRandomTipsOption();
+        activateServiceChargeIfDeactivated();
 
     }
 
@@ -309,39 +232,6 @@ public class RootPageNestedTests extends RootPage {
         areTipsOptionsCorrect(cleanTotalSum);
 
         cancelTipsAndActivateSC(cleanTotalSum);
-
-    }
-
-    @Step("Проверяем сумму всего не оплаченного заказа c чаевыми и с СБ и со скидкой на весь заказ")
-    public void checkAllDishesWithDiscountSumsWithAllConditions(String id_table) { //
-
-        double cleanTotalSum = countAllNonPaidDishesInOrder();
-
-
-        checkTotalDishDiscountSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum, id_table);
-
-        areTipsOptionsCorrect(cleanTotalSum);
-
-        cancelTipsAndActivateSC(cleanTotalSum);
-
-
-    }
-
-    @Step("Проверяем сумму выбранных позиций заказа без чаевых с СБ")
-    public void checkChosenDishesSumsNoTipsWithSC() { //
-
-        double cleanTotalSum = countAllChosenDishesDivided();
-        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
-
-    }
-
-    @Step("Проверяем сумму выбранных позиций заказа без чаевых и без СБ")
-    public void checkChosenDishesSumsNoTipsNoSC() { //
-
-        double cleanTotalSum = countAllChosenDishesDivided();
-        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
-
-        cancelTipsAndDisableSC(cleanTotalSum);
 
     }
 
@@ -365,7 +255,7 @@ public class RootPageNestedTests extends RootPage {
             if (allNonPaidAndNonDisabledDishes.size() != amountDishes) {
 
                 clearAllSiteData();
-                chooseDishesWithRandomAmountWithTipsWithSC(amountDishes);
+                chooseDishesWithRandomAmount(amountDishes);
                 isAnotherGuestSumCorrect();
 
                 double totalPay = saveTotalPayForMatchWithAcquiring();
@@ -404,25 +294,14 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Делимся счётом и оплачиваем позиции")
-    public void divideCheckAndPayTheRestDishes() {
-
-        clearAllSiteData();
-        clickDivideCheckSlider();
-        chooseAllNonPaidDishes();
-        countAllNonPaidDishesInOrderDivided();
-        checkAllDishesSumsWithAllConditions();
-
-        double totalPay = saveTotalPayForMatchWithAcquiring();
-        clickPayment();
-
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
-        best2PayPage.clickPayButton();
-
-    }
-
     @Step("Закрываем заказ полностью") // toDo костыльное решение по закрытию заказа пока пишется api
     public void closeOrder() {
+
+        if (divideCheckSliderInput.isSelected()) {
+
+            divideCheckSlider.click();
+
+        }
 
         clickPayment();
 
@@ -430,8 +309,147 @@ public class RootPageNestedTests extends RootPage {
 
         reviewPageNestedTests.fullPaymentCorrect();
         reviewPage.clickOnFinishButton();
-        rootPage.isEmptyOrder();
+        rootPage.isEmptyOrderAfterClosing();
         forceWait(2000);
+
+    }
+
+    @Step("Сохранение в дату заказа со всеми типа модификаторов, чтобы потом сравнить в таппере")
+    public HashMap<Integer, Map<String, Double>> saveOrderDataWithAllModi(Response rs) {
+
+        HashMap<Integer, Map<String, Double>> allDishesInfo = new HashMap<>();
+
+        int totalDishIndex = 0;
+        String currentDishName = null;
+
+        int sessionDishSize = rs.jsonPath().getList("Session.Dish").size();
+        System.out.println(sessionDishSize + " количество типов блюд\n");
+
+        for (int currentDishIndex = 0; currentDishIndex <sessionDishSize; currentDishIndex++ ) {
+
+            Map<String, Double> temporaryMap = new HashMap<>();
+
+            double dishPrice = 0;
+            int modificatorTypeSize = 0;
+
+            if (rs.path("Session.Dish["+ currentDishIndex +"].Modi") != null) {
+
+                if (rs.path("Session.Dish["+ currentDishIndex +"].Modi") instanceof LinkedHashMap) {
+
+                    modificatorTypeSize = 1;
+
+                } else {
+
+                    modificatorTypeSize = rs.jsonPath().getList("Session.Dish["+ currentDishIndex +"].Modi").size();
+
+                }
+
+            }
+
+            currentDishName = rs.jsonPath().getString("Session.Dish[" + currentDishIndex + "]['@attributes'].name");
+
+            System.out.println(currentDishName + " имя текущего блюда");
+            System.out.println(modificatorTypeSize + " количество типов модификатора у текущего типа блюд\n");
+
+            double modificatorTotalPrice = 0;
+            if (modificatorTypeSize == 1) {
+
+                String modificatorName =
+                        rs.jsonPath().getString("Session.Dish[" + currentDishIndex +
+                                "].Modi['@attributes'].name");
+                System.out.println(modificatorName + " имя модификатора");
+
+                String modificatorCurrentPriceFlag = rs.path(
+                        "Session.Dish[" + currentDishIndex + "].Modi['@attributes'].price");
+
+                double modificatorCurrentPrice = 0;
+
+                if (modificatorCurrentPriceFlag != null) {
+
+                    modificatorCurrentPrice = rs.jsonPath().getDouble
+                            ("Session.Dish[" + currentDishIndex +
+                                    "].Modi['@attributes'].price") / 100;
+
+                }
+
+                System.out.println(modificatorCurrentPrice + " цена текущего модификатора");
+
+                int modificatorCurrentCount = rs.jsonPath().getInt
+                        ("Session.Dish[" + currentDishIndex + "].Modi['@attributes'].count");
+                System.out.println(modificatorCurrentCount + " текущее количество модификаторов");
+
+                modificatorTotalPrice = modificatorCurrentPrice * modificatorCurrentCount;
+
+                double currentDishPrice = rs.jsonPath().getDouble
+                        ("Session.Dish[" + currentDishIndex
+                                + "]['@attributes'].price") / 100;
+                System.out.println(currentDishPrice + " цена за само блюдо");
+
+                dishPrice = currentDishPrice + modificatorTotalPrice ;
+
+            } else {
+
+                for (int currentModificatorTypeIndex = 0; currentModificatorTypeIndex < modificatorTypeSize; currentModificatorTypeIndex++) {
+
+                    dishPrice = 0;
+
+                    String modificatorName =
+                            rs.jsonPath().getString("Session.Dish[" + currentDishIndex +
+                                    "].Modi[" + currentModificatorTypeIndex + "]['@attributes'].name");
+                    System.out.println(modificatorName + " имя модификатора");
+
+                    String modificatorCurrentPriceFlag = rs.path(
+                            "Session.Dish[" + currentDishIndex + "].Modi["
+                                    + currentModificatorTypeIndex + "]['@attributes'].price");
+
+                    double modificatorCurrentPrice = 0;
+
+                    if (modificatorCurrentPriceFlag != null) {
+
+                        modificatorCurrentPrice = rs.jsonPath().getDouble
+                                ("Session.Dish[" + currentDishIndex +
+                                        "].Modi[" + currentModificatorTypeIndex + "]['@attributes'].price") / 100;
+
+                    }
+
+                    System.out.println(modificatorCurrentPrice + " цена текущего модификатора");
+
+                    int modificatorCurrentCount = rs.jsonPath().getInt
+                            ("Session.Dish[" + currentDishIndex + "].Modi["
+                                    + currentModificatorTypeIndex + "]['@attributes'].count");
+                    System.out.println(modificatorCurrentCount + " текущее количество модификаторов");
+
+                    modificatorTotalPrice += modificatorCurrentPrice * modificatorCurrentCount;
+                    System.out.println(modificatorTotalPrice + " цена за количество и типы модификатора");
+
+                }
+
+                double currentDishPrice = rs.jsonPath().getDouble
+                        ("Session.Dish[" + currentDishIndex
+                                + "]['@attributes'].price") / 100;
+                System.out.println(currentDishPrice + " цена за само блюдо");
+
+                dishPrice = currentDishPrice + modificatorTotalPrice ;
+
+            }
+            System.out.println(dishPrice + " общая цена за блюдо + сумма за его модики");
+
+            int dishQuantity = rs.jsonPath().getInt("Session.Dish[" + currentDishIndex + "]['@attributes'].quantity") / 1000;
+
+            for (int k = 0; k < dishQuantity; k++) {
+
+                System.out.println("\nДобавлено в список под индексом " + totalDishIndex + "\n");
+                temporaryMap.put(currentDishName, dishPrice);
+                allDishesInfo.put(totalDishIndex, temporaryMap);
+
+                totalDishIndex++;
+
+            }
+
+        }
+
+        System.out.println("Итоговый список\n" + allDishesInfo);
+        return allDishesInfo;
 
     }
 

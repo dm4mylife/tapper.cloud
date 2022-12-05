@@ -62,6 +62,11 @@ public class BaseActions {
         return element.shouldHave(value(value));
     }
 
+    @Step("Переключение на другого гостя ({guest})")
+    public void switchOnAnotherGuest(int guest) {
+        Selenide.switchTo().window(guest);
+    }
+
     @Step("Элемент не видим на странице")
     public void isElementInvisible(@NotNull SelenideElement element) {
         element.shouldNotBe(visible);

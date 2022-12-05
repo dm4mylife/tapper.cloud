@@ -1,1 +1,0 @@
-{"uuid":"748e05fd-eec2-4712-8608-3d960adf6123","name":"4. Очищаем все данные, делимся чеком","children":["cea2f758-6a37-4aad-8101-8180dd13690c"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669368976788,"stop":1669368976788}],"afters":[],"start":1669368976785,"stop":1669368978850}

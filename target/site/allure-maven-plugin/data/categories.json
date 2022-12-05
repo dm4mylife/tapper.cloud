@@ -1,0 +1,240 @@
+{
+  "uid" : "4b4757e66a1912dae1a509f688f20b0f",
+  "name" : "categories",
+  "children" : [ {
+    "name" : "Product defects",
+    "children" : [ {
+      "name" : "Element not found {.vEmptyOrderModal img}\r\nExpected: visible\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669983403032.0.png\r\nTimeout: 4 s.\r\nCaused by: NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".vEmptyOrderModal img\"}",
+      "children" : [ {
+        "name" : "1.0. Проверка заголовка, номера стола, лого часов, подписи и вызов официанта",
+        "uid" : "c77b3e3ee7826210",
+        "parentUid" : "c0eb67a72c4bd967aaf147b4297df638",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669983398613,
+          "stop" : 1669983403185,
+          "duration" : 4572
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "c0eb67a72c4bd967aaf147b4297df638"
+    }, {
+      "name" : "Element not found {.tips__sum-btn[type='reset']}\r\nExpected: visible\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669984820255.1.png\r\nTimeout: 4 s.\r\nCaused by: NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".tips__sum-btn[type='reset']\"}",
+      "children" : [ {
+        "name" : "1.3. Проверка суммы, чаевых, сервисного сбора",
+        "uid" : "715200cf70d2ced6",
+        "parentUid" : "001df1d2067934398d5ad2d2e2299ef4",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669984814817,
+          "stop" : 1669984820394,
+          "duration" : 5577
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "001df1d2067934398d5ad2d2e2299ef4"
+    }, {
+      "name" : "Element not found {.tips__sum-btn[type='reset']}\r\nExpected: visible\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669984832545.2.png\r\nTimeout: 4 s.\r\nCaused by: NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".tips__sum-btn[type='reset']\"}",
+      "children" : [ {
+        "name" : "1.4. Выбираем рандомно блюда, проверяем все суммы и условия, без чая, но с СБ",
+        "uid" : "3b8611c3498dfbc0",
+        "parentUid" : "69904b0d7f2f3e9de2fb501631d7318f",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669984820399,
+          "stop" : 1669984832673,
+          "duration" : 12274
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "69904b0d7f2f3e9de2fb501631d7318f"
+    }, {
+      "name" : "Element not found {.vAuthentication.active}\r\nExpected: visible\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669984854323.3.png\r\nTimeout: 5 s.\r\nCaused by: NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".vAuthentication.active\"}",
+      "children" : [ {
+        "name" : "1.9. Пытаемся оплатить и получаем ошибку изменения суммы",
+        "uid" : "db59781cc419a771",
+        "parentUid" : "29b0f0f2551203eb76aae5a1a40068f8",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669984848040,
+          "stop" : 1669984854486,
+          "duration" : 6446
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "29b0f0f2551203eb76aae5a1a40068f8"
+    }, {
+      "name" : "Element not found {.divide__check input}\r\nExpected: exist\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669984858571.4.png\r\nTimeout: 4 s.\r\nCaused by: NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".divide__check input\"}",
+      "children" : [ {
+        "name" : "2.0. Закрываем заказ, очищаем кассу",
+        "uid" : "c451a2dea5bc9a1c",
+        "parentUid" : "5d324a97e74a41554b627715664e5693",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669984854492,
+          "stop" : 1669984858710,
+          "duration" : 4218
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "5d324a97e74a41554b627715664e5693"
+    }, {
+      "name" : "Element should have text \" Статус заказа: Полностью оплачен \" {.review__status}\r\nElement: '<div class=\"review__status\">Статус заказа: Частично оплачен</div>'\r\nActual value: text=\"Статус заказа: Частично оплачен\"\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669985476733.5.png\r\nTimeout: 4 s.",
+      "children" : [ {
+        "name" : "1.7. Проверяем статус оплаты",
+        "uid" : "3398366fba121da0",
+        "parentUid" : "d9a261efc4eaf5f95de0ba4c561e5420",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669985465608,
+          "stop" : 1669985476893,
+          "duration" : 11285
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "d9a261efc4eaf5f95de0ba4c561e5420"
+    }, {
+      "name" : "Element should have text \"Заказ успешно оплачен\" {.vEmptyOrderModal__heading}\r\nElement: '<h3 class=\"vEmptyOrderModal__heading\">Скоро здесь появится ваш заказ</h3>'\r\nActual value: text=\"Скоро здесь появится ваш заказ\"\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669985482136.6.png\r\nTimeout: 5 s.",
+      "children" : [ {
+        "name" : "1.8. Переключаемся на второго гостя, проверяем что суммы оплачены и пустой заказ",
+        "uid" : "f762937c97dcf3a1",
+        "parentUid" : "24d413b63d16ec20e6296dd2f5f79e23",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669985476896,
+          "stop" : 1669985482266,
+          "duration" : 5370
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "24d413b63d16ec20e6296dd2f5f79e23"
+    }, {
+      "name" : "webdriver should have url starting with https://test.best2pay.net/\r\nActual value: https://tapper.staging.zedform.ru/testrkeeper/1000046\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669986046518.7.png\r\nTimeout: 20 s.",
+      "children" : [ {
+        "name" : "4. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п",
+        "uid" : "841bbcf98a67b829",
+        "parentUid" : "15ae7a0cdc821d142b7767c88f397fa9",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669986023979,
+          "stop" : 1669986046670,
+          "duration" : 22691
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "15ae7a0cdc821d142b7767c88f397fa9"
+    }, {
+      "name" : "Element not found {#totalAmountValue}\r\nExpected: exist\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669986050715.8.png\r\nTimeout: 4 s.\r\nCaused by: NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\"#totalAmountValue\"}",
+      "children" : [ {
+        "name" : "5. Переходим на эквайринг, вводим данные, оплачиваем заказ",
+        "uid" : "e4b106fc095a2355",
+        "parentUid" : "db6bdce1706bbb3378bfe8ff14a5e0ef",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669986046674,
+          "stop" : 1669986050846,
+          "duration" : 4172
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "db6bdce1706bbb3378bfe8ff14a5e0ef"
+    }, {
+      "name" : "Element should be visible {By.xpath: //*/div[@class='startScreen']}\r\nElement: '<div class=\"startScreen\" displayed:false></div>'\r\nActual value: hidden\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669986054889.9.png\r\nTimeout: 4 s.",
+      "children" : [ {
+        "name" : "6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате",
+        "uid" : "ee92a7eacdeebc3b",
+        "parentUid" : "88165173bcc46708aedcb7dcaf2c4020",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669986050852,
+          "stop" : 1669986055023,
+          "duration" : 4171
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "88165173bcc46708aedcb7dcaf2c4020"
+    }, {
+      "name" : "Element not found {.review__common .main-btn}\r\nExpected: visible\r\nScreenshot: file:/C:/tapper.cloud/build/reports/tests/1669986060061.10.png\r\nTimeout: 4 s.\r\nCaused by: NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".review__common .main-btn\"}",
+      "children" : [ {
+        "name" : "7. Закрываем заказ",
+        "uid" : "53c2c9ac678d1002",
+        "parentUid" : "60968822f2fc11be03435477e272e634",
+        "status" : "failed",
+        "time" : {
+          "start" : 1669986055028,
+          "stop" : 1669986060192,
+          "duration" : 5164
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "60968822f2fc11be03435477e272e634"
+    } ],
+    "uid" : "8fb3a91ba5aaf9de24cc8a92edc82b5d"
+  } ]
+}

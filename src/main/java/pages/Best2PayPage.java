@@ -74,7 +74,7 @@ public class Best2PayPage extends BaseActions {
 
         double totalPayB2BDouble = baseActions.convertSelectorTextIntoDoubleByRgx(totalPayB2B, "\\s");
 
-        Assertions.assertEquals(totalPayTapper, totalPayB2BDouble, 0.01);
+        Assertions.assertEquals(totalPayTapper, totalPayB2BDouble, 0.1);
         System.out.println("Сумма в тапере " + totalPayTapper + " сходится с суммой в эквайринге " + totalPayB2BDouble);
 
     }
@@ -82,6 +82,11 @@ public class Best2PayPage extends BaseActions {
     @Step("Клик по кнопке оплатить")
     public void clickPayButton() {
         baseActions.click(payButton);
+    }
+
+    @Step("Забрать итоговую сумму для оплаты со страницы транзакции")
+    public double getPaymentAmount() {
+        return baseActions.convertSelectorTextIntoDoubleByRgx(totalPayB2B, "\\s");
     }
 
 }

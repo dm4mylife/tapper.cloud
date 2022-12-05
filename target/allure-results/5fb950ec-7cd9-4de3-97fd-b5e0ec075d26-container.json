@@ -1,1 +1,0 @@
-{"uuid":"5fb950ec-7cd9-4de3-97fd-b5e0ec075d26","name":"4. Добавляем еще одно блюдо на кассе","children":["bbb819e8-947a-44e4-804a-4d6ad51dbc6b"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669369307063,"stop":1669369307063}],"afters":[],"start":1669369307061,"stop":1669369307495}

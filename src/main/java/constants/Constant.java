@@ -20,7 +20,7 @@ public class Constant {
         public static final String TEST_PAYMENT_CARD_CVV = "123";
         public static final String TEST_YANDEX_LOGIN_EMAIL = "autotests@tapper.cloud";
         public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
-        public static final Integer TIME_WAIT_FOR_FULL_LOAD = 4000;
+        public static final Integer TIME_WAIT_FOR_FULL_LOAD = 3000;
 
         public static final String TEST_WAITER_COMMENT = "test\\тест";
         public static final String TEST_REVIEW_COMMENT = "test\\тест";
@@ -70,6 +70,17 @@ public class Constant {
                   const parts = value.split(`; ${name}=`);
                         if (parts.length === 2) return parts.pop().split(';').shift();
                 }; return getCookie("guest")""";
+
+        public static final String isWaiterImageBroken = """
+                function isImageNotBroken()  {
+                    var img = document.querySelector(".tips__waiter img");
+                    if (img.complete &&  typeof img.naturalWidth != "undefined" && img.naturalWidth > 0)\s
+                        {return true;}
+                    else
+                        {return false;}
+                };
+                return isImageNotBroken();""";
+
 
 
     }

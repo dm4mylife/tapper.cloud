@@ -9,6 +9,7 @@ import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.TEST_REVIEW_COMMENT;
 import static constants.Selectors.Best2PayPage.paymentProcessContainer;
 import static constants.Selectors.Common.pagePreLoader;
+import static constants.Selectors.Common.startScreenLogoContainer;
 import static constants.Selectors.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
@@ -18,6 +19,7 @@ public class ReviewPage extends BaseActions {
     @Step("Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны")
     public void isPaymentProcessContainerShown() {
 
+        startScreenLogoContainer.shouldBe(visible);
         baseActions.isElementVisibleDuringLongTime(paymentProcessContainer, 10);
         baseActions.isElementVisibleDuringLongTime(paymentProcessStatus, 10);
 
@@ -33,19 +35,27 @@ public class ReviewPage extends BaseActions {
         baseActions.isElementVisibleDuringLongTime(reviewContainer, 10);
 
         baseActions.isElementVisible(reviewStars);
-        //    baseActions.isElementVisible(reviewTextArea); toDO отключил временно, баг
+        baseActions.isElementVisible(reviewTextArea);
         baseActions.isElementVisibleDuringLongTime(finishReviewButton, 10);
 
     }
 
     @Step("Заголовок соответствует частичной оплате")
     public void partialPaymentHeading() {
+
+        paymentLogo.shouldBe(visible);
         paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
+        paymentTime.shouldBe(visible);
+
     }
 
     @Step("Заголовок соответствует полной оплате")
     public void fullPaymentHeading() {
+
+        paymentLogo.shouldBe(visible);
         paymentStatusAfterPay.shouldHave(text(" Статус заказа: Полностью оплачен "));
+        paymentTime.shouldBe(visible);
+
     }
 
     @Step("Выставляем 5 звёзд")
@@ -56,7 +66,7 @@ public class ReviewPage extends BaseActions {
 
     }
 
-    @Step("Выставляем 1 звёзду")
+    @Step("Выставляем 1 звезду")
     public void rate1Stars() {
 
         baseActions.click(reviewStars);

@@ -11,7 +11,7 @@ public class Selectors {
 
         public static final String bodyJS = "body";
         public static final SelenideElement header = $(".vOrderHeader");
-        public static final SelenideElement startScreenLogo = $x("//div[./div[@class='startScreen']]");
+        public static final SelenideElement startScreenLogoContainer = $x("//*/div[@class='startScreen']");
         public static final SelenideElement pagePreLoader = $(".vLightPreloader");
 
     }
@@ -37,7 +37,7 @@ public class Selectors {
 
             public static final ElementsCollection allDishesInOrder = $$("li [class='dishList__item']");
             public static final ElementsCollection paidDishes = $$(".dishList__item.paid");
-            public static final ElementsCollection disabledDishes = $$("[class='dishList__item disabled']");
+            public static final ElementsCollection disabledDishes = $$x("//*[@class='dishList__list']//*[contains(@class,'disabled')]");
             public static final ElementsCollection allNonPaidAndNonDisabledDishes = $$(".dishList [class='dishList__item']");
 
 
@@ -62,6 +62,8 @@ public class Selectors {
 
             public static final ElementsCollection dishesStatus = $$(".dishList .dishList__list .dishList__item-status+p");
 
+            public static final SelenideElement dishStatusIsPaying = $x("//*[contains(text(),'Оплачивается')]");
+
         }
 
         public static class TipsAndCheck {
@@ -78,6 +80,8 @@ public class Selectors {
                     $x("//*[@class='check__tips-heading'][text()='Отмеченные позиции:']/following-sibling::span");
             public static final SelenideElement discountField =
                     $x("//*[@class='check__tips-heading'][text()='Скидка:']/following-sibling::span");
+            public static final SelenideElement markupField =
+                    $x("//*[@class='check__tips-heading'][text()='Наценка:']/following-sibling::span");
 
             public static final SelenideElement resetTipsButton = $(".tips__sum-btn[type='reset']");
             public static final SelenideElement tipsContainer = $(".tips");
@@ -115,10 +119,11 @@ public class Selectors {
             public static final SelenideElement serviceChargeInput = $(".payment__conditions:first-of-type input");
             public static final SelenideElement serviceCharge = $(".payment__conditions:first-of-type");
             public static final String serviceChargeJS = ".payment__conditions:first-of-type";
+            public static final SelenideElement paymentMethodsContainer = $(".paymentMethods");
+            public static final ElementsCollection paymentMethods = $$(".paymentMethods img");
             public static final SelenideElement confPolicyLink = $(".payment__conditions:last-of-type a");
             public static final SelenideElement confPolicyContainer = $(".vLandingPoliticModal");
             public static final SelenideElement confPolicyContent = $(".vLandingPoliticModal__content");
-
             public static final SelenideElement shareButton = $(".share-btn.main-btn");
 
         }
@@ -128,8 +133,10 @@ public class Selectors {
             public static final SelenideElement tabBar = $(".menu");
             public static final SelenideElement tabBarMenuIcon = $("div .menuOpen");
             public static final SelenideElement tabBarWalletIcon = $("div .creditCardOpen");
+            public static final SelenideElement callWaiterHeading = $(".callWaiter__heading");
             public static final SelenideElement callWaiterButton = $(".callWaiter");
             public static final SelenideElement callWaiterContainer = $(".callWaiter-modal");
+            public static final SelenideElement callWaiterCloseButton = $(".callWaiter-modal__close");
             public static final SelenideElement callWaiterButtonSend = $(".callWaiter-btn.send");
             public static final SelenideElement callWaiterButtonCancel = $(".callWaiter-btn.cancel");
             public static final SelenideElement callWaiterCommentArea = $(".callWaiter__textarea");
@@ -138,7 +145,6 @@ public class Selectors {
             public static final SelenideElement closeCallWaiterFormInSuccess = $(".callWaiter-modal .successfulSendin__btn");
             public static final SelenideElement closeCallWaiterText = $(".mainPage .callWaiter__text");
             public static final SelenideElement callWaiterFadedBackground = $("div>.modal__overlay");
-
 
         }
 
@@ -165,7 +171,9 @@ public class Selectors {
 
     public static class ReviewPage {
 
+        public static final SelenideElement paymentLogo = $(".review__top svg");
         public static final SelenideElement paymentStatusAfterPay = $(".review__status");
+        public static final SelenideElement paymentTime = $(".review__time");
         public static final SelenideElement reviewContainer = $(".review .container");
         public static final SelenideElement finishReviewButton = $(".review__common .main-btn");
         public static final SelenideElement reviewTextArea = $(".review__textarea");

@@ -2,19 +2,25 @@ package pages.nestedTestsManager;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import pages.Best2PayPage;
 import pages.ReviewPage;
 import pages.RootPage;
 
+
+import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.Objects;
 
 import static com.codeborne.selenide.Selenide.$;
 import static constants.Constant.TestData.*;
 import static constants.Selectors.Best2PayPage.transaction_id;
-import static constants.Selectors.RootPage.DishList.dishesSumChangedHeading;
+import static constants.Selectors.RootPage.DishList.*;
+import static constants.Selectors.RootPage.PayBlock.serviceCharge;
 import static constants.Selectors.RootPage.TipsAndCheck.totalPay;
+import static constants.Selectors.RootPage.TipsAndCheck.totalTipsSumInMiddle;
 import static constants.Selectors.YandexMail.dropdownListOrder;
 
 
@@ -94,5 +100,63 @@ public class NestedTests extends RootPage {
 
     }
 
+
+    @Step("Проверяем установку чаевых по умолчанию по сумме, формирование СБ от чаевых," +
+            " и корректность суммы оплаты в таппере и б2п")
+    public void checkDefaultTipsBySumAndScLogicBySumAndB2P(double tapperTotalPay, double b2pTotalPay) {
+
+        if (divideCheckSliderInput.isSelected()) {
+
+            divideCheckSlider.click();
+
+        }
+
+        rootPage.isDefaultTipsBySumLogicCorrect();
+
+        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
+        double tipsSumInTheMiddle = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
+
+        double serviceChargeInField = rootPage.convertSelectorTextIntoDoubleByRgx(serviceCharge, "[^\\d\\.]+");
+        serviceChargeInField = convertDouble(serviceChargeInField);
+
+        double serviceChargeSumClear = convertDouble(cleanDishesSum * (SERVICE_PRICE_PERCENT_FROM_TOTAL_SUM / 100));
+        System.out.println(serviceChargeSumClear + " сервисный сбор от суммы");
+
+        double serviceChargeTipsClear = convertDouble(tipsSumInTheMiddle * (SERVICE_PRICE_PERCENT_FROM_TIPS / 100));
+        System.out.println(serviceChargeTipsClear + " сервисный сбор от чаевых\n");
+
+        double cleanServiceCharge = serviceChargeSumClear + serviceChargeTipsClear;
+
+        Assertions.assertEquals(cleanServiceCharge, serviceChargeInField, 0.1,
+                "Сервисный сбор считается не корректно");
+        System.out.println("Сервисный сбор считается корректно от суммы и чаевых");
+
+        rootPage.deactivateServiceChargeIfActivated();
+        tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay,"\\s₽");
+
+        rootPageNestedTests.clickPayment();
+        b2pTotalPay = best2PayPage.getPaymentAmount();
+
+        Assertions.assertEquals(tapperTotalPay,b2pTotalPay,
+                "Сумма итого к оплате не совпадает с суммой в таппере");
+        System.out.println("Сумма итого к оплате (с СБ) в таппере " + tapperTotalPay +
+                " совпадает с суммой в б2п " + b2pTotalPay);
+
+        Selenide.back();
+
+        rootPage.activateServiceChargeIfDeactivated();
+        tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay,"\\s₽");
+
+        rootPageNestedTests.clickPayment();
+        b2pTotalPay = best2PayPage.getPaymentAmount();
+
+        Assertions.assertEquals(tapperTotalPay,b2pTotalPay, 0.1,
+                "Сумма итого к оплате не совпадает с суммой в таппере");
+        System.out.println("Сумма итого к оплате (бес СБ) в таппере " + tapperTotalPay +
+                " совпадает с суммой в б2п " + b2pTotalPay);
+
+        Selenide.back();
+
+    }
 
 }

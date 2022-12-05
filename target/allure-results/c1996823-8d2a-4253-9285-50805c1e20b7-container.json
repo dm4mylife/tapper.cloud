@@ -1,1 +1,0 @@
-{"uuid":"c1996823-8d2a-4253-9285-50805c1e20b7","name":"2.3. Проверка сброса чаевых","children":["2c41fa8a-8f3c-4e9d-94bd-eee290bf8ff3"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669369366372,"stop":1669369366372}],"afters":[],"start":1669369366371,"stop":1669369367553}

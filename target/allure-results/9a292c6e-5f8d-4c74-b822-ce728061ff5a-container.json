@@ -1,1 +1,0 @@
-{"uuid":"9a292c6e-5f8d-4c74-b822-ce728061ff5a","name":"2.9. Закрываем заказ, очищаем кассу","children":["eeffa219-adc6-4ec1-a770-b73fd1edf311"],"befores":[{"name":"setupAllureReports","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1669369367555,"stop":1669369367555}],"afters":[],"start":1669369367554,"stop":1669369389532}
