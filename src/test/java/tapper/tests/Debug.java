@@ -2,20 +2,18 @@ package tapper.tests;
 
 
 import api.ApiRKeeper;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import pages.Best2PayPage;
-import pages.ReviewPage;
-import pages.RootPage;
-import pages.nestedTestsManager.Best2PayPageNestedTests;
-import pages.nestedTestsManager.ReviewPageNestedTests;
-import pages.nestedTestsManager.RootPageNestedTests;
+import tapper_table.Best2PayPage;
+import tapper_table.ReviewPage;
+import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
+import tapper_table.nestedTestsManager.ReviewPageNestedTests;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,9 +22,6 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_10;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.Selectors.RootPage.TipsAndCheck.discountField;
-import static constants.Selectors.RootPage.TipsAndCheck.markupField;
 
 
 @Epic("Debug")
@@ -248,25 +243,75 @@ public class Debug extends BaseTest {
     @DisplayName("discount")
     public void deletePosition() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_10);
+        //  rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
 
-        Response rs = apiRKeeper.getOrderInfo("1000044");
+        Response rs = apiRKeeper.getOrderInfo("1000046");
 
-        double dishDiscountRs = rs.jsonPath().getDouble("Session.Dish.Discount['@attributes'].amount") / 100;
+        String session = "Session";
 
-        System.out.println(dishDiscountRs + " скидка на блюдо на кассе");
+        Object sessionSizeFlag = rs.path(session);
 
-        double dishDiscountTapper = baseActions.convertSelectorTextIntoDoubleByRgx(discountField,"\\s₽");
 
-        System.out.println(dishDiscountTapper + " поле 'Скидка' в таппере");
+        int sessionSize = 0;
+        int sessionIndexCounter = 0;
 
-        double discountOrderRs = rs.jsonPath().getDouble("Session.Discount['@attributes'].amount") / 100;
+        if (sessionSizeFlag instanceof LinkedHashMap) {
 
-        System.out.println(discountOrderRs + " скидка на заказ на кассе");
+            sessionSize = 1;
 
-        double totalDiscount = dishDiscountRs + discountOrderRs;
+        } else {
 
-        System.out.println(totalDiscount + " общая скидка");
+            sessionSize = rs.jsonPath().getList("Session").size();
+            session = session + "[" + sessionIndexCounter + "]";
+
+        }
+
+        System.out.println(sessionSize + " количество сессий\n");
+
+        for (; sessionIndexCounter < sessionSize; sessionIndexCounter++) {
+
+            System.out.println(sessionIndexCounter + " текущая сессия");
+
+
+            Object dishSizeSizeFlag = rs.path(session + ".Dish");
+
+            String dish = ".Dish.";
+            int dishSize = 0;
+            int dishIndexCounter = 0;
+
+            if (dishSizeSizeFlag instanceof LinkedHashMap) {
+
+                dishSize = 1;
+
+            } else {
+
+                dishSize = rs.jsonPath().getList(session).size();
+                dish = ".Dish[" + dishIndexCounter + "]";
+
+            }
+
+            System.out.println(dishSize + " количество блюд\n");
+
+            for (; dishIndexCounter < dishSize; dishIndexCounter++) {
+
+                String s = rs.jsonPath().getString(session + dish);
+
+                System.out.println(dishIndexCounter + " текущее блюдо");
+
+                System.out.println(s);
+
+            }
+
+        }
+
+
+    }
+
+
+
+
+    public void addModificator() {
+
 
 
 
@@ -275,45 +320,127 @@ public class Debug extends BaseTest {
     @Disabled
     @Test
     @DisplayName("add modificator")
-    public void addModificator() {
+    public void addModificator1() {
 
-        Response rs = apiRKeeper.getOrderInfo("1000044");
-
-        HashMap<Integer, Map<String, Double>> allDishesInfo = new HashMap<>();
-
-        int totalDishIndex = 0;
-        String currentDishName = null;
-        int sessionSize = getSessionSize(rs);
-
-
-
-
-
-    }
-
-
-
-
-
-    public static int getSessionSize(Response rs) {
-
-        int sessionSize = 0;
-
+        Response rs = apiRKeeper.getOrderInfo(TABLE_3_ID);
         Object sessionSizeFlag = rs.path("Session");
 
-        if (sessionSizeFlag instanceof ArrayList) {
+        int sessionSize;
+        int sessionIndexCounter = 0;
+        int totalDiscountAmount = 0;
+
+        if (sessionSizeFlag instanceof LinkedHashMap) {
+
+            sessionSize = 1;
+
+        } else {
 
             sessionSize = rs.jsonPath().getList("Session").size();
 
-        } else  {
-
-            sessionSize = 1;
         }
 
-        System.out.println(sessionSize + " размер сессии");
-        return sessionSize;
+        System.out.println(sessionSize + " количество сессий\n");
+
+        for (; sessionIndexCounter < sessionSize; sessionIndexCounter++) {
+
+            String session;
+
+            if (sessionSize == 1) {
+                session = "Session";
+            } else {
+                session = "Session" + "[" + sessionIndexCounter + "]";
+            }
+
+            System.out.println("\n" + sessionIndexCounter + " текущая сессия");
+
+            Object discountOrderFlag = rs.path(session + ".Discount['@attributes'].amount");
+
+            if (discountOrderFlag != null) {
+
+                String discountOrderPath = ".Discount";
+                Object discountFlag = rs.path(session + discountOrderPath);
+
+                int discountSize;
+                int discountIndexCounter = 0;
+
+                if (discountFlag instanceof LinkedHashMap) {
+
+                    discountSize = 1;
+
+                } else {
+
+                    discountSize = rs.jsonPath().getList(session + discountOrderPath).size();
+
+                }
+
+                for (; discountIndexCounter < discountSize; discountIndexCounter++) {
+
+                    String discount;
+
+                    if (discountSize == 1) {
+
+                        discount = session + discountOrderPath;
+
+                    } else {
+
+                        discount = session + discountOrderPath + "[" + discountIndexCounter + "]";
+
+                    }
+
+                    double discountOrder = rs.jsonPath().getDouble(discount + "['@attributes'].amount") / 100;
+                    System.out.println("\n" + discountOrder + " скидка по заказу");
+
+                    totalDiscountAmount -= discountOrder;
+
+                }
+
+            }
+
+            String dishPath = ".Dish";
+            Object dishSizeSizeFlag = rs.path(session + dishPath);
+
+            String dish = ".Dish";
+            int dishSize;
+            int dishIndexCounter = 0;
+
+            if (dishSizeSizeFlag instanceof LinkedHashMap) {
+
+                dishSize = 1;
+
+            } else if (dishSizeSizeFlag == null) {
+
+                dishSize = 0;
+
+            } else {
+
+                dishSize = rs.jsonPath().getList(session + dishPath).size();
+                dish = dishPath + "[" + dishIndexCounter + "]";
+
+            }
+
+            System.out.println(dishSize + " количество блюд\n");
+
+            for (; dishIndexCounter < dishSize; dishIndexCounter++) {
+
+                Object discountDishFlag = rs.path(session + dish + ".Discount['@attributes'].amount");
+
+                if (discountDishFlag != null) {
+
+                    double discountDish = rs.jsonPath().getDouble(session + dish + ".Discount['@attributes'].amount") / 100;
+                    System.out.println(discountDish + " скидка на блюдо");
+
+                    totalDiscountAmount -= discountDish;
+
+
+                }
+
+            }
+
+        }
+        System.out.println("\n" + totalDiscountAmount + " общая скидка");
 
     }
+
 
 
 }

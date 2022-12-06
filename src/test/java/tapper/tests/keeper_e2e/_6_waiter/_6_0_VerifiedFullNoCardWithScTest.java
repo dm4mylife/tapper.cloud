@@ -7,12 +7,12 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import pages.Best2PayPage;
-import pages.ReviewPage;
-import pages.RootPage;
-import pages.nestedTestsManager.Best2PayPageNestedTests;
-import pages.nestedTestsManager.ReviewPageNestedTests;
-import pages.nestedTestsManager.RootPageNestedTests;
+import tapper_table.Best2PayPage;
+import tapper_table.ReviewPage;
+import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
+import tapper_table.nestedTestsManager.ReviewPageNestedTests;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.Selectors.Best2PayPage.transaction_id;
+import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
 
 @Order(60)
 @Epic("RKeeper")

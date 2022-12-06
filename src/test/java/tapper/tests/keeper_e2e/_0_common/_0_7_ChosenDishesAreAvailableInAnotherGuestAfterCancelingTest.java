@@ -8,8 +8,8 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import pages.RootPage;
-import pages.nestedTestsManager.RootPageNestedTests;
+import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.time.Duration;
@@ -19,8 +19,8 @@ import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.disabled;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.Selectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
-import static constants.Selectors.RootPage.PayBlock.paymentButton;
+import static constants.SelectorsTapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static constants.SelectorsTapperTable.RootPage.PayBlock.paymentButton;
 
 @Order(3)
 @Epic("E2E - тесты (полные)")

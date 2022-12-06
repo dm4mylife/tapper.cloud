@@ -7,9 +7,9 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import pages.RootPage;
-import pages.nestedTestsManager.NestedTests;
-import pages.nestedTestsManager.RootPageNestedTests;
+import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.NestedTests;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;

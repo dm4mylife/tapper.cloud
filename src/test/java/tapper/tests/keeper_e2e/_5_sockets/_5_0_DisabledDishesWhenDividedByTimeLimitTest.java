@@ -10,8 +10,8 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import pages.RootPage;
-import pages.nestedTestsManager.RootPageNestedTests;
+import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.time.Duration;
@@ -22,7 +22,7 @@ import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.exist;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.Selectors.RootPage.DishList.dishesStatus;
+import static constants.SelectorsTapperTable.RootPage.DishList.dishesStatus;
 
 @Order(50)
 @Epic("RKeeper")

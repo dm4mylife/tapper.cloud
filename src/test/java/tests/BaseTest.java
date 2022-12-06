@@ -33,7 +33,7 @@ public class BaseTest {
 
        // WebDriver driver = WebDriverRunner.getWebDriver();
        // driver.manage().window().setPosition(new Point(0, 0));
-        Configuration.headless = false;
+        Configuration.headless = true;
         Configuration.browserPosition = "0x0";
         Configuration.browserSize = "350x900";
 

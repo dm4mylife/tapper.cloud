@@ -7,8 +7,8 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import pages.RootPage;
-import pages.nestedTestsManager.RootPageNestedTests;
+import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.Selectors.RootPage.DishList.divideCheckSlider;
+import static constants.SelectorsTapperTable.RootPage.DishList.divideCheckSlider;
 
 @Order(5)
 @Epic("E2E - тесты (полные)")
