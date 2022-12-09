@@ -11,6 +11,7 @@ import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
+import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
@@ -21,7 +22,6 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
 
 @Order(12)
 @Epic("RKeeper")
@@ -37,11 +37,10 @@ public class _1_2_TipsNoScTest extends BaseTest {
     static String transactionId;
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    Best2PayPage best2PayPage = new Best2PayPage();
     ReviewPage reviewPage = new ReviewPage();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
-    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
+    NestedTests nestedTests = new NestedTests();
 
 
     @Test
@@ -67,7 +66,6 @@ public class _1_2_TipsNoScTest extends BaseTest {
     @DisplayName("3. Проверка суммы, чаевых, без сервисного сбора")
     public void checkSumTipsSC() {
 
-
         double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
         rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
         rootPage.setRandomTipsAndDeactivateScIfActivated();
@@ -80,18 +78,13 @@ public class _1_2_TipsNoScTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        rootPageNestedTests.clickPayment();
 
     }
 
     @Test
     @DisplayName("5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
-
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
-        transactionId = transaction_id.getValue();
-        best2PayPage.clickPayButton();
-
+        transactionId = nestedTests.acquiringPayment(totalPay);
     }
 
     @Test
@@ -106,9 +99,7 @@ public class _1_2_TipsNoScTest extends BaseTest {
     @Test
     @DisplayName("7. Закрываем заказ")
     public void finishOrder() {
-
         reviewPage.clickOnFinishButton();
-
     }
 
 }

@@ -2,8 +2,6 @@ package tapper.tests.keeper_e2e._0_common;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Condition;
-import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
@@ -18,8 +16,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.RootPage.DishList.*;
-import static constants.SelectorsTapperTable.RootPage.TapBar.closeCallWaiterText;
+
 
 
 @Order(0)
@@ -33,33 +30,25 @@ public class _0_0_AllElementsTest extends BaseTest {
     static String visit;
     static String guid;
     static String uni;
-    static String testText = "Общая функциональность таппера";
-    BaseActions baseActions = new BaseActions();
+
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
+
     @Test
     @DisplayName("0. Открываем пустой стол")
     public void openEmptyTable() {
         rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
-
     }
 
     @Test
     @DisplayName("1.0. Проверка заголовка, номера стола, лого часов, подписи и вызов официанта")
     public void isTableNumberShown() {
-
-        baseActions.isElementVisible(headerTitle);
-        baseActions.isElementVisible(tableNumber);
-        baseActions.isElementVisible(emptyTableLogoClock);
-        emptyOrderHeading.shouldHave(Condition.text("Скоро здесь появится ваш заказ"));
-        baseActions.isElementVisible(closeCallWaiterText);
-
+        rootPageNestedTests.isEmptyTableCorrect();
     }
-
 
     @Test
     @DisplayName("1.1 Создание заказа в r_keeper")
@@ -156,6 +145,7 @@ public class _0_0_AllElementsTest extends BaseTest {
     @Test
     @DisplayName("2.6. Оплачиваем заказ")
     public void payOrder() {
+
 
         rootPageNestedTests.clickPayment();
         best2PayPageNestedTests.typeDataAndPay();

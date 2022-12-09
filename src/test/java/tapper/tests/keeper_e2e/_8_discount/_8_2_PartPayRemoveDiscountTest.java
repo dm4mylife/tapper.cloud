@@ -24,13 +24,13 @@ import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
 
-@Order(81)
+@Order(82)
 @Epic("RKeeper")
 @Feature("Скидка")
-@Story("Частичная оплата + применение скидки (Частичная оплата, потом скидка, потом полная оплата)")
+@Story("Удаление скидки из заказа, полная оплата")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _8_1_PartPayAddDiscountTest extends BaseTest {
+public class _8_2_PartPayRemoveDiscountTest extends BaseTest {
 
     static double totalPay;
     static HashMap<String, Integer> paymentDataKeeper;
@@ -111,11 +111,11 @@ public class _8_1_PartPayAddDiscountTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.6. Добавляем скидку в заказ и проверяем суммы") // toDO доделать
+    @DisplayName("1.6. Удаляем скидку из заказа и проверяем суммы") // toDO доделать
     public void addDiscountAndCheckSums() {
 
-
-
+        rootPageNestedTests.removeDiscountFromTotalPaySum(discount);
+        
 
     }
 

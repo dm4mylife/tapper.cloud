@@ -7,25 +7,29 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.TEST_REVIEW_COMMENT;
-import static constants.SelectorsTapperTable.Best2PayPage.paymentProcessContainer;
+import static constants.SelectorsTapperTable.ReviewPage.paymentProcessContainer;
 import static constants.SelectorsTapperTable.Common.pagePreLoader;
-import static constants.SelectorsTapperTable.Common.startScreenLogoContainer;
 import static constants.SelectorsTapperTable.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
 
     BaseActions baseActions = new BaseActions();
+    RootPage rootPage = new RootPage();
 
     @Step("Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны")
     public void isPaymentProcessContainerShown() {
 
-        startScreenLogoContainer.shouldBe(visible);
+        rootPage.isStartScreenShown();
         baseActions.isElementVisibleDuringLongTime(paymentProcessContainer, 10);
-        baseActions.isElementVisibleDuringLongTime(paymentProcessStatus, 10);
 
+        baseActions.isElementVisible(paymentProcessGifProcessing);
+        baseActions.isElementVisible(paymentProcessStatus);
+        baseActions.isElementVisible(paymentProcessText);
         paymentProcessStatus.shouldHave(matchText("Производится оплата"), Duration.ofSeconds(30));
+
         paymentProcessStatus.shouldNotHave(text("Оплата не прошла"));
         paymentProcessStatus.shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
+        baseActions.isElementVisible(paymentProcessGifSuccess);
 
     }
 
@@ -62,7 +66,7 @@ public class ReviewPage extends BaseActions {
     public void rate5Stars() {
 
         baseActions.click(review5Stars);
-        currentActiveStar.shouldBe(visible);
+        review5Stars.$("svg").shouldHave(attributeMatching("class",".*active.*"));
 
     }
 
@@ -70,7 +74,7 @@ public class ReviewPage extends BaseActions {
     public void rate1Stars() {
 
         baseActions.click(reviewStars);
-        currentActiveStar.shouldBe(visible);
+        review1Stars.shouldBe(visible);
 
     }
 
@@ -81,7 +85,6 @@ public class ReviewPage extends BaseActions {
         baseActions.click(whatDoULikeListRandomOption.get(generateRandomNumber(1, 5) - 1));
         baseActions.isElementVisible(activeWhatDoULikeListRandomOption);
 
-
     }
 
     @Step("Выбираем рандомное пожелание")
@@ -91,7 +94,6 @@ public class ReviewPage extends BaseActions {
         baseActions.isElementsListVisible(suggestionOptions);
 
         baseActions.click(suggestionOptions.get(generateRandomNumber(1, 4) - 1));
-
 
     }
 
@@ -110,7 +112,6 @@ public class ReviewPage extends BaseActions {
         hideTapBar();
         scrollTillBottom();
         baseActions.click(finishReviewButton);
-        baseActions.isElementVisible(pagePreLoader);
         showTapBar();
 
     }

@@ -98,7 +98,7 @@ public class _5_2_FullCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.5. Возвращаемся на первого гостя")
     public void switchBackTo1Guest() {
 
-        rootPage.switchOnAnotherGuest(0);
+        rootPage.switchTab(0);
 
     }
 
@@ -125,7 +125,7 @@ public class _5_2_FullCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.8. Переключаемся на второго гостя, проверяем что суммы оплачены и пустой заказ")
     public void switchTo2ndGuestAndCheckPaidDishes() {
 
-        rootPage.switchOnAnotherGuest(1);
+        rootPage.switchTab(1);
         rootPage.isEmptyOrderAfterClosing();
 
     }

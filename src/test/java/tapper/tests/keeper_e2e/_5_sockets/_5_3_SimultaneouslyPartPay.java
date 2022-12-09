@@ -108,7 +108,7 @@ public class _5_3_SimultaneouslyPartPay extends BaseTest {
     @DisplayName("1.6. Переключаемся на первого гостя")
     public void switchBackTo1Guest() {
 
-        rootPage.switchOnAnotherGuest(0);
+        rootPage.switchTab(0);
 
     }
 
@@ -140,7 +140,7 @@ public class _5_3_SimultaneouslyPartPay extends BaseTest {
     @DisplayName("1.9. Переключаемся на второго гостя")
     public void switchBackTo2Guest() {
 
-        rootPage.switchOnAnotherGuest(1);
+        rootPage.switchTab(1);
 
     }
 

@@ -15,9 +15,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.TABLE_3_ID;
 import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
 import static constants.SelectorsTapperTable.RootPage.DishList.*;
+import static constants.SelectorsTapperTable.RootPage.TapBar.appFooter;
+import static constants.SelectorsTapperTable.RootPage.TapBar.callWaiterHeadingPrompt;
 import static constants.SelectorsTapperTable.RootPage.TipsAndCheck.*;
 
 
@@ -35,7 +36,19 @@ public class RootPageNestedTests extends RootPage {
     public void isOrderInKeeperCorrectWithTapper() { // toDO доделать, слишком много разных условий
 
         isDishListNotEmptyAndVisible();
-       // matchTapperOrderWithOrderInKeeper(orderInKeeper);
+        // matchTapperOrderWithOrderInKeeper(orderInKeeper);
+
+    }
+
+    @Step("Проверка пустого стола и всех элементов")
+    public void isEmptyTableCorrect() {
+
+        isElementVisible(headerTitleMyOrder);
+        isElementVisible(tableNumber);
+        isElementVisible(emptyTableLogoClock);
+        emptyOrderHeading.shouldHave(Condition.text("Скоро здесь появится ваш заказ"));
+        isElementVisible(callWaiterHeadingPrompt);
+        isElementVisible(appFooter);
 
     }
 
@@ -166,18 +179,6 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Очищаем все данные, рефрешим, передаём список ранее выбранных блюд, " +
-            "проверяем что выбранные блюда в статусе ожидаются после разделения чека")
-    public void clearDataAndCheckDisabledDishes(HashMap<Integer, Map<String, Double>> chosenDishes) {
-
-        clearAllSiteData();
-
-        isDishListNotEmptyAndVisible();
-        isStylesCorrectToDisabledDishes();
-        dishesAreDisabledInDishList(chosenDishes);
-
-    }
-
     @Step("Проверяем сумму за сами блюда с 'Итого к оплате' и счётчиком в иконке кошелька без СБ и чаевых")
     public void checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(double cleanTotalSum) {
 
@@ -203,7 +204,6 @@ public class RootPageNestedTests extends RootPage {
 
         resetTips();
         activateServiceChargeIfDeactivated();
-
 
     }
 
@@ -232,7 +232,7 @@ public class RootPageNestedTests extends RootPage {
         if (discountSum.exists()) {
 
             System.out.println("Обнаружена скидка");
-            double discount = convertSelectorTextIntoDoubleByRgx(discountSum,"[^\\d\\.]+");
+            double discount = convertSelectorTextIntoDoubleByRgx(discountSum, "[^\\d\\.]+");
             checkIsDiscountMatchWithSums(discount);
             cleanTotalSum -= discount;
 
@@ -249,10 +249,10 @@ public class RootPageNestedTests extends RootPage {
 
         double cleanTotalSum = countAllNonPaidDishesInOrder();
 
-        isElementVisible(discountContainer);
+        isElementVisible(discountField);
 
-        double discountInCheck = convertSelectorTextIntoDoubleByRgx(discountSum,"[^\\d\\.]+");
-        double totalPayInCheck = convertSelectorTextIntoDoubleByRgx(totalPay,"\\s₽");
+        double discountInCheck = convertSelectorTextIntoDoubleByRgx(discountSum, "[^\\d\\.]+");
+        double totalPayInCheck = convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
         double serviceCharge = getCurrentSCSum();
         double tips = getCurrentTipsSum();
 
@@ -262,7 +262,7 @@ public class RootPageNestedTests extends RootPage {
                 "Сумма скидок не совпадает из кассы с таппером");
         System.out.println("Скидка из кассы " + discount + " совпадает с суммой в блоке 'Скидка' " + discountInCheck);
 
-        Assertions.assertEquals(totalPayInCheck,cleanTotalSum, 0.1,
+        Assertions.assertEquals(totalPayInCheck, cleanTotalSum, 0.1,
                 "Сумма итого к оплате не совпадает с чистой суммой за минусом скидки");
         System.out.println("Сумма итого к оплате " + totalPayInCheck +
                 " совпадает с чистой суммой за минусом скидки " + cleanTotalSum);
@@ -322,7 +322,7 @@ public class RootPageNestedTests extends RootPage {
             }
 
             reviewPage.clickOnFinishButton();
-            forceWait(4000); // toDO есть предположение что предоплата не успевает доходить до кассы
+            forceWait(2000); // toDO есть предположение что предоплата не успевает доходить до кассы
 
         }
 
@@ -331,7 +331,7 @@ public class RootPageNestedTests extends RootPage {
     @Step("Закрываем заказ полностью") // toDo костыльное решение по закрытию заказа пока пишется api
     public void closeOrder() {
 
-        if (divideCheckSliderInput.isSelected()) {
+        if (divideCheckSliderActive.exists()) {
 
             divideCheckSlider.click();
 
@@ -344,7 +344,7 @@ public class RootPageNestedTests extends RootPage {
         reviewPageNestedTests.fullPaymentCorrect();
         reviewPage.clickOnFinishButton();
         rootPage.isEmptyOrderAfterClosing();
-        forceWait(2000);
+
 
     }
 
@@ -354,27 +354,27 @@ public class RootPageNestedTests extends RootPage {
         HashMap<Integer, Map<String, Double>> allDishesInfo = new HashMap<>();
 
         int totalDishIndex = 0;
-        String currentDishName = null;
+        String currentDishName;
 
         int sessionDishSize = rs.jsonPath().getList("Session.Dish").size();
         System.out.println(sessionDishSize + " количество типов блюд\n");
 
-        for (int currentDishIndex = 0; currentDishIndex <sessionDishSize; currentDishIndex++ ) {
+        for (int currentDishIndex = 0; currentDishIndex < sessionDishSize; currentDishIndex++) {
 
             Map<String, Double> temporaryMap = new HashMap<>();
 
-            double dishPrice = 0;
+            double dishPrice;
             int modificatorTypeSize = 0;
 
-            if (rs.path("Session.Dish["+ currentDishIndex +"].Modi") != null) {
+            if (rs.path("Session.Dish[" + currentDishIndex + "].Modi") != null) {
 
-                if (rs.path("Session.Dish["+ currentDishIndex +"].Modi") instanceof LinkedHashMap) {
+                if (rs.path("Session.Dish[" + currentDishIndex + "].Modi") instanceof LinkedHashMap) {
 
                     modificatorTypeSize = 1;
 
                 } else {
 
-                    modificatorTypeSize = rs.jsonPath().getList("Session.Dish["+ currentDishIndex +"].Modi").size();
+                    modificatorTypeSize = rs.jsonPath().getList("Session.Dish[" + currentDishIndex + "].Modi").size();
 
                 }
 
@@ -419,7 +419,7 @@ public class RootPageNestedTests extends RootPage {
                                 + "]['@attributes'].price") / 100;
                 System.out.println(currentDishPrice + " цена за само блюдо");
 
-                dishPrice = currentDishPrice + modificatorTotalPrice ;
+                dishPrice = currentDishPrice + modificatorTotalPrice;
 
             } else {
 
@@ -463,7 +463,7 @@ public class RootPageNestedTests extends RootPage {
                                 + "]['@attributes'].price") / 100;
                 System.out.println(currentDishPrice + " цена за само блюдо");
 
-                dishPrice = currentDishPrice + modificatorTotalPrice ;
+                dishPrice = currentDishPrice + modificatorTotalPrice;
 
             }
             System.out.println(dishPrice + " общая цена за блюдо + сумма за его модики");
@@ -598,7 +598,6 @@ public class RootPageNestedTests extends RootPage {
                     System.out.println(discountDish + " скидка на блюдо");
 
                     totalDiscountAmount -= discountDish;
-
 
                 }
 

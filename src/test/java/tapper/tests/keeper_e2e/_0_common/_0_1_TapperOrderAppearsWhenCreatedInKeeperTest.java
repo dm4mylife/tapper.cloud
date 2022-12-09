@@ -32,7 +32,7 @@ public class _0_1_TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
     public void openAndCheck() {
 
         rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
-        rootPage.isEmptyOrder();
+        rootPageNestedTests.isEmptyTableCorrect();
 
     }
 

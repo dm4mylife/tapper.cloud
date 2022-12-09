@@ -7,11 +7,9 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
-import tapper_table.nestedTestsManager.ReviewPageNestedTests;
+import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
@@ -21,7 +19,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
+
 
 @Order(20)
 @Epic("RKeeper")
@@ -36,13 +34,12 @@ public class _2_0_TipsScTest extends BaseTest {
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
     static int amountDishes = 3;
+
     RootPage rootPage = new RootPage();
-    Best2PayPage best2PayPage = new Best2PayPage();
     ReviewPage reviewPage = new ReviewPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
-    ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
+    NestedTests nestedTests = new NestedTests();
 
     @Test
     @DisplayName("1. Создание заказа в r_keeper")
@@ -79,34 +76,25 @@ public class _2_0_TipsScTest extends BaseTest {
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
 
-
     }
 
     @Test
     @DisplayName("5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
-
-        rootPageNestedTests.clickPayment();
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
-        transactionId = transaction_id.getValue();
-        best2PayPage.clickPayButton();
-
+        transactionId = nestedTests.acquiringPayment(totalPay);
     }
 
     @Test
     @DisplayName("6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
-
-        reviewPageNestedTests.partialPaymentCorrect();
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
-        reviewPage.clickOnFinishButton();
-
+        nestedTests.checkPaymentAndB2pTransaction(transactionId, paymentDataKeeper);
     }
 
     @Test
     @DisplayName("7. Делимся ссылкой и оплачиваем остальную часть заказа")
     public void clearDataAndChoseAgain() {
 
+        reviewPage.clickOnFinishButton();
         rootPage.clearAllSiteData();
         savePaymentDataForAcquiring();
 
@@ -115,9 +103,7 @@ public class _2_0_TipsScTest extends BaseTest {
     @Test
     @DisplayName("8. Переход на эквайринг, ввод данных, оплата")
     public void payAndGoToAcquiringAgain() {
-
         rootPageNestedTests.closeOrder();
-
     }
 
 }

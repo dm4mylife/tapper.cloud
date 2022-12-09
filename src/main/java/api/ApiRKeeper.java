@@ -9,34 +9,11 @@ import java.util.concurrent.TimeUnit;
 
 import static api.ApiData.EndPoints;
 import static api.ApiData.EndPoints.*;
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static io.restassured.RestAssured.given;
 
 public class ApiRKeeper {
-
-    @Step("Получаем информацию по заказу")
-    public Response getOrder(String requestBody) {
-
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .and()
-                .body(requestBody)
-                .baseUri(API_STAGE_URI)
-                .when()
-                .post(orderGet)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .extract()
-                .response();
-
-        System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
-        System.out.println("\nИнформация получена по заказу из кассы");
-
-        return response;
-    }
 
     @Step("Создание заказа")
     public Response createOrder(String requestBody) {
@@ -100,6 +77,7 @@ public class ApiRKeeper {
                 .when()
                 .get(b2bPaymentTransactionStatus + transaction_id)
                 .then()
+                .log().body()
                 .statusCode(200)
                 .extract()
                 .response();

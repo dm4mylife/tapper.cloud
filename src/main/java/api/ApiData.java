@@ -31,16 +31,13 @@ public class ApiData {
         public static final String SOLYANKA = "1000364";
         public static final String GOVYADINA_PORTION = "1000363";
 
-
         public static final String DISH_WITH_FREE_NOT_NECESSARY_MODI = "1000108";
         public static final String DISH_WITH_FREE_NECESSARY_MODI = "1000102";
         public static final String DISH_WITH_PAID_NOT_NECESSARY_MODI = "1000107";
         public static final String DISH_WITH_PAID_NECESSARY_MODI = "1000101";
 
-
         public static final String BARANINA = "1000367";
         public static final String LIMONAD = "1000362";
-
 
         public static final String BORSH = "1000102";
         public static final String FREE_NECESSARY_MODI_SALT = "1000114";
@@ -91,17 +88,6 @@ public class ApiData {
                     "  \"quantity\": " + quantity + ",\n" +
                     "  \"visit\": \"" + visit + "\",\n" +
                     "  \"dishId\": \"" + dishId + "\"\n" +
-                    "}";
-
-        }
-
-        public static String rqParamsOrderGet(String table_id, String domen, String guest, String session) {
-
-            return "{\n" +
-                    "  \"table_id\": \"" + table_id + "\",\n" +
-                    "  \"domen\": \"" + domen + "\",\n" +
-                    "  \"guest\": \"" + guest + "\",\n" +
-                    "  \"session\": \"" + session + "\"\n" +
                     "}";
 
         }

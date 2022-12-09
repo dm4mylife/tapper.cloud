@@ -63,8 +63,8 @@ public class BaseActions {
     }
 
     @Step("Переключение на другого гостя ({guest})")
-    public void switchOnAnotherGuest(int guest) {
-        Selenide.switchTo().window(guest);
+    public void switchTab(int tab_index) {
+        Selenide.switchTo().window(tab_index);
     }
 
     @Step("Элемент не видим на странице")
@@ -118,14 +118,14 @@ public class BaseActions {
     }
 
 
-    @Step("Принудительно прячем таббар")
+    @Step("Принудительно прячем футер")
     public void hideTapBar() {
-        Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'none'");
+        Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'none'");
     }
 
-    @Step("Принудительно раскрываем таббар")
+    @Step("Принудительно раскрываем футер")
     public void showTapBar() {
-        Selenide.executeJavaScript("document.querySelector('.menu').style.display = 'block'");
+        Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'block'");
     }
 
     @Step("Ввод данных {text} с задержкой")
@@ -140,6 +140,20 @@ public class BaseActions {
         }
 
     }
+
+    @Step("Удаление данных {text} с задержкой")
+    public void removeHumanKeys(SelenideElement element, @NotNull String text) {
+        Random r = new Random();
+        for (int i = 0; i < text.length(); i++) {
+
+            Selenide.sleep((int) (r.nextGaussian() * 15 + 50));
+
+            String s = String.valueOf(text.charAt(i));
+            element.sendKeys(s);
+        }
+
+    }
+
 
     @Step("Ввод данных {text} без задержки")
     public void sendKeys(@NotNull SelenideElement element, String text) {
@@ -180,6 +194,13 @@ public class BaseActions {
 
         String formattedDouble = new DecimalFormat("#0.00").format(doubleNumber).replace(",", ".");
         return Double.parseDouble(formattedDouble);
+    }
+
+    @Step("Открытие страницы в новой вкладке с фокусом")
+    public void openInNewTabUrl(String url) {
+        Selenide.executeJavaScript("window.open('" + url + "', '_blank').focus();");
+        forceWait(2000);
+
     }
 
 }

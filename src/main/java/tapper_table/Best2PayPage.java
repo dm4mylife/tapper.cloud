@@ -2,6 +2,7 @@ package tapper_table;
 
 import com.codeborne.selenide.Condition;
 import common.BaseActions;
+import constants.SelectorsTapperTable;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
@@ -28,7 +29,7 @@ public class Best2PayPage extends BaseActions {
     @Step("Проверка попапа ВПН и что форма оплаты появилась")
     public void isPaymentContainerAndVpnShown() {
 
-        baseActions.isElementVisibleDuringLongTime(paymentContainer, 10);
+        baseActions.isElementVisibleDuringLongTime(SelectorsTapperTable.ReviewPage.paymentContainer, 10);
         isVpnPopUpShown();
 
     }

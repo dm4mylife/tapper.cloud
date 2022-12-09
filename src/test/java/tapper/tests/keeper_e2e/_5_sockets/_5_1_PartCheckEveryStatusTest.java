@@ -94,7 +94,7 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.5. Переключаемся на первого гостя")
     public void switchBackTo1Guest() {
 
-        rootPage.switchOnAnotherGuest(0);
+        rootPage.switchTab(0);
 
     }
 
@@ -131,7 +131,7 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.9. Переключаемся на второго гостя, проверяем что суммы оплачены")
     public void switchTo2ndGuestAndCheckPaidDishes() {
 
-        rootPage.switchOnAnotherGuest(1);
+        rootPage.switchTab(1);
         rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
 
     }
@@ -140,7 +140,7 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     @DisplayName("2.0. Переключаемся на первого гостя, проверяем что суммы оплачены")
     public void switchTo1stdGuestAndCheckPaidDishes() {
 
-        rootPage.switchOnAnotherGuest(0);
+        rootPage.switchTab(0);
         rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
 
         reviewPage.clickOnFinishButton();
