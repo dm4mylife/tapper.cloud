@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 
 
 import static constants.Constant.TestDataRKeeperAdmin.*;
-import static constants.SelectorsTapperAdmin.AuthorizationPage.*;
-import static constants.SelectorsTapperAdmin.RegistrationPage.copyright;
-import static constants.SelectorsTapperAdmin.RegistrationPage.logoAtBottom;
+import static constants.TapperAdminSelectors.AuthorizationPage.*;
+import static constants.TapperAdminSelectors.RegistrationPage.copyright;
+import static constants.TapperAdminSelectors.RegistrationPage.logoAtBottom;
 
 public class AuthorizationPage extends BaseActions {
 
@@ -16,6 +16,8 @@ public class AuthorizationPage extends BaseActions {
     @Step("Авторизуемся на под админом ресторана")
     public void authorizationUser(String login, String password) {
 
+        openPage(R_KEEPER_ADMIN_AUTHORISATION_STAGE_URL);
+        forceWait(1000); // toDo не успевает прогрузиться
         isFormContainerCorrect();
         authorizeUser(login,password);
         isTextContainsInURL(R_KEEPER_ADMIN_PROFILE_STAGE_URL);

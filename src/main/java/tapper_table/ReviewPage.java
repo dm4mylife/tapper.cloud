@@ -7,9 +7,8 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.TEST_REVIEW_COMMENT;
-import static constants.SelectorsTapperTable.ReviewPage.paymentProcessContainer;
-import static constants.SelectorsTapperTable.Common.pagePreLoader;
-import static constants.SelectorsTapperTable.ReviewPage.*;
+import static constants.TapperTableSelectors.ReviewPage.paymentProcessContainer;
+import static constants.TapperTableSelectors.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
 

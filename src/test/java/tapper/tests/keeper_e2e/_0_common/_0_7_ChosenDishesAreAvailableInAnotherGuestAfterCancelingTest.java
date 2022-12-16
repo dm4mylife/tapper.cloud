@@ -19,8 +19,8 @@ import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.disabled;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
-import static constants.SelectorsTapperTable.RootPage.PayBlock.paymentButton;
+import static constants.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static constants.TapperTableSelectors.RootPage.PayBlock.paymentButton;
 
 @Order(3)
 @Epic("E2E - тесты (полные)")
@@ -51,7 +51,7 @@ public class _0_7_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest exten
     @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }

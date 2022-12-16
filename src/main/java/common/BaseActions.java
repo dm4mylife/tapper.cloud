@@ -6,6 +6,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Assertions;
 
 import java.text.DecimalFormat;
 import java.time.Duration;
@@ -197,9 +198,25 @@ public class BaseActions {
     }
 
     @Step("Открытие страницы в новой вкладке с фокусом")
-    public void openInNewTabUrl(String url) {
+    public void openNewTabAndSwitchTo(String url) {
+
         Selenide.executeJavaScript("window.open('" + url + "', '_blank').focus();");
         forceWait(2000);
+        Selenide.switchTo().window(1);
+
+    }
+
+    @Step("Корректность отображения изображения")
+    public void isImageCorrect(String element) {
+
+        final String JsScript = "function isImageNotBroken()  " +
+                "{ var img = document.querySelector('" + element +
+            "'); if (img.complete &&  typeof img.naturalWidth != 'undefined' && img.naturalWidth > 0) " +
+            "{ return true; } else { return false; }} return isImageNotBroken();";
+
+        boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(JsScript));
+        Assertions.assertTrue(image, "Изображение не битое, отображается корректно");
+        System.out.println("Изображение отображается корректно, не битое");
 
     }
 

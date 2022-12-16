@@ -21,7 +21,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.RootPage.TipsAndCheck.totalPay;
+import static constants.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
 
 @Order(5)
 @Epic("RKeeper")
@@ -60,7 +60,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }

@@ -269,7 +269,7 @@ public class ApiRKeeper {
 
         addModificatorOrder(guid, BORSH, "1000", FREE_NECESSARY_MODI_SALT, "1");
         addModificatorOrder(guid, BORSH, "1000", FREE_NECESSARY_MODI_SALT, "2");
-        addModificatorOrder(guid, BORSH, "2000", FREE_NECESSARY_MODI_SALT, "1"); // toDO еще нужно по 2+ разных модиков
+        addModificatorOrder(guid, BORSH, "2000", FREE_NECESSARY_MODI_SALT, "1"); // toDO еще нужно по 2+ разных модиков. проблема на стороне бэка
 
         addModificatorOrder(guid, BORSH, "1000", FREE_NECESSARY_MODI_PEPPER, "1");
         addModificatorOrder(guid, BORSH, "1000", FREE_NECESSARY_MODI_PEPPER, "2");

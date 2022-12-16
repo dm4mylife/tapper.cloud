@@ -31,7 +31,7 @@ public class _0_1_TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
     @DisplayName("1. Открытие стола")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isEmptyTableCorrect();
 
     }
@@ -50,7 +50,7 @@ public class _0_1_TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
     @DisplayName("3. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void refreshAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         rootPage.isDishListNotEmptyAndVisible();
 
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();

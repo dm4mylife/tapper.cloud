@@ -21,7 +21,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
+import static constants.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(63)
 @Epic("RKeeper")
@@ -58,7 +58,7 @@ public class _6_3_VerifiedPartNoCardWithScTest extends BaseTest {
     @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }

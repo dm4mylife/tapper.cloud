@@ -14,15 +14,11 @@ import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
-import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_10;
+import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Selenide.$;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.TEST_WAITER_COMMENT;
+import static constants.TapperTableSelectors.RootPage.TapBar.*;
 
 
 @Epic("Debug")
@@ -52,15 +48,28 @@ public class Debug2 extends BaseTest {
     @DisplayName("create and fill")
     public void test() {
 
+        rootPage.openTapperTable("https://tapper3.zedform.ru/testrkeeper/1000048");
+
+        int counter = 1;
+
+        while (counter <= 1000) {
+
+            String text = "Попытка ddos`а: " + counter;
+            System.out.println(text);
+
+            baseActions.click($(".callWaiter"));
+
+            baseActions.sendKeys($(".callWaiter__textarea"), text);
+
+            baseActions.click($(".callWaiter-btn.send"));
+            baseActions.click($(".successfulSendin__btn"));
+
+            counter++;
+
+        }
 
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
 
-        rootPage.forceWait(10000);
-
-        rootPage.clickOnPaymentButton();
-
-        best2PayPageNestedTests.typeDataAndPay();
 
     }
 

@@ -54,7 +54,7 @@ public class _2_1_TipsNoScTest extends BaseTest {
     @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }

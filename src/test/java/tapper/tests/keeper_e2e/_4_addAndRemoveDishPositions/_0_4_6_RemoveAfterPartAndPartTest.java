@@ -22,7 +22,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
+import static constants.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(46)
 @Epic("RKeeper")
@@ -66,7 +66,7 @@ public class _0_4_6_RemoveAfterPartAndPartTest extends BaseTest {
     @DisplayName("1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -121,7 +121,7 @@ public class _0_4_6_RemoveAfterPartAndPartTest extends BaseTest {
     @DisplayName("1.8. Добавляем еще одно блюдо на кассе")
     public void addOneMoreDishInOrder() {
 
-        rootPage.forceWait(2000); // toDo пока закрывается стол запрос уже успевает создать блюдо и обновленный стол уже с новым блюдом. только ждать
+        rootPage.forceWait(2000); // toDo пока закрывается стол запрос уже успевает создать блюдо и обновленный стол уже с новым блюдом. только ждать апи с бэка
         apiRKeeper.deletePosition(guid, uni, "1000");
 
     }

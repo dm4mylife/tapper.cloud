@@ -22,7 +22,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
+import static constants.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(82)
 @Epic("RKeeper")
@@ -67,7 +67,7 @@ public class _8_2_PartPayRemoveDiscountTest extends BaseTest {
     @DisplayName("1.1. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         discount = rootPageNestedTests.getTotalDiscount(TABLE_3_ID);
 
     }
@@ -111,7 +111,7 @@ public class _8_2_PartPayRemoveDiscountTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.6. Удаляем скидку из заказа и проверяем суммы") // toDO доделать
+    @DisplayName("1.6. Удаляем скидку из заказа и проверяем суммы") // toDO доделать ждём апи с бэка
     public void addDiscountAndCheckSums() {
 
         rootPageNestedTests.removeDiscountFromTotalPaySum(discount);

@@ -22,7 +22,7 @@ import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.SelectorsTapperTable.RootPage.DishList.dishesStatus;
+import static constants.TapperTableSelectors.RootPage.DishList.dishesStatus;
 
 @Order(50)
 @Epic("RKeeper")
@@ -50,7 +50,7 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
     @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }

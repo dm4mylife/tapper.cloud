@@ -6,11 +6,10 @@ import io.qameta.allure.Step;
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.*;
 import static constants.Constant.TestDataRKeeperAdmin.*;
-import static constants.SelectorsTapperAdmin.AuthorizationPage.emailInput;
-import static constants.SelectorsTapperAdmin.AuthorizationPage.passwordInput;
-import static constants.SelectorsTapperAdmin.RKeeperAdmin.*;
-import static constants.SelectorsTapperAdmin.RegistrationPage.*;
-import static constants.SelectorsTapperAdmin.YandexMail.*;
+import static constants.TapperAdminSelectors.AuthorizationPage.emailInput;
+import static constants.TapperAdminSelectors.AuthorizationPage.passwordInput;
+import static constants.TapperAdminSelectors.RKeeperAdmin.*;
+import static constants.TapperAdminSelectors.RegistrationPage.*;
 
 
 public class RegistrationPage extends BaseActions {

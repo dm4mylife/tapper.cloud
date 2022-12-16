@@ -15,11 +15,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static constants.SelectorsTapperTable.Best2PayPage.transaction_id;
-import static constants.SelectorsTapperTable.RootPage.DishList.*;
-import static constants.SelectorsTapperTable.RootPage.TapBar.appFooter;
-import static constants.SelectorsTapperTable.RootPage.TapBar.callWaiterHeadingPrompt;
-import static constants.SelectorsTapperTable.RootPage.TipsAndCheck.*;
+import static constants.TapperTableSelectors.Best2PayPage.transaction_id;
+import static constants.TapperTableSelectors.RootPage.DishList.*;
+import static constants.TapperTableSelectors.RootPage.TapBar.appFooter;
+import static constants.TapperTableSelectors.RootPage.TapBar.callWaiterHeadingPrompt;
+import static constants.TapperTableSelectors.RootPage.TipsAndCheck.*;
 
 
 public class RootPageNestedTests extends RootPage {

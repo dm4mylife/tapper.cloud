@@ -41,7 +41,7 @@ public class _0_0_AllElementsTest extends BaseTest {
     @Test
     @DisplayName("0. Открываем пустой стол")
     public void openEmptyTable() {
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class _0_0_AllElementsTest extends BaseTest {
     @Test
     @DisplayName("1.2. Открытие стола")
     public void openTable() {
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
     }
 
     @Test

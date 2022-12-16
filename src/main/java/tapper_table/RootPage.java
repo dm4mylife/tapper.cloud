@@ -1,9 +1,6 @@
 package tapper_table;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.*;
 import common.BaseActions;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Flaky;
@@ -13,21 +10,23 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Cookie;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.*;
 import static constants.Constant.JSScripts.isShareButtonCorrect;
-import static constants.Constant.JSScripts.isWaiterImageBroken;
 import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.*;
-import static constants.SelectorsTapperTable.Common.*;
-import static constants.SelectorsTapperTable.RootPage.*;
-import static constants.SelectorsTapperTable.RootPage.DishList.*;
-import static constants.SelectorsTapperTable.RootPage.PayBlock.*;
-import static constants.SelectorsTapperTable.RootPage.TapBar.*;
-import static constants.SelectorsTapperTable.RootPage.TipsAndCheck.*;
+import static constants.TapperAdminSelectors.RKeeperAdmin.Menu.*;
+import static constants.TapperTableSelectors.Common.*;
+import static constants.TapperTableSelectors.RootPage.*;
+import static constants.TapperTableSelectors.RootPage.DishList.*;
+import static constants.TapperTableSelectors.RootPage.Menu.*;
+import static constants.TapperTableSelectors.RootPage.PayBlock.*;
+import static constants.TapperTableSelectors.RootPage.TapBar.*;
+import static constants.TapperTableSelectors.RootPage.TipsAndCheck.*;
 
 public class RootPage extends BaseActions {
 
@@ -90,7 +89,7 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Переход на страницу {url} и ждём принудительно пока не прогрузятся все скрипты\\элементы\\сокет")
-    public void openTapperLink(String url) {
+    public void openTapperTable(String url) {
 
         baseActions.openPage(url);
         baseActions.forceWait(TIME_WAIT_FOR_FULL_LOAD);
@@ -148,7 +147,7 @@ public class RootPage extends BaseActions {
     @Step("Меню корректно отображается")
     public void isDishListNotEmptyAndVisible() {
 
-        baseActions.isElementVisibleDuringLongTime(menuDishesContainer, 30);
+        baseActions.isElementVisibleDuringLongTime(orderContainer, 30);
 
     }
 
@@ -189,8 +188,7 @@ public class RootPage extends BaseActions {
 
             if (totalTipsSumInMiddle.exists()) {
 
-                boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(isWaiterImageBroken));
-                Assertions.assertTrue(image, "Изображение официанта битое ил его нет");
+                baseActions.isImageCorrect(waiterImage);
 
                 baseActions.isElementVisible(tipsWaiter);
 
@@ -227,7 +225,6 @@ public class RootPage extends BaseActions {
                 tapperDiscount = baseActions.convertSelectorTextIntoDoubleByRgx(discountSum, "[^\\.\\d]+");
                 System.out.println(tapperDiscount + " tapper discount");
 
-
             }
 
             totalSum -= tapperDiscount;
@@ -244,7 +241,6 @@ public class RootPage extends BaseActions {
             }
 
             System.out.println(serviceChargeSumClear + " serviceChargeSumClear");
-
 
             double totalPaySum = baseActions.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽") - tapperDiscount;
             double currentSumInWallet = baseActions.convertSelectorTextIntoDoubleByRgx(TapBar.totalSumInWalletCounter, "\\s₽") - tapperDiscount;
@@ -274,8 +270,13 @@ public class RootPage extends BaseActions {
     @Step("Ввод кастомных чаевых")
     public void setCustomTips(String value) {
 
-        totalTipsSumInMiddle.setValue(value);
+        totalTipsSumInMiddle.clear();
+
+        baseActions.click(totalTipsSumInMiddle);
+        totalTipsSumInMiddle.clear();
+        baseActions.sendHumanKeys(totalTipsSumInMiddle, value);
         totalTipsSumInMiddle.shouldHave(value(value));
+
         activeTipsButton.shouldNotHave(exist);
 
     }
@@ -654,7 +655,7 @@ public class RootPage extends BaseActions {
     @Step("Считаем сумму всех выбранных позиций в заказе при разделении") //
     public double countAllChosenDishesDivided() {
 
-        double totalSumInMenu = 0;
+        double totalSumInOrder = 0;
         int counter = 0;
 
         for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
@@ -664,10 +665,10 @@ public class RootPage extends BaseActions {
                 double cleanPrice = baseActions.convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
                 String dishName = element.$(".orderItem__name").getText();
 
-                totalSumInMenu += cleanPrice;
+                totalSumInOrder += cleanPrice;
                 counter++;
 
-                System.out.println(counter + ". " + dishName + " - " + cleanPrice + ". Общая сумма: " + totalSumInMenu);
+                System.out.println(counter + ". " + dishName + " - " + cleanPrice + ". Общая сумма: " + totalSumInOrder);
 
             }
 
@@ -675,18 +676,18 @@ public class RootPage extends BaseActions {
 
         double markedDishesSum = baseActions.convertSelectorTextIntoDoubleByRgx(TipsAndCheck.markedDishesSum, "\\s₽");
 
-        Assertions.assertEquals(markedDishesSum, totalSumInMenu, 0.1);
+        Assertions.assertEquals(markedDishesSum, totalSumInOrder, 0.1);
         System.out.println("Сумма в поле 'Отмеченные позиции' " +
-                markedDishesSum + " совпадает с общей чистой суммой заказа " + totalSumInMenu + "\n");
+                markedDishesSum + " совпадает с общей чистой суммой заказа " + totalSumInOrder + "\n");
 
-        return totalSumInMenu;
+        return totalSumInOrder;
 
     }
 
     @Step("Считаем сумму не оплаченных позиций в заказе не разделяя")
     public double countAllNonPaidDishesInOrder() {
 
-        double totalSumInMenu = 0;
+        double totalSumInOrder = 0;
         int counter = 0;
         StringBuilder logs = new StringBuilder();
 
@@ -697,17 +698,17 @@ public class RootPage extends BaseActions {
             double cleanPrice = baseActions.convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
             String dishName = element.$(".orderItem__name").getText();
 
-            totalSumInMenu += cleanPrice;
+            totalSumInOrder += cleanPrice;
             counter++;
 
             logs
                     .append("\n").append(counter).append(". ").append(dishName).append(" - ").append(cleanPrice)
-                    .append(". Общая сумма: ").append(totalSumInMenu);
+                    .append(". Общая сумма: ").append(totalSumInOrder);
 
         }
 
         System.out.println(logs);
-        return totalSumInMenu;
+        return totalSumInOrder;
 
     }
 
@@ -891,9 +892,9 @@ public class RootPage extends BaseActions {
 
             for (int k = 0; k < disabledDishes.size(); k++) {
 
-                String dishNameInCurrentDividedMenu = disabledDishes.get(i).$(".orderItem__name").getText();
-                System.out.println(dishNameInCurrentDividedMenu);
-                boolean isDishNameSameAsDividedEarlier = chosenDishes.get(k).containsKey(dishNameInCurrentDividedMenu);
+                String dishNameInCurrentDividedOrder = disabledDishes.get(i).$(".orderItem__name").getText();
+                System.out.println(dishNameInCurrentDividedOrder);
+                boolean isDishNameSameAsDividedEarlier = chosenDishes.get(k).containsKey(dishNameInCurrentDividedOrder);
                 System.out.println(isDishNameSameAsDividedEarlier);
 
                 if (isDishNameSameAsDividedEarlier) {
@@ -1098,8 +1099,7 @@ public class RootPage extends BaseActions {
     public void checkIsNoTipsElementsIfVerifiedNonCard() {
 
         baseActions.isElementVisible(tipsContainer);
-        boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(isWaiterImageBroken));
-        Assertions.assertTrue(image, "Изображение официанта битое ил его нет");
+        baseActions.isImageCorrect(waiterImage);
         baseActions.isElementVisible(tipsWaiter);
         baseActions.isElementInvisible(tipsInCheckSum);
         baseActions.isElementInvisible(totalTipsSumInMiddle);
@@ -1495,11 +1495,11 @@ public class RootPage extends BaseActions {
         baseActions.click(appFooterMenuIcon);
         baseActions.isElementVisible(orderMenuContainer);
 
-        baseActions.isElementInvisible(menuDishesContainer);
+        baseActions.isElementInvisible(orderContainer);
 
         baseActions.click(appFooterWalletIcon);
 
-        baseActions.isElementVisible(menuDishesContainer);
+        baseActions.isElementVisible(orderContainer);
         baseActions.isElementInvisible(orderMenuContainer);
 
     }
@@ -1565,13 +1565,66 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Открытие страницы в новой вкладке")
-    public void openNewTabAndSwitchTo(String url) {
 
-        openInNewTabUrl(url);
-        Selenide.switchTo().window(1);
+    @Step("Сохраняем информацию по меню со стола в таппере")
+    public HashMap<String,Map<String,String>> saveTapperMenuData() {
+
+        HashMap<String,Map<String,String>> menuData = new HashMap<>();
+
+        int menuCategorySize = menuCategoryContainerName.size();
+
+        for (int categoryIndex = 0; categoryIndex < menuCategorySize; categoryIndex++) {
+
+            String categoryName = menuCategoryContainerName.get(categoryIndex).getText();
+            System.out.println(categoryName + " имя категории");
+
+            String dishSizeXpath =
+                    "//*[@class='orderMenuList']//*[@class='orderMenuList__item'][.//*[contains(text(),'" +
+                            categoryName + "')]]//*[@class='orderMenuProductList__item']";
+
+            ElementsCollection dishElement = $$x(dishSizeXpath);
+
+            int dishSize = dishElement.size();
+            System.out.println(dishSize + " количество блюд");
+
+            Map<String,String> dishList = new HashMap<>();
+
+            for (SelenideElement element : dishElement) {
+
+                String dishName = element.$(".orderMenuProduct__name").getText();
+                System.out.println(dishName + " имя блюда");
+
+                String dishPrice = element.$(".orderMenuProduct__price").getText().replaceAll("\\s₽","");
+                System.out.println(dishPrice + " цена блюда");
+
+                String dishImage = "";
+
+                if (element.$(".orderMenuProduct__photo img").exists()) {
+
+                    dishImage = element.$(".orderMenuProduct__photo img").getAttribute("src");
+
+                }
+
+                System.out.println(dishImage + " фото блюда");
+
+                dishList.put("name",dishName);
+                dishList.put("price",dishPrice);
+                dishList.put("image",dishImage);
+
+            }
+
+            menuData.put(categoryName,dishList);
+
+        }
+
+        System.out.println(menuData);
+        return menuData;
 
     }
+
+
+
+
 
 }
 

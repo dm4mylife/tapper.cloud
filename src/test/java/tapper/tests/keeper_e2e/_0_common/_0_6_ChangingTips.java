@@ -21,8 +21,8 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_10;
-import static constants.SelectorsTapperTable.RootPage.TipsAndCheck.tips25;
-import static constants.SelectorsTapperTable.RootPage.TipsAndCheck.tipsOptions;
+import static constants.TapperTableSelectors.RootPage.TipsAndCheck.tips25;
+import static constants.TapperTableSelectors.RootPage.TipsAndCheck.tipsOptions;
 
 @Order(5)
 @Epic("E2E - тесты (полные)")
@@ -57,7 +57,7 @@ public class _0_6_ChangingTips extends BaseTest {
     @DisplayName("1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_10);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_10);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -66,7 +66,7 @@ public class _0_6_ChangingTips extends BaseTest {
     @DisplayName("2.4. пулл")
     public void gg2() {
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_10);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_10);
 
         rootPage.clickDivideCheckSlider();
         rootPage.chooseCertainAmountDishes(3);

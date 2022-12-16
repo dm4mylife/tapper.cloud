@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_10;
+import static constants.TapperTableSelectors.RootPage.Menu.menuDishContainer;
+import static constants.TapperTableSelectors.RootPage.Menu.menuDishNames;
 
 
 @Epic("Debug")
@@ -51,34 +51,8 @@ public class Debug extends BaseTest {
     @DisplayName("create and fill")
     public void test() {
 
-        rsGetOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_10, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
-        visit = rsGetOrder.jsonPath().getString("result.visit");
-
-        rsFillingOrder = apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, GLAZUNYA, "1000"));
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, SOLYANKA, "1000"));
-
-        guid = rsGetOrder.jsonPath().getString("result.guid");
-        //uni = rsFillingOrder.jsonPath().getString("result.Order.Session.Dish[\"@attributes\"].uni");
-
-        System.out.println(visit + " visit");
-        System.out.println(guid + " guid");
-        System.out.println(uni + " uni");
-
-        apiRKeeper.addModificatorOrder(guid, "1000055", "1000", "1000111", "2");
-        apiRKeeper.addModificatorOrder(guid, "1000055", "1000", "1000112", "2");
-        apiRKeeper.addModificatorOrder(guid, "1000147", "3000", "1000117", "3");
-        apiRKeeper.addModificatorOrder(guid, "1000147", "1000", "1000118", "1");
-
-
-        System.out.println("get order data\n");
-
-        System.out.println(rsGetOrder.body());
-
-        // apiRKeeper.deletePosition(guid,"1000055","4000");
-        // apiRKeeper.deletePosition(guid,"1000147","4000");
-
-        // apiRKeeper.deleteOrder(visit);
+        System.out.println(menuDishNames.toString());
+        System.out.println(menuDishContainer.toString());
 
     }
 
@@ -228,7 +202,7 @@ public class Debug extends BaseTest {
 
         rootPage.forceWait(2000);
 
-        rootPage.openTapperLink(STAGE_RKEEPER_TABLE_10);
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_10);
 
         rootPage.matchTapperOrderWithOrderInKeeper(allDishesInfo);
 

@@ -3,15 +3,12 @@ package tapper_table;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_SUPPORT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_SUPPORT_PASSWORD;
-import static constants.SelectorsTapperAdmin.AuthorizationPage.emailInput;
-import static constants.SelectorsTapperAdmin.AuthorizationPage.passwordInput;
-import static constants.SelectorsTapperAdmin.RKeeperAdmin.*;
-import static constants.SelectorsTapperAdmin.RegistrationPage.*;
-import static constants.SelectorsTapperAdmin.YandexMail.*;
+import static constants.TapperAdminSelectors.RKeeperAdmin.*;
+import static constants.TapperAdminSelectors.YandexMail.*;
 
 
 public class YandexPage extends BaseActions {
@@ -20,10 +17,21 @@ public class YandexPage extends BaseActions {
     public void yandexAuthorization() {
 
         openPage(YANDEX_MAIL_URL);
-        sendKeys(yandexLogin,TEST_YANDEX_LOGIN_EMAIL);
-        click(signInButton);
-        sendKeys(yandexPassword,TEST_YANDEX_PASSWORD_MAIL);
-        click(signInButton);
+
+        if (yandexFormTitle.getText().equals("Выберите аккаунт для входа")) {
+
+            yandexTapperAccount.click();
+
+        } else {
+
+            click(enterByEmailButton);
+            sendKeys(yandexLogin,TEST_YANDEX_LOGIN_EMAIL);
+            click(signInButton);
+            sendKeys(yandexPassword,TEST_YANDEX_PASSWORD_MAIL);
+            click(signInButton);
+
+        }
+
         isTextContainsInURL("https://mail.yandex.ru/");
 
     }
@@ -31,24 +39,16 @@ public class YandexPage extends BaseActions {
     @Step("Проверка письма таппера и извлечение пароля")
     public String checkTapperMail() {
 
-        tapperMail.shouldBe(visible);
-        System.out.println("письмо есть");
+        tapperMail.shouldBe(visible, Duration.ofSeconds(120));
 
         click(tapperMail);
-        System.out.println("клик в письмо");
 
         tapperConfirmAuthInMail.shouldBe(visible);
 
-        String yandexPass = authPassword.getText();
-        System.out.println(yandexPass + " пароль взяли гразный" );
+        String password = authPassword.getText().replaceAll("(\\n|.)+Пароль:\\s(.*)","$2");
+        System.out.println(password + " пароль");
 
-        yandexPass = yandexPass.trim();
-        System.out.println(yandexPass + " тримим");
-
-        yandexPass = yandexPass.replaceAll("\\S+\\-[^\\s\\\\n]+","");
-        System.out.println(yandexPass + "реджексим");
-
-        return yandexPass;
+        return password;
 
     }
 

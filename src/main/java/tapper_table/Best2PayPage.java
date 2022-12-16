@@ -2,14 +2,14 @@ package tapper_table;
 
 import com.codeborne.selenide.Condition;
 import common.BaseActions;
-import constants.SelectorsTapperTable;
+import constants.TapperTableSelectors;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
 
 import static constants.Constant.TestData.*;
-import static constants.SelectorsTapperTable.Best2PayPage.*;
+import static constants.TapperTableSelectors.Best2PayPage.*;
 
 
 public class Best2PayPage extends BaseActions {
@@ -29,7 +29,7 @@ public class Best2PayPage extends BaseActions {
     @Step("Проверка попапа ВПН и что форма оплаты появилась")
     public void isPaymentContainerAndVpnShown() {
 
-        baseActions.isElementVisibleDuringLongTime(SelectorsTapperTable.ReviewPage.paymentContainer, 10);
+        baseActions.isElementVisibleDuringLongTime(TapperTableSelectors.ReviewPage.paymentContainer, 10);
         isVpnPopUpShown();
 
     }
@@ -77,8 +77,6 @@ public class Best2PayPage extends BaseActions {
 
         Assertions.assertEquals(totalPayTapper, totalPayB2BDouble, 0.1);
         System.out.println("Сумма в тапере " + totalPayTapper + " сходится с суммой в эквайринге " + totalPayB2BDouble);
-
-
 
     }
 
