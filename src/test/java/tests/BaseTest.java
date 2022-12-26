@@ -50,6 +50,11 @@ public class BaseTest {
 
         Configuration.browserCapabilities = options;
 
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .includeSelenideSteps(false)
+                .savePageSource(false)
+        );
+
     }
 
     @AfterAll

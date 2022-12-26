@@ -19,8 +19,12 @@ public class Constant {
         public static final String TEST_PAYMENT_CARD_EXPIRE_MONTH = "12";
         public static final String TEST_PAYMENT_CARD_EXPIRE_YEAR = "24";
         public static final String TEST_PAYMENT_CARD_CVV = "123";
+
         public static final String TEST_YANDEX_LOGIN_EMAIL = "autotests@tapper.cloud";
         public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
+        public static final String TEST_YANDEX2_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
+        public static final String TEST_YANDEX2_PASSWORD_MAIL = "autotests2023!";
+
         public static final Integer TIME_WAIT_FOR_FULL_LOAD = 1000;
         public static final String TEST_WAITER_COMMENT = "test\\тест";
         public static final String TEST_REVIEW_COMMENT = "test\\тест";
@@ -37,6 +41,21 @@ public class Constant {
         public static final String TERMINATOR_WAITER = "Terminator";
         public static final String IRONMAN_WAITER = "Iron Man";
         public static final String OPTIMUS_PRIME_WAITER = "Optimus Prime";
+        public static final String IRONHIDE_WAITER = "IronHide";
+
+        public static final String ROBOCOP_WAITER_ID = "23";
+        public static final String TERMINATOR_WAITER_ID = "233";
+        public static final String IRONMAN_WAITER_ID = "2333";
+        public static final String OPTIMUS_PRIME_WAITER_ID = "23333";
+        public static final String IRONHIDE_WAITER_ID = "233333";
+
+        public static final String ADMIN_TEST_PHONE = "+7(123) 456-78-90";
+
+
+        public static final String PASTA_IMG_PATH = "src/main/resources/pasta.jpg";
+        public static final String ROBOCOP_IMG_PATH = "src/main/resources/robocop.jpeg";
+
+
 
 
     }
@@ -48,8 +67,16 @@ public class Constant {
         public static final String R_KEEPER_ADMIN_PROFILE_STAGE_URL = "https://tapper.staging.zedform.ru/profile";
         public static final String ADMIN_SUPPORT_LOGIN_EMAIL = "varlone_mag2@mail.ru";
         public static final String ADMIN_SUPPORT_PASSWORD = "123123";
-        public static final String ADMIN_WAITER_LOGIN_EMAIL = "kirillk8888@yandex.ru";
-        public static final String ADMIN_WAITER_PASSWORD = "202302";
+
+        public static final String ADMIN_RESTAURANT_LOGIN_EMAIL = "kirillk8888@yandex.ru";
+        public static final String ADMIN_RESTAURANT_PASSWORD = "202302";
+        public static final String ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
+
+        public static final String WAITER_LOGIN_EMAIL = "jagexo5827@khaxan.com";
+        public static final String WAITER_PASSWORD = "123456";
+        public static final String WAITER_NEW_PASSWORD_FOR_TEST = "123456";
+        public static final String ROBOCOP_WAITER_CHANGED_NAME = "Робокопище";
+        public static final String WAITER_TELEGRAM_LOGIN = "robocop";
 
     }
 

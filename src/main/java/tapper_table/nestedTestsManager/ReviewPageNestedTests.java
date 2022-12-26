@@ -80,7 +80,7 @@ public class ReviewPageNestedTests {
 
         System.out.println(paymentData + " tapper data");
         System.out.println(rsPaymentData + " b2b data");
-        Assertions.assertEquals(rsPaymentData, paymentData,  "Суммы в таппере не сходятся с транзакцией b2p");
+        Assertions.assertEquals(rsPaymentData, paymentData, "Суммы в таппере не сходятся с транзакцией b2p");
         System.out.println("Все суммы в таппере сходятся с транзакцией b2p");
 
     }

@@ -14,14 +14,15 @@ import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_10;
-import static constants.TapperTableSelectors.RootPage.Menu.menuDishContainer;
-import static constants.TapperTableSelectors.RootPage.Menu.menuDishNames;
 
 
 @Epic("Debug")
@@ -49,10 +50,17 @@ public class Debug extends BaseTest {
     @Disabled
     @Test
     @DisplayName("create and fill")
-    public void test() {
+    public void test() throws ParseException {
 
-        System.out.println(menuDishNames.toString());
-        System.out.println(menuDishContainer.toString());
+        String initDateFormat = "yyyy-MM-dd";
+        String date = "2022-12-01";
+
+        Date initDate = new SimpleDateFormat(initDateFormat).parse(date);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        String parsedDate = formatter.format(initDate);
+        System.out.println(parsedDate);
+
+
 
     }
 

@@ -12,11 +12,11 @@ import java.util.Objects;
 
 import static com.codeborne.selenide.Selenide.$;
 import static constants.Constant.TestData.*;
-import static constants.TapperTableSelectors.Best2PayPage.transaction_id;
-import static constants.TapperTableSelectors.RootPage.DishList.*;
-import static constants.TapperTableSelectors.RootPage.PayBlock.serviceChargeContainer;
-import static constants.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
-import static constants.TapperTableSelectors.RootPage.TipsAndCheck.totalTipsSumInMiddle;
+import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
+import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.serviceChargeContainer;
+import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
+import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalTipsSumInMiddle;
 
 
 

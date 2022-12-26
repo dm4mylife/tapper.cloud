@@ -22,7 +22,7 @@ import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.TapperTableSelectors.RootPage.DishList.dishesStatus;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.dishesStatus;
 
 @Order(50)
 @Epic("RKeeper")

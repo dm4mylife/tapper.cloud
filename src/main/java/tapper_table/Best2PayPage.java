@@ -2,14 +2,14 @@ package tapper_table;
 
 import com.codeborne.selenide.Condition;
 import common.BaseActions;
-import constants.TapperTableSelectors;
+import constants.selectors.TapperTableSelectors;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
 
 import static constants.Constant.TestData.*;
-import static constants.TapperTableSelectors.Best2PayPage.*;
+import static constants.selectors.TapperTableSelectors.Best2PayPage.*;
 
 
 public class Best2PayPage extends BaseActions {

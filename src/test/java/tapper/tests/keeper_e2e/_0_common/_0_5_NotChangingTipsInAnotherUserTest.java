@@ -17,7 +17,7 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.TapperTableSelectors.RootPage.DishList.divideCheckSlider;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.divideCheckSlider;
 
 @Order(5)
 @Epic("E2E - тесты (полные)")

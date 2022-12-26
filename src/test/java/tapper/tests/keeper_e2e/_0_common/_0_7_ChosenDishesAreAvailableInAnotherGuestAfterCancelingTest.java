@@ -19,8 +19,8 @@ import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.disabled;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
-import static constants.TapperTableSelectors.RootPage.PayBlock.paymentButton;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.paymentButton;
 
 @Order(3)
 @Epic("E2E - тесты (полные)")

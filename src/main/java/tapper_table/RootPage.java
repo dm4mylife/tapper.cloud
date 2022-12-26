@@ -8,9 +8,9 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Cookie;
+import tapper_admin_personal_account.operations_history.OperationsHistory;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -19,18 +19,18 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static constants.Constant.JSScripts.isShareButtonCorrect;
 import static constants.Constant.TestData.*;
-import static constants.TapperAdminSelectors.RKeeperAdmin.Menu.*;
-import static constants.TapperTableSelectors.Common.*;
-import static constants.TapperTableSelectors.RootPage.*;
-import static constants.TapperTableSelectors.RootPage.DishList.*;
-import static constants.TapperTableSelectors.RootPage.Menu.*;
-import static constants.TapperTableSelectors.RootPage.PayBlock.*;
-import static constants.TapperTableSelectors.RootPage.TapBar.*;
-import static constants.TapperTableSelectors.RootPage.TipsAndCheck.*;
+import static constants.selectors.TapperTableSelectors.Common.*;
+import static constants.selectors.TapperTableSelectors.RootPage.*;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
+import static constants.selectors.TapperTableSelectors.RootPage.Menu.*;
+import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.*;
+import static constants.selectors.TapperTableSelectors.RootPage.TapBar.*;
+import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
 
 public class RootPage extends BaseActions {
 
     BaseActions baseActions = new BaseActions();
+    OperationsHistory operationsHistory = new OperationsHistory();
 
     @Step("Сбор всех блюд со страницы таппера и проверка с блюдами на кассе")
     public void matchTapperOrderWithOrderInKeeper(HashMap<Integer, Map<String, Double>> allDishesInfoFromKeeper) {
@@ -188,7 +188,7 @@ public class RootPage extends BaseActions {
 
             if (totalTipsSumInMiddle.exists()) {
 
-                baseActions.isImageCorrect(waiterImage);
+                baseActions.isImageCorrect(waiterImageNotSelenide);
 
                 baseActions.isElementVisible(tipsWaiter);
 
@@ -1099,7 +1099,7 @@ public class RootPage extends BaseActions {
     public void checkIsNoTipsElementsIfVerifiedNonCard() {
 
         baseActions.isElementVisible(tipsContainer);
-        baseActions.isImageCorrect(waiterImage);
+        baseActions.isImageCorrect(waiterImageNotSelenide);
         baseActions.isElementVisible(tipsWaiter);
         baseActions.isElementInvisible(tipsInCheckSum);
         baseActions.isElementInvisible(totalTipsSumInMiddle);
@@ -1441,12 +1441,16 @@ public class RootPage extends BaseActions {
 
         }
 
-        double order_amount = baseActions.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
-        order_amount = order_amount - tips - serviceChargeSum;
+        double orderAmount = baseActions.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        orderAmount = orderAmount - tips - serviceChargeSum;
 
-        return order_amount;
+        orderAmount = convertDouble(orderAmount);
+
+        return orderAmount;
 
     }
+
+
 
     @Step("Сохранение всех сумм для проверки что транзакция создалась на b2p")
     public HashMap<String, Integer> savePaymentDataTapperForB2b() {
@@ -1456,15 +1460,31 @@ public class RootPage extends BaseActions {
         int tips = 0;
         int fee = 0;
 
-        double order_amountD = getClearOrderAmount() * 100;
+        double order_amountD = getClearOrderAmount();
+
+        System.out.println(order_amountD + " clean double");
+
+        order_amountD  = order_amountD * 100;
+
+        System.out.println(order_amountD + " clean double * 100");
+
         Integer order_amount = (int) order_amountD;
+
+        System.out.println(order_amountD + " clean int");
 
         paymentData.put("order_amount", order_amount);
 
         if (totalTipsSumInMiddle.exists()) {
 
+            System.out.println(totalTipsSumInMiddle.getValue() + " clean string");
+
             double tipsD = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
+
+            System.out.println(totalTipsSumInMiddle.getValue() + " clean double");
+
             tips = (int) (tipsD) * 100;
+
+            System.out.println(totalTipsSumInMiddle.getValue() + " clean int");
 
         }
 
@@ -1622,8 +1642,65 @@ public class RootPage extends BaseActions {
 
     }
 
+    @Step("Сохранения данных для проверки истории операции в админке")
+    public HashMap<Integer, HashMap<String,String>> saveOrderDataForOperationsHistoryInAdmin() {
 
+        HashMap<Integer, HashMap<String,String>> orderData = new HashMap<>();
+        HashMap<String,String> temporaryHashMap = new HashMap<>();
 
+        System.out.println(tableNumber);
+        String table = convertSelectorTextIntoStrByRgx(tableNumber,"Стол ");
+        String name = waiterName.getText();
+        String tips = convertSelectorTextIntoStrByRgx(tipsInCheckField,"[^\\d\\.]+");
+
+        if (Objects.equals(tips, "")) {
+            tips = "0";
+        }
+
+        double totalSum = getClearOrderAmount();
+
+        String totalSumStr = String.valueOf(totalSum).replaceAll("\\..+","");
+
+        String date = getCurrentDateInFormat("dd.MM.yyyy");
+
+        temporaryHashMap.put("date",date);
+        temporaryHashMap.put("table",table);
+        temporaryHashMap.put("name",name);
+        temporaryHashMap.put("tips",tips);
+        temporaryHashMap.put("totalSum",totalSumStr);
+
+        orderData.put(0,temporaryHashMap);
+
+        System.out.println(orderData);
+
+        return orderData;
+
+    }
+
+    @Step("Сопоставление данных из стола и с операцией в истории операции в админке")
+    public void matchTapperOrderDataWithAdminOrderData(HashMap<Integer, HashMap<String,String>> tapperOrderData,
+                                                       HashMap<Integer, HashMap<String,String>> adminOrderData) {
+
+        System.out.println("\n TAPPER\n" + tapperOrderData + "\n");
+        System.out.println("\n ADMIN\n" + adminOrderData + "\n");
+
+        boolean hasOperationMatch = false;
+
+        for (int index = 0; index < adminOrderData.size(); index++) {
+
+            if (tapperOrderData.get(0).equals(adminOrderData.get(index))) {
+
+                hasOperationMatch = true;
+                break;
+
+            }
+
+        }
+
+        Assertions.assertTrue(hasOperationMatch,"Оплаты нет есть в списке операций");
+        System.out.println("Оплата есть в списке операций");
+
+    }
 
 
 }

@@ -22,7 +22,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
+import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
 
 @Order(5)
 @Epic("RKeeper")

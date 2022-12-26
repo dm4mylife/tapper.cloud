@@ -7,14 +7,13 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.*;
-import static constants.TapperAdminSelectors.RKeeperAdmin.*;
-import static constants.TapperAdminSelectors.YandexMail.*;
-
+import static constants.selectors.AdminPersonalAccountSelectors.*;
+import static constants.selectors.YandexMailSelectors.*;
 
 public class YandexPage extends BaseActions {
 
     @Step("Авторизация в яндексе")
-    public void yandexAuthorization() {
+    public void yandexAuthorization(String email, String password) {
 
         openPage(YANDEX_MAIL_URL);
 
@@ -25,14 +24,20 @@ public class YandexPage extends BaseActions {
         } else {
 
             click(enterByEmailButton);
-            sendKeys(yandexLogin,TEST_YANDEX_LOGIN_EMAIL);
+            sendKeys(yandexLogin,email);
             click(signInButton);
-            sendKeys(yandexPassword,TEST_YANDEX_PASSWORD_MAIL);
+            sendKeys(yandexPassword,password);
             click(signInButton);
 
         }
 
-        isTextContainsInURL("https://mail.yandex.ru/");
+        if (skipAddReservePassportContainer.exists()) {
+
+            skipAddReservePassportButton.click();
+
+        }
+
+        isTextContainsInURL("yandex.ru");
 
     }
 
@@ -45,7 +50,7 @@ public class YandexPage extends BaseActions {
 
         tapperConfirmAuthInMail.shouldBe(visible);
 
-        String password = authPassword.getText().replaceAll("(\\n|.)+Пароль:\\s(.*)","$2");
+        String password = Common.authPassword.getText().replaceAll("(\\n|.)+Пароль:\\s(.*)","$2");
         System.out.println(password + " пароль");
 
         return password;
@@ -62,9 +67,9 @@ public class YandexPage extends BaseActions {
     }
 
     @Step("Удаление письма из мыла")
-    public void deleteMail() {
+    public void deleteMail(String email, String password) {
 
-        yandexAuthorization();
+        yandexAuthorization(email,password);
         click(tapperMailCheckbox);
         click(deleteMailButton);
         tapperMail.shouldNotBe(exist);

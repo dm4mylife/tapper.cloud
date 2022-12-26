@@ -16,9 +16,6 @@ import tests.BaseTest;
 
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Selenide.$;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.Constant.TestData.TEST_WAITER_COMMENT;
-import static constants.TapperTableSelectors.RootPage.TapBar.*;
 
 
 @Epic("Debug")

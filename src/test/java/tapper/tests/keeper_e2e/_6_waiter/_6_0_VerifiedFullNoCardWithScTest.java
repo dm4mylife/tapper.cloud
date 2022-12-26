@@ -21,7 +21,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.TapperTableSelectors.Best2PayPage.transaction_id;
+import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(60)
 @Epic("RKeeper")

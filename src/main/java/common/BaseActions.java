@@ -9,7 +9,9 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Random;
 
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -17,6 +19,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import static com.codeborne.selenide.WebDriverConditions.urlStartingWith;
 
 
@@ -70,13 +73,12 @@ public class BaseActions {
 
     @Step("Элемент не видим на странице")
     public void isElementInvisible(@NotNull SelenideElement element) {
-        element.shouldNotBe(visible);
+        element.shouldBe(hidden);
     }
 
     @Step("Список элементов присутствует на странице")
     public void isElementsListVisible(ElementsCollection elements) {
-        elements = elements.filterBy(visible);
-        elements.shouldBe(sizeGreaterThan(0));
+         elements.filterBy(visible).shouldBe(sizeGreaterThan(0));
     }
 
     @Step("Список элементов НЕ присутствует на странице")
@@ -118,6 +120,13 @@ public class BaseActions {
 
     }
 
+    @Step("Плавный скрол до самого верха страницы")
+    public void scrollTillTop() {
+
+        Selenide.executeJavaScript("window.scrollTo({ left: 0, top: document.body.scrollTop, behavior: \"smooth\" });\n;");
+        Selenide.sleep(1000);
+
+    }
 
     @Step("Принудительно прячем футер")
     public void hideTapBar() {
@@ -164,7 +173,7 @@ public class BaseActions {
     @Step("Проверка что текст {text} содержится в текущем URL")
     public void isTextContainsInURL(String url) {
 
-        webdriver().shouldHave(urlStartingWith(url), Duration.ofSeconds(20));
+        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(20));
 
     }
 
@@ -210,13 +219,20 @@ public class BaseActions {
     public void isImageCorrect(String element) {
 
         final String JsScript = "function isImageNotBroken()  " +
-                "{ var img = document.querySelector('" + element +
-            "'); if (img.complete &&  typeof img.naturalWidth != 'undefined' && img.naturalWidth > 0) " +
+                "{ var img = document.querySelector(\"" + element +
+            "\"); if (img.complete &&  typeof img.naturalWidth != 'undefined' && img.naturalWidth > 0) " +
             "{ return true; } else { return false; }} return isImageNotBroken();";
 
         boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(JsScript));
         Assertions.assertTrue(image, "Изображение не битое, отображается корректно");
         System.out.println("Изображение отображается корректно, не битое");
+
+    }
+
+    @Step("Получить дату в формате {pattern}")
+    public String getCurrentDateInFormat(String pattern) {
+
+        return new SimpleDateFormat(pattern).format(new Date());
 
     }
 
