@@ -2,6 +2,5 @@
 *
 # Except this file
 !.gitignore
-build\reports\tests\*
-target\allure-results\*attachment.png
+target\allure-results\*.png
 target\allure-results\*.json
