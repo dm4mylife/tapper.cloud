@@ -19,6 +19,7 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 
 @Order(14)
@@ -44,7 +45,7 @@ public class _1_4_NoTipsNoScTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         String visit = rs.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
 
@@ -66,7 +67,7 @@ public class _1_4_NoTipsNoScTest extends BaseTest {
 
         double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
         rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
-        rootPageNestedTests.deactivateTipsAndActivateSc();
+        rootPageNestedTests.deactivateTipsAndDeactivateSc();
 
     }
 

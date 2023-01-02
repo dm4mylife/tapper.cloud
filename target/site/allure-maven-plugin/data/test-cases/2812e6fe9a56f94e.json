@@ -1,0 +1,3042 @@
+{
+  "uid" : "2812e6fe9a56f94e",
+  "name" : "1.2. Проверяем все суммы и условия у всех не оплаченных и не заблокированных блюдах",
+  "fullName" : "tapper.tests.keeper_e2e._5_sockets._5_2_FullCheckEveryStatusTest.chooseDishesAndCheckAfterDivided",
+  "historyId" : "571e3de818e82131f6edb8ef450f186d",
+  "time" : {
+    "start" : 1672322710642,
+    "stop" : 1672322725190,
+    "duration" : 14548
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672322700678,
+      "stop" : 1672322700678,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Выбираем все блюда, проверяем сумму, проводим все проверки с чаевыми и СБ",
+      "time" : {
+        "start" : 1672322710642,
+        "stop" : 1672322725190,
+        "duration" : 14548
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Считаем сумму всех не выбранных позиций",
+        "time" : {
+          "start" : 1672322710642,
+          "stop" : 1672322711873,
+          "duration" : 1231
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322710935,
+            "stop" : 1672322710946,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45 displayed:false></div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711193,
+            "stop" : 1672322711209,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711289,
+            "stop" : 1672322711305,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711362,
+            "stop" : 1672322711378,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711458,
+            "stop" : 1672322711473,
+            "duration" : 15
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711527,
+            "stop" : 1672322711542,
+            "duration" : 15
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711609,
+            "stop" : 1672322711627,
+            "duration" : 18
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711689,
+            "stop" : 1672322711704,
+            "duration" : 15
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711762,
+            "stop" : 1672322711778,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322711842,
+            "stop" : 1672322711858,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 10,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Считаем сумму всех не выбранных позиций",
+        "time" : {
+          "start" : 1672322711873,
+          "stop" : 1672322712579,
+          "duration" : 706
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712143,
+            "stop" : 1672322712143,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712194,
+            "stop" : 1672322712209,
+            "duration" : 15
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712242,
+            "stop" : 1672322712258,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712305,
+            "stop" : 1672322712321,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712363,
+            "stop" : 1672322712363,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712410,
+            "stop" : 1672322712410,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712459,
+            "stop" : 1672322712459,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712505,
+            "stop" : 1672322712521,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322712563,
+            "stop" : 1672322712563,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"orderItem__price\" data-v-601c5d45>155\n₽</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 9,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка что чистая сумма позиций совпадает с общей суммой в 'Итого к оплате', все опции чаевых корректны с\\без СБ, СБ считается по формуле корректно",
+        "time" : {
+          "start" : 1672322712579,
+          "stop" : 1672322723994,
+          "duration" : 11415
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Проверяем что общая чистая сумма совпадает с 'Итого к оплате'",
+          "time" : {
+            "start" : 1672322712579,
+            "stop" : 1672322713805,
+            "duration" : 1226
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Проверяем что текущие чаевые в поле 'Чаевые' сходятся с чаевыми по центру. Отдаём чаевые",
+            "time" : {
+              "start" : 1672322712579,
+              "stop" : 1672322712643,
+              "duration" : 64
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+              "time" : {
+                "start" : 1672322712627,
+                "stop" : 1672322712643,
+                "duration" : 16
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "selector",
+                "value" : "<span data-v-5143af85>140 ₽</span>"
+              }, {
+                "name" : "regex",
+                "value" : "\\s₽"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 1,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Забираем сумму сервисного сбора если он включен",
+            "time" : {
+              "start" : 1672322712643,
+              "stop" : 1672322713710,
+              "duration" : 1067
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Плавный скрол до самого низа страницы",
+              "time" : {
+                "start" : 1672322712643,
+                "stop" : 1672322713659,
+                "duration" : 1016
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ ],
+              "stepsCount" : 0,
+              "hasContent" : false,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+              "time" : {
+                "start" : 1672322713694,
+                "stop" : 1672322713710,
+                "duration" : 16
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "selector",
+                "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (27.92₽)</div>"
+              }, {
+                "name" : "regex",
+                "value" : "[^\\d\\.\\-]+"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+              "time" : {
+                "start" : 1672322713710,
+                "stop" : 1672322713710,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "doubleNumber",
+                "value" : "27.92"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 3,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Считаем общую сумму за все блюда + чаевые + сбор",
+            "time" : {
+              "start" : 1672322713710,
+              "stop" : 1672322713710,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "cleanDishesSum",
+              "value" : "1395.0"
+            }, {
+              "name" : "currentTips",
+              "value" : "140.0"
+            }, {
+              "name" : "currentSC",
+              "value" : "27.92"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322713743,
+              "stop" : 1672322713759,
+              "duration" : 16
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1562.92 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322713790,
+              "stop" : 1672322713805,
+              "duration" : 15
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1562.92 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "cleanDishesSum",
+            "value" : "1395.0"
+          } ],
+          "stepsCount" : 9,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Проверяем все варианты чаевых с общей суммой с сб",
+          "time" : {
+            "start" : 1672322713805,
+            "stop" : 1672322720084,
+            "duration" : 6279
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322713828,
+              "stop" : 1672322713877,
+              "duration" : 49
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>0%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322713913,
+              "stop" : 1672322713927,
+              "duration" : 14
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>0 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322713943,
+              "stop" : 1672322713943,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>0%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322713963,
+              "stop" : 1672322713978,
+              "duration" : 15
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1415.92 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322713994,
+              "stop" : 1672322714010,
+              "duration" : 16
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1415.92 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Забираем сумму сервисного сбора если он включен",
+            "time" : {
+              "start" : 1672322714010,
+              "stop" : 1672322715064,
+              "duration" : 1054
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Плавный скрол до самого низа страницы",
+              "time" : {
+                "start" : 1672322714010,
+                "stop" : 1672322715022,
+                "duration" : 1012
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ ],
+              "stepsCount" : 0,
+              "hasContent" : false,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+              "time" : {
+                "start" : 1672322715044,
+                "stop" : 1672322715064,
+                "duration" : 20
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "selector",
+                "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (20.92₽)</div>"
+              }, {
+                "name" : "regex",
+                "value" : "[^\\d\\.\\-]+"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+              "time" : {
+                "start" : 1672322715064,
+                "stop" : 1672322715064,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "doubleNumber",
+                "value" : "20.92"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 3,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322715079,
+              "stop" : 1672322715129,
+              "duration" : 50
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>10%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322715163,
+              "stop" : 1672322715163,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>140 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322715195,
+              "stop" : 1672322715195,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>10%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322715210,
+              "stop" : 1672322715229,
+              "duration" : 19
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1562.92 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322715244,
+              "stop" : 1672322715264,
+              "duration" : 20
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1562.92 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Забираем сумму сервисного сбора если он включен",
+            "time" : {
+              "start" : 1672322715264,
+              "stop" : 1672322716311,
+              "duration" : 1047
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Плавный скрол до самого низа страницы",
+              "time" : {
+                "start" : 1672322715264,
+                "stop" : 1672322716279,
+                "duration" : 1015
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ ],
+              "stepsCount" : 0,
+              "hasContent" : false,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+              "time" : {
+                "start" : 1672322716311,
+                "stop" : 1672322716311,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "selector",
+                "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (27.92₽)</div>"
+              }, {
+                "name" : "regex",
+                "value" : "[^\\d\\.\\-]+"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+              "time" : {
+                "start" : 1672322716311,
+                "stop" : 1672322716311,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "doubleNumber",
+                "value" : "27.92"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 3,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322716346,
+              "stop" : 1672322716390,
+              "duration" : 44
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>15%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322716429,
+              "stop" : 1672322716431,
+              "duration" : 2
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>209 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322716446,
+              "stop" : 1672322716462,
+              "duration" : 16
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>15%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322716487,
+              "stop" : 1672322716487,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1635.37 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322716519,
+              "stop" : 1672322716531,
+              "duration" : 12
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1635.37 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Забираем сумму сервисного сбора если он включен",
+            "time" : {
+              "start" : 1672322716531,
+              "stop" : 1672322717579,
+              "duration" : 1048
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Плавный скрол до самого низа страницы",
+              "time" : {
+                "start" : 1672322716531,
+                "stop" : 1672322717548,
+                "duration" : 1017
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ ],
+              "stepsCount" : 0,
+              "hasContent" : false,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+              "time" : {
+                "start" : 1672322717579,
+                "stop" : 1672322717579,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "selector",
+                "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (31.37₽)</div>"
+              }, {
+                "name" : "regex",
+                "value" : "[^\\d\\.\\-]+"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+              "time" : {
+                "start" : 1672322717579,
+                "stop" : 1672322717579,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "doubleNumber",
+                "value" : "31.37"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 3,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322717611,
+              "stop" : 1672322717659,
+              "duration" : 48
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>20%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322717698,
+              "stop" : 1672322717707,
+              "duration" : 9
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>279 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322717722,
+              "stop" : 1672322717722,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>20%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322717749,
+              "stop" : 1672322717764,
+              "duration" : 15
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1708.88 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322717780,
+              "stop" : 1672322717795,
+              "duration" : 15
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1708.88 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Забираем сумму сервисного сбора если он включен",
+            "time" : {
+              "start" : 1672322717795,
+              "stop" : 1672322718835,
+              "duration" : 1040
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Плавный скрол до самого низа страницы",
+              "time" : {
+                "start" : 1672322717795,
+                "stop" : 1672322718800,
+                "duration" : 1005
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ ],
+              "stepsCount" : 0,
+              "hasContent" : false,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+              "time" : {
+                "start" : 1672322718831,
+                "stop" : 1672322718835,
+                "duration" : 4
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "selector",
+                "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (34.88₽)</div>"
+              }, {
+                "name" : "regex",
+                "value" : "[^\\d\\.\\-]+"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+              "time" : {
+                "start" : 1672322718835,
+                "stop" : 1672322718835,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "doubleNumber",
+                "value" : "34.88"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 3,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322718866,
+              "stop" : 1672322718905,
+              "duration" : 39
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>25%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322718945,
+              "stop" : 1672322718947,
+              "duration" : 2
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>349 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322718963,
+              "stop" : 1672322718978,
+              "duration" : 15
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>25%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322718994,
+              "stop" : 1672322719010,
+              "duration" : 16
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1782.38 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322719025,
+              "stop" : 1672322719035,
+              "duration" : 10
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1782.38 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Забираем сумму сервисного сбора если он включен",
+            "time" : {
+              "start" : 1672322719035,
+              "stop" : 1672322720084,
+              "duration" : 1049
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Плавный скрол до самого низа страницы",
+              "time" : {
+                "start" : 1672322719035,
+                "stop" : 1672322720053,
+                "duration" : 1018
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ ],
+              "stepsCount" : 0,
+              "hasContent" : false,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+              "time" : {
+                "start" : 1672322720084,
+                "stop" : 1672322720084,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "selector",
+                "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (38.38₽)</div>"
+              }, {
+                "name" : "regex",
+                "value" : "[^\\d\\.\\-]+"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+              "time" : {
+                "start" : 1672322720084,
+                "stop" : 1672322720084,
+                "duration" : 0
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "doubleNumber",
+                "value" : "38.38"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 3,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "cleanDishesSum",
+            "value" : "1395.0"
+          } ],
+          "stepsCount" : 45,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Проверяем все варианты чаевых с общей суммой без сб",
+          "time" : {
+            "start" : 1672322720084,
+            "stop" : 1672322722105,
+            "duration" : 2021
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Деактивируем СБ если активен",
+            "time" : {
+              "start" : 1672322720084,
+              "stop" : 1672322721190,
+              "duration" : 1106
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Плавный скрол до самого низа страницы",
+              "time" : {
+                "start" : 1672322720084,
+                "stop" : 1672322721100,
+                "duration" : 1016
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ ],
+              "stepsCount" : 0,
+              "hasContent" : false,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Кнопка видна и клик по ней",
+              "time" : {
+                "start" : 1672322721140,
+                "stop" : 1672322721190,
+                "duration" : 50
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "element",
+                "value" : "<div class=\"baseClickedCheckbox\" data-auto=\"serviceCharge\" data-v-641bdbfc data-v-a61019fe></div>"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 2,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322721213,
+              "stop" : 1672322721241,
+              "duration" : 28
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>0%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721279,
+              "stop" : 1672322721281,
+              "duration" : 2
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>0 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322721296,
+              "stop" : 1672322721312,
+              "duration" : 16
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>0%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721327,
+              "stop" : 1672322721340,
+              "duration" : 13
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1395 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721372,
+              "stop" : 1672322721372,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1395 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322721387,
+              "stop" : 1672322721429,
+              "duration" : 42
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>10%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721468,
+              "stop" : 1672322721478,
+              "duration" : 10
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>140 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322721496,
+              "stop" : 1672322721496,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>10%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721512,
+              "stop" : 1672322721527,
+              "duration" : 15
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1535 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721556,
+              "stop" : 1672322721562,
+              "duration" : 6
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1535 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322721578,
+              "stop" : 1672322721612,
+              "duration" : 34
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>15%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721647,
+              "stop" : 1672322721647,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>209 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322721679,
+              "stop" : 1672322721679,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>15%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721708,
+              "stop" : 1672322721708,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1604 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721740,
+              "stop" : 1672322721740,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1604 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322721768,
+              "stop" : 1672322721797,
+              "duration" : 29
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>20%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721835,
+              "stop" : 1672322721844,
+              "duration" : 9
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>279 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322721862,
+              "stop" : 1672322721862,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>20%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721878,
+              "stop" : 1672322721895,
+              "duration" : 17
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1674 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322721910,
+              "stop" : 1672322721926,
+              "duration" : 16
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1674 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322721940,
+              "stop" : 1672322721978,
+              "duration" : 38
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>25%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322722013,
+              "stop" : 1672322722013,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>349 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в число",
+            "time" : {
+              "start" : 1672322722041,
+              "stop" : 1672322722041,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"waiterTipsPercent active\" data-auto=\"activeTipsButton\" data-v-11cc4453 data-v-e7f5d710>25%</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\D+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322722074,
+              "stop" : 1672322722074,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1744 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322722105,
+              "stop" : 1672322722105,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1744 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "cleanDishesSum",
+            "value" : "1395.0"
+          } ],
+          "stepsCount" : 28,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Проверяем что сбор формируется корректно по формуле со всеми чаевыми",
+          "time" : {
+            "start" : 1672322722105,
+            "stop" : 1672322723994,
+            "duration" : 1889
+          },
+          "status" : "passed",
+          "steps" : [ {
+            "name" : "Активируем СБ если не активен",
+            "time" : {
+              "start" : 1672322722105,
+              "stop" : 1672322723202,
+              "duration" : 1097
+            },
+            "status" : "passed",
+            "steps" : [ {
+              "name" : "Плавный скрол до самого низа страницы",
+              "time" : {
+                "start" : 1672322722121,
+                "stop" : 1672322723142,
+                "duration" : 1021
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ ],
+              "stepsCount" : 0,
+              "hasContent" : false,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            }, {
+              "name" : "Кнопка видна и клик по ней",
+              "time" : {
+                "start" : 1672322723158,
+                "stop" : 1672322723202,
+                "duration" : 44
+              },
+              "status" : "passed",
+              "steps" : [ ],
+              "attachments" : [ ],
+              "parameters" : [ {
+                "name" : "element",
+                "value" : "<div class=\"baseClickedCheckbox\" data-auto=\"serviceCharge\" data-v-641bdbfc data-v-a61019fe></div>"
+              } ],
+              "stepsCount" : 0,
+              "hasContent" : true,
+              "attachmentsCount" : 0,
+              "shouldDisplayMessage" : false
+            } ],
+            "attachments" : [ ],
+            "parameters" : [ ],
+            "stepsCount" : 2,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322723226,
+              "stop" : 1672322723252,
+              "duration" : 26
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>0%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723291,
+              "stop" : 1672322723297,
+              "duration" : 6
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (20.92₽)</div>"
+            }, {
+              "name" : "regex",
+              "value" : "[^\\d\\.]+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723297,
+              "stop" : 1672322723297,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "20.92"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723297,
+              "stop" : 1672322723297,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "20.925"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723297,
+              "stop" : 1672322723297,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "0.0"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723313,
+              "stop" : 1672322723328,
+              "duration" : 15
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1415.92 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723343,
+              "stop" : 1672322723362,
+              "duration" : 19
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1415.92 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322723378,
+              "stop" : 1672322723410,
+              "duration" : 32
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>10%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723449,
+              "stop" : 1672322723460,
+              "duration" : 11
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (27.92₽)</div>"
+            }, {
+              "name" : "regex",
+              "value" : "[^\\d\\.]+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723460,
+              "stop" : 1672322723460,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "27.92"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723460,
+              "stop" : 1672322723460,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "20.925"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723460,
+              "stop" : 1672322723460,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "7.0"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723479,
+              "stop" : 1672322723479,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1562.92 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723510,
+              "stop" : 1672322723510,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1562.92 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322723541,
+              "stop" : 1672322723571,
+              "duration" : 30
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>15%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723614,
+              "stop" : 1672322723614,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (31.37₽)</div>"
+            }, {
+              "name" : "regex",
+              "value" : "[^\\d\\.]+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723614,
+              "stop" : 1672322723614,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "31.37"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723614,
+              "stop" : 1672322723614,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "20.925"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723614,
+              "stop" : 1672322723614,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "10.450000000000001"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723643,
+              "stop" : 1672322723643,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1635.37 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723678,
+              "stop" : 1672322723678,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1635.37 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322723694,
+              "stop" : 1672322723736,
+              "duration" : 42
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>20%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723775,
+              "stop" : 1672322723780,
+              "duration" : 5
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (34.88₽)</div>"
+            }, {
+              "name" : "regex",
+              "value" : "[^\\d\\.]+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723780,
+              "stop" : 1672322723780,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "34.88"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723780,
+              "stop" : 1672322723780,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "20.925"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723780,
+              "stop" : 1672322723780,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "13.950000000000001"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723796,
+              "stop" : 1672322723811,
+              "duration" : 15
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1708.88 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723827,
+              "stop" : 1672322723843,
+              "duration" : 16
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1708.88 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Кнопка видна и клик по ней",
+            "time" : {
+              "start" : 1672322723859,
+              "stop" : 1672322723895,
+              "duration" : 36
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "element",
+              "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>25%</div>"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723930,
+              "stop" : 1672322723943,
+              "duration" : 13
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"serviceFee\" data-v-1369a455 data-v-641bdbfc>Я хочу взять на себя сервисный сбор Tapper (38.38₽)</div>"
+            }, {
+              "name" : "regex",
+              "value" : "[^\\d\\.]+"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723943,
+              "stop" : 1672322723943,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "38.38"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723943,
+              "stop" : 1672322723943,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "20.925"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+            "time" : {
+              "start" : 1672322723943,
+              "stop" : 1672322723943,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "doubleNumber",
+              "value" : "17.45"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723963,
+              "stop" : 1672322723963,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<span data-v-5143af85>1782.38 ₽</span>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          }, {
+            "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+            "time" : {
+              "start" : 1672322723994,
+              "stop" : 1672322723994,
+              "duration" : 0
+            },
+            "status" : "passed",
+            "steps" : [ ],
+            "attachments" : [ ],
+            "parameters" : [ {
+              "name" : "selector",
+              "value" : "<div class=\"appFooter__priceShield undefined\" data-auto=\"totalSumInWalletCounter\" data-v-052c2ff4>1782.38 ₽</div>"
+            }, {
+              "name" : "regex",
+              "value" : "\\s₽"
+            } ],
+            "stepsCount" : 0,
+            "hasContent" : true,
+            "attachmentsCount" : 0,
+            "shouldDisplayMessage" : false
+          } ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "cleanDishesSum",
+            "value" : "1395.0"
+          } ],
+          "stepsCount" : 38,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "cleanDishesSum",
+          "value" : "1395.0"
+        } ],
+        "stepsCount" : 124,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Устанавливаем рандомные чаевые",
+        "time" : {
+          "start" : 1672322723994,
+          "stop" : 1672322725190,
+          "duration" : 1196
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Плавный скрол до самого низа страницы",
+          "time" : {
+            "start" : 1672322723994,
+            "stop" : 1672322725012,
+            "duration" : 1018
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "hasContent" : false,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Кнопка видна и клик по ней",
+          "time" : {
+            "start" : 1672322725044,
+            "stop" : 1672322725089,
+            "duration" : 45
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<button class=\"baseButtonClose\" data-auto=\"resetTipsButton\" data-v-11cc4453 data-v-5074aea5 type=\"button\"></button>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Генерация рандомного значения от 1 до 4",
+          "time" : {
+            "start" : 1672322725101,
+            "stop" : 1672322725101,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "min",
+            "value" : "1"
+          }, {
+            "name" : "max",
+            "value" : "4"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Кнопка видна и клик по ней",
+          "time" : {
+            "start" : 1672322725130,
+            "stop" : 1672322725170,
+            "duration" : 40
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"waiterTipsPercent\" data-auto=\"tipsListItem\" data-v-11cc4453 data-v-e7f5d710>15%</div>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 4,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 151,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 152,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672322749403,
+      "stop" : 1672322749465,
+      "duration" : 62
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._5_sockets._5_2_FullCheckEveryStatusTest]/[method:chooseDishesAndCheckAfterDivided()]"
+  }, {
+    "name" : "story",
+    "value" : "Полная оплата на 1-м устройстве, позиции в статусе 'Оплачиваются', 'Оплачено' на 2-м устройстве"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "feature",
+    "value" : "Сокеты"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._5_sockets._5_2_FullCheckEveryStatusTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._5_sockets._5_2_FullCheckEveryStatusTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "chooseDishesAndCheckAfterDivided"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._5_sockets._5_2_FullCheckEveryStatusTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "2812e6fe9a56f94e.json",
+  "parameterValues" : [ ]
+}

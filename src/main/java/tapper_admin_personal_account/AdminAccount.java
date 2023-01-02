@@ -3,8 +3,9 @@ package tapper_admin_personal_account;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
-import static constants.selectors.AdminPersonalAccountSelectors.*;
-import static constants.selectors.AdminPersonalAccountSelectors.Waiters.*;
+import static constants.selectors.AdminPersonalAccountSelectors.Common;
+import static constants.selectors.AdminPersonalAccountSelectors.Waiters.enterEmailField;
+import static constants.selectors.AdminPersonalAccountSelectors.Waiters.waiterNameInCashDesk;
 
 
 public class AdminAccount extends BaseActions {
@@ -24,6 +25,7 @@ public class AdminAccount extends BaseActions {
         isElementVisible(enterEmailField);
         isElementVisible(waiterNameInCashDesk);
         forceWait(2000); //toDO тест очень быстро идёт, визуально не понятно что тут успех)
+
 
     }
 

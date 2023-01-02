@@ -17,6 +17,7 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 
 @Order(24)
@@ -41,7 +42,7 @@ public class _2_4_ChoseAndPartPayTillEndTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         String visit = rs.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "12000"));
 

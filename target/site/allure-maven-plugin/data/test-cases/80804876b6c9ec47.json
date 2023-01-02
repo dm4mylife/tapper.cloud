@@ -1,0 +1,249 @@
+{
+  "uid" : "80804876b6c9ec47",
+  "name" : "1.2. Переход на страницу столиков и qr-кодов",
+  "fullName" : "tapper.tests.admin_personal_account.tables_and_qr_codes._10_0_TotalTest.goToTablesAndQrCodes",
+  "historyId" : "f35d8d61ef4750794866bcd93771735b",
+  "time" : {
+    "start" : 1672324224648,
+    "stop" : 1672324225063,
+    "duration" : 415
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672324215359,
+      "stop" : 1672324215359,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Переход в меню столики и qr-коды",
+      "time" : {
+        "start" : 1672324224648,
+        "stop" : 1672324224791,
+        "duration" : 143
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1672324224681,
+          "stop" : 1672324224755,
+          "duration" : 74
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<li class=\"VMenuProfileLink resize\">Столики и QR-коды</li>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 1,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Проверка что все элементы на странице отображаются корректно",
+      "time" : {
+        "start" : 1672324224791,
+        "stop" : 1672324225063,
+        "duration" : 272
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672324224864,
+          "stop" : 1672324224879,
+          "duration" : 15
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"vSectionQr__header\">Поиск столов\nНайти</div>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672324224910,
+          "stop" : 1672324224922,
+          "duration" : 12
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<h2 class=\"section-profile__title\">Список столиков</h2>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672324224959,
+          "stop" : 1672324224971,
+          "duration" : 12
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<input class=\"vSectionQr__input\" data-mask=\"######\" data-mask-inited=\"true\" data-mask-raw-value placeholder=\"С:\" type=\"text\"></input>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672324225009,
+          "stop" : 1672324225022,
+          "duration" : 13
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<input class=\"vSectionQr__input\" data-mask=\"######\" data-mask-inited=\"true\" data-mask-raw-value placeholder=\"По:\" type=\"text\"></input>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672324225053,
+          "stop" : 1672324225063,
+          "duration" : 10
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"vSectionQr__btn\" type=\"button\">Найти</button>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 5,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 8,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672324240232,
+      "stop" : 1672324242403,
+      "duration" : 2171
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.admin_personal_account.tables_and_qr_codes._10_0_TotalTest]/[method:goToTablesAndQrCodes()]"
+  }, {
+    "name" : "epic",
+    "value" : "Личный кабинет администратора ресторана"
+  }, {
+    "name" : "feature",
+    "value" : "Столики и QR-коды"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.admin_personal_account.tables_and_qr_codes._10_0_TotalTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.admin_personal_account.tables_and_qr_codes._10_0_TotalTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "goToTablesAndQrCodes"
+  }, {
+    "name" : "suite",
+    "value" : "Проверка поиска по столам, детальной карточки, qr-кода"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "80804876b6c9ec47.json",
+  "parameterValues" : [ ]
+}

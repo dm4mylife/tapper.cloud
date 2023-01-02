@@ -4,8 +4,8 @@ import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Test;
 
-
-import static constants.Constant.TestDataRKeeperAdmin.*;
+import static constants.Constant.TestDataRKeeperAdmin.R_KEEPER_ADMIN_AUTHORISATION_STAGE_URL;
+import static constants.Constant.TestDataRKeeperAdmin.R_KEEPER_ADMIN_PROFILE_STAGE_URL;
 import static constants.selectors.AuthAndRegistrationPageSelectors.AuthorizationPage.*;
 import static constants.selectors.AuthAndRegistrationPageSelectors.RegistrationPage.copyright;
 import static constants.selectors.AuthAndRegistrationPageSelectors.RegistrationPage.logoAtBottom;

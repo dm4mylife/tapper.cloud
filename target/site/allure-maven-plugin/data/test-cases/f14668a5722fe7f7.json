@@ -1,0 +1,240 @@
+{
+  "uid" : "f14668a5722fe7f7",
+  "name" : "4. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п",
+  "fullName" : "tapper.tests.keeper_e2e._1_partialPayment._2_1_TipsNoScTest.savePaymentDataForAcquiring",
+  "historyId" : "bb78649f4ffadcc85228e201c37ef518",
+  "time" : {
+    "start" : 1672321554208,
+    "stop" : 1672321554414,
+    "duration" : 206
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672321527039,
+      "stop" : 1672321527039,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Сохранение общей суммы в таппере для передачи в другой тест",
+      "time" : {
+        "start" : 1672321554208,
+        "stop" : 1672321554247,
+        "duration" : 39
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+        "time" : {
+          "start" : 1672321554236,
+          "stop" : 1672321554247,
+          "duration" : 11
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "selector",
+          "value" : "<span data-v-5143af85>535 ₽</span>"
+        }, {
+          "name" : "regex",
+          "value" : "\\s₽"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 1,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Сохранение всех сумм для проверки что транзакция создалась на b2p",
+      "time" : {
+        "start" : 1672321554247,
+        "stop" : 1672321554414,
+        "duration" : 167
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Сбрасываем чаевые и СБ чтобы получить чистую сумму за позиции",
+        "time" : {
+          "start" : 1672321554247,
+          "stop" : 1672321554355,
+          "duration" : 108
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672321554299,
+            "stop" : 1672321554311,
+            "duration" : 12
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<span data-v-5143af85>70 ₽</span>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672321554344,
+            "stop" : 1672321554355,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<span data-v-5143af85>535 ₽</span>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s₽"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Обрезаем у дабла всё до двух чисел после запятой",
+          "time" : {
+            "start" : 1672321554355,
+            "stop" : 1672321554355,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "doubleNumber",
+            "value" : "465.0"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 3,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 4,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 7,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672321586940,
+      "stop" : 1672321587002,
+      "duration" : 62
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._1_partialPayment._2_1_TipsNoScTest]/[method:savePaymentDataForAcquiring()]"
+  }, {
+    "name" : "story",
+    "value" : "Частичная оплата - +чай -сбор"
+  }, {
+    "name" : "feature",
+    "value" : "Частичная оплата"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._1_partialPayment._2_1_TipsNoScTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._1_partialPayment._2_1_TipsNoScTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "savePaymentDataForAcquiring"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._1_partialPayment._2_1_TipsNoScTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "f14668a5722fe7f7.json",
+  "parameterValues" : [ ]
+}

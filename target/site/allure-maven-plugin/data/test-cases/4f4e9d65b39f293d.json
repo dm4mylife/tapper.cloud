@@ -1,0 +1,363 @@
+{
+  "uid" : "4f4e9d65b39f293d",
+  "name" : "1.5. Проверка что шаблон корректен на столе",
+  "fullName" : "tapper.tests.admin_personal_account.customization._15_0_TotalTest.isChangedTextPatternCorrectOnTable",
+  "historyId" : "da76360029c52fd48d6d72a5c88b3f00",
+  "time" : {
+    "start" : 1672324564722,
+    "stop" : 1672324569643,
+    "duration" : 4921
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672324555339,
+      "stop" : 1672324555339,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Открытие страницы в новой вкладке с фокусом",
+      "time" : {
+        "start" : 1672324564722,
+        "stop" : 1672324566747,
+        "duration" : 2025
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Принудительное ожидание из-за долгой загрузки страницы,элементов,скриптов (2000 мс)",
+        "time" : {
+          "start" : 1672324564728,
+          "stop" : 1672324566729,
+          "duration" : 2001
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "ms",
+          "value" : "2000"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "url",
+        "value" : "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046"
+      } ],
+      "stepsCount" : 1,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Проверка изменения шаблона текста на столе",
+      "time" : {
+        "start" : 1672324566747,
+        "stop" : 1672324569643,
+        "duration" : 2896
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Открытие формы вызова официанта",
+        "time" : {
+          "start" : 1672324566747,
+          "stop" : 1672324568706,
+          "duration" : 1959
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Плавный скрол до видимого элемента (без JS)",
+          "time" : {
+            "start" : 1672324567139,
+            "stop" : 1672324567139,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"appFooter__callWaiter\" data-auto=\"callWaiterButton\" data-v-052c2ff4></div>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует и кликабельный на странице",
+          "time" : {
+            "start" : 1672324567163,
+            "stop" : 1672324567179,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"appFooter__callWaiter\" data-auto=\"callWaiterButton\" data-v-052c2ff4></div>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Кнопка видна и клик по ней",
+          "time" : {
+            "start" : 1672324567210,
+            "stop" : 1672324568659,
+            "duration" : 1449
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"appFooter__callWaiter\" data-auto=\"callWaiterButton\" data-v-052c2ff4></div>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324568697,
+            "stop" : 1672324568706,
+            "duration" : 9
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"waiterCallModal\" data-v-052c2ff4 data-v-130e812b>Вызов официанта\nОтправить\nОтменить</div>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 4,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Отправка текста в комментарий официанта",
+        "time" : {
+          "start" : 1672324568706,
+          "stop" : 1672324569537,
+          "duration" : 831
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Ввод данных test\\тест с задержкой",
+          "time" : {
+            "start" : 1672324568751,
+            "stop" : 1672324569428,
+            "duration" : 677
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<textarea class=\"waiterCallModal__textarea\" data-auto=\"callWaiterCommentArea\" data-v-130e812b placeholder=\"Комментарий...\" required=\"required\" type=\"textarea\"></textarea>"
+          }, {
+            "name" : "text",
+            "value" : "test\\тест"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент должен содержать значение test\\тест",
+          "time" : {
+            "start" : 1672324569450,
+            "stop" : 1672324569463,
+            "duration" : 13
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<textarea class=\"waiterCallModal__textarea\" data-auto=\"callWaiterCommentArea\" data-v-130e812b placeholder=\"Комментарий...\" required=\"required\" type=\"textarea\" value=\"test\\тест\"></textarea>"
+          }, {
+            "name" : "value",
+            "value" : "test\\тест"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Кнопка видна и клик по ней",
+          "time" : {
+            "start" : 1672324569489,
+            "stop" : 1672324569537,
+            "duration" : 48
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<button class=\"baseButton baseButton--blue undefined\" data-auto=\"callWaiterButtonSend\" data-v-130e812b data-v-7131f0e2 type=\"submit\">Отправить</button>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 3,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672324569571,
+          "stop" : 1672324569581,
+          "duration" : 10
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"waiterCallModal__success-text\" data-v-130e812b>test\\тест</div>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672324569615,
+          "stop" : 1672324569617,
+          "duration" : 2
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<img class=\"waiterCallModal__check\" data-v-130e812b src=\"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNSAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMi4zNzIxIiBjeT0iMTIiIHI9IjEwIiBmaWxsPSIjMjVDMjZFIj48L2NpcmNsZT48cGF0aCBkPSJNMTUuOTEyNyAxMC4wOTk2TDExLjg4NzQgMTQuMTA3NEw5LjQ3MjE3IDExLjY5MjIiIGZpbGw9IiMyNUMyNkUiPjwvcGF0aD48cGF0aCBkPSJNMTUuOTEyNyAxMC4wOTk2TDExLjg4NzQgMTQuMTA3NEw5LjQ3MjE3IDExLjY5MjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD48L3N2Zz4K\"></img>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "textPattern",
+        "value" : "test\\тест"
+      } ],
+      "stepsCount" : 11,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 14,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672324569643,
+      "stop" : 1672324571763,
+      "duration" : 2120
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.admin_personal_account.customization._15_0_TotalTest]/[method:isChangedTextPatternCorrectOnTable()]"
+  }, {
+    "name" : "epic",
+    "value" : "Личный кабинет администратора ресторана"
+  }, {
+    "name" : "feature",
+    "value" : "Кастомизация"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.admin_personal_account.customization._15_0_TotalTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.admin_personal_account.customization._15_0_TotalTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "isChangedTextPatternCorrectOnTable"
+  }, {
+    "name" : "suite",
+    "value" : "Проверка переключения типу получателя, замена шаблона, проверка на столе"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "4f4e9d65b39f293d.json",
+  "parameterValues" : [ ]
+}

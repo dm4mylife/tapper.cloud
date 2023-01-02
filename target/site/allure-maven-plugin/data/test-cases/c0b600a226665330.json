@@ -1,0 +1,177 @@
+{
+  "uid" : "c0b600a226665330",
+  "name" : "1.2. Переход в категорию и сохранение почту у авторизованного",
+  "fullName" : "tapper.tests.admin_personal_account.waiters._9_1_ErrorWithTheSameMailTest.goToCategoryAndFindVerifiedWaiter",
+  "historyId" : "dd90f3dbac6722a63d228fea56d9f304",
+  "time" : {
+    "start" : 1672324055597,
+    "stop" : 1672324057040,
+    "duration" : 1443
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672324048847,
+      "stop" : 1672324048847,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Переход в меню официанта",
+      "time" : {
+        "start" : 1672324055597,
+        "stop" : 1672324056892,
+        "duration" : 1295
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1672324055635,
+          "stop" : 1672324055698,
+          "duration" : 63
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<li class=\"VMenuProfileLink resize\">Официанты</li>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка что все элементы в поиске официанта корректны",
+        "time" : {
+          "start" : 1672324055730,
+          "stop" : 1672324056892,
+          "duration" : 1162
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "hasContent" : false,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 2,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Поиск первого совпадения карточки официанта по статусу 'Официант верифицирован' и клик в неё",
+      "time" : {
+        "start" : 1672324056892,
+        "stop" : 1672324056981,
+        "duration" : 89
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "waiterStatus",
+        "value" : "Официант верифицирован"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 4,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672324058078,
+      "stop" : 1672324058137,
+      "duration" : 59
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.admin_personal_account.waiters._9_1_ErrorWithTheSameMailTest]/[method:goToCategoryAndFindVerifiedWaiter()]"
+  }, {
+    "name" : "epic",
+    "value" : "Личный кабинет администратора ресторана"
+  }, {
+    "name" : "feature",
+    "value" : "Авторизация"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.admin_personal_account.waiters._9_1_ErrorWithTheSameMailTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.admin_personal_account.waiters._9_1_ErrorWithTheSameMailTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "goToCategoryAndFindVerifiedWaiter"
+  }, {
+    "name" : "suite",
+    "value" : "Приглашение на один и тот же e-mail, который уже занят у официанта"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "c0b600a226665330.json",
+  "parameterValues" : [ ]
+}

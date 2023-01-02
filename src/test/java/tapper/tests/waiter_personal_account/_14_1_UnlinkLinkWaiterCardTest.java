@@ -1,36 +1,21 @@
 package tapper.tests.waiter_personal_account;
 
 
-import api.ApiRKeeper;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AdminAccount;
 import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.operations_history.OperationsHistory;
 import tapper_admin_personal_account.waiters.Waiters;
-import tapper_table.ReviewPage;
-import tapper_table.RootPage;
 import tapper_table.YandexPage;
-import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
-import tapper_table.nestedTestsManager.ReviewPageNestedTests;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tapper_waiter_personal_account.Waiter;
 import tests.BaseTest;
 
-import java.util.HashMap;
-
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
-import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.*;
+import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.AdminPersonalAccountSelectors.Waiters.backToPreviousPage;
-import static constants.selectors.AdminPersonalAccountSelectors.Waiters.waiterList;
 
 @Order(141)
 @Epic("Личный кабинет администратора ресторана")

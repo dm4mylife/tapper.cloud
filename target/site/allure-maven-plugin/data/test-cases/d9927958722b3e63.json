@@ -1,0 +1,213 @@
+{
+  "uid" : "d9927958722b3e63",
+  "name" : "1.3. Включаем меню для гостей",
+  "fullName" : "tapper.tests.admin_personal_account.menu._11_0_TotalTest.activateMenuForGuests",
+  "historyId" : "ee2983f3ca4e4f022f9e947e4acee48f",
+  "time" : {
+    "start" : 1672324251395,
+    "stop" : 1672324251544,
+    "duration" : 149
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672324242419,
+      "stop" : 1672324242419,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Включить меню для посетителей. Если есть неактивные категории или само отображение выключено, включаем",
+      "time" : {
+        "start" : 1672324251395,
+        "stop" : 1672324251544,
+        "duration" : 149
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Забираем рандомную активную категорию",
+        "time" : {
+          "start" : 1672324251395,
+          "stop" : 1672324251395,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Генерация рандомного значения от 1 до 13",
+          "time" : {
+            "start" : 1672324251395,
+            "stop" : 1672324251395,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "min",
+            "value" : "1"
+          }, {
+            "name" : "max",
+            "value" : "13"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 1,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Делаем видимым хотя бы одну категорию меню если они скрыты",
+        "time" : {
+          "start" : 1672324251395,
+          "stop" : 1672324251525,
+          "duration" : 130
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Выбираем категорию",
+          "time" : {
+            "start" : 1672324251411,
+            "stop" : 1672324251525,
+            "duration" : 114
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "index",
+            "value" : "11"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "randomIndex",
+          "value" : "11"
+        } ],
+        "stepsCount" : 1,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Включаем по кнопке отображение меню для посетителей если вдруг оно выключено",
+        "time" : {
+          "start" : 1672324251525,
+          "stop" : 1672324251544,
+          "duration" : 19
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "hasContent" : false,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 5,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 6,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672324263488,
+      "stop" : 1672324265678,
+      "duration" : 2190
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.admin_personal_account.menu._11_0_TotalTest]/[method:activateMenuForGuests()]"
+  }, {
+    "name" : "epic",
+    "value" : "Личный кабинет администратора ресторана"
+  }, {
+    "name" : "feature",
+    "value" : "Меню"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.admin_personal_account.menu._11_0_TotalTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.admin_personal_account.menu._11_0_TotalTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "activateMenuForGuests"
+  }, {
+    "name" : "suite",
+    "value" : "Проверка что включенное меню отображается"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "d9927958722b3e63.json",
+  "parameterValues" : [ ]
+}

@@ -5,9 +5,10 @@ import io.qameta.allure.Step;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.*;
-import static constants.Constant.TestData.*;
-import static constants.selectors.AdminPersonalAccountSelectors.*;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.visible;
+import static constants.Constant.TestData.YANDEX_MAIL_URL;
+import static constants.selectors.AdminPersonalAccountSelectors.Common;
 import static constants.selectors.YandexMailSelectors.*;
 
 public class YandexPage extends BaseActions {

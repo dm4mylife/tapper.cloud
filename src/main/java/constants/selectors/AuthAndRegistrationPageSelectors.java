@@ -22,6 +22,13 @@ public class AuthAndRegistrationPageSelectors {
 
     }
 
+    public static class RestorePage {
+
+        public static final SelenideElement restoreEmailField = $("[id=\"email\"]");
+
+    }
+
+
     public static class RegistrationPage {
 
         public static final SelenideElement heading = $(".sign__title");

@@ -3,12 +3,12 @@ package tapper_admin_personal_account;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.Condition.*;
-import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.*;
-import static constants.selectors.AuthAndRegistrationPageSelectors.AuthorizationPage.emailInput;
-import static constants.selectors.AuthAndRegistrationPageSelectors.AuthorizationPage.passwordInput;
-import static constants.selectors.AdminPersonalAccountSelectors.*;
+import static com.codeborne.selenide.Condition.checked;
+import static constants.Constant.TestData.TEST_YANDEX_LOGIN_EMAIL;
+import static constants.Constant.TestDataRKeeperAdmin.ADMIN_SUPPORT_LOGIN_EMAIL;
+import static constants.Constant.TestDataRKeeperAdmin.ADMIN_SUPPORT_PASSWORD;
+import static constants.selectors.AdminPersonalAccountSelectors.Common;
+import static constants.selectors.AuthAndRegistrationPageSelectors.AuthorizationPage.*;
 import static constants.selectors.AuthAndRegistrationPageSelectors.RegistrationPage.*;
 
 
@@ -57,6 +57,15 @@ public class RegistrationPage extends BaseActions {
         isElementVisibleDuringLongTime(Common.optionTabTips, 5);
         click(Common.optionTabTips);
         Common.tipsDisabled.shouldHave(checked);
+
+    }
+
+    @Step("Восстановление пароля")
+    public void restoreWaiterPassword() {
+
+        click(forgotPasswordLink);
+
+
 
     }
 

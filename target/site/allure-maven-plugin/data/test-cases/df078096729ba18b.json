@@ -1,0 +1,153 @@
+{
+  "uid" : "df078096729ba18b",
+  "name" : "1. Создание заказа в r_keeper",
+  "fullName" : "tapper.tests.keeper_e2e._6_waiter._6_0_VerifiedFullNoCardWithScTest.createAndFillOrder",
+  "historyId" : "bf0f3307e2c9310140aab2ebf0af0230",
+  "time" : {
+    "start" : 1672322749465,
+    "stop" : 1672322766590,
+    "duration" : 17125
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672322749465,
+      "stop" : 1672322749465,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Создание заказа",
+      "time" : {
+        "start" : 1672322749465,
+        "stop" : 1672322750606,
+        "duration" : 1141
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "requestBody",
+        "value" : "{\n  \"subDomen\": \"testrkeeper\",\n  \"tableCode\": 12,\n  \"waiterCode\": \"233\",\n  \"persistentComment\": \"100500\"\n}"
+      }, {
+        "name" : "baseUri",
+        "value" : "https://auto-back-tapper.zedform.ru/api/"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Наполнение заказа",
+      "time" : {
+        "start" : 1672322750621,
+        "stop" : 1672322766590,
+        "duration" : 15969
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "requestBody",
+        "value" : "{\n  \"subDomen\": \"testrkeeper\",\n  \"quantity\": 10000,\n  \"visit\": \"550376376\",\n  \"dishId\": \"1000361\"\n}"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 2,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672322791925,
+      "stop" : 1672322791983,
+      "duration" : 58
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._6_waiter._6_0_VerifiedFullNoCardWithScTest]/[method:createAndFillOrder()]"
+  }, {
+    "name" : "feature",
+    "value" : "Официант"
+  }, {
+    "name" : "story",
+    "value" : "Официант верифицирован, без привязанной карты, полная оплата + СБ"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_0_VerifiedFullNoCardWithScTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_0_VerifiedFullNoCardWithScTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "createAndFillOrder"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_0_VerifiedFullNoCardWithScTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "df078096729ba18b.json",
+  "parameterValues" : [ ]
+}

@@ -18,9 +18,9 @@ import tests.BaseTest;
 
 import java.util.HashMap;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
+import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
@@ -53,7 +53,7 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
@@ -83,7 +83,10 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     @DisplayName("1.4. Добавляем еще одно блюдо на кассе")
     public void addOneMoreDishInOrder() {
 
-        apiRKeeper.addModificatorOrder(guid, GOVYADINA_PORTION, "1000", "1000118", "1");
+        apiRKeeper.addModificatorOrder(
+                rqParamsAddModificatorWith1Position(
+                        R_KEEPER_RESTAURANT,guid, BORSH, "1000", FREE_NECESSARY_MODI_SALT, "1")
+                ,API_STAGE_URI );
 
     }
 

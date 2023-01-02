@@ -1,0 +1,114 @@
+{
+  "total" : 51,
+  "items" : [ {
+    "uid" : "ce5afc0fac847596c5e89765fb007bfd",
+    "name" : "Авторизация официанта, когда у него отозвали приглашение",
+    "statistic" : {
+      "failed" : 6,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 2,
+      "unknown" : 0,
+      "total" : 8
+    }
+  }, {
+    "uid" : "92975714b23190c3e9246fc31c1bed49",
+    "name" : "tapper.tests.keeper_e2e._5_sockets._5_1_PartCheckEveryStatusTest",
+    "statistic" : {
+      "failed" : 4,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 8,
+      "unknown" : 0,
+      "total" : 12
+    }
+  }, {
+    "uid" : "c364e05b412b323d7510ea72e108fc58",
+    "name" : "tapper.tests.keeper_e2e._5_sockets._5_0_DisabledDishesWhenDividedByTimeLimitTest",
+    "statistic" : {
+      "failed" : 4,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 2,
+      "unknown" : 0,
+      "total" : 6
+    }
+  }, {
+    "uid" : "9f9db86dc4a7c98c1a000cfde9e63e0a",
+    "name" : "tapper.tests.keeper_e2e._6_waiter._6_0_VerifiedFullNoCardWithScTest",
+    "statistic" : {
+      "failed" : 3,
+      "broken" : 2,
+      "skipped" : 0,
+      "passed" : 2,
+      "unknown" : 0,
+      "total" : 7
+    }
+  }, {
+    "uid" : "b930f2eec72b01c2579a1187c0fe6ef1",
+    "name" : "tapper.tests.keeper_e2e._6_waiter._6_1_VerifiedFullNoCardNoScTest",
+    "statistic" : {
+      "failed" : 3,
+      "broken" : 2,
+      "skipped" : 0,
+      "passed" : 2,
+      "unknown" : 0,
+      "total" : 7
+    }
+  }, {
+    "uid" : "fea94cd47978476938a4ec6680723f24",
+    "name" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest",
+    "statistic" : {
+      "failed" : 3,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 11,
+      "unknown" : 0,
+      "total" : 14
+    }
+  }, {
+    "uid" : "ef67b23f377ae5b2bf902959b8a40d3c",
+    "name" : "Авторизация администратора,проверка всех статусов приглашения официанта",
+    "statistic" : {
+      "failed" : 3,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 7,
+      "unknown" : 0,
+      "total" : 10
+    }
+  }, {
+    "uid" : "6caa21940632922708d629982fb58c04",
+    "name" : "tapper.tests.keeper_e2e._3_tips._0_6_TipsLogicBySumWith2GuestsTest",
+    "statistic" : {
+      "failed" : 3,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 4,
+      "unknown" : 0,
+      "total" : 7
+    }
+  }, {
+    "uid" : "ae2a90023feeae33b48fee01a5850a4b",
+    "name" : "Общая функциональность таппера",
+    "statistic" : {
+      "failed" : 2,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 18,
+      "unknown" : 0,
+      "total" : 20
+    }
+  }, {
+    "uid" : "d07337b75e10578533389a0fa408a8d3",
+    "name" : "Проверка поиска по столам, детальной карточки, qr-кода",
+    "statistic" : {
+      "failed" : 2,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 13,
+      "unknown" : 0,
+      "total" : 15
+    }
+  } ]
+}

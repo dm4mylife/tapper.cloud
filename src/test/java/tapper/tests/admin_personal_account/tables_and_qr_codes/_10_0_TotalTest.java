@@ -1,7 +1,7 @@
 package tapper.tests.admin_personal_account.tables_and_qr_codes;
 
 import com.codeborne.selenide.Configuration;
-import com.google.zxing.*;
+import com.google.zxing.NotFoundException;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.apache.commons.io.FileUtils;
@@ -30,6 +30,7 @@ public class _10_0_TotalTest extends BaseTest {
     static int toTableSearchValue;
     static String tableUrlInTableItem;
     static String tableNumberWhite;
+    static String tableNumberInAdmin;
 
     static String downloadFolderPath = "C:\\tapper.cloud\\build\\downloads\\qr";
 
@@ -118,19 +119,41 @@ public class _10_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.9. Проверка корректности ссылки на стол и соответствие стола")
-    public void isTableLinkCorrect() {
+    @DisplayName("1.9. Сохраняем данные по столам")
+    public void prepareTableData() {
 
         tableUrlInTableItem = tableItemLink.getAttribute("href");
-        String tableNumber = tableItem.getText().trim().replaceAll(".*Стол (\\d+)\\n.*","$1");
-        tableNumberWhite = "table" + tableNumber + ".png";
-
-        tablesAndQrCodes.isTableNumberCorrect(tableUrlInTableItem);
+        tableNumberInAdmin = tableItem.getText().trim().replaceAll(".*Стол (\\d+)\\n.*","$1");
+        tableNumberWhite = "table" + tableNumberInAdmin + ".png";
 
     }
 
     @Test
-    @DisplayName("2.0. Чтение qr-кода")
+    @DisplayName("2.0. Переход на стол по ссылке из админке")
+    public void goToTapperTable() {
+
+        tablesAndQrCodes.clickInTableLinkQR();
+
+    }
+
+    @Test
+    @DisplayName("2.1. Проверка что ссылка на стол в админке ведёт на стол и номер стола совпадает с админкой")
+    public void checkIsTableNumberCorrectInTable() {
+
+        tablesAndQrCodes.isTableNumberCorrectInAdminAndInTable(tableUrlInTableItem,tableNumberInAdmin);
+
+    }
+
+    @Test
+    @DisplayName("2.2 Возврат в меню")
+    public void backToMenu() {
+
+        tablesAndQrCodes.switchTab(0);
+
+    }
+
+    @Test
+    @DisplayName("2.3. Чтение qr-кода")
     public void readQrCode() {
 
         String srcWhite = qrBlockWhite.$("img").getAttribute("src");
@@ -150,15 +173,15 @@ public class _10_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.1. Проверка скачивания qr-кода")
-    public void isDownloadQrCorrect() throws IOException, NotFoundException {
+    @DisplayName("2.4. Проверка скачивания qr-кода")
+    public void isDownloadQrCorrect() throws IOException {
 
         tablesAndQrCodes.isDownloadQrCorrect();
 
     }
 
     @Test
-    @DisplayName("2.2. Проверка что скаченный код корректен")
+    @DisplayName("2.5. Проверка что скаченный код корректен")
     public void isDownloadedQrCorrect() throws IOException {
 
         tablesAndQrCodes.isDownloadedQrCorrect(downloadFolderPath,tableNumberWhite,tableUrlInTableItem);

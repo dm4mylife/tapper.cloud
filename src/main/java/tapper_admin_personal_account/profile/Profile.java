@@ -13,11 +13,11 @@ import java.time.Duration;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.*;
-import static constants.selectors.AdminPersonalAccountSelectors.Common.*;
-
-import static constants.selectors.AdminPersonalAccountSelectors.Profile.*;
 import static constants.Constant.TestData.*;
 import static constants.Constant.TestDataRKeeperAdmin.*;
+import static constants.selectors.AdminPersonalAccountSelectors.Common.pageHeading;
+import static constants.selectors.AdminPersonalAccountSelectors.Common.profileCategory;
+import static constants.selectors.AdminPersonalAccountSelectors.Profile.*;
 
 
 public class Profile extends BaseActions {

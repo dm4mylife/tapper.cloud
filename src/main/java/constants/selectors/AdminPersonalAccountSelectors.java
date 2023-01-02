@@ -16,15 +16,24 @@ public class AdminPersonalAccountSelectors {
             public static final SelenideElement profileCategory =
                     $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                             "[.//*[text()='Профиль']]");
+            public static final SelenideElement integrationCategory =
+                    $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
+                            "[.//*[text()='Интеграции']]");
             public static final SelenideElement waiterMenuCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Официанты']]");
+            public static final SelenideElement customizationCategory =
+                    $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
+                            "[.//*[text()='Кастомизация']]");
             public static final SelenideElement tablesAndQrCodesCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Столики и QR-коды']]");
             public static final SelenideElement operationsHistoryCategory =
                     $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                             "[.//*[text()='История операций']]");
+            public static final SelenideElement companyRequisitesCategory =
+                    $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
+                            "[.//*[text()='Реквизиты компании']]");
             public static final SelenideElement menuCategory =
                     $x("//*[@class='vProfileMenu__list']" +
                             "/*[contains(@class,'VMenuProfileLink')][.//*[text()='Меню']]");
@@ -68,6 +77,22 @@ public class AdminPersonalAccountSelectors {
             public static final SelenideElement personalInformationContainer =
                     $x("//*[@class='section-profile__legend']" +
                             "[..//*[contains(text(),'Персональная информация')]]");
+
+        }
+
+        public static class Integrations {
+
+            public static final SelenideElement integrationContainer =
+                    $(".vSectionIntegration.section-profile");
+
+            public static final ElementsCollection integrationItems =
+                    $$(".vSectionIntegration__item");
+
+            public static final ElementsCollection integrationItemsBtn =
+                    $$(".vSectionIntegration__btn");
+
+            public static final ElementsCollection integrationItemsImg =
+                    $$(".vSectionIntegration__icon img");
 
         }
 
@@ -119,6 +144,37 @@ public class AdminPersonalAccountSelectors {
             public static final SelenideElement successSendingInvitation = $(".vAuthentication.active");
             public static final SelenideElement addPaymentCard =
                     $x("//*[@class='vButton'][contains(text(),\"Привязать карту\")]");
+
+        }
+
+        public static class Customization {
+
+            public static final SelenideElement customizationContainer =
+                    $(".vSectionCustomization.section-profile");
+            public static final SelenideElement toWhomSendMsgTitle =
+                    $(".vSectionCustomization__recipient h3");
+            public static final SelenideElement waiterAndManagerButton =
+                    $x("//div[../*[@value=\"WAITER_AND_MANAGER\"]]");
+            public static final SelenideElement waiterAndManagerInput =
+                    $("[value=\"WAITER_AND_MANAGER\"]");
+            public static final SelenideElement onlyManagerButton =
+                    $x("//div[../*[@value=\"MANAGER\"]]");
+            public static final SelenideElement onlyManagerInput =
+                    $("[value=\"MANAGER\"]");
+            public static final SelenideElement patternTextMsg =
+                    $(".vLimitedInput__wrapper input");
+            public static final SelenideElement saveButton =
+                    $(".vButton");
+            public static final SelenideElement recipientContainer =
+                    $(".vSectionCustomization__recipient-info");
+            public static final SelenideElement recipientWaiterIcon =
+                    $(".vSectionCustomization__recipient-info g+rect");
+            public static final SelenideElement recipientManagerIcon =
+                    $(".vSectionCustomization__recipient-info g+rect+rect");
+            public static final SelenideElement msgTextContainer =
+                    $(".vSectionCustomization__message-info");
+            public static final SelenideElement msgTextExample =
+                    $(".vSectionCustomization__message-info__example p");
 
         }
 
@@ -250,11 +306,11 @@ public class AdminPersonalAccountSelectors {
             public static final SelenideElement operationsHistoryContainer = $(".VSectionHistory");
             public static final SelenideElement operationsHistoryTitle = $(".section-profile__title");
             public static final SelenideElement forWeekPeriodButton =
-                    $(".vHostoryBlockHeader__switcher [for=\"day\"]");
+                    $(".vHistoryBlockHeader__switcher [for=\"day\"]");
             public static final SelenideElement forMonthPeriodButton =
-                    $(".vHostoryBlockHeader__switcher [for=\"month\"]");
-            public static final ElementsCollection allPeriodButtons = $$(".vHostoryBlockHeader>div");
-            public static final SelenideElement periodContainer = $(".vHostoryBlockHeader__period");
+                    $(".vHistoryBlockHeader__switcher [for=\"month\"]");
+            public static final ElementsCollection allPeriodButtons = $$(".vHistoryBlockHeader>div");
+            public static final SelenideElement periodContainer = $(".vHistoryBlockHeader__period");
             public static final String periodButton = ".mx-input-wrapper";
             public static final SelenideElement leftArrowMonthPeriod =
                     $(".mx-calendar:first-child .mx-btn-icon-left");
@@ -262,7 +318,7 @@ public class AdminPersonalAccountSelectors {
                     $$(".mx-calendar:first-child .mx-calendar-content td[class='cell']").first();
             public static final SelenideElement lastDayOnMonthPeriod =
                     $$(".mx-calendar:first-child .mx-calendar-content td[class='cell']").last();
-            public static final SelenideElement resetPeriodButton = $(".vHostoryBlockHeader__period-reset");
+            public static final SelenideElement resetPeriodButton = $(".vHistoryBlockHeader__period-reset");
             public static final SelenideElement historyTotalPeriodDate = $(".vHistoryTotalPeriod__date");
             public static final SelenideElement historyPeriodDate = $(".vHistoryList__date");
             public static final SelenideElement totalSum =
@@ -290,6 +346,21 @@ public class AdminPersonalAccountSelectors {
                     $(".Pagination");
             public static final ElementsCollection paginationPages =
                     $$(".Pagination li:not([class])");
+
+        }
+
+        public static class CompanyRequisites {
+
+            public static final SelenideElement requisitesContainer =
+                    $(".sectionProfileReq");
+            public static final SelenideElement organizationName =
+                    $("[id=\"name_organization\"]");
+            public static final SelenideElement innOrganization =
+                    $("[id=\"inn\"]");
+            public static final SelenideElement phoneOrganization =
+                    $("[id=\"phone\"]");
+            public static final SelenideElement saveButton =
+                    $(".vButton");
 
         }
 

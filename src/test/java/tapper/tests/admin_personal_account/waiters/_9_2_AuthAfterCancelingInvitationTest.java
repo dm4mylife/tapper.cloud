@@ -15,11 +15,11 @@ import tests.BaseTest;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Selenide.$;
 import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.*;
-import static constants.selectors.AuthAndRegistrationPageSelectors.AuthorizationPage.errorMsgLoginOrPassword;
+import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.AdminPersonalAccountSelectors.Waiters.backToPreviousPage;
+import static constants.selectors.AuthAndRegistrationPageSelectors.AuthorizationPage.errorMsgLoginOrPassword;
 
 
 @Order(92)

@@ -9,10 +9,9 @@ import io.qameta.allure.Step;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Condition.text;
-import static constants.selectors.AdminPersonalAccountSelectors.Common.*;
+import static constants.selectors.AdminPersonalAccountSelectors.Common.pageHeading;
+import static constants.selectors.AdminPersonalAccountSelectors.Common.waiterMenuCategory;
 import static constants.selectors.AdminPersonalAccountSelectors.Waiters.*;
-import static constants.Constant.TestData.TEST_YANDEX_LOGIN_EMAIL;
 
 
 public class Waiters extends BaseActions {

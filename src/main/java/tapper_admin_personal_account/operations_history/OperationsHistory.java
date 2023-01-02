@@ -1,6 +1,8 @@
 package tapper_admin_personal_account.operations_history;
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import static com.codeborne.selenide.Condition.*;
-import static constants.selectors.AdminPersonalAccountSelectors.*;
+import static constants.selectors.AdminPersonalAccountSelectors.Common;
 import static constants.selectors.AdminPersonalAccountSelectors.OperationsHistory.*;
 
 

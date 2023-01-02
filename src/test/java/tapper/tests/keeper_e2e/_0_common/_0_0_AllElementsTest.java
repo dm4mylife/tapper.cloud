@@ -15,6 +15,7 @@ import tests.BaseTest;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 
 
@@ -28,8 +29,6 @@ import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 public class _0_0_AllElementsTest extends BaseTest {
 
     static String visit;
-    static String guid;
-    static String uni;
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -54,13 +53,10 @@ public class _0_0_AllElementsTest extends BaseTest {
     @DisplayName("1.1 Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rsCreateOrder.jsonPath().getString("result.visit");
 
-        Response rsFillingOrder = apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
-
-        guid = rsFillingOrder.jsonPath().getString("result.guid");
-        uni = rsFillingOrder.jsonPath().getString("result.Order.Session.Dish[\"@attributes\"].uni");
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
 
     }
 
@@ -145,7 +141,6 @@ public class _0_0_AllElementsTest extends BaseTest {
     @Test
     @DisplayName("2.6. Оплачиваем заказ")
     public void payOrder() {
-
 
         rootPageNestedTests.clickPayment();
         best2PayPageNestedTests.typeDataAndPay();

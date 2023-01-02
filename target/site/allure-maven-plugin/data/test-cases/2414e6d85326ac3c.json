@@ -1,0 +1,162 @@
+{
+  "uid" : "2414e6d85326ac3c",
+  "name" : "1.4. Удаление логина телеграмма и добавление",
+  "fullName" : "tapper.tests.admin_personal_account.profile._13_0_TotalTest.deleteTelegramLogin",
+  "historyId" : "935bc2c265591587904c8ad04d89c0bd",
+  "time" : {
+    "start" : 1672324423649,
+    "stop" : 1672324424301,
+    "duration" : 652
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672324400221,
+      "stop" : 1672324400221,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Удаление телеграм логина",
+      "time" : {
+        "start" : 1672324423650,
+        "stop" : 1672324424301,
+        "duration" : 651
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1672324424045,
+          "stop" : 1672324424102,
+          "duration" : 57
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"section-profile__add-btn\" type=\"button\">Добавить +</button>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1672324424226,
+          "stop" : 1672324424268,
+          "duration" : 42
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"vButton fixWidth\" type=\"submit\">Сохранить</button>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 2,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 3,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672324440960,
+      "stop" : 1672324443128,
+      "duration" : 2168
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.admin_personal_account.profile._13_0_TotalTest]/[method:deleteTelegramLogin()]"
+  }, {
+    "name" : "feature",
+    "value" : "Профиль"
+  }, {
+    "name" : "epic",
+    "value" : "Личный кабинет администратора ресторана"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.admin_personal_account.profile._13_0_TotalTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.admin_personal_account.profile._13_0_TotalTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "deleteTelegramLogin"
+  }, {
+    "name" : "suite",
+    "value" : "Проверка профиля, редактирование полей, смена пароля"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "2414e6d85326ac3c.json",
+  "parameterValues" : [ ]
+}

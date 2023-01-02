@@ -17,11 +17,10 @@ import java.util.Map;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static constants.selectors.AdminPersonalAccountSelectors.Common.*;
-import static constants.selectors.AdminPersonalAccountSelectors.Menu.*;
 import static constants.Constant.TestData.PASTA_IMG_PATH;
-
+import static constants.selectors.AdminPersonalAccountSelectors.Common.menuCategory;
+import static constants.selectors.AdminPersonalAccountSelectors.Common.pageHeading;
+import static constants.selectors.AdminPersonalAccountSelectors.Menu.*;
 import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuCategoryInHeader;
 
 public class Menu extends BaseActions {
@@ -135,25 +134,23 @@ public class Menu extends BaseActions {
     @Step("Удаление фотографии у блюда")
     public void deleteDishImage(int dishIndex) {
 
-        if (menuDishItemsImage.get(dishIndex).exists()) {
 
-            click(menuDishItemsEditButtons.get(dishIndex));
-            forceWait(1000);
+        click(menuDishItemsEditButtons.get(dishIndex));
+        forceWait(1000);
 
-            click(menuDishItemsImageDeleteImageIcon.get(dishIndex));
-            forceWait(1000);
+        click(menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img-del"));
+        forceWait(1000);
 
-            isElementVisible(deleteImageContainer);
-            isElementVisible(deleteImageContainerDeleteButton);
-            isElementVisible(deleteImageContainerCancelButton);
+        isElementVisible(deleteImageContainer);
+        isElementVisible(deleteImageContainerDeleteButton);
+        isElementVisible(deleteImageContainerCancelButton);
 
-            click(deleteImageContainerDeleteButton);
-            dishPreloader.shouldBe(Condition.visible);
-            forceWait(1000);
+        click(deleteImageContainerDeleteButton);
+        dishPreloader.shouldBe(Condition.visible);
+        forceWait(1000);
 
-            System.out.println("Фотография удалена");
+        System.out.println("Фотография удалена");
 
-        }
 
     }
 
@@ -174,18 +171,18 @@ public class Menu extends BaseActions {
 
         String imageSelector = ".vAdmiMenuTable__item:nth-of-type("+ (dishIndex + 1) +") .vAdmiMenuTable__item-img img";
 
-        menuDishItemsImageDeleteImageIcon.get(dishIndex).shouldBe(visible);
+        menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img-del").shouldBe(visible);
         editDishNameOkButton.click();
         forceWait(3000);
         editDishNameOkButton.shouldNotBe(visible);
 
-        menuDishItemsImage.get(dishIndex)
+        menuDishItems.get(dishIndex).$("img")
                 .shouldHave(attributeMatching("src","https://storage.tapper.cloud/.*"),Duration.ofSeconds(5));
 
-        System.out.println(menuDishItemsImage.get(dishIndex)
+        System.out.println(menuDishItems.get(dishIndex).$("img")
                 .getAttribute("src"));
 
-        String imageUrl = menuDishItemsImage.get(dishIndex)
+        String imageUrl = menuDishItems.get(dishIndex).$("img")
                 .getAttribute("src").replaceAll(".*\\/(\\w*)\\..*","$1");
 
         isImageCorrect(imageSelector);
@@ -399,7 +396,7 @@ public class Menu extends BaseActions {
     @Step("Проверка изображения в превью контейнере")
     public void isImageFullContainerCorrect(int dishIndex) {
 
-        click(menuDishItemsImage.get(dishIndex));
+        click(menuDishItems.get(dishIndex).$("img"));
 
         isElementVisible(imagePreviewContainer);
         isElementVisible(imagePreviewContainerCloseButton);

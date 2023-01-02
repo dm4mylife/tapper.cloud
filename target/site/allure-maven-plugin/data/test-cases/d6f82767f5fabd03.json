@@ -1,0 +1,480 @@
+{
+  "uid" : "d6f82767f5fabd03",
+  "name" : "1.1. Авторизация под администратором в личном кабинете",
+  "fullName" : "tapper.tests.admin_personal_account.company_requisites._17_0_TotalTest.authorizeUser",
+  "historyId" : "292e3a78eec181b1a5127ad460decfb2",
+  "time" : {
+    "start" : 1672324582178,
+    "stop" : 1672324590358,
+    "duration" : 8180
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672324582178,
+      "stop" : 1672324582178,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Авторизуемся на под админом ресторана",
+      "time" : {
+        "start" : 1672324582178,
+        "stop" : 1672324590358,
+        "duration" : 8180
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Открытие страницы https://tapper.staging.zedform.ru/users",
+        "time" : {
+          "start" : 1672324582178,
+          "stop" : 1672324584236,
+          "duration" : 2058
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "url",
+          "value" : "https://tapper.staging.zedform.ru/users"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Принудительное ожидание из-за долгой загрузки страницы,элементов,скриптов (2000 мс)",
+        "time" : {
+          "start" : 1672324584236,
+          "stop" : 1672324586251,
+          "duration" : 2015
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "ms",
+          "value" : "2000"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка что текст {text} содержится в текущем URL",
+        "time" : {
+          "start" : 1672324586251,
+          "stop" : 1672324586251,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "url",
+          "value" : "https://tapper.staging.zedform.ru/users"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка отображения всех элементов на странице авторизации официанта",
+        "time" : {
+          "start" : 1672324586251,
+          "stop" : 1672324586638,
+          "duration" : 387
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586282,
+            "stop" : 1672324586297,
+            "duration" : 15
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<p class=\"sign__welcome\">С возвращением</p>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586328,
+            "stop" : 1672324586328,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<h2 class=\"sign__title\">Вход в учётную запись</h2>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586364,
+            "stop" : 1672324586379,
+            "duration" : 15
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input autocomplete=\"off\" class=\"vLandingInput__field\" id=\"email\" name=\"email\" required type=\"text\"></input>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586411,
+            "stop" : 1672324586411,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input autocomplete=\"off\" class=\"vLandingInput__field\" id=\"password\" name=\"password\" required type=\"password\"></input>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586459,
+            "stop" : 1672324586464,
+            "duration" : 5
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<a class=\"sign__forget-pass\" href=\"/users/forget\">Забыли пароль?</a>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586495,
+            "stop" : 1672324586495,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<button class=\"vButton\" disabled type=\"submit\">Войти</button>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586542,
+            "stop" : 1672324586542,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<a class=\"sign__text-link\" href=\"/users/registration\">Регистрация</a>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586590,
+            "stop" : 1672324586591,
+            "duration" : 1
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<a href=\"/\"></a>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672324586622,
+            "stop" : 1672324586638,
+            "duration" : 16
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<p class=\"sign__copyright\">© powered by tapper 2021</p>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 9,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Авторизация пользователя",
+        "time" : {
+          "start" : 1672324586638,
+          "stop" : 1672324586894,
+          "duration" : 256
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Ввод данных kirillk8888@yandex.ru без задержки",
+          "time" : {
+            "start" : 1672324586653,
+            "stop" : 1672324586744,
+            "duration" : 91
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input autocomplete=\"off\" class=\"vLandingInput__field\" id=\"email\" name=\"email\" required type=\"text\"></input>"
+          }, {
+            "name" : "text",
+            "value" : "kirillk8888@yandex.ru"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Ввод данных 202302 без задержки",
+          "time" : {
+            "start" : 1672324586767,
+            "stop" : 1672324586811,
+            "duration" : 44
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input autocomplete=\"off\" class=\"vLandingInput__field\" id=\"password\" name=\"password\" required type=\"password\"></input>"
+          }, {
+            "name" : "text",
+            "value" : "202302"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Кнопка видна и клик по ней",
+          "time" : {
+            "start" : 1672324586834,
+            "stop" : 1672324586894,
+            "duration" : 60
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<button class=\"vButton\" type=\"submit\">Войти</button>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "login",
+          "value" : "kirillk8888@yandex.ru"
+        }, {
+          "name" : "password",
+          "value" : "202302"
+        } ],
+        "stepsCount" : 3,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка что текст {text} содержится в текущем URL",
+        "time" : {
+          "start" : 1672324586894,
+          "stop" : 1672324588354,
+          "duration" : 1460
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "url",
+          "value" : "https://tapper.staging.zedform.ru/profile"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Принудительное ожидание из-за долгой загрузки страницы,элементов,скриптов (2000 мс)",
+        "time" : {
+          "start" : 1672324588354,
+          "stop" : 1672324590358,
+          "duration" : 2004
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "ms",
+          "value" : "2000"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "login",
+        "value" : "kirillk8888@yandex.ru"
+      }, {
+        "name" : "password",
+        "value" : "202302"
+      } ],
+      "stepsCount" : 19,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 20,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672324590686,
+      "stop" : 1672324592848,
+      "duration" : 2162
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.admin_personal_account.company_requisites._17_0_TotalTest]/[method:authorizeUser()]"
+  }, {
+    "name" : "feature",
+    "value" : "Реквизиты компании"
+  }, {
+    "name" : "epic",
+    "value" : "Личный кабинет администратора ресторана"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.admin_personal_account.company_requisites._17_0_TotalTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.admin_personal_account.company_requisites._17_0_TotalTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "authorizeUser"
+  }, {
+    "name" : "suite",
+    "value" : "Проверка что все элементы отображаются корректно"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "d6f82767f5fabd03.json",
+  "parameterValues" : [ ]
+}

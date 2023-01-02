@@ -24,7 +24,8 @@ import java.util.Iterator;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-import static constants.selectors.AdminPersonalAccountSelectors.Common.*;
+import static constants.selectors.AdminPersonalAccountSelectors.Common.pageHeading;
+import static constants.selectors.AdminPersonalAccountSelectors.Common.tablesAndQrCodesCategory;
 import static constants.selectors.AdminPersonalAccountSelectors.TableAndQrCodes.*;
 
 
@@ -164,14 +165,17 @@ public class TablesAndQrCodes extends BaseActions {
 
     }
 
-    @Step("Проверка перехода по ссылке стола и соответствие номера стола")
-    public void isTableNumberCorrect(String tableUrlInTableItem) {
-
-        String tableNumber = tableItem.getText().trim().replaceAll(".*(Стол \\d+)\\n.*", "$1");
+    @Step("Клик в ссылку стола")
+    public void clickInTableLinkQR() {
 
         tableItemLink.click();
-
         switchTab(1);
+
+    }
+
+    @Step("Проверка перехода по ссылке стола и соответствие номера стола")
+    public void isTableNumberCorrectInAdminAndInTable(String tableUrlInTableItem, String tableNumber) {
+
         isTextContainsInURL(tableUrlInTableItem);
 
         String tapperTableNumber = $(".vOrderHeader__table").getText();
@@ -179,8 +183,6 @@ public class TablesAndQrCodes extends BaseActions {
 
         Assertions.assertEquals(tableNumber, tapperTableNumber,
                 "Номера столов не совпадают в админке и в таппере");
-
-        switchTab(0);
 
     }
 

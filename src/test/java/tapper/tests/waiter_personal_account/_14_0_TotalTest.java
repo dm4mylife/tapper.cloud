@@ -4,7 +4,6 @@ package tapper.tests.waiter_personal_account;
 import api.ApiRKeeper;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
@@ -15,10 +14,12 @@ import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tapper_waiter_personal_account.Waiter;
+import tests.BaseTest;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.Constant.TestDataRKeeperAdmin.WAITER_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.WAITER_PASSWORD;
@@ -30,7 +31,7 @@ import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.wai
 @DisplayName("Проверка всех элементов, смены имени, телеграмма, пароля, загрузка изображений, сверка со столом")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _14_0_TotalTest extends BaseActions {
+public class _14_0_TotalTest extends BaseTest {
 
 
     ReviewPage reviewPage = new ReviewPage();
@@ -45,7 +46,7 @@ public class _14_0_TotalTest extends BaseActions {
     @DisplayName("1.0. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         String visit = rs.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
 
@@ -80,10 +81,9 @@ public class _14_0_TotalTest extends BaseActions {
     @DisplayName("1.4. Проверка фотографии на столе")
     public void checkDownloadedWaiterImageOnTable() {
 
-        openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
 
         waiter.checkDownloadedWaiterImageOnTable();
-
 
     }
 
@@ -104,7 +104,7 @@ public class _14_0_TotalTest extends BaseActions {
         Selenide.switchTo().window(1);
         Selenide.refresh();
 
-        isElementInvisible(waiterImage);
+        rootPageNestedTests.isElementInvisible(waiterImage);
 
         Selenide.closeWindow();
         Selenide.switchTo().window(0);
@@ -141,7 +141,7 @@ public class _14_0_TotalTest extends BaseActions {
     @DisplayName("2.0. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
         rootPageNestedTests.clickPayment();
@@ -152,9 +152,6 @@ public class _14_0_TotalTest extends BaseActions {
         reviewPage.clickOnFinishButton();
 
     }
-
-
-
 
 /*
     @Test toDO  закоменчено. проверяем что в истории операции сменилось имя официанта
@@ -177,6 +174,5 @@ public class _14_0_TotalTest extends BaseActions {
         rootPage.matchTapperOrderDataWithAdminOrderData(tapperOrderData,adminOrderData);
 
     }*/
-
 
 }

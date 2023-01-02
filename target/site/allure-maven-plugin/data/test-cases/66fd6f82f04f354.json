@@ -1,0 +1,273 @@
+{
+  "uid" : "66fd6f82f04f354",
+  "name" : "1. Открытие стола",
+  "fullName" : "tapper.tests.keeper_e2e._0_common._0_1_TapperOrderAppearsWhenCreatedInKeeperTest.openAndCheck",
+  "historyId" : "56be87482d7dc5ced8015c339261c555",
+  "time" : {
+    "start" : 1672320255528,
+    "stop" : 1672320258644,
+    "duration" : 3116
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672320255526,
+      "stop" : 1672320255526,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Переход на страницу https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046 и ждём принудительно пока не прогрузятся все скрипты\\элементы\\сокет",
+      "time" : {
+        "start" : 1672320255529,
+        "stop" : 1672320258352,
+        "duration" : 2823
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Открытие страницы https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046",
+        "time" : {
+          "start" : 1672320255529,
+          "stop" : 1672320257348,
+          "duration" : 1819
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "url",
+          "value" : "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Принудительное ожидание из-за долгой загрузки страницы,элементов,скриптов (1000 мс)",
+        "time" : {
+          "start" : 1672320257348,
+          "stop" : 1672320258352,
+          "duration" : 1004
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "ms",
+          "value" : "1000"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "url",
+        "value" : "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046"
+      } ],
+      "stepsCount" : 2,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Проверка пустого стола и всех элементов",
+      "time" : {
+        "start" : 1672320258352,
+        "stop" : 1672320258644,
+        "duration" : 292
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672320258397,
+          "stop" : 1672320258412,
+          "duration" : 15
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<h1 class=\"header__item\" data-auto=\"headerTitleMyOrder\" data-v-2a23a6ee>Мой заказ</h1>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672320258453,
+          "stop" : 1672320258466,
+          "duration" : 13
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"header__item header__item--gray\" data-auto=\"tableNumber\" data-v-2a23a6ee>Стол 3</div>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице в ходе длительной загрузки (5сек.)",
+        "time" : {
+          "start" : 1672320258506,
+          "stop" : 1672320258519,
+          "duration" : 13
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<img class=\"orderEmpty__img\" data-auto=\"emptyTableLogoClock\" data-v-ec1598ee src=\"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTMiIGhlaWdodD0iNTQiIHZpZXdCb3g9IjAgMCA1MyA1NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjMxODUgNC44MzIwMkMyOS41NjEyIC0wLjIzOTk4IDQzLjU5NTkgNS41NzYwMiA0OC42Njc5IDE3LjgxODdDNTMuNzM5OSAzMC4wNjE0IDQ3LjkyMzkgNDQuMDk2IDM1LjY4MTIgNDkuMTY4QzIzLjQzODUgNTQuMjQgOS40MDM4OCA0OC40MjQgNC4zMzE4OCAzNi4xODE0Qy0wLjczNzQ1NSAyMy45Mzg3IDUuMDc1ODggOS45MDQwMiAxNy4zMTg1IDQuODMyMDIiIHN0cm9rZT0iI0RDREVFMyIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTI1Ljc0NzcgMTYuMjkzM1YyOC42OTZMMzUuNDk3IDM0LjY0IiBzdHJva2U9IiM0MTNERkYiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=\"></img>"
+        }, {
+          "name" : "time",
+          "value" : "5"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672320258577,
+          "stop" : 1672320258590,
+          "duration" : 13
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"appFooter__callWaiter-text\" data-auto=\"callWaiterHeading\" data-v-052c2ff4>Вызвать официанта</div>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Элемент присутствует на странице",
+        "time" : {
+          "start" : 1672320258633,
+          "stop" : 1672320258644,
+          "duration" : 11
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<div class=\"appFooter\" data-auto=\"appFooter\" data-v-052c2ff4 data-v-1369a455>Вызвать официанта\n0 ₽</div>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 5,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 9,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672320308272,
+      "stop" : 1672320308327,
+      "duration" : 55
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._0_common._0_1_TapperOrderAppearsWhenCreatedInKeeperTest]/[method:openAndCheck()]"
+  }, {
+    "name" : "feature",
+    "value" : "tapper - переход на пустой стол, создание заказа на кассе, появление заказа в таппере"
+  }, {
+    "name" : "epic",
+    "value" : "E2E - тесты (полные)"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._0_common._0_1_TapperOrderAppearsWhenCreatedInKeeperTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._0_common._0_1_TapperOrderAppearsWhenCreatedInKeeperTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "openAndCheck"
+  }, {
+    "name" : "suite",
+    "value" : "tapper - переход на пустой стол, создание заказа на кассе, появление заказа в таппере"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "66fd6f82f04f354.json",
+  "parameterValues" : [ ]
+}

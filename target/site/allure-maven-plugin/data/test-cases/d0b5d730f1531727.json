@@ -1,0 +1,321 @@
+{
+  "uid" : "d0b5d730f1531727",
+  "name" : "1. Создание заказа в r_keeper",
+  "fullName" : "tapper.tests.keeper_e2e._7_modificator._7_1_PaidPartPayTest.createAndFillOrder",
+  "historyId" : "507daabbce89ce95cdcacd75dba0b77c",
+  "time" : {
+    "start" : 1672323600971,
+    "stop" : 1672323920743,
+    "duration" : 319772
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672323600971,
+      "stop" : 1672323600971,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Создание заказа",
+      "time" : {
+        "start" : 1672323600971,
+        "stop" : 1672323602008,
+        "duration" : 1037
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "requestBody",
+        "value" : "{\n  \"subDomen\": \"testrkeeper\",\n  \"tableCode\": 12,\n  \"waiterCode\": \"23\",\n  \"persistentComment\": \"100500\"\n}"
+      }, {
+        "name" : "baseUri",
+        "value" : "https://auto-back-tapper.zedform.ru/api/"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Создание заказа со всеми типами модификаторов",
+      "time" : {
+        "start" : 1672323602023,
+        "stop" : 1672323919808,
+        "duration" : 317785
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Добавление модификатора в заказ",
+        "time" : {
+          "start" : 1672323602023,
+          "stop" : 1672323619582,
+          "duration" : 17559
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "requestBody",
+          "value" : "{\n  \"domen\": \"testrkeeper\",\n  \"guid\": \"{07864877-662B-42F9-9E74-BA62330A7E85}\",\n  \"station\": 1,\n  \"dish\": \"1000102\",\n  \"quantity\": 1000,\n  \"modificators\": [\n    {\n      \"id\": \"1000114\",\n      \"quantity\": \"1\"\n    }\n  ]\n}"
+        }, {
+          "name" : "baseUri",
+          "value" : "https://taper.zedform.ru/api/"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Добавление модификатора в заказ",
+        "time" : {
+          "start" : 1672323619582,
+          "stop" : 1672323679677,
+          "duration" : 60095
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "requestBody",
+          "value" : "{\n  \"domen\": \"testrkeeper\",\n  \"guid\": \"{07864877-662B-42F9-9E74-BA62330A7E85}\",\n  \"station\": 1,\n  \"dish\": \"1000102\",\n  \"quantity\": 1000,\n  \"modificators\": [\n    {\n      \"id\": \"1000115\",\n      \"quantity\": \"2\"\n    }\n  ]\n}"
+        }, {
+          "name" : "baseUri",
+          "value" : "https://taper.zedform.ru/api/"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Добавление модификатора в заказ",
+        "time" : {
+          "start" : 1672323679677,
+          "stop" : 1672323739713,
+          "duration" : 60036
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "requestBody",
+          "value" : "{\n  \"domen\": \"testrkeeper\",\n  \"guid\": \"{07864877-662B-42F9-9E74-BA62330A7E85}\",\n  \"station\": 1,\n  \"dish\": \"1000102\",\n  \"quantity\": 2000,\n  \"modificators\": [\n    {\n      \"id\": \"1000115\",\n      \"quantity\": \"1\"\n    }\n  ]\n}"
+        }, {
+          "name" : "baseUri",
+          "value" : "https://taper.zedform.ru/api/"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Добавление модификатора в заказ",
+        "time" : {
+          "start" : 1672323739713,
+          "stop" : 1672323799698,
+          "duration" : 59985
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "requestBody",
+          "value" : "{\n  \"domen\": \"testrkeeper\",\n  \"guid\": \"{07864877-662B-42F9-9E74-BA62330A7E85}\",\n  \"station\": 1,\n  \"dish\": \"1000102\",\n  \"quantity\": 2000,\n  \"modificators\": [\n    {\n      \"id\": \"1000115\",\n      \"quantity\": \"1\"\n    },\n    {\n       \"id\": \"1000114\",\n      \"quantity\": \"1\"\n    }\n  ]\n}"
+        }, {
+          "name" : "baseUri",
+          "value" : "https://taper.zedform.ru/api/"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Добавление модификатора в заказ",
+        "time" : {
+          "start" : 1672323799698,
+          "stop" : 1672323859724,
+          "duration" : 60026
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "requestBody",
+          "value" : "{\n  \"domen\": \"testrkeeper\",\n  \"guid\": \"{07864877-662B-42F9-9E74-BA62330A7E85}\",\n  \"station\": 1,\n  \"dish\": \"1000102\",\n  \"quantity\": 2000,\n  \"modificators\": [\n    {\n      \"id\": \"1000115\",\n      \"quantity\": \"2\"\n    },\n    {\n       \"id\": \"1000114\",\n      \"quantity\": \"2\"\n    }\n  ]\n}"
+        }, {
+          "name" : "baseUri",
+          "value" : "https://taper.zedform.ru/api/"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Добавление модификатора в заказ",
+        "time" : {
+          "start" : 1672323859724,
+          "stop" : 1672323919808,
+          "duration" : 60084
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "requestBody",
+          "value" : "{\n  \"domen\": \"testrkeeper\",\n  \"guid\": \"{07864877-662B-42F9-9E74-BA62330A7E85}\",\n  \"station\": 1,\n  \"dish\": \"1000102\",\n  \"quantity\": 1000,\n  \"modificators\": [\n    {\n      \"id\": \"1000115\",\n      \"quantity\": \"1\"\n    },\n    {\n       \"id\": \"1000114\",\n      \"quantity\": \"2\"\n    }\n  ]\n}"
+        }, {
+          "name" : "baseUri",
+          "value" : "https://taper.zedform.ru/api/"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{07864877-662B-42F9-9E74-BA62330A7E85}"
+      }, {
+        "name" : "baseUri",
+        "value" : "https://taper.zedform.ru/api/"
+      } ],
+      "stepsCount" : 6,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Получение информации о заказе на столе",
+      "time" : {
+        "start" : 1672323919808,
+        "stop" : 1672323920542,
+        "duration" : 734
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "id_table",
+        "value" : "1000046"
+      }, {
+        "name" : "baseUri",
+        "value" : "https://auto-back-tapper.zedform.ru/api/"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Сохранение в дату заказа со всеми типа модификаторов, чтобы потом сравнить в таппере",
+      "time" : {
+        "start" : 1672323920542,
+        "stop" : 1672323920743,
+        "duration" : 201
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "rs",
+        "value" : "io.restassured.internal.RestAssuredResponseImpl@2ce5ac90"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 10,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672323983000,
+      "stop" : 1672323983066,
+      "duration" : 66
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._7_modificator._7_1_PaidPartPayTest]/[method:createAndFillOrder()]"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "story",
+    "value" : "Платные модификаторы - частичная оплата"
+  }, {
+    "name" : "feature",
+    "value" : "Модификаторы"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._7_modificator._7_1_PaidPartPayTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._7_modificator._7_1_PaidPartPayTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "createAndFillOrder"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._7_modificator._7_1_PaidPartPayTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "d0b5d730f1531727.json",
+  "parameterValues" : [ ]
+}

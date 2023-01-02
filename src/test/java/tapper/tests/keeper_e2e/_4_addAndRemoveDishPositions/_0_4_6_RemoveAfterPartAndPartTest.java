@@ -18,9 +18,9 @@ import tests.BaseTest;
 
 import java.util.HashMap;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
+import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
@@ -53,7 +53,7 @@ public class _0_4_6_RemoveAfterPartAndPartTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
@@ -122,7 +122,7 @@ public class _0_4_6_RemoveAfterPartAndPartTest extends BaseTest {
     public void addOneMoreDishInOrder() {
 
         rootPage.forceWait(2000); // toDo пока закрывается стол запрос уже успевает создать блюдо и обновленный стол уже с новым блюдом. только ждать апи с бэка
-        apiRKeeper.deletePosition(guid, uni, "1000");
+        apiRKeeper.deletePosition(rqParamsDeletePosition(R_KEEPER_RESTAURANT,guid,uni,1000),API_STAGE_URI);
 
     }
 

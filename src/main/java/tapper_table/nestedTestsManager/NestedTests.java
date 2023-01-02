@@ -10,10 +10,11 @@ import tapper_table.RootPage;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static com.codeborne.selenide.Selenide.$;
-import static constants.Constant.TestData.*;
+import static constants.Constant.TestData.SERVICE_PRICE_PERCENT_FROM_TIPS;
+import static constants.Constant.TestData.SERVICE_PRICE_PERCENT_FROM_TOTAL_SUM;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.dishesSumChangedHeading;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.divideCheckSliderActive;
 import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.serviceChargeContainer;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalTipsSumInMiddle;
@@ -47,8 +48,6 @@ public class NestedTests extends RootPage {
 
     }
 
-
-
     @Step("Проверка суммы что суммы изменились после того как изменился заказ на кассе и в таппере нажали оплатить")
     public void checkIfSumsChangedAfterEditingOrder() {
 
@@ -68,11 +67,11 @@ public class NestedTests extends RootPage {
 
     @Step("Проверяем установку чаевых по умолчанию по сумме, формирование СБ от чаевых," +
             " и корректность суммы оплаты в таппере и б2п")
-    public void checkDefaultTipsBySumAndScLogicBySumAndB2P(double tapperTotalPay, double b2pTotalPay) {
+    public void checkDefaultTipsBySumAndScLogicBySumAndB2P() {
 
         if (divideCheckSliderActive.exists()) {
 
-            divideCheckSlider.click();
+            divideCheckSliderActive.click();
 
         }
 
@@ -97,10 +96,12 @@ public class NestedTests extends RootPage {
         System.out.println("Сервисный сбор считается корректно от суммы и чаевых");
 
         rootPage.deactivateServiceChargeIfActivated();
-        tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        double tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        System.out.println(tapperTotalPay + " таппер без СБ");
 
         rootPageNestedTests.clickPayment();
-        b2pTotalPay = best2PayPage.getPaymentAmount();
+        double b2pTotalPay = best2PayPage.getPaymentAmount();
+        System.out.println(b2pTotalPay + " б2п");
 
         Assertions.assertEquals(tapperTotalPay, b2pTotalPay,
                 "Сумма итого к оплате не совпадает с суммой в таппере");
@@ -108,12 +109,15 @@ public class NestedTests extends RootPage {
                 " совпадает с суммой в б2п " + b2pTotalPay);
 
         Selenide.back();
+        forceWait(2000);
 
         rootPage.activateServiceChargeIfDeactivated();
         tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        System.out.println(tapperTotalPay + " таппер с СБ");
 
         rootPageNestedTests.clickPayment();
         b2pTotalPay = best2PayPage.getPaymentAmount();
+        System.out.println(b2pTotalPay + " б2п");
 
         Assertions.assertEquals(tapperTotalPay, b2pTotalPay, 0.1,
                 "Сумма итого к оплате не совпадает с суммой в таппере");

@@ -1,0 +1,495 @@
+{
+  "uid" : "eb01413701c70bba",
+  "name" : "6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате",
+  "fullName" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest.checkPayment",
+  "historyId" : "e134f1d16ed301c9e07f1b26927daa3",
+  "time" : {
+    "start" : 1672322969985,
+    "stop" : 1672322979186,
+    "duration" : 9201
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672322941507,
+      "stop" : 1672322941507,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Проверка поочередных статусов оплаты c частичной оплатой",
+      "time" : {
+        "start" : 1672322969985,
+        "stop" : 1672322977795,
+        "duration" : 7810
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны",
+        "time" : {
+          "start" : 1672322969985,
+          "stop" : 1672322975040,
+          "duration" : 5055
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Первичная заставка\\лого\\анимация при открытии страницы",
+          "time" : {
+            "start" : 1672322969985,
+            "stop" : 1672322971627,
+            "duration" : 1642
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "hasContent" : false,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице в ходе длительной загрузки (10сек.)",
+          "time" : {
+            "start" : 1672322971671,
+            "stop" : 1672322971685,
+            "duration" : 14
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"paymentProcess__content\" data-auto=\"paymentProcessStatus\" data-v-32d95571>Производится оплата\nПожалуйста, подождите..</div>"
+          }, {
+            "name" : "time",
+            "value" : "10"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322971726,
+            "stop" : 1672322971738,
+            "duration" : 12
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<img alt=\"payment\" data-v-32d95571 src=\"/_nuxt/img/payment_process_gif.329fa04.gif\"></img>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322971779,
+            "stop" : 1672322971790,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"paymentProcess__status\" data-v-32d95571>Производится оплата</div>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322971833,
+            "stop" : 1672322971846,
+            "duration" : 13
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"paymentProcess__text\" data-v-32d95571>Пожалуйста, подождите..</div>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322975028,
+            "stop" : 1672322975040,
+            "duration" : 12
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<img alt=\"payment\" class=\"fade-enter-active fade-enter-to\" data-v-32d95571 src=\"/_nuxt/img/payment_process_yes.42562b4.png\"></img>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 6,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка заголовка статуса и что все элементы отзыва отображаются",
+        "time" : {
+          "start" : 1672322975040,
+          "stop" : 1672322977750,
+          "duration" : 2710
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Элемент присутствует на странице в ходе длительной загрузки (10сек.)",
+          "time" : {
+            "start" : 1672322975048,
+            "stop" : 1672322977605,
+            "duration" : 2557
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\"[data-auto=\"reviewContainer\"]\"}"
+          }, {
+            "name" : "time",
+            "value" : "10"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322977639,
+            "stop" : 1672322977650,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<li class=\"reviewModal__stars-item\" data-auto=\"reviewStars\" data-v-5e35e96e></li>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322977693,
+            "stop" : 1672322977704,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<textarea class=\"reviewModal__comments-textarea\" data-auto=\"reviewTextArea\" data-v-5e35e96e name=\"review\" placeholder=\"Расскажите подробнее...\" type=\"textarea\"></textarea>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице в ходе длительной загрузки (10сек.)",
+          "time" : {
+            "start" : 1672322977739,
+            "stop" : 1672322977750,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<button class=\"baseButton baseButton--blue undefined\" data-auto=\"finishReviewButton\" data-v-5e35e96e data-v-7131f0e2 type=\"button\">Готово</button>"
+          }, {
+            "name" : "time",
+            "value" : "10"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 4,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Заголовок соответствует частичной оплате",
+        "time" : {
+          "start" : 1672322977750,
+          "stop" : 1672322977795,
+          "duration" : 45
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "hasContent" : false,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 13,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Получаем саму транзакцию б2п и сравниваем с суммами которые были при оплате",
+      "time" : {
+        "start" : 1672322977795,
+        "stop" : 1672322978103,
+        "duration" : 308
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Получаем транзакцию по оплате в б2п",
+        "time" : {
+          "start" : 1672322977795,
+          "stop" : 1672322978082,
+          "duration" : 287
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "transaction_id",
+          "value" : "23347"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Забираем с транзакции только информацию об оплате",
+        "time" : {
+          "start" : 1672322978082,
+          "stop" : 1672322978103,
+          "duration" : 21
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "rs",
+          "value" : "io.restassured.internal.RestAssuredResponseImpl@2c6ab513"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "trans_id",
+        "value" : "23347"
+      }, {
+        "name" : "paymentData",
+        "value" : "{order_amount=46500, fee=943, tips=4900}"
+      } ],
+      "stepsCount" : 2,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Клик в кнопку отправить отзыв и ожидание прелоадера",
+      "time" : {
+        "start" : 1672322978103,
+        "stop" : 1672322979186,
+        "duration" : 1083
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Принудительно прячем футер",
+        "time" : {
+          "start" : 1672322978103,
+          "stop" : 1672322978113,
+          "duration" : 10
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "hasContent" : false,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Плавный скрол до самого низа страницы",
+        "time" : {
+          "start" : 1672322978113,
+          "stop" : 1672322979121,
+          "duration" : 1008
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "hasContent" : false,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1672322979144,
+          "stop" : 1672322979184,
+          "duration" : 40
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"baseButton baseButton--blue undefined\" data-auto=\"finishReviewButton\" data-v-5e35e96e data-v-7131f0e2 type=\"button\">Готово</button>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Принудительно раскрываем футер",
+        "time" : {
+          "start" : 1672322979184,
+          "stop" : 1672322979186,
+          "duration" : 2
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "hasContent" : false,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 4,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 22,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672323000102,
+      "stop" : 1672323000166,
+      "duration" : 64
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest]/[method:checkPayment()]"
+  }, {
+    "name" : "story",
+    "value" : "Официант верифицирован, без привязанной карты, частичная оплата  +СБ"
+  }, {
+    "name" : "feature",
+    "value" : "Официант"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "checkPayment"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "eb01413701c70bba.json",
+  "parameterValues" : [ ]
+}

@@ -9,11 +9,13 @@ import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.menu.Menu;
 import tests.BaseTest;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.matchText;
+import static com.codeborne.selenide.Condition.visible;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.TapperTableSelectors.RootPage.Menu.*;
+import static constants.selectors.TapperTableSelectors.RootPage.Menu.categoryMenuItems;
+import static constants.selectors.TapperTableSelectors.RootPage.Menu.dishMenuItems;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterMenuIcon;
 
 @Order(111)

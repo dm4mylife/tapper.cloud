@@ -20,9 +20,11 @@ import java.util.concurrent.TimeUnit;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.text;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.dishesStatus;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.allDishesStatuses;
+
 
 @Order(50)
 @Epic("RKeeper")
@@ -40,7 +42,7 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         String visit = rs.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
 
@@ -78,9 +80,9 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
 
         Stopwatch stopwatch = Stopwatch.createStarted();
 
-        for (SelenideElement element : dishesStatus) {
+        for (SelenideElement element : allDishesStatuses) {
             System.out.println("Элементы еще в статусе 'Оплачивается'");
-            element.shouldNotBe(attribute("display","none"), Duration.ofSeconds(300));
+            element.shouldNotBe(text("Оплачивается"), Duration.ofSeconds(300));
 
         }
 

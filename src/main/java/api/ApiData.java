@@ -7,10 +7,10 @@ public class ApiData {
         public static final String createOrder = "rkeeper/createorder";
         public static final String fillingOrder = "rkeeper/fillingorder";
         public static final String deleteOrder = "rkeeper/delorder";
-        public static final String orderGet = "order/get";
+        public static final String getOrderInfo = "rkeeper/order";
         public static final String b2bPaymentTransactionStatus = "https://apitapper.zedform.ru/api/payment/transaction-status/";
-        public static final String deletePosition = "rkeeper-automation/delete-position";
-
+        public static final String deletePosition = "rkeeper-automation/position";
+        public static final String addModificatorOrder = "rkeeper-automation/add-modificator-order";
 
     }
 
@@ -64,8 +64,6 @@ public class ApiData {
         public static final String FREE_NECESSARY_MODI_SOUS = "1000125";
         public static final String PAID_NECESSARY_MODI_BACON = "1000126";
 
-
-
     }
 
     public static class QueryParams {
@@ -76,8 +74,8 @@ public class ApiData {
                     "  \"subDomen\": \"" + subDomen + "\",\n" +
                     "  \"tableCode\": " + tableCode + ",\n" +
                     "  \"waiterCode\": \"" + waiterCode + "\",\n" +
-                    "  \"persistentComment\": 100500\n" +
-                    "}";
+                    "  \"persistentComment\": \"100500\"" +
+                    "\n}";
 
         }
 
@@ -92,14 +90,89 @@ public class ApiData {
 
         }
 
-        public static String rqParamsDeletePosition(String domen, String guid, String station, String uni, String quantity) {
+        public static String rqParamsDeletePosition(String domen, String guid, String uni, int quantity) {
 
             return "{\n" +
                     "  \"domen\": \"" + domen + "\",\n" +
                     "  \"guid\": \"" + guid + "\",\n" +
-                    "  \"station\": \"" + station + "\",\n" +
-                    "  \"item_code\": \"" + uni + "\"\n" +
+                    "  \"station\": 1,\n" +
+                    "  \"uni\": \"" + uni + "\",\n" +
                     "  \"quantity\": " + quantity + "\n" +
+                    "}";
+
+        }
+
+        public static String rqParamsAddModificatorWith1Position(String domen, String guid, String dish,
+                                                                  String quantity, String modificatorId,
+                                                                  String modificatorQuantity) {
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1,\n" +
+                    "  \"dish\": \"" + dish + "\",\n" +
+                    "  \"quantity\": " + quantity + ",\n" +
+                    "  \"modificators\": [\n" +
+                    "    {\n" +
+                    "      \"id\": \"" + modificatorId + "\",\n" +
+                    "      \"quantity\": \"" + modificatorQuantity + "\"\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}";
+
+        }
+
+
+        public static String rqParamsAddModificatorWith2Positions(String domen, String guid, String dish,
+                                                            String quantity, String modificatorId,
+                                                            String modificatorQuantity, String secondModificatorId,
+                                                            String secondModificatorQuantity) {
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1,\n" +
+                    "  \"dish\": \"" + dish + "\",\n" +
+                    "  \"quantity\": " + quantity + ",\n" +
+                    "  \"modificators\": [\n" +
+                    "    {\n" +
+                    "      \"id\": \"" + modificatorId + "\",\n" +
+                    "      \"quantity\": \"" + modificatorQuantity + "\"\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "       \"id\": \"" + secondModificatorId + "\",\n" +
+                    "      \"quantity\": \"" + secondModificatorQuantity + "\"\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}";
+
+        }
+
+        public static String rqParamsAddModificatorWith3Positions(String domen, String guid, String dish,
+                                                                  String quantity, String modificatorId,
+                                                                  String modificatorQuantity, String secondModificatorId,
+                                                                  String secondModificatorQuantity,
+                                                                  String thirdModificatorId, String thirdModificatorQuantity) {
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1,\n" +
+                    "  \"dish\": \"" + dish + "\",\n" +
+                    "  \"quantity\": " + quantity + ",\n" +
+                    "  \"modificators\": [\n" +
+                    "    {\n" +
+                    "      \"id\": \"" + modificatorId + "\",\n" +
+                    "      \"quantity\": \"" + modificatorQuantity + "\"\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "       \"id\": \"" + secondModificatorId + "\",\n" +
+                    "      \"quantity\": \"" + secondModificatorQuantity + "\"\n" +
+                    "    },\n" +
+                    "       \"id\": \"" + thirdModificatorId + "\",\n" +
+                    "      \"quantity\": \"" + thirdModificatorQuantity + "\"\n" +
+                    "    }\n" +
+                    "  ]\n" +
                     "}";
 
         }

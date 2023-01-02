@@ -12,9 +12,9 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
+import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 
 @Order(47)
@@ -40,7 +40,7 @@ public class _0_4_7_AddAndRemoveFullTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
@@ -70,7 +70,10 @@ public class _0_4_7_AddAndRemoveFullTest extends BaseTest {
     @DisplayName("4. Добавляем еще одно блюдо на кассе")
     public void addOneMoreDishInOrder() {
 
-        apiRKeeper.addModificatorOrder(guid, GOVYADINA_PORTION, "1000", "1000118", "1");
+        apiRKeeper.addModificatorOrder(
+                rqParamsAddModificatorWith1Position(
+                        R_KEEPER_RESTAURANT,guid, BORSH, "1000", FREE_NECESSARY_MODI_SALT, "1")
+                ,API_STAGE_URI );
 
     }
 
@@ -87,7 +90,7 @@ public class _0_4_7_AddAndRemoveFullTest extends BaseTest {
     @DisplayName("6. Удаляем одну позицию")
     public void deletePosition() {
 
-        apiRKeeper.deletePosition(guid, uni, "1000");
+        apiRKeeper.deletePosition(rqParamsDeletePosition(R_KEEPER_RESTAURANT,guid,uni,1000),API_STAGE_URI);
 
     }
 

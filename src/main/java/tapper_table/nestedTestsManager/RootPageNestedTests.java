@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooter;
@@ -45,7 +46,7 @@ public class RootPageNestedTests extends RootPage {
 
         isElementVisible(headerTitleMyOrder);
         isElementVisible(tableNumber);
-        isElementVisible(emptyTableLogoClock);
+        isElementVisibleDuringLongTime(emptyTableLogoClock,5);
         emptyOrderHeading.shouldHave(Condition.text("Скоро здесь появится ваш заказ"));
         isElementVisible(callWaiterHeadingPrompt);
         isElementVisible(appFooter);
@@ -91,7 +92,12 @@ public class RootPageNestedTests extends RootPage {
     @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
     public void chooseDishesWithRandomAmountWithTipsWithSCVerifiedNonCard(int amountDishes) {
 
-        clickDivideCheckSlider();
+        if (!divideCheckSliderActive.exists()) {
+
+            clickDivideCheckSlider();
+
+        }
+
         chooseCertainAmountDishes(amountDishes);
 
         double cleanTotalSum = countAllChosenDishesDivided();
@@ -102,7 +108,12 @@ public class RootPageNestedTests extends RootPage {
     @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
     public void chooseDishesWithRandomAmount(int amountDishes) {
 
-        clickDivideCheckSlider();
+        if (!divideCheckSliderActive.exists()) {
+
+            clickDivideCheckSlider();
+
+        }
+
         chooseCertainAmountDishes(amountDishes);
 
         double cleanTotalSum = countAllChosenDishesDivided();
@@ -113,7 +124,12 @@ public class RootPageNestedTests extends RootPage {
     @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки без чаевых, без СБ")
     public void chooseDishesWithRandomAmountWithNoTipsNoSc(int amountDishes) {
 
-        clickDivideCheckSlider();
+        if (!divideCheckSliderActive.exists()) {
+
+            clickDivideCheckSlider();
+
+        }
+
         chooseCertainAmountDishes(amountDishes);
 
         double cleanTotalSum = countAllChosenDishesDivided();
@@ -126,7 +142,12 @@ public class RootPageNestedTests extends RootPage {
     @Step("Выбираем по позиционно все блюда, проверяем сумму, проводим все проверки с чаевыми и СБ")
     public void chooseAllDishesWithTipsWithSC() {
 
-        clickDivideCheckSlider();
+        if (!divideCheckSliderActive.exists()) {
+
+            clickDivideCheckSlider();
+
+        }
+
         chooseAllNonPaidDishes();
 
         double cleanTotalSum = countAllChosenDishesDivided();
@@ -219,7 +240,7 @@ public class RootPageNestedTests extends RootPage {
     public void activateRandomTipsAndDeactivateSc() {
 
         setRandomTipsOption();
-        activateServiceChargeIfDeactivated();
+        deactivateServiceChargeIfActivated();
 
     }
 
@@ -333,7 +354,7 @@ public class RootPageNestedTests extends RootPage {
 
         if (divideCheckSliderActive.exists()) {
 
-            divideCheckSlider.click();
+            divideCheckSliderActive.click();
 
         }
 
@@ -343,8 +364,8 @@ public class RootPageNestedTests extends RootPage {
 
         reviewPageNestedTests.fullPaymentCorrect();
         reviewPage.clickOnFinishButton();
-        rootPage.isEmptyOrderAfterClosing();
 
+        rootPage.isEmptyOrderAfterClosing();
 
     }
 
@@ -490,7 +511,7 @@ public class RootPageNestedTests extends RootPage {
     @Step("Забираем скидку из кассы")
     public double getTotalDiscount(String table_id) {
 
-        Response rs = apiRKeeper.getOrderInfo(table_id);
+        Response rs = apiRKeeper.getOrderInfo(table_id, API_STAGE_URI);
         Object sessionSizeFlag = rs.path("Session");
 
         int sessionSize;

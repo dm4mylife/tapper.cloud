@@ -20,6 +20,7 @@ import tests.BaseTest;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
 
@@ -49,7 +50,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         guid = rsCreateOrder.jsonPath().getString("result.guid");
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
@@ -77,7 +78,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.4. Проверяем что логика чаевых по сумме корректна к минимальным чаевым")
     public void setScAndCheckTips() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(tapperTotalPay, b2pTotalPay);
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
 
     }
 
@@ -85,11 +86,11 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.5. Добавляем еще одно блюдо в заказ")
     public void addDishes() {
 
-        apiRKeeper.addModificatorOrder(guid, LIMONAD, "1000", "1000112", "1");
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, SOLYANKA, "3000"));
 
-        //apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
-
+        rootPage.forceWait(2000);
         Selenide.refresh();
+        rootPage.forceWait(2000);
 
 
     }
@@ -98,7 +99,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.6. Проверяем вторую опцию чаевых")
     public void setScAndCheckTipsWith2ndOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(tapperTotalPay, b2pTotalPay);
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
 
     }
 
@@ -114,7 +115,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.8. Проверяем 3 опцию чаевых")
     public void setScAndCheckTipsWith3rdOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(tapperTotalPay, b2pTotalPay);
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
 
     }
 
@@ -130,7 +131,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("2.0. Проверяем 4 опцию чаевых")
     public void setScAndCheckTipsWith4thOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(tapperTotalPay, b2pTotalPay);
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
 
     }
 
@@ -138,7 +139,9 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("2.1. Добавляем еще одно блюдо в заказ")
     public void addDishesWith5thOption() {
 
-        addDishes();
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, SOLYANKA, "5000"));
+        Selenide.refresh();
+        rootPage.forceWait(2000);
 
     }
 
@@ -146,7 +149,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("2.2. Проверяем 5 опцию чаевых")
     public void setScAndCheckTipsWith5thOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(tapperTotalPay, b2pTotalPay);
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
 
     }
 

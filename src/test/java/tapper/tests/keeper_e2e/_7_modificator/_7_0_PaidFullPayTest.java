@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.*;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(70)
@@ -49,14 +49,14 @@ public class _7_0_PaidFullPayTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
 
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
-        apiRKeeper.fillOrderWithAllModiDishes(guid);
+        apiRKeeper.fillOrderWithAllModiDishes(guid,API_TEST_URI);
 
-        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_3_ID);
+        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_3_ID,API_STAGE_URI);
 
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 

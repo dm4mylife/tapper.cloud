@@ -8,6 +8,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.logging.LogEntries;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
@@ -15,7 +16,9 @@ import tests.BaseTest;
 import java.util.HashMap;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.divideCheckSlider;
 
@@ -33,6 +36,9 @@ public class _0_5_NotChangingTipsInAnotherUserTest extends BaseTest {
     static int secondUserTable = 1;
     static HashMap<String, Double> sumsInfoFirstUser;
     static HashMap<String, Double> sumsInfoSecondUser;
+    static LogEntries logEntries;
+
+
     BaseActions baseActions = new BaseActions();
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -42,14 +48,13 @@ public class _0_5_NotChangingTipsInAnotherUserTest extends BaseTest {
     @DisplayName("1.0. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsGetOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rsGetOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rsGetOrder.jsonPath().getString("result.visit");
         guid = rsGetOrder.jsonPath().getString("result.guid");
 
-        apiRKeeper.addModificatorOrder(guid, LIMONAD, "2000", "1000111", "1");
-        apiRKeeper.addModificatorOrder(guid, LIMONAD, "2000", "1000112", "1");
-        apiRKeeper.addModificatorOrder(guid, GOVYADINA_PORTION, "1000", "1000117", "3");
-        apiRKeeper.addModificatorOrder(guid, GOVYADINA_PORTION, "1000", "1000118", "1");
+        Response rsFillingOrder = apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "6000"));
+
+        guid = rsFillingOrder.jsonPath().getString("result.guid");
 
     }
 
@@ -58,6 +63,7 @@ public class _0_5_NotChangingTipsInAnotherUserTest extends BaseTest {
     public void openAndCheck() {
 
         rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+
 
     }
 
@@ -94,7 +100,7 @@ public class _0_5_NotChangingTipsInAnotherUserTest extends BaseTest {
     public void choseDishesAndCheckSumsSecondUser() {
 
         rootPage.click(divideCheckSlider);
-
+        rootPage.forceWait(2000);
         rootPage.chooseCertainAmountDishes(3);
         rootPage.setRandomTipsOption();
 
@@ -114,7 +120,7 @@ public class _0_5_NotChangingTipsInAnotherUserTest extends BaseTest {
     public void returnFirstUserAndMatchSums() {
 
         Selenide.switchTo().window(firstUserTable);
-        rootPage.forceWait(2000);
+        rootPage.forceWait(5000);
 
         HashMap<String, Double> currentSumsInfoFirstUser = rootPage.saveSumsInCheck();
 
@@ -137,7 +143,7 @@ public class _0_5_NotChangingTipsInAnotherUserTest extends BaseTest {
     public void returnSecondUserAndMatchSums() {
 
         Selenide.switchTo().window(secondUserTable);
-        rootPage.forceWait(2000);
+        rootPage.forceWait(5000);
 
         HashMap<String, Double> currentSumsInfoSecondUser = rootPage.saveSumsInCheck();
 
@@ -157,12 +163,12 @@ public class _0_5_NotChangingTipsInAnotherUserTest extends BaseTest {
     public void returnFirstUserAndSetCustomTips() {
 
         Selenide.switchTo().window(firstUserTable);
-        rootPage.forceWait(2000);
+        rootPage.forceWait(5000);
 
         rootPage.cancelCertainAmountChosenDishes(3);
 
         Selenide.switchTo().window(secondUserTable);
-        rootPage.forceWait(2000);
+        rootPage.forceWait(30000);
 
         HashMap<String, Double> currentSumsInfoSecondUser = rootPage.saveSumsInCheck();
 
@@ -177,8 +183,7 @@ public class _0_5_NotChangingTipsInAnotherUserTest extends BaseTest {
     public void finishOrder() {
 
         Selenide.switchTo().window(firstUserTable);
-
-        rootPage.cancelCertainAmountChosenDishes(3);
+        rootPage.forceWait(5000);
 
         rootPageNestedTests.closeOrder();
 

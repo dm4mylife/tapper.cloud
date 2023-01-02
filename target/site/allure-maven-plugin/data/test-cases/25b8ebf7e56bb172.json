@@ -1,0 +1,150 @@
+{
+  "uid" : "25b8ebf7e56bb172",
+  "name" : "2.1. Добавляем еще одно блюдо в заказ",
+  "fullName" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest.addDishesWith5thOption",
+  "historyId" : "a936c31da3929c380d2905f63e52a47b",
+  "time" : {
+    "start" : 1672320673244,
+    "stop" : 1672320725024,
+    "duration" : 51780
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672320479475,
+      "stop" : 1672320479475,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Наполнение заказа",
+      "time" : {
+        "start" : 1672320673244,
+        "stop" : 1672320721577,
+        "duration" : 48333
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "requestBody",
+        "value" : "{\n  \"subDomen\": \"testrkeeper\",\n  \"quantity\": 5000,\n  \"visit\": \"550376353\",\n  \"dishId\": \"1000364\"\n}"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Принудительное ожидание из-за долгой загрузки страницы,элементов,скриптов (2000 мс)",
+      "time" : {
+        "start" : 1672320723023,
+        "stop" : 1672320725024,
+        "duration" : 2001
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "ms",
+        "value" : "2000"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 2,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672320760822,
+      "stop" : 1672320760887,
+      "duration" : 65
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest]/[method:addDishesWith5thOption()]"
+  }, {
+    "name" : "story",
+    "value" : "Проверка логики установки дефолтных чаевых от суммы заказа, ввод кастомных чаевых, ошибки суммы"
+  }, {
+    "name" : "feature",
+    "value" : "Чаевые"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "addDishesWith5thOption"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._3_tips._0_5_CheckDefaultTipsLogicBySumTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "25b8ebf7e56bb172.json",
+  "parameterValues" : [ ]
+}

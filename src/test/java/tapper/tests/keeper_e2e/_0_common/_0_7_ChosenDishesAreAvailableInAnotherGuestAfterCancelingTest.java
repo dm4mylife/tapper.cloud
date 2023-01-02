@@ -18,6 +18,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.disabled;
+import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
 import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.paymentButton;
@@ -32,7 +33,7 @@ import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.payment
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _0_7_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends BaseTest {
 
-    static int amountDishes = 3;
+    static int amountDishes = 2;
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
@@ -41,9 +42,9 @@ public class _0_7_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest exten
     @DisplayName("1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD));
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         String visit = rs.jsonPath().getString("result.visit");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, String.valueOf(amountDishes * 1000)));
 
     }
 
@@ -73,23 +74,28 @@ public class _0_7_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest exten
     }
 
     @Test
-    @DisplayName("5. Выбираем рандомно блюда и отменяем их")
+    @DisplayName("5. Выбираем рандомно блюда")
     public void chooseDishesByAnotherGuest() {
 
         rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
-        rootPage.cancelCertainAmountChosenDishes(3);
-        rootPage.forceWait(1000); // toDo тест проходит слишком быстро, принудительно ждем
-
 
     }
 
     @Test
-    @DisplayName("6. Переключаемся на первого пользователя, проверяем что блюда не заблокированы")
+    @DisplayName("6.Отменяем их")
+    public void cancelCertainAmountChosenDishes() {
+
+        rootPage.cancelCertainAmountChosenDishes(amountDishes);
+
+    }
+
+    @Test
+    @DisplayName("7. Переключаемся на первого пользователя, проверяем что блюда не заблокированы")
     public void switchToFirstGuest() {
 
         Selenide.switchTo().window(0);
         rootPage.forceWait(1000); // toDo тест проходит слишком быстро, принудительно ждем
-        allNonPaidAndNonDisabledDishes.shouldHave(CollectionCondition.size(amountDishes), Duration.ofSeconds(5));
+        allNonPaidAndNonDisabledDishes.shouldHave(CollectionCondition.size(amountDishes), Duration.ofSeconds(10));
         paymentButton.shouldNotHave(disabled);
         System.out.println("Блюда не заблокированы, кнопка активна для полаты");
 
@@ -97,7 +103,7 @@ public class _0_7_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest exten
 
 
     @Test
-    @DisplayName("7. Закрываем заказ, очищаем кассу")
+    @DisplayName("8. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
         rootPageNestedTests.closeOrder();

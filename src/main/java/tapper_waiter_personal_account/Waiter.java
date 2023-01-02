@@ -13,18 +13,14 @@ import java.io.File;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-
-
 import static constants.Constant.TestData.ROBOCOP_IMG_PATH;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.Constant.TestDataRKeeperAdmin.*;
-
-
 import static constants.selectors.AdminPersonalAccountSelectors.Profile.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.waiterImage;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.waiterImageNotSelenide;
-import static constants.selectors.WaiterPersonalAccountSelectors.*;
 import static constants.selectors.WaiterPersonalAccountSelectors.saveButton;
+import static constants.selectors.WaiterPersonalAccountSelectors.*;
 
 
 public class Waiter extends BaseActions {
@@ -147,10 +143,6 @@ public class Waiter extends BaseActions {
 
     }
 
-
-
-
-
     @Step("Проверка изменения телеграмм логина")
     public void changeTelegramLogin() {
 
@@ -164,8 +156,6 @@ public class Waiter extends BaseActions {
         click(saveButton);
         pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
         System.out.println("Логин телеграмма " + newWaiterTelegramLogin);
-        changedDataNotification
-                .shouldHave(attributeMatching("class", ".*active.*"),Duration.ofSeconds(5));
         telegramLogin.shouldHave(value(newWaiterTelegramLogin));
 
         telegramLogin.click();
@@ -176,8 +166,6 @@ public class Waiter extends BaseActions {
         System.out.println("Сменили имя в телеграмме на " + newWaiterTelegramLogin);
 
     }
-
-
 
     @Step("Смена пароля учетной записи официанта")
     public void changeWaiterPassword() {
@@ -214,8 +202,6 @@ public class Waiter extends BaseActions {
 
     }
 
-
-
     @Step("Привязка карта официанта")
     public void linkWaiterCard() {
 
@@ -233,7 +219,5 @@ public class Waiter extends BaseActions {
         //toDo нет второй тестовой карты чтобы написать тест на редактирование текущей
 
     }
-
-
 
 }

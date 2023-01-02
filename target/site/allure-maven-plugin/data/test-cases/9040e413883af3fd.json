@@ -1,0 +1,651 @@
+{
+  "uid" : "9040e413883af3fd",
+  "name" : "5. Переходим на эквайринг, вводим данные, оплачиваем заказ",
+  "fullName" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest.payAndGoToAcquiring",
+  "historyId" : "65edd7930d3b1e91c96005cb0db72c06",
+  "time" : {
+    "start" : 1672322957946,
+    "stop" : 1672322969982,
+    "duration" : 12036
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672322941507,
+      "stop" : 1672322941507,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Клик в оплату, появление лоадера и проверка что мы на эквайринге",
+      "time" : {
+        "start" : 1672322957946,
+        "stop" : 1672322964256,
+        "duration" : 6310
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Плавный скрол до самого низа страницы",
+        "time" : {
+          "start" : 1672322957946,
+          "stop" : 1672322958960,
+          "duration" : 1014
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "hasContent" : false,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Клик по кнопке оплаты",
+        "time" : {
+          "start" : 1672322958960,
+          "stop" : 1672322960053,
+          "duration" : 1093
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Плавный скрол до самого низа страницы",
+          "time" : {
+            "start" : 1672322958960,
+            "stop" : 1672322959975,
+            "duration" : 1015
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "hasContent" : false,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Кнопка видна и клик по ней",
+          "time" : {
+            "start" : 1672322960008,
+            "stop" : 1672322960053,
+            "duration" : 45
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<button class=\"baseButton baseButton--blue undefined\" data-auto=\"paymentButton\" data-v-1369a455 data-v-7131f0e2 type=\"button\">Оплатить</button>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 2,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Отображается лоадер на странице",
+        "time" : {
+          "start" : 1672322960053,
+          "stop" : 1672322960066,
+          "duration" : 13
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "hasContent" : false,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка что мы находимся на странице эквайринга",
+        "time" : {
+          "start" : 1672322960074,
+          "stop" : 1672322964181,
+          "duration" : 4107
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Проверка что текст {text} содержится в текущем URL",
+          "time" : {
+            "start" : 1672322960074,
+            "stop" : 1672322964181,
+            "duration" : 4107
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "url",
+            "value" : "https://test.best2pay.net/"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 1,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка попапа ВПН и что форма оплаты появилась",
+        "time" : {
+          "start" : 1672322964181,
+          "stop" : 1672322964256,
+          "duration" : 75
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Элемент присутствует на странице в ходе длительной загрузки (10сек.)",
+          "time" : {
+            "start" : 1672322964232,
+            "stop" : 1672322964243,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"form__body form__body--payment\" data-resizetarget=\"body\">Выберите способ оплаты\nБанковская карта\nНомер карты\nСрок действия\nCVV\nОтправить чек\nСумма к оплате\n523.43\nОплатить\nНажимая на кнопку «Оплатить», вы соглашаетесь с условиями оферты</div>"
+          }, {
+            "name" : "time",
+            "value" : "10"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Проверка попапа ВПН",
+          "time" : {
+            "start" : 1672322964243,
+            "stop" : 1672322964256,
+            "duration" : 13
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "hasContent" : false,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 2,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 10,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Проверка общей суммы, способов оплаты, ввод данных",
+      "time" : {
+        "start" : 1672322964256,
+        "stop" : 1672322964925,
+        "duration" : 669
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Проверка что сумма 'Итого к оплате' в таппере сходится с суммой в эквайринге",
+        "time" : {
+          "start" : 1672322964256,
+          "stop" : 1672322964306,
+          "duration" : 50
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Преобразовываем\\вырезаем текст из селектора в дабл",
+          "time" : {
+            "start" : 1672322964295,
+            "stop" : 1672322964306,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "selector",
+            "value" : "<div class=\"form__amount-value\" id=\"totalAmountValue\">523.43</div>"
+          }, {
+            "name" : "regex",
+            "value" : "\\s"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "totalPayTapper",
+          "value" : "523.43"
+        } ],
+        "stepsCount" : 1,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка что доступны 3 способа оплаты",
+        "time" : {
+          "start" : 1672322964306,
+          "stop" : 1672322964451,
+          "duration" : 145
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322964343,
+            "stop" : 1672322964352,
+            "duration" : 9
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<button class=\"payment-method__button payment-method__button--card button__active\" id=\"paymentTypeCard\" tabindex=\"0\" type=\"button\">Банковская карта</button>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322964389,
+            "stop" : 1672322964399,
+            "duration" : 10
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<div class=\"yandexpay payment-method__button payment-method__button--yandexpay white\"></div>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322964433,
+            "stop" : 1672322964451,
+            "duration" : 18
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<button class=\"payment-method__button payment-method__button--sbp\" id=\"sbpButton\" type=\"button\"></button>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 3,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Ввод номера карты",
+        "time" : {
+          "start" : 1672322964451,
+          "stop" : 1672322964537,
+          "duration" : 86
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Ввод данных 4809388886227309 без задержки",
+          "time" : {
+            "start" : 1672322964485,
+            "stop" : 1672322964537,
+            "duration" : 52
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input autocomplete=\"cc-number\" class=\"input__field input__field--pan\" id=\"pan\" maxlength=\"23\" name=\"pan\" placeholder=\"_\" tabindex=\"1\" type=\"tel\" value></input>"
+          }, {
+            "name" : "text",
+            "value" : "4809388886227309"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 1,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Ввод даты истечения карты",
+        "time" : {
+          "start" : 1672322964537,
+          "stop" : 1672322964648,
+          "duration" : 111
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Ввод данных 12 без задержки",
+          "time" : {
+            "start" : 1672322964576,
+            "stop" : 1672322964598,
+            "duration" : 22
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input aria-required=\"true\" autocomplete=\"cc-exp\" class=\"input__field input__field--date\" clear-name=\"true\" id=\"cardDate\" maxlength=\"9\" name=\"date\" placeholder=\"_\" required tabindex=\"2\" type=\"tel\" value></input>"
+          }, {
+            "name" : "text",
+            "value" : "12"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Ввод данных 24 без задержки",
+          "time" : {
+            "start" : 1672322964629,
+            "stop" : 1672322964648,
+            "duration" : 19
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input aria-required=\"true\" autocomplete=\"cc-exp\" class=\"input__field input__field--date\" clear-name=\"true\" id=\"cardDate\" maxlength=\"9\" name=\"date\" placeholder=\"_\" required tabindex=\"2\" type=\"tel\" value=\"12 / \"></input>"
+          }, {
+            "name" : "text",
+            "value" : "24"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 2,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Ввод CVV",
+        "time" : {
+          "start" : 1672322964648,
+          "stop" : 1672322964717,
+          "duration" : 69
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Ввод данных 123 без задержки",
+          "time" : {
+            "start" : 1672322964686,
+            "stop" : 1672322964717,
+            "duration" : 31
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input aria-required=\"true\" autocomplete=\"cc-csc\" class=\"input__field input__field--cvv\" id=\"cvc\" maxlength=\"3\" name=\"cvc\" placeholder=\"_\" required tabindex=\"3\" type=\"tel\"></input>"
+          }, {
+            "name" : "text",
+            "value" : "123"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 1,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Клик по кнопке отправить по email и ввод почты",
+        "time" : {
+          "start" : 1672322964717,
+          "stop" : 1672322964925,
+          "duration" : 208
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Кнопка видна и клик по ней",
+          "time" : {
+            "start" : 1672322964753,
+            "stop" : 1672322964797,
+            "duration" : 44
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<span class=\"checkbox__body\"></span>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Элемент присутствует на странице",
+          "time" : {
+            "start" : 1672322964847,
+            "stop" : 1672322964857,
+            "duration" : 10
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input class=\"input__field input__field--email\" id=\"email\" inputmode=\"email\" name=\"email\" placeholder=\" \" required=\"required\" tabindex=\"4\" type=\"text\"></input>"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        }, {
+          "name" : "Ввод данных autotests@tapper.cloud без задержки",
+          "time" : {
+            "start" : 1672322964881,
+            "stop" : 1672322964925,
+            "duration" : 44
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<input class=\"input__field input__field--email\" id=\"email\" inputmode=\"email\" name=\"email\" placeholder=\" \" required=\"required\" tabindex=\"4\" type=\"text\"></input>"
+          }, {
+            "name" : "text",
+            "value" : "autotests@tapper.cloud"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 3,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "totalPay",
+        "value" : "523.43"
+      } ],
+      "stepsCount" : 17,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Клик по кнопке оплатить",
+      "time" : {
+        "start" : 1672322964940,
+        "stop" : 1672322969982,
+        "duration" : 5042
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Кнопка видна и клик по ней",
+        "time" : {
+          "start" : 1672322964979,
+          "stop" : 1672322969982,
+          "duration" : 5003
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "element",
+          "value" : "<button class=\"button\" id=\"submitButton\" tabindex=\"6\" type=\"submit\">Оплатить</button>"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 1,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 31,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672323000102,
+      "stop" : 1672323000166,
+      "duration" : 64
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest]/[method:payAndGoToAcquiring()]"
+  }, {
+    "name" : "story",
+    "value" : "Официант верифицирован, без привязанной карты, частичная оплата  +СБ"
+  }, {
+    "name" : "feature",
+    "value" : "Официант"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "payAndGoToAcquiring"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "9040e413883af3fd.json",
+  "parameterValues" : [ ]
+}

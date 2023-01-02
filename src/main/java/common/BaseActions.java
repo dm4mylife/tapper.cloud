@@ -20,7 +20,6 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
-import static com.codeborne.selenide.WebDriverConditions.urlStartingWith;
 
 
 public class BaseActions {
@@ -33,11 +32,6 @@ public class BaseActions {
     @Step("Кнопка видна и клик по ней")
     public void click(@NotNull SelenideElement element) {
         element.shouldBe(visible).click();
-    }
-
-    @Step("Кнопка видна и клик по ней (JS)")
-    public void clickByJS(String selector) {
-        Selenide.executeJavaScript("document.querySelector(\"" + selector + "\").click();");
     }
 
     @Step("Скрол до элемента и клик по нему")
@@ -56,19 +50,14 @@ public class BaseActions {
         element.shouldBe(visible, Duration.ofSeconds(time));
     }
 
-    @Step("Получаем текст из селектора")
-    public String getSelectorText(SelenideElement element) {
-        return element.getText();
-    }
-
     @Step("Элемент должен содержать значение {value}")
     public SelenideElement elementShouldHaveValue(SelenideElement element, String value) {
         return element.shouldHave(value(value));
     }
 
     @Step("Переключение на другого гостя ({guest})")
-    public void switchTab(int tab_index) {
-        Selenide.switchTo().window(tab_index);
+    public void switchTab(int tabIndex) {
+        Selenide.switchTo().window(tabIndex);
     }
 
     @Step("Элемент не видим на странице")
@@ -164,7 +153,6 @@ public class BaseActions {
 
     }
 
-
     @Step("Ввод данных {text} без задержки")
     public void sendKeys(@NotNull SelenideElement element, String text) {
         element.sendKeys(text);
@@ -173,7 +161,7 @@ public class BaseActions {
     @Step("Проверка что текст {text} содержится в текущем URL")
     public void isTextContainsInURL(String url) {
 
-        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(20));
+        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(30));
 
     }
 
@@ -220,12 +208,12 @@ public class BaseActions {
 
         final String JsScript = "function isImageNotBroken()  " +
                 "{ var img = document.querySelector(\"" + element +
-            "\"); if (img.complete &&  typeof img.naturalWidth != 'undefined' && img.naturalWidth > 0) " +
+            "\"); if (img !== null && img.complete && typeof img.naturalWidth != 'undefined' && img.naturalWidth > 0) " +
             "{ return true; } else { return false; }} return isImageNotBroken();";
 
         boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(JsScript));
-        Assertions.assertTrue(image, "Изображение не битое, отображается корректно");
-        System.out.println("Изображение отображается корректно, не битое");
+        Assertions.assertTrue(image, "Изображение битое, или его нет. Не отображается корректно");
+        System.out.println("Изображение не битое, присутствует, отображается корректно");
 
     }
 

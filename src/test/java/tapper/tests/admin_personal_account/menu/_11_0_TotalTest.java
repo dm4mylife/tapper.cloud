@@ -13,8 +13,8 @@ import tests.BaseTest;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.AdminPersonalAccountSelectors.Menu.*;
-import static constants.selectors.TapperTableSelectors.RootPage.Menu.*;
+import static constants.selectors.AdminPersonalAccountSelectors.Menu.enableMenuForVisitorsButton;
+import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuDishContainer;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterMenuIcon;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterWalletIcon;
 
@@ -25,11 +25,6 @@ import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooter
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _11_0_TotalTest extends BaseTest {
-
-    static String categoryNameBeforeEditing;
-    static String dishNameBeforeEditing;
-    static String categoryNameAfterEditing;
-    static String dishNameAfterEditing;
 
     BaseActions baseActions = new BaseActions();
     AuthorizationPage authorizationPage = new AuthorizationPage();

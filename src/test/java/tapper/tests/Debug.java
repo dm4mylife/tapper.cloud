@@ -15,14 +15,14 @@ import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_10;
+import static constants.Constant.TestData.*;
+import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
 
 @Epic("Debug")
@@ -52,14 +52,35 @@ public class Debug extends BaseTest {
     @DisplayName("create and fill")
     public void test() throws ParseException {
 
-        String initDateFormat = "yyyy-MM-dd";
-        String date = "2022-12-01";
+        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
 
-        Date initDate = new SimpleDateFormat(initDateFormat).parse(date);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        String parsedDate = formatter.format(initDate);
-        System.out.println(parsedDate);
+        rootPageNestedTests.chooseDishesWithRandomAmount(3);
 
+        HashMap<Integer, Map<String, Double>> chosenDishes = rootPage.getChosenDishesAndSetCollection();
+
+        System.out.println(chosenDishes);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        rootPage.setAnotherGuestCookie();
+        rootPage.checkIfDishesDisabledEarlier(chosenDishes);
+
+        rootPage.switchTab(0);
+
+        double totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
+        HashMap<String, Integer> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+        rootPage.clickOnPaymentButton();
+
+        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
+        String transactionId = transaction_id.getValue();
+        best2PayPage.clickPayButton();
+
+        reviewPageNestedTests.partialPaymentCorrect();
+        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
+
+        rootPage.switchTab(1);
+        rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
+
+        rootPage.switchTab(0);
+        rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
 
 
     }
@@ -71,7 +92,7 @@ public class Debug extends BaseTest {
 
 
 
-        Response rs = apiRKeeper.getOrderInfo("1000044");
+        Response rs = apiRKeeper.getOrderInfo("1000044",API_STAGE_URI);
 
        // apiRKeeper.fillOrderWithAllModiDishes();
 
@@ -227,7 +248,7 @@ public class Debug extends BaseTest {
 
         //  rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
 
-        Response rs = apiRKeeper.getOrderInfo("1000046");
+        Response rs = apiRKeeper.getOrderInfo("1000046", API_STAGE_URI);
 
         String session = "Session";
 
@@ -291,11 +312,16 @@ public class Debug extends BaseTest {
 
 
 
-
+    @Test
+    @DisplayName("modi")
     public void addModificator() {
 
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
 
+        visit = rsCreateOrder.jsonPath().getString("result.visit");
+        guid = rsCreateOrder.jsonPath().getString("result.guid");
 
+        apiRKeeper.fillOrderWithAllModiDishes(guid,API_STAGE_URI);
 
     }
 
@@ -304,7 +330,7 @@ public class Debug extends BaseTest {
     @DisplayName("add modificator")
     public void addModificator1() {
 
-        Response rs = apiRKeeper.getOrderInfo(TABLE_3_ID);
+        Response rs = apiRKeeper.getOrderInfo(TABLE_3_ID,API_STAGE_URI);
         Object sessionSizeFlag = rs.path("Session");
 
         int sessionSize;

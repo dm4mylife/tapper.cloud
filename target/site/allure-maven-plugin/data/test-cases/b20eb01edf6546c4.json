@@ -1,0 +1,219 @@
+{
+  "uid" : "b20eb01edf6546c4",
+  "name" : "1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере",
+  "fullName" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_3_AddAndPartTest.openAndCheck",
+  "historyId" : "d70baa6e12e59f0e4ef805402de29311",
+  "time" : {
+    "start" : 1672321959429,
+    "stop" : 1672321962924,
+    "duration" : 3495
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1672321923708,
+      "stop" : 1672321923708,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Переход на страницу https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046 и ждём принудительно пока не прогрузятся все скрипты\\элементы\\сокет",
+      "time" : {
+        "start" : 1672321959430,
+        "stop" : 1672321962851,
+        "duration" : 3421
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Открытие страницы https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046",
+        "time" : {
+          "start" : 1672321959430,
+          "stop" : 1672321961848,
+          "duration" : 2418
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "url",
+          "value" : "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Принудительное ожидание из-за долгой загрузки страницы,элементов,скриптов (1000 мс)",
+        "time" : {
+          "start" : 1672321961848,
+          "stop" : 1672321962851,
+          "duration" : 1003
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "ms",
+          "value" : "1000"
+        } ],
+        "stepsCount" : 0,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "url",
+        "value" : "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046"
+      } ],
+      "stepsCount" : 2,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Проверка что позиции в заказе на кассе и в таппере одинаковы",
+      "time" : {
+        "start" : 1672321962851,
+        "stop" : 1672321962924,
+        "duration" : 73
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Меню корректно отображается",
+        "time" : {
+          "start" : 1672321962851,
+          "stop" : 1672321962924,
+          "duration" : 73
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Элемент присутствует на странице в ходе длительной загрузки (30сек.)",
+          "time" : {
+            "start" : 1672321962911,
+            "stop" : 1672321962924,
+            "duration" : 13
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "element",
+            "value" : "<ul class=\"orderList\" data-auto=\"menuDishesContainer\" data-v-1369a455>Оплачено\nБарное пиво\n155\n₽\nОплачено\nБарное пиво\n155\n₽\nОплачено\nБарное пиво\n155\n₽\nОплачено\nБарное пиво\n155\n₽\nОплачено\nБарное пиво\n155\n₽\nОплачено\nБорщ (Бесплат. Обяз. Мод)\n100\n₽\nОплачено\nБарное пиво\n155\n₽\nОплачено\nБарное пиво\n155\n₽\nОплачено\nБарное пиво\n155\n₽\nОплачено\nБарное пиво\n155\n₽\nБарное пиво\n155\n₽\nБарное пиво\n155\n₽\nБарное пиво\n155\n₽\nБарное пиво\n155\n₽\nБарное пиво\n155\n₽</ul>"
+          }, {
+            "name" : "time",
+            "value" : "30"
+          } ],
+          "stepsCount" : 0,
+          "hasContent" : true,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 1,
+        "hasContent" : true,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 2,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 6,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1672322022141,
+      "stop" : 1672322022198,
+      "duration" : 57
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_3_AddAndPartTest]/[method:openAndCheck()]"
+  }, {
+    "name" : "story",
+    "value" : "Добавление позиции, частичная оплата"
+  }, {
+    "name" : "feature",
+    "value" : "Добавление и удаление позиций из заказа"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "9972@WIN-UJN5UBMF8DD.ForkJoinPool-1-worker-3(18)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_3_AddAndPartTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_3_AddAndPartTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "openAndCheck"
+  }, {
+    "name" : "suite",
+    "value" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_3_AddAndPartTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "b20eb01edf6546c4.json",
+  "parameterValues" : [ ]
+}
