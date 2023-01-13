@@ -2,6 +2,7 @@ package tapper.tests;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.*;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.restassured.response.Response;
@@ -15,14 +16,20 @@ import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.text.ParseException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
+import static com.codeborne.selenide.Configuration.browser;
 import static constants.Constant.TestData.*;
+import static constants.selectors.TapperTableSelectors.Best2PayPage.paymentContainer;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.divideCheckSlider;
+import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.tips20;
 
 
 @Epic("Debug")
@@ -52,7 +59,7 @@ public class Debug extends BaseTest {
     @DisplayName("create and fill")
     public void test() throws ParseException {
 
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
 
         rootPageNestedTests.chooseDishesWithRandomAmount(3);
 
@@ -60,10 +67,12 @@ public class Debug extends BaseTest {
 
         System.out.println(chosenDishes);
         rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
-        rootPage.setAnotherGuestCookie();
+        rootPage.setUserCookie(COOKIE_GUEST_FIRST_USER, COOKIE_SESSION_FIRST_USER);
         rootPage.checkIfDishesDisabledEarlier(chosenDishes);
 
         rootPage.switchTab(0);
+
+        paymentContainer.shouldBe(Condition.exist, Duration.ofSeconds(5));
 
         double totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         HashMap<String, Integer> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
@@ -231,7 +240,7 @@ public class Debug extends BaseTest {
 
         rootPage.forceWait(2000);
 
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_10);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_10);
 
         rootPage.matchTapperOrderWithOrderInKeeper(allDishesInfo);
 
@@ -313,15 +322,53 @@ public class Debug extends BaseTest {
 
 
     @Test
-    @DisplayName("modi")
-    public void addModificator() {
+    @DisplayName("add discount")
+    public void addDiscount() {
+
+       /* Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        guid = rsCreateOrder.jsonPath().getString("result.guid");
+        String visit = rsCreateOrder.jsonPath().getString("result.visit");
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
+
+        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
+        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI); */
+
+
+         double totalPay;
+         HashMap<String, Integer> paymentDataKeeper;
+         String transactionId;
+         String visit;
+         String guid;
+         double discount;
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+
 
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
-        apiRKeeper.fillOrderWithAllModiDishes(guid,API_STAGE_URI);
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "5000"));
+
+        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
+        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI);
+
+
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+        discount = rootPageNestedTests.getTotalDiscount(TABLE_3_ID);
+
+        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
+
+        totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
+        paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+        rootPageNestedTests.clickPayment();
+
+        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
+        transactionId = transaction_id.getValue();
+        best2PayPage.clickPayButton();
+
+        reviewPageNestedTests.fullPaymentCorrect();
+        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
+
 
     }
 
@@ -450,5 +497,157 @@ public class Debug extends BaseTest {
     }
 
 
+    @Test
+    @DisplayName("tg")
+    public void tg() {
+
+        //Configuration.headless = false;
+
+        //rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+
+      //  Response rsGetOrder = apiRKeeper.getOrderInfo(TABLE_3_ID,API_STAGE_URI);
+      //  guid = rsGetOrder.jsonPath().getString("@attributes.guid");
+        List<Object> tgMessages = apiRKeeper.getUpdates();
+        System.out.println(guid);
+
+        boolean hasOrderMessage = false;
+        String isOrderMsg = "Название";
+        String isCallWaiterMsg = "Вызов официанта";
+        String isReviewMsg = "Рейтинг";
+        String partPay = "Частично оплачено";
+        String fullPay = "Полностью оплачено";
+
+        for (int index = 0 ; index < tgMessages.size(); index++) {
+
+            String tgMsg = tgMessages.get(index).toString();
+
+            if (tgMessages.get(index).toString().contains(guid)) {
+
+                hasOrderMessage = true;
+                System.out.println("\n Сообщение подходящее под guid \n");
+                System.out.println(tgMsg);
+
+                if (tgMsg.contains(isOrderMsg)) {
+
+                    System.out.println("Тип сообщения 'Оплата'");
+
+                    String tableRegex = "(\\n|.)?Стол: ([\\d+]+)(\\n|.)*";
+                    String sumInCheckRegex = "(\\n|.)*Сумма в чеке: (\\d+\\.?\\d+)(\\n|.)";
+                    String restToPayRegex = "(\\n|.)*Осталось оплатить: (\\d+\\.?\\d+)(\\n|.)*";
+                    String tipsRegex = "(\\n|.)*Чаевые: (\\d+\\.?\\d+)(\\n|.)*";
+                    String paySumRegex = "(\\n|.)*Осталось оплатить: (\\d+\\.?\\d+)(\\n|.)*";
+                    String totalPaidRegex = "(\\n|.)*Всего оплачено: (\\d+\\.?\\d+)(\\n|.)*";
+                    String markUpRegex = "(\\n|.)*Наценка: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
+                    String discountRegex = "(\\n|.)*Скидка: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
+                    String payStatusRegex = "(\\n|.)*Статус оплаты: ([а-яА-Я\\s]+)\\nСтатус заказа(\\n|.)*";
+                    String orderStatusRegex = "(\\n|.)*Статус заказа: ([а-яА-Я\\:\\,\\s]+)Дата заказа(\\n|.)*";
+                    String dateOrderRegex = "(\\n|.)*Дата заказа: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
+                    String waiterRegex = "(\\n|.)*Официант: ([а-яА-Я\\s]+)\\n(\\n|.)*";
+
+
+                    String table = tgMsg.replaceAll(tableRegex,"$2");
+                    String sumInCheck = tgMsg.replaceAll(sumInCheckRegex,"$2");
+                    String restToPay = tgMsg.replaceAll(restToPayRegex,"$2");
+                    String tips = tgMsg.replaceAll(tipsRegex,"$2");
+                    String paySum = tgMsg.replaceAll(paySumRegex,"$2");
+                    String totalPaid = tgMsg.replaceAll(totalPaidRegex,"$2");
+                    String markUp = tgMsg.replaceAll(markUpRegex,"$2");
+                    String discount = tgMsg.replaceAll(discountRegex,"$2");
+                    String payStatus = tgMsg.replaceAll(payStatusRegex,"$2");
+                    String orderStatus = tgMsg.replaceAll(orderStatusRegex,"$2");
+                    String dateOrder = tgMsg.replaceAll(dateOrderRegex,"$2");
+                    String waiter = tgMsg.replaceAll(waiterRegex,"$2");
+
+                    HashMap<String, String> tgParsedData = new HashMap<>();
+
+                    tgParsedData.put("table",table);
+                    tgParsedData.put("sumInCheck",sumInCheck);
+                    tgParsedData.put("restToPay",restToPay);
+                    tgParsedData.put("tips",tips);
+                    tgParsedData.put("paySum",paySum);
+                    tgParsedData.put("totalPaid",totalPaid);
+
+                    if (!markUp.equals("")) {
+
+                        tgParsedData.put("markUp",markUp);
+
+                    } else if (!discount.equals("")) {
+
+                        tgParsedData.put("discount",discount);
+
+                    }
+
+                    tgParsedData.put("payStatus",payStatus);
+                    tgParsedData.put("orderStatus",orderStatus);
+                    tgParsedData.put("dateOrder",dateOrder);
+                    tgParsedData.put("waiter",waiter);
+
+                    System.out.println(tgParsedData);
+
+
+
+
+                } else if (tgMsg.contains(isCallWaiterMsg)) {
+
+                    System.out.println("Тип сообщения 'Вызов официанта'");
+
+                } else if (tgMsg.contains(isReviewMsg)) {
+
+                    System.out.println("Тип сообщения 'Отзыв'");
+
+                }
+
+
+
+
+
+
+            }
+
+
+        }
+
+
+        if (hasOrderMessage) {
+
+            System.out.println("Есть сообщения");
+
+        } else {
+
+            System.out.println("Нет сообщений");
+
+        }
+
+       // rootPageNestedTests.closeOrder();
+
+    }
+
+    @Test
+    @DisplayName("magic")
+    public void magic() {
+
+
+        Response rs = apiRKeeper
+                .createOrder
+                        (rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        visit = rs.jsonPath().getString("result.visit");
+        guid = rs.jsonPath().getString("result.guid");
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
+
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+
+
+        /*  apiRKeeper.addDiscount(rqParamsAddCustomDiscount
+                (R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
+
+
+        apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid),API_STAGE_URI);
+
+
+        if(apiRKeeper.isClosedOrder())
+        System.out.println("Заказ закрыт на кассе"); */
+
+
+    }
 
 }

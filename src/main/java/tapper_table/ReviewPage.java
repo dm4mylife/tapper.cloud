@@ -17,7 +17,6 @@ public class ReviewPage extends BaseActions {
     @Step("Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны")
     public void isPaymentProcessContainerShown() {
 
-        rootPage.isStartScreenShown();
         baseActions.isElementVisibleDuringLongTime(paymentProcessContainer, 10);
 
         baseActions.isElementVisible(paymentProcessGifProcessing);
@@ -25,8 +24,8 @@ public class ReviewPage extends BaseActions {
         baseActions.isElementVisible(paymentProcessText);
         paymentProcessStatus.shouldHave(matchText("Производится оплата"), Duration.ofSeconds(30));
 
-        paymentProcessStatus.shouldNotHave(text("Оплата не прошла"));
-        paymentProcessStatus.shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
+        paymentProcessStatus.shouldNotHave(text("Оплата не прошла"))
+                            .shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
         baseActions.isElementVisible(paymentProcessGifSuccess);
 
     }

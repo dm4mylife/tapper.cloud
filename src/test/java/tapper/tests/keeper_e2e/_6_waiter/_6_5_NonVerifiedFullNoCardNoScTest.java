@@ -44,36 +44,30 @@ public class _6_5_NonVerifiedFullNoCardNoScTest extends BaseTest {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
+    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_IRONMAN_NON_VERIFIED_NON_CARD), API_STAGE_URI);
         String visit = rs.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
 
-    }
-
-    @Test
-    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
 
     @Test
-    @DisplayName("3. Проверка суммы, отсутствия чаевых, корректности сервисного сбора")
+    @DisplayName("2. Проверка суммы, отсутствия чаевых, корректности сервисного сбора")
     public void checkSumTipsSC() {
 
         double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
-        rootPageNestedTests.checkSumWithAllConditionsWithNoVerifiedWaiter(cleanDishesSum);
+        rootPageNestedTests.checkSumWithAllConditionsWithNonVerifiedWaiter(cleanDishesSum);
         rootPage.deactivateServiceChargeIfActivated();
 
     }
 
     @Test
-    @DisplayName("4. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    @DisplayName("3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
     public void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
@@ -83,7 +77,7 @@ public class _6_5_NonVerifiedFullNoCardNoScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    @DisplayName("4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
 
         best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
@@ -93,7 +87,7 @@ public class _6_5_NonVerifiedFullNoCardNoScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    @DisplayName("5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
 
         reviewPageNestedTests.fullPaymentCorrect();
@@ -102,7 +96,7 @@ public class _6_5_NonVerifiedFullNoCardNoScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("7. Закрываем заказ")
+    @DisplayName("6. Закрываем заказ")
     public void finishOrder() {
 
         reviewPage.clickOnFinishButton();

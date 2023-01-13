@@ -50,7 +50,7 @@ public class _7_1_PaidPartPayTest extends BaseTest {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
+    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
@@ -64,13 +64,7 @@ public class _7_1_PaidPartPayTest extends BaseTest {
 
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 
-    }
-
-    @Test
-    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.matchTapperOrderWithOrderInKeeper(orderInKeeper);
 
     }
@@ -92,7 +86,6 @@ public class _7_1_PaidPartPayTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-
 
     }
 
@@ -121,16 +114,8 @@ public class _7_1_PaidPartPayTest extends BaseTest {
     @DisplayName("7. Делимся ссылкой и оплачиваем остальную часть заказа")
     public void clearDataAndChoseAgain() {
 
-        rootPage.clearAllSiteData();
-        savePaymentDataForAcquiring();
-
-    }
-
-    @Test
-    @DisplayName("8. Закрываем заказ")
-    public void payAndGoToAcquiringAgain() {
-
-        rootPageNestedTests.closeOrder();
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
+        rootPageNestedTests.closeOrderByAPI(guid);
 
     }
 

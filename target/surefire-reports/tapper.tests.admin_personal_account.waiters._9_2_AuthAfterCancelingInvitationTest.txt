@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tapper.tests.admin_personal_account.waiters._9_2_AuthAfterCancelingInvitationTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 157.222 s - in tapper.tests.admin_personal_account.waiters._9_2_AuthAfterCancelingInvitationTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 36.047 s - in tapper.tests.admin_personal_account.waiters._9_2_AuthAfterCancelingInvitationTest

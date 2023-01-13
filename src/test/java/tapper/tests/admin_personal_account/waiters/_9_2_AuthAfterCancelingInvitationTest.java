@@ -6,6 +6,7 @@ import com.codeborne.selenide.Configuration;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AdminAccount;
 import tapper_admin_personal_account.AuthorizationPage;
@@ -24,7 +25,8 @@ import static constants.selectors.AuthAndRegistrationPageSelectors.Authorization
 
 @Order(92)
 @Epic("Личный кабинет администратора ресторана")
-@Feature("Авторизация")
+@Feature("Авторизация\\регистрация")
+@Story("Авторизация официанта, когда у него отозвали приглашение")
 @DisplayName("Авторизация официанта, когда у него отозвали приглашение")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)

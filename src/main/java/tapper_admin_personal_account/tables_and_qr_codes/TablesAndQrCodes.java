@@ -8,6 +8,7 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import common.BaseActions;
+import constants.selectors.TapperTableSelectors;
 import io.qameta.allure.Step;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -178,7 +179,9 @@ public class TablesAndQrCodes extends BaseActions {
 
         isTextContainsInURL(tableUrlInTableItem);
 
-        String tapperTableNumber = $(".vOrderHeader__table").getText();
+        TapperTableSelectors.RootPage.DishList.tableNumber.shouldBe(visible,Duration.ofSeconds(10));
+
+        String tapperTableNumber = TapperTableSelectors.RootPage.DishList.tableNumber.getText();
         System.out.println(tapperTableNumber + " tapperTableNumber");
 
         Assertions.assertEquals(tableNumber, tapperTableNumber,

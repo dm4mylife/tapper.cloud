@@ -12,6 +12,10 @@ public class TapperTableSelectors {
         public static final String bodyJS = "body";
         public static final SelenideElement startScreenLogoContainer =
             $("[data-auto=\"startScreenLogoContainer\"]");
+        public static final SelenideElement startScreenLogoContainerImage =
+                $("[data-auto=\"startScreenLogoContainer\"] img");
+        public static final String startScreenLogoContainerImageNotSelenide =
+                "[data-auto='startScreenLogoContainer'] img";
         public static final SelenideElement pagePreLoader = $(".mainPage .basePreloader");
 
     }
@@ -70,6 +74,9 @@ public class TapperTableSelectors {
             public static final SelenideElement tipsInCheckField = $("[data-auto=\"tipsInCheckField\"]");
             public static final SelenideElement tipsInCheckSum =
                 $("[data-auto=\"tipsInCheckField\"] span+span");
+            public static final SelenideElement overallSum =
+                    $(".orderTotal__container .orderTotal__row:nth-child(1) span+span");
+
             public static final SelenideElement anotherGuestField =
                 $("[data-auto=\"anotherGuestSumField\"]");
             public static final SelenideElement anotherGuestSum =

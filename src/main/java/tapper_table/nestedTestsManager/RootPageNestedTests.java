@@ -2,6 +2,7 @@ package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.Condition;
+import constants.selectors.TapperTableSelectors;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.codeborne.selenide.Condition.visible;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
@@ -83,20 +85,16 @@ public class RootPageNestedTests extends RootPage {
         scrollTillBottom();
         clickOnPaymentButton();
         isPageLoaderShown();
-        dishesSumChangedHeading.shouldNotHave(Condition.visible, Duration.ofSeconds(2));
+        dishesSumChangedHeading.shouldNotHave(visible, Duration.ofSeconds(2));
         best2PayPage.isTestBest2PayUrl();
         best2PayPage.isPaymentContainerAndVpnShown();
 
     }
 
     @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
-    public void chooseDishesWithRandomAmountWithTipsWithSCVerifiedNonCard(int amountDishes) {
+    public void chooseDishesWithRandomAmountVerifiedNonCard(int amountDishes) {
 
-        if (!divideCheckSliderActive.exists()) {
-
-            clickDivideCheckSlider();
-
-        }
+        activateDivideCheckSliderIfDeactivated();
 
         chooseCertainAmountDishes(amountDishes);
 
@@ -108,45 +106,19 @@ public class RootPageNestedTests extends RootPage {
     @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
     public void chooseDishesWithRandomAmount(int amountDishes) {
 
-        if (!divideCheckSliderActive.exists()) {
-
-            clickDivideCheckSlider();
-
-        }
+        activateDivideCheckSliderIfDeactivated();
 
         chooseCertainAmountDishes(amountDishes);
 
         double cleanTotalSum = countAllChosenDishesDivided();
         checkSumWithAllConditions(cleanTotalSum);
-
-    }
-
-    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки без чаевых, без СБ")
-    public void chooseDishesWithRandomAmountWithNoTipsNoSc(int amountDishes) {
-
-        if (!divideCheckSliderActive.exists()) {
-
-            clickDivideCheckSlider();
-
-        }
-
-        chooseCertainAmountDishes(amountDishes);
-
-        double cleanTotalSum = countAllChosenDishesDivided();
-        checkSumWithAllConditions(cleanTotalSum);
-
-        deactivateTipsAndDeactivateSc();
 
     }
 
     @Step("Выбираем по позиционно все блюда, проверяем сумму, проводим все проверки с чаевыми и СБ")
     public void chooseAllDishesWithTipsWithSC() {
 
-        if (!divideCheckSliderActive.exists()) {
-
-            clickDivideCheckSlider();
-
-        }
+        activateDivideCheckSliderIfDeactivated();
 
         chooseAllNonPaidDishes();
 
@@ -192,7 +164,13 @@ public class RootPageNestedTests extends RootPage {
 
     @Step("Официант не верифицирован. Проверка что чистая сумма позиций совпадает с общей суммой в 'Итого к оплате', " +
             "чаевые отключены, СБ считается по формуле корректно и включено")
-    public void checkSumWithAllConditionsWithNoVerifiedWaiter(double cleanDishesSum) {
+    public void checkSumWithAllConditionsWithNonVerifiedWaiter(double cleanDishesSum) {
+
+        if (divideCheckSliderActive.isDisplayed()) {
+
+            markedDishesField.shouldNotBe(visible.because("У не верифицированного официанта и без карты не должно быть чаевых"));
+
+        }
 
         checkCleanSumMatchWithTotalPay(cleanDishesSum);
         checkIsNoTipsElementsIfNonVerifiedNonCard();
@@ -250,14 +228,36 @@ public class RootPageNestedTests extends RootPage {
         double cleanTotalSum = countAllNonPaidDishesInOrder();
         checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
 
-        if (discountSum.exists()) {
+        areTipsOptionsCorrect(cleanTotalSum);
+
+        cancelTipsAndActivateSC(cleanTotalSum);
+
+    }
+
+    @Step("Проверяем сумму всего не оплаченного заказа c чаевыми и с СБ")
+    public void checkAllDishesSumsWithAllConditions(double discountSum) { //
+
+        double cleanTotalSum = countAllNonPaidDishesInOrder();
+
+        if (TapperTableSelectors.RootPage.TipsAndCheck.discountSum.exists()) {
 
             System.out.println("Обнаружена скидка");
-            double discount = convertSelectorTextIntoDoubleByRgx(discountSum, "[^\\d\\.]+");
+            double discount = convertSelectorTextIntoDoubleByRgx(TapperTableSelectors.RootPage.TipsAndCheck.discountSum, "[^\\d\\.]+");
+
+            Assertions.assertEquals(discountSum,discount,"Скидка с кассы не соответствует скидке на столе");
+            System.out.println("Скидка на кассе соответствует скидке на столе");
+
             checkIsDiscountMatchWithSums(discount);
             cleanTotalSum -= discount;
 
+        } else {
+
+            System.out.println("Должна быть скидка но её нет");
+            Assertions.fail("Должно быть поле со скидкой но его нет");
+
         }
+
+        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
 
         areTipsOptionsCorrect(cleanTotalSum);
 
@@ -284,9 +284,9 @@ public class RootPageNestedTests extends RootPage {
         System.out.println("Скидка из кассы " + discount + " совпадает с суммой в блоке 'Скидка' " + discountInCheck);
 
         Assertions.assertEquals(totalPayInCheck, cleanTotalSum, 0.1,
-                "Сумма итого к оплате не совпадает с чистой суммой за минусом скидки");
+                "Сумма итого к оплате не совпадает с чистой суммой со скидкой");
         System.out.println("Сумма итого к оплате " + totalPayInCheck +
-                " совпадает с чистой суммой за минусом скидки " + cleanTotalSum);
+                " совпадает с чистой суммой со скидкой " + cleanTotalSum);
 
     }
 
@@ -365,7 +365,7 @@ public class RootPageNestedTests extends RootPage {
         reviewPageNestedTests.fullPaymentCorrect();
         reviewPage.clickOnFinishButton();
 
-        rootPage.isEmptyOrderAfterClosing();
+        isElementVisible(emptyOrderHeading);
 
     }
 

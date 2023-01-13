@@ -4,6 +4,7 @@ package tapper.tests.admin_personal_account.waiters;
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AdminAccount;
 import tapper_admin_personal_account.AuthorizationPage;
@@ -19,7 +20,8 @@ import static constants.selectors.AdminPersonalAccountSelectors.Waiters.backToPr
 
 @Order(90)
 @Epic("Личный кабинет администратора ресторана")
-@Feature("Авторизация")
+@Feature("Авторизация\\регистрация")
+@Story("Авторизация администратора,проверка всех статусов приглашения официанта")
 @DisplayName("Авторизация администратора,проверка всех статусов приглашения официанта")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)

@@ -18,16 +18,14 @@ import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.AdminPersonalAccountSelectors.Waiters.backToPreviousPage;
 
 @Order(141)
-@Epic("Личный кабинет администратора ресторана")
-@Feature("Личный кабинет официанта")
+@Epic("Личный кабинет официант ресторана")
+@Feature("Отвязка и привязка карты официанта")
 @DisplayName("Отвязка и привязка карты официанта")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
 
-
     static String password;
-
 
     AdminAccount adminAccount = new AdminAccount();
     YandexPage yandexPage = new YandexPage();

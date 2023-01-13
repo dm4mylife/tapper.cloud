@@ -10,6 +10,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AuthorizationPage;
 import tapper_table.ReviewPage;
+import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -26,37 +27,32 @@ import static constants.Constant.TestDataRKeeperAdmin.WAITER_PASSWORD;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.waiterImage;
 
 @Order(140)
-@Epic("Личный кабинет администратора ресторана")
-@Feature("Личный кабинет официанта")
+@Epic("Личный кабинет официант ресторана")
+@Feature("Проверка всех элементов, смены имени, телеграмма, пароля, загрузка изображений, сверка со столом")
 @DisplayName("Проверка всех элементов, смены имени, телеграмма, пароля, загрузка изображений, сверка со столом")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _14_0_TotalTest extends BaseTest {
 
+    static String visit;
+    static String guid;
 
-    ReviewPage reviewPage = new ReviewPage();
-    ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
-    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
+    RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Waiter waiter = new Waiter();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
 
     @Test
-    @DisplayName("1.0. Создание заказа в r_keeper")
+    @DisplayName("1.0. Создание заказа в r_keeper и авторизация в админке ресторана")
     public void createAndFillOrder() {
 
+        Configuration.browserSize = "1920x1080";
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
-        String visit = rs.jsonPath().getString("result.visit");
+        visit = rs.jsonPath().getString("result.visit");
+        guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
 
-    }
-
-    @Test
-    @DisplayName("1.1. Авторизация под администратором в личном кабинете")
-    public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
         authorizationPage.authorizationUser(WAITER_LOGIN_EMAIL, WAITER_PASSWORD);
 
     }
@@ -135,21 +131,14 @@ public class _14_0_TotalTest extends BaseTest {
 
         waiter.changeWaiterPassword();
 
+
     }
 
     @Test
     @DisplayName("2.0. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
-        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
-
-        rootPageNestedTests.clickPayment();
-
-        best2PayPageNestedTests.typeDataAndPay();
-
-        reviewPageNestedTests.fullPaymentCorrect();
-        reviewPage.clickOnFinishButton();
+        rootPage.closeOrderByAPI(guid);
 
     }
 

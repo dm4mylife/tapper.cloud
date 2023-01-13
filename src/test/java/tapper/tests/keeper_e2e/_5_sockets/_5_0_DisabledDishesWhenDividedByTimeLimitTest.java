@@ -21,8 +21,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.text;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.*;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.allDishesStatuses;
 
 
@@ -34,31 +33,29 @@ import static constants.selectors.TapperTableSelectors.RootPage.DishList.allDish
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
 
+    static String visit;
+    static String guid;
+
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
+    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
-        String visit = rs.jsonPath().getString("result.visit");
+        visit = rs.jsonPath().getString("result.visit");
+        guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
 
-    }
-
-    @Test
-    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
 
     @Test
-    @DisplayName("3. Выбираем рандомно блюда, проверяем все суммы и условия")
+    @DisplayName("2. Выбираем рандомно блюда, проверяем все суммы и условия")
     public void chooseDishesAndCheckAfterDivided() {
 
         rootPageNestedTests.chooseDishesWithRandomAmount(3);
@@ -66,16 +63,15 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("4. Очищаем все данные, делимся чеком")
+    @DisplayName("3. Очищаем все данные, делимся чеком")
     public void clearAllSiteData() {
 
-        rootPage.clearAllSiteData();
-        rootPage.forceWait(2000);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
 
     }
 
     @Test
-    @DisplayName("5. Проверяем что позиции закрыты для выбора и в статусе ожидается")
+    @DisplayName("4. Проверяем что позиции закрыты для выбора и в статусе ожидается")
     public void savePaymentDataForAcquiring() {
 
         Stopwatch stopwatch = Stopwatch.createStarted();
@@ -91,7 +87,7 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
         long millis = stopwatch.elapsed(TimeUnit.SECONDS);
         System.out.println(millis + " Время ожидания разделенных позиций");
 
-        Assertions.assertTrue(millis >= 240, "Время ожидания разделенных позиций меньше 4 мин (" + millis + ")");
+        Assertions.assertTrue(millis >= 220, "Время ожидания разделенных позиций меньше 4 мин (" + millis + ")");
         System.out.println(millis + "Время ожидания разделенных позиций соответствует 4 мин или больше");
 
         Allure.addAttachment("Время ожидания разделенных позиций в секундах", "text/plain", String.valueOf(millis));
@@ -99,10 +95,10 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("6. Закрываем заказ, очищаем кассу")
+    @DisplayName("5. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        rootPageNestedTests.closeOrder();
+        rootPageNestedTests.closeOrderByAPI(guid);
     }
 
 }

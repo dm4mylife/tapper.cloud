@@ -2,13 +2,11 @@ package tapper.tests.keeper_e2e._3_tips;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
@@ -20,8 +18,8 @@ import tests.BaseTest;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.*;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.emptyOrderHeading;
 
 @Order(6)
 @Epic("RKeeper")
@@ -33,11 +31,9 @@ public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
 
     static String visit;
     static String guid;
-    static double tapperTotalPay;
-    static double b2pTotalPay;
+    static int neededDishesAmount = 4;
 
     RootPage rootPage = new RootPage();
-    Best2PayPage best2PayPage = new Best2PayPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
@@ -46,71 +42,67 @@ public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1.1. Создание заказа в r_keeper")
+    @DisplayName("1.2. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         guid = rsCreateOrder.jsonPath().getString("result.guid");
         visit = rsCreateOrder.jsonPath().getString("result.visit");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "7000"));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "8000"));
 
-    }
-
-    @Test
-    @DisplayName("1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER, COOKIE_GUEST_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
 
     @Test
-    @DisplayName("1.3. Проверка суммы, чаевых, сервисного сбора, нельзя поделиться счетом т.к. одно блюдо")
-    public void checkSumTipsSC() {
+    @DisplayName("1.3. Проверяем что логика чаевых по сумме всех позиций и в б2п корректна")
+    public void checkDishesByDefault() {
 
-        rootPage.disableDivideCheckSliderWithOneDish();
-
-    }
-
-    @Test
-    @DisplayName("1.4. Проверяем что логика чаевых по сумме корректна,выбираем блюда гостем, проверяем чаевые")
-    public void choseDishesAndCheckTips() {
-
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
-        rootPageNestedTests.chooseCertainAmountDishes(3);
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
+        rootPage.cancelAllChosenDishes();
 
     }
 
     @Test
-    @DisplayName("1.5. Делимся счётом со 2 юзером")
-    public void divideCheck() {
+    @DisplayName("1.4. Выбираем рандомные блюда первым гостем")
+    public void chooseCertainAmountDishesByFirstGuest() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
-        rootPage.setAnotherGuestCookie();
-
-    }
-
-    @Test
-    @DisplayName("1.6. Проверяем что логика чаевых по сумме корректна,выбираем блюда вторым гостем, проверяем чаевые")
-    public void choseDishesAndCheckTipsBy2ndGuest() {
-
-        choseDishesAndCheckTips();
-        rootPageNestedTests.cancelCertainAmountChosenDishes(3);
-        Selenide.switchTo().window(0);
+        rootPageNestedTests.chooseCertainAmountDishes(neededDishesAmount);
 
     }
 
     @Test
-    @DisplayName("1.7. Закрываем заказ")
-    public void payAndGoToAcquiringAgain() {
+    @DisplayName("1.5. Проверяем что логика чаевых по сумме корректна c выбранными блюдами и в б2п")
+    public void checkDishesChosen() {
 
-        best2PayPageNestedTests.typeDataAndPay();
+        double cleanDishesSum = rootPage.countAllNonPaidDAndChosenDishesInOrder();
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
 
-        reviewPageNestedTests.fullPaymentCorrect();
-        reviewPage.clickOnFinishButton();
-        rootPage.isEmptyOrderAfterClosing();
+    }
+
+    @Test
+    @DisplayName("1.6. Делимся счётом со 2 юзером")
+    public void openTableBySecondGuest() {
+
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
+
+    }
+
+    @Test
+    @DisplayName("1.7. Проверяем что логика чаевых по сумме всех позиций и в б2п корректна у второго гостя")
+    public void checkDishesByDefaultBySecondGuest() {
+
+        checkDishesByDefault();
+
+    }
+
+    @Test
+    @DisplayName("1.8. Закрываем заказ")
+    public void openTableByFirstGuest() {
+
+        rootPage.closeOrderByAPI(guid);
 
     }
 

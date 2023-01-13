@@ -20,8 +20,8 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.*;
+import static constants.Constant.TestData.COOKIE_SESSION_SECOND_USER;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(63)
@@ -33,6 +33,8 @@ import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_
 
 public class _6_3_VerifiedPartNoCardWithScTest extends BaseTest {
 
+    static String visit;
+    static String guid;
     static double totalPay;
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
@@ -46,30 +48,31 @@ public class _6_3_VerifiedPartNoCardWithScTest extends BaseTest {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
+    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_TERMINATOR_VERIFIED_NON_CARD), API_STAGE_URI);
-        String visit = rs.jsonPath().getString("result.visit");
+        visit = rs.jsonPath().getString("result.visit");
+        guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
 
-    }
-
-    @Test
-    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
 
     @Test
-    @DisplayName("3. Выбираем рандомно блюда, проверяем все суммы и условия, проверяем что после шаринга выбранные позиции в ожидаются")
+    @DisplayName("2. Выбираем рандомно блюда, проверяем все суммы и условия, проверяем что после шаринга выбранные позиции в ожидаются")
     public void chooseDishesAndCheckAfterDivided() {
 
-        rootPageNestedTests.chooseDishesWithRandomAmountWithTipsWithSCVerifiedNonCard(amountDishes);
-        rootPage.checkIsNoTipsElementsIfVerifiedNonCard();
+        rootPageNestedTests.chooseDishesWithRandomAmountVerifiedNonCard(amountDishes);
+
+    }
+
+    @Test
+    @DisplayName("3. Включаем сервисный сбор")
+    public void activateServiceChargeIfDeactivated() {
+
         rootPage.activateServiceChargeIfDeactivated();
 
     }
@@ -108,16 +111,8 @@ public class _6_3_VerifiedPartNoCardWithScTest extends BaseTest {
     @DisplayName("7. Делимся ссылкой и оплачиваем остальную часть заказа")
     public void clearDataAndChoseAgain() {
 
-        rootPage.clearAllSiteData();
-        savePaymentDataForAcquiring();
-
-    }
-
-    @Test
-    @DisplayName("8. Переход на эквайринг, ввод данных, оплата")
-    public void payAndGoToAcquiringAgain() {
-
-        rootPageNestedTests.closeOrder();
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
+        rootPageNestedTests.closeOrderByAPI(guid);
 
     }
 

@@ -67,62 +67,57 @@ public class NestedTests extends RootPage {
 
     @Step("Проверяем установку чаевых по умолчанию по сумме, формирование СБ от чаевых," +
             " и корректность суммы оплаты в таппере и б2п")
-    public void checkDefaultTipsBySumAndScLogicBySumAndB2P() {
-
-        if (divideCheckSliderActive.exists()) {
-
-            divideCheckSliderActive.click();
-
-        }
+    public void checkDefaultTipsBySumAndScLogicBySumAndB2P(double cleanDishesSum) {
 
         rootPage.isDefaultTipsBySumLogicCorrect();
 
-        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
         double tipsSumInTheMiddle = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
-
         double serviceChargeInField = rootPage.convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
+        System.out.println(serviceChargeInField + " сервисный сбор в контейнере");
         serviceChargeInField = convertDouble(serviceChargeInField);
-
         double serviceChargeSumClear = convertDouble(cleanDishesSum * (SERVICE_PRICE_PERCENT_FROM_TOTAL_SUM / 100));
-        System.out.println(serviceChargeSumClear + " сервисный сбор от суммы");
-
         double serviceChargeTipsClear = convertDouble(tipsSumInTheMiddle * (SERVICE_PRICE_PERCENT_FROM_TIPS / 100));
-        System.out.println(serviceChargeTipsClear + " сервисный сбор от чаевых\n");
-
         double cleanServiceCharge = serviceChargeSumClear + serviceChargeTipsClear;
 
+        System.out.println(serviceChargeSumClear + " сервисный сбор от суммы");
+        System.out.println(serviceChargeTipsClear + " сервисный сбор от чаевых\n");
+
         Assertions.assertEquals(cleanServiceCharge, serviceChargeInField, 0.1,
-                "Сервисный сбор считается не корректно");
-        System.out.println("Сервисный сбор считается корректно от суммы и чаевых");
+                "Сервисный сбор считается не корректно от суммы и чаевых");
+        System.out.println("\nСервисный сбор считается корректно от суммы и чаевых\n");
 
         rootPage.deactivateServiceChargeIfActivated();
+
         double tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
         System.out.println(tapperTotalPay + " таппер без СБ");
 
         rootPageNestedTests.clickPayment();
+
         double b2pTotalPay = best2PayPage.getPaymentAmount();
         System.out.println(b2pTotalPay + " б2п");
 
         Assertions.assertEquals(tapperTotalPay, b2pTotalPay,
                 "Сумма итого к оплате не совпадает с суммой в таппере");
-        System.out.println("Сумма итого к оплате (с СБ) в таппере " + tapperTotalPay +
-                " совпадает с суммой в б2п " + b2pTotalPay);
+        System.out.println("\nСумма итого к оплате (с СБ) в таппере " + tapperTotalPay +
+                " совпадает с суммой в б2п " + b2pTotalPay + "\n");
 
         Selenide.back();
-        forceWait(2000);
+        forceWait(1500);
 
         rootPage.activateServiceChargeIfDeactivated();
+
         tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
-        System.out.println(tapperTotalPay + " таппер с СБ");
+        System.out.println(tapperTotalPay + " сумма итого к оплате в Таппере вместе с СБ\n");
 
         rootPageNestedTests.clickPayment();
+
         b2pTotalPay = best2PayPage.getPaymentAmount();
-        System.out.println(b2pTotalPay + " б2п");
+        System.out.println(b2pTotalPay + " сумма итого к оплате в б2п\n");
 
         Assertions.assertEquals(tapperTotalPay, b2pTotalPay, 0.1,
                 "Сумма итого к оплате не совпадает с суммой в таппере");
-        System.out.println("Сумма итого к оплате (бес СБ) в таппере " + tapperTotalPay +
-                " совпадает с суммой в б2п " + b2pTotalPay);
+        System.out.println("\nСумма итого к оплате (бес СБ) в таппере " + tapperTotalPay +
+                " совпадает с суммой в б2п " + b2pTotalPay + "\n");
 
         Selenide.back();
 

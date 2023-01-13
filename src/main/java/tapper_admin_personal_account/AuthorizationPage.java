@@ -1,5 +1,6 @@
 package tapper_admin_personal_account;
 
+import com.codeborne.selenide.Condition;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,7 @@ public class AuthorizationPage extends BaseActions {
     @Step("Авторизация пользователя")
     public void authorizeUser(String login, String password) {
 
+        emailInput.shouldBe(Condition.appear);
         sendKeys(emailInput,login);
         sendKeys(passwordInput, password);
         click(logInButton);

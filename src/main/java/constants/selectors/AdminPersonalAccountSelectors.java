@@ -34,6 +34,9 @@ public class AdminPersonalAccountSelectors {
             public static final SelenideElement companyRequisitesCategory =
                     $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                             "[.//*[text()='Реквизиты компании']]");
+            public static final SelenideElement configNotifications =
+                    $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
+                            "[.//*[text()='Настройка уведомлений']]");
             public static final SelenideElement menuCategory =
                     $x("//*[@class='vProfileMenu__list']" +
                             "/*[contains(@class,'VMenuProfileLink')][.//*[text()='Меню']]");
@@ -361,6 +364,37 @@ public class AdminPersonalAccountSelectors {
                     $("[id=\"phone\"]");
             public static final SelenideElement saveButton =
                     $(".vButton");
+
+        }
+
+        public static class ConfigNotifications {
+
+            public static final SelenideElement configNotificationsContainer =
+                    $(".sectionTelegram");
+            public static final SelenideElement legendContainer =
+                    $(".sectionTelegram [class='section-profile__legend']");
+            public static final ElementsCollection telegramLoginInputs =
+                    $$(".vLandingInput__wrapper input");
+            public static final ElementsCollection telegramLoginSettingsSvg =
+                    $$(".telegram__settings svg");
+            public static final ElementsCollection telegramLoginSettingsDeleteIcon =
+                    $$(".telegram__del svg");
+            public static final SelenideElement addButton =
+                    $(".sectionTelegram .addButton");
+            public static final SelenideElement saveButton =
+                    $(".sectionTelegram .vButton");
+            public static final SelenideElement deleteTelegramContainer =
+                    $(".sectionTelegram-modal__content");
+            public static final SelenideElement deleteTelegramContainerUnlinkButton =
+                    $(".sectionTelegram-modal__content [class='vButton']");
+            public static final SelenideElement deleteTelegramContainerCancelButton =
+                    $(".sectionTelegram-modal__content .vButton--gray");
+            public static final SelenideElement deleteTelegramContainerCloseButton =
+                    $(".sectionTelegram-modal__close");
+            public static final SelenideElement pagePreloader =
+                    $(".vPreloader");
+
+
 
         }
 

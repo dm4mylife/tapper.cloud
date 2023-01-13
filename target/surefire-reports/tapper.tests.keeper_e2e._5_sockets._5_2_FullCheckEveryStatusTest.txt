@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.keeper_e2e._5_sockets._5_2_FullCheckEveryStatusTest
--------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 48.787 s - in tapper.tests.keeper_e2e._5_sockets._5_2_FullCheckEveryStatusTest

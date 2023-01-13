@@ -44,6 +44,7 @@ tapper\tests\keeper_e2e\_7_modificator\_7_0_PaidFullPayTest.class
 tapper\tests\keeper_e2e\_2_fullPayment\_1_4_NoTipsNoScTest.class
 tapper\tests\keeper_e2e\_6_waiter\_6_5_NonVerifiedFullNoCardNoScTest.class
 tapper\tests\keeper_e2e\_8_discount\_8_3_CheckDefaultTipsLogicBySumWithDiscount.class
+tests\BrowserLogsListener.class
 tapper\tests\keeper_e2e\_0_common\_0_7_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest.class
 tapper\tests\admin_personal_account\waiters\_9_0_TotalTest.class
 tapper\tests\keeper_e2e\_0_common\_0_8_OperationsHistoryTest.class

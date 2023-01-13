@@ -22,6 +22,7 @@ import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
 
 @Order(5)
@@ -47,7 +48,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1.1. Создание заказа в r_keeper")
+    @DisplayName("1.2. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
@@ -55,13 +56,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
 
-    }
-
-    @Test
-    @DisplayName("1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -78,7 +73,8 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.4. Проверяем что логика чаевых по сумме корректна к минимальным чаевым")
     public void setScAndCheckTips() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
 
     }
 
@@ -88,10 +84,8 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
 
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, SOLYANKA, "3000"));
 
-        rootPage.forceWait(2000);
         Selenide.refresh();
         rootPage.forceWait(2000);
-
 
     }
 
@@ -99,7 +93,9 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.6. Проверяем вторую опцию чаевых")
     public void setScAndCheckTipsWith2ndOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        rootPage.chooseAllNonPaidDishes();
+        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
 
     }
 
@@ -115,7 +111,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.8. Проверяем 3 опцию чаевых")
     public void setScAndCheckTipsWith3rdOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        setScAndCheckTipsWith2ndOption();
 
     }
 
@@ -131,7 +127,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("2.0. Проверяем 4 опцию чаевых")
     public void setScAndCheckTipsWith4thOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        setScAndCheckTipsWith2ndOption();
 
     }
 
@@ -149,7 +145,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("2.2. Проверяем 5 опцию чаевых")
     public void setScAndCheckTipsWith5thOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        setScAndCheckTipsWith2ndOption();
 
     }
 
@@ -168,17 +164,30 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
         System.out.println("Сумма итого к оплате (с СБ) в таппере " + tapperTotalPay +
                 " совпадает с суммой в б2п " + b2pTotalPay);
 
+        Selenide.back();
+
     }
 
     @Test
-    @DisplayName("2.4. Закрываем заказ")
+    @DisplayName("2.4. Выбираем все блюда и по одному отщелкиваем, проверяя как выставляются чаевые")
+    public void checkTipsLogicByRemovingPositions() {
+
+        for (int index = 0; index < allNonPaidAndNonDisabledDishes.size()-1; index++) {
+
+            allNonPaidAndNonDisabledDishesName.get(index).click();
+            rootPage.isDefaultTipsBySumLogicCorrect();
+
+        }
+
+        rootPage.deactivateDivideCheckSliderIfActivated();
+
+    }
+
+    @Test
+    @DisplayName("2.5. Закрываем заказ")
     public void payAndGoToAcquiringAgain() {
 
-        best2PayPageNestedTests.typeDataAndPay();
-
-        reviewPageNestedTests.fullPaymentCorrect();
-        reviewPage.clickOnFinishButton();
-        rootPage.isEmptyOrderAfterClosing();
+        rootPage.closeOrderByAPI(guid);
 
     }
 

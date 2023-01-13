@@ -71,6 +71,12 @@ public class Waiter extends BaseActions {
     @Step("Загрузка изображения в аватарку официанта")
     public void downloadWaiterImage() {
 
+        if (imageContainerDownloadedImage.$("img").exists()) {
+
+            deleteWaiterImage();
+
+        }
+
         File imageFile = new File(ROBOCOP_IMG_PATH);
         imageContainerDownloadImageButton.uploadFile(imageFile);
 

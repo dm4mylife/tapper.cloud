@@ -18,11 +18,13 @@ import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
+import static api.ApiData.QueryParams.*;
+import static api.ApiData.QueryParams.rqParamsAddDiscount;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
 
 @Order(5)
@@ -50,33 +52,38 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
 
 
     @Test
-    @DisplayName("1.1. Создание заказа в r_keeper")
+    @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
-
-        Configuration.headless = false;
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         guid = rsCreateOrder.jsonPath().getString("result.guid");
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
 
+        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
+        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI);
+
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
+
     }
 
     @Test
-    @DisplayName("1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
+    @DisplayName("1.2. Определяем скидку")
+    public void getTotalDiscount() {
 
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
-        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
         discount = rootPageNestedTests.getTotalDiscount(TABLE_3_ID);
-
+        rootPage.disableDivideCheckSliderWithOneDish();
     }
 
     @Test
     @DisplayName("1.3. Проверка суммы, чаевых, сервисного сбора, нельзя поделиться счетом т.к. одно блюдо")
     public void checkSumTipsSC() {
 
-        rootPage.disableDivideCheckSliderWithOneDish();
+        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
+        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
+
 
     }
 
@@ -84,7 +91,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.4. Проверяем что логика чаевых по сумме корректна к минимальным чаевым")
     public void setScAndCheckTips() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
 
     }
 
@@ -92,8 +99,9 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.5. Добавляем еще одно блюдо в заказ")
     public void addDishes() {
 
-      //  apiRKeeper.addModificatorOrder(guid, LIMONAD, "1000", "1000112", "1",API_STAGE_URI );
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, SOLYANKA, "5000"));
         Selenide.refresh();
+        rootPage.forceWait(2000);
 
     }
 
@@ -101,7 +109,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.6. Проверяем вторую опцию чаевых")
     public void setScAndCheckTipsWith2ndOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        setScAndCheckTips();
 
     }
 
@@ -117,7 +125,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.8. Проверяем 3 опцию чаевых")
     public void setScAndCheckTipsWith3rdOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        setScAndCheckTips();
 
     }
 
@@ -133,7 +141,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("2.0. Проверяем 4 опцию чаевых")
     public void setScAndCheckTipsWith4thOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        setScAndCheckTips();
 
     }
 
@@ -149,7 +157,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("2.2. Проверяем 5 опцию чаевых")
     public void setScAndCheckTipsWith5thOption() {
 
-        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P();
+        setScAndCheckTips();
 
     }
 
@@ -171,8 +179,25 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.4. Закрываем заказ")
+    @DisplayName("2.4. Выбираем все блюда и по одному отщелкиваем, проверяя как выставляются чаевые")
+    public void checkTipsLogicByRemovingPositions() {
+
+        for (int index = 0; index < allNonPaidAndNonDisabledDishes.size()-1; index++) {
+
+            allNonPaidAndNonDisabledDishesName.get(index).click();
+            rootPage.isDefaultTipsBySumLogicCorrect();
+
+        }
+
+        rootPage.deactivateDivideCheckSliderIfActivated();
+
+    }
+
+    @Test
+    @DisplayName("2.5. Закрываем заказ")
     public void payAndGoToAcquiringAgain() {
+
+        rootPageNestedTests.clickPayment();
 
         best2PayPageNestedTests.typeDataAndPay();
 

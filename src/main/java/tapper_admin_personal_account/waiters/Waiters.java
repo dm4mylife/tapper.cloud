@@ -121,6 +121,14 @@ public class Waiters extends BaseActions {
         searchWaiter(waiterName);
 
         clickInFirstResult();
+        System.out.println(waiterStatusInCard.getText());
+
+        if (waiterStatusInCard.getText().equals("Статус:\nОфициант верифицирован")) {
+
+            System.out.println("Верифицирован ранее, отменяем привязку");
+            unlinkMailWaiter();
+
+        }
 
         isDetailWaiterCardCorrectWithWaitingInvitationStatus();
 
@@ -130,6 +138,8 @@ public class Waiters extends BaseActions {
         click(inviteButton);
 
         isSendInvitationCorrect(email);
+
+
 
     }
 

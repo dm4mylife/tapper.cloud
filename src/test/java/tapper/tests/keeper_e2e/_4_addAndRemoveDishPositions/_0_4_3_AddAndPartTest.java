@@ -50,7 +50,7 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1.1. Создание заказа в r_keeper")
+    @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
@@ -60,19 +60,13 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
         Response rsFillingOrder = apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "5000"));
         uni = rsFillingOrder.jsonPath().getString("result.Order.Session.Dish['@attributes'].uni");
 
-    }
-
-    @Test
-    @DisplayName("1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
 
     @Test
-    @DisplayName("1.3. Проверка суммы, чаевых, сервисного сбора")
+    @DisplayName("1.2. Проверка суммы, чаевых, сервисного сбора")
     public void checkSumTipsSC() {
 
         rootPageNestedTests.checkAllDishesSumsWithAllConditions();
@@ -80,7 +74,7 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.4. Добавляем еще одно блюдо на кассе")
+    @DisplayName("1.3. Добавляем еще одно блюдо на кассе")
     public void addOneMoreDishInOrder() {
 
         apiRKeeper.addModificatorOrder(
@@ -91,7 +85,7 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.5. Пытаемся оплатить и получаем ошибку изменения суммы")
+    @DisplayName("1.4. Пытаемся оплатить и получаем ошибку изменения суммы")
     public void checkChangedSumAfterAdding() {
 
         nestedTests.checkIfSumsChangedAfterEditingOrder();
@@ -99,15 +93,16 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.6. Выбираем рандомно блюда, проверяем все суммы и условия, без чая, но с СБ")
+    @DisplayName("1.5. Выбираем рандомно блюда, проверяем все суммы и условия, без чая, но с СБ")
     public void chooseDishesAndCheckAfterDivided() {
 
-        rootPageNestedTests.chooseDishesWithRandomAmountWithNoTipsNoSc(amountDishes);
+        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
+        rootPageNestedTests.activateRandomTipsAndActivateSc();
 
     }
 
     @Test
-    @DisplayName("1.7. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    @DisplayName("1.6. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
     public void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
@@ -116,7 +111,7 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.8. Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    @DisplayName("1.7. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
 
         rootPageNestedTests.clickPayment();
@@ -127,7 +122,7 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.9. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    @DisplayName("1.8. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
 
         reviewPageNestedTests.partialPaymentCorrect();
@@ -137,10 +132,10 @@ public class _0_4_3_AddAndPartTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.0. Закрываем заказ, очищаем кассу")
+    @DisplayName("1.9. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        rootPageNestedTests.closeOrder();
+        rootPageNestedTests.closeOrderByAPI(guid);
 
     }
 

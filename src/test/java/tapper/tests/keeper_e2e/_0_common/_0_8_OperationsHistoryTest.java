@@ -2,12 +2,13 @@ package tapper.tests.keeper_e2e._0_common;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Selenide;
+import com.beust.ah.A;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
+import tapper_admin_personal_account.AdminAccount;
 import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.operations_history.OperationsHistory;
 import tapper_table.ReviewPage;
@@ -23,18 +24,17 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.*;
+import static constants.Constant.TestData.COOKIE_SESSION_FIRST_USER;
 import static constants.Constant.TestDataRKeeperAdmin.*;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.divideCheckSlider;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.divideCheckSliderActive;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.emptyOrderHeading;
 
 
 @Order(8)
 @Epic("RKeeper")
-@Feature("Полная оплата")
-@Story("Комплекс оплат для проверки на странице истории операций в админке")
-@DisplayName("Частичная и полная оплата с кастомными чаевыми, обычные позиции")
+@Feature("Общие")
+@Story("keeper - комплекс оплат для проверки на странице истории операций в админке")
+@DisplayName("keeper - комплекс оплат для проверки на странице истории операций в админке")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _0_8_OperationsHistoryTest extends BaseTest {
@@ -55,25 +55,19 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     AuthorizationPage authorizationPage = new AuthorizationPage();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
+    AdminAccount adminAccount = new AdminAccount();
 
 
     @Test
-    @DisplayName("1.0. Создание заказа в r_keeper")
+    @DisplayName("1.1. Создание заказа в r_keeper и открытие стола")
     public void createAndFillOrder() {
 
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         String visit = rs.jsonPath().getString("result.visit");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "4000"));
 
-    }
-
-    @Test
-    @DisplayName("1.1. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
-
     }
 
     @Test
@@ -96,13 +90,11 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
 
     }
 
-
     @Test
     @DisplayName("1.4. Переходим на эквайринг, оплачиваем там")
     public void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
-
 
     }
 
@@ -119,7 +111,8 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.6. Открываем историю операций, проверяем что платёж есть и корректный")
     public void openAdminOperationsHistory() {
 
-        rootPage.openNewTabAndSwitchTo(R_KEEPER_ADMIN_AUTHORISATION_STAGE_URL);
+        rootPage.openPage(R_KEEPER_ADMIN_AUTHORISATION_STAGE_URL);
+        rootPage.forceWait(2000);
         authorizationPage.authorizeUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         operationsHistory.goToOperationsHistoryCategory();
         operationsHistory.isHistoryOperationsCorrect();
@@ -127,28 +120,19 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
         adminOrderData = operationsHistory.saveAdminOrderData();
         rootPage.matchTapperOrderDataWithAdminOrderData(tapperOrderData,adminOrderData);
 
+        adminAccount.logOut();
+
     }
 
     @Test
     @DisplayName("1.7. Делаем полную оплату на столе")
     public void clearDataAndChoseAgain() {
 
-        Selenide.switchTo().window(0);
-
-        rootPage.clearAllSiteData();
-
-        rootPage.scrollTillTop();
-
-        if (divideCheckSliderActive.exists()) {
-
-            divideCheckSlider.click();
-
-        }
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
 
         savePaymentDataForAcquiring();
 
     }
-
 
     @Test
     @DisplayName("1.8. Производим полную оплату")
@@ -160,6 +144,7 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
 
         reviewPageNestedTests.fullPaymentCorrect();
         reviewPage.clickOnFinishButton();
+        rootPage.isElementVisible(emptyOrderHeading);
 
     }
 
@@ -167,15 +152,7 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.9. Переход на эквайринг, ввод данных, полная оплата")
     public void checkFullPayInAdmin() {
 
-        Selenide.switchTo().window(1);
-        Selenide.refresh();
-        rootPage.forceWait(2000);
-
-        operationsHistory.goToOperationsHistoryCategory();
-        operationsHistory.isHistoryOperationsCorrect();
-
-        adminOrderData = operationsHistory.saveAdminOrderData();
-        rootPage.matchTapperOrderDataWithAdminOrderData(tapperOrderData,adminOrderData);
+        openAdminOperationsHistory();
 
     }
 

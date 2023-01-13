@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.keeper_e2e._7_modificator._7_1_PaidPartPayTest
--------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 382.095 s - in tapper.tests.keeper_e2e._7_modificator._7_1_PaidPartPayTest

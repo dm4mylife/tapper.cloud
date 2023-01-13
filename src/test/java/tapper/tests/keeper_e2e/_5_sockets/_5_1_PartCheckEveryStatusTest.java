@@ -21,8 +21,8 @@ import java.util.Map;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.*;
+import static constants.Constant.TestData.COOKIE_SESSION_SECOND_USER;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(51)
@@ -33,6 +33,8 @@ import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _5_1_PartCheckEveryStatusTest extends BaseTest {
 
+    static String visit;
+    static String guid;
     static HashMap<Integer, Map<String, Double>> chosenDishes;
     static double totalPay;
     static HashMap<String, Integer> paymentDataKeeper;
@@ -43,24 +45,18 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     Best2PayPage best2PayPage = new Best2PayPage();
-    ReviewPage reviewPage = new ReviewPage();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1.0. Создание заказа в r_keeper")
+    @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
-        String visit = rs.jsonPath().getString("result.visit");
+        visit = rs.jsonPath().getString("result.visit");
+        guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "6000"));
 
-    }
-
-    @Test
-    @DisplayName("1.1. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -78,8 +74,7 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     public void switchToAnotherUser() {
 
         chosenDishes = rootPage.getChosenDishesAndSetCollection();
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
-        rootPage.setAnotherGuestCookie();
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
 
     }
 
@@ -95,12 +90,12 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.5. Переключаемся на первого гостя")
     public void switchBackTo1Guest() {
 
-        rootPage.switchTab(0);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
 
     }
 
     @Test
-    @DisplayName("1.6. Переключаемся на первого гостя")
+    @DisplayName("1.6. Сохраняем данные")
     public void savePaymentDataAndGoToAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
@@ -132,7 +127,7 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.9. Переключаемся на второго гостя, проверяем что суммы оплачены")
     public void switchTo2ndGuestAndCheckPaidDishes() {
 
-        rootPage.switchTab(1);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
         rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
 
     }
@@ -141,10 +136,8 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     @DisplayName("2.0. Переключаемся на первого гостя, проверяем что суммы оплачены")
     public void switchTo1stdGuestAndCheckPaidDishes() {
 
-        rootPage.switchTab(0);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
         rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
-
-        reviewPage.clickOnFinishButton();
 
     }
 
@@ -152,7 +145,7 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     @DisplayName("2.1. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        rootPageNestedTests.closeOrder();
+        rootPageNestedTests.closeOrderByAPI(guid);
 
     }
 

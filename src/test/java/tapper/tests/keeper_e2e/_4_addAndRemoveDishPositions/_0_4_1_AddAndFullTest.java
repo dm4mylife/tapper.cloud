@@ -35,7 +35,7 @@ public class _0_4_1_AddAndFullTest extends BaseTest {
     NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
+    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
@@ -45,19 +45,13 @@ public class _0_4_1_AddAndFullTest extends BaseTest {
         Response rsFillingOrder = apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "5000"));
         uni = rsFillingOrder.jsonPath().getString("result.Order.Session.Dish['@attributes'].uni");
 
-    }
-
-    @Test
-    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
 
     @Test
-    @DisplayName("3. Проверка суммы, чаевых, сервисного сбора")
+    @DisplayName("2. Проверка суммы, чаевых, сервисного сбора")
     public void checkSumTipsSC() {
 
         rootPageNestedTests.checkAllDishesSumsWithAllConditions();
@@ -65,7 +59,7 @@ public class _0_4_1_AddAndFullTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("4. Добавляем еще одно блюдо на кассе")
+    @DisplayName("3. Добавляем еще одно блюдо на кассе")
     public void addOneMoreDishInOrder() {
 
         apiRKeeper.addModificatorOrder(
@@ -76,7 +70,7 @@ public class _0_4_1_AddAndFullTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("5. Пытаемся оплатить и получаем ошибку изменения суммы")
+    @DisplayName("4. Пытаемся оплатить и получаем ошибку изменения суммы")
     public void checkChangedSumAfterAdding() {
 
         nestedTests.checkIfSumsChangedAfterEditingOrder();
@@ -84,7 +78,7 @@ public class _0_4_1_AddAndFullTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("6. Закрываем заказ, очищаем кассу")
+    @DisplayName("5. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
         rootPageNestedTests.closeOrder();

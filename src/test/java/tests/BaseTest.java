@@ -11,8 +11,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
-@ExtendWith(TestListener.class)
+import java.util.logging.Level;
+
+@ExtendWith({
+        TestListener.class,
+        BrowserLogsListener.class
+            })
 public class BaseTest {
 
     @BeforeAll
@@ -20,11 +28,17 @@ public class BaseTest {
 
         Configuration.browser = Browsers.CHROME;
         Configuration.savePageSource = false;
-        Configuration.headless = true;
+        Configuration.headless = false;
         Configuration.browserPosition = "0x0";
         Configuration.browserSize = "1920x1080";
 
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
+        LoggingPreferences loggingPreferences = new LoggingPreferences();
+
+        loggingPreferences.enable(LogType.BROWSER, Level.ALL);
+        desiredCapabilities.setCapability("goog:loggingPrefs",loggingPreferences);
+        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY,options);
 
         // options.addArguments("--enable-automation");
         options.addArguments("--auto-open-devtools-for-tabs");

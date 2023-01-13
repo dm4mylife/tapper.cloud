@@ -5,6 +5,7 @@ import com.codeborne.selenide.Configuration;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.waiters.Waiters;
@@ -18,7 +19,8 @@ import static constants.selectors.AdminPersonalAccountSelectors.Waiters.enterEma
 
 @Order(91)
 @Epic("Личный кабинет администратора ресторана")
-@Feature("Авторизация")
+@Feature("Авторизация\\регистрация")
+@Story("Приглашение на один и тот же e-mail, который уже занят у официанта")
 @DisplayName("Приглашение на один и тот же e-mail, который уже занят у официанта")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
@@ -66,8 +68,5 @@ public class _9_1_ErrorWithTheSameMailTest extends BaseTest {
         waiters.isErrorMailCorrect(emailFromVerifiedUser);
 
     }
-
-
-
 
 }

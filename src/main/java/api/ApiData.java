@@ -8,9 +8,14 @@ public class ApiData {
         public static final String fillingOrder = "rkeeper/fillingorder";
         public static final String deleteOrder = "rkeeper/delorder";
         public static final String getOrderInfo = "rkeeper/order";
-        public static final String b2bPaymentTransactionStatus = "https://apitapper.zedform.ru/api/payment/transaction-status/";
+        public static final String checkOrderClosed = "rkeeper-automation/check-order-closed";
+        public static final String orderPay = "rkeeper-automation/order/pay";
         public static final String deletePosition = "rkeeper-automation/position";
+        public static final String deleteDiscount = "rkeeper-automation/discount";
+        public static final String addDiscount = "rkeeper-automation/create-discount";
         public static final String addModificatorOrder = "rkeeper-automation/add-modificator-order";
+        public static final String b2bPaymentTransactionStatus = "https://apitapper.zedform.ru/api/payment/transaction-status/";
+
 
     }
 
@@ -35,6 +40,9 @@ public class ApiData {
         public static final String DISH_WITH_FREE_NECESSARY_MODI = "1000102";
         public static final String DISH_WITH_PAID_NOT_NECESSARY_MODI = "1000107";
         public static final String DISH_WITH_PAID_NECESSARY_MODI = "1000101";
+
+        public static final String CUSTOM_DISCOUNT_ON_ORDER = "1000057";
+        public static final String DISCOUNT_ON_DISH = "1000343";
 
         public static final String BARANINA = "1000367";
         public static final String LIMONAD = "1000362";
@@ -102,6 +110,40 @@ public class ApiData {
 
         }
 
+        public static String rqParamsAddCustomDiscount(String domen, String guid, String id_discount, String amount_discount) {
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1,\n" +
+                    "  \"id_discount\": \"" + id_discount + "\",\n" +
+                    "  \"amount_discount\": \"" + amount_discount + "\"\n" +
+                    "}";
+
+        }
+
+        public static String rqParamsAddDiscount(String domen, String guid, String id_discount) {
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1,\n" +
+                    "  \"id_discount\": \"" + id_discount + "\"\n" +
+                    "}";
+
+        }
+
+        public static String rqParamsDeleteDiscount(String domen, String guid, String uni) {
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1,\n" +
+                    "  \"uni\": \"" + uni + "\"\n" +
+                    "}";
+
+        }
+
         public static String rqParamsAddModificatorWith1Position(String domen, String guid, String dish,
                                                                   String quantity, String modificatorId,
                                                                   String modificatorQuantity) {
@@ -121,7 +163,6 @@ public class ApiData {
                     "}";
 
         }
-
 
         public static String rqParamsAddModificatorWith2Positions(String domen, String guid, String dish,
                                                             String quantity, String modificatorId,
@@ -173,6 +214,29 @@ public class ApiData {
                     "      \"quantity\": \"" + thirdModificatorQuantity + "\"\n" +
                     "    }\n" +
                     "  ]\n" +
+                    "}";
+
+
+
+            }
+
+        public static String rqParamsIsOrderClosed(String domen, String guid){
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1\n" +
+                    "}";
+
+        }
+
+        public static String rqParamsOrderPay(String domen, String guid){
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1,\n" +
+                    "  \"pay\": 9000000000 \n" +
                     "}";
 
         }

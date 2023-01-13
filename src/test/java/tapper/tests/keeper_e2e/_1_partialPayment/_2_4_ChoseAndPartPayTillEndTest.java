@@ -39,26 +39,20 @@ public class _2_4_ChoseAndPartPayTillEndTest extends BaseTest {
     NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
+    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         String visit = rs.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "12000"));
 
-    }
-
-    @Test
-    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
 
     @Test
-    @DisplayName("3. Выбираем рандомно блюда, проверяем все суммы и условия, проверяем что после шаринга выбранные позиции в ожидаются")
+    @DisplayName("2. Выбираем рандомно блюда, проверяем все суммы и условия, проверяем что после шаринга выбранные позиции в ожидаются")
     public void chooseDishesAndCheckAfterDivided() {
 
         rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
@@ -66,7 +60,7 @@ public class _2_4_ChoseAndPartPayTillEndTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("4. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    @DisplayName("3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
     public void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
@@ -75,19 +69,19 @@ public class _2_4_ChoseAndPartPayTillEndTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    @DisplayName("4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
         transactionId = nestedTests.acquiringPayment(totalPay);
     }
 
     @Test
-    @DisplayName("6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    @DisplayName("5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
         nestedTests.checkPaymentAndB2pTransaction(transactionId, paymentDataKeeper);
     }
 
     @Test
-    @DisplayName("7. Разделяем счёт, оплачиваем по позициям и так пока весь заказ не будет оплачен")
+    @DisplayName("6. Разделяем счёт, оплачиваем по позициям и так пока весь заказ не будет оплачен")
     public void payTillEnd() {
 
         rootPageNestedTests.payTillFullSuccessPayment(amountDishes);

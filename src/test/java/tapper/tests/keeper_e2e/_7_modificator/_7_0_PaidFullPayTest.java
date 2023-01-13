@@ -34,7 +34,6 @@ public class _7_0_PaidFullPayTest extends BaseTest {
     static double totalPay;
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
-    static String visit;
     static String guid;
     static HashMap<Integer, Map<String, Double>> orderInKeeper;
     RootPage rootPage = new RootPage();
@@ -46,33 +45,24 @@ public class _7_0_PaidFullPayTest extends BaseTest {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
+    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
-
-        visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
         apiRKeeper.fillOrderWithAllModiDishes(guid,API_TEST_URI);
 
         Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_3_ID,API_STAGE_URI);
-
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 
-    }
-
-    @Test
-    @DisplayName("2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void openAndCheck() {
-
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
         rootPageNestedTests.matchTapperOrderWithOrderInKeeper(orderInKeeper);
 
     }
 
     @Test
-    @DisplayName("3. Проверка суммы, чаевых, сервисного сбора")
+    @DisplayName("2. Проверка суммы, чаевых, сервисного сбора")
     public void checkSumTipsSC() {
 
         rootPageNestedTests.checkAllDishesSumsWithAllConditions();
@@ -81,7 +71,7 @@ public class _7_0_PaidFullPayTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("4. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    @DisplayName("3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
     public void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
@@ -91,7 +81,7 @@ public class _7_0_PaidFullPayTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    @DisplayName("4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
 
         best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
@@ -101,7 +91,7 @@ public class _7_0_PaidFullPayTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    @DisplayName("5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
 
         reviewPageNestedTests.fullPaymentCorrect();
@@ -110,7 +100,7 @@ public class _7_0_PaidFullPayTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("7. Закрываем заказ")
+    @DisplayName("6. Закрываем заказ")
     public void finishOrder() {
 
         reviewPage.clickOnFinishButton();

@@ -8,6 +8,7 @@ import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.ReviewPage;
@@ -25,9 +26,11 @@ import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_10;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.tips25;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.tipsListItem;
 
-@Order(5)
-@Epic("E2E - тесты (полные)")
-@Feature("keeper - проверяем логику установки дефолтных чаевых по сумме заказа, сброс чаевых, проверка с разделением чека")
+@Disabled
+@Order(6)
+@Epic("RKeeper")
+@Feature("Общие")
+@Story("keeper - проверяем логику установки дефолтных чаевых по сумме заказа, сброс чаевых, проверка с разделением чека")
 @DisplayName("keeper - проверяем логику установки дефолтных чаевых по сумме заказа, сброс чаевых, проверка с разделением чека")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
@@ -58,7 +61,7 @@ public class _0_6_ChangingTips extends BaseTest {
     @DisplayName("1.2. Открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void openAndCheck() {
 
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_10);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_10);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -67,16 +70,16 @@ public class _0_6_ChangingTips extends BaseTest {
     @DisplayName("2.4. пулл")
     public void gg2() {
 
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_10);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_10);
 
-        rootPage.clickDivideCheckSlider();
+        rootPage.activateDivideCheckSliderIfDeactivated();
         rootPage.chooseCertainAmountDishes(3);
         rootPage.clickOnPaymentButton();
         best2PayPageNestedTests.typeDataAndPay();
         reviewPageNestedTests.partialPaymentCorrect();
         reviewPage.clickOnFinishButton();
 
-        rootPage.clickDivideCheckSlider();
+        rootPage.activateDivideCheckSliderIfDeactivated();
         rootPage.chooseCertainAmountDishes(3);
 
         baseActions.scrollTillBottom();

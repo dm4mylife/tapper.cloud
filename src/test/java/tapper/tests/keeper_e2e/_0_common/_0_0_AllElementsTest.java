@@ -4,6 +4,7 @@ package tapper.tests.keeper_e2e._0_common;
 import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
@@ -21,8 +22,9 @@ import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
 
 
 @Order(0)
-@Epic("E2E - тесты (полные)")
-@Feature("Общая функциональность таппера")
+@Epic("RKeeper")
+@Feature("Общие")
+@Story("Общая функциональность таппера")
 @DisplayName("Общая функциональность таппера")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
@@ -40,7 +42,7 @@ public class _0_0_AllElementsTest extends BaseTest {
     @Test
     @DisplayName("0. Открываем пустой стол")
     public void openEmptyTable() {
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
     }
 
     @Test
@@ -63,7 +65,7 @@ public class _0_0_AllElementsTest extends BaseTest {
     @Test
     @DisplayName("1.2. Открытие стола")
     public void openTable() {
-        rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
     }
 
     @Test

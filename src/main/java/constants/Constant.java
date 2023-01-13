@@ -24,7 +24,7 @@ public class Constant {
         public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
         public static final String TEST_YANDEX2_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
         public static final String TEST_YANDEX2_PASSWORD_MAIL = "autotests2023!";
-        public static final Integer TIME_WAIT_FOR_FULL_LOAD = 1000;
+        public static final Integer TIME_WAIT_FOR_FULL_LOAD = 300;
         public static final String TEST_WAITER_COMMENT = "test\\тест";
         public static final String TEST_REVIEW_COMMENT = "test\\тест";
         public static final String TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT = "test\\тест";
@@ -49,6 +49,11 @@ public class Constant {
         public static final String PASTA_IMG_PATH = "src/main/resources/pasta.jpg";
         public static final String ROBOCOP_IMG_PATH = "src/main/resources/robocop.jpeg";
 
+        public static final String COOKIE_GUEST_FIRST_USER = "123456";
+        public static final String COOKIE_SESSION_FIRST_USER = "1234";
+        public static final String COOKIE_GUEST_SECOND_USER = "123457";
+        public static final String COOKIE_SESSION_SECOND_USER = "1235";
+
     }
 
     public static class TestDataRKeeperAdmin {
@@ -66,6 +71,8 @@ public class Constant {
         public static final String WAITER_NEW_PASSWORD_FOR_TEST = "123456";
         public static final String ROBOCOP_WAITER_CHANGED_NAME = "Робокопище";
         public static final String WAITER_TELEGRAM_LOGIN = "robocop";
+        public static final String AUTO_CHANNEL_LOGIN = "-1001764474981";
+
 
     }
 

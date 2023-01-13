@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.menu.Menu;
@@ -25,6 +26,7 @@ import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooter
 @Order(112)
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Меню")
+@Story("Сортировка меню, отображение всех категорий и блюд в таппере")
 @DisplayName("Сортировка меню, отображение всех категорий и блюд в таппере")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
