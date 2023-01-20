@@ -2,7 +2,6 @@ package tapper.tests.keeper_e2e._8_discount;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -21,7 +20,7 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(82)
@@ -39,6 +38,7 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     static String guid;
     static String uni;
     static double discount;
+    static String orderType;
     static int amountDishes = 1;
 
     RootPage rootPage = new RootPage();
@@ -53,7 +53,7 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
 
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
@@ -61,7 +61,7 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "2000"));
         apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
 
     }
 
@@ -69,7 +69,7 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     @DisplayName("1.2. Проверка суммы, чаевых, сервисного сбора")
     public void checkSumTipsSC() {
 
-        discount = rootPageNestedTests.getTotalDiscount(TABLE_3_ID);
+        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_1_ID);
         rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
 
     }
@@ -89,17 +89,17 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     @DisplayName("1.4. Удаляем скидку из заказа и проверяем суммы") //
     public void addDiscountAndCheckSums() {
 
-        Selenide.back();
-        Response rs = apiRKeeper.getOrderInfo(TABLE_3_ID,API_STAGE_URI);
+        rootPage.returnToPreviousPage();
+
+        Response rs = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
         guid = rs.jsonPath().getString("@attributes.guid");
         uni = rs.jsonPath().getString("Session[1].Discount['@attributes'].uni");
         System.out.println(uni + " uni");
 
         apiRKeeper.deleteDiscount(rqParamsDeleteDiscount(R_KEEPER_RESTAURANT,guid,uni),API_STAGE_URI);
 
-        Selenide.refresh();
-        rootPage.forceWait(5000);
-        rootPageNestedTests.removeDiscountFromTotalPaySum(discount);
+        rootPage.refreshPage();
+        rootPageNestedTests.checkTotalSumCorrectAfterRemovingDiscount();
 
     }
 
@@ -124,10 +124,10 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     @DisplayName("1.7. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPaymentAfterDeletedDiscount() {
 
-        reviewPageNestedTests.partialPaymentCorrect();
+        reviewPageNestedTests.paymentCorrect(orderType = "part");
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
         reviewPage.clickOnFinishButton();
-        rootPageNestedTests.removeDiscountFromTotalPaySum(discount);
+        rootPageNestedTests.checkTotalSumCorrectAfterRemovingDiscount();
 
     }
 

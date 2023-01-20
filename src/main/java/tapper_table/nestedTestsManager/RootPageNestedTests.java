@@ -1,7 +1,6 @@
 package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Condition;
 import constants.selectors.TapperTableSelectors;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -16,12 +15,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooter;
-import static constants.selectors.TapperTableSelectors.RootPage.TapBar.callWaiterHeadingPrompt;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
 
 
@@ -39,6 +37,13 @@ public class RootPageNestedTests extends RootPage {
     public void isOrderInKeeperCorrectWithTapper() { // toDO доделать, слишком много разных условий
 
         isDishListNotEmptyAndVisible();
+
+        if (modalHintContainer.isDisplayed()) {
+
+            click(modalHintCloseButton);
+            System.out.println("Закрыли подсказку");
+
+        }
         // matchTapperOrderWithOrderInKeeper(orderInKeeper);
 
     }
@@ -46,12 +51,23 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверка пустого стола и всех элементов")
     public void isEmptyTableCorrect() {
 
+        isHintModalCorrect();
+        closeHintModal();
         isElementVisible(headerTitleMyOrder);
         isElementVisible(tableNumber);
-        isElementVisibleDuringLongTime(emptyTableLogoClock,5);
-        emptyOrderHeading.shouldHave(Condition.text("Скоро здесь появится ваш заказ"));
-        isElementVisible(callWaiterHeadingPrompt);
+        emptyOrderHeading.shouldHave(matchText("Ваш заказ появится здесь"));
+        isRefreshButtonCorrect();
         isElementVisible(appFooter);
+
+    }
+
+    @Step("Проверка кнопки обновления страницы при пустом столе")
+    public void isRefreshButtonCorrect() {
+
+        isElementVisible(refreshButtonEmptyPage);
+        click(refreshButtonEmptyPage);
+        dishesSumChangedHeading.shouldBe(visible,matchText("Обновлено, но заказ ещё не создан"));
+        dishesSumChangedHeading.shouldBe(hidden,Duration.ofSeconds(5));
 
     }
 
@@ -112,32 +128,6 @@ public class RootPageNestedTests extends RootPage {
 
         double cleanTotalSum = countAllChosenDishesDivided();
         checkSumWithAllConditions(cleanTotalSum);
-
-    }
-
-    @Step("Выбираем по позиционно все блюда, проверяем сумму, проводим все проверки с чаевыми и СБ")
-    public void chooseAllDishesWithTipsWithSC() {
-
-        activateDivideCheckSliderIfDeactivated();
-
-        chooseAllNonPaidDishes();
-
-        double cleanTotalSum = countAllChosenDishesDivided();
-        checkSumWithAllConditions(cleanTotalSum);
-
-        setRandomTipsOption();
-
-    }
-
-    @Step("Выбираем все блюда, проверяем сумму, проводим все проверки с чаевыми и СБ")
-    public void chooseAllDishesWithTipsWithSCNotDivided() {
-
-        countAllDishesNotDivided();
-
-        double cleanTotalSum = countAllDishesNotDivided();
-        checkSumWithAllConditions(cleanTotalSum);
-
-        setRandomTipsOption();
 
     }
 
@@ -299,7 +289,7 @@ public class RootPageNestedTests extends RootPage {
     }
 
     @Step("Оплачиваем по {amountDishesPayFor1Time} позиции до тех пор пока весь заказ не будет закрыт")
-    public void payTillFullSuccessPayment(int amountDishes) {
+    public void payTillFullSuccessPayment(int amountDishes,String guid) {
 
         isDishListNotEmptyAndVisible();
 
@@ -310,11 +300,14 @@ public class RootPageNestedTests extends RootPage {
             if (allNonPaidAndNonDisabledDishes.size() != amountDishes) {
 
                 clearAllSiteData();
+                closeHintModal();
                 chooseDishesWithRandomAmount(amountDishes);
                 isAnotherGuestSumCorrect();
+                setCustomTips(String.valueOf(generateRandomNumber(150,250)));
 
                 double totalPay = saveTotalPayForMatchWithAcquiring();
                 HashMap<String, Integer> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+                LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
 
                 clickPayment();
 
@@ -322,14 +315,18 @@ public class RootPageNestedTests extends RootPage {
                 String transactionId = transaction_id.getValue();
                 best2PayPage.clickPayButton();
 
-                reviewPageNestedTests.partialPaymentCorrect();
+                reviewPageNestedTests.paymentCorrect("part");
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
+
+                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getTgMsgData(guid,10000);
+                rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             } else {
 
                 System.out.println("Последняя оплата");
                 double totalPay = saveTotalPayForMatchWithAcquiring();
                 HashMap<String, Integer> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+                LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
 
                 clickPayment();
 
@@ -339,6 +336,9 @@ public class RootPageNestedTests extends RootPage {
 
                 reviewPageNestedTests.fullPaymentCorrect();
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
+
+                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getTgMsgData(guid,15000);
+                rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             }
 

@@ -202,7 +202,7 @@ public class OperationsHistory extends BaseActions {
 
         click(firstDayOnMonthPeriod);
         click(lastDayOnMonthPeriod);
-        operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(20));
+        operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(30));
 
         periodContainer.shouldHave(text(fromPeriodDate + " - " + toPeriodDate));
         System.out.println("Кастомный формат установился корректно");

@@ -16,6 +16,10 @@ public class YandexMailSelectors {
         public static final SelenideElement yandexPassword = $("#passp-field-passwd");
         public static final SelenideElement skipAddReservePassportContainer = $("[data-t=\"email_skip\"]");
         public static final SelenideElement skipAddReservePassportButton = $("[data-t='email_skip']>button");
+        public static final SelenideElement loadPhotoProfileContainer = $(".passp-auth-content");
+        public static final SelenideElement skipLoadPhotoProfileButton = $(".registration__avatar-btn a");
+
+
         public static final SelenideElement tapperMail =
             $x("//*[@class='mail-MessageSnippet-Content']" +
                     "[.//*[contains(text(),'Вас приветствует команда Tapper')]]");

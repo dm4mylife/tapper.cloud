@@ -9,10 +9,7 @@ import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AuthorizationPage;
-import tapper_table.ReviewPage;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
-import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tapper_waiter_personal_account.Waiter;
 import tests.BaseTest;
@@ -21,7 +18,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.Constant.TestDataRKeeperAdmin.WAITER_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.WAITER_PASSWORD;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.waiterImage;
@@ -48,7 +45,7 @@ public class _14_0_TotalTest extends BaseTest {
     public void createAndFillOrder() {
 
         Configuration.browserSize = "1920x1080";
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
@@ -77,7 +74,7 @@ public class _14_0_TotalTest extends BaseTest {
     @DisplayName("1.4. Проверка фотографии на столе")
     public void checkDownloadedWaiterImageOnTable() {
 
-        rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
 
         waiter.checkDownloadedWaiterImageOnTable();
 
@@ -98,7 +95,7 @@ public class _14_0_TotalTest extends BaseTest {
     public void isDeletedImageCorrectOnTable() {
 
         Selenide.switchTo().window(1);
-        Selenide.refresh();
+        rootPage.refreshPage();
 
         rootPageNestedTests.isElementInvisible(waiterImage);
 

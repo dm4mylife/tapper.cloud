@@ -14,7 +14,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.ROBOCOP_IMG_PATH;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.Constant.TestDataRKeeperAdmin.*;
 import static constants.selectors.AdminPersonalAccountSelectors.Profile.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.waiterImage;
@@ -84,7 +84,8 @@ public class Waiter extends BaseActions {
         pagePreloader.shouldBe(hidden, Duration.ofSeconds(20));
         isElementVisible(imageContainerDownloadedImage.$("img"));
 
-        isImageCorrect(imageContainerDownloadedImageNotSelenide);
+        isImageCorrect(imageContainerDownloadedImageNotSelenide,
+                "Загруженное изображение в контейнер не корректное или битое");
 
     }
 
@@ -92,7 +93,7 @@ public class Waiter extends BaseActions {
     public void checkDownloadedWaiterImageOnTable() {
 
         isElementVisible(waiterImage);
-        isImageCorrect(waiterImageNotSelenide);
+        isImageCorrect(waiterImageNotSelenide,"Изображение официанта не корректное или битое");
         System.out.println("Изображение добавилось на столе");
 
     }
@@ -123,7 +124,7 @@ public class Waiter extends BaseActions {
     @Step("Проверка смены имени официанта на столе")
     public void checkChangedNameOnTable() {
 
-        openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
 
         TapperTableSelectors.RootPage.TipsAndCheck.
                 waiterName.shouldHave(text(ROBOCOP_WAITER_CHANGED_NAME));

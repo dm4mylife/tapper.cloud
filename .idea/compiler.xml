@@ -6,9 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="work_test_automation" />
         <module name="automation-qa" />
         <module name="tapper.cloud — копия" />
+        <module name="work_test_automation" />
       </profile>
     </annotationProcessing>
   </component>

@@ -32,7 +32,7 @@ public class YandexPage extends BaseActions {
 
         }
 
-        if (skipAddReservePassportContainer.exists()) {
+        if (skipAddReservePassportContainer.isDisplayed()) {
 
             skipAddReservePassportButton.click();
 

@@ -11,9 +11,10 @@ import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.menu.Menu;
+import tapper_table.RootPage;
 import tests.BaseTest;
 
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuDishPhotos;
@@ -34,6 +35,7 @@ public class _11_3_uploadAndDeleteImageDishTest extends BaseTest {
     static String imageUrl;
 
     BaseActions baseActions = new BaseActions();
+    RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Menu menu = new Menu();
 
@@ -85,7 +87,7 @@ public class _11_3_uploadAndDeleteImageDishTest extends BaseTest {
     @DisplayName("1.6. Открываем в новой вкладке стол")
     public void openTapperTable() {
 
-        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
         Selenide.switchTo().window(1);
         baseActions.isElementVisibleDuringLongTime(appFooter,20);
         baseActions.forceWait(1000);
@@ -117,7 +119,8 @@ public class _11_3_uploadAndDeleteImageDishTest extends BaseTest {
     public void isImageDeletedOnTable() {
 
         Selenide.switchTo().window(1);
-        Selenide.refresh();
+        rootPage.refreshPage();
+
         baseActions.isElementVisibleDuringLongTime(appFooter, 20);
         baseActions.forceWait(1000);
         baseActions.click(appFooterMenuIcon);

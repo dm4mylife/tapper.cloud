@@ -2,7 +2,6 @@ package tapper.tests.keeper_e2e._0_common;
 
 
 import api.ApiRKeeper;
-import com.beust.ah.A;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -20,6 +19,7 @@ import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
@@ -27,7 +27,6 @@ import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.*;
 import static constants.Constant.TestData.COOKIE_SESSION_FIRST_USER;
 import static constants.Constant.TestDataRKeeperAdmin.*;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.emptyOrderHeading;
 
 
 @Order(8)
@@ -40,11 +39,16 @@ import static constants.selectors.TapperTableSelectors.RootPage.DishList.emptyOr
 public class _0_8_OperationsHistoryTest extends BaseTest {
 
     static double totalPay;
+    static String visit;
+    static String guid;
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
+    static String orderType;
     static int amountDishes = 1;
     static HashMap<Integer, HashMap<String, String>> tapperOrderData;
     static HashMap<Integer, HashMap<String, String>> adminOrderData;
+    static LinkedHashMap<String, String> tapperDataForTgMsg;
+    static LinkedHashMap<String, String> telegramDataForTgMsg;
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -62,12 +66,14 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
-        String visit = rs.jsonPath().getString("result.visit");
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        visit = rs.jsonPath().getString("result.visit");
+        guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "4000"));
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
+
     }
 
     @Test
@@ -87,28 +93,35 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         tapperOrderData = rootPage.saveOrderDataForOperationsHistoryInAdmin();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
 
     }
 
     @Test
     @DisplayName("1.4. Переходим на эквайринг, оплачиваем там")
     public void payAndGoToAcquiring() {
-
         transactionId = nestedTests.acquiringPayment(totalPay);
-
     }
 
     @Test
     @DisplayName("1.5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
 
-        nestedTests.checkPaymentAndB2pTransaction(transactionId, paymentDataKeeper);
-        reviewPage.clickOnFinishButton();
+        nestedTests.checkPaymentAndB2pTransaction(orderType = "part", transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("1.6. Открываем историю операций, проверяем что платёж есть и корректный")
+    @DisplayName("1.6. Проверка сообщения в телеграмме")
+    public void matchTgMsgDataAndTapperData() {
+
+        telegramDataForTgMsg = rootPage.getTgMsgData(guid,WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
+
+    }
+
+    @Test
+    @DisplayName("1.7. Открываем историю операций, проверяем что платёж есть и корректный")
     public void openAdminOperationsHistory() {
 
         rootPage.openPage(R_KEEPER_ADMIN_AUTHORISATION_STAGE_URL);
@@ -125,35 +138,27 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.7. Делаем полную оплату на столе")
+    @DisplayName("1.8. Делаем полную оплату на столе")
     public void clearDataAndChoseAgain() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
-
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
         savePaymentDataForAcquiring();
 
     }
 
     @Test
-    @DisplayName("1.8. Производим полную оплату")
+    @DisplayName("1.9. Производим полную оплату")
     public void payAndGoToAcquiringAgain() {
 
-        rootPageNestedTests.clickPayment();
-
-        best2PayPageNestedTests.typeDataAndPay();
-
-        reviewPageNestedTests.fullPaymentCorrect();
-        reviewPage.clickOnFinishButton();
-        rootPage.isElementVisible(emptyOrderHeading);
+        payAndGoToAcquiring();
+        nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("1.9. Переход на эквайринг, ввод данных, полная оплата")
+    @DisplayName("2.0. Переход на эквайринг, ввод данных, полная оплата")
     public void checkFullPayInAdmin() {
-
         openAdminOperationsHistory();
-
     }
 
 }

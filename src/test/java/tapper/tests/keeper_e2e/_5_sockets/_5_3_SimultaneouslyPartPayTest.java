@@ -30,6 +30,8 @@ import static constants.selectors.TapperTableSelectors.RootPage.DishList.paidDis
 @Epic("RKeeper")
 @Feature("Сокеты")
 @Story("Одновременная частичная оплата с 2х устройств")
+@DisplayName("Одновременная частичная оплата с 2х устройств")
+
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
@@ -39,6 +41,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     static HashMap<Integer, Map<String, Double>> chosenDishes1stGuest;
     static HashMap<Integer, Map<String, Double>> chosenDishes2ndGuest;
     static double totalPay1Guest;
+    static String orderType;
     static HashMap<String, Integer> paymentDataKeeper1Guest;
     static double totalPay2Guest;
     static HashMap<String, Integer> paymentDataKeeper2Guest;
@@ -57,12 +60,12 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -80,7 +83,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     public void switchToAnotherUser() {
 
         chosenDishes1stGuest = rootPage.getChosenDishesAndSetCollection();
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
 
     }
 
@@ -105,7 +108,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     @DisplayName("1.6. Переключаемся на первого гостя")
     public void switchBackTo1Guest() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
 
     }
 
@@ -128,7 +131,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
         best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay1Guest);
         transactionId = transaction_id.getValue();
         best2PayPage.clickPayButton();
-        reviewPageNestedTests.partialPaymentCorrect();
+        reviewPageNestedTests.paymentCorrect(orderType = "part");
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper1Guest);
 
     }
@@ -137,7 +140,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     @DisplayName("1.9. Переключаемся на второго гостя")
     public void switchBackTo2Guest() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
 
     }
 
@@ -152,32 +155,27 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
         best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay2Guest);
         transactionId = transaction_id.getValue();
         best2PayPage.clickPayButton();
-        reviewPageNestedTests.partialPaymentCorrect();
+        reviewPageNestedTests.paymentCorrect(orderType = "part");
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper2Guest);
 
     }
 
     @Test
-    @DisplayName("2.1. Переходим на эквайринг, оплачиваем")
+    @DisplayName("2.1. Сверяем количество оплаченных блюд")
     public void payOnAcquiring() {
 
         reviewPage.clickOnFinishButton();
 
-        System.out.println(paidDishes);
-
         Assertions.assertEquals(paidDishes.size(), amountDishes + amountDishes,
                 "Не совпадает количество оплаченных блюд");
         System.out.println("Количество оплаченных блюд совпадает");
-
 
     }
 
     @Test
     @DisplayName("2.2. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
-
         rootPageNestedTests.closeOrderByAPI(guid);
-
     }
 
 }

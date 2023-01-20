@@ -1,20 +1,25 @@
 package tapper_table.nestedTestsManager;
 
+import api.ApiRKeeper;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
+import io.restassured.response.Response;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import tapper_table.Best2PayPage;
+import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
-import static constants.Constant.TestData.SERVICE_PRICE_PERCENT_FROM_TIPS;
-import static constants.Constant.TestData.SERVICE_PRICE_PERCENT_FROM_TOTAL_SUM;
+import static constants.Constant.TestData.SERVICE_CHARGE_PERCENT_FROM_TIPS;
+import static constants.Constant.TestData.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.dishesSumChangedHeading;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.divideCheckSliderActive;
 import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.serviceChargeContainer;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalTipsSumInMiddle;
@@ -28,6 +33,8 @@ public class NestedTests extends RootPage {
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
+    ReviewPage reviewPage = new ReviewPage();
+    ApiRKeeper apiRKeeper = new ApiRKeeper();
 
     @Step("Переход в эквайринг, ввод данных, оплата и возврат на стол таппер")
     public String acquiringPayment(double totalPay) {
@@ -41,10 +48,26 @@ public class NestedTests extends RootPage {
     }
 
     @Step("Проверка всего процесса оплаты, транзакции, ожидание пустого стола")
-    public void checkPaymentAndB2pTransaction(String transactionId, HashMap<String, Integer> paymentDataKeeper) {
+    public void checkPaymentAndB2pTransaction(String orderType, String transactionId, HashMap<String, Integer> paymentDataKeeper) {
 
-        reviewPageNestedTests.partialPaymentCorrect();
+        System.out.println(orderType + " orderType");
+        reviewPageNestedTests.paymentCorrect(orderType);
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
+
+        if (orderType.equals("part")) {
+
+            apiRKeeper.isPrepaymentSuccess(transactionId);
+            System.out.println("Предоплата прошла по кассе");
+
+        }
+
+        reviewPage.clickOnFinishButton();
+
+        if (orderType.equals("full")) {
+
+            rootPage.isEmptyOrderAfterClosing();
+
+        }
 
     }
 
@@ -55,7 +78,7 @@ public class NestedTests extends RootPage {
         rootPage.clickOnPaymentButton();
         rootPage.isElementVisibleDuringLongTime(dishesSumChangedHeading, 5);
         dishesSumChangedHeading.shouldHave(Condition.text("Состав заказа изменился"));
-        rootPage.forceWait(2000); // toDo меню не успевает обновится после ошибки изменения суммы оплаты
+        rootPage.forceWait(2500); // toDo меню не успевает обновится после ошибки изменения суммы оплаты
         double totalPaySumAfterChanging = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
 
         System.out.println(totalPaySum + " сумма до изменения заказа");
@@ -72,11 +95,14 @@ public class NestedTests extends RootPage {
         rootPage.isDefaultTipsBySumLogicCorrect();
 
         double tipsSumInTheMiddle = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
-        double serviceChargeInField = rootPage.convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
+        double serviceChargeInField =
+                rootPage.convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
         System.out.println(serviceChargeInField + " сервисный сбор в контейнере");
         serviceChargeInField = convertDouble(serviceChargeInField);
-        double serviceChargeSumClear = convertDouble(cleanDishesSum * (SERVICE_PRICE_PERCENT_FROM_TOTAL_SUM / 100));
-        double serviceChargeTipsClear = convertDouble(tipsSumInTheMiddle * (SERVICE_PRICE_PERCENT_FROM_TIPS / 100));
+        double serviceChargeSumClear = convertDouble
+                (cleanDishesSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
+        double serviceChargeTipsClear = convertDouble
+                (tipsSumInTheMiddle * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
         double cleanServiceCharge = serviceChargeSumClear + serviceChargeTipsClear;
 
         System.out.println(serviceChargeSumClear + " сервисный сбор от суммы");
@@ -101,8 +127,7 @@ public class NestedTests extends RootPage {
         System.out.println("\nСумма итого к оплате (с СБ) в таппере " + tapperTotalPay +
                 " совпадает с суммой в б2п " + b2pTotalPay + "\n");
 
-        Selenide.back();
-        forceWait(1500);
+        returnToPreviousPage();
 
         rootPage.activateServiceChargeIfDeactivated();
 
@@ -119,7 +144,7 @@ public class NestedTests extends RootPage {
         System.out.println("\nСумма итого к оплате (бес СБ) в таппере " + tapperTotalPay +
                 " совпадает с суммой в б2п " + b2pTotalPay + "\n");
 
-        Selenide.back();
+        returnToPreviousPage();
 
     }
 

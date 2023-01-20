@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.$$;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuDishPhotosNotSelenide;
@@ -73,7 +73,7 @@ public class _11_2_SortingTest extends BaseTest {
 
         dishListWithActiveCheckboxShowForGuest = menu.showActiveCategoryCorrect();
 
-        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
 
         Selenide.switchTo().window(1);
 
@@ -98,7 +98,7 @@ public class _11_2_SortingTest extends BaseTest {
     public void goToTapper() {
 
         Selenide.switchTo().window(1);
-        Selenide.refresh();
+        rootPage.refreshPage();
         baseActions.isElementVisibleDuringLongTime(appFooterMenuIcon,20);
         baseActions.forceWait(2000);
 
@@ -116,7 +116,7 @@ public class _11_2_SortingTest extends BaseTest {
 
         if ($$(menuDishPhotosNotSelenide).size() != 0) {
 
-            baseActions.isImageCorrect(menuDishPhotosNotSelenide);
+            baseActions.isImageCorrect(menuDishPhotosNotSelenide,"Изображения блюд не корректны, или битые");
 
         }
 

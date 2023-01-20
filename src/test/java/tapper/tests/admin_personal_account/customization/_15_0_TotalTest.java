@@ -9,7 +9,7 @@ import tapper_admin_personal_account.customization.Customization;
 import tapper_table.RootPage;
 import tests.BaseTest;
 
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.Constant.TestData.TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
@@ -69,7 +69,7 @@ public class _15_0_TotalTest extends BaseTest {
     @DisplayName("1.5. Проверка что шаблон корректен на столе")
     public void isChangedTextPatternCorrectOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
 
         customization.isChangedTextPatternCorrectOnTable(TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT);
 

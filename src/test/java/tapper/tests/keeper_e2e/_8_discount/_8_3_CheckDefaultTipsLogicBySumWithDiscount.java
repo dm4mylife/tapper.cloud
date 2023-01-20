@@ -2,8 +2,6 @@ package tapper.tests.keeper_e2e._8_discount;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -22,7 +20,7 @@ import static api.ApiData.QueryParams.*;
 import static api.ApiData.QueryParams.rqParamsAddDiscount;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
@@ -55,7 +53,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         guid = rsCreateOrder.jsonPath().getString("result.guid");
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
@@ -63,7 +61,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
         apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
         apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -72,7 +70,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.2. Определяем скидку")
     public void getTotalDiscount() {
 
-        discount = rootPageNestedTests.getTotalDiscount(TABLE_3_ID);
+        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_1_ID);
         rootPage.disableDivideCheckSliderWithOneDish();
     }
 
@@ -100,8 +98,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     public void addDishes() {
 
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, SOLYANKA, "5000"));
-        Selenide.refresh();
-        rootPage.forceWait(2000);
+        rootPage.refreshPage();
 
     }
 

@@ -7,64 +7,61 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import tapper_table.Best2PayPage;
-import tapper_table.ReviewPage;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
-import tapper_table.nestedTestsManager.ReviewPageNestedTests;
+import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.*;
-import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 
 @Order(71)
 @Epic("RKeeper")
 @Feature("Модификаторы")
 @Story("Платные модификаторы - частичная оплата")
-
+@DisplayName("Платные модификаторы - частичная оплата")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 
 public class _7_1_PaidPartPayTest extends BaseTest {
 
-    static double totalPay;
-    static HashMap<String, Integer> paymentDataKeeper;
-    static HashMap<Integer, Map<String, Double>> orderInKeeper;
-    static String transactionId;
-    static int amountDishes = 3;
     static String visit;
     static String guid;
+    static double totalPay;
+    static String orderType = "part";
+    static HashMap<String, Integer> paymentDataKeeper;
+    static LinkedHashMap<String, String> tapperDataForTgMsg;
+    static LinkedHashMap<String, String> telegramDataForTgMsg;
+    static String transactionId;
+    static HashMap<Integer, Map<String, Double>> orderInKeeper;
+    static int amountDishes = 2;
 
     RootPage rootPage = new RootPage();
-    Best2PayPage best2PayPage = new Best2PayPage();
-    ReviewPage reviewPage = new ReviewPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
-    ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
+    NestedTests nestedTests = new NestedTests();
 
     @Test
     @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
 
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
         apiRKeeper.fillOrderWithAllModiDishes(guid,API_TEST_URI);
 
-        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_3_ID, API_STAGE_URI);
+        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID, API_STAGE_URI);
 
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
         rootPageNestedTests.matchTapperOrderWithOrderInKeeper(orderInKeeper);
 
     }
@@ -86,36 +83,28 @@ public class _7_1_PaidPartPayTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
 
     }
 
     @Test
     @DisplayName("5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
-
-        rootPageNestedTests.clickPayment();
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
-        transactionId = transaction_id.getValue();
-        best2PayPage.clickPayButton();
-
+        transactionId = nestedTests.acquiringPayment(totalPay);
     }
 
     @Test
     @DisplayName("6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
-
-        reviewPageNestedTests.partialPaymentCorrect();
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
-        reviewPage.clickOnFinishButton();
-
+        nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
     }
 
     @Test
-    @DisplayName("7. Делимся ссылкой и оплачиваем остальную часть заказа")
-    public void clearDataAndChoseAgain() {
+    @DisplayName("7. Проверка сообщения в телеграмме")
+    public void matchTgMsgDataAndTapperData() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
-        rootPageNestedTests.closeOrderByAPI(guid);
+        telegramDataForTgMsg = rootPage.getTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
 

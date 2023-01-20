@@ -9,6 +9,9 @@ public class ApiData {
         public static final String deleteOrder = "rkeeper/delorder";
         public static final String getOrderInfo = "rkeeper/order";
         public static final String checkOrderClosed = "rkeeper-automation/check-order-closed";
+        public static final String checkPrepayment = "rkeeper-automation/check-prepayment";
+        public static final String getPrepayment = "rkeeper-automation/prepayment";
+
         public static final String orderPay = "rkeeper-automation/order/pay";
         public static final String deletePosition = "rkeeper-automation/position";
         public static final String deleteDiscount = "rkeeper-automation/discount";
@@ -16,16 +19,19 @@ public class ApiData {
         public static final String addModificatorOrder = "rkeeper-automation/add-modificator-order";
         public static final String b2bPaymentTransactionStatus = "https://apitapper.zedform.ru/api/payment/transaction-status/";
 
-
     }
 
     public static class orderData {
 
         public static final String R_KEEPER_RESTAURANT = "testrkeeper";
-        public static final String TABLE_3 = "12"; //5
-        public static final String TABLE_10 = "10"; //5
-        public static final String TABLE_3_ID = "1000046";
+        public static final String TABLE_111 = "12";
+        public static final String TABLE_222 = "21";
+        public static final String TABLE_333 = "22";
+        public static final String TABLE_10 = "10";
+        public static final String TABLE_AUTO_1_ID = "1000046";
         public static final String TABLE_10_ID = "1000044";
+        public static final String TABLE_AUTO_2_ID = "1000397";
+        public static final String TABLE_AUTO_3_ID = "1000398";
 
         public static final String WAITER_ROBOCOP_VERIFIED_WITH_CARD = "23";
         public static final String WAITER_TERMINATOR_VERIFIED_NON_CARD = "233";
@@ -240,6 +246,25 @@ public class ApiData {
                     "}";
 
         }
+
+        public static String rqParamsCheckPrePayment(String transactionId){
+
+            return "{\n" +
+                    "  \"transaction_id\": \"" + transactionId + "\"\n" +
+                    "}";
+
+        }
+
+        public static String rqParamsGetPrepayment(String domen, String guid){
+
+            return "{\n" +
+                    "  \"domen\": \"" + domen + "\",\n" +
+                    "  \"guid\": \"" + guid + "\",\n" +
+                    "  \"station\": 1\n" +
+                    "}";
+
+        }
+
 
     }
 

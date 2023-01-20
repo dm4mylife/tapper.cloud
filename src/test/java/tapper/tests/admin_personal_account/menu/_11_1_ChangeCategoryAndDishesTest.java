@@ -12,7 +12,7 @@ import tests.BaseTest;
 
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.visible;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.TapperTableSelectors.RootPage.Menu.categoryMenuItems;
@@ -76,7 +76,7 @@ public class _11_1_ChangeCategoryAndDishesTest extends BaseTest {
     @DisplayName("1.6. Проверяем изменения на столе")
     public void checkChangesInTable() {
 
-        baseActions.openPage(STAGE_RKEEPER_TABLE_3);
+        baseActions.openPage(STAGE_RKEEPER_TABLE_111);
         baseActions.isElementVisibleDuringLongTime(appFooterMenuIcon,20);
         baseActions.forceWait(2000);
         appFooterMenuIcon.click();

@@ -24,6 +24,14 @@ public class TapperTableSelectors {
 
         public static class DishList {
 
+
+
+            public static final SelenideElement refreshButtonEmptyPage =
+                    $(".baseButtonUpdate .baseButtonUpdate__container");
+            public static final SelenideElement modalHintContainer =
+                    $(".modalHint");
+            public static final SelenideElement modalHintCloseButton =
+                    $(".modalHint .baseButtonClose");
             public static final SelenideElement headerTitleMyOrder =
                 $("[data-auto=\"headerTitleMyOrder\"]");
             public static final SelenideElement tableNumber =
@@ -47,6 +55,9 @@ public class TapperTableSelectors {
                 $$x("//li[.//*[@data-auto=\"disabledDishes\"]]");
             public static final ElementsCollection allNonPaidAndNonDisabledDishes =
                 $$x("//li[.//*[@data-auto=\"\"]] | //li[.//*[@data-auto=\"nonPaidDishes\"]]");
+            public static final ElementsCollection allNonPaidAndDisabledDishes =
+                    $$x("//*[@data-auto=\"allDishesInOrder\"]" +
+                            "[.//*[@class='orderItem__status' and not(@data-auto=\"paidDishes\")]]");
             public static final ElementsCollection allNonPaidAndNonDisabledDishesCheckbox =
                 $$x("//li[.//*[@data-auto=\"nonPaidDishes\"]]//*[@data-auto=\"allDishesCheckboxes\"]" +
                         "//*[@class='iconCheck']");
@@ -97,20 +108,20 @@ public class TapperTableSelectors {
             public static final SelenideElement totalPay = $("[data-auto=\"totalPay\"]+span");
             public static final SelenideElement tipsErrorMsg = $("[data-auto=\"tipsErrorMsg\"]");
             public static final SelenideElement tips0 =
-                $x("//*[contains(@data-auto,'ips')][text()='0%']");
+                $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '0%']]");
             public static final SelenideElement tips10 =
-                $x("//*[contains(@data-auto,'ips')][text()='10%']");
+                $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '10%']]");
             public static final SelenideElement tips15 =
-                $x("//*[contains(@data-auto,'ips')][text()='15%']");
+                $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '15%']]");
             public static final SelenideElement tips20 =
-                $x("//*[contains(@data-auto,'ips')][text()='20%']");
+                $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '20%']]");
             public static final SelenideElement tips25 =
-                $x("//*[contains(@data-auto,'ips')][text()='25%']");
+                $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '25%']]");
             public static final ElementsCollection notDisabledTipsPercentOptions =
                 $$x("//*[@class='waiter__percent-wrap']//*[not(contains(@class,'disabled'))]");
             public static final ElementsCollection notDisabledAndNotZeroTipsPercentOptions =
-                    $$x("//*[@class='waiter__percent-wrap']//*[not(contains(@class,'disabled'))]" +
-                            "[not(text()='0%')]");
+                    $$x("//*[@class='waiter__percent-wrap']" +
+                            "//*[not(contains(@class,'disabled'))][not(text()[normalize-space() = '0%'])]");
 
         }
 

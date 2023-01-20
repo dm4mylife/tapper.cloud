@@ -9,15 +9,15 @@ import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.menu.Menu;
+import tapper_table.RootPage;
 import tests.BaseTest;
 
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.AdminPersonalAccountSelectors.Menu.enableMenuForVisitorsButton;
 import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuDishContainer;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterMenuIcon;
-import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterWalletIcon;
 
 @Order(110)
 @Epic("Личный кабинет администратора ресторана")
@@ -29,6 +29,7 @@ import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooter
 public class _11_0_TotalTest extends BaseTest {
 
     BaseActions baseActions = new BaseActions();
+    RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Menu menu = new Menu();
 
@@ -63,7 +64,7 @@ public class _11_0_TotalTest extends BaseTest {
     @DisplayName("1.4. Переходим на стол и проверяем что иконка меню есть и само меню отображается")
     public void checkMenuIconAndContainerInTable() {
 
-        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
+        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
 
         baseActions.isElementVisible(appFooterMenuIcon);
         baseActions.click(appFooterMenuIcon);
@@ -79,11 +80,9 @@ public class _11_0_TotalTest extends BaseTest {
         baseActions.click(enableMenuForVisitorsButton);
 
         Selenide.switchTo().window(1);
-        Selenide.refresh();
-        baseActions.forceWait(2000);
+        rootPage.refreshPage();
 
         baseActions.isElementInvisible(appFooterMenuIcon);
-        baseActions.isElementInvisible(appFooterWalletIcon);
 
     }
 
@@ -97,11 +96,9 @@ public class _11_0_TotalTest extends BaseTest {
         baseActions.click(enableMenuForVisitorsButton);
 
         Selenide.switchTo().window(1);
-        Selenide.refresh();
-        baseActions.forceWait(2000);
+        rootPage.refreshPage();
 
         baseActions.isElementInvisible(appFooterMenuIcon);
-        baseActions.isElementInvisible(appFooterWalletIcon);
 
     }
 

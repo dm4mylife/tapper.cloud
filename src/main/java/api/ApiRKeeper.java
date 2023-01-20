@@ -1,14 +1,11 @@
 package api;
 
-import com.codeborne.selenide.Selenide;
+import common.BaseActions;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import tapper_table.RootPage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,45 +13,12 @@ import static api.ApiData.EndPoints;
 import static api.ApiData.EndPoints.*;
 import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.emptyOrderHeading;
+import static constants.Constant.TestData.*;
 import static io.restassured.RestAssured.given;
 
 public class ApiRKeeper {
 
-    public Response responseErrorHandler(Response response,int successfulResponseAttempt) {
-
-        String hasError;
-        Response rs;
-        int errorCounter = 0;
-
-        do  {
-
-            rs = response;
-
-            hasError = rs.jsonPath().getString("result.Error");
-
-            if (hasError != null) {
-
-                System.out.println(hasError + " ошибка запроса");
-                System.out.println("\nОшибка в запросе, будет сделан повторный запрос. Повторная попытка № "
-                        + errorCounter + "\n");
-
-                errorCounter++;
-
-            } else {
-
-                errorCounter = successfulResponseAttempt;
-
-            }
-
-
-        } while (errorCounter < successfulResponseAttempt);
-
-        return rs;
-
-
-    }
+    BaseActions baseActions = new BaseActions();
 
     @Step("Создание заказа")
     public Response createOrder(String requestBody, String baseUri) {
@@ -62,7 +26,7 @@ public class ApiRKeeper {
         if (!isClosedOrder()) {
 
             System.out.println("На кассе есть прошлый заказ, закрываем его");
-            Response rsGetOrder = getOrderInfo(TABLE_3_ID,API_STAGE_URI);
+            Response rsGetOrder = getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
             String guid = rsGetOrder.jsonPath().getString("@attributes.guid");
 
             boolean isOrderClosed;
@@ -85,7 +49,34 @@ public class ApiRKeeper {
                 .when()
                 .post(createOrder)
                 .then()
-                //.log().body()
+                .log().body()
+                .statusCode(200)
+                .extract()
+                .response();
+
+
+        Assertions.assertTrue(response.jsonPath().getBoolean("success"));
+
+        System.out.println("Заказ создался на кассе");
+        System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+
+        return response;
+
+    }
+
+    public Response createOrderTest(String requestBody, String baseUri) {
+
+        System.out.println("\nСоздание заказа\n");
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .body(requestBody)
+                .baseUri(baseUri)
+                .when()
+                .post(createOrder)
+                .then()
+                .log().body()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -109,7 +100,7 @@ public class ApiRKeeper {
         Response response;
         int errorCounter = 0;
 
-        // do  {
+         do  {
 
             response = given()
                     .contentType(ContentType.JSON)
@@ -144,7 +135,7 @@ public class ApiRKeeper {
 
         System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
-      //  } while (errorCounter < 3);
+        } while (errorCounter < 3);
 
 
 
@@ -172,33 +163,6 @@ public class ApiRKeeper {
         Assertions.assertTrue(response.jsonPath().getBoolean("success"));
 
         System.out.println("Транзакция получена");
-        return response;
-
-    }
-
-    @Step("Удаляем весь заказ если не пустой")
-    public Response deleteOrder(String visit) {
-
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .and()
-                .when()
-                .queryParam("subDomen", R_KEEPER_RESTAURANT)
-                .queryParam("visitId", visit)
-                .baseUri(API_STAGE_URI)
-                .post(deleteOrder)
-                .then()
-                .log().body()
-                .statusCode(200)
-                .extract()
-                .response();
-
-        System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
-
-        Assertions.assertTrue(response.jsonPath().getBoolean("success"));
-        Assertions.assertEquals(response.jsonPath().getString("result['@attributes'].Status"), "Ok");
-
-        System.out.println("Транзакция удалена со стола");
         return response;
 
     }
@@ -250,7 +214,7 @@ public class ApiRKeeper {
 
         System.out.println("\nДобавляем скидку в заказ\n");
 
-       // do  {
+        do  {
 
             response = given()
                     .contentType(ContentType.JSON)
@@ -281,7 +245,7 @@ public class ApiRKeeper {
 
         System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
-        //} while (errorCounter < 3);
+        } while (errorCounter < 3);
 
         return response;
 
@@ -361,39 +325,6 @@ public class ApiRKeeper {
 
     }
 
-    @Step("Добавление наценки в заказ")
-    public Response addMarginOrder(String guid, String dishId, String quantity,
-                                   String modificator, String modificator_quantity) {
-
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .and()
-                .queryParam("domen", R_KEEPER_RESTAURANT)
-                .queryParam("guid", guid)
-                .queryParam("station", "1")
-                .queryParam("dish", dishId)
-                .queryParam("quantity", quantity)
-                .queryParam("modificator", modificator)
-                .queryParam("modificator_quantity", modificator_quantity)
-                .when()
-                .post("https://apitapper.zedform.ru/api/rkeeper-automation/add-modificator-order")
-                .then()
-                .log().body()
-                .statusCode(200)
-                .extract()
-                .response();
-
-        System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
-
-        Assertions.assertTrue(response.jsonPath().getBoolean("success"));
-        Assertions.assertEquals(response.jsonPath().getString("message"), "Операция прошла успешно");
-
-        System.out.println("\nДобавили модификатор для заказа");
-
-        return response;
-
-    }
-
     @Step("Получение информации о заказе на столе")
     public Response getOrderInfo(String id_table, String baseUri) {
 
@@ -408,7 +339,7 @@ public class ApiRKeeper {
                 .when()
                 .post(getOrderInfo)
                 .then()
-                //.log().ifError()
+                //.log().body()
                 .extract()
                 .response();
 
@@ -445,10 +376,35 @@ public class ApiRKeeper {
 
     }
 
+    @Step("Проверка пришла ли предоплата")
+    public Response checkPrepayment(String requestBody,String baseUri) {
+
+        System.out.println("\nПолучаем информацию пришла ли предоплата\n");
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .body(requestBody)
+                .baseUri(baseUri)
+                .when()
+                .post(checkPrepayment)
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract()
+                .response();
+
+
+        System.out.println("Получили информацию по предоплате");
+        System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+
+        return response;
+
+    }
+
     @Step("Оплата заказа")
     public Response orderPay(String requestBody,String baseUri) {
 
-        boolean hasError = false;
         System.out.println("\nОплачиваем заказ\n");
 
         Response response = given()
@@ -464,21 +420,71 @@ public class ApiRKeeper {
                 .extract()
                 .response();
 
-        hasError = !response.path("message").equals("Операция прошла успешно");
-
-        if (hasError)
-            System.out.println("Ошибка в запросе -> " + hasError);
-
+        System.out.println("Оплатили заказ");
         System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
         return response;
 
     }
 
+    @Step("Получаем информацию по предоплате")
+    public Response getPrepayment(String requestBody,String baseUri) {
+
+        System.out.println("\nПолучаем информацию по предоплате\n");
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .body(requestBody)
+                .baseUri(baseUri)
+                .when()
+                .post(getPrepayment)
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        System.out.println("Получили информацию по предоплате");
+        System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+
+        return response;
+
+    }
+
+    @Step("Проверка что предоплата пришла")
+    public void isPrepaymentSuccess(String transactionId) {
+
+        String hasErrorText = "";
+        int rsCounter = ATTEMPT_FOR_PREPAYMENT_REQUEST;
+        boolean rqResponse;
+
+        do {
+
+            System.out.println("run");
+            baseActions.forceWait(WAIT_FOR_PREPAYMENT_ON_CASH_DESK);
+            Response rs = checkPrepayment(rqParamsCheckPrePayment(transactionId),API_STAGE_URI);
+            rqResponse = rs.jsonPath().getString("message").equals("Предоплата прошла по кассе");
+
+            if (rqResponse) {
+                break;
+            }
+
+            System.out.println("Предоплата не пришла, делаем повторный запрос");
+            hasErrorText = " .Предоплата не пришла даже после " + ATTEMPT_FOR_PREPAYMENT_REQUEST + "№ попытки";
+            --rsCounter;
+
+        } while (rsCounter != 0);
+
+
+        Assertions.assertTrue(rqResponse,"Предоплата не пришла" + hasErrorText);
+
+    }
+
     @Step("Проверка что заказ закрыт на столе")
     public boolean isClosedOrder() {
 
-        Response rsGetOrder = getOrderInfo(TABLE_3_ID,API_STAGE_URI);
+        Response rsGetOrder = getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
         Response isOrderClosed = null;
         String guid;
         boolean isClosed = false;
@@ -555,7 +561,6 @@ public class ApiRKeeper {
 
     }
 
-    @Test
     @Step("Создание заказа со всеми типами модификаторов")
     public void fillOrderWithAllModiDishes(String guid, String baseUri) {
 
@@ -565,13 +570,13 @@ public class ApiRKeeper {
                     FREE_NECESSARY_MODI_SALT, "1")
             ,baseUri );
 
-          addModificatorOrder(
-                rqParamsAddModificatorWith1Position(
-                        R_KEEPER_RESTAURANT,guid, BORSH, "1000",
-                        FREE_NECESSARY_MODI_PEPPER, "2")
-                ,baseUri );
-
         addModificatorOrder(
+            rqParamsAddModificatorWith1Position(
+                    R_KEEPER_RESTAURANT,guid, BORSH, "1000",
+                    FREE_NECESSARY_MODI_PEPPER, "2")
+            ,baseUri );
+
+       /* addModificatorOrder(
                 rqParamsAddModificatorWith1Position(
                         R_KEEPER_RESTAURANT,guid, BORSH, "2000",
                         FREE_NECESSARY_MODI_PEPPER, "1")
@@ -584,7 +589,7 @@ public class ApiRKeeper {
                         FREE_NECESSARY_MODI_SALT,"1")
                 ,baseUri );
 
-      /*  addModificatorOrder(
+        addModificatorOrder(
                 rqParamsAddModificatorWith2Positions(
                         R_KEEPER_RESTAURANT,guid, BORSH, "2000",
                         FREE_NECESSARY_MODI_PEPPER, "2",
@@ -646,7 +651,6 @@ public class ApiRKeeper {
 
     }
 
-    @Test
     @Step("Получение сообщений из бота в канале")
     public List<Object> getUpdates() {
 
@@ -654,7 +658,7 @@ public class ApiRKeeper {
                 .contentType(ContentType.JSON)
                 .and()
                 .when()
-                .get("https://api.telegram.org/bot5989489181:AAGsWoVW-noi9lDDx11H-nGPNPOuw8XtCZI/getUpdates?offset=-50")
+                .get("https://api.telegram.org/bot5989489181:AAGsWoVW-noi9lDDx11H-nGPNPOuw8XtCZI/getUpdates?offset=-100")
                 .then()
                 //.log().body()
                 .statusCode(200)
@@ -664,6 +668,7 @@ public class ApiRKeeper {
         System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
 
         List<Object> tgMessages = response.jsonPath().getList("result.channel_post.text");
+        System.out.println("Количество сообщений " + tgMessages.size());
 
         return tgMessages;
 

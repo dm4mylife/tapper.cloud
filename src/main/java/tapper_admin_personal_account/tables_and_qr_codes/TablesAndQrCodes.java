@@ -192,8 +192,8 @@ public class TablesAndQrCodes extends BaseActions {
     @Step("Считываем qr-код")
     public void readQrCode(String src, String tableUrlInTableItem) throws NotFoundException, IOException {
 
-        isImageCorrect(qrWhiteImage);
-        isImageCorrect(qrBlackImage);
+        isImageCorrect(qrWhiteImage,"Изображение белого qr-кода не корректное или битое");
+        isImageCorrect(qrBlackImage,"Изображение черного qr-кода не корректное или битое");
 
         URL urlOfImage = new URL(src);
         BufferedImage bufferedImage = ImageIO.read(urlOfImage);

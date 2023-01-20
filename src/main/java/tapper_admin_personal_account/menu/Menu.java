@@ -185,7 +185,7 @@ public class Menu extends BaseActions {
         String imageUrl = menuDishItems.get(dishIndex).$("img")
                 .getAttribute("src").replaceAll(".*\\/(\\w*)\\..*","$1");
 
-        isImageCorrect(imageSelector);
+        isImageCorrect(imageSelector,"Изображение qr-кода не корректное или битое");
 
         isImageFullContainerCorrect(dishIndex);
 
@@ -401,7 +401,7 @@ public class Menu extends BaseActions {
         isElementVisible(imagePreviewContainer);
         isElementVisible(imagePreviewContainerCloseButton);
         isElementVisible(imagePreviewContainerImage);
-        isImageCorrect(imagePreviewContainerImageNotSelenide);
+        isImageCorrect(imagePreviewContainerImageNotSelenide,"Изображение не корректное или битое");
         forceWait(500);
 
         click(imagePreviewContainerCloseButton);

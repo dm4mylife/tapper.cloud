@@ -2,18 +2,14 @@ package tapper.tests.keeper_e2e._3_tips;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.Best2PayPage;
-import tapper_table.ReviewPage;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.NestedTests;
-import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
@@ -21,7 +17,7 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
+import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
 
@@ -29,6 +25,7 @@ import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.tot
 @Epic("RKeeper")
 @Feature("Чаевые")
 @Story("Проверка логики установки дефолтных чаевых от суммы заказа, ввод кастомных чаевых, ошибки суммы")
+@DisplayName("Проверка логики установки дефолтных чаевых от суммы заказа, ввод кастомных чаевых, ошибки суммы")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
@@ -43,20 +40,17 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
-    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
-    ReviewPage reviewPage = new ReviewPage();
-    ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
     @DisplayName("1.2. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         guid = rsCreateOrder.jsonPath().getString("result.guid");
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -64,9 +58,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @Test
     @DisplayName("1.3. Проверка суммы, чаевых, сервисного сбора, нельзя поделиться счетом т.к. одно блюдо")
     public void checkSumTipsSC() {
-
         rootPage.disableDivideCheckSliderWithOneDish();
-
     }
 
     @Test
@@ -83,14 +75,18 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     public void addDishes() {
 
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, SOLYANKA, "3000"));
-
-        Selenide.refresh();
-        rootPage.forceWait(2000);
+        rootPage.refreshPage();
 
     }
 
     @Test
-    @DisplayName("1.6. Проверяем вторую опцию чаевых")
+    @DisplayName("1.6. Разделяем счёт чтобы выбирать позиции")
+    public void activateDivideCheckSliderIfDeactivated() {
+        rootPage.activateDivideCheckSliderIfDeactivated();
+    }
+
+    @Test
+    @DisplayName("1.7. Проверяем вторую опцию чаевых")
     public void setScAndCheckTipsWith2ndOption() {
 
         rootPage.chooseAllNonPaidDishes();
@@ -100,57 +96,46 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.7. Добавляем еще одно блюдо в заказ")
+    @DisplayName("1.8. Добавляем еще одно блюдо в заказ")
     public void addDishesWith3rdOption() {
-
         addDishes();
-
     }
 
     @Test
-    @DisplayName("1.8. Проверяем 3 опцию чаевых")
+    @DisplayName("1.9. Проверяем 3 опцию чаевых")
     public void setScAndCheckTipsWith3rdOption() {
-
         setScAndCheckTipsWith2ndOption();
-
     }
 
     @Test
-    @DisplayName("1.9. Добавляем еще одно блюдо в заказ")
+    @DisplayName("2.0. Добавляем еще одно блюдо в заказ")
     public void addDishesWith4thOption() {
-
         addDishes();
-
     }
 
     @Test
-    @DisplayName("2.0. Проверяем 4 опцию чаевых")
+    @DisplayName("2.1. Проверяем 4 опцию чаевых")
     public void setScAndCheckTipsWith4thOption() {
-
         setScAndCheckTipsWith2ndOption();
-
     }
 
     @Test
-    @DisplayName("2.1. Добавляем еще одно блюдо в заказ")
+    @DisplayName("2.2. Добавляем еще одно блюдо в заказ")
     public void addDishesWith5thOption() {
 
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, SOLYANKA, "5000"));
-        Selenide.refresh();
-        rootPage.forceWait(2000);
+        rootPage.refreshPage();
 
     }
 
     @Test
-    @DisplayName("2.2. Проверяем 5 опцию чаевых")
+    @DisplayName("2.3. Проверяем 5 опцию чаевых")
     public void setScAndCheckTipsWith5thOption() {
-
         setScAndCheckTipsWith2ndOption();
-
     }
 
     @Test
-    @DisplayName("2.3. Установка кастомных чаевых и проверка суммы")
+    @DisplayName("2.4. Установка кастомных чаевых и проверка суммы")
     public void setCustomTips() {
 
         rootPage.setCustomTips("534");
@@ -164,12 +149,13 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
         System.out.println("Сумма итого к оплате (с СБ) в таппере " + tapperTotalPay +
                 " совпадает с суммой в б2п " + b2pTotalPay);
 
-        Selenide.back();
+        rootPage.returnToPreviousPage();
+
 
     }
 
     @Test
-    @DisplayName("2.4. Выбираем все блюда и по одному отщелкиваем, проверяя как выставляются чаевые")
+    @DisplayName("2.5. Выбираем все блюда и по одному отщелкиваем, проверяя как выставляются чаевые")
     public void checkTipsLogicByRemovingPositions() {
 
         for (int index = 0; index < allNonPaidAndNonDisabledDishes.size()-1; index++) {
@@ -184,11 +170,9 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.5. Закрываем заказ")
+    @DisplayName("2.6. Закрываем заказ")
     public void payAndGoToAcquiringAgain() {
-
         rootPage.closeOrderByAPI(guid);
-
     }
 
 }

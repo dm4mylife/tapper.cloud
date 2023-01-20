@@ -6,12 +6,8 @@ import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.config_notifications.ConfigNotifications;
-import tapper_admin_personal_account.customization.Customization;
-import tapper_table.RootPage;
 import tests.BaseTest;
 
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_3;
-import static constants.Constant.TestData.TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 

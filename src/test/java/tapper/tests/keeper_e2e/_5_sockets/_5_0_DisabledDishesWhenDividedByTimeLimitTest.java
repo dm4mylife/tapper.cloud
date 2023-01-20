@@ -29,6 +29,8 @@ import static constants.selectors.TapperTableSelectors.RootPage.DishList.allDish
 @Epic("RKeeper")
 @Feature("Сокеты")
 @Story("Выбор позиций в раздельной оплате на 1-м устройстве, позиции в статусе “Оплачивается” на 2-м устройстве")
+@DisplayName("Выбор позиций в раздельной оплате на 1-м устройстве, позиции в статусе “Оплачивается” на 2-м устройстве")
+
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
@@ -44,12 +46,12 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -57,17 +59,13 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
     @Test
     @DisplayName("2. Выбираем рандомно блюда, проверяем все суммы и условия")
     public void chooseDishesAndCheckAfterDivided() {
-
         rootPageNestedTests.chooseDishesWithRandomAmount(3);
-
     }
 
     @Test
     @DisplayName("3. Очищаем все данные, делимся чеком")
     public void clearAllSiteData() {
-
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_3,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
-
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
     }
 
     @Test
@@ -83,9 +81,7 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
         }
 
         stopwatch.stop();
-
         long millis = stopwatch.elapsed(TimeUnit.SECONDS);
-        System.out.println(millis + " Время ожидания разделенных позиций");
 
         Assertions.assertTrue(millis >= 220, "Время ожидания разделенных позиций меньше 4 мин (" + millis + ")");
         System.out.println(millis + "Время ожидания разделенных позиций соответствует 4 мин или больше");
@@ -97,7 +93,6 @@ public class _5_0_DisabledDishesWhenDividedByTimeLimitTest extends BaseTest {
     @Test
     @DisplayName("5. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
-
         rootPageNestedTests.closeOrderByAPI(guid);
     }
 

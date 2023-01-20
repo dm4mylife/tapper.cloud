@@ -15,11 +15,20 @@ public class ReviewPageNestedTests {
     ApiRKeeper apiRKeeper = new ApiRKeeper();
 
     @Step("Проверка поочередных статусов оплаты c частичной оплатой")
-    public void partialPaymentCorrect() {
+    public void paymentCorrect(String orderType) {
 
         reviewPage.isPaymentProcessContainerShown();
         reviewPage.isReviewBlockCorrect();
-        reviewPage.partialPaymentHeading();
+
+        if (orderType.equals("full")) {
+
+            reviewPage.fullPaymentHeading();
+
+        } else {
+
+            reviewPage.partialPaymentHeading();
+
+        }
 
     }
 
@@ -70,18 +79,19 @@ public class ReviewPageNestedTests {
     }
 
     @Step("Получаем саму транзакцию б2п и сравниваем с суммами которые были при оплате")
-    public void getTransactionAndMatchSums(String trans_id, HashMap<String, Integer> paymentData) {
+    public void getTransactionAndMatchSums(String transactionId, HashMap<String, Integer> paymentData) {
 
-        System.out.println(trans_id + " trans_id");
+        System.out.println(transactionId + " trans_id");
         System.out.println(paymentData + " payment data");
 
-        Response rs = apiRKeeper.getB2BPayment(trans_id);
+        Response rs = apiRKeeper.getB2BPayment(transactionId);
         Map<String, Integer> rsPaymentData = getPayDataFromResponseAndConvToHashMap(rs);
 
         System.out.println(paymentData + " tapper data");
         System.out.println(rsPaymentData + " b2b data");
         Assertions.assertEquals(rsPaymentData, paymentData, "Суммы в таппере не сходятся с транзакцией b2p");
         System.out.println("Все суммы в таппере сходятся с транзакцией b2p");
+
 
     }
 

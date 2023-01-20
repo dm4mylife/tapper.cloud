@@ -2,7 +2,7 @@ package tapper.tests;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.WebDriverRunner;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.restassured.response.Response;
@@ -10,39 +10,35 @@ import org.junit.jupiter.api.*;
 import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
+import tapper_table.Telegram;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTest;
 
-import java.text.ParseException;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
-import static com.codeborne.selenide.Configuration.browser;
 import static constants.Constant.TestData.*;
-import static constants.selectors.TapperTableSelectors.Best2PayPage.paymentContainer;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.divideCheckSlider;
-import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.tips20;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.tableNumber;
+import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
 
 
 @Epic("Debug")
 @DisplayName("E2E")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class Debug extends BaseTest {
+public class Debug {
 
     static Response rsGetOrder;
     static Response rsFillingOrder;
     static String visit;
     static String guid;
     static String uni;
+    static String orderType;
     BaseActions baseActions = new BaseActions();
     RootPage rootPage = new RootPage();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
@@ -51,46 +47,25 @@ public class Debug extends BaseTest {
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     Best2PayPage best2PayPage = new Best2PayPage();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
+    Telegram telegram = new Telegram();
 
     //  <---------- Tests ---------->
 
     @Disabled
     @Test
-    @DisplayName("create and fill")
-    public void test() throws ParseException {
+    @DisplayName("kill")
+    public void killTable() {
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
+       // String guid = rootPage.getGuid(TABLE_AUTO_1_ID);
+        String url = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
 
-        rootPageNestedTests.chooseDishesWithRandomAmount(3);
+        String tableId =url.replaceAll(".*\\/","");
+        System.out.println(tableId);
 
-        HashMap<Integer, Map<String, Double>> chosenDishes = rootPage.getChosenDishesAndSetCollection();
-
-        System.out.println(chosenDishes);
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_3);
-        rootPage.setUserCookie(COOKIE_GUEST_FIRST_USER, COOKIE_SESSION_FIRST_USER);
-        rootPage.checkIfDishesDisabledEarlier(chosenDishes);
-
-        rootPage.switchTab(0);
-
-        paymentContainer.shouldBe(Condition.exist, Duration.ofSeconds(5));
-
-        double totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
-        HashMap<String, Integer> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        rootPage.clickOnPaymentButton();
-
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
-        String transactionId = transaction_id.getValue();
-        best2PayPage.clickPayButton();
-
-        reviewPageNestedTests.partialPaymentCorrect();
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
-
-        rootPage.switchTab(1);
-        rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
-
-        rootPage.switchTab(0);
-        rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
-
+        double discount =
+                Integer.parseInt(rootPage.getDiscount(tableId)) / 100;
+        System.out.println(discount);
+       // apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid),API_STAGE_URI);
 
     }
 
@@ -341,7 +316,7 @@ public class Debug extends BaseTest {
          String guid;
          double discount;
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
 
 
         visit = rsCreateOrder.jsonPath().getString("result.visit");
@@ -352,9 +327,8 @@ public class Debug extends BaseTest {
         apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
         apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI);
 
-
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
-        discount = rootPageNestedTests.getTotalDiscount(TABLE_3_ID);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
+        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_1_ID);
 
         rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
 
@@ -377,7 +351,7 @@ public class Debug extends BaseTest {
     @DisplayName("add modificator")
     public void addModificator1() {
 
-        Response rs = apiRKeeper.getOrderInfo(TABLE_3_ID,API_STAGE_URI);
+        Response rs = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
         Object sessionSizeFlag = rs.path("Session");
 
         int sessionSize;
@@ -501,124 +475,76 @@ public class Debug extends BaseTest {
     @DisplayName("tg")
     public void tg() {
 
-        //Configuration.headless = false;
-
-        //rootPage.openTapperTable(STAGE_RKEEPER_TABLE_3);
-
-      //  Response rsGetOrder = apiRKeeper.getOrderInfo(TABLE_3_ID,API_STAGE_URI);
-      //  guid = rsGetOrder.jsonPath().getString("@attributes.guid");
-        List<Object> tgMessages = apiRKeeper.getUpdates();
-        System.out.println(guid);
-
-        boolean hasOrderMessage = false;
-        String isOrderMsg = "Название";
-        String isCallWaiterMsg = "Вызов официанта";
-        String isReviewMsg = "Рейтинг";
-        String partPay = "Частично оплачено";
-        String fullPay = "Полностью оплачено";
-
-        for (int index = 0 ; index < tgMessages.size(); index++) {
-
-            String tgMsg = tgMessages.get(index).toString();
-
-            if (tgMessages.get(index).toString().contains(guid)) {
-
-                hasOrderMessage = true;
-                System.out.println("\n Сообщение подходящее под guid \n");
-                System.out.println(tgMsg);
-
-                if (tgMsg.contains(isOrderMsg)) {
-
-                    System.out.println("Тип сообщения 'Оплата'");
-
-                    String tableRegex = "(\\n|.)?Стол: ([\\d+]+)(\\n|.)*";
-                    String sumInCheckRegex = "(\\n|.)*Сумма в чеке: (\\d+\\.?\\d+)(\\n|.)";
-                    String restToPayRegex = "(\\n|.)*Осталось оплатить: (\\d+\\.?\\d+)(\\n|.)*";
-                    String tipsRegex = "(\\n|.)*Чаевые: (\\d+\\.?\\d+)(\\n|.)*";
-                    String paySumRegex = "(\\n|.)*Осталось оплатить: (\\d+\\.?\\d+)(\\n|.)*";
-                    String totalPaidRegex = "(\\n|.)*Всего оплачено: (\\d+\\.?\\d+)(\\n|.)*";
-                    String markUpRegex = "(\\n|.)*Наценка: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
-                    String discountRegex = "(\\n|.)*Скидка: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
-                    String payStatusRegex = "(\\n|.)*Статус оплаты: ([а-яА-Я\\s]+)\\nСтатус заказа(\\n|.)*";
-                    String orderStatusRegex = "(\\n|.)*Статус заказа: ([а-яА-Я\\:\\,\\s]+)Дата заказа(\\n|.)*";
-                    String dateOrderRegex = "(\\n|.)*Дата заказа: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
-                    String waiterRegex = "(\\n|.)*Официант: ([а-яА-Я\\s]+)\\n(\\n|.)*";
 
 
-                    String table = tgMsg.replaceAll(tableRegex,"$2");
-                    String sumInCheck = tgMsg.replaceAll(sumInCheckRegex,"$2");
-                    String restToPay = tgMsg.replaceAll(restToPayRegex,"$2");
-                    String tips = tgMsg.replaceAll(tipsRegex,"$2");
-                    String paySum = tgMsg.replaceAll(paySumRegex,"$2");
-                    String totalPaid = tgMsg.replaceAll(totalPaidRegex,"$2");
-                    String markUp = tgMsg.replaceAll(markUpRegex,"$2");
-                    String discount = tgMsg.replaceAll(discountRegex,"$2");
-                    String payStatus = tgMsg.replaceAll(payStatusRegex,"$2");
-                    String orderStatus = tgMsg.replaceAll(orderStatusRegex,"$2");
-                    String dateOrder = tgMsg.replaceAll(dateOrderRegex,"$2");
-                    String waiter = tgMsg.replaceAll(waiterRegex,"$2");
+        rootPage.openPage(STAGE_RKEEPER_TABLE_111);
+        rootPage.forceWait(4000);
 
-                    HashMap<String, String> tgParsedData = new HashMap<>();
+        String tapperTable = "Стол: " + baseActions.convertSelectorTextIntoStrByRgx(tableNumber,"\\D+");
+        System.out.println(tapperTable);
 
-                    tgParsedData.put("table",table);
-                    tgParsedData.put("sumInCheck",sumInCheck);
-                    tgParsedData.put("restToPay",restToPay);
-                    tgParsedData.put("tips",tips);
-                    tgParsedData.put("paySum",paySum);
-                    tgParsedData.put("totalPaid",totalPaid);
+        double totalSumInCheck = rootPage.countAllDishes();
+        String sumInCheck = String.valueOf(totalSumInCheck);
 
-                    if (!markUp.equals("")) {
+        System.out.println(totalSumInCheck + " totalSumInCheck");
 
-                        tgParsedData.put("markUp",markUp);
+        double restToPaySumD = rootPage.countAllNonPaidAndDisabledDishesInOrder();
 
-                    } else if (!discount.equals("")) {
+        System.out.println(restToPaySumD + " restToPaySumD");
 
-                        tgParsedData.put("discount",discount);
+        String restToPaySum = "";
 
-                    }
+        if (discountSum.isDisplayed()) {
 
-                    tgParsedData.put("payStatus",payStatus);
-                    tgParsedData.put("orderStatus",orderStatus);
-                    tgParsedData.put("dateOrder",dateOrder);
-                    tgParsedData.put("waiter",waiter);
+            double discountD = baseActions.convertSelectorTextIntoDoubleByRgx(discountSum,"[^\\d\\.]+");
 
-                    System.out.println(tgParsedData);
+            restToPaySumD -= discountD;
 
-
-
-
-                } else if (tgMsg.contains(isCallWaiterMsg)) {
-
-                    System.out.println("Тип сообщения 'Вызов официанта'");
-
-                } else if (tgMsg.contains(isReviewMsg)) {
-
-                    System.out.println("Тип сообщения 'Отзыв'");
-
-                }
-
-
-
-
-
-
-            }
-
+            System.out.println(restToPaySum + " restToPaySum with discount");
 
         }
 
+        restToPaySum = String.valueOf(restToPaySumD);
 
-        if (hasOrderMessage) {
+        String tipsInTheMiddle = totalTipsSumInMiddle.getValue();
+        System.out.println(tipsInTheMiddle + " tipsInTheMiddle");
 
-            System.out.println("Есть сообщения");
+        double paySumD = rootPage.getClearOrderAmount();
+        String paySum = String.valueOf(paySumD);
+        System.out.println(paySum + " paySum");
 
-        } else {
+        Response rsGetOrder = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
 
-            System.out.println("Нет сообщений");
+        String totalPaid = "0";
+        String payStatus = null;
+
+        if (rsGetOrder.path("@attributes.prepaySum") != null) {
+
+
+            totalPaid = rsGetOrder.jsonPath().getString("@attributes.prepaySum");
+            Integer totalPaidInt = Integer.parseInt(totalPaid) / 100;
+            totalPaid = String.valueOf(totalPaidInt);
+            payStatus = "Частично оплачено";
 
         }
 
-       // rootPageNestedTests.closeOrder();
+        System.out.println("\ntotalPaid\n" + totalPaid);
+
+        String waiter = waiterName.getText();
+        System.out.println(waiter + " waiter");
+
+        LinkedHashMap<String, String> tapperDataForTgMsg = new LinkedHashMap<>();
+
+        tapperDataForTgMsg.put("table",tapperTable);
+        tapperDataForTgMsg.put("sumInCheck",sumInCheck);
+        tapperDataForTgMsg.put("restToPaySum",restToPaySum);
+        tapperDataForTgMsg.put("tips",tipsInTheMiddle);
+        tapperDataForTgMsg.put("paySum",paySum);
+        tapperDataForTgMsg.put("totalPaid",totalPaid);
+        tapperDataForTgMsg.put("payStatus",payStatus);
+        tapperDataForTgMsg.put("waiter",waiter);
+
+        System.out.println(tapperDataForTgMsg);
 
     }
 
@@ -626,26 +552,14 @@ public class Debug extends BaseTest {
     @DisplayName("magic")
     public void magic() {
 
+        //String guid = rootPage.getGuid(TABLE_3_ID);
+       // rootPage.closeOrderByAPI(TABLE_3_ID);
 
-        Response rs = apiRKeeper
-                .createOrder
-                        (rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
-        visit = rs.jsonPath().getString("result.visit");
-        guid = rs.jsonPath().getString("result.guid");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
+        String gg = "НЕ закрыт на кассе\n" +
+                "НЕ закрыт на кассе \n" +
+                "Причина: SeqNumber должен быть увеличен";
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_3);
-
-
-        /*  apiRKeeper.addDiscount(rqParamsAddCustomDiscount
-                (R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
-
-
-        apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid),API_STAGE_URI);
-
-
-        if(apiRKeeper.isClosedOrder())
-        System.out.println("Заказ закрыт на кассе"); */
+        System.out.println(gg.matches("(?s).*[\\n\\r].*SeqNumber.*"));
 
 
     }

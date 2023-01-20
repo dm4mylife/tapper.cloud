@@ -204,7 +204,7 @@ public class BaseActions {
     }
 
     @Step("Корректность отображения изображения")
-    public void isImageCorrect(String element) {
+    public void isImageCorrect(String element,String assertMessage) {
 
         final String JsScript = "function isImageNotBroken()  " +
                 "{ var img = document.querySelector(\"" + element +
@@ -212,8 +212,8 @@ public class BaseActions {
             "{ return true; } else { return false; }} return isImageNotBroken();";
 
         boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(JsScript));
-        Assertions.assertTrue(image, "Изображение битое, или его нет. Не отображается корректно");
-        System.out.println("Изображение не битое, присутствует, отображается корректно");
+        Assertions.assertTrue(image, assertMessage);
+
 
     }
 
