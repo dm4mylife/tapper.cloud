@@ -15,7 +15,10 @@ public class YandexMailSelectors {
             $x("//*[@class='AuthAccountListItem-block'][..//*[contains(text(),'tapper.cloud')]]");
         public static final SelenideElement yandexPassword = $("#passp-field-passwd");
         public static final SelenideElement skipAddReservePassportContainer = $("[data-t=\"email_skip\"]");
-        public static final SelenideElement skipAddReservePassportButton = $("[data-t='email_skip']>button");
+        public static final SelenideElement skipAddReserveEmail = $("h1.passp-title");
+
+
+        public static final SelenideElement skipButton = $("[data-t='email_skip']>button");
         public static final SelenideElement loadPhotoProfileContainer = $(".passp-auth-content");
         public static final SelenideElement skipLoadPhotoProfileButton = $(".registration__avatar-btn a");
 
@@ -29,7 +32,7 @@ public class YandexMailSelectors {
                     "//*[@class='_nb-checkbox-flag _nb-checkbox-normal-flag']");
         public static final SelenideElement deleteMailButton = $("[accesskey='Delete']");
         public static final SelenideElement tapperConfirmAuthInMail =
-            $("a[href=\"https://tapper.staging.zedform.ru/profile/\"]");
+            $x("//a[contains(text(),'Перейти к авторизации')]");
         public static final SelenideElement orderHeading =
             $x("//*[contains(@class,'mail-MessagesList')]/div[.//span[text()='Кассовый чек']]");
         public static final SelenideElement successPaymentHeading =

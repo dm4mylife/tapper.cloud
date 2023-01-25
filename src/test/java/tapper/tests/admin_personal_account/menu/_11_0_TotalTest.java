@@ -16,6 +16,7 @@ import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.AdminPersonalAccountSelectors.Menu.enableMenuForVisitorsButton;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.orderContainer;
 import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuDishContainer;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterMenuIcon;
 
@@ -65,6 +66,7 @@ public class _11_0_TotalTest extends BaseTest {
     public void checkMenuIconAndContainerInTable() {
 
         baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
+        rootPage.closeHintModal();
 
         baseActions.isElementVisible(appFooterMenuIcon);
         baseActions.click(appFooterMenuIcon);
@@ -82,7 +84,8 @@ public class _11_0_TotalTest extends BaseTest {
         Selenide.switchTo().window(1);
         rootPage.refreshPage();
 
-        baseActions.isElementInvisible(appFooterMenuIcon);
+        baseActions.click(appFooterMenuIcon);
+        baseActions.isElementInvisible(orderContainer);
 
     }
 
@@ -98,7 +101,8 @@ public class _11_0_TotalTest extends BaseTest {
         Selenide.switchTo().window(1);
         rootPage.refreshPage();
 
-        baseActions.isElementInvisible(appFooterMenuIcon);
+        baseActions.click(appFooterMenuIcon);
+        baseActions.isElementInvisible(orderContainer);
 
     }
 

@@ -50,7 +50,7 @@ public class _0_9_checkCallWaiterTgMsgTest extends BaseTest {
 
         }
 
-        rootPage.isElementVisible(headerTitleMyOrder);
+        rootPage.isElementVisible(appHeader);
 
     }
 

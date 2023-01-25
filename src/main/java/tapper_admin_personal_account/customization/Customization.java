@@ -13,6 +13,7 @@ import static constants.Constant.TestData.TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_
 import static constants.selectors.AdminPersonalAccountSelectors.Common.customizationCategory;
 import static constants.selectors.AdminPersonalAccountSelectors.Common.pageHeading;
 import static constants.selectors.AdminPersonalAccountSelectors.Customization.*;
+import static constants.selectors.AdminPersonalAccountSelectors.Profile.pagePreloader;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.successCallWaiterHeading;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.successLogoCallWaiter;
 
@@ -32,6 +33,8 @@ public class Customization extends BaseActions {
     @Step("Проверка элементов страницы")
     public void isCustomizationCategoryCorrect() {
 
+        isElementVisible(callWaiterTab);
+        isElementVisible(wifiTab);
         isElementVisible(toWhomSendMsgTitle);
         isElementVisible(waiterAndManagerButton);
         isElementVisible(onlyManagerButton);
@@ -77,9 +80,7 @@ public class Customization extends BaseActions {
     @Step("Ввод текста в шаблон сообщения")
     public void setMsgAsTextPattern() {
 
-        patternTextMsg.click();
-        patternTextMsg.sendKeys(Keys.CONTROL + "A");
-        patternTextMsg.sendKeys(Keys.BACK_SPACE);
+        clearText(patternTextMsg);
         patternTextMsg.sendKeys(TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT);
 
         click(saveButton);
@@ -100,6 +101,58 @@ public class Customization extends BaseActions {
         successCallWaiterHeading.shouldHave(text(textPattern));
 
     }
+
+    @Step("Проверка таба вайфая")
+    public void isWiFiTabCorrect() {
+
+        isElementVisible(wifiSlider);
+        isElementVisible(wifiNetworkName);
+        isElementVisible(wifiNetworkPassword);
+        isElementVisible(saveWifiButton);
+
+    }
+
+    @Step("Включаем вайфай")
+    public void activateWifiIfDeactivated() {
+
+        if (wifiDeactivatedSlider.exists()) {
+
+            click(wifiSlider);
+            pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
+            wifiActivatedSlider.shouldBe(appear);
+
+        }
+
+    }
+
+    @Step("Выключаем вайфай")
+    public void deactivateWifiIfActivated() {
+
+        if (wifiActivatedSlider.exists()) {
+
+            click(wifiSlider);
+            pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
+            wifiDeactivatedSlider.shouldBe(appear);
+
+        }
+
+        wifiNetworkName.shouldBe(disabled);
+        wifiNetworkPassword.shouldBe(disabled);
+        saveWifiButton.shouldBe(disabled);
+
+    }
+
+    @Step("Установка вайфая и пароля")
+    public void setWifiConfiguration(String wifiName, String wifiPassword) {
+
+        clearText(wifiNetworkName);
+        clearText(wifiNetworkPassword);
+        wifiNetworkName.sendKeys(wifiName);
+        wifiNetworkPassword.sendKeys(wifiPassword);
+        click(saveButton);
+
+    }
+
 
 
 }

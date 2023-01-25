@@ -13,12 +13,14 @@ import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
+import java.util.LinkedHashMap;
+
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
-
+import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterMenuIcon;
 
 
 @Order(1)
@@ -31,6 +33,7 @@ import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
 public class _0_1_AllElementsTest extends BaseTest {
 
     static String visit;
+    static String guid;
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -56,6 +59,7 @@ public class _0_1_AllElementsTest extends BaseTest {
 
         Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
         visit = rsCreateOrder.jsonPath().getString("result.visit");
+        guid = rsCreateOrder.jsonPath().getString("result.guid");
 
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
 
@@ -143,6 +147,9 @@ public class _0_1_AllElementsTest extends BaseTest {
     @DisplayName("2.6. Оплачиваем заказ")
     public void payOrder() {
 
+        rootPage.openUrlAndWaitAfter("https://auto-ssr-tapper.zedform.ru/office/3");
+
+        rootPage.isPaymentOptionsCorrect();
         rootPageNestedTests.clickPayment();
         best2PayPageNestedTests.typeDataAndPay();
 
@@ -164,6 +171,19 @@ public class _0_1_AllElementsTest extends BaseTest {
     @DisplayName("2.9. Проверяем что стол освободился")
     public void isTableEmpty() {
         rootPage.isEmptyOrderAfterClosing();
+    }
+
+    @Test
+    @DisplayName("3.0. Проверяем меню")
+    public void isMenuCorrect() {
+
+        rootPage.click(appFooterMenuIcon);
+        rootPage.emptyMenu();
+        LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getTgMsgData(guid,10000);
+
+        Assertions.assertEquals("success", telegramDataForTgMsg.get("message"), "Сообщение не получено");
+        System.out.println("Сообщение о добавлении в меню получено");
+
     }
 
 }

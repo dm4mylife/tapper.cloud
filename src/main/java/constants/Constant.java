@@ -4,19 +4,16 @@ public class Constant {
 
     public static class TestData {
 
-        public static final String TEST_ROOT_URL = "https://tapper3.zedform.ru/testrkeeper/1000046";
         public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
         public static final String STAGE_RKEEPER_TABLE_222 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000397";
+        public static final String STAGE_RKEEPER_TABLE_333 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000398";
         // https://prop-ssr.zedform.ru/testrkeeper/1000046  https://tapper-ssr.zedform.ru/testrkeeper/1000046
         public static final String STAGE_RKEEPER_TABLE_10 = "https://tapper.staging.zedform.ru/testrkeeper/1000044";
-        public static final String STAGE_IIKO_URL = "https://tapper.staging.zedform.ru/office/3";
         public static final String DEMO = "https://tapper.cloud/demo";
         public static final String TEST_BEST2PAY_URL = "https://test.best2pay.net/";
         public static final String API_TEST_URI = "https://taper.zedform.ru/api/";
         public static final String API_STAGE_URI = "https://auto-back-tapper.zedform.ru/api/";  // https://apitapper.zedform.ru/api/
         //public static final String API_AUTO_URI = "https://auto-back-tapper.zedform.ru/api/";
-        public static final String IPHONE12PRO = "390x844";
-        public static final String IPHONE12PRO_TEST = "540x900";
         public static final String TEST_PAYMENT_CARD_NUMBER = "4809388886227309";
         public static final String TEST_PAYMENT_CARD_EXPIRE_MONTH = "12";
         public static final String TEST_PAYMENT_CARD_EXPIRE_YEAR = "24";
@@ -25,7 +22,11 @@ public class Constant {
         public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
         public static final String TEST_YANDEX2_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
         public static final String TEST_YANDEX2_PASSWORD_MAIL = "autotests2023!";
-        public static final Integer TIME_WAIT_FOR_FULL_LOAD = 300;
+
+        public static final String TEST_WIFI_NETWORK_NAME = "auto_wifi";
+        public static final String TEST_WIFI_NETWORK_PASSWORD = "12345678";
+        public static final Integer TIME_WAIT_FOR_FULL_LOAD = 1500;
+        public static final Integer PAYMENT_BANKS_MAX_PRIORITY_BANKS = 3;
         public static final String TEST_WAITER_COMMENT = "test\\тест";
         public static final String TEST_REVIEW_COMMENT = "test\\тест";
         public static final String TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT = "test\\тест";
@@ -66,7 +67,6 @@ public class Constant {
     public static class TestDataRKeeperAdmin {
 
         public static final String R_KEEPER_ADMIN_AUTHORISATION_STAGE_URL = "https://tapper.staging.zedform.ru/users";
-        public static final String R_KEEPER_ADMIN_REGISTRATION_STAGE_URL = "https://tapper.staging.zedform.ru/users/registration";
         public static final String R_KEEPER_ADMIN_PROFILE_STAGE_URL = "https://tapper.staging.zedform.ru/profile";
         public static final String ADMIN_SUPPORT_LOGIN_EMAIL = "varlone_mag2@mail.ru";
         public static final String ADMIN_SUPPORT_PASSWORD = "123123";
@@ -77,7 +77,6 @@ public class Constant {
         public static final String WAITER_PASSWORD = "123456";
         public static final String WAITER_NEW_PASSWORD_FOR_TEST = "123456";
         public static final String ROBOCOP_WAITER_CHANGED_NAME = "Робокопище";
-        public static final String WAITER_TELEGRAM_LOGIN = "robocop";
         public static final String AUTO_CHANNEL_LOGIN = "-1001764474981";
 
     }
@@ -92,7 +91,6 @@ public class Constant {
                        return false;
                    }
                 }; return check();""";
-
 
     }
 
@@ -118,7 +116,6 @@ public class Constant {
         public static final String tableReviewRegex = "(\\n|.)*Номер столика: ([\\d+]+)(\\n|.)*";
         public static final String callWaiterCommentRegex = "(\\n|.)*Комментарий: ((\\n|.)*)Время.*";
         public static final String restaurantNameRegex = "Ресторан #\\d+ \\((.+)\\)(\\n|.)*";
-
 
     }
 

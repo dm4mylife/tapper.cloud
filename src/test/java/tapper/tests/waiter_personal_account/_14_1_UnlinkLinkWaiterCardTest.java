@@ -102,7 +102,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
         waiters.goToWaiterCategory();
 
         waiters.isWaiterStatusCorrectInPreviewAndCard(IRONHIDE_WAITER, "Официант верифицирован");
-        waiters.unlinkMailWaiter();
+        waiters.unlinkMailWaiterInCard();
 
     }
 

@@ -174,6 +174,7 @@ public class ApiRKeeper {
 
         boolean hasError;
         Response response;
+        int errorCounter = 0;
 
         do  {
 
@@ -192,17 +193,24 @@ public class ApiRKeeper {
 
         System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
 
-        hasError = !response.path("message").equals("Операция прошла успешно");
 
-        if (hasError)
-            System.out.println("\nОшибка в запросе, будет сделан повторный запрос\n");
+            hasError = response.path("message").equals("Операция прошла успешно");
 
+            if (!hasError) {
 
-    } while (hasError);
+                errorCounter++;
+                System.out.println("\nОшибка в запросе, будет сделан повторный запрос. Повторная попытка № "
+                        + errorCounter + "\n");
 
-        System.out.println("\nУдалили позицию");
+            } else {
+
+                errorCounter = 3;
+
+            }
+
+        } while (errorCounter < 3);
+
         return response;
-
     }
 
     @Step("Добавление скидки в заказ")
@@ -531,34 +539,40 @@ public class ApiRKeeper {
 
         Response response;
         boolean hasError;
+        int errorCounter = 0;
 
-        do  {
+        do {
 
-        response = given()
-                .contentType(ContentType.JSON)
-                .and()
-                .body(requestBody)
-                .baseUri(baseUri)
-                .when()
-                .post(addModificatorOrder)
-                .then()
-                .log().body()
-                .statusCode(200)
-                .extract()
-                .response();
+            response = given()
+                    .contentType(ContentType.JSON)
+                    .and()
+                    .body(requestBody)
+                    .baseUri(baseUri)
+                    .when()
+                    .post(addModificatorOrder)
+                    .then()
+                    .log().body()
+                    .statusCode(200)
+                    .extract()
+                    .response();
 
-        hasError = !response.path("message").equals("Операция прошла успешно");
+            hasError = response.path("message").equals("Операция прошла успешно");
 
-        if (hasError)
-            System.out.println("\nОшибка в запросе, будет сделан повторный запрос\n");
+            if (!hasError) {
 
-        System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
+                errorCounter++;
+                System.out.println("\nОшибка в запросе, будет сделан повторный запрос. Повторная попытка № "
+                        + errorCounter + "\n");
 
-    } while (hasError);
+            } else {
 
-        System.out.println("\nДобавили модификатор для заказа");
+                errorCounter = 3;
+
+            }
+
+        } while (errorCounter < 3);
+
         return response;
-
     }
 
     @Step("Создание заказа со всеми типами модификаторов")

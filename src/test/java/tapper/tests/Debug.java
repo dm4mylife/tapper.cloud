@@ -2,19 +2,24 @@ package tapper.tests;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
+import tapper_admin_personal_account.AuthorizationPage;
+import tapper_admin_personal_account.operations_history.OperationsHistory;
 import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.Telegram;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
+import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,6 +27,8 @@ import java.util.Map;
 import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
 import static constants.Constant.TestData.*;
+import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.tableNumber;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
@@ -56,16 +63,9 @@ public class Debug {
     @DisplayName("kill")
     public void killTable() {
 
-       // String guid = rootPage.getGuid(TABLE_AUTO_1_ID);
-        String url = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
 
-        String tableId =url.replaceAll(".*\\/","");
-        System.out.println(tableId);
-
-        double discount =
-                Integer.parseInt(rootPage.getDiscount(tableId)) / 100;
-        System.out.println(discount);
-       // apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid),API_STAGE_URI);
+        apiRKeeper.orderPay
+                (rqParamsOrderPay(R_KEEPER_RESTAURANT,rootPage.getGuid(TABLE_AUTO_1_ID)),API_STAGE_URI);
 
     }
 
@@ -298,51 +298,37 @@ public class Debug {
 
     @Test
     @DisplayName("add discount")
-    public void addDiscount() {
+    public void addDiscount() throws ParseException {
 
-       /* Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_3, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
-        guid = rsCreateOrder.jsonPath().getString("result.guid");
-        String visit = rsCreateOrder.jsonPath().getString("result.visit");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
-
-        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
-        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI); */
-
-
-         double totalPay;
-         HashMap<String, Integer> paymentDataKeeper;
-         String transactionId;
          String visit;
          String guid;
-         double discount;
+         double totalPay;
+        String orderType = "part";
+         HashMap<String, Integer> paymentDataKeeper;
+         String transactionId;
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        AuthorizationPage authorizationPage = new AuthorizationPage();
+        OperationsHistory operationsHistory = new OperationsHistory();
+        RootPage rootPage = new RootPage();
+        ApiRKeeper apiRKeeper = new ApiRKeeper();
+        RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+        NestedTests nestedTests = new NestedTests();
 
 
-        visit = rsCreateOrder.jsonPath().getString("result.visit");
-        guid = rsCreateOrder.jsonPath().getString("result.guid");
+        authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "5000"));
+        operationsHistory.goToOperationsHistoryCategory();
 
-        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
-        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI);
+        operationsHistory.isHistoryOperationsCorrect();
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
-        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_1_ID);
 
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
+        operationsHistory.isDatePeriodSetByDefault();
 
-        totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
-        paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        rootPageNestedTests.clickPayment();
-
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
-        transactionId = transaction_id.getValue();
-        best2PayPage.clickPayButton();
-
-        reviewPageNestedTests.fullPaymentCorrect();
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
-
+        operationsHistory.checkTipsAndSumNotEmpty();
+        operationsHistory.isWeekPeriodCorrect();
+        operationsHistory.isMonthPeriodCorrect();
+        operationsHistory.resetPeriodDate();
+        operationsHistory.setCustomPeriod();
 
     }
 

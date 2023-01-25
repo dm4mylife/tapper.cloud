@@ -135,6 +135,7 @@ public class Telegram {
         String isCallWaiterMsg = "Вызов официанта";
         String isReviewMsg = "Рейтинг:";
         String noReviewMsg = "Рейтинг: 0";
+        String menuAddMsg = "Гость попросил добавить меню";
 
         if (tgMsg.contains(isOrderPay)) {
 
@@ -158,7 +159,11 @@ public class Telegram {
 
             msgToParse.put("msgType","review");
 
-        }
+        } else if (tgMsg.contains(menuAddMsg)) {
+
+        msgToParse.put("msgType","menuAdd");
+
+    }
 
         msgToParse.put("message",tgMsg);
 
@@ -273,6 +278,9 @@ public class Telegram {
 
     }
 
+
+
+
     @Step("Парсим сообщение и преобразовываем в в хешкарту в зависимости от типа сообщения")
     public LinkedHashMap<String, String>  parseMsg(HashMap <String,String> msg) {
 
@@ -310,6 +318,13 @@ public class Telegram {
 
                 System.out.println("Вызов официанта\n");
                 callWaiterFiller(textMsg,tgParsedText);
+
+            }
+
+            case "menuAdd" -> {
+
+                System.out.println("Добавить меню\n");
+                tgParsedText.put("message","success");
 
             }
 

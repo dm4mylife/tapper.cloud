@@ -11,7 +11,6 @@ public class ApiData {
         public static final String checkOrderClosed = "rkeeper-automation/check-order-closed";
         public static final String checkPrepayment = "rkeeper-automation/check-prepayment";
         public static final String getPrepayment = "rkeeper-automation/prepayment";
-
         public static final String orderPay = "rkeeper-automation/order/pay";
         public static final String deletePosition = "rkeeper-automation/position";
         public static final String deleteDiscount = "rkeeper-automation/discount";

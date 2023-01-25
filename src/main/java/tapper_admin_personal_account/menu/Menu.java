@@ -21,6 +21,7 @@ import static constants.Constant.TestData.PASTA_IMG_PATH;
 import static constants.selectors.AdminPersonalAccountSelectors.Common.menuCategory;
 import static constants.selectors.AdminPersonalAccountSelectors.Common.pageHeading;
 import static constants.selectors.AdminPersonalAccountSelectors.Menu.*;
+import static constants.selectors.TapperTableSelectors.RootPage.DishList.emptyTableLogoClock;
 import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuCategoryInHeader;
 
 public class Menu extends BaseActions {
@@ -172,9 +173,12 @@ public class Menu extends BaseActions {
         String imageSelector = ".vAdmiMenuTable__item:nth-of-type("+ (dishIndex + 1) +") .vAdmiMenuTable__item-img img";
 
         menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img-del").shouldBe(visible);
+        forceWait(5000);
         editDishNameOkButton.click();
-        forceWait(3000);
+        forceWait(5000);
         editDishNameOkButton.shouldNotBe(visible);
+
+        System.out.println(menuDishItems.get(dishIndex).$("img"));
 
         menuDishItems.get(dishIndex).$("img")
                 .shouldHave(attributeMatching("src","https://storage.tapper.cloud/.*"),Duration.ofSeconds(5));
@@ -185,7 +189,7 @@ public class Menu extends BaseActions {
         String imageUrl = menuDishItems.get(dishIndex).$("img")
                 .getAttribute("src").replaceAll(".*\\/(\\w*)\\..*","$1");
 
-        isImageCorrect(imageSelector,"Изображение qr-кода не корректное или битое");
+        isImageCorrect(imageSelector,"Изображение блюда корректное");
 
         isImageFullContainerCorrect(dishIndex);
 
@@ -646,5 +650,7 @@ public class Menu extends BaseActions {
         System.out.println("Все значения совпали со столом и админкой");
 
     }
+
+
 
 }

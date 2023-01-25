@@ -3,6 +3,7 @@ package tapper.tests.admin_personal_account.customization;
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.customization.Customization;
@@ -17,6 +18,7 @@ import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
 @Order(150)
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Кастомизация")
+@Story("Проверка переключения типу получателя, замена шаблона, проверка на столе")
 @DisplayName("Проверка переключения типу получателя, замена шаблона, проверка на столе")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)

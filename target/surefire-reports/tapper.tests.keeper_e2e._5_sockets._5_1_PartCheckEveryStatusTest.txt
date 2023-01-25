@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tapper.tests.keeper_e2e._5_sockets._5_1_PartCheckEveryStatusTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 116.677 s - in tapper.tests.keeper_e2e._5_sockets._5_1_PartCheckEveryStatusTest

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tapper.tests.admin_personal_account.company_requisites._17_0_TotalTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.217 s - in tapper.tests.admin_personal_account.company_requisites._17_0_TotalTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.174 s - in tapper.tests.admin_personal_account.company_requisites._17_0_TotalTest

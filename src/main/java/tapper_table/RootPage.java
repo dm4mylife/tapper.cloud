@@ -3,11 +3,13 @@ package tapper_table;
 import api.ApiRKeeper;
 import com.codeborne.selenide.*;
 import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.twocaptcha.captcha.ReCaptcha;
 import common.BaseActions;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 
 import java.math.BigDecimal;
@@ -21,8 +23,10 @@ import java.util.Objects;
 import static api.ApiData.QueryParams.rqParamsOrderPay;
 import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
 import static api.ApiData.orderData.TABLE_AUTO_1_ID;
+import static com.codeborne.selenide.ClipboardConditions.content;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
+import static com.codeborne.selenide.Selenide.clipboard;
 import static constants.Constant.JSScripts.isShareButtonCorrect;
 import static constants.Constant.TestData.*;
 import static constants.selectors.TapperTableSelectors.Common.*;
@@ -32,6 +36,8 @@ import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuCategor
 import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TapBar.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
+import com.twocaptcha.*;
+
 
 public class RootPage extends BaseActions {
 
@@ -61,7 +67,6 @@ public class RootPage extends BaseActions {
         forceWait(1500);
 
     }
-
 
     @Step("Сбор всех блюд со страницы таппера и проверка с блюдами на кассе")
     public void matchTapperOrderWithOrderInKeeper(HashMap<Integer, Map<String, Double>> allDishesInfoFromKeeper) {
@@ -126,7 +131,7 @@ public class RootPage extends BaseActions {
 
         }
 
-        startScreenLogoContainer.shouldNotHave(cssValue("display", "flex"), Duration.ofSeconds(10));
+        startScreenLogoContainer.shouldNotHave(cssValue("display", "flex"), Duration.ofSeconds(15));
 
     }
 
@@ -1437,8 +1442,7 @@ public class RootPage extends BaseActions {
     @Step("Кнопка 'Оплатить' отображается корректно")
     public void isPaymentButtonShown() {
 
-        scrollByJS(bodyJS);
-        isElementVisibleDuringLongTime(paymentButton, 15);
+        isElementVisibleAndClickable(paymentButton);
 
     }
 
@@ -1448,6 +1452,7 @@ public class RootPage extends BaseActions {
         isElementVisibleAndClickable(shareButton);
 
         boolean isShareActive = Boolean.TRUE.equals(Selenide.executeJavaScript(isShareButtonCorrect));
+        isImageCorrect(shareButtonSvgNotSelenide,"Иконка в кнопке поделиться счётом не корректная");
 
         Assertions.assertTrue(isShareActive, "Кнопка 'Поделиться счётом' не вызывает панель поделиться ссылкой");
         System.out.println("Кнопка 'Поделиться счётом' работает корректно");
@@ -1481,7 +1486,8 @@ public class RootPage extends BaseActions {
     @Step("Клик по кнопке оплаты")
     public void clickOnPaymentButton() {
 
-        scrollTillBottom();
+        changePaymentTypeOnCard();
+
         click(paymentButton);
 
     }
@@ -1490,6 +1496,109 @@ public class RootPage extends BaseActions {
     public void isPageLoaderShown() {
 
         pagePreLoader.shouldNotHave(cssValue("display", "none"));
+
+    }
+
+    @Step("Смена оплаты на CБП")
+    public void changePaymentTypeOnSBP() {
+
+        click(paymentOptionsContainer);
+        click(paymentOptionSBP);
+        click(paymentContainerSaveButton);
+        paymentChosenTypeText.shouldHave(matchText("Система быстрых платежей"));
+
+    }
+
+    @Step("Проверка формы СБП")
+    public void isPaymentSBPCorrect() {
+
+        changePaymentTypeOnSBP();
+        click(paymentButton);
+
+        isElementVisible(paymentSBPContainer);
+        isElementsListVisible(paymentBanksPriorityBanks);
+        paymentBanksPriorityBanks.shouldHave(CollectionCondition.size(PAYMENT_BANKS_MAX_PRIORITY_BANKS));
+        isElementVisible(paymentBanksAllBanksButton);
+        isElementVisible(paymentBanksDescription);
+        isElementVisible(paymentBanksReceipt);
+
+        isReceiptEmailCorrect();
+
+    }
+
+    @Step("Проверка поля почты для чека")
+    public void isReceiptEmailCorrect() {
+
+        emailReceiptInput.shouldBe(hidden);
+        click(paymentBanksReceipt);
+        emailReceiptInput.shouldBe(appear);
+
+        emailReceiptInput.sendKeys(TEST_YANDEX_LOGIN_EMAIL);
+        emailReceiptInput.shouldHave(value(TEST_YANDEX_LOGIN_EMAIL));
+
+        click(paymentBanksReceipt);
+        click(paymentBanksReceipt);
+
+        emailReceiptInput.shouldHave(value(TEST_YANDEX_LOGIN_EMAIL));
+        clearText(emailReceiptInput);
+        emailReceiptInput.sendKeys(TEST_REVIEW_COMMENT);
+        emailReceiptErrorMsg.shouldBe(visible);
+        clearText(emailReceiptInput);
+
+    }
+
+    @Step("Прерывание процесса оплаты")
+    public void cancelProcessPaying() {
+
+        isCancelPaymentcontainerCorrect();
+
+        click(cancelProcessPayingContainerSaveBtn);
+
+        cancelProcessPayingContainer.shouldBe(disappear);
+
+        click(paymentButton);
+
+        click(paymentOverlay);
+        click(cancelProcessPayingContainerCancelBtn);
+
+        isElementVisible(paymentSBPContainer);
+        cancelProcessPayingContainer.shouldBe(disappear);
+
+    }
+
+    @Step("Проверка модального окна прерывания оплаты")
+    public void isCancelPaymentcontainerCorrect() {
+
+        isElementVisible(cancelProcessPayingContainer);
+        isElementVisible(cancelProcessPayingContainerCancelBtn);
+        isElementVisible(cancelProcessPayingContainerSaveBtn);
+
+    }
+
+    @Step("Смена оплаты на кредитную карту")
+    public void changePaymentTypeOnCard() {
+
+        click(paymentOptionsContainer);
+        click(paymentOptionCreditCard);
+        click(paymentContainerSaveButton);
+        paymentChosenTypeText.shouldHave(matchText("Банковская карта"));
+
+    }
+
+    @Step("Проверка смены оплаты, отмена оплаты")
+    public void isPaymentOptionsCorrect() {
+
+        isPaymentSBPCorrect();
+
+        click(paymentOverlay);
+
+        cancelProcessPaying();
+
+        click(paymentOverlay);
+        click(cancelProcessPayingContainerSaveBtn);
+
+        changePaymentTypeOnCard();
+        changePaymentTypeOnSBP();
 
     }
 
@@ -1640,14 +1749,14 @@ public class RootPage extends BaseActions {
         scroll(appFooter);
         isElementVisible(appFooter);
         isElementVisibleAndClickable(appFooterMenuIcon);
-        isElementVisibleAndClickable(appFooterWalletIcon);
+        isElementVisibleAndClickable(totalSumInWalletCounter);
 
         click(appFooterMenuIcon);
         isElementVisible(orderMenuContainer);
 
         isElementInvisible(orderContainer);
 
-        click(appFooterWalletIcon);
+        click(totalSumInWalletCounter);
 
         isElementVisible(orderContainer);
         isElementInvisible(orderMenuContainer);
@@ -1674,6 +1783,18 @@ public class RootPage extends BaseActions {
         isElementVisibleAndClickable(callWaiterButtonCancel);
         isElementVisible(callWaiterCloseButton);
         isElementVisible(callWaiterCommentArea);
+
+    }
+
+    @Step("Проверка меню если его не сделали видимым для юзеров")
+    public void emptyMenu() {
+
+        isElementVisible(emptyTableLogoClock);
+        isElementVisible(emptyOrderMenuDescription);
+        emptyOrderMenuButton.shouldNotBe(disabled);
+
+        click(emptyOrderMenuButton);
+        isElementVisible(thanksFeedBackAlert);
 
     }
 
@@ -1992,8 +2113,6 @@ public class RootPage extends BaseActions {
 
         double discountDouble = 0;
 
-
-
         double paySumDouble = getClearOrderAmount();
         System.out.println(paySumDouble + " paySumDouble");
 
@@ -2165,6 +2284,46 @@ public class RootPage extends BaseActions {
         Response rsGetOrder = apiRKeeper.getOrderInfo(tableId,API_STAGE_URI);
         return rsGetOrder.jsonPath().getString("@attributes.discountSum")
                 .replaceAll("\\-","");
+
+    }
+
+    @Step("Проверка вайфая на столе")
+    public void checkWiFiOnTapperTable(String wifiName,String wifiPassword) {
+
+        isElementVisibleAndClickable(wiFiIcon);
+        click(wiFiIcon);
+
+        isWifiContainerCorrect();
+
+        String wifiPasswordText = wiFiPassword.getText().replaceAll("Пароль: ","");
+        String wifiNameText = wiFiName.getText().replaceAll("Сеть: ","");
+
+        Assertions.assertEquals(wifiPassword,wifiPasswordText,
+                "Пароль wifi не совпадет с установленным в админке");
+        System.out.println("Пароль wifi совпадет с установленным в админке");
+
+        Assertions.assertEquals(wifiName,wifiNameText,"Имя wifi совпадет с установленным в админке");
+        System.out.println("Имя wifi совпадет с установленным в админке");
+
+        click(wiFiPassword);
+        wiFiPassword.shouldHave(text("Скопировано"));
+
+        clipboard().shouldHave(content(wifiPasswordText),Duration.ofSeconds(5));
+        System.out.println("Текст успешно скопирован в буфер обмена");
+
+        click(wiFiCloseButton);
+        isElementInvisible(wiFiContainer);
+
+    }
+
+    @Step("Проверка корректности вайфай контейнера")
+    public void isWifiContainerCorrect() {
+
+        isElementVisible(wiFiContainer);
+        isElementVisible(wiFiHeader);
+        isElementVisible(wiFiCloseButton);
+        isElementVisible(wiFiName);
+        isElementVisible(wiFiPassword);
 
     }
 

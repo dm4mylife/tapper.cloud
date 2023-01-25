@@ -7,6 +7,7 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.Keys;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +21,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
+import static constants.selectors.AdminPersonalAccountSelectors.Customization.patternTextMsg;
 
 
 public class BaseActions {
@@ -184,6 +186,15 @@ public class BaseActions {
     @Step("Преобразовываем\\вырезаем текст из селектора строку")
     public String convertSelectorTextIntoStrByRgx(@NotNull SelenideElement selector, String regex) {
         return selector.getText().replaceAll(regex, "");
+
+    }
+
+    @Step("Удаление текста из поля")
+    public void clearText(SelenideElement element) {
+
+        element.click();
+        element.sendKeys(Keys.CONTROL + "A");
+        element.sendKeys(Keys.BACK_SPACE);
 
     }
 

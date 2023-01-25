@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tapper.tests.waiter_personal_account._14_1_UnlinkLinkWaiterCardTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 182.096 s - in tapper.tests.waiter_personal_account._14_1_UnlinkLinkWaiterCardTest

@@ -131,11 +131,11 @@ public class AdminPersonalAccountSelectors {
             public static final SelenideElement enterEmailField = $(".section-profile__group #email");
             public static final SelenideElement waiterTelegramLogin = $("#loginTelegram");
             public static final SelenideElement waiterTelegramID = $("#idTelegram");
-            public static final SelenideElement unlinkMailConfirmPopup = $(".vModalUnlinkEmail__content");
-            public static final SelenideElement confirmUnlinkEmailButton =
-                    $x("//*[@class='vModalUnlinkEmail__content']//button[@class='vButton']");
-            public static final SelenideElement cancelMailConfirmPopup = $(".vModalCancelInvitation__content");
-            public static final SelenideElement confirmCancelingEmailButton =
+            public static final SelenideElement unlinkMailConfirmPopup = $(".vModalUnlinkEmail");
+            public static final SelenideElement unlinkEmailConfirmButton =
+                    $x("//*[@class='vModalUnlinkEmail']//button[@class='vButton']");
+            public static final SelenideElement cancelMailConfirmationPopup = $(".vModalCancelInvitation__content");
+            public static final SelenideElement cancelMailConfirmationSaveButton =
                     $x("//*[@class='vModalCancelInvitation__content']//button[@class='vButton']");
             public static final SelenideElement backToPreviousPage = $(".vSectionWaitersection__back");
             public static final SelenideElement waiterStatusInCard =
@@ -152,10 +152,38 @@ public class AdminPersonalAccountSelectors {
 
         public static class Customization {
 
+            public static final SelenideElement wifiTab =
+                    $x("//*[contains(@class,'vSectionCustomization__switching-tabs') " +
+                            "and contains(text(),'Информация о Wi-Fi')]");
+
+            public static final SelenideElement callWaiterTab =
+                    $x("//*[contains(@class,'vSectionCustomization__switching-tabs') " +
+                            "and contains(text(),'Вызов официанта')]");
+
+            public static final SelenideElement wifiSlider =
+                    $(".vAdminDisplayingWiFi__switch");
+
+            public static final SelenideElement wifiActivatedSlider =
+                    $(".vBlockWiFiInformation input[id='network']:not([disabled])");
+
+            public static final SelenideElement wifiDeactivatedSlider =
+                    $(".vBlockWiFiInformation input[id='network'][disabled]");
+            public static final SelenideElement wifiNetworkName =
+                    $("[id=\"network\"]");
+
+            public static final SelenideElement wifiNetworkPassword =
+                    $("[id=\"password\"]");
+
+            public static final SelenideElement saveWifiButton =
+                    $(".vBlockWiFiInformation__container .vButton");
+
+
+
+
             public static final SelenideElement customizationContainer =
                     $(".vSectionCustomization.section-profile");
             public static final SelenideElement toWhomSendMsgTitle =
-                    $(".vSectionCustomization__recipient h3");
+                    $(".vBlockCallingWaiter__recipient h3");
             public static final SelenideElement waiterAndManagerButton =
                     $x("//div[../*[@value=\"WAITER_AND_MANAGER\"]]");
             public static final SelenideElement waiterAndManagerInput =
@@ -169,15 +197,15 @@ public class AdminPersonalAccountSelectors {
             public static final SelenideElement saveButton =
                     $(".vButton");
             public static final SelenideElement recipientContainer =
-                    $(".vSectionCustomization__recipient-info");
+                    $(".vBlockCallingWaiter__recipient-info");
             public static final SelenideElement recipientWaiterIcon =
-                    $(".vSectionCustomization__recipient-info g+rect");
+                    $(".vBlockCallingWaiter__recipient-info g+rect");
             public static final SelenideElement recipientManagerIcon =
-                    $(".vSectionCustomization__recipient-info g+rect+rect");
+                    $(".vBlockCallingWaiter__recipient-info g+rect+rect");
             public static final SelenideElement msgTextContainer =
-                    $(".vSectionCustomization__message-info");
+                    $(".vBlockCallingWaiter__message");
             public static final SelenideElement msgTextExample =
-                    $(".vSectionCustomization__message-info__example p");
+                    $(".vBlockCallingWaiter__message-example p");
 
         }
 
@@ -317,10 +345,12 @@ public class AdminPersonalAccountSelectors {
             public static final String periodButton = ".mx-input-wrapper";
             public static final SelenideElement leftArrowMonthPeriod =
                     $(".mx-calendar:first-child .mx-btn-icon-left");
-            public static final SelenideElement firstDayOnMonthPeriod =
-                    $$(".mx-calendar:first-child .mx-calendar-content td[class='cell']").first();
-            public static final SelenideElement lastDayOnMonthPeriod =
-                    $$(".mx-calendar:first-child .mx-calendar-content td[class='cell']").last();
+            public static final SelenideElement currentMonth =
+                    $(".mx-calendar-panel-date:first-child .mx-calendar-header .mx-calendar-header-label .mx-btn-current-month");
+
+
+            public static final ElementsCollection daysOnMonthPeriod =
+                    $$(".mx-calendar:first-child .mx-calendar-content td[class='cell']");
             public static final SelenideElement resetPeriodButton = $(".vHistoryBlockHeader__period-reset");
             public static final SelenideElement historyTotalPeriodDate = $(".vHistoryTotalPeriod__date");
             public static final SelenideElement historyPeriodDate = $(".vHistoryList__date");
@@ -391,8 +421,9 @@ public class AdminPersonalAccountSelectors {
                     $(".sectionTelegram-modal__content .vButton--gray");
             public static final SelenideElement deleteTelegramContainerCloseButton =
                     $(".sectionTelegram-modal__close");
-            public static final SelenideElement pagePreloader =
-                    $(".vPreloader");
+
+            public static final SelenideElement errorTextInLoginTelegram =
+                    $(".vLandingInput.err .vLandingInput__err");
 
 
 

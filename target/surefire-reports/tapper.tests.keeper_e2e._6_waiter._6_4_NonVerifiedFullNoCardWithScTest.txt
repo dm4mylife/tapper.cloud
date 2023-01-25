@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tapper.tests.keeper_e2e._6_waiter._6_4_NonVerifiedFullNoCardWithScTest
+-------------------------------------------------------------------------------
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 95.783 s - in tapper.tests.keeper_e2e._6_waiter._6_4_NonVerifiedFullNoCardWithScTest

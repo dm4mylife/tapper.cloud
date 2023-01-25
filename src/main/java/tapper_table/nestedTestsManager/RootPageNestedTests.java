@@ -19,7 +19,7 @@ import static com.codeborne.selenide.Condition.*;
 import static constants.Constant.TestData.API_STAGE_URI;
 import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
 import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
-import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooter;
+import static constants.selectors.TapperTableSelectors.RootPage.TapBar.*;
 import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
 
 
@@ -53,11 +53,14 @@ public class RootPageNestedTests extends RootPage {
 
         isHintModalCorrect();
         closeHintModal();
-        isElementVisible(headerTitleMyOrder);
+        isElementVisible(appHeader);
         isElementVisible(tableNumber);
         emptyOrderHeading.shouldHave(matchText("Ваш заказ появится здесь"));
         isRefreshButtonCorrect();
         isElementVisible(appFooter);
+        isElementVisible(callWaiterButton);
+        isElementVisible(totalSumInWalletCounter);
+        totalSumInWalletCounter.shouldHave(matchText("0 ₽"));
 
     }
 
@@ -98,7 +101,6 @@ public class RootPageNestedTests extends RootPage {
     @Step("Клик в оплату, появление лоадера и проверка что мы на эквайринге")
     public void clickPayment() {
 
-        scrollTillBottom();
         clickOnPaymentButton();
         isPageLoaderShown();
         dishesSumChangedHeading.shouldNotHave(visible, Duration.ofSeconds(2));

@@ -8,8 +8,7 @@ import tapper_admin_personal_account.AuthorizationPage;
 import tapper_admin_personal_account.config_notifications.ConfigNotifications;
 import tests.BaseTest;
 
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
+import static constants.Constant.TestDataRKeeperAdmin.*;
 
 @Order(160)
 @Epic("Личный кабинет администратора ресторана")
@@ -41,13 +40,21 @@ public class _16_0_TotalTest extends BaseTest {
         configNotifications.isConfigNotificationsCategoryCorrect();
 
     }
+    @Test
+    @DisplayName("1.3. Проверяем ошибку при вводе логина телеграмма")
+    public void isErrorTelegramLoginCorrect() {
 
+
+        configNotifications.isErrorTelegramLoginCorrect();
+
+    }
 
     @Test
-    @DisplayName("1.3. Удаление и добавление канала")
+    @DisplayName("1.4. Удаление и добавление канала")
     public void isChangingRecipientsCorrect() {
 
-        configNotifications.findAutoChannel();
+
+        configNotifications.findAutoChannel(AUTO_CHANNEL_LOGIN);
 
     }
 

@@ -34,7 +34,11 @@ public class YandexPage extends BaseActions {
 
         if (skipAddReservePassportContainer.isDisplayed()) {
 
-            skipAddReservePassportButton.click();
+            skipButton.click();
+
+        } else if (skipAddReserveEmail.isDisplayed() && skipAddReserveEmail.getText().matches("Если потеряете доступ")) {
+
+            skipButton.click();
 
         }
 
@@ -62,6 +66,7 @@ public class YandexPage extends BaseActions {
     public void goToAuthPageFromMail() {
 
         tapperConfirmAuthInMail.click();
+        isTextContainsInURL("tapper");
         switchTab(1);
         System.out.println("Переключились на новую вкладку");
 
@@ -71,6 +76,7 @@ public class YandexPage extends BaseActions {
     public void deleteMail(String email, String password) {
 
         yandexAuthorization(email,password);
+        tapperMailCheckbox.shouldBe(visible,Duration.ofSeconds(20));
         click(tapperMailCheckbox);
         click(deleteMailButton);
         tapperMail.shouldNotBe(exist);

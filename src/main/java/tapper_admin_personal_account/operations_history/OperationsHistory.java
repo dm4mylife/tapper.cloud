@@ -3,6 +3,7 @@ package tapper_admin_personal_account.operations_history;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
@@ -157,8 +158,8 @@ public class OperationsHistory extends BaseActions {
 
         String periodDate = getDatePeriodForMonth();
 
-        String fromPeriodDate = "01." + getCurrentDateInFormat("MM.yyyy");
-        String toPeriodDate = getCurrentDateInFormat("dd.MM.yyyy");
+        String fromPeriodDate = getCurrentDateInFormat("MM.yyyy");
+        String toPeriodDate = getCurrentDateInFormat("MM.yyyy");
 
         historyTotalPeriodDate.shouldHave(text(periodDate));
         System.out.println("Месячный фильтр работает корректно");
@@ -195,13 +196,23 @@ public class OperationsHistory extends BaseActions {
 
         Selenide.executeJavaScript("document.querySelector('" + periodButton +"').click();");
 
-        click(leftArrowMonthPeriod);
+        System.out.println(currentMonth.getText());
 
-        String fromPeriodDate = convertDataFormat(firstDayOnMonthPeriod.getAttribute("title"));
-        String toPeriodDate = convertDataFormat(lastDayOnMonthPeriod.getAttribute("title"));
+        do {
 
-        click(firstDayOnMonthPeriod);
-        click(lastDayOnMonthPeriod);
+            forceWait(300);
+            click(leftArrowMonthPeriod);
+
+        } while(!currentMonth.getText().equals("Ноябрь"));
+
+        SelenideElement fromDate = daysOnMonthPeriod.first();
+        SelenideElement toDate = daysOnMonthPeriod.last();
+
+        String fromPeriodDate = convertDataFormat(fromDate.getAttribute("title"));
+        String toPeriodDate = convertDataFormat(toDate.getAttribute("title"));
+
+        click(fromDate);
+        click(toDate);
         operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(30));
 
         periodContainer.shouldHave(text(fromPeriodDate + " - " + toPeriodDate));

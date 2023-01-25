@@ -44,16 +44,25 @@ public class _9_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.2. Отправка приглашение на почту официанту")
+    @DisplayName("1.2. Проверка поиска при некорректном запросе ")
     public void sendInviteWaiter() {
 
         waiters.goToWaiterCategory();
+        waiters.searchWaiterNegative();
+
+
+    }
+
+    @Test
+    @DisplayName("1.3. Отправка приглашение на почту официанту")
+    public void negativeSearchWaiter() {
+
         waiters.sendInviteToWaiterEmail(OPTIMUS_PRIME_WAITER,TEST_YANDEX_LOGIN_EMAIL);
 
     }
 
     @Test
-    @DisplayName("1.3. Проверка смены статуса верификации")
+    @DisplayName("1.4. Проверка смены статуса верификации")
     public void checkWaiterStatus() {
 
         backToPreviousPage.click();
@@ -63,19 +72,19 @@ public class _9_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.4. Авторизация в почте яндекса")
+    @DisplayName("1.5. Авторизация в почте яндекса")
     public void yandexAuthorization() {
         yandexPage.yandexAuthorization(TEST_YANDEX_LOGIN_EMAIL,TEST_YANDEX_PASSWORD_MAIL);
     }
 
     @Test
-    @DisplayName("1.5. Отправка приглашение на почту официанту")
+    @DisplayName("1.6. Отправка приглашение на почту официанту")
     public void checkInvitationMail() {
         password = yandexPage.checkTapperMail();
     }
 
     @Test
-    @DisplayName("1.6. Переход на авторизацию из письма в приглашении с присланными данными и авторизация")
+    @DisplayName("1.7. Переход на авторизацию из письма в приглашении с присланными данными и авторизация")
     public void goToAuthTapperPage() {
 
         yandexPage.goToAuthPageFromMail();
@@ -86,28 +95,20 @@ public class _9_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.7. Проверка что авторизация корректна")
+    @DisplayName("1.8. Проверка что авторизация корректна")
     public void checkIfWaiterVerifiedSuccessfully() {
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         waiters.goToWaiterCategory();
         waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, "Официант верифицирован");
+        adminAccount.logOut();
 
     }
 
     @Test
-    @DisplayName("1.8. Проверка статуса верификации, удаление привязанной почты у официанта")
+    @DisplayName("1.9. Проверка статуса верификации, удаление привязанной почты у официанта")
     public void clearMailWaiter() {
-        waiters.unlinkMailWaiter();
-    }
-
-    @Test
-    @DisplayName("1.9. Проверка поиска при некорректном запросе")
-    public void negativeSearchWaiter() {
-
-        backToPreviousPage.click();
-        waiters.searchWaiterNegative();
-
+        waiters.unlinkMailWaiter(ADMIN_RESTAURANT_LOGIN_EMAIL,ADMIN_RESTAURANT_PASSWORD);
     }
 
     @Test

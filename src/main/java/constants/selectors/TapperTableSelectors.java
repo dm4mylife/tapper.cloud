@@ -9,7 +9,26 @@ public class TapperTableSelectors {
 
     public static class Common {
 
-        public static final String bodyJS = "body";
+
+        public static final SelenideElement wiFiIcon =
+                $(".appHeader__wifi");
+
+
+
+        public static final SelenideElement wiFiContainer =
+                $(".wifiModal");
+
+        public static final SelenideElement wiFiHeader =
+                $(".wifiModal__header");
+
+
+        public static final SelenideElement wiFiCloseButton =
+                $(".baseButtonClose.wifiModal__close");
+
+        public static final SelenideElement wiFiName =
+                $(".wifiModal__name");
+        public static final SelenideElement wiFiPassword =
+                $(".wifiModal__btn [class='wifiModal__btn-text']");
         public static final SelenideElement startScreenLogoContainer =
             $("[data-auto=\"startScreenLogoContainer\"]");
         public static final SelenideElement startScreenLogoContainerImage =
@@ -32,12 +51,19 @@ public class TapperTableSelectors {
                     $(".modalHint");
             public static final SelenideElement modalHintCloseButton =
                     $(".modalHint .baseButtonClose");
-            public static final SelenideElement headerTitleMyOrder =
-                $("[data-auto=\"headerTitleMyOrder\"]");
+            public static final SelenideElement appHeader =
+                $(".appHeader");
             public static final SelenideElement tableNumber =
-                $("[data-auto=\"tableNumber\"]");
+                $(".appHeader .appHeader__table");
             public static final SelenideElement emptyTableLogoClock = $("[data-auto=\"emptyTableLogoClock\"]");
+            public static final SelenideElement emptyOrderMenuDescription = $(".orderMenuEmpty__description");
+
             public static final SelenideElement emptyOrderHeading = $("[data-auto=\"emptyOrderHeading\"]");
+            public static final SelenideElement emptyOrderMenuButton = $(".orderMenuEmpty__container button");
+
+            public static final SelenideElement thanksFeedBackAlert =
+                    $(".orderMenuEmpty__background.backgroundActive");
+
             public static final SelenideElement separateOrderHeading =
                 $("[data-auto=\"separateOrderHeading\"]");
             public static final SelenideElement dishesSumChangedHeading =
@@ -136,13 +162,60 @@ public class TapperTableSelectors {
                     $(".serviceFee [data-auto=\"serviceCharge\"]");
             public static final SelenideElement paymentMethodsContainer =
                 $("[data-auto=\"paymentMethodsContainer\"]");
+            public static final SelenideElement paymentOptionsContainer =
+                    $(".payedVariants__header");
+            public static final SelenideElement paymentOptionCreditCard =
+                    $x("//*[@class='paymentMethod__item' and contains(text(),'Банковская карта')]");
+            public static final SelenideElement paymentOptionSBP =
+                    $x("//*[@class='paymentMethod__item' and contains(text(),'Система быстрых платежей')]");
+            public static final SelenideElement paymentContainerSaveButton =
+                    $(".paymentMethod button");
+            public static final SelenideElement paymentChosenTypeText =
+                    $(".payedVariants__subtitle");
+
+            public static final SelenideElement paymentOverlay =
+                    $(".modalBottom__overlay");
+
+            public static final SelenideElement paymentSBPContainer =
+                    $(".modalBottom");
+
+            public static final ElementsCollection paymentBanksPriorityBanks =
+                    $$(".paymentBanksPriority__item");
+
+            public static final SelenideElement paymentBanksAllBanksButton =
+                    $(".paymentAllBanksButton");
+            public static final SelenideElement paymentBanksDescription =
+                    $(".paymentBanks__description");
+            public static final SelenideElement paymentBanksReceipt =
+                    $(".paymentBanks__check");
+
+            public static final SelenideElement emailReceiptInput =
+                    $(".baseInput input");
+            public static final SelenideElement emailReceiptErrorMsg =
+                    $(".baseInput__error");
+
+            public static final SelenideElement cancelProcessPayingContainer =
+                    $(".baseModal .baseModal__content");
+
+            public static final SelenideElement cancelProcessPayingContainerCancelBtn =
+                    $(".paymentAlert__buttons .baseButton--blue");
+            public static final SelenideElement cancelProcessPayingContainerSaveBtn =
+                    $(".paymentAlert__buttons .baseButton--gray");
+
+
+
+
+
+
+
             public static final ElementsCollection paymentMethods =
                 $$("[data-auto=\"paymentMethodsContainer\"] img");
             public static final SelenideElement confPolicyContainer = $("[data-auto=\"confPolicyContainer\"]");
             public static final SelenideElement confPolicyContent = $("[data-auto=\"confPolicyContent\"]");
             public static final SelenideElement confPolicyLink =
                 $(".mainPage .privacyPolicy .privacyPolicy__text");
-            public static final SelenideElement shareButton = $("[data-auto=\"shareButton\"]");
+            public static final SelenideElement shareButton = $(".shareBtn");
+            public static final String shareButtonSvgNotSelenide = ".shareBtn img";
 
         }
 
@@ -151,8 +224,6 @@ public class TapperTableSelectors {
             public static final SelenideElement appFooter = $("[data-auto=\"appFooter\"]");
             public static final SelenideElement appFooterMenuIcon =
                 $x("//*[@class='appFooter__btn'][.//*[name()=\"svg\" and contains(@class,\"iconMenu\")]]");
-            public static final SelenideElement appFooterWalletIcon =
-                $("[data-auto=\"totalSumInWalletCounter\"]");
             public static final SelenideElement callWaiterHeadingPrompt =
                 $("[data-auto=\"callWaiterHeading\"]");
             public static final SelenideElement callWaiterHeading =

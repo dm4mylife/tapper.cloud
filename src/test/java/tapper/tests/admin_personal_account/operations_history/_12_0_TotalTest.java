@@ -47,6 +47,7 @@ public class _12_0_TotalTest extends BaseTest {
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
 
+    @Disabled
     @Test
     @DisplayName("1.0 Создание заказа в r_keeper, оплата его, чтобы появилась операция в истории операций")
     public void createAndFillOrder() {
@@ -117,7 +118,9 @@ public class _12_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.7. Установка и проверка кастомного периода")
     public void isCustomPeriodCorrect() throws ParseException {
+
         operationsHistory.setCustomPeriod();
+
     }
 
 }

@@ -5,7 +5,6 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;

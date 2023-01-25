@@ -28,7 +28,7 @@ public class BaseTest {
 
         Configuration.browser = Browsers.CHROME;
         Configuration.savePageSource = false;
-        Configuration.headless = false;
+        Configuration.headless = true;
         Configuration.browserPosition = "0x0";
         Configuration.browserSize = "1920x1080";
 

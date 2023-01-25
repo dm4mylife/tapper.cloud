@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tapper.tests.admin_personal_account.tables_and_qr_codes._10_0_TotalTest
 -------------------------------------------------------------------------------
-Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.417 s - in tapper.tests.admin_personal_account.tables_and_qr_codes._10_0_TotalTest
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 37.915 s - in tapper.tests.admin_personal_account.tables_and_qr_codes._10_0_TotalTest

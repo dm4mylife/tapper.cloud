@@ -63,7 +63,7 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
     public void cancelInvitationByAdmin() {
 
         //rootPage.forceWait(2000); // toDo после отправки инвайта появляется сверху уведомление и перекрывает лейаут у формы отмены инвайта. поэтому ждём
-        waiters.cancelMailWaiter();
+        waiters.cancelEMailWaiterInvitationInCard();
         backToPreviousPage.click();
 
     }

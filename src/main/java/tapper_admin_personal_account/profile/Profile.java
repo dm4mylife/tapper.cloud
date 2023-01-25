@@ -71,9 +71,7 @@ public class Profile extends BaseActions {
 
         String previousValue = element.getValue();
 
-        element.click();
-        element.sendKeys(Keys.CONTROL + "A");
-        element.sendKeys(Keys.BACK_SPACE);
+        clearText(element);
         element.shouldHave(empty);
         element.sendKeys(value);
         click(saveButton);
@@ -83,9 +81,7 @@ public class Profile extends BaseActions {
         element.shouldHave(value(value));
 
 
-        element.click();
-        element.sendKeys(Keys.CONTROL + "A");
-        element.sendKeys(Keys.BACK_SPACE);
+        clearText(element);
         element.sendKeys(previousValue);
         click(saveButton);
         element.should(value(previousValue));

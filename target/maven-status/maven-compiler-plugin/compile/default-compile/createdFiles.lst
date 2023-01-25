@@ -6,6 +6,7 @@ common\CustomStrategyParallelExecution.class
 constants\selectors\TapperTableSelectors$RootPage$TipsAndCheck.class
 tapper_waiter_personal_account\Waiter.class
 api\ApiData.class
+constants\Constant$RegexPattern.class
 constants\selectors\TapperTableSelectors$Best2PayPage.class
 constants\selectors\TapperTableSelectors$RootPage$Menu.class
 constants\selectors\WaiterPersonalAccountSelectors.class
@@ -20,6 +21,7 @@ api\ApiData$QueryParams.class
 tapper_admin_personal_account\customization\Customization.class
 constants\selectors\AdminPersonalAccountSelectors$CompanyRequisites.class
 tapper_admin_personal_account\operations_history\OperationsHistory.class
+constants\selectors\AdminPersonalAccountSelectors$ConfigNotifications.class
 constants\selectors\AdminPersonalAccountSelectors$Customization.class
 constants\Constant$TestData.class
 tapper_table\ReviewPage.class
@@ -42,6 +44,7 @@ constants\selectors\AdminPersonalAccountSelectors$TableAndQrCodes.class
 constants\selectors\AuthAndRegistrationPageSelectors$AuthorizationPage.class
 constants\selectors\AdminPersonalAccountSelectors$Integrations.class
 constants\selectors\AdminPersonalAccountSelectors$Waiters.class
+tapper_admin_personal_account\config_notifications\ConfigNotifications.class
 tapper_admin_personal_account\profile\Profile.class
 api\ApiData$orderData.class
 constants\Constant$TestDataRKeeperAdmin.class
