@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tapper.tests.FirstThreadTestSuite
 -------------------------------------------------------------------------------
-Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 744.947 s - in tapper.tests.FirstThreadTestSuite
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1,451.597 s - in tapper.tests.FirstThreadTestSuite

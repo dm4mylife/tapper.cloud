@@ -2,14 +2,19 @@ package tapper.tests;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.*;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.operations_history.OperationsHistory;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.menu.Menu;
+import admin_personal_account.operations_history.OperationsHistory;
 import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
@@ -20,18 +25,17 @@ import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 
 import java.text.ParseException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.QueryParams.*;
-import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.tableNumber;
-import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
+import static api.ApiData.orderData.TABLE_AUTO_1_ID;
+import static com.codeborne.selenide.Selenide.*;
+import static data.Constants.TestData.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.selectors.TapperTable.RootPage.DishList.divideCheckSlider;
 
 
 @Epic("Debug")
@@ -63,9 +67,53 @@ public class Debug {
     @DisplayName("kill")
     public void killTable() {
 
+    DesiredCapabilities capabilities = new DesiredCapabilities();
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--incognito");
+    capabilities.setCapability(ChromeOptions.CAPABILITY,options);
 
-        apiRKeeper.orderPay
-                (rqParamsOrderPay(R_KEEPER_RESTAURANT,rootPage.getGuid(TABLE_AUTO_1_ID)),API_STAGE_URI);
+
+
+    WebDriver firstBrowser = new ChromeDriver(options);
+    firstBrowser.manage().window().setPosition(new Point(0,0));
+
+    WebDriver secondBrowser = new ChromeDriver(options);
+    secondBrowser.manage().window().setPosition(new Point(960,0));
+
+
+     using(firstBrowser, () -> {
+
+        open("https://stage-ssr.zedform.ru/testrkeeper/1000043");
+
+     });
+
+    using(secondBrowser, () -> {
+
+        open("https://stage-ssr.zedform.ru/testrkeeper/1000043");
+
+    });
+
+    using(firstBrowser, () -> {
+
+        sleep(5000);
+        divideCheckSlider.click();
+        rootPage.chooseCertainAmountDishes(1);
+
+    });
+
+    using(secondBrowser, () -> {
+
+        sleep(5000);
+
+
+    });
+
+
+
+    firstBrowser.close();
+    secondBrowser.close();
+
+
 
     }
 
@@ -76,7 +124,7 @@ public class Debug {
 
 
 
-        Response rs = apiRKeeper.getOrderInfo("1000044",API_STAGE_URI);
+        Response rs = apiRKeeper.getOrderInfo("1000044", TapperTable.AUTO_API_URI);
 
        // apiRKeeper.fillOrderWithAllModiDishes();
 
@@ -215,13 +263,11 @@ public class Debug {
 
         rootPage.forceWait(2000);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_10);
+        rootPage.openUrlAndWaitAfter(TapperTable.STAGE_RKEEPER_TABLE_10);
 
         rootPage.matchTapperOrderWithOrderInKeeper(allDishesInfo);
 
        rootPageNestedTests.closeOrder();
-
-
 
     }
 
@@ -232,7 +278,7 @@ public class Debug {
 
         //  rootPage.openTapperLink(STAGE_RKEEPER_TABLE_3);
 
-        Response rs = apiRKeeper.getOrderInfo("1000046", API_STAGE_URI);
+        Response rs = apiRKeeper.getOrderInfo("1000046", TapperTable.AUTO_API_URI);
 
         String session = "Session";
 
@@ -300,12 +346,6 @@ public class Debug {
     @DisplayName("add discount")
     public void addDiscount() throws ParseException {
 
-         String visit;
-         String guid;
-         double totalPay;
-        String orderType = "part";
-         HashMap<String, Integer> paymentDataKeeper;
-         String transactionId;
 
         AuthorizationPage authorizationPage = new AuthorizationPage();
         OperationsHistory operationsHistory = new OperationsHistory();
@@ -313,22 +353,36 @@ public class Debug {
         ApiRKeeper apiRKeeper = new ApiRKeeper();
         RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
         NestedTests nestedTests = new NestedTests();
+        Menu menu = new Menu();
 
-
+        rootPage.openPage("https://tapper.staging.zedform.ru");
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
+        menu.goToMenuCategory();
 
-        operationsHistory.goToOperationsHistoryCategory();
+        rootPage.forceWait(4000);
 
-        operationsHistory.isHistoryOperationsCorrect();
+        SelenideElement element = $(".vAdminMenuAside__category:nth-child(1) .vAdminMenuCategoryItem__info");
+        SelenideElement element2 = $(".vAdminMenuAside__category:nth-child(2) .vAdminMenuCategoryItem__info");
+        SelenideElement elementDrag = $(".vAdminMenuAside__category:nth-child(1)");
+        SelenideElement element2Drag = $(".vAdminMenuAside__category:nth-child(2)");
 
 
-        operationsHistory.isDatePeriodSetByDefault();
+        Selenide.actions()
+                .moveToElement(elementDrag)
+                .clickAndHold()
+                .pause(Duration.ofSeconds(2))
+                .moveToElement(element2Drag)
+                .perform();
 
-        operationsHistory.checkTipsAndSumNotEmpty();
-        operationsHistory.isWeekPeriodCorrect();
-        operationsHistory.isMonthPeriodCorrect();
-        operationsHistory.resetPeriodDate();
-        operationsHistory.setCustomPeriod();
+        Selenide.actions()
+                .moveToElement(element2Drag)
+                .release()
+                .build()
+                .perform();
+
+
+
+        rootPage.forceWait(3000);
 
     }
 
@@ -337,7 +391,7 @@ public class Debug {
     @DisplayName("add modificator")
     public void addModificator1() {
 
-        Response rs = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
+        Response rs = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID, TapperTable.AUTO_API_URI);
         Object sessionSizeFlag = rs.path("Session");
 
         int sessionSize;
@@ -457,97 +511,5 @@ public class Debug {
     }
 
 
-    @Test
-    @DisplayName("tg")
-    public void tg() {
-
-
-
-        rootPage.openPage(STAGE_RKEEPER_TABLE_111);
-        rootPage.forceWait(4000);
-
-        String tapperTable = "Стол: " + baseActions.convertSelectorTextIntoStrByRgx(tableNumber,"\\D+");
-        System.out.println(tapperTable);
-
-        double totalSumInCheck = rootPage.countAllDishes();
-        String sumInCheck = String.valueOf(totalSumInCheck);
-
-        System.out.println(totalSumInCheck + " totalSumInCheck");
-
-        double restToPaySumD = rootPage.countAllNonPaidAndDisabledDishesInOrder();
-
-        System.out.println(restToPaySumD + " restToPaySumD");
-
-        String restToPaySum = "";
-
-        if (discountSum.isDisplayed()) {
-
-            double discountD = baseActions.convertSelectorTextIntoDoubleByRgx(discountSum,"[^\\d\\.]+");
-
-            restToPaySumD -= discountD;
-
-            System.out.println(restToPaySum + " restToPaySum with discount");
-
-        }
-
-        restToPaySum = String.valueOf(restToPaySumD);
-
-        String tipsInTheMiddle = totalTipsSumInMiddle.getValue();
-        System.out.println(tipsInTheMiddle + " tipsInTheMiddle");
-
-        double paySumD = rootPage.getClearOrderAmount();
-        String paySum = String.valueOf(paySumD);
-        System.out.println(paySum + " paySum");
-
-        Response rsGetOrder = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
-
-        String totalPaid = "0";
-        String payStatus = null;
-
-        if (rsGetOrder.path("@attributes.prepaySum") != null) {
-
-
-            totalPaid = rsGetOrder.jsonPath().getString("@attributes.prepaySum");
-            Integer totalPaidInt = Integer.parseInt(totalPaid) / 100;
-            totalPaid = String.valueOf(totalPaidInt);
-            payStatus = "Частично оплачено";
-
-        }
-
-        System.out.println("\ntotalPaid\n" + totalPaid);
-
-        String waiter = waiterName.getText();
-        System.out.println(waiter + " waiter");
-
-        LinkedHashMap<String, String> tapperDataForTgMsg = new LinkedHashMap<>();
-
-        tapperDataForTgMsg.put("table",tapperTable);
-        tapperDataForTgMsg.put("sumInCheck",sumInCheck);
-        tapperDataForTgMsg.put("restToPaySum",restToPaySum);
-        tapperDataForTgMsg.put("tips",tipsInTheMiddle);
-        tapperDataForTgMsg.put("paySum",paySum);
-        tapperDataForTgMsg.put("totalPaid",totalPaid);
-        tapperDataForTgMsg.put("payStatus",payStatus);
-        tapperDataForTgMsg.put("waiter",waiter);
-
-        System.out.println(tapperDataForTgMsg);
-
-    }
-
-    @Test
-    @DisplayName("magic")
-    public void magic() {
-
-        //String guid = rootPage.getGuid(TABLE_3_ID);
-       // rootPage.closeOrderByAPI(TABLE_3_ID);
-
-        String gg = "НЕ закрыт на кассе\n" +
-                "НЕ закрыт на кассе \n" +
-                "Причина: SeqNumber должен быть увеличен";
-
-        System.out.println(gg.matches("(?s).*[\\n\\r].*SeqNumber.*"));
-
-
-    }
 
 }

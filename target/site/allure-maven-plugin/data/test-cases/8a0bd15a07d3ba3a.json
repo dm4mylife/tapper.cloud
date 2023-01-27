@@ -1,0 +1,135 @@
+{
+  "uid" : "8a0bd15a07d3ba3a",
+  "name" : "1.6. Отправка приглашение на почту официанту",
+  "fullName" : "tapper.tests.admin_personal_account.waiters._9_2_AuthAfterCancelingInvitationTest.checkInvitationMail",
+  "historyId" : "646d187bc16a7df91d81340124c68a3d",
+  "time" : {
+    "start" : 1674720634335,
+    "stop" : 1674720638384,
+    "duration" : 4049
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1674720615523,
+      "stop" : 1674720615523,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Проверка письма таппера и извлечение пароля",
+      "time" : {
+        "start" : 1674720634335,
+        "stop" : 1674720638382,
+        "duration" : 4047
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "hasContent" : false,
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ {
+      "uid" : "8e77a4b59f954a46",
+      "name" : "browser dev tool logs",
+      "source" : "8e77a4b59f954a46.txt",
+      "type" : "text/plain",
+      "size" : 300
+    } ],
+    "parameters" : [ ],
+    "hasContent" : true,
+    "stepsCount" : 1,
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1674720672474,
+      "stop" : 1674720672536,
+      "duration" : 62
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-platform-suite]/[suite:tapper.tests.FirstThreadTestSuite]/[engine:junit-jupiter]/[class:tapper.tests.admin_personal_account.waiters._9_2_AuthAfterCancelingInvitationTest]/[method:checkInvitationMail()]"
+  }, {
+    "name" : "epic",
+    "value" : "Личный кабинет администратора ресторана"
+  }, {
+    "name" : "story",
+    "value" : "Авторизация официанта, когда у него отозвали приглашение"
+  }, {
+    "name" : "feature",
+    "value" : "Авторизация\\регистрация"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "32784@WIN-UJN5UBMF8DD.main(1)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.admin_personal_account.waiters._9_2_AuthAfterCancelingInvitationTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.admin_personal_account.waiters._9_2_AuthAfterCancelingInvitationTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "checkInvitationMail"
+  }, {
+    "name" : "suite",
+    "value" : "Авторизация официанта, когда у него отозвали приглашение"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "8a0bd15a07d3ba3a.json",
+  "parameterValues" : [ ]
+}

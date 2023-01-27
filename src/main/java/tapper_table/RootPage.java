@@ -2,14 +2,12 @@ package tapper_table;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.*;
-import com.google.gson.internal.bind.util.ISO8601Utils;
-import com.twocaptcha.captcha.ReCaptcha;
 import common.BaseActions;
+import data.Constants;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 
 import java.math.BigDecimal;
@@ -27,16 +25,14 @@ import static com.codeborne.selenide.ClipboardConditions.content;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.clipboard;
-import static constants.Constant.JSScripts.isShareButtonCorrect;
-import static constants.Constant.TestData.*;
-import static constants.selectors.TapperTableSelectors.Common.*;
-import static constants.selectors.TapperTableSelectors.RootPage.*;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
-import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuCategoryContainerName;
-import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.*;
-import static constants.selectors.TapperTableSelectors.RootPage.TapBar.*;
-import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
-import com.twocaptcha.*;
+import static data.Constants.TestData.*;
+import static data.selectors.TapperTable.Common.*;
+import static data.selectors.TapperTable.RootPage.*;
+import static data.selectors.TapperTable.RootPage.DishList.*;
+import static data.selectors.TapperTable.RootPage.Menu.menuCategoryContainerName;
+import static data.selectors.TapperTable.RootPage.PayBlock.*;
+import static data.selectors.TapperTable.RootPage.TapBar.*;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.*;
 
 
 public class RootPage extends BaseActions {
@@ -98,7 +94,7 @@ public class RootPage extends BaseActions {
     public void openUrlAndWaitAfter(String url) {
 
         openPage(url);
-        forceWait(TIME_WAIT_FOR_FULL_LOAD);
+        forceWait(Constants.TIME_WAIT_FOR_FULL_LOAD);
 
         if (modalHintContainer.isDisplayed()) {
 
@@ -189,32 +185,10 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Меню корректно отображается")
+    @Step("Заказ не пустой и блюда отображаются")
     public void isDishListNotEmptyAndVisible() {
 
         isElementVisibleDuringLongTime(orderContainer, 30);
-
-    }
-
-    public HashMap<String, Double> saveSumsInCheck() {
-
-        double totalPaySumInCheck = convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
-        double totalTipsInTheMiddleSum = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
-        double activePercentTips = 0;
-
-        if (activeTipsButton.exists()) {
-
-            activePercentTips = convertSelectorTextIntoDoubleByRgx(activeTipsButton, "\\D+");
-
-        }
-
-        HashMap<String, Double> sumsInfo = new HashMap<>();
-
-        sumsInfo.put("totalPaySumInCheck", totalPaySumInCheck);
-        sumsInfo.put("totalTipsInTheMiddleSum", totalTipsInTheMiddleSum);
-        sumsInfo.put("activePercentTips", activePercentTips);
-
-        return sumsInfo;
 
     }
 
@@ -269,13 +243,13 @@ public class RootPage extends BaseActions {
             totalSum -= tapperDiscount;
             System.out.println(totalSum + " total sum");
             double serviceChargeSumClear =
-                    convertDouble(totalSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
+                    convertDouble(totalSum * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
 
             if (tipsContainer.exists()) {
 
                 int tipsCount = Integer.parseInt(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
                 double serviceChargeFromTips =
-                        convertDouble(tipsCount * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
+                        convertDouble(tipsCount * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
 
                 serviceChargeSumClear = convertDouble(serviceChargeSumClear + serviceChargeFromTips);
 
@@ -307,7 +281,7 @@ public class RootPage extends BaseActions {
 
         }
 
-        return convertDouble(totalSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
+        return convertDouble(totalSum * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
 
     }
 
@@ -388,7 +362,7 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Прощёлкиваем все чаевые и проверяем что суммы корректны и сходятся. Добавляем лог в аллюр")
+    @Step("Прощёлкиваем все опции чаевых и проверяем что чаевые формируются корректно от общей суммы")
     public void checkAllTipsOptions(double totalSum) {
 
         showTapBar();
@@ -426,13 +400,15 @@ public class RootPage extends BaseActions {
             double totalSumPlusCleanTips = totalSum + cleanTips;
             double totalSumPlusCleanTipsPlusServiceChargeSum = totalSum + cleanTips + serviceChargeSum;
 
-            logs.append("\n").append("Чаевые - ").append(percent).append("\n")
-                .append(serviceChargeSum).append(" чистый сервисный сбор по текущей проценту чаевых: ").append(percent).append("\n")
-                .append(cleanTips).append(" чистые чаевые по общей сумме за блюда\n")
-                .append(totalSum).append(" чистая сумма за блюда без чаевых и без сервисного сбора\n")
-                .append(totalSumPlusCleanTips).append(" чистая сумма за блюда c чаевым и без сервисного сбора\n")
-                .append(totalSumPlusCleanTipsPlusServiceChargeSum).append(" чистая сумма за блюда c чаевым и сервисным сбором\n")
-                .append(totalPaySum).append(" сумма в поле 'Итого к оплате' c учетом чаевых и сервисного сбора\n");
+            logs
+                .append("\nЧаевые - " + percent)
+                .append(serviceChargeSum + " чистый сервисный сбор по текущей проценту чаевых: " + percent)
+                .append(cleanTips + " чистые чаевые по общей сумме за блюда")
+                .append(totalSum + " чистая сумма за блюда без чаевых и без сервисного сбора")
+                .append(totalSumPlusCleanTips + " чистая сумма за блюда c чаевым и без сервисного сбора")
+                .append(totalSumPlusCleanTipsPlusServiceChargeSum + " чистая сумма за блюда c чаевым и сервисным сбором")
+                .append(totalPaySum + " сумма в поле 'Итого к оплате' c учетом чаевых и сервисного сбора\n");
+
 
             Assertions.assertEquals(totalTipsSumInMiddle, cleanTips, 0.1,
                     "Общая сумма чаевых по центру " + totalTipsSumInMiddle +
@@ -450,8 +426,7 @@ public class RootPage extends BaseActions {
 
         }
 
-        System.out.println(logs);
-        Allure.addAttachment("Подсчёт сумм", "text/plain", logs.toString());
+        printAndAttachAllureLogs(logs,"Подсчёт сумм");
 
     }
 
@@ -470,7 +445,7 @@ public class RootPage extends BaseActions {
 
         if (totalDishSum < 490) {
 
-            totalTipsSumInMiddle.shouldHave(value(MIN_SUM_TIPS_));
+            totalTipsSumInMiddle.shouldHave(value(TapperTable.MIN_SUM_TIPS_));
 
             if (totalDishSum < 196) {
 
@@ -768,14 +743,14 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Считаем сумму не оплаченных и заблокированных позиций в заказе")
+    @Step("Считаем сумму не оплаченных,незаблокированных позиций в заказе")
     public double countAllNonPaidDishesInOrder() {
 
         double totalSumInOrder = 0;
         int counter = 0;
         StringBuilder logs = new StringBuilder();
 
-        System.out.println(allNonPaidAndNonDisabledDishes.size() + " все не оплаченные и не блокированные позиции");
+        System.out.println(allNonPaidAndNonDisabledDishes.size() + " все не оплаченные и не заблокированные позиции");
 
         for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
 
@@ -785,14 +760,20 @@ public class RootPage extends BaseActions {
             totalSumInOrder += cleanPrice;
             counter++;
 
-            logs
-                .append("\n").append(counter).append(". ").append(dishName).append(" - ").append(cleanPrice)
-                .append(". Общая сумма: ").append(totalSumInOrder);
+            logs.append("\n" + counter + ". " + dishName + " - " + cleanPrice + ". Общая сумма: " + totalSumInOrder);
 
         }
 
-        System.out.println(logs);
+        printAndAttachAllureLogs(logs, "Список не оплаченных и не заблокированных блюд");
+
         return totalSumInOrder;
+
+    }
+
+    public void printAndAttachAllureLogs(StringBuilder logs, String logsName) {
+
+        System.out.println(logs);
+        Allure.addAttachment(logsName, "text/plain" , String.valueOf(logs));
 
     }
 
@@ -1170,10 +1151,10 @@ public class RootPage extends BaseActions {
             double serviceChargeInField = convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
             serviceChargeInField = convertDouble(serviceChargeInField);
 
-            double serviceChargeSumClear = convertDouble(cleanDishesSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
+            double serviceChargeSumClear = convertDouble(cleanDishesSum * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
             System.out.println(serviceChargeSumClear + " сервисный сбор от суммы");
 
-            double serviceChargeTipsClear = convertDouble(tipsSumInTheMiddle * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
+            double serviceChargeTipsClear = convertDouble(tipsSumInTheMiddle * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
             System.out.println(serviceChargeTipsClear + " сервисный сбор от чаевых\n");
 
             double totalDishesCleanSum = cleanDishesSum + tipsSumInTheMiddle + serviceChargeTipsClear + serviceChargeSumClear;
@@ -1182,12 +1163,12 @@ public class RootPage extends BaseActions {
 
             Assertions.assertEquals(serviceChargeInField, serviceChargeSumClear + serviceChargeTipsClear, 0.1,
                     "Сервисный сбор считается не корректно по формуле "
-                            + SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM + "  от суммы и "
-                            + SERVICE_CHARGE_PERCENT_FROM_TIPS + " от чаевых");
+                            + TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM + "  от суммы и "
+                            + TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS + " от чаевых");
             System.out.println("Сервисный сбор считается корректно по формуле "
-                    + SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM + "% от суммы "
+                    + TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM + "% от суммы "
                     + totalDishesCleanSum + " и " +
-                    SERVICE_CHARGE_PERCENT_FROM_TIPS + "% от чаевых " + tipsSumInTheMiddle);
+                    TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS + "% от чаевых " + tipsSumInTheMiddle);
 
             Assertions.assertEquals(totalDishesCleanSum, totalPaySum, 0.1,
                     "Чистая общая сумма не совпадает с 'Итого к оплате'");
@@ -1426,9 +1407,9 @@ public class RootPage extends BaseActions {
 
         click(totalTipsSumInMiddle);
         totalTipsSumInMiddle.clear();
-        sendHumanKeys(totalTipsSumInMiddle, MIN_SUM_FOR_TIPS_ERROR);
+        sendHumanKeys(totalTipsSumInMiddle, TapperTable.MIN_SUM_FOR_TIPS_ERROR);
         tipsErrorMsg.shouldHave(cssValue("display", "block"));
-        tipsErrorMsg.shouldHave(text(TIPS_ERROR_MSG));
+        tipsErrorMsg.shouldHave(text(TapperTable.TIPS_ERROR_MSG));
         paymentButton.shouldBe(disabled);
 
         totalTipsSumInMiddle.clear();
@@ -1450,6 +1431,16 @@ public class RootPage extends BaseActions {
     public void isShareButtonShown() {
 
         isElementVisibleAndClickable(shareButton);
+
+        String isShareButtonCorrect = """
+                function check() {
+                   if (navigator.share) {
+                       return true;
+                   } else {
+                       return false;
+                   }
+                }; return check();""";
+
 
         boolean isShareActive = Boolean.TRUE.equals(Selenide.executeJavaScript(isShareButtonCorrect));
         isImageCorrect(shareButtonSvgNotSelenide,"Иконка в кнопке поделиться счётом не корректная");
@@ -1517,7 +1508,7 @@ public class RootPage extends BaseActions {
 
         isElementVisible(paymentSBPContainer);
         isElementsListVisible(paymentBanksPriorityBanks);
-        paymentBanksPriorityBanks.shouldHave(CollectionCondition.size(PAYMENT_BANKS_MAX_PRIORITY_BANKS));
+        paymentBanksPriorityBanks.shouldHave(CollectionCondition.size(TapperTable.PAYMENT_BANKS_MAX_PRIORITY_BANKS));
         isElementVisible(paymentBanksAllBanksButton);
         isElementVisible(paymentBanksDescription);
         isElementVisible(paymentBanksReceipt);
@@ -1533,15 +1524,15 @@ public class RootPage extends BaseActions {
         click(paymentBanksReceipt);
         emailReceiptInput.shouldBe(appear);
 
-        emailReceiptInput.sendKeys(TEST_YANDEX_LOGIN_EMAIL);
-        emailReceiptInput.shouldHave(value(TEST_YANDEX_LOGIN_EMAIL));
+        emailReceiptInput.sendKeys(Yandex.TEST_YANDEX_LOGIN_EMAIL);
+        emailReceiptInput.shouldHave(value(Yandex.TEST_YANDEX_LOGIN_EMAIL));
 
         click(paymentBanksReceipt);
         click(paymentBanksReceipt);
 
-        emailReceiptInput.shouldHave(value(TEST_YANDEX_LOGIN_EMAIL));
+        emailReceiptInput.shouldHave(value(Yandex.TEST_YANDEX_LOGIN_EMAIL));
         clearText(emailReceiptInput);
-        emailReceiptInput.sendKeys(TEST_REVIEW_COMMENT);
+        emailReceiptInput.sendKeys(TapperTable.TEST_REVIEW_COMMENT);
         emailReceiptErrorMsg.shouldBe(visible);
         clearText(emailReceiptInput);
 
@@ -1602,7 +1593,7 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Сохранение общей суммы в таппере для передачи в другой тест")
+    @Step("Сохранение общей суммы в таппере для проверки суммы в б2п")
     public double saveTotalPayForMatchWithAcquiring() {
         return convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
     }
@@ -1704,7 +1695,7 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Сохранение всех сумм для проверки что транзакция создалась на b2p")
+    @Step("Сохранение общей суммы, чаевых, СБ для проверки с транзакцией б2п")
     public HashMap<String, Integer> savePaymentDataTapperForB2b() {
 
         HashMap<String, Integer> paymentData = new HashMap<>();
@@ -1819,8 +1810,8 @@ public class RootPage extends BaseActions {
     public void sendWaiterComment() {
 
         callWaiterCommentArea.shouldHave(attribute("placeholder", "Комментарий..."));
-        sendHumanKeys(callWaiterCommentArea, TEST_WAITER_COMMENT);
-        elementShouldHaveValue(callWaiterCommentArea, TEST_WAITER_COMMENT);
+        sendHumanKeys(callWaiterCommentArea, TapperTable.TEST_WAITER_COMMENT);
+        callWaiterCommentArea.shouldHave(value(TapperTable.TEST_WAITER_COMMENT));
 
         click(callWaiterButtonSend);
 
@@ -2011,25 +2002,12 @@ public class RootPage extends BaseActions {
     public void closeOrderByAPI(String guid) {
 
         boolean isOrderClosed;
-        apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid),API_STAGE_URI);
+        apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid), TapperTable.AUTO_API_URI);
 
         isOrderClosed = apiRKeeper.isClosedOrder();
 
         Assertions.assertTrue(isOrderClosed,"Заказ не закрылся на кассе");
         System.out.println("\nЗаказ закрылся на кассе\n");
-
-    }
-
-    @Step("Закрываем заказ на кассе если вдруг он не был закрыт")
-    public void forceCloseOrder() {
-
-        if (!apiRKeeper.isClosedOrder()) {
-
-            Response rsGetOrder = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
-            String guid = rsGetOrder.jsonPath().getString("@attributes.guid");
-            closeOrderByAPI(guid);
-
-        }
 
     }
 
@@ -2141,7 +2119,7 @@ public class RootPage extends BaseActions {
             System.out.println("СБ не включен, у официанта будут чаевые минусом СБ");
 
             double serviceChargeSumDouble = Double.parseDouble(tipsInTheMiddleString)
-                    / 100 * SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED;
+                    / 100 * Constants.SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED;
 
             BigDecimal bd = new BigDecimal(Double.toString(serviceChargeSumDouble));
             BigDecimal serviceChargeSum = bd.setScale(2, RoundingMode.HALF_UP);
@@ -2169,7 +2147,7 @@ public class RootPage extends BaseActions {
 
         System.out.println("Сумма оплаты: " + paySumDouble);
 
-        Response rsGetOrder = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
+        Response rsGetOrder = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID, TapperTable.AUTO_API_URI);
 
         double totalPaidDouble = countAllNonPaidDishesInOrder() - discountDouble;
         String payStatus;
@@ -2262,8 +2240,7 @@ public class RootPage extends BaseActions {
 
         }
 
-        System.out.println("\n TELEGRAM DATA\n" + telegramDataForTgMsg);
-        System.out.println("\n TAPPER DATA\n" + tapperDataForTgMsg);
+        System.out.println("\n TELEGRAM DATA\n" + telegramDataForTgMsg + "\n TAPPER DATA\n" + tapperDataForTgMsg);
 
         Assertions.assertEquals(telegramDataForTgMsg,tapperDataForTgMsg,"Не совпадают сообщения");
         System.out.println("Сообщение в телеграмме полностью соответствует столу");
@@ -2273,7 +2250,7 @@ public class RootPage extends BaseActions {
     @Step("Получаем guid")
     public String getGuid(String tableId) {
 
-        Response rsGetOrder = apiRKeeper.getOrderInfo(tableId,API_STAGE_URI);
+        Response rsGetOrder = apiRKeeper.getOrderInfo(tableId, TapperTable.AUTO_API_URI);
         return rsGetOrder.jsonPath().getString("@attributes.guid");
 
     }
@@ -2281,7 +2258,7 @@ public class RootPage extends BaseActions {
     @Step("Получаем скидку")
     public String getDiscount(String tableId) {
 
-        Response rsGetOrder = apiRKeeper.getOrderInfo(tableId,API_STAGE_URI);
+        Response rsGetOrder = apiRKeeper.getOrderInfo(tableId, TapperTable.AUTO_API_URI);
         return rsGetOrder.jsonPath().getString("@attributes.discountSum")
                 .replaceAll("\\-","");
 

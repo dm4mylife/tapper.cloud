@@ -1,1 +1,0 @@
-[[2023-01-25T12:01:54.248Z] [SEVERE] https://tapper.staging.zedform.ru/js/chunk-vendors.67f8dbf1.js 0 WebSocket connection to 'wss://socket-test.tapper.cloud:6301/socket.io/?EIO=3&transport=websocket&sid=jRKadKOsilX6Dmc3E2Nb' failed: Error during WebSocket handshake: Unexpected response code: 400]

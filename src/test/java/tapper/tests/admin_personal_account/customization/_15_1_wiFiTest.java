@@ -7,16 +7,16 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.customization.Customization;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.customization.Customization;
 import tapper_table.RootPage;
 import tests.BaseTest;
 
-import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.AdminPersonalAccountSelectors.Customization.wifiTab;
-import static constants.selectors.TapperTableSelectors.Common.wiFiIcon;
+import static data.Constants.TestData.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.selectors.AdminPersonalAccount.Customization.wifiTab;
+import static data.selectors.TapperTable.Common.wiFiIcon;
 
 @Order(150)
 @Epic("Личный кабинет администратора ресторана")
@@ -58,7 +58,7 @@ public class _15_1_wiFiTest extends BaseTest {
         rootPage.click(wifiTab);
         customization.activateWifiIfDeactivated();
         customization.isWiFiTabCorrect();
-        customization.setWifiConfiguration(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
+        customization.setWifiConfiguration(AdminPersonalAccount.TEST_WIFI_NETWORK_NAME, AdminPersonalAccount.TEST_WIFI_NETWORK_PASSWORD);
 
     }
 
@@ -66,7 +66,7 @@ public class _15_1_wiFiTest extends BaseTest {
     @DisplayName("1.4. Активируем вайфай, прописываем данные")
     public void setWifiConfiguration() {
 
-        customization.setWifiConfiguration(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
+        customization.setWifiConfiguration(AdminPersonalAccount.TEST_WIFI_NETWORK_NAME, AdminPersonalAccount.TEST_WIFI_NETWORK_PASSWORD);
 
     }
 
@@ -74,9 +74,9 @@ public class _15_1_wiFiTest extends BaseTest {
     @DisplayName("1.5. Переходим на стол и проверяем что он активировался")
     public void setMsgAsTextPattern() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNewTabAndSwitchTo(TapperTable.STAGE_RKEEPER_TABLE_333);
         rootPage.closeHintModal();
-        rootPage.checkWiFiOnTapperTable(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
+        rootPage.checkWiFiOnTapperTable(AdminPersonalAccount.TEST_WIFI_NETWORK_NAME, AdminPersonalAccount.TEST_WIFI_NETWORK_PASSWORD);
 
     }
 

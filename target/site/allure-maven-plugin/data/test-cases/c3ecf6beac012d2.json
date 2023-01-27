@@ -1,0 +1,135 @@
+{
+  "uid" : "c3ecf6beac012d2",
+  "name" : "3. Добавляем еще одно блюдо на кассе",
+  "fullName" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_1_AddAndFullTest.addOneMoreDishInOrder",
+  "historyId" : "6fbc86bd5c47e08eaaaa178d4882ec71",
+  "time" : {
+    "start" : 1674719775292,
+    "stop" : 1674719785917,
+    "duration" : 10625
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1674719712319,
+      "stop" : 1674719712425,
+      "duration" : 106
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Добавление модификатора в заказ",
+      "time" : {
+        "start" : 1674719775312,
+        "stop" : 1674719785914,
+        "duration" : 10602
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "requestBody",
+        "value" : "{\n  \"domen\": \"testrkeeper\",\n  \"guid\": \"{F95F1731-14D2-48EE-A61D-C900270C10DC}\",\n  \"station\": 1,\n  \"dish\": \"1000102\",\n  \"quantity\": 1000,\n  \"modificators\": [\n    {\n      \"id\": \"1000114\",\n      \"quantity\": \"1\"\n    }\n  ]\n}"
+      }, {
+        "name" : "baseUri",
+        "value" : "https://auto-back-tapper.zedform.ru/api/"
+      } ],
+      "hasContent" : true,
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : true,
+    "stepsCount" : 1,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1674719831485,
+      "stop" : 1674719831604,
+      "duration" : 119
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-platform-suite]/[suite:tapper.tests.ThirdThreadTestSuite]/[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_1_AddAndFullTest]/[method:addOneMoreDishInOrder()]"
+  }, {
+    "name" : "feature",
+    "value" : "Добавление и удаление позиций из заказа"
+  }, {
+    "name" : "story",
+    "value" : "Добавление позиции, полная оплата"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "30588@WIN-UJN5UBMF8DD.main(1)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_1_AddAndFullTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._4_addAndRemoveDishPositions._0_4_1_AddAndFullTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "addOneMoreDishInOrder"
+  }, {
+    "name" : "suite",
+    "value" : "Добавление позиции, полная оплата"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "c3ecf6beac012d2.json",
+  "parameterValues" : [ ]
+}

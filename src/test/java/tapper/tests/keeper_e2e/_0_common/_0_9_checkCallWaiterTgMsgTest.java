@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._0_common;
 
 
 import api.ApiRKeeper;
+import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -16,8 +17,8 @@ import java.util.LinkedHashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.*;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
+import static data.Constants.TestData.*;
+import static data.selectors.TapperTable.RootPage.DishList.*;
 
 @Order(1)
 @Epic("RKeeper")
@@ -42,7 +43,7 @@ public class _0_9_checkCallWaiterTgMsgTest extends BaseTest {
     @DisplayName("1. Открытие стола")
     public void openAndCheck() {
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
+        rootPage.openUrlAndWaitAfter(TapperTable.STAGE_RKEEPER_TABLE_111);
 
         if (modalHintContainer.isDisplayed()) {
 
@@ -70,8 +71,8 @@ public class _0_9_checkCallWaiterTgMsgTest extends BaseTest {
 
         tapperTable = "Номер столика: " + rootPage.convertSelectorTextIntoStrByRgx(tableNumber,"\\D+");
 
-        telegramDataForTgMsg = rootPage.getTgCallWaiterMsgData(tapperTable,WAIT_FOR_TELEGRAM_MESSAGE_REVIEW);
-        tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg(TEST_WAITER_COMMENT,tapperTable);
+        telegramDataForTgMsg = rootPage.getTgCallWaiterMsgData(tapperTable, Constants.WAIT_FOR_TELEGRAM_MESSAGE_REVIEW);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg(TapperTable.TEST_WAITER_COMMENT,tapperTable);
 
     }
 
@@ -85,7 +86,7 @@ public class _0_9_checkCallWaiterTgMsgTest extends BaseTest {
     @DisplayName("5. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "5000"));

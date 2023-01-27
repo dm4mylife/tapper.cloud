@@ -1,1 +1,0 @@
-[[2023-01-25T12:00:24.900Z] [SEVERE] https://yastatic.net/s3/psf/mail-liza-react-client/App-08daa3d0c915794776bb.js 1 Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://tavern.mail.yandex.ru') does not match the recipient window's origin ('https://mail.yandex.ru').]

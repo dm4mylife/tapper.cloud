@@ -19,14 +19,15 @@ import java.util.HashMap;
 
 import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
-import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 
 @Order(81)
 @Epic("RKeeper")
 @Feature("Скидка")
 @Story("Частичная оплата + применение скидки (Частичная оплата, потом скидка, потом полная оплата)")
+@DisplayName("Частичная оплата + применение скидки (Частичная оплата, потом скидка, потом полная оплата)")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _8_1_PartPayAddDiscountTest extends BaseTest {
@@ -53,7 +54,7 @@ public class _8_1_PartPayAddDiscountTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), AUTO_API_URI);
 
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
@@ -107,7 +108,7 @@ public class _8_1_PartPayAddDiscountTest extends BaseTest {
     @DisplayName("1.6. Добавляем скидку в заказ и проверяем суммы") // toDO доделать. ждём апи с бэка
     public void addDiscountAndCheckSums() {
 
-        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI);
+        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH), AUTO_API_URI);
         rootPage.refreshPage();
 
         discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_1_ID);

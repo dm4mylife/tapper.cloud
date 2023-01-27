@@ -4,7 +4,6 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Attachment;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.openqa.selenium.bidi.log.BaseLogEntry;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;

@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._7_modificator;
 
 
 import api.ApiRKeeper;
+import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.*;
+import static data.Constants.TestData.*;
 
 @Order(71)
 @Epic("RKeeper")
@@ -50,18 +51,18 @@ public class _7_1_PaidPartPayTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
 
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
-        apiRKeeper.fillOrderWithAllModiDishes(guid,API_TEST_URI);
+        apiRKeeper.fillOrderWithAllModiDishes(guid, TapperTable.TEST_API_URI);
 
-        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID, API_STAGE_URI);
+        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID, TapperTable.AUTO_API_URI);
 
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
+        rootPage.openUrlAndWaitAfter(TapperTable.STAGE_RKEEPER_TABLE_111);
         rootPageNestedTests.matchTapperOrderWithOrderInKeeper(orderInKeeper);
 
     }
@@ -103,7 +104,7 @@ public class _7_1_PaidPartPayTest extends BaseTest {
     @DisplayName("7. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

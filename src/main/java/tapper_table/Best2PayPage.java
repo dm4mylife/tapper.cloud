@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
 
-import static constants.Constant.TestData.*;
-import static constants.selectors.TapperTableSelectors.Best2PayPage.*;
+import static data.Constants.TestData.*;
+import static data.selectors.TapperTable.Best2PayPage.*;
 
 
 public class Best2PayPage extends BaseActions {
@@ -17,7 +17,7 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Проверка что мы находимся на странице эквайринга")
     public void isTestBest2PayUrl() {
-        baseActions.isTextContainsInURL(TEST_BEST2PAY_URL);
+        baseActions.isTextContainsInURL(Best2Pay.TEST_BEST2PAY_URL);
     }
 
     @Step("Проверка попапа ВПН")
@@ -44,20 +44,20 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Ввод номера карты")
     public void typeCardNumber() {
-        baseActions.sendKeys(cardNumber, TEST_PAYMENT_CARD_NUMBER);
+        baseActions.sendKeys(cardNumber, Best2Pay.TEST_PAYMENT_CARD_NUMBER);
     }
 
     @Step("Ввод даты истечения карты")
     public void typeDateExpire() {
 
-        baseActions.sendKeys(dateExpire, TEST_PAYMENT_CARD_EXPIRE_MONTH);
-        baseActions.sendKeys(dateExpire, TEST_PAYMENT_CARD_EXPIRE_YEAR);
+        baseActions.sendKeys(dateExpire, Best2Pay.TEST_PAYMENT_CARD_EXPIRE_MONTH);
+        baseActions.sendKeys(dateExpire, Best2Pay.TEST_PAYMENT_CARD_EXPIRE_YEAR);
 
     }
 
     @Step("Ввод CVV")
     public void typeCVV() {
-        baseActions.sendKeys(cvv, TEST_PAYMENT_CARD_CVV);
+        baseActions.sendKeys(cvv, Best2Pay.TEST_PAYMENT_CARD_CVV);
     }
 
     @Step("Клик по кнопке отправить по email и ввод почты")
@@ -65,7 +65,7 @@ public class Best2PayPage extends BaseActions {
 
         baseActions.click(sendCheckByEmail);
         baseActions.isElementVisible(email);
-        baseActions.sendKeys(email, TEST_YANDEX_LOGIN_EMAIL);
+        baseActions.sendKeys(email, Yandex.TEST_YANDEX_LOGIN_EMAIL);
 
     }
 

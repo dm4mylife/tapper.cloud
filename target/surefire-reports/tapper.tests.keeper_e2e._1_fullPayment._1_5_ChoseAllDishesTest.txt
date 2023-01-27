@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tapper.tests.keeper_e2e._1_fullPayment._1_5_ChoseAllDishesTest
 -------------------------------------------------------------------------------
-Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 95.418 s - in tapper.tests.keeper_e2e._1_fullPayment._1_5_ChoseAllDishesTest
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 95.551 s - in tapper.tests.keeper_e2e._1_fullPayment._1_5_ChoseAllDishesTest

@@ -7,6 +7,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
+import tapper_table.Best2PayPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
@@ -18,9 +19,9 @@ import java.util.LinkedHashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
-import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterMenuIcon;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
 
 @Order(1)
@@ -36,6 +37,7 @@ public class _0_1_AllElementsTest extends BaseTest {
     static String guid;
 
     RootPage rootPage = new RootPage();
+    Best2PayPage best2PayPage = new Best2PayPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
@@ -57,7 +59,7 @@ public class _0_1_AllElementsTest extends BaseTest {
     @DisplayName("1.1 Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), AUTO_API_URI);
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
@@ -152,6 +154,7 @@ public class _0_1_AllElementsTest extends BaseTest {
         rootPage.isPaymentOptionsCorrect();
         rootPageNestedTests.clickPayment();
         best2PayPageNestedTests.typeDataAndPay();
+        best2PayPage.clickPayButton();
 
     }
 

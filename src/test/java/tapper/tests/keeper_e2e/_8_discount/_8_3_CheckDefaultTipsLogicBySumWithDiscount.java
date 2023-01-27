@@ -17,13 +17,12 @@ import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import static api.ApiData.QueryParams.*;
-import static api.ApiData.QueryParams.rqParamsAddDiscount;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
-import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
 
 @Order(5)
 @Epic("RKeeper")
@@ -53,13 +52,13 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), AUTO_API_URI);
         guid = rsCreateOrder.jsonPath().getString("result.guid");
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
 
-        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"),API_STAGE_URI);
-        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH),API_STAGE_URI);
+        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"), AUTO_API_URI);
+        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH), AUTO_API_URI);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
@@ -197,6 +196,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
         rootPageNestedTests.clickPayment();
 
         best2PayPageNestedTests.typeDataAndPay();
+        best2PayPage.clickPayButton();
 
         reviewPageNestedTests.fullPaymentCorrect();
         reviewPage.clickOnFinishButton();

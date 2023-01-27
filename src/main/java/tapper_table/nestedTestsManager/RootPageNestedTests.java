@@ -1,7 +1,7 @@
 package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
-import constants.selectors.TapperTableSelectors;
+import data.selectors.TapperTable;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
@@ -16,11 +16,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Condition.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
-import static constants.selectors.TapperTableSelectors.RootPage.TapBar.*;
-import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.selectors.TapperTable.Best2PayPage.transaction_id;
+import static data.selectors.TapperTable.RootPage.DishList.*;
+import static data.selectors.TapperTable.RootPage.TapBar.*;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.*;
 
 
 public class RootPageNestedTests extends RootPage {
@@ -71,30 +71,6 @@ public class RootPageNestedTests extends RootPage {
         click(refreshButtonEmptyPage);
         dishesSumChangedHeading.shouldBe(visible,matchText("Обновлено, но заказ ещё не создан"));
         dishesSumChangedHeading.shouldBe(hidden,Duration.ofSeconds(5));
-
-    }
-
-    @Step("Блок с чаевыми отображается")
-    public void isTipsAndCheckCorrect() {
-        isTipsContainerCorrect();
-    }
-
-    @Step("Блок 'Итого к оплате', кнопки оплатить и поделиться счётом, чекбоксы сервисного сбора и политики - всё отображается")
-    public void isPayBlockCorrect() {
-
-        isCheckContainerShown();
-        isPaymentButtonShown();
-        isShareButtonShown();
-        isServiceChargeShown();
-        isConfPolicyShown();
-
-    }
-
-    @Step("Нижнее навигационное меню отображается корректно. Меню, вызов официанта, переключение - корректно")
-    public void isTabBarCorrect() {
-
-        isTapBarShown();
-        isCallWaiterCorrect();
 
     }
 
@@ -231,10 +207,10 @@ public class RootPageNestedTests extends RootPage {
 
         double cleanTotalSum = countAllNonPaidDishesInOrder();
 
-        if (TapperTableSelectors.RootPage.TipsAndCheck.discountSum.exists()) {
+        if (TapperTable.RootPage.TipsAndCheck.discountSum.exists()) {
 
             System.out.println("Обнаружена скидка");
-            double discount = convertSelectorTextIntoDoubleByRgx(TapperTableSelectors.RootPage.TipsAndCheck.discountSum, "[^\\d\\.]+");
+            double discount = convertSelectorTextIntoDoubleByRgx(TapperTable.RootPage.TipsAndCheck.discountSum, "[^\\d\\.]+");
 
             Assertions.assertEquals(discountSum,discount,"Скидка с кассы не соответствует скидке на столе");
             System.out.println("Скидка на кассе соответствует скидке на столе");
@@ -363,6 +339,7 @@ public class RootPageNestedTests extends RootPage {
         clickPayment();
 
         best2PayPageNestedTests.typeDataAndPay();
+        best2PayPage.clickPayButton();
 
         reviewPageNestedTests.fullPaymentCorrect();
         reviewPage.clickOnFinishButton();
@@ -513,7 +490,7 @@ public class RootPageNestedTests extends RootPage {
     @Step("Забираем скидку из кассы")
     public double getTotalDiscount(String table_id) {
 
-        Response rs = apiRKeeper.getOrderInfo(table_id, API_STAGE_URI);
+        Response rs = apiRKeeper.getOrderInfo(table_id, AUTO_API_URI);
         Object sessionSizeFlag = rs.path("Session");
 
         int sessionSize;

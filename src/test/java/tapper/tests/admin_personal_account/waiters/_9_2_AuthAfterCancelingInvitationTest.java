@@ -8,19 +8,19 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AdminAccount;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.waiters.Waiters;
+import admin_personal_account.AdminAccount;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.waiters.Waiters;
 import tapper_table.YandexPage;
 import tests.BaseTest;
 
 import java.time.Duration;
 
-import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.AdminPersonalAccountSelectors.Waiters.backToPreviousPage;
-import static constants.selectors.AuthAndRegistrationPageSelectors.AuthorizationPage.errorMsgLoginOrPassword;
+import static data.Constants.TestData.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
+import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.errorMsgLoginOrPassword;
 
 
 @Order(92)
@@ -54,7 +54,7 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
     public void sendInviteWaiter() {
 
         waiters.goToWaiterCategory();
-        waiters.sendInviteToWaiterEmail(OPTIMUS_PRIME_WAITER,TEST_YANDEX_LOGIN_EMAIL);
+        waiters.sendInviteToWaiterEmail(AdminPersonalAccount.OPTIMUS_PRIME_WAITER, Yandex.TEST_YANDEX_LOGIN_EMAIL);
 
     }
 
@@ -72,7 +72,7 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
     @DisplayName("1.4. Проверка смены статуса верификации")
     public void checkWaiterStatus() {
 
-        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, "Ожидает приглашения");
+        waiters.isWaiterStatusCorrectInPreviewAndCard(AdminPersonalAccount.OPTIMUS_PRIME_WAITER, "Ожидает приглашения");
         adminAccount.logOut();
 
     }
@@ -80,7 +80,7 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
     @Test
     @DisplayName("1.5. Авторизация в почте яндекса")
     public void yandexAuthorization() {
-        yandexPage.yandexAuthorization(TEST_YANDEX_LOGIN_EMAIL,TEST_YANDEX_PASSWORD_MAIL);
+        yandexPage.yandexAuthorization(Yandex.TEST_YANDEX_LOGIN_EMAIL, Yandex.TEST_YANDEX_PASSWORD_MAIL);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
 
         baseActions.forceWait(2000); // toDo не успевает прогрузиться инпуты после смены вкладки
 
-        authorizationPage.authorizeUser(TEST_YANDEX_LOGIN_EMAIL,password);
+        authorizationPage.authorizeUser(Yandex.TEST_YANDEX_LOGIN_EMAIL,password);
 
         errorMsgLoginOrPassword.shouldHave(Condition.text("Неверный E-mail или пароль "), Duration.ofSeconds(2));
         System.out.println("Авторизоваться не удалось, ошибка ввода данных");
@@ -107,7 +107,7 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
     @Test
     @DisplayName("1.8. Удаляем письмо на почте Яндекса")
     public void deleteYandexInviteMail() {
-        yandexPage.deleteMail(TEST_YANDEX_LOGIN_EMAIL,TEST_YANDEX_PASSWORD_MAIL);
+        yandexPage.deleteMail(Yandex.TEST_YANDEX_LOGIN_EMAIL, Yandex.TEST_YANDEX_PASSWORD_MAIL);
     }
 
 }

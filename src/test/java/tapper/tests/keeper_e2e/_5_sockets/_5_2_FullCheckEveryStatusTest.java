@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._5_sockets;
 
 
 import api.ApiRKeeper;
+import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -19,7 +20,7 @@ import java.util.Map;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.*;
+import static data.Constants.TestData.*;
 
 @Order(52)
 @Epic("RKeeper")
@@ -50,12 +51,12 @@ public class _5_2_FullCheckEveryStatusTest extends BaseTest {
             " в таппере и роверяем все суммы и условия у всех не оплаченных и не заблокированных блюдах")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "6000"));
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111, COOKIE_GUEST_FIRST_USER, COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -79,7 +80,7 @@ public class _5_2_FullCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.4. Переходим на второго гостя и проверяем что блюда заблокированы и оплачиваются")
     public void checkDisabledDishes() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
         rootPage.checkIfDishesDisabledEarlier(chosenDishes);
 
     }
@@ -88,7 +89,7 @@ public class _5_2_FullCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.5. Возвращаемся на первого гостя")
     public void switchBackTo1Guest() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111, COOKIE_GUEST_FIRST_USER, COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
         rootPage.cancelCertainAmountChosenDishes(3);
         chosenDishes = rootPage.getChosenDishesAndSetCollection();
 
@@ -120,7 +121,7 @@ public class _5_2_FullCheckEveryStatusTest extends BaseTest {
     @DisplayName("1.9. Проверка сообщения в телеграмме")
     public void clearDataAndChoseAgain() {
 
-        telegramDataForTgMsg = rootPage.getTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
@@ -129,7 +130,7 @@ public class _5_2_FullCheckEveryStatusTest extends BaseTest {
     @DisplayName("2.0. Переходим на первого гостя")
     public void returnFirstGuest() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
         rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
 
     }

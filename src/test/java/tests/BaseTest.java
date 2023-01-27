@@ -15,6 +15,8 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.FileOutputStream;
+import java.util.Properties;
 import java.util.logging.Level;
 
 @ExtendWith({
@@ -28,7 +30,7 @@ public class BaseTest {
 
         Configuration.browser = Browsers.CHROME;
         Configuration.savePageSource = false;
-        Configuration.headless = true;
+        Configuration.headless = false;
         Configuration.browserPosition = "0x0";
         Configuration.browserSize = "1920x1080";
 
@@ -66,6 +68,9 @@ public class BaseTest {
         Selenide.closeWebDriver();
 
     }
+
+
+
 
 }
 

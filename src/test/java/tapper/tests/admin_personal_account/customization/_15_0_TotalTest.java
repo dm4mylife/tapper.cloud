@@ -5,15 +5,15 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.customization.Customization;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.customization.Customization;
 import tapper_table.RootPage;
 import tests.BaseTest;
 
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
-import static constants.Constant.TestData.TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.AdminPersonalAccount.TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 
 @Order(150)
 @Epic("Личный кабинет администратора ресторана")

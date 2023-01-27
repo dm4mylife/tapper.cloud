@@ -21,7 +21,6 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
-import static constants.selectors.AdminPersonalAccountSelectors.Customization.patternTextMsg;
 
 
 public class BaseActions {
@@ -31,18 +30,15 @@ public class BaseActions {
         open(url);
     }
 
-    @Step("Кнопка видна и клик по ней")
     public void click(@NotNull SelenideElement element) {
         element.shouldBe(visible).click();
     }
 
-    @Step("Скрол до элемента и клик по нему")
     public void scrollAndClick(SelenideElement element) {
         element.scrollIntoView(false);
         element.click();
     }
 
-    @Step("Элемент присутствует на странице")
     public void isElementVisible(@NotNull SelenideElement element) {
         element.shouldBe(visible);
     }
@@ -52,32 +48,25 @@ public class BaseActions {
         element.shouldBe(visible, Duration.ofSeconds(time));
     }
 
-    @Step("Элемент должен содержать значение {value}")
-    public SelenideElement elementShouldHaveValue(SelenideElement element, String value) {
-        return element.shouldHave(value(value));
-    }
-
     @Step("Переключение на другого гостя ({guest})")
     public void switchTab(int tabIndex) {
         Selenide.switchTo().window(tabIndex);
     }
 
-    @Step("Элемент не видим на странице")
+
     public void isElementInvisible(@NotNull SelenideElement element) {
         element.shouldBe(hidden);
     }
 
-    @Step("Список элементов присутствует на странице")
+
     public void isElementsListVisible(ElementsCollection elements) {
          elements.filterBy(visible).shouldBe(sizeGreaterThan(0));
     }
 
-    @Step("Список элементов НЕ присутствует на странице")
     public void isElementsListInVisible(@NotNull ElementsCollection elements) {
         elements.shouldBe(size(0));
     }
 
-    @Step("Элемент присутствует и кликабельный на странице")
     public void isElementVisibleAndClickable(@NotNull SelenideElement element) {
         element.shouldBe(visible, enabled);
     }
@@ -97,24 +86,10 @@ public class BaseActions {
         element.scrollIntoView(false);
     }
 
-    @Step("Плавный скрол до видимого элемента (только JS)")
-    public void scrollByJS(String selector) {
-        Selenide.executeJavaScript("document.querySelector(\"" + selector + "\").scrollIntoView({block: 'end',  behavior: 'smooth' })");
-        Selenide.sleep(500);
-    }
-
     @Step("Плавный скрол до самого низа страницы")
     public void scrollTillBottom() {
 
         Selenide.executeJavaScript("window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: \"smooth\" });\n;");
-        Selenide.sleep(1000);
-
-    }
-
-    @Step("Плавный скрол до самого верха страницы")
-    public void scrollTillTop() {
-
-        Selenide.executeJavaScript("window.scrollTo({ left: 0, top: document.body.scrollTop, behavior: \"smooth\" });\n;");
         Selenide.sleep(1000);
 
     }
@@ -142,19 +117,6 @@ public class BaseActions {
 
     }
 
-    @Step("Удаление данных {text} с задержкой")
-    public void removeHumanKeys(SelenideElement element, @NotNull String text) {
-        Random r = new Random();
-        for (int i = 0; i < text.length(); i++) {
-
-            Selenide.sleep((int) (r.nextGaussian() * 15 + 50));
-
-            String s = String.valueOf(text.charAt(i));
-            element.sendKeys(s);
-        }
-
-    }
-
     @Step("Ввод данных {text} без задержки")
     public void sendKeys(@NotNull SelenideElement element, String text) {
         element.sendKeys(text);
@@ -167,7 +129,6 @@ public class BaseActions {
 
     }
 
-    @Step("Преобразовываем\\вырезаем текст из селектора в число")
     public int convertSelectorTextIntoIntByRgx(@NotNull SelenideElement selector, String regex) {
 
         String text = selector.getText().replaceAll(regex, "");
@@ -175,7 +136,6 @@ public class BaseActions {
 
     }
 
-    @Step("Преобразовываем\\вырезаем текст из селектора в дабл")
     public double convertSelectorTextIntoDoubleByRgx(@NotNull SelenideElement selector, String regex) {
 
         String text = selector.getText().replaceAll(regex, "");
@@ -183,7 +143,6 @@ public class BaseActions {
 
     }
 
-    @Step("Преобразовываем\\вырезаем текст из селектора строку")
     public String convertSelectorTextIntoStrByRgx(@NotNull SelenideElement selector, String regex) {
         return selector.getText().replaceAll(regex, "");
 
@@ -198,7 +157,6 @@ public class BaseActions {
 
     }
 
-    @Step("Обрезаем у дабла всё до двух чисел после запятой")
     public double convertDouble(@NotNull Double doubleNumber) {
 
         String formattedDouble = new DecimalFormat("#0.00").format(doubleNumber).replace(",", ".");

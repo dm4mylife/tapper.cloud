@@ -2,14 +2,15 @@ package tapper.tests.keeper_e2e._0_common;
 
 
 import api.ApiRKeeper;
+import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AdminAccount;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.operations_history.OperationsHistory;
+import admin_personal_account.AdminAccount;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.operations_history.OperationsHistory;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
@@ -24,9 +25,7 @@ import java.util.LinkedHashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.*;
-import static constants.Constant.TestData.COOKIE_SESSION_FIRST_USER;
-import static constants.Constant.TestDataRKeeperAdmin.*;
+import static data.Constants.TestData.*;
 
 
 @Order(8)
@@ -66,12 +65,12 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "4000"));
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -115,7 +114,7 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.6. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getTgMsgData(guid,WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
     }
@@ -124,9 +123,9 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.7. Открываем историю операций, проверяем что платёж есть и корректный")
     public void openAdminOperationsHistory() {
 
-        rootPage.openPage(R_KEEPER_ADMIN_AUTHORISATION_STAGE_URL);
+        rootPage.openPage(AdminPersonalAccount.ADMIN_AUTHORIZATION_STAGE_URL);
         rootPage.forceWait(2000);
-        authorizationPage.authorizeUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
+        authorizationPage.authorizeUser(AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL, AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD);
         operationsHistory.goToOperationsHistoryCategory();
         operationsHistory.isHistoryOperationsCorrect();
 
@@ -141,7 +140,7 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.8. Делаем полную оплату на столе")
     public void clearDataAndChoseAgain() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
         savePaymentDataForAcquiring();
 
     }

@@ -6,8 +6,8 @@ import io.qameta.allure.Step;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-import static constants.Constant.TestData.TEST_REVIEW_COMMENT;
-import static constants.selectors.TapperTableSelectors.ReviewPage.*;
+import static data.Constants.TestData.TapperTable.TEST_REVIEW_COMMENT;
+import static data.selectors.TapperTable.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
 

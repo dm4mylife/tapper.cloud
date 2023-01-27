@@ -11,7 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static constants.Constant.RegexPattern.*;
+import static data.Constants.RegexPattern.*;
+import static data.Constants.TestData.AdminPersonalAccount.TELEGRAM_TOKEN;
 import static io.restassured.RestAssured.given;
 
 public class Telegram {
@@ -25,7 +26,7 @@ public class Telegram {
                 .contentType(ContentType.JSON)
                 .and()
                 .when()
-                .get("https://api.telegram.org/bot5989489181:AAGsWoVW-noi9lDDx11H-nGPNPOuw8XtCZI/getUpdates?offset=20")
+                .get("https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/getUpdates?offset=20")
                 .then()
                 .log().body()
                 .statusCode(200)

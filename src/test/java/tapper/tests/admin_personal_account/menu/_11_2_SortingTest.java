@@ -7,8 +7,8 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.menu.Menu;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.menu.Menu;
 import tapper_table.RootPage;
 import tests.BaseTest;
 
@@ -17,11 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.$$;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.TapperTableSelectors.RootPage.Menu.menuDishPhotosNotSelenide;
-import static constants.selectors.TapperTableSelectors.RootPage.TapBar.appFooterMenuIcon;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.selectors.TapperTable.RootPage.Menu.menuDishPhotosNotSelenide;
+import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
 @Order(112)
 @Epic("Личный кабинет администратора ресторана")

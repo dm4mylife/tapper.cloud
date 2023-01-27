@@ -18,9 +18,9 @@ import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.disabled;
-import static constants.Constant.TestData.*;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.allNonPaidAndNonDisabledDishes;
-import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.paymentButton;
+import static data.Constants.TestData.*;
+import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static data.selectors.TapperTable.RootPage.PayBlock.paymentButton;
 
 @Order(7)
 @Epic("RKeeper")
@@ -44,12 +44,12 @@ public class _0_7_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest exten
     @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, String.valueOf(amountDishes * 1000)));
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -69,7 +69,7 @@ public class _0_7_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest exten
     @Test
     @DisplayName("4. Подменяем данные, словно новый гость")
     public void setAnotherGuestCookie() {
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
     }
 
     @Test

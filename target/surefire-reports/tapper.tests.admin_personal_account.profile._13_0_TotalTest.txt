@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tapper.tests.admin_personal_account.profile._13_0_TotalTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 58.514 s - in tapper.tests.admin_personal_account.profile._13_0_TotalTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 33.594 s - in tapper.tests.admin_personal_account.profile._13_0_TotalTest

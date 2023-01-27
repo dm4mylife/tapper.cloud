@@ -6,16 +6,16 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AdminAccount;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.waiters.Waiters;
+import admin_personal_account.AdminAccount;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.waiters.Waiters;
 import tapper_table.YandexPage;
 import tests.BaseTest;
 
-import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.AdminPersonalAccountSelectors.Waiters.backToPreviousPage;
+import static data.Constants.TestData.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 
 
 @Order(90)
@@ -57,7 +57,7 @@ public class _9_0_TotalTest extends BaseTest {
     @DisplayName("1.3. Отправка приглашение на почту официанту")
     public void negativeSearchWaiter() {
 
-        waiters.sendInviteToWaiterEmail(OPTIMUS_PRIME_WAITER,TEST_YANDEX_LOGIN_EMAIL);
+        waiters.sendInviteToWaiterEmail(AdminPersonalAccount.OPTIMUS_PRIME_WAITER, Yandex.TEST_YANDEX_LOGIN_EMAIL);
 
     }
 
@@ -66,7 +66,7 @@ public class _9_0_TotalTest extends BaseTest {
     public void checkWaiterStatus() {
 
         backToPreviousPage.click();
-        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, "Приглаш(е|ё)н в систему");
+        waiters.isWaiterStatusCorrectInPreviewAndCard(AdminPersonalAccount.OPTIMUS_PRIME_WAITER, "Приглаш(е|ё)н в систему");
         adminAccount.logOut();
 
     }
@@ -74,7 +74,7 @@ public class _9_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.5. Авторизация в почте яндекса")
     public void yandexAuthorization() {
-        yandexPage.yandexAuthorization(TEST_YANDEX_LOGIN_EMAIL,TEST_YANDEX_PASSWORD_MAIL);
+        yandexPage.yandexAuthorization(Yandex.TEST_YANDEX_LOGIN_EMAIL, Yandex.TEST_YANDEX_PASSWORD_MAIL);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class _9_0_TotalTest extends BaseTest {
     public void goToAuthTapperPage() {
 
         yandexPage.goToAuthPageFromMail();
-        authorizationPage.authorizationUser(TEST_YANDEX_LOGIN_EMAIL, password);
+        authorizationPage.authorizationUser(Yandex.TEST_YANDEX_LOGIN_EMAIL, password);
         adminAccount.isRegistrationComplete();
         adminAccount.logOut();
 
@@ -100,7 +100,7 @@ public class _9_0_TotalTest extends BaseTest {
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         waiters.goToWaiterCategory();
-        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, "Официант верифицирован");
+        waiters.isWaiterStatusCorrectInPreviewAndCard(AdminPersonalAccount.OPTIMUS_PRIME_WAITER, "Официант верифицирован");
         adminAccount.logOut();
 
     }
@@ -114,7 +114,7 @@ public class _9_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("2.0. Удаляем письмо на почте Яндекса")
     public void deleteYandexInviteMail() {
-        yandexPage.deleteMail(TEST_YANDEX_LOGIN_EMAIL,TEST_YANDEX_PASSWORD_MAIL);
+        yandexPage.deleteMail(Yandex.TEST_YANDEX_LOGIN_EMAIL, Yandex.TEST_YANDEX_PASSWORD_MAIL);
     }
 
 }

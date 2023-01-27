@@ -2,9 +2,7 @@ package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
@@ -12,16 +10,14 @@ import tapper_table.RootPage;
 
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
-import static constants.Constant.TestData.SERVICE_CHARGE_PERCENT_FROM_TIPS;
-import static constants.Constant.TestData.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
-import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.dishesSumChangedHeading;
-import static constants.selectors.TapperTableSelectors.RootPage.PayBlock.serviceChargeContainer;
-import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
-import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalTipsSumInMiddle;
+import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS;
+import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
+import static data.selectors.TapperTable.Best2PayPage.transaction_id;
+import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
+import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeContainer;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalTipsSumInMiddle;
 
 
 
@@ -49,7 +45,6 @@ public class NestedTests extends RootPage {
     @Step("Проверка всего процесса оплаты, транзакции, ожидание пустого стола")
     public void checkPaymentAndB2pTransaction(String orderType, String transactionId, HashMap<String, Integer> paymentDataKeeper) {
 
-        System.out.println(orderType + " orderType");
         reviewPageNestedTests.paymentCorrect(orderType);
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
@@ -80,10 +75,9 @@ public class NestedTests extends RootPage {
         rootPage.forceWait(2500); // toDo меню не успевает обновится после ошибки изменения суммы оплаты
         double totalPaySumAfterChanging = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
 
-        System.out.println(totalPaySum + " сумма до изменения заказа");
-        System.out.println(totalPaySumAfterChanging + " сумма после изменения заказа");
         Assertions.assertNotEquals(totalPaySum, totalPaySumAfterChanging,
                 "После изменения заказа на кассе, заказ в таппере не поменялся");
+        System.out.println("После изменения заказа на кассе, заказ в таппере изменился, итого сумма пересчиталась");
 
     }
 

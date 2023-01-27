@@ -21,10 +21,9 @@ import java.util.Map;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.*;
-import static constants.Constant.TestData.COOKIE_SESSION_SECOND_USER;
-import static constants.selectors.TapperTableSelectors.Best2PayPage.transaction_id;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.paidDishes;
+import static data.Constants.TestData.*;
+import static data.selectors.TapperTable.Best2PayPage.transaction_id;
+import static data.selectors.TapperTable.RootPage.DishList.paidDishes;
 
 @Order(53)
 @Epic("RKeeper")
@@ -60,12 +59,12 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
     }
@@ -83,7 +82,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     public void switchToAnotherUser() {
 
         chosenDishes1stGuest = rootPage.getChosenDishesAndSetCollection();
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
 
     }
 
@@ -108,7 +107,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     @DisplayName("1.6. Переключаемся на первого гостя")
     public void switchBackTo1Guest() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_FIRST_USER,COOKIE_SESSION_FIRST_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
 
     }
 
@@ -140,7 +139,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     @DisplayName("1.9. Переключаемся на второго гостя")
     public void switchBackTo2Guest() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111,COOKIE_GUEST_SECOND_USER,COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
 
     }
 

@@ -1,6 +1,7 @@
 package api;
 
 import common.BaseActions;
+import data.Constants;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -13,7 +14,7 @@ import static api.ApiData.EndPoints;
 import static api.ApiData.EndPoints.*;
 import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.*;
+import static data.Constants.TestData.*;
 import static io.restassured.RestAssured.given;
 
 public class ApiRKeeper {
@@ -26,11 +27,11 @@ public class ApiRKeeper {
         if (!isClosedOrder()) {
 
             System.out.println("На кассе есть прошлый заказ, закрываем его");
-            Response rsGetOrder = getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
+            Response rsGetOrder = getOrderInfo(TABLE_AUTO_1_ID, TapperTable.AUTO_API_URI);
             String guid = rsGetOrder.jsonPath().getString("@attributes.guid");
 
             boolean isOrderClosed;
-            orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid),API_STAGE_URI);
+            orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid), TapperTable.AUTO_API_URI);
 
             isOrderClosed = isClosedOrder();
 
@@ -106,7 +107,7 @@ public class ApiRKeeper {
                     .contentType(ContentType.JSON)
                     .and()
                     .body(requestBody)
-                    .baseUri(API_STAGE_URI)
+                    .baseUri(TapperTable.AUTO_API_URI)
                     .when()
                     .post(EndPoints.fillingOrder)
                     .then()
@@ -464,14 +465,14 @@ public class ApiRKeeper {
     public void isPrepaymentSuccess(String transactionId) {
 
         String hasErrorText = "";
-        int rsCounter = ATTEMPT_FOR_PREPAYMENT_REQUEST;
+        int rsCounter = Constants.ATTEMPT_FOR_PREPAYMENT_REQUEST;
         boolean rqResponse;
 
         do {
 
             System.out.println("run");
-            baseActions.forceWait(WAIT_FOR_PREPAYMENT_ON_CASH_DESK);
-            Response rs = checkPrepayment(rqParamsCheckPrePayment(transactionId),API_STAGE_URI);
+            baseActions.forceWait(Constants.WAIT_FOR_PREPAYMENT_ON_CASH_DESK);
+            Response rs = checkPrepayment(rqParamsCheckPrePayment(transactionId), TapperTable.AUTO_API_URI);
             rqResponse = rs.jsonPath().getString("message").equals("Предоплата прошла по кассе");
 
             if (rqResponse) {
@@ -479,7 +480,7 @@ public class ApiRKeeper {
             }
 
             System.out.println("Предоплата не пришла, делаем повторный запрос");
-            hasErrorText = " .Предоплата не пришла даже после " + ATTEMPT_FOR_PREPAYMENT_REQUEST + "№ попытки";
+            hasErrorText = " .Предоплата не пришла даже после " + Constants.ATTEMPT_FOR_PREPAYMENT_REQUEST + "№ попытки";
             --rsCounter;
 
         } while (rsCounter != 0);
@@ -492,7 +493,7 @@ public class ApiRKeeper {
     @Step("Проверка что заказ закрыт на столе")
     public boolean isClosedOrder() {
 
-        Response rsGetOrder = getOrderInfo(TABLE_AUTO_1_ID,API_STAGE_URI);
+        Response rsGetOrder = getOrderInfo(TABLE_AUTO_1_ID, TapperTable.AUTO_API_URI);
         Response isOrderClosed = null;
         String guid;
         boolean isClosed = false;
@@ -510,7 +511,7 @@ public class ApiRKeeper {
 
             guid = rsGetOrder.jsonPath().getString("@attributes.guid");
             System.out.println(guid + " guid");
-            isOrderClosed = isOrderClosed(rqParamsIsOrderClosed(R_KEEPER_RESTAURANT, guid), API_STAGE_URI);
+            isOrderClosed = isOrderClosed(rqParamsIsOrderClosed(R_KEEPER_RESTAURANT, guid), TapperTable.AUTO_API_URI);
 
         }
 

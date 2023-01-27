@@ -1,0 +1,189 @@
+{
+  "uid" : "19c8f5d021bdcb7f",
+  "name" : "7. Делимся ссылкой и оплачиваем остальную часть заказа",
+  "fullName" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest.clearDataAndChoseAgain",
+  "historyId" : "3c382141446511c5011f5c610fbfec7a",
+  "time" : {
+    "start" : 1674720943277,
+    "stop" : 1674720947365,
+    "duration" : 4088
+  },
+  "description" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ {
+    "name" : "setUp",
+    "time" : {
+      "start" : 1674720844876,
+      "stop" : 1674720844876,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Закрываем заказ по API",
+      "time" : {
+        "start" : 1674720943277,
+        "stop" : 1674720947364,
+        "duration" : 4087
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Оплата заказа",
+        "time" : {
+          "start" : 1674720943277,
+          "stop" : 1674720946793,
+          "duration" : 3516
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ {
+          "name" : "requestBody",
+          "value" : "{\n  \"domen\": \"testrkeeper\",\n  \"guid\": \"{B904C2F8-4B4A-4571-8174-9328310AE2C4}\",\n  \"station\": 1,\n  \"pay\": 9000000000 \n}"
+        }, {
+          "name" : "baseUri",
+          "value" : "https://auto-back-tapper.zedform.ru/api/"
+        } ],
+        "hasContent" : true,
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      }, {
+        "name" : "Проверка что заказ закрыт на столе",
+        "time" : {
+          "start" : 1674720946793,
+          "stop" : 1674720947364,
+          "duration" : 571
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "Получение информации о заказе на столе",
+          "time" : {
+            "start" : 1674720946793,
+            "stop" : 1674720947364,
+            "duration" : 571
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ {
+            "name" : "id_table",
+            "value" : "1000046"
+          }, {
+            "name" : "baseUri",
+            "value" : "https://auto-back-tapper.zedform.ru/api/"
+          } ],
+          "hasContent" : true,
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "hasContent" : true,
+        "stepsCount" : 1,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "guid",
+        "value" : "{B904C2F8-4B4A-4571-8174-9328310AE2C4}"
+      } ],
+      "hasContent" : true,
+      "stepsCount" : 3,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : true,
+    "stepsCount" : 4,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "tearDown",
+    "time" : {
+      "start" : 1674720947367,
+      "stop" : 1674720947423,
+      "duration" : 56
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "junit.platform.uniqueid",
+    "value" : "[engine:junit-platform-suite]/[suite:tapper.tests.ThirdThreadTestSuite]/[engine:junit-jupiter]/[class:tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest]/[method:clearDataAndChoseAgain()]"
+  }, {
+    "name" : "story",
+    "value" : "Официант верифицирован, без привязанной карты, частичная оплата  +СБ"
+  }, {
+    "name" : "feature",
+    "value" : "Официант"
+  }, {
+    "name" : "epic",
+    "value" : "RKeeper"
+  }, {
+    "name" : "host",
+    "value" : "WIN-UJN5UBMF8DD"
+  }, {
+    "name" : "thread",
+    "value" : "30588@WIN-UJN5UBMF8DD.main(1)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest"
+  }, {
+    "name" : "testClass",
+    "value" : "tapper.tests.keeper_e2e._6_waiter._6_3_VerifiedPartNoCardWithScTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "clearDataAndChoseAgain"
+  }, {
+    "name" : "suite",
+    "value" : "Официант верифицирован, без привязанной карты, частичная оплата  +СБ"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "19c8f5d021bdcb7f.json",
+  "parameterValues" : [ ]
+}

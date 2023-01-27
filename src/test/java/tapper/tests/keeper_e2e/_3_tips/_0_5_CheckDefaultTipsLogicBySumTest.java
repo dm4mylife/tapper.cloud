@@ -16,10 +16,11 @@ import tests.BaseTest;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
-import static constants.selectors.TapperTableSelectors.RootPage.DishList.*;
-import static constants.selectors.TapperTableSelectors.RootPage.TipsAndCheck.totalPay;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
 
 @Order(5)
 @Epic("RKeeper")
@@ -45,7 +46,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.2. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), AUTO_API_URI);
         guid = rsCreateOrder.jsonPath().getString("result.guid");
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));

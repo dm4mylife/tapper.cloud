@@ -5,17 +5,17 @@ import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AdminAccount;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.waiters.Waiters;
+import admin_personal_account.AdminAccount;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.waiters.Waiters;
 import tapper_table.YandexPage;
-import tapper_waiter_personal_account.Waiter;
+import waiter_personal_account.Waiter;
 import tests.BaseTest;
 
-import static constants.Constant.TestData.*;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.AdminPersonalAccountSelectors.Waiters.backToPreviousPage;
+import static data.Constants.TestData.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 
 @Order(141)
 @Epic("Личный кабинет официант ресторана")
@@ -48,7 +48,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @DisplayName("1.1. Отправляем приглашение")
     public void sendInviteWaiter() {
 
-        waiters.sendInviteToWaiterEmail(IRONHIDE_WAITER,TEST_YANDEX2_LOGIN_EMAIL);
+        waiters.sendInviteToWaiterEmail(AdminPersonalAccount.IRONHIDE_WAITER, Yandex.TEST_YANDEX2_LOGIN_EMAIL);
 
     }
 
@@ -57,7 +57,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     public void checkWaiterStatus() {
 
         backToPreviousPage.click();
-        waiters.isWaiterStatusCorrectInPreviewAndCard(IRONHIDE_WAITER, "Приглаш(е|ё)н в систему");
+        waiters.isWaiterStatusCorrectInPreviewAndCard(AdminPersonalAccount.IRONHIDE_WAITER, "Приглаш(е|ё)н в систему");
         adminAccount.logOut();
 
     }
@@ -65,7 +65,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @Test
     @DisplayName("1.3. Авторизация в почте яндекса")
     public void yandexAuthorization() {
-        yandexPage.yandexAuthorization(TEST_YANDEX2_LOGIN_EMAIL,TEST_YANDEX2_PASSWORD_MAIL);
+        yandexPage.yandexAuthorization(Yandex.TEST_YANDEX2_LOGIN_EMAIL, Yandex.TEST_YANDEX2_PASSWORD_MAIL);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     public void goToAuthTapperPage() {
 
         yandexPage.goToAuthPageFromMail();
-        authorizationPage.authorizationUser(TEST_YANDEX2_LOGIN_EMAIL, password);
+        authorizationPage.authorizationUser(Yandex.TEST_YANDEX2_LOGIN_EMAIL, password);
         adminAccount.isRegistrationComplete();
 
     }
@@ -101,7 +101,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         waiters.goToWaiterCategory();
 
-        waiters.isWaiterStatusCorrectInPreviewAndCard(IRONHIDE_WAITER, "Официант верифицирован");
+        waiters.isWaiterStatusCorrectInPreviewAndCard(AdminPersonalAccount.IRONHIDE_WAITER, "Официант верифицирован");
         waiters.unlinkMailWaiterInCard();
 
     }
@@ -109,7 +109,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @Test
     @DisplayName("1.8. Удаляем письмо на почте Яндекса")
     public void deleteYandexInviteMail() {
-        yandexPage.deleteMail(TEST_YANDEX2_LOGIN_EMAIL,TEST_YANDEX2_PASSWORD_MAIL);
+        yandexPage.deleteMail(Yandex.TEST_YANDEX2_LOGIN_EMAIL, Yandex.TEST_YANDEX2_PASSWORD_MAIL);
     }
 
 }

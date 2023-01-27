@@ -54,7 +54,6 @@ common\BaseActions.class
 tapper_admin_personal_account\AdminAccount.class
 tapper_table\nestedTestsManager\RootPageNestedTests.class
 constants\Constant.class
-constants\selectors\AuthAndRegistrationPageSelectors$RestorePage.class
 constants\selectors\AdminPersonalAccountSelectors$Profile.class
 tapper_table\YandexPage.class
 constants\selectors\AuthAndRegistrationPageSelectors$RegistrationPage.class

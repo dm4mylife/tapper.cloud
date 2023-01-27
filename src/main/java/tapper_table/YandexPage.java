@@ -7,9 +7,9 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
-import static constants.Constant.TestData.YANDEX_MAIL_URL;
-import static constants.selectors.AdminPersonalAccountSelectors.Common;
-import static constants.selectors.YandexMailSelectors.*;
+import static data.Constants.TestData.Yandex.YANDEX_MAIL_URL;
+import static data.selectors.AdminPersonalAccount.Common;
+import static data.selectors.YandexMail.*;
 
 public class YandexPage extends BaseActions {
 
@@ -49,7 +49,7 @@ public class YandexPage extends BaseActions {
     @Step("Проверка письма таппера и извлечение пароля")
     public String checkTapperMail() {
 
-        tapperMail.shouldBe(visible, Duration.ofSeconds(120));
+        tapperMail.shouldBe(visible, Duration.ofSeconds(60));
 
         click(tapperMail);
 

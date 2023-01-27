@@ -10,7 +10,7 @@ name: allure-junit5-maven
 
 on:
   push:
-    branches: [ "master" ]
+
 
 jobs:
 

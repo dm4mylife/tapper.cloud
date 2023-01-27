@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tapper.tests.keeper_e2e._8_discount._8_0_FullPayTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 36.195 s - in tapper.tests.keeper_e2e._8_discount._8_0_FullPayTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 36.444 s - in tapper.tests.keeper_e2e._8_discount._8_0_FullPayTest

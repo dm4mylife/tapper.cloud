@@ -81,17 +81,13 @@ public class ReviewPageNestedTests {
     @Step("Получаем саму транзакцию б2п и сравниваем с суммами которые были при оплате")
     public void getTransactionAndMatchSums(String transactionId, HashMap<String, Integer> paymentData) {
 
-        System.out.println(transactionId + " trans_id");
-        System.out.println(paymentData + " payment data");
-
         Response rs = apiRKeeper.getB2BPayment(transactionId);
         Map<String, Integer> rsPaymentData = getPayDataFromResponseAndConvToHashMap(rs);
 
-        System.out.println(paymentData + " tapper data");
-        System.out.println(rsPaymentData + " b2b data");
+        System.out.println(paymentData + " tapper data\n" + rsPaymentData + " b2b data");
+
         Assertions.assertEquals(rsPaymentData, paymentData, "Суммы в таппере не сходятся с транзакцией b2p");
         System.out.println("Все суммы в таппере сходятся с транзакцией b2p");
-
 
     }
 

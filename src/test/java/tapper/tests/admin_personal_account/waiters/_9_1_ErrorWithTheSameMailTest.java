@@ -7,14 +7,14 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.waiters.Waiters;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.waiters.Waiters;
 import tests.BaseTest;
 
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.AdminPersonalAccountSelectors.Waiters.backToPreviousPage;
-import static constants.selectors.AdminPersonalAccountSelectors.Waiters.enterEmailField;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
+import static data.selectors.AdminPersonalAccount.Waiters.enterEmailField;
 
 
 @Order(91)

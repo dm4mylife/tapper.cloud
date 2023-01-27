@@ -6,17 +6,17 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
-import tapper_admin_personal_account.AuthorizationPage;
-import tapper_admin_personal_account.tables_and_qr_codes.TablesAndQrCodes;
+import total_personal_account_actions.AuthorizationPage;
+import admin_personal_account.tables_and_qr_codes.TablesAndQrCodes;
 import tests.BaseTest;
 
 import java.io.File;
 import java.io.IOException;
 
 import static com.codeborne.selenide.FileDownloadMode.PROXY;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static constants.Constant.TestDataRKeeperAdmin.ADMIN_RESTAURANT_PASSWORD;
-import static constants.selectors.AdminPersonalAccountSelectors.TableAndQrCodes.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 
 @Order(100)
 @Epic("Личный кабинет администратора ресторана")

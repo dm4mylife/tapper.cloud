@@ -11,10 +11,11 @@ import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static api.ApiData.QueryParams.*;
+import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static constants.Constant.TestData.API_STAGE_URI;
-import static constants.Constant.TestData.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 
 @Order(0)
 @Epic("RKeeper")
@@ -45,7 +46,7 @@ public class _0_0_TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
     @DisplayName("2. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), API_STAGE_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "5000"));
