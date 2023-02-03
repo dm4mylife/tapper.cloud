@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.admin_personal_account.integrations._16_0_TotalTest
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.885 s - in tapper.tests.admin_personal_account.integrations._16_0_TotalTest

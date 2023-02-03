@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.keeper_e2e._8_discount._8_2_PartAndFullPayAfterRemovingDiscountTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 73.379 s - in tapper.tests.keeper_e2e._8_discount._8_2_PartAndFullPayAfterRemovingDiscountTest

@@ -12,10 +12,13 @@ import admin_personal_account.customization.Customization;
 import tapper_table.RootPage;
 import tests.BaseTest;
 
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.hidden;
 import static data.Constants.TestData.*;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Customization.wifiTab;
+import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
 import static data.selectors.TapperTable.Common.wiFiIcon;
 
 @Order(150)
@@ -56,9 +59,9 @@ public class _15_1_wiFiTest extends BaseTest {
     public void isWifiTabCorrect() {
 
         rootPage.click(wifiTab);
+        pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
         customization.activateWifiIfDeactivated();
         customization.isWiFiTabCorrect();
-        customization.setWifiConfiguration(AdminPersonalAccount.TEST_WIFI_NETWORK_NAME, AdminPersonalAccount.TEST_WIFI_NETWORK_PASSWORD);
 
     }
 
@@ -66,7 +69,7 @@ public class _15_1_wiFiTest extends BaseTest {
     @DisplayName("1.4. Активируем вайфай, прописываем данные")
     public void setWifiConfiguration() {
 
-        customization.setWifiConfiguration(AdminPersonalAccount.TEST_WIFI_NETWORK_NAME, AdminPersonalAccount.TEST_WIFI_NETWORK_PASSWORD);
+        customization.setWifiConfiguration(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
 
     }
 
@@ -76,7 +79,7 @@ public class _15_1_wiFiTest extends BaseTest {
 
         rootPage.openNewTabAndSwitchTo(TapperTable.STAGE_RKEEPER_TABLE_333);
         rootPage.closeHintModal();
-        rootPage.checkWiFiOnTapperTable(AdminPersonalAccount.TEST_WIFI_NETWORK_NAME, AdminPersonalAccount.TEST_WIFI_NETWORK_PASSWORD);
+        rootPage.checkWiFiOnTapperTable(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
 
     }
 

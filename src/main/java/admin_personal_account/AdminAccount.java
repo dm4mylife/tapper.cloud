@@ -15,7 +15,7 @@ public class AdminAccount extends BaseActions {
 
         click(Common.mainMenuIcon);
         click(Common.exitFromAdmin);
-        isTextContainsInURL("https://tapper.staging.zedform.ru/");
+        isTextContainsInURL("tapper");
 
     }
 

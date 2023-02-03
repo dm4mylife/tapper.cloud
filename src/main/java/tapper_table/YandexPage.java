@@ -1,5 +1,6 @@
 package tapper_table;
 
+import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
@@ -21,6 +22,11 @@ public class YandexPage extends BaseActions {
         if (yandexFormTitle.getText().equals("Выберите аккаунт для входа")) {
 
             yandexTapperAccount.click();
+
+        }  else if (enteredEarlierLogin.isDisplayed()) {
+
+            sendKeys(yandexPassword,password);
+            click(signInButton);
 
         } else {
 
@@ -49,7 +55,8 @@ public class YandexPage extends BaseActions {
     @Step("Проверка письма таппера и извлечение пароля")
     public String checkTapperMail() {
 
-        tapperMail.shouldBe(visible, Duration.ofSeconds(60));
+        tapperMail.shouldBe(visible.because("На почте нет письма с приглашением на авторизацию"),
+                Duration.ofSeconds(30));
 
         click(tapperMail);
 
@@ -62,12 +69,12 @@ public class YandexPage extends BaseActions {
 
     }
 
-    @Step("Переход на страницу авторизации из письма")
+    @Step("Переход на страницу авторизации по ссылки из письма с приглашением")
     public void goToAuthPageFromMail() {
 
         tapperConfirmAuthInMail.click();
-        isTextContainsInURL("tapper");
         switchTab(1);
+        isTextContainsInURL("tapper");
         System.out.println("Переключились на новую вкладку");
 
     }
@@ -76,11 +83,20 @@ public class YandexPage extends BaseActions {
     public void deleteMail(String email, String password) {
 
         yandexAuthorization(email,password);
-        tapperMailCheckbox.shouldBe(visible,Duration.ofSeconds(20));
-        click(tapperMailCheckbox);
-        click(deleteMailButton);
-        tapperMail.shouldNotBe(exist);
-        System.out.println("Удалили письмо");
+
+        if (tapperMailCheckbox.first().isDisplayed()) {
+
+            for (SelenideElement mailCheckbox : tapperMailCheckbox) {
+
+                click(mailCheckbox);
+
+            }
+
+            click(deleteMailButton);
+            tapperMail.shouldNotBe(exist);
+            System.out.println("Удалили письмо");
+
+        }
 
     }
 

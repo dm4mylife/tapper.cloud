@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.keeper_e2e._5_sockets._5_0_DisabledDishesWhenDividedByTimeLimitTest
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 62.631 s - in tapper.tests.keeper_e2e._5_sockets._5_0_DisabledDishesWhenDividedByTimeLimitTest

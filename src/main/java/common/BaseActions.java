@@ -1,6 +1,7 @@
 package common;
 
 
+import com.codeborne.selenide.ClickOptions;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -12,6 +13,8 @@ import org.openqa.selenium.Keys;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Random;
 
@@ -21,6 +24,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
+import static data.selectors.AdminPersonalAccount.OperationsHistory.periodButton;
 
 
 public class BaseActions {
@@ -32,6 +36,12 @@ public class BaseActions {
 
     public void click(@NotNull SelenideElement element) {
         element.shouldBe(visible).click();
+    }
+
+    public void clickByJs(String selector) {
+
+        Selenide.executeJavaScript("document.querySelector('" + selector +"').click();");
+
     }
 
     public void scrollAndClick(SelenideElement element) {
@@ -173,7 +183,7 @@ public class BaseActions {
     }
 
     @Step("Корректность отображения изображения")
-    public void isImageCorrect(String element,String assertMessage) {
+    public void isImageCorrect(String element,String assertFailMessage) {
 
         final String JsScript = "function isImageNotBroken()  " +
                 "{ var img = document.querySelector(\"" + element +
@@ -181,7 +191,7 @@ public class BaseActions {
             "{ return true; } else { return false; }} return isImageNotBroken();";
 
         boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(JsScript));
-        Assertions.assertTrue(image, assertMessage);
+        Assertions.assertTrue(image, assertFailMessage);
 
 
     }
@@ -189,7 +199,7 @@ public class BaseActions {
     @Step("Получить дату в формате {pattern}")
     public String getCurrentDateInFormat(String pattern) {
 
-        return new SimpleDateFormat(pattern).format(new Date());
+        return LocalDate.now().format(DateTimeFormatter.ofPattern(pattern));
 
     }
 

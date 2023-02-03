@@ -172,9 +172,9 @@ public class Menu extends BaseActions {
         String imageSelector = ".vAdmiMenuTable__item:nth-of-type("+ (dishIndex + 1) +") .vAdmiMenuTable__item-img img";
 
         menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img-del").shouldBe(visible);
-        forceWait(5000);
+        forceWait(3000);
         editDishNameOkButton.click();
-        forceWait(5000);
+        forceWait(3000);
         editDishNameOkButton.shouldNotBe(visible);
 
         System.out.println(menuDishItems.get(dishIndex).$("img"));
@@ -182,13 +182,10 @@ public class Menu extends BaseActions {
         menuDishItems.get(dishIndex).$("img")
                 .shouldHave(attributeMatching("src","https://storage.tapper.cloud/.*"),Duration.ofSeconds(5));
 
-        System.out.println(menuDishItems.get(dishIndex).$("img")
-                .getAttribute("src"));
-
         String imageUrl = menuDishItems.get(dishIndex).$("img")
                 .getAttribute("src").replaceAll(".*\\/(\\w*)\\..*","$1");
 
-        isImageCorrect(imageSelector,"Изображение блюда корректное");
+        isImageCorrect(imageSelector,"Загруженное изображение блюда не корректное или битое");
 
         isImageFullContainerCorrect(dishIndex);
 

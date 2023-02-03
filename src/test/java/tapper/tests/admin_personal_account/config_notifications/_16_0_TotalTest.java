@@ -9,6 +9,8 @@ import total_personal_account_actions.AuthorizationPage;
 import admin_personal_account.config_notifications.ConfigNotifications;
 import tests.BaseTest;
 
+import static data.Constants.TestData.AdminPersonalAccount.*;
+
 @Order(160)
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Настройка уведомлений")
@@ -27,7 +29,7 @@ public class _16_0_TotalTest extends BaseTest {
 
         Configuration.browserSize = "1920x1080";
 
-        authorizationPage.authorizationUser(Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL, Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD);
+        authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }
 
@@ -53,7 +55,7 @@ public class _16_0_TotalTest extends BaseTest {
     public void isChangingRecipientsCorrect() {
 
 
-        configNotifications.findAutoChannel(Constants.TestData.AdminPersonalAccount.TELEGRAM_AUTO_CHANNEL_LOGIN);
+        configNotifications.findAutoChannel(TELEGRAM_AUTO_CHANNEL_LOGIN);
 
     }
 

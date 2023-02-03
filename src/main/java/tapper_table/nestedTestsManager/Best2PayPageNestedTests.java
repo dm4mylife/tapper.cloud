@@ -4,6 +4,8 @@ import common.BaseActions;
 import io.qameta.allure.Step;
 import tapper_table.Best2PayPage;
 
+import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
+
 public class Best2PayPageNestedTests extends Best2PayPage {
 
     Best2PayPage best2PayPage = new Best2PayPage();
@@ -12,7 +14,7 @@ public class Best2PayPageNestedTests extends Best2PayPage {
     @Step("Проверка перехода на б2п, общей суммы, способов оплаты, ввод данных для оплаты")
     public void checkPayMethodsAndTypeAllCreditCardData(double totalPay) {
 
-        baseActions.isTextContainsInURL("best2pay");
+        baseActions.isTextContainsInURL(BEST2PAY_NAME);
         best2PayPage.isTotalPayInTapperMatchTotalPayB2B(totalPay);
         typeDataAndPay();
 

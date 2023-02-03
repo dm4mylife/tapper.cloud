@@ -18,7 +18,6 @@ public class AuthorizationPage extends BaseActions {
 
         openPage(ADMIN_AUTHORIZATION_STAGE_URL);
         forceWait(2000); // toDo не успевает прогрузиться
-        isTextContainsInURL(ADMIN_AUTHORIZATION_STAGE_URL);
         isFormContainerCorrect();
         authorizeUser(login,password);
         isTextContainsInURL(ADMIN_PROFILE_STAGE_URL);

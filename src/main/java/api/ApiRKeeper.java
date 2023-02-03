@@ -153,7 +153,7 @@ public class ApiRKeeper {
                 .when()
                 .get(b2bPaymentTransactionStatus + transaction_id)
                 .then()
-                //.log().body()
+                .log().body()
                 .statusCode(200)
                 .extract()
                 .response();

@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.keeper_e2e._0_common._0_0_TapperOrderAppearsWhenCreatedInKeeperTest
--------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 98.425 s - in tapper.tests.keeper_e2e._0_common._0_0_TapperOrderAppearsWhenCreatedInKeeperTest

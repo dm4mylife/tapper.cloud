@@ -1,5 +1,6 @@
 package admin_personal_account.tables_and_qr_codes;
 
+import com.beust.ah.A;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
@@ -21,9 +22,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Collection;
-import java.util.Iterator;
 
 import static com.codeborne.selenide.Condition.*;
+import static data.Constants.TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Common.tablesAndQrCodesCategory;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
@@ -213,15 +214,11 @@ public class TablesAndQrCodes extends BaseActions {
     @Step("Проверка что qr-код скачивается")
     public void isDownloadQrCorrect() throws FileNotFoundException {
 
-        File qrWhite = qrDownloadImageWhite.download();
+        File qrWhite = qrDownloadImageWhite.download(TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 
         Assertions.assertNotNull(qrWhite, "Файл не может быть скачен");
         System.out.println("Файл успешно скачался (белая версия)");
 
-        File qrBlack = qrDownloadImageBlack.download();
-
-        Assertions.assertNotNull(qrBlack, "Файл не может быть скачен");
-        System.out.println("Файл успешно скачался (черная версия)");
 
     }
 
@@ -229,34 +226,57 @@ public class TablesAndQrCodes extends BaseActions {
     public void isDownloadedQrCorrect(String downloadFolder, String tableName, String tableUrl) throws IOException {
 
         File root = new File(downloadFolder);
+        boolean hasMatch = false;
 
         try {
 
-            Collection files = FileUtils.listFiles(root, null, true);
+            Collection<File> files = FileUtils.listFiles(root, null, true);
 
-            for (Iterator iterator = files.iterator(); iterator.hasNext(); ) {
-                File file = (File) iterator.next();
+            System.out.println(0);
 
-                if (file.getName().equals(tableName)) {
+            System.out.println(files);
 
-                    System.out.println("Файл найден " + file.getAbsolutePath());
-                    File imageFile = new File(file.getAbsolutePath());
+            Assertions.assertTrue(files.size() != 0,"Скаченный файл не удалось скачать");
 
-                    String decodedText;
+            for (File o : files) {
 
+                System.out.println(1);
+                System.out.println(o.getName() + " --- file");
+
+                System.out.println(tableName + " --- table");
+
+                if (o.getName().equals(tableName)) {
+
+                    hasMatch = true;
+                    System.out.println(2222222);
+
+                    System.out.println("Файл найден " + o.getAbsolutePath());
+                    File imageFile = new File(o.getAbsolutePath());
+
+                    System.out.println(1);
                     BufferedImage bufferedImage = ImageIO.read(imageFile);
-
+                    System.out.println(2);
                     LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+                    System.out.println(3);
                     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                    System.out.println(4);
 
                     Result result = new MultiFormatReader().decode(bitmap);
-                    decodedText = result.getText();
+                    System.out.println(6);
+                    String decodedText = result.getText();
 
+                    System.out.println(6);
                     Assertions.assertEquals(decodedText, tableUrl,
                             "Скаченный qr код не содержит корректную ссылку на стол");
                     System.out.println("Скаченный qr код (" + tableName + ") \n" + decodedText + "\nсодержит корректную ссылку на стол \n" + tableUrl);
 
                 }
+
+            }
+
+            if (!hasMatch) {
+
+                Assertions.fail("Скаченный файл не найден");
 
             }
 

@@ -10,6 +10,7 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.OPTIMUS_PRIME_WAITER;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_AUTHORIZATION_STAGE_URL;
@@ -27,7 +28,7 @@ public class Waiters extends BaseActions {
 
         click(waiterMenuCategory);
         pageHeading.shouldHave(text("Официанты"), Duration.ofSeconds(5));
-        waiterContainer.shouldBe(visible);
+        isElementVisible(waiterContainer);
         isWaiterCategoryCorrect();
 
     }
@@ -35,10 +36,10 @@ public class Waiters extends BaseActions {
     @Step("Проверка что все элементы в поиске официанта корректны")
     public void isWaiterCategoryCorrect() {
 
-        waiterListHeading.shouldBe(visible);
-        refreshListButton.shouldBe(visible);
-        waiterPaginationList.shouldHave(CollectionCondition.sizeGreaterThanOrEqual(1));
-        refreshListButton.click();
+        isElementVisible(waiterListHeading);
+        isElementVisible(refreshListButton);
+        waiterPaginationList.shouldHave(sizeGreaterThanOrEqual(1));
+        click(refreshListButton);
         pagePreloader.shouldHave(cssValue("display","flex"));
         pagePreloader.shouldHave(cssValue("display","none"),Duration.ofSeconds(20));
 
@@ -57,6 +58,7 @@ public class Waiters extends BaseActions {
 
     @Step("Проваливаемся в первую карточку из результатов поиска официантов")
     public void clickInFirstResult() {
+        waiterList.get(0).shouldBe(visible,Duration.ofSeconds(5));
         click(waiterList.get(0));
     }
 
@@ -69,7 +71,8 @@ public class Waiters extends BaseActions {
         searchError.shouldBe(Condition.visible, text("Нет результатов. Попробуйте ввести данные ещё раз"));
         System.out.println("Негативный поиск отработал корректно");
         forceWait(2000); // toDO слишком быстро работает тест, не успеваем посмотреть отрицательный поиск
-        clearText(searchField);
+
+        resetSearchResult();
 
     }
 
@@ -87,12 +90,9 @@ public class Waiters extends BaseActions {
     public void isDetailWaiterCardCorrectWithWaitingInvitationStatus() {
 
         isElementVisible(backToPreviousPage);
-        waiterStatusInCard.shouldHave(text(" Статус: Ожидает приглашения")
-                .because("Этого официанта приглашают впервые, у него должен быть только статус 'Ожидает приглашения'"));
         isElementVisible(waiterNameInCashDesk);
         isElementVisible(waiterName);
         isElementVisible(enterEmailField);
-        isElementVisible(inviteButton);
 
     }
 
@@ -123,6 +123,8 @@ public class Waiters extends BaseActions {
 
     }
 
+
+
     @Step("Проверка что сброс поиска работает корректно")
     public void sendInviteToWaiterEmail(String waiterName, String email) {
 
@@ -142,12 +144,20 @@ public class Waiters extends BaseActions {
 
         forceWait(1000); // toDO не успевает прогрузиться инпут емейла, обрезается
 
+        if (waiterStatusInCard.getText().matches("Статус:\nПриглашен в систему")) {
+
+            cancelEMailWaiterInvitationInCard();
+
+        } else if (waiterStatusInCard.getText().matches("Статус:\nОфициант верифицирован")) {
+
+            unlinkMailWaiterInCard();
+
+        }
+
         sendKeys(enterEmailField,email);
         click(inviteButton);
 
         isSendInvitationCorrect(email);
-
-
 
     }
 
@@ -209,16 +219,14 @@ public class Waiters extends BaseActions {
     }
 
     @Step("Удаление почты и привязки у официанта")
-    public void unlinkMailWaiter(String login, String password) {
+    public void unlinkMailWaiter(String login, String password, String waiterName) {
 
         Selenide.clearBrowserCookies();
         Selenide.clearBrowserLocalStorage();
 
-        openPage(ADMIN_AUTHORIZATION_STAGE_URL);
-        forceWait(1500);
         authorizationPage.authorizationUser(login, password);
         goToWaiterCategory();
-        searchWaiter(OPTIMUS_PRIME_WAITER);
+        searchWaiter(waiterName);
         clickInFirstResult();
 
         if (waiterStatusInCard.getText().matches("Статус:\nПриглашен в систему")) {

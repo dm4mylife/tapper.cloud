@@ -2,6 +2,7 @@ package data;
 
 public class Constants {
     public static final Integer TIME_WAIT_FOR_FULL_LOAD = 1500;
+    public static final int TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED = 10000;
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
     public static final int WAIT_FOR_PREPAYMENT_ON_CASH_DESK = 7000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_REVIEW = 10000;
@@ -9,18 +10,22 @@ public class Constants {
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 16000;
     public static final int ATTEMPT_FOR_PREPAYMENT_REQUEST = 3;
     public static final String PASTA_IMG_PATH = "src/main/resources/pasta.jpg";
+    public static final String LOADER_GIF_PATH = "src/main/resources/loader.gif";
+    public static final String OLD_LOADER_GIF_PATH = "src/main/resources/oldLoader.gif";
     public static final String ROBOCOP_IMG_PATH = "src/main/resources/robocop.jpeg";
+    public static final String downloadFolderPath = "C:\\tapper.cloud\\build\\downloads\\qr";
+
     public static class TestData {
         public static class TapperTable {
 
             public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
+
+            public static final String STAGE_IIKO_TABLE_3 = "https://auto-ssr-tapper.zedform.ru/office/3";
             public static final String STAGE_RKEEPER_TABLE_222 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000397";
             public static final String STAGE_RKEEPER_TABLE_333 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000398";
             public static final String STAGE_RKEEPER_TABLE_10 = "https://tapper.staging.zedform.ru/testrkeeper/1000044";
             public static final String TEST_API_URI = "https://taper.zedform.ru/api/";
             public static final String AUTO_API_URI = "https://auto-back-tapper.zedform.ru/api/";
-
-
             public static final Integer PAYMENT_BANKS_MAX_PRIORITY_BANKS = 3;
             public static final String TEST_WAITER_COMMENT = "test\\тест";
             public static final String TEST_REVIEW_COMMENT = "test\\тест";
@@ -37,6 +42,7 @@ public class Constants {
         public static class Best2Pay {
 
             public static final String TEST_BEST2PAY_URL = "https://test.best2pay.net/";
+            public static final String BEST2PAY_NAME = "https://test.best2pay.net/";
             public static final String TEST_PAYMENT_CARD_NUMBER = "4809388886227309";
             public static final String TEST_PAYMENT_CARD_EXPIRE_MONTH = "12";
             public static final String TEST_PAYMENT_CARD_EXPIRE_YEAR = "24";
@@ -73,7 +79,7 @@ public class Constants {
             public static final String ADMIN_AUTHORIZATION_STAGE_URL = "https://tapper.staging.zedform.ru/users";
             public static final String ADMIN_PROFILE_STAGE_URL = "https://tapper.staging.zedform.ru/profile";
             public static final String ADMIN_RESTAURANT_LOGIN_EMAIL = "kirillk8888@yandex.ru";
-            public static final String ADMIN_RESTAURANT_PASSWORD = "202302";
+            public static final String ADMIN_RESTAURANT_PASSWORD = "777777";
             public static final String ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String WAITER_LOGIN_EMAIL = "jagexo5827@khaxan.com";
             public static final String WAITER_PASSWORD = "123456";
@@ -83,6 +89,7 @@ public class Constants {
         }
         public static class SupportPersonalAccount {
 
+            public static final String RESTAURANT_NAME = "testrkeeper";
             public static final String SUPPORT_LOGIN_EMAIL = "varlone_mag2@mail.ru";
             public static final String SUPPORT_PASSWORD = "123123";
 

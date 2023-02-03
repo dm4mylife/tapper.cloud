@@ -15,6 +15,7 @@ import tests.BaseTest;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.AdminPersonalAccount.Menu.enableMenuForVisitorsButton;
 import static data.selectors.TapperTable.RootPage.DishList.orderContainer;
 import static data.selectors.TapperTable.RootPage.Menu.menuDishContainer;
@@ -65,7 +66,7 @@ public class _11_0_TotalTest extends BaseTest {
     @DisplayName("1.4. Переходим на стол и проверяем что иконка меню есть и само меню отображается")
     public void checkMenuIconAndContainerInTable() {
 
-        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
+        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
         rootPage.closeHintModal();
 
         baseActions.isElementVisible(appFooterMenuIcon);

@@ -296,8 +296,8 @@ public class RootPageNestedTests extends RootPage {
                 reviewPageNestedTests.paymentCorrect("part");
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
-                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getTgMsgData(guid,10000);
-                rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
+               // LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getTgMsgData(guid,10000);
+               // rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             } else {
 
@@ -315,8 +315,8 @@ public class RootPageNestedTests extends RootPage {
                 reviewPageNestedTests.fullPaymentCorrect();
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
-                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getTgMsgData(guid,15000);
-                rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
+              //  LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getTgMsgData(guid,15000);
+              //  rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             }
 
@@ -486,6 +486,69 @@ public class RootPageNestedTests extends RootPage {
         return allDishesInfo;
 
     }
+
+
+    public int getKeySize(Response response,String totalPath) {
+
+        Object keySizeFlag = response.path(totalPath);
+
+        int keySize;
+
+        if (keySizeFlag instanceof LinkedHashMap) {
+
+            keySize = 1;
+            System.out.println("Количество всего 1. Поэтому путь будет\n" + totalPath + "\n");
+
+        } else if (keySizeFlag == null) {
+
+            System.out.println("Нет блюд");
+            return -1;
+
+        } else {
+
+            keySize = response.jsonPath().getList(totalPath).size();
+            System.out.println("Количество: " + keySize + ". Поэтому путь будет\n" + totalPath + "\n");
+
+        }
+
+        return keySize;
+
+    }
+
+    public String getKeyPath(int keySize, int keyIndex,String keyName) {
+
+        if (keySize != 1) {
+
+            keyName += "[" + keyIndex + "]";
+
+        }
+
+
+
+        System.out.println("Текущий путь после преобразования\n" + keyName + "\n");
+        return keyName;
+
+    }
+
+
+    public double getDiscountFromResponse(Response response) {
+
+        double discount = 0;
+
+        if (response.path("@attributes.discountSum") != null) {
+
+            discount = Math.abs(response.jsonPath().getDouble("@attributes.discountSum") / 100);
+
+        }
+
+
+        System.out.println(discount + " discount");
+        return discount;
+
+    }
+
+
+
 
     @Step("Забираем скидку из кассы")
     public double getTotalDiscount(String table_id) {

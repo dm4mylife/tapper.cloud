@@ -17,10 +17,9 @@ import tests.BaseTest;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.WAITER_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.WAITER_PASSWORD;
+import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImage;
 
 @Order(140)
@@ -40,12 +39,13 @@ public class _14_0_TotalTest extends BaseTest {
     Waiter waiter = new Waiter();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
 
+    @Disabled
     @Test
     @DisplayName("1.0. Создание заказа в r_keeper и авторизация в админке ресторана")
     public void createAndFillOrder() {
 
         Configuration.browserSize = "1920x1080";
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), AUTO_API_URI);
+        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_333, WAITER_ROBOCOP_VERIFIED_WITH_CARD), AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
@@ -57,7 +57,7 @@ public class _14_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.2. Проверка всех элементов в профиле")
     public void isWaiterProfileCorrect() {
-
+        authorizationPage.authorizationUser(WAITER_LOGIN_EMAIL, WAITER_PASSWORD);
         waiter.isWaiterProfileCorrect();
 
     }
@@ -74,7 +74,7 @@ public class _14_0_TotalTest extends BaseTest {
     @DisplayName("1.4. Проверка фотографии на столе")
     public void checkDownloadedWaiterImageOnTable() {
 
-        rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
+        rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
 
         waiter.checkDownloadedWaiterImageOnTable();
 

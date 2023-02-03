@@ -14,9 +14,12 @@ import admin_personal_account.menu.Menu;
 import tapper_table.RootPage;
 import tests.BaseTest;
 
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.attributeMatching;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.TapperTable.RootPage.Menu.menuDishPhotos;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooter;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
@@ -87,7 +90,7 @@ public class _11_3_uploadAndDeleteImageDishTest extends BaseTest {
     @DisplayName("1.6. Открываем в новой вкладке стол")
     public void openTapperTable() {
 
-        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
+        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
         Selenide.switchTo().window(1);
         baseActions.isElementVisibleDuringLongTime(appFooter,20);
         baseActions.forceWait(1000);
@@ -100,8 +103,8 @@ public class _11_3_uploadAndDeleteImageDishTest extends BaseTest {
     public void isImageCorrect() {
 
         menuDishPhotos
-                .filter(Condition.attributeMatching("src",".*" + imageUrl + ".*"))
-                .shouldBe(CollectionCondition.size(1));
+                .filter(attributeMatching("src",".*" + imageUrl + ".*"))
+                .shouldBe(size(1).because("На столе присутствуют битые фотографии"));
 
     }
 
@@ -122,12 +125,11 @@ public class _11_3_uploadAndDeleteImageDishTest extends BaseTest {
         rootPage.refreshPage();
 
         baseActions.isElementVisibleDuringLongTime(appFooter, 20);
-        baseActions.forceWait(1000);
         baseActions.click(appFooterMenuIcon);
 
         menuDishPhotos
-                .filter(Condition.attributeMatching("src",".*" + imageUrl + ".*"))
-                .shouldBe(CollectionCondition.size(0));
+                .filter(attributeMatching("src",".*" + imageUrl + ".*"))
+                .shouldBe(size(0));
 
     }
 

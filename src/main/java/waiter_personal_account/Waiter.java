@@ -40,7 +40,7 @@ public class Waiter extends BaseActions {
         isElementVisible(waiterName);
         isElementVisible(privateDataContainer);
         isElementVisible(learnMoreLink);
-        isLearMoreCorrect();
+        isLearnMoreCorrect();
         isElementVisible(telegramLogin);
         isElementVisible(waiterEmail);
         waiterEmail.shouldBe(disabled);
@@ -55,7 +55,7 @@ public class Waiter extends BaseActions {
     }
 
     @Step("Проверяем ссылку 'узнать подробнее'")
-    public void isLearMoreCorrect() {
+    public void isLearnMoreCorrect() {
 
         click(learnMoreLink);
         telegramInstruction

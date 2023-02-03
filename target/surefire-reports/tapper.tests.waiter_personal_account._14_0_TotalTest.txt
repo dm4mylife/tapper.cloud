@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tapper.tests.waiter_personal_account._14_0_TotalTest
--------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 53.772 s - in tapper.tests.waiter_personal_account._14_0_TotalTest

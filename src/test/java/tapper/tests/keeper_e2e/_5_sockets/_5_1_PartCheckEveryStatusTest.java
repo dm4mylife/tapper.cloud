@@ -3,6 +3,7 @@ package tapper.tests.keeper_e2e._5_sockets;
 
 import api.ApiRKeeper;
 import data.Constants;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -12,6 +13,7 @@ import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
+import tests.BaseTestTwoBrowsers;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -20,7 +22,10 @@ import java.util.Map;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.*;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 
 @Order(51)
 @Epic("RKeeper")
@@ -30,7 +35,7 @@ import static data.Constants.TestData.*;
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _5_1_PartCheckEveryStatusTest extends BaseTest {
+public class _5_1_PartCheckEveryStatusTest extends BaseTestTwoBrowsers {
 
     static String visit;
     static String guid;
@@ -46,7 +51,7 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
-
+    @Disabled("Не работают апи на тесте")
     @Test
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
@@ -62,83 +67,91 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.2. Выбираем рандомно блюда, проверяем все суммы и условия, сохраняем данные для след. теста")
+    @DisplayName("1.2. Выбираем рандомно блюда, проверяем все суммы и условия, сохраняем данные для след.теста")
     public void chooseDishesAndCheckAfterDivided() {
-        rootPageNestedTests.chooseDishesWithRandomAmount(3);
+
+        using(firstBrowser, () -> {
+
+            rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
+            rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
+
+
+        });
+
+        using(secondBrowser, () -> rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111));
+
+        using(firstBrowser, () -> {
+
+            rootPageNestedTests.chooseDishesWithRandomAmount(3);
+            chosenDishes = rootPage.getChosenDishesAndSetCollection();
+
+        });
+
     }
 
     @Test
-    @DisplayName("1.3. Открываем новый стол и меняем гостя")
-    public void switchToAnotherUser() {
-
-        chosenDishes = rootPage.getChosenDishesAndSetCollection();
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
-
-    }
-
-    @Test
-    @DisplayName("1.4. Проверяем что блюда заблокированы")
+    @DisplayName("1.3. Проверяем что у него блюда в статусе Оплачиваются, которые первый гость выбрал")
     public void checkDisabledDishes() {
-        rootPage.checkIfDishesDisabledEarlier(chosenDishes);
+
+        using(secondBrowser, () -> rootPage.checkIfDishesDisabledEarlier(chosenDishes));
+
     }
 
     @Test
-    @DisplayName("1.5. Переключаемся на первого гостя")
+    @DisplayName("1.4. Переключаемся на первого гостя")
     public void switchBackTo1Guest() {
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
-    }
 
-    @Test
-    @DisplayName("1.6. Сохраняем данные")
-    public void savePaymentDataAndGoToAcquiring() {
+        using(firstBrowser, () -> {
 
-        totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
-        paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
+            totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
+            paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
+
+        });
 
     }
 
     @Test
-    @DisplayName("1.7. Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    @DisplayName("1.5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
-        transactionId = nestedTests.acquiringPayment(totalPay);
+
+        using(firstBrowser, () -> transactionId = nestedTests.acquiringPayment(totalPay));
+
     }
 
     @Test
-    @DisplayName("1.8. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    @DisplayName("1.6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
-        nestedTests.checkPaymentAndB2pTransaction(orderType = "part", transactionId, paymentDataKeeper);
+
+        using(firstBrowser, () ->
+                nestedTests.checkPaymentAndB2pTransaction(orderType = "part", transactionId, paymentDataKeeper));
+
     }
 
     @Test
-    @DisplayName("1.9. Проверка сообщения в телеграмме")
+    @DisplayName("1.7. Проверка сообщения в телеграмме")
     public void clearDataAndChoseAgain() {
 
-        telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
-        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
+        using(firstBrowser, () -> {
+
+            telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+            rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
+
+        });
 
     }
 
     @Test
-    @DisplayName("2.0. Переключаемся на второго гостя, проверяем что суммы оплачены")
+    @DisplayName("1.8. Переключаемся на второго гостя, проверяем что выбранные ранее блюда в статусе Оплачено")
     public void switchTo2ndGuestAndCheckPaidDishes() {
 
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
-        rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
+        using(secondBrowser, () -> rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes));
 
     }
 
+    @Disabled
     @Test
-    @DisplayName("2.1. Переключаемся на первого гостя, проверяем что суммы оплачены")
-    public void switchTo1stdGuestAndCheckPaidDishes() {
-
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
-        rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
-
-    }
-
-    @Test
-    @DisplayName("2.2. Закрываем заказ, очищаем кассу")
+    @DisplayName("1.9. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
         rootPageNestedTests.closeOrderByAPI(guid);

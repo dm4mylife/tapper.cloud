@@ -15,14 +15,12 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.FileOutputStream;
-import java.util.Properties;
 import java.util.logging.Level;
 
 @ExtendWith({
         TestListener.class,
         BrowserLogsListener.class
-            })
+})
 public class BaseTest {
 
     @BeforeAll
@@ -39,8 +37,8 @@ public class BaseTest {
         LoggingPreferences loggingPreferences = new LoggingPreferences();
 
         loggingPreferences.enable(LogType.BROWSER, Level.ALL);
-        desiredCapabilities.setCapability("goog:loggingPrefs",loggingPreferences);
-        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY,options);
+        desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
+        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
         // options.addArguments("--enable-automation");
         options.addArguments("--auto-open-devtools-for-tabs");
@@ -68,8 +66,6 @@ public class BaseTest {
         Selenide.closeWebDriver();
 
     }
-
-
 
 
 }

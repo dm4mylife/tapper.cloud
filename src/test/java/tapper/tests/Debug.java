@@ -12,6 +12,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import support_personal_account.lock.Lock;
+import support_personal_account.logsAndPermissions.LogsAndPermissions;
 import total_personal_account_actions.AuthorizationPage;
 import admin_personal_account.menu.Menu;
 import admin_personal_account.operations_history.OperationsHistory;
@@ -24,8 +26,14 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,7 +43,13 @@ import static com.codeborne.selenide.Selenide.*;
 import static data.Constants.TestData.*;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
+import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.SupportPersonalAccount.Lock.*;
 import static data.selectors.TapperTable.RootPage.DishList.divideCheckSlider;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @Epic("Debug")
@@ -53,12 +67,16 @@ public class Debug {
     BaseActions baseActions = new BaseActions();
     RootPage rootPage = new RootPage();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+    Lock lock = new Lock();
     ReviewPage reviewPage = new ReviewPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     Best2PayPage best2PayPage = new Best2PayPage();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
     Telegram telegram = new Telegram();
+    AuthorizationPage authorizationPage = new AuthorizationPage();
+    LogsAndPermissions logsAndPermissions = new LogsAndPermissions();
+
 
     //  <---------- Tests ---------->
 
@@ -116,6 +134,98 @@ public class Debug {
 
 
     }
+
+
+
+    @Test
+    public void hasModifier() {
+
+        LocalDate dateMinus = LocalDate.now().minusDays(7);
+
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String date = dateMinus.format(formatters);
+
+
+
+
+        System.out.println(date);
+
+    }
+
+    @Test
+    void name() {
+
+        Response rs = apiRKeeper.getOrderInfo("1000046", AUTO_API_URI);
+
+        String totalPath = "";
+        String session = "Session";
+        String dish = "Dish";
+        String price = "[\"@attributes\"].price";
+        String name = "[\"@attributes\"].name";
+        String quantity = "[\"@attributes\"].quantity";
+        int totalDishIndex = 0;
+
+        int sessionSize =  rootPageNestedTests.getKeySize(rs,session);
+
+        HashMap<Integer,Map<String,Double>> orderData = new HashMap<>();
+
+        for (int sessionIndex = 0; sessionIndex < sessionSize; sessionIndex++) {
+
+            String sessionPath = rootPageNestedTests.getKeyPath(sessionSize,sessionIndex,session);
+            // double discount = rootPageNestedTests.getDiscountFromResponse(rs);
+
+            totalPath = sessionPath + "." + dish;
+
+            int dishSize = rootPageNestedTests.getKeySize(rs,totalPath);
+
+            for (int dishIndex = 0; dishIndex < dishSize; dishIndex++) {
+
+                HashMap<String,Double> tempData = new HashMap<>();
+
+                String dishPath = rootPageNestedTests.getKeyPath(dishSize,dishIndex,totalPath);
+
+                double dishPrice = rs.jsonPath().getDouble(dishPath + price) / 100;
+                String dishName = rs.jsonPath().getString(dishPath + name);
+
+                int dishQuantity = rs.jsonPath().getInt(dishPath + quantity) / 1000;
+                System.out.println(dishQuantity + " quantity");
+
+                if (dishQuantity != 1) {
+
+                    int dishQuantityIndex = 0;
+
+                    for (; dishQuantityIndex < dishQuantity; dishQuantityIndex++) {
+
+                        System.out.println(totalDishIndex+dishQuantityIndex + " counter");
+                        tempData.put(dishName,dishPrice);
+                        orderData.put(totalDishIndex + dishQuantityIndex,tempData);
+                        System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
+
+                        System.out.println(orderData);
+
+                    }
+
+                    totalDishIndex += dishQuantityIndex;
+
+                } else {
+
+                    tempData.put(dishName,dishPrice);
+                    orderData.put(totalDishIndex,tempData);
+                    System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
+
+                }
+
+                totalDishIndex++;
+
+            }
+
+        }
+
+        System.out.println(orderData);
+
+    }
+
+
 
     @Disabled
     @Test

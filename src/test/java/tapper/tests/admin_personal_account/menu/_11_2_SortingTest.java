@@ -20,6 +20,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.TapperTable.RootPage.Menu.menuDishPhotosNotSelenide;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
@@ -73,7 +74,7 @@ public class _11_2_SortingTest extends BaseTest {
 
         dishListWithActiveCheckboxShowForGuest = menu.showActiveCategoryCorrect();
 
-        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
+        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
 
         Selenide.switchTo().window(1);
 
@@ -87,7 +88,6 @@ public class _11_2_SortingTest extends BaseTest {
     @DisplayName("1.5. Выбираем рандомные категории и блюда, делаем видимыми для гостя")
     public void chooseRandomCategoryAndDishes() {
 
-
         Selenide.switchTo().window(0);
         adminMenuData = menu.saveMenuData();
 
@@ -100,7 +100,6 @@ public class _11_2_SortingTest extends BaseTest {
         Selenide.switchTo().window(1);
         rootPage.refreshPage();
         baseActions.isElementVisibleDuringLongTime(appFooterMenuIcon,20);
-        baseActions.forceWait(2000);
 
         baseActions.click(appFooterMenuIcon);
 
@@ -116,7 +115,8 @@ public class _11_2_SortingTest extends BaseTest {
 
         if ($$(menuDishPhotosNotSelenide).size() != 0) {
 
-            baseActions.isImageCorrect(menuDishPhotosNotSelenide,"Изображения блюд не корректны, или битые");
+            baseActions.isImageCorrect(menuDishPhotosNotSelenide,
+                    "Изображения блюд не корректны, или битые");
 
         }
 

@@ -40,6 +40,26 @@ public class RootPage extends BaseActions {
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     Telegram telegram = new Telegram();
 
+
+
+    @Step("Проверка элементов недоступности сервиса")
+    public void isServiceUnavailable() {
+
+        isElementVisible(serviceUnavailabilityContainer);
+        isElementVisible(serviceUnavailabilityInfoContainer);
+        isElementVisible(serviceUnavailabilityAdviceContainer);
+
+    }
+
+    @Step("Проверка элементов недоступности оплаты")
+    public void isPaymentUnavailable() {
+
+        isElementVisible(techWorkContainer);
+        isElementVisible(techWorkInfoContainer);
+        isElementVisible(techWorkCloseButton);
+
+    }
+
     @Step("Проверка всплывающей подсказки")
     public void isHintModalCorrect() {
 
@@ -958,6 +978,30 @@ public class RootPage extends BaseActions {
 
     }
 
+    @Step("Проверяем что оплаченные,заблокированные позиции нельзя снова выбрать")
+    public void checkIfPaidAndDisabledDishesCantBeChosen() {
+
+        int i = 0;
+
+        System.out.println("\n" + "Количество оплаченных и заблокированных блюд : " + disabledAndPaidDishes.size());
+
+        for (SelenideElement element : disabledAndPaidDishes) {
+
+            element.$(".orderItem__status").shouldHave(exist);
+            scrollAndClick(element.$(".orderItem__name"));
+            element.$(".iconCheck").shouldNotHave(cssValue("display","block"));
+
+            String name = element.$(".orderItem__name").getText();
+            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+
+            System.out.println("Клик в блюдо - " + name + " - " + price + "\nПозиция не сменила статус");
+
+            i++;
+
+        }
+
+    }
+
     @Step("Проверяем что сумма всех блюд совпадает с итоговой без чаевых и СБ")
     public void isTotalSumInDishesMatchWithTotalPay(double totalSumByDishesInOrder) {
 
@@ -1477,8 +1521,9 @@ public class RootPage extends BaseActions {
     @Step("Клик по кнопке оплаты")
     public void clickOnPaymentButton() {
 
-        changePaymentTypeOnCard();
+        //changePaymentTypeOnCard();
 
+        scrollTillBottom();
         click(paymentButton);
 
     }
@@ -1569,6 +1614,7 @@ public class RootPage extends BaseActions {
     @Step("Смена оплаты на кредитную карту")
     public void changePaymentTypeOnCard() {
 
+        paymentOptionsContainer.shouldBe(visible.because("Нет выбора способа оплаты"));
         click(paymentOptionsContainer);
         click(paymentOptionCreditCard);
         click(paymentContainerSaveButton);
@@ -1757,7 +1803,6 @@ public class RootPage extends BaseActions {
     @Step("Открытие формы вызова официанта")
     public void openCallWaiterForm() {
 
-        scroll(callWaiterButton);
         isElementVisibleAndClickable(callWaiterButton);
         click(callWaiterButton);
 
@@ -1770,11 +1815,14 @@ public class RootPage extends BaseActions {
 
         isElementVisible(callWaiterFadedBackground);
         isElementVisible(callWaiterHeading);
-        isElementVisibleAndClickable(callWaiterButtonSend);
-        isElementVisibleAndClickable(callWaiterButtonCancel);
-        isElementVisible(callWaiterCloseButton);
         isElementVisible(callWaiterCommentArea);
-
+        isElementVisible(callWaiterTypingMessagePreloader);
+        forceWait(1000);
+        callWaiterTypingMessagePreloader.shouldHave(disappear,Duration.ofSeconds(3));
+        isElementVisible(callWaiterFirstGreetingsMessage);
+        callWaiterFirstGreetingsMessage
+                .shouldHave(matchText("Привет! Я отправлю официанту все, что Вы тут напишете"),visible
+                        );
     }
 
     @Step("Проверка меню если его не сделали видимым для юзеров")
@@ -1789,30 +1837,43 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Закрытие формы по кнопке официанта")
-    public void closeCallWaiterFormByCallWaiterButton() {
+    @Step("Закрытие формы по крестику закрытия")
+    public void closeCallWaiterFormByCloseButton() {
 
-        click(callWaiterButton);
+        click(callWaiterCloseButton);
         isElementInvisible(callWaiterContainer);
 
     }
 
-    @Step("Закрытие формы по крестику закрытия")
-    public void closeCallWaiterFormByCloseButton() {
+    @Step("Написать 'счет' чтобы получить специальное сообщение от таппера")
+    public void typeTextToGetSpecialMessage() {
 
-        click(callWaiterButton);
-        click(callWaiterCloseButton);
-        isElementInvisible(callWaiterContainer);
+        sendHumanKeys(callWaiterCommentArea, "Счет");
+        callWaiterCommentArea.shouldHave(value("Счет"));
+
+        isElementVisible(callWaiterButtonSend);
+        click(callWaiterButtonSend);
+        forceWait(2000);
+        isElementVisibleDuringLongTime(callWaiterSecondMessage,3);
+
+        sendHumanKeys(callWaiterCommentArea, "Счет");
+        callWaiterCommentArea.shouldHave(value("Счет"));
+
+        isElementVisible(callWaiterButtonSend);
+        click(callWaiterButtonSend);
+        forceWait(2000);
+        isElementVisibleDuringLongTime(callWaiterUniversalTextMessage,3);
 
     }
 
     @Step("Отправка текста в комментарий официанта")
     public void sendWaiterComment() {
 
-        callWaiterCommentArea.shouldHave(attribute("placeholder", "Комментарий..."));
+        callWaiterCommentArea.shouldHave(attribute("placeholder", "Cообщение"));
         sendHumanKeys(callWaiterCommentArea, TapperTable.TEST_WAITER_COMMENT);
         callWaiterCommentArea.shouldHave(value(TapperTable.TEST_WAITER_COMMENT));
 
+        isElementVisible(callWaiterButtonSend);
         click(callWaiterButtonSend);
 
     }
@@ -1820,10 +1881,17 @@ public class RootPage extends BaseActions {
     @Step("Ввод текста в комментарий официанта")
     public void isSendSuccessful() {
 
-        isElementVisible(successCallWaiterHeading);
-        isElementVisible(successLogoCallWaiter);
-        click(closeCallWaiterFormInSuccessButton);
-        isElementInvisible(callWaiterContainer);
+        isElementVisible(callWaiterGuestTestComment);
+        isElementVisible(callWaiterSecondMessage);
+
+    }
+
+    @Step("Повторное открытие формы вызовы официанта для проверки что история сохранилась")
+    public void isHistorySaved() {
+
+        isElementVisible(callWaiterGuestTestComment);
+        isElementVisible(callWaiterSecondMessage);
+        isElementInvisible(callWaiterTypingMessagePreloader);
 
     }
 
@@ -1834,15 +1902,25 @@ public class RootPage extends BaseActions {
 
         isCallContainerWaiterCorrect();
 
-        closeCallWaiterFormByCallWaiterButton();
+        sendWaiterComment();
+
+        forceWait(1000);
 
         closeCallWaiterFormByCloseButton();
 
         click(callWaiterButton);
 
-        sendWaiterComment();
-
         isSendSuccessful();
+
+        click(callWaiterCloseButton);
+
+        click(callWaiterButton);
+
+        isHistorySaved();
+
+        typeTextToGetSpecialMessage();
+
+        click(callWaiterCloseButton);
 
     }
 
@@ -1869,8 +1947,12 @@ public class RootPage extends BaseActions {
     @Step("Закрываем всплывающую подсказку")
     public void closeHintModal() {
 
-       click(modalHintCloseButton);
-       isElementInvisible(modalHintContainer);
+        if (modalHintContainer.exists()) {
+
+            click(modalHintCloseButton);
+            isElementInvisible(modalHintContainer);
+
+        }
 
     }
 
@@ -2285,8 +2367,8 @@ public class RootPage extends BaseActions {
         click(wiFiPassword);
         wiFiPassword.shouldHave(text("Скопировано"));
 
-        clipboard().shouldHave(content(wifiPasswordText),Duration.ofSeconds(5));
-        System.out.println("Текст успешно скопирован в буфер обмена");
+      //  clipboard().shouldHave(content(wifiPasswordText),Duration.ofSeconds(5)); toDO in headless mode doesnt work clipboard. Разобраться почему отвалилось
+      //  System.out.println("Текст успешно скопирован в буфер обмена");
 
         click(wiFiCloseButton);
         isElementInvisible(wiFiContainer);

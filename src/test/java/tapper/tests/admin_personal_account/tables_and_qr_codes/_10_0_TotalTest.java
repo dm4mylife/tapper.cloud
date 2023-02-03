@@ -6,6 +6,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
+import tapper_table.RootPage;
 import total_personal_account_actions.AuthorizationPage;
 import admin_personal_account.tables_and_qr_codes.TablesAndQrCodes;
 import tests.BaseTest;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import static com.codeborne.selenide.FileDownloadMode.PROXY;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.downloadFolderPath;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 
 @Order(100)
@@ -32,10 +34,10 @@ public class _10_0_TotalTest extends BaseTest {
     static String tableNumberWhite;
     static String tableNumberInAdmin;
 
-    static String downloadFolderPath = "C:\\tapper.cloud\\build\\downloads\\qr";
-
     TablesAndQrCodes tablesAndQrCodes = new TablesAndQrCodes();
     AuthorizationPage authorizationPage = new AuthorizationPage();
+
+    RootPage rootPage = new RootPage();
 
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
@@ -71,10 +73,10 @@ public class _10_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.4. Ввод диапазона с 1 и пустого 'по' ")
+    @DisplayName("1.4. Ввод диапазона с 5 и пустого 'по' ")
     public void searchTest_2() {
 
-        fromTableSearchValue = 1;
+        fromTableSearchValue = 5;
         toTableSearchValue = 0;
 
         tablesAndQrCodes.searchTableRange(fromTableSearchValue, toTableSearchValue);
@@ -125,6 +127,8 @@ public class _10_0_TotalTest extends BaseTest {
         tableUrlInTableItem = tableItemLink.getAttribute("href");
         tableNumberInAdmin = tableItem.getText().trim().replaceAll(".*Стол (\\d+)\\n.*","$1");
         tableNumberWhite = "table" + tableNumberInAdmin + ".png";
+
+        System.out.println(tableNumberWhite);
 
     }
 

@@ -13,8 +13,9 @@ import waiter_personal_account.Waiter;
 import tests.BaseTest;
 
 import static data.Constants.TestData.*;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.TestData.Yandex.TEST_YANDEX2_LOGIN_EMAIL;
+import static data.Constants.TestData.Yandex.TEST_YANDEX2_PASSWORD_MAIL;
 import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 
 @Order(141)
@@ -26,7 +27,6 @@ import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
 
     static String password;
-
     AdminAccount adminAccount = new AdminAccount();
     YandexPage yandexPage = new YandexPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -48,7 +48,8 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @DisplayName("1.1. Отправляем приглашение")
     public void sendInviteWaiter() {
 
-        waiters.sendInviteToWaiterEmail(AdminPersonalAccount.IRONHIDE_WAITER, Yandex.TEST_YANDEX2_LOGIN_EMAIL);
+
+        waiters.sendInviteToWaiterEmail(IRONHIDE_WAITER, TEST_YANDEX2_LOGIN_EMAIL);
 
     }
 
@@ -57,7 +58,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     public void checkWaiterStatus() {
 
         backToPreviousPage.click();
-        waiters.isWaiterStatusCorrectInPreviewAndCard(AdminPersonalAccount.IRONHIDE_WAITER, "Приглаш(е|ё)н в систему");
+        waiters.isWaiterStatusCorrectInPreviewAndCard(IRONHIDE_WAITER, "Приглаш(е|ё)н в систему");
         adminAccount.logOut();
 
     }
@@ -65,30 +66,32 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @Test
     @DisplayName("1.3. Авторизация в почте яндекса")
     public void yandexAuthorization() {
-        yandexPage.yandexAuthorization(Yandex.TEST_YANDEX2_LOGIN_EMAIL, Yandex.TEST_YANDEX2_PASSWORD_MAIL);
+        yandexPage.yandexAuthorization(TEST_YANDEX2_LOGIN_EMAIL, TEST_YANDEX2_PASSWORD_MAIL);
     }
 
     @Test
     @DisplayName("1.4. Отправка приглашение на почту официанту")
     public void checkInvitationMail() {
         password = yandexPage.checkTapperMail();
+        yandexPage.goToAuthPageFromMail();
     }
 
     @Test
     @DisplayName("1.5. Переход на авторизацию из письма в приглашении с присланными данными и авторизация")
     public void goToAuthTapperPage() {
 
-        yandexPage.goToAuthPageFromMail();
-        authorizationPage.authorizationUser(Yandex.TEST_YANDEX2_LOGIN_EMAIL, password);
+        authorizationPage.authorizeUser(TEST_YANDEX2_LOGIN_EMAIL,password);
         adminAccount.isRegistrationComplete();
+
 
     }
 
     @Test
-    @DisplayName("1.6. Привязка карты")
-    public void checkIfWaiterVerifiedSuccessfully() {
+    @DisplayName("1.6. Привязка кредитной карты в профиле официанта")
+    public void linkWaiterCard() {
 
-       waiter.linkWaiterCard();
+        waiter.linkWaiterCard();
+        adminAccount.logOut();
 
     }
 
@@ -96,20 +99,14 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @DisplayName("1.7. Отвязываем почту официанта админом ресторана")
     public void unlinkMailWaiter() {
 
-        adminAccount.logOut();
-
-        authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
-        waiters.goToWaiterCategory();
-
-        waiters.isWaiterStatusCorrectInPreviewAndCard(AdminPersonalAccount.IRONHIDE_WAITER, "Официант верифицирован");
-        waiters.unlinkMailWaiterInCard();
+        waiters.unlinkMailWaiter(ADMIN_RESTAURANT_LOGIN_EMAIL,ADMIN_RESTAURANT_PASSWORD,IRONHIDE_WAITER);
 
     }
 
     @Test
     @DisplayName("1.8. Удаляем письмо на почте Яндекса")
     public void deleteYandexInviteMail() {
-        yandexPage.deleteMail(Yandex.TEST_YANDEX2_LOGIN_EMAIL, Yandex.TEST_YANDEX2_PASSWORD_MAIL);
+        yandexPage.deleteMail(TEST_YANDEX2_LOGIN_EMAIL, TEST_YANDEX2_PASSWORD_MAIL);
     }
 
 }

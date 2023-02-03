@@ -1,9 +1,9 @@
 package data.selectors;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
 public class YandexMail {
 
@@ -17,6 +17,9 @@ public class YandexMail {
         public static final SelenideElement skipAddReservePassportContainer = $("[data-t=\"email_skip\"]");
         public static final SelenideElement skipAddReserveEmail = $("h1.passp-title");
 
+        public static final SelenideElement enteredEarlierLogin = $("a.CurrentAccount");
+
+
 
         public static final SelenideElement skipButton = $("[data-t='email_skip']>button");
         public static final SelenideElement loadPhotoProfileContainer = $(".passp-auth-content");
@@ -26,8 +29,8 @@ public class YandexMail {
         public static final SelenideElement tapperMail =
             $x("//*[@class='mail-MessageSnippet-Content']" +
                     "[.//*[contains(text(),'Вас приветствует команда Tapper')]]");
-        public static final SelenideElement tapperMailCheckbox =
-            $x("//*[@class='mail-MessageSnippet-Content']" +
+        public static final ElementsCollection tapperMailCheckbox =
+            $$x("//*[@class='mail-MessageSnippet-Content']" +
                     "[.//*[contains(text(),'Вас приветствует команда Tapper')]]" +
                     "//*[@class='_nb-checkbox-flag _nb-checkbox-normal-flag']");
         public static final SelenideElement deleteMailButton = $("[accesskey='Delete']");

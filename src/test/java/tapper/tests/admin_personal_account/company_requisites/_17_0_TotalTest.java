@@ -22,7 +22,6 @@ public class _17_0_TotalTest extends BaseTest {
     AuthorizationPage authorizationPage = new AuthorizationPage();
     CompanyRequisites companyRequisites = new CompanyRequisites();
 
-
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {

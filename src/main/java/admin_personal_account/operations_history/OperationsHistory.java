@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -42,6 +44,11 @@ public class OperationsHistory extends BaseActions {
         isElementVisible(totalTips);
         isElementVisible(operationsHistoryListContainer);
         isElementsListVisible(operationsHistoryListItems);
+        isElementsListVisible(operationsHistoryListItemsWaiter);
+        isElementsListVisible(operationsHistoryListItemsTable);
+        isElementsListVisible(operationsHistoryListItemsTips);
+        isElementsListVisible(operationsHistoryListItemsStatus);
+        isElementsListVisible(operationsHistoryListItemsSum);
         isElementVisible(paginationContainer);
         isElementsListVisible(paginationPages);
 
@@ -81,9 +88,10 @@ public class OperationsHistory extends BaseActions {
     @Step("Получение периода за неделю")
     public String getDatePeriodForWeek() {
 
-        int currentDay = Integer.parseInt(getCurrentDateInFormat("dd"));
+        LocalDate currentDayMinusWeekLocaleDate = LocalDate.now().minusDays(7);
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        String fromPeriod = (currentDay - 7) + "." + getCurrentDateInFormat("MM.yyyy");
+        String fromPeriod = currentDayMinusWeekLocaleDate.format(formatters);
         String toPeriod = getCurrentDateInFormat("dd.MM.yyyy");
 
         String concatenatedDate = fromPeriod + " - " + toPeriod;
@@ -114,11 +122,15 @@ public class OperationsHistory extends BaseActions {
         elementsCollection.filter(text(fromPeriodDate)).shouldHave(CollectionCondition.sizeGreaterThan(0));
         System.out.println("В списке операции есть операции по начальной дате");
 
-        paginationPages.last().click();
-        operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(20));
+        if (paginationPages.first().exists()) {
 
-        elementsCollection.filter(text(toPeriodDate)).shouldHave(CollectionCondition.sizeGreaterThan(0));
-        System.out.println("В списке операции есть операции по конечной дате");
+            paginationPages.last().click();
+            operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(20));
+
+            elementsCollection.filter(text(toPeriodDate)).shouldHave(CollectionCondition.sizeGreaterThan(0));
+            System.out.println("В списке операции есть операции по конечной дате");
+
+        }
 
     }
 
@@ -134,8 +146,10 @@ public class OperationsHistory extends BaseActions {
 
         String periodDate = getDatePeriodForWeek();
 
-        int currentDay = Integer.parseInt(getCurrentDateInFormat("dd"));
-        String fromPeriodDate = (currentDay - 7) + "." + getCurrentDateInFormat("MM.yyyy");
+        LocalDate currentDayMinusWeekLocaleDate = LocalDate.now().minusDays(7);
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        String fromPeriodDate = currentDayMinusWeekLocaleDate.format(formatters);
         String toPeriodDate = getCurrentDateInFormat("dd.MM.yyyy");
 
         historyTotalPeriodDate.shouldHave(text(periodDate));
@@ -215,7 +229,7 @@ public class OperationsHistory extends BaseActions {
         click(toDate);
         operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(30));
 
-        periodContainer.shouldHave(text(fromPeriodDate + " - " + toPeriodDate));
+        dateRangeContainer.shouldHave(text(fromPeriodDate + " - " + toPeriodDate));
         System.out.println("Кастомный формат установился корректно");
 
         compareOperationListWithDate(toPeriodDate, fromPeriodDate, operationsHistoryListItemsDate);

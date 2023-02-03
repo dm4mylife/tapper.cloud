@@ -331,7 +331,7 @@ public class AdminPersonalAccount {
         public static final SelenideElement forMonthPeriodButton =
                 $(".vHistoryBlockHeader__switcher [for=\"month\"]");
         public static final ElementsCollection allPeriodButtons = $$(".vHistoryBlockHeader>div");
-        public static final SelenideElement periodContainer = $(".vHistoryBlockHeader__period");
+        public static final SelenideElement dateRangeContainer = $(".vHistoryBlockHeader__period");
         public static final String periodButton = ".mx-input-wrapper";
         public static final SelenideElement leftArrowMonthPeriod =
                 $(".mx-calendar:first-child .mx-btn-icon-left");

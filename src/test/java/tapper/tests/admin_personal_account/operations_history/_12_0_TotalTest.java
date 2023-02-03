@@ -20,10 +20,9 @@ import java.util.HashMap;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.TapperTable.*;
 
 
 @Order(120)
@@ -54,13 +53,13 @@ public class _12_0_TotalTest extends BaseTest {
     public void createAndFillOrder() {
 
         Response rs = apiRKeeper.createOrder
-                (rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD),
+                (rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_333, WAITER_ROBOCOP_VERIFIED_WITH_CARD),
                         AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();

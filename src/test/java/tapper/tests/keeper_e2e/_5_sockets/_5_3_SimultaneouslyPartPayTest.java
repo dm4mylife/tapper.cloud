@@ -2,6 +2,8 @@ package tapper.tests.keeper_e2e._5_sockets;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Condition;
+import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -14,38 +16,44 @@ import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
+import tests.BaseTestTwoBrowsers;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
+import static com.codeborne.selenide.Condition.disabled;
+import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.*;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.Best2PayPage.payButton;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
+import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
 import static data.selectors.TapperTable.RootPage.DishList.paidDishes;
+import static data.selectors.TapperTable.RootPage.PayBlock.paymentButton;
 
 @Order(53)
 @Epic("RKeeper")
 @Feature("Сокеты")
-@Story("Одновременная частичная оплата с 2х устройств")
-@DisplayName("Одновременная частичная оплата с 2х устройств")
+@Story("Одновременная полная оплата с 2х устройств")
+@DisplayName("Одновременная полная оплата с 2х устройств")
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
+public class _5_3_SimultaneouslyPartPayTest extends BaseTestTwoBrowsers {
 
     static String visit;
     static String guid;
-    static HashMap<Integer, Map<String, Double>> chosenDishes1stGuest;
-    static HashMap<Integer, Map<String, Double>> chosenDishes2ndGuest;
-    static double totalPay1Guest;
+    static HashMap<Integer, Map<String, Double>> chosenDishes;
+    static LinkedHashMap<String, String> tapperDataForTgMsg;
+    static LinkedHashMap<String, String> telegramDataForTgMsg;
+    static double totalPay;
     static String orderType;
-    static HashMap<String, Integer> paymentDataKeeper1Guest;
-    static double totalPay2Guest;
-    static HashMap<String, Integer> paymentDataKeeper2Guest;
+    static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
-    int amountDishes = 1;
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -55,6 +63,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     ReviewPage reviewPage = new ReviewPage();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
+    @Disabled
     @Test
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
@@ -62,7 +71,7 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
         Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
         visit = rs.jsonPath().getString("result.visit");
         guid = rs.jsonPath().getString("result.guid");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "3000"));
+        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "6000"));
 
         rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
@@ -70,111 +79,39 @@ public class _5_3_SimultaneouslyPartPayTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.2. Выбираем рандомные блюда")
+    @DisplayName("1.2. Выбираем рандомно блюда, проверяем все суммы и условия, сохраняем данные для след.теста")
     public void chooseDishesAndCheckAfterDivided() {
 
-        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
+        using(firstBrowser, () -> {
+
+            rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
+            rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
+
+        });
+
+        using(secondBrowser, () -> rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111));
+
+        using(firstBrowser, () -> {
+
+
+            rootPage.clickOnPaymentButton();
+
+        });
 
     }
 
     @Test
-    @DisplayName("1.3. Открываем стол у второго гостя")
-    public void switchToAnotherUser() {
-
-        chosenDishes1stGuest = rootPage.getChosenDishesAndSetCollection();
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
-
-    }
-
-    @Test
-    @DisplayName("1.4. Проверяем что блюда заблокированы от первого гостя. Выбираем блюда чтобы проверить что у первого гостя они будут заблокированы")
+    @DisplayName("1.3. Проверяем что у него блюда в статусе Оплачиваются, которые первый гость выбрал")
     public void checkDisabledDishes() {
 
-        rootPage.checkIfDishesDisabledEarlier(chosenDishes1stGuest);
-        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
+        using(secondBrowser, () -> {
 
-    }
+            rootPage.clickOnPaymentButton();
+            rootPage.isElementVisibleDuringLongTime(dishesSumChangedHeading,5);
+            paymentButton.shouldBe(disabled);
 
-    @Test
-    @DisplayName("1.5. Сохраняем данные второго гостя")
-    public void savePayData2Guest() {
+        });
 
-        chosenDishes2ndGuest = rootPage.getChosenDishesAndSetCollection();
-
-    }
-
-    @Test
-    @DisplayName("1.6. Переключаемся на первого гостя")
-    public void switchBackTo1Guest() {
-
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
-
-    }
-
-    @Test
-    @DisplayName("1.7. Проверяем что заблокированы блюда")
-    public void checkDisabledDishesBy2Guest() {
-
-        rootPage.checkIfDishesDisabledEarlier(chosenDishes2ndGuest);
-
-    }
-
-    @Test
-    @DisplayName("1.8. Производим оплату, сверяем суммы и транзакции у первого гостя")
-    public void savePaymentDataAndGoToAcquiring() {
-
-        totalPay1Guest = rootPage.saveTotalPayForMatchWithAcquiring();
-        paymentDataKeeper1Guest = rootPage.savePaymentDataTapperForB2b();
-        rootPage.clickOnPaymentButton();
-
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay1Guest);
-        transactionId = transaction_id.getValue();
-        best2PayPage.clickPayButton();
-        reviewPageNestedTests.paymentCorrect(orderType = "part");
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper1Guest);
-
-    }
-
-    @Test
-    @DisplayName("1.9. Переключаемся на второго гостя")
-    public void switchBackTo2Guest() {
-
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
-
-    }
-
-    @Test
-    @DisplayName("2.0. Производим оплату, сверяем суммы и транзакции у второго гостя")
-    public void savePaymentDataAndGoToAcquiring2ndGuest() {
-
-        totalPay2Guest = rootPage.saveTotalPayForMatchWithAcquiring();
-        paymentDataKeeper2Guest = rootPage.savePaymentDataTapperForB2b();
-        rootPage.clickOnPaymentButton();
-
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay2Guest);
-        transactionId = transaction_id.getValue();
-        best2PayPage.clickPayButton();
-        reviewPageNestedTests.paymentCorrect(orderType = "part");
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper2Guest);
-
-    }
-
-    @Test
-    @DisplayName("2.1. Сверяем количество оплаченных блюд")
-    public void payOnAcquiring() {
-
-        reviewPage.clickOnFinishButton();
-
-        Assertions.assertEquals(paidDishes.size(), amountDishes + amountDishes,
-                "Не совпадает количество оплаченных блюд");
-        System.out.println("Количество оплаченных блюд совпадает");
-
-    }
-
-    @Test
-    @DisplayName("2.2. Закрываем заказ, очищаем кассу")
-    public void closeOrder() {
-        rootPageNestedTests.closeOrderByAPI(guid);
     }
 
 }

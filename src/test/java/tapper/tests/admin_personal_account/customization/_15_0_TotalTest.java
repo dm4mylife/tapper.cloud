@@ -14,6 +14,7 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
 @Order(150)
 @Epic("Личный кабинет администратора ресторана")
@@ -71,7 +72,7 @@ public class _15_0_TotalTest extends BaseTest {
     @DisplayName("1.5. Проверка что шаблон корректен на столе")
     public void isChangedTextPatternCorrectOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
 
         customization.isChangedTextPatternCorrectOnTable(TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT);
 

@@ -15,6 +15,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.TapperTable.RootPage.Menu.categoryMenuItems;
 import static data.selectors.TapperTable.RootPage.Menu.dishMenuItems;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
@@ -76,7 +77,7 @@ public class _11_1_ChangeCategoryAndDishesTest extends BaseTest {
     @DisplayName("1.6. Проверяем изменения на столе")
     public void checkChangesInTable() {
 
-        baseActions.openPage(STAGE_RKEEPER_TABLE_111);
+        baseActions.openPage(STAGE_RKEEPER_TABLE_333);
         baseActions.isElementVisibleDuringLongTime(appFooterMenuIcon,20);
         baseActions.forceWait(2000);
         appFooterMenuIcon.click();
