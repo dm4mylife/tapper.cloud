@@ -12,10 +12,12 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.*;
+import static data.Constants.TestData.TapperTable.*;
 
 @Order(6)
 @Epic("RKeeper")
@@ -26,9 +28,10 @@ import static data.Constants.TestData.*;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
 
-    static String visit;
     static String guid;
-    static int neededDishesAmount = 4;
+    static int amountDishesToBeChosen = 3;
+    static int amountDishesForFillingOrder = 5;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -39,13 +42,15 @@ public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
     @DisplayName("1.2. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
-        guid = rsCreateOrder.jsonPath().getString("result.guid");
-        visit = rsCreateOrder.jsonPath().getString("result.visit");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "8000"));
+        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_GUEST_FIRST_USER);
-        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
+
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_222_ID);
 
     }
 
@@ -62,7 +67,9 @@ public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
     @Test
     @DisplayName("1.4. Выбираем рандомные блюда первым гостем")
     public void chooseCertainAmountDishesByFirstGuest() {
-        rootPageNestedTests.chooseCertainAmountDishes(neededDishesAmount);
+
+        rootPageNestedTests.chooseCertainAmountDishes(amountDishesToBeChosen);
+
     }
 
     @Test
@@ -78,21 +85,24 @@ public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
     @DisplayName("1.6. Делимся счётом со 2 юзером")
     public void openTableBySecondGuest() {
 
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_SECOND_USER, TapperTable.COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_222, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
 
     }
 
     @Test
     @DisplayName("1.7. Проверяем что логика чаевых по сумме всех позиций и в б2п корректна у второго гостя")
     public void checkDishesByDefaultBySecondGuest() {
-        checkDishesByDefault();
+
+        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
+        nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
+
     }
 
     @Test
     @DisplayName("1.8. Закрываем заказ")
     public void openTableByFirstGuest() {
 
-        rootPage.closeOrderByAPI(guid);
+        rootPage.closeOrderByAPI(guid,R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,AUTO_API_URI);
 
     }
 

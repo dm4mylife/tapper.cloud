@@ -11,11 +11,8 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.CashDeskInaccessibility.*;
-import static data.selectors.SupportPersonalAccount.CashDeskInaccessibility.applyButton;
 import static data.selectors.SupportPersonalAccount.Common.cashDeskInaccessibilityCategory;
-import static data.selectors.SupportPersonalAccount.Common.sendingCategory;
-import static data.selectors.SupportPersonalAccount.Lock.*;
-import static data.selectors.SupportPersonalAccount.Sending.*;
+import static data.selectors.SupportPersonalAccount.Lock.dropdownWhereToLockRestaurants;
 
 public class CashDeskInaccessibility extends BaseActions {
 

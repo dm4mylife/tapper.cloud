@@ -1,27 +1,34 @@
 package tapper.tests.admin_personal_account.customization;
 
+import admin_personal_account.customization.Customization;
+import api.ApiRKeeper;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.customization.Customization;
 import tapper_table.RootPage;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
+import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.hidden;
-import static data.Constants.TestData.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.TestData.TapperTable;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.AdminPersonalAccount.Customization.wifiTab;
 import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
 import static data.selectors.TapperTable.Common.wiFiIcon;
 
-@Order(150)
+@Order(151)
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Кастомизация")
 @Story("Проверка вайфая")
@@ -30,9 +37,13 @@ import static data.selectors.TapperTable.Common.wiFiIcon;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _15_1_wiFiTest extends BaseTest {
 
+    static String guid;
+    static int amountDishesForFillingOrder = 3;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Customization customization = new Customization();
+    ApiRKeeper apiRKeeper = new ApiRKeeper();
 
 
     @Test
@@ -66,7 +77,7 @@ public class _15_1_wiFiTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.4. Активируем вайфай, прописываем данные")
+    @DisplayName("1.4. Активируем вайфай, прописываем имя сети и пароль")
     public void setWifiConfiguration() {
 
         customization.setWifiConfiguration(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
@@ -74,11 +85,19 @@ public class _15_1_wiFiTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.5. Переходим на стол и проверяем что он активировался")
+    @DisplayName("1.5. Переходим на стол, проверяем что есть функционал вайфая, его поля и что данные совпадают с админкой")
     public void setMsgAsTextPattern() {
 
+        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_333_ID, AUTO_API_URI,dishesForFillingOrder);
+
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
         rootPage.openNewTabAndSwitchTo(TapperTable.STAGE_RKEEPER_TABLE_333);
-        rootPage.closeHintModal();
+
+        rootPage.isDishListNotEmptyAndVisible();
         rootPage.checkWiFiOnTapperTable(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
 
     }
@@ -87,11 +106,12 @@ public class _15_1_wiFiTest extends BaseTest {
     @DisplayName("1.6. Возвращаемся в админку, отключаем его, проверяем что на столе корректно")
     public void isChangedTextPatternCorrectOnTable() {
 
-        Selenide.switchTo().window(0);
+        rootPage.switchBrowserTab(0);
         customization.deactivateWifiIfActivated();
 
-        Selenide.switchTo().window(1);
+        rootPage.switchBrowserTab(1);
         rootPage.refreshPage();
+        rootPage.isDishListNotEmptyAndVisible();
 
         wiFiIcon.shouldBe(Condition.hidden);
 

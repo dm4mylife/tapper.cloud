@@ -1,13 +1,15 @@
 package waiter_personal_account;
 
+import admin_personal_account.AdminAccount;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import common.BaseActions;
 import data.Constants;
 import data.selectors.TapperTable;
+import data.selectors.WaiterPersonalAccount;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
-import admin_personal_account.AdminAccount;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.io.File;
@@ -15,12 +17,14 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.ROBOCOP_IMG_PATH;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Profile.*;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImage;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImageNotSelenide;
 import static data.selectors.WaiterPersonalAccount.saveButton;
 import static data.selectors.WaiterPersonalAccount.*;
+
 
 
 public class Waiter extends BaseActions {
@@ -37,7 +41,7 @@ public class Waiter extends BaseActions {
         restaurantName.shouldBe(disabled);
         isElementVisible(waiterNameInCashDesk);
         waiterNameInCashDesk.shouldBe(disabled);
-        isElementVisible(waiterName);
+        isElementVisible(WaiterPersonalAccount.waiterName);
         isElementVisible(privateDataContainer);
         isElementVisible(learnMoreLink);
         isLearnMoreCorrect();
@@ -70,12 +74,6 @@ public class Waiter extends BaseActions {
 
     @Step("Загрузка изображения в аватарку официанта")
     public void downloadWaiterImage() {
-
-        if (imageContainerDownloadedImage.$("img").exists()) {
-
-            deleteWaiterImage();
-
-        }
 
         File imageFile = new File(ROBOCOP_IMG_PATH);
         imageContainerDownloadImageButton.uploadFile(imageFile);
@@ -111,42 +109,36 @@ public class Waiter extends BaseActions {
     @Step("Смена имени официанта")
     public void changeWaiterName() {
 
-        waiterName.click();
-        waiterName.sendKeys(Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER_CHANGED_NAME);
+        clearText(WaiterPersonalAccount.waiterName);
+
+        WaiterPersonalAccount.waiterName.sendKeys(ROBOCOP_WAITER_CHANGED_NAME);
         click(saveButton);
         pagePreloader.shouldBe(visible);
         changedDataNotification
                 .shouldHave(attributeMatching("class", ".*active.*"));
-        waiterName.shouldHave(value(Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER_CHANGED_NAME));
+        WaiterPersonalAccount.waiterName.shouldHave(value(ROBOCOP_WAITER_CHANGED_NAME));
 
     }
 
     @Step("Проверка смены имени официанта на столе")
     public void checkChangedNameOnTable() {
 
-        openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
-
-        TapperTable.RootPage.TipsAndCheck.
-                waiterName.shouldHave(text(Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER_CHANGED_NAME));
-        System.out.println("Имя официанта на столе сменилось на " + Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER_CHANGED_NAME);
-
-        Selenide.closeWindow();
-        Selenide.switchTo().window(0);
+        data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName.shouldHave(text(ROBOCOP_WAITER_CHANGED_NAME));
+        System.out.println("Имя официанта на столе сменилось на " + ROBOCOP_WAITER_CHANGED_NAME);
 
     }
 
     @Step("Проверка изменения телеграмм логина")
     public void setNameToDefault() {
 
-        waiterName.click();
-        waiterName.sendKeys(Keys.CONTROL + "A");
-        waiterName.sendKeys(Keys.BACK_SPACE);
+        clearText(WaiterPersonalAccount.waiterName);
+
         click(saveButton);
         pagePreloader.shouldBe(visible);
         changedDataNotification
                 .shouldHave(attributeMatching("class", ".*active.*"));
-        waiterName.shouldHave(value(""));
-        System.out.println("Имя сменилось прежнее");
+        WaiterPersonalAccount.waiterName.shouldHave(value(""));
+        System.out.println("Имя сменилось прежнее " + WaiterPersonalAccount.waiterName.getValue());
 
     }
 
@@ -156,20 +148,20 @@ public class Waiter extends BaseActions {
         Faker faker = new Faker();
         String newWaiterTelegramLogin = faker.gameOfThrones().character();
 
-        telegramLogin.click();
-        telegramLogin.sendKeys(Keys.CONTROL + "A");
-        telegramLogin.sendKeys(Keys.BACK_SPACE);
-        telegramLogin.sendKeys(newWaiterTelegramLogin);
+        clearText(telegramLogin);
+
+        sendKeys(telegramLogin,newWaiterTelegramLogin);
         click(saveButton);
+
         pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
         System.out.println("Логин телеграмма " + newWaiterTelegramLogin);
         telegramLogin.shouldHave(value(newWaiterTelegramLogin));
 
-        telegramLogin.click();
-        telegramLogin.sendKeys(Keys.CONTROL + "A");
-        telegramLogin.sendKeys(Keys.BACK_SPACE);
-        telegramLogin.sendKeys(newWaiterTelegramLogin);
+        clearText(telegramLogin);
+
+        sendKeys(telegramLogin,newWaiterTelegramLogin);
         click(saveButton);
+
         System.out.println("Сменили имя в телеграмме на " + newWaiterTelegramLogin);
 
     }
@@ -177,35 +169,42 @@ public class Waiter extends BaseActions {
     @Step("Смена пароля учетной записи официанта")
     public void changeWaiterPassword() {
 
-        System.out.println("Новый пароль " + Constants.TestData.AdminPersonalAccount.WAITER_NEW_PASSWORD_FOR_TEST);
+        System.out.println("Новый пароль " + WAITER_NEW_PASSWORD_FOR_TEST);
 
-        waiterPassword.click();
-        waiterPassword.sendKeys(Constants.TestData.AdminPersonalAccount.WAITER_NEW_PASSWORD_FOR_TEST);
-        waiterPasswordConfirmation.click();
-        waiterPasswordConfirmation.sendKeys(Constants.TestData.AdminPersonalAccount.WAITER_NEW_PASSWORD_FOR_TEST);
+        isSavedPassword(waiterPassword,waiterPasswordConfirmation, WAITER_NEW_PASSWORD_FOR_TEST);
+
+       /* click(waiterPassword);
+        sendKeys(waiterPassword,WAITER_NEW_PASSWORD_FOR_TEST);
+
+        click(waiterPasswordConfirmation);
+        sendKeys(waiterPasswordConfirmation,WAITER_NEW_PASSWORD_FOR_TEST);
+
         click(saveButton);
         pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
-        waiterPassword.shouldHave(value(Constants.TestData.AdminPersonalAccount.WAITER_NEW_PASSWORD_FOR_TEST));
-        waiterPasswordConfirmation.shouldHave(value(Constants.TestData.AdminPersonalAccount.WAITER_NEW_PASSWORD_FOR_TEST));
+        waiterPassword.shouldHave(value(WAITER_NEW_PASSWORD_FOR_TEST));
+        waiterPasswordConfirmation.shouldHave(value(WAITER_NEW_PASSWORD_FOR_TEST));*/
 
         adminAccount.logOut();
-
-        authorizationPage.authorizationUser(Constants.TestData.AdminPersonalAccount.WAITER_LOGIN_EMAIL, Constants.TestData.AdminPersonalAccount.WAITER_NEW_PASSWORD_FOR_TEST);
-
-        waiterPassword.shouldHave(value(""));
-        waiterPasswordConfirmation.shouldHave(value(""));
+        authorizationPage.authorizationUser(WAITER_LOGIN_EMAIL, WAITER_NEW_PASSWORD_FOR_TEST);
         pageTitle.shouldHave(text(" Настройки профиля "));
-        System.out.println("Смена пароля корректная");
 
-        waiterPassword.click();
-        waiterPassword.sendKeys(Constants.TestData.AdminPersonalAccount.WAITER_PASSWORD);
-        waiterPasswordConfirmation.click();
-        waiterPasswordConfirmation.sendKeys(Constants.TestData.AdminPersonalAccount.WAITER_PASSWORD);
+        isSavedPassword(waiterPassword,waiterPasswordConfirmation, WAITER_PASSWORD);
+        System.out.println("Вернули старый пароль + " + WAITER_PASSWORD);
+
+    }
+
+    public void isSavedPassword(SelenideElement passwordInput, SelenideElement passwordConfirmationInput, String password) {
+
+        click(passwordInput);
+        sendKeys(passwordInput,password);
+
+        click(passwordConfirmationInput);
+        sendKeys(passwordConfirmationInput,password);
+
         click(saveButton);
-        pagePreloader.shouldBe(visible);
-        waiterPassword.shouldHave(value(Constants.TestData.AdminPersonalAccount.WAITER_PASSWORD));
-        waiterPasswordConfirmation.shouldHave(value(Constants.TestData.AdminPersonalAccount.WAITER_PASSWORD));
-        System.out.println("Вернули старый пароль + " + Constants.TestData.AdminPersonalAccount.WAITER_PASSWORD);
+        pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
+        waiterPassword.shouldHave(value(password));
+        waiterPasswordConfirmation.shouldHave(value(password));
 
     }
 

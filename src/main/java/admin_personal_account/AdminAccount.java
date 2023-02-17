@@ -22,13 +22,11 @@ public class AdminAccount extends BaseActions {
     @Step("Проверка что авторизации и по данным и письма на почту")
     public void isRegistrationComplete() {
 
+        isTextContainsInURL("profile");
         isElementVisible(enterEmailField);
         isElementVisible(waiterNameInCashDesk);
         forceWait(2000); //toDO тест очень быстро идёт, визуально не понятно что тут успех)
 
-
     }
-
-
 
 }

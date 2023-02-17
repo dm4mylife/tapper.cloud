@@ -4,14 +4,12 @@ package support_personal_account.profile;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
-
 import java.time.Duration;
-
 
 import static com.codeborne.selenide.Condition.*;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
-
 import static data.selectors.SupportPersonalAccount.Common.profileCategory;
+import static data.selectors.SupportPersonalAccount.Profile.name;
 import static data.selectors.SupportPersonalAccount.Profile.*;
 
 

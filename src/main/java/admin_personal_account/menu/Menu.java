@@ -70,9 +70,24 @@ public class Menu extends BaseActions {
             click(categoryEyeIcons.get(randomIndex));
 
         }
+
         chooseCategory(randomIndex);
 
     }
+
+    @Step("Делаем видимым хотя бы одно блюдо в категории если они скрыты")
+    public void makeVisibleMenuDish() {
+
+        System.out.println(menuDishItemsEyeIcons.size() + " количество блюд");
+
+        if (!menuDishItemsEyeIcons.first().getAttribute("class").matches(".*active.*")) {
+
+            click(categoryEyeIcons.first());
+
+        }
+
+    }
+
 
     @Step("Выбираем категорию")
     public void chooseCategory(int index) {
@@ -210,6 +225,15 @@ public class Menu extends BaseActions {
 
         int dishIndex = getRandomActiveCategoryIndex();
         makeVisibleMenuCategory(dishIndex);
+        activateShowGuestSliderIfDeactivated();
+
+
+    }
+    @Step("Включаем первую категорию и первое блюдо")
+    public void activateFirstCategoryAndDishInMenu() {
+
+        makeVisibleMenuCategory(0);
+        makeVisibleMenuDish();
         activateShowGuestSliderIfDeactivated();
 
     }
@@ -626,6 +650,10 @@ public class Menu extends BaseActions {
         }
 
         System.out.println(tapperCategoryNameHeader);
+
+        Assertions.assertEquals
+                (dishListWithActiveCheckboxShowForGuest.size(),tapperCategoryNameHeader.size(),
+                        "Активных категорий в админке и на столе отличаются");
 
         for (int index = 0; index < dishListWithActiveCheckboxShowForGuest.size(); index++) {
 

@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
 
-import static data.Constants.TestData.*;
+import static data.Constants.TestData.Best2Pay;
+import static data.Constants.TestData.Yandex;
 import static data.selectors.TapperTable.Best2PayPage.*;
 
 

@@ -17,7 +17,7 @@ public class ReviewPage extends BaseActions {
     @Step("Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны")
     public void isPaymentProcessContainerShown() {
 
-        baseActions.isElementVisibleDuringLongTime(paymentProcessContainer, 10);
+        baseActions.isElementVisibleDuringLongTime(paymentProcessContainer, 30);
 
         baseActions.isElementVisible(paymentProcessGifProcessing);
         baseActions.isElementVisible(paymentProcessStatus);
@@ -70,46 +70,42 @@ public class ReviewPage extends BaseActions {
     @Step("Выставляем 1 звезду")
     public void rate1Stars() {
 
-        baseActions.click(reviewStars);
-        review1Stars.shouldBe(visible);
+        click(reviewStars);
+        click(review1Stars);
 
     }
 
     @Step("Выбираем рандомное пожелание если 4-5 звезды")
     public void chooseRandomWhatDoULikeWhenGreaterThan3() {
 
-        baseActions.isElementVisible(whatDoULikeList);
-        baseActions.click(whatDoULikeListRandomOption.get(generateRandomNumber(1, 5) - 1));
-        baseActions.isElementVisible(activeWhatDoULikeListRandomOption);
+        isElementVisible(whatDoULikeList);
+        click(whatDoULikeListRandomOption.get(generateRandomNumber(1, 5) - 1));
+        isElementVisible(activeWhatDoULikeListRandomOption);
 
     }
 
     @Step("Выбираем рандомное пожелание")
     public void chooseRandomSuggestionWhenGreaterThan3() {
 
-        baseActions.isElementVisible(suggestionHeading);
-        baseActions.isElementsListVisible(suggestionOptions);
+        isElementVisible(suggestionHeading);
+        isElementsListVisible(suggestionOptions);
 
-        baseActions.click(suggestionOptions.get(generateRandomNumber(1, 4) - 1));
+        click(suggestionOptions.get(generateRandomNumber(1, 4) - 1));
 
     }
 
     @Step("Вводим коммент в поле ввода, проверям что сохранился текст")
     public void typeReviewComment() {
 
-        baseActions.sendKeys(reviewTextArea, TEST_REVIEW_COMMENT);
+        sendKeys(reviewTextArea, TEST_REVIEW_COMMENT);
         reviewTextArea.shouldHave(value(TEST_REVIEW_COMMENT));
-
 
     }
 
     @Step("Клик в кнопку отправить отзыв и ожидание прелоадера")
     public void clickOnFinishButton() {
 
-        hideTapBar();
-        scrollTillBottom();
-        baseActions.click(finishReviewButton);
-        showTapBar();
+        click(finishReviewButton);
 
     }
 

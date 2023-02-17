@@ -3,7 +3,6 @@ package tapper.tests.keeper_e2e._5_sockets;
 
 import api.ApiRKeeper;
 import data.Constants;
-import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -12,9 +11,9 @@ import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTest;
 import tests.BaseTestTwoBrowsers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,10 +21,10 @@ import java.util.Map;
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.using;
-import static data.Constants.TestData.*;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.TapperTable;
+import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY;
 
 @Order(51)
 @Epic("RKeeper")
@@ -37,60 +36,74 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _5_1_PartCheckEveryStatusTest extends BaseTestTwoBrowsers {
 
-    static String visit;
+
     static String guid;
+    static int amountDishesToBeChosen = 3;
+    static int amountDishesForFillingOrder = 6;
     static HashMap<Integer, Map<String, Double>> chosenDishes;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static double totalPay;
-    static String orderType;
+    static String orderType = "part";
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
-    @Disabled("Не работают апи на тесте")
+
     @Test
-    @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
+    @DisplayName("1.1. Создание заказа в r_keeper и проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
-        visit = rs.jsonPath().getString("result.visit");
-        guid = rs.jsonPath().getString("result.guid");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "6000"));
+        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
-        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
+
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
     }
 
     @Test
-    @DisplayName("1.2. Выбираем рандомно блюда, проверяем все суммы и условия, сохраняем данные для след.теста")
+    @DisplayName("1.2. Открываем стол на двух разных устройствах, проверяем что не пустые")
+    public void openTables() {
+
+        using(firstBrowser, () -> {
+
+            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.isDishListNotEmptyAndVisible();
+
+        });
+
+        using(secondBrowser, () -> {
+
+            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.isDishListNotEmptyAndVisible();
+
+        });
+
+    }
+
+    @Test
+    @DisplayName("1.3. Выбираем рандомно блюда у первого гостя, проверяем все суммы и условия")
     public void chooseDishesAndCheckAfterDivided() {
 
         using(firstBrowser, () -> {
 
-            rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
-            rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
-
-
-        });
-
-        using(secondBrowser, () -> rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111));
-
-        using(firstBrowser, () -> {
-
-            rootPageNestedTests.chooseDishesWithRandomAmount(3);
+            rootPage.activateDivideCheckSliderIfDeactivated();
+            rootPage.chooseCertainAmountDishes(amountDishesToBeChosen);
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
+            rootPage.forceWaitingForSocketChangePositions(2500);
 
         });
 
     }
 
     @Test
-    @DisplayName("1.3. Проверяем что у него блюда в статусе Оплачиваются, которые первый гость выбрал")
+    @DisplayName("1.4. Проверяем у второго гостя, что у него блюда в статусе Оплачиваются, которые первый гость выбрал")
     public void checkDisabledDishes() {
 
         using(secondBrowser, () -> rootPage.checkIfDishesDisabledEarlier(chosenDishes));
@@ -98,21 +111,21 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTestTwoBrowsers {
     }
 
     @Test
-    @DisplayName("1.4. Переключаемся на первого гостя")
+    @DisplayName("1.5. Переключаемся на первого гостя")
     public void switchBackTo1Guest() {
 
         using(firstBrowser, () -> {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
 
         });
 
     }
 
     @Test
-    @DisplayName("1.5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    @DisplayName("1.6. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
 
         using(firstBrowser, () -> transactionId = nestedTests.acquiringPayment(totalPay));
@@ -120,21 +133,20 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTestTwoBrowsers {
     }
 
     @Test
-    @DisplayName("1.6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    @DisplayName("1.7. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
 
-        using(firstBrowser, () ->
-                nestedTests.checkPaymentAndB2pTransaction(orderType = "part", transactionId, paymentDataKeeper));
+        using(firstBrowser, () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
 
     }
 
     @Test
-    @DisplayName("1.7. Проверка сообщения в телеграмме")
+    @DisplayName("1.8. Проверка сообщения в телеграмме")
     public void clearDataAndChoseAgain() {
 
         using(firstBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
         });
@@ -142,19 +154,18 @@ public class _5_1_PartCheckEveryStatusTest extends BaseTestTwoBrowsers {
     }
 
     @Test
-    @DisplayName("1.8. Переключаемся на второго гостя, проверяем что выбранные ранее блюда в статусе Оплачено")
+    @DisplayName("1.9. Переключаемся на второго гостя, проверяем что выбранные ранее блюда в статусе Оплачено")
     public void switchTo2ndGuestAndCheckPaidDishes() {
 
         using(secondBrowser, () -> rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes));
 
     }
 
-    @Disabled
     @Test
-    @DisplayName("1.9. Закрываем заказ, очищаем кассу")
+    @DisplayName("2.0. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        rootPageNestedTests.closeOrderByAPI(guid);
+        rootPageNestedTests.closeOrderByAPI(guid,R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,AUTO_API_URI);
 
     }
 

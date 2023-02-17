@@ -1,7 +1,6 @@
 package support_personal_account.logsAndPermissions;
 
 
-import admin_personal_account.waiters.Waiters;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -10,7 +9,6 @@ import data.selectors.AdminPersonalAccount;
 import data.selectors.SupportPersonalAccount;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import tapper_table.RootPage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,16 +56,15 @@ public class LogsAndPermissions extends BaseActions {
     }
 
     @Step("Выбор тестового ресторана")
-    public void chooseRestaurant() {
+    public void chooseRestaurant(String restaurantName) {
 
         click(expandLeftMenuButton);
         isElementVisible(openedLeftMenuContainer);
         click(logsAndPermissionsCategoryDropdownButton);
         forceWait(1000);
-        searchRestaurantInput.sendKeys(RESTAURANT_NAME);
+        searchRestaurantInput.sendKeys(restaurantName);
         forceWait(1000);
         click(searchResultList.first());
-
 
         pagePreloader.shouldNotHave(attributeMatching("style", "background: transparent;")
                 , Duration.ofSeconds(10));
@@ -125,13 +122,53 @@ public class LogsAndPermissions extends BaseActions {
         click(licenseIdTab);
         tabPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
 
-        isElementVisible(licenseIdInput);
+        isElementVisible(xmlApplicationButton);
+        isElementVisible(xmlOrderSaveButton);
         isElementVisible(licenseDateInput);
         isElementVisibleAndClickable(getIdLicenseButton);
 
         licenseIdInput.shouldNotHave(empty);
         licenseDateInput.shouldNotHave(empty);
 
+    }
+
+    @Step("Выбираем вид лицензии XML интерфейс для приложения")
+    public void choseXmlApplicationOption() {
+
+        isElementVisible(xmlApplicationButton);
+        isElementVisible(xmlOrderSaveButton);
+
+        click(xmlApplicationButton);
+
+        isElementVisible(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
+
+        isElementVisible(licenseIdInput);
+        isElementVisible(licenseDateInput);
+        isElementVisibleAndClickable(getIdLicenseButton);
+
+        click(getIdLicenseButton);
+
+        licenseIdInput.shouldNotHave(empty);
+        licenseDateInput.shouldNotHave(empty);
+
+    }
+
+    @Step("Выбираем вид лицензии XML сохранение заказов")
+    public void choseXmlSaveOrderOption() {
+
+        isElementVisible(xmlApplicationButton);
+        isElementVisible(xmlOrderSaveButton);
+
+        click(xmlOrderSaveButton);
+
+        isElementVisible(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
+
+        isElementVisible(licenseDateInput);
+        isElementVisibleAndClickable(getIdLicenseButton);
+
+        click(getIdLicenseButton);
+
+        licenseDateInput.shouldNotHave(empty);
 
     }
 
@@ -165,6 +202,7 @@ public class LogsAndPermissions extends BaseActions {
         isElementsListVisible(operationsHistoryListItemsStatus);
         isElementsListVisible(operationsHistoryListItemsSum);
         paginationContainer.shouldBe(visible.because("На странице не оказалось элемента пагинации"));
+        scrollTillBottom();
         isElementVisible(paginationContainer);
         isElementsListVisible(paginationPages);
 
@@ -216,6 +254,41 @@ public class LogsAndPermissions extends BaseActions {
 
     }
 
+    @Step("Проверяем что есть варианты опций у типов эквайринга")
+    public void changeAcquiringToBest2Pay() {
+
+        click(acquiringInput);
+        click(acquiringListB2POption);
+
+        isElementInvisible(ndsInput);
+        isElementInvisible(taxSystemInput);
+
+        saveButton.shouldBe(disabled);
+
+    }
+
+    @Step("Проверяем что есть варианты опций у типов эквайринга")
+    public void returnToDefaultAcquiring() {
+
+        click(acquiringInput);
+        click(acquiringListB2PBarrelOption);
+
+        isElementVisible(acquiringInput);
+        isElementVisible(currencyInput);
+        isElementVisible(accNumberInput);
+        isElementVisible(ndsInput);
+        isElementVisible(taxSystemInput);
+        isElementVisible(saveButton);
+
+        acquiringInput.shouldNotHave(empty);
+        currencyInput.shouldNotHave(empty);
+        accNumberInput.shouldNotHave(empty);
+        ndsInput.shouldNotHave(empty);
+        taxSystemInput.shouldNotHave(empty);
+        saveButton.shouldNotBe(disabled);
+
+    }
+
     @Step("Проверка отображения элементов во вкладке Лоадер")
     public void isLoaderTabCorrect() {
 
@@ -233,7 +306,7 @@ public class LogsAndPermissions extends BaseActions {
     @Step("Загружаем новый лоадер")
     public void changeLoader(String filePath) {
 
-        forceWait(2000);
+        forceWait(2500);
 
         String previousLoader = $(loaderInContainerNotSelenide).getAttribute("src");
 
@@ -243,7 +316,7 @@ public class LogsAndPermissions extends BaseActions {
         String newLoader = $(loaderInContainerNotSelenide).getAttribute("src");
 
         click(saveLoaderButton);
-        forceWait(5000);
+        forceWait(6000);
         Assertions.assertNotEquals(previousLoader, newLoader, "Загруженная анимация\\гиф не загрузилась");
 
         isImageCorrect(loaderInContainerNotSelenide, "Лоадер не загружен корректно или битый");

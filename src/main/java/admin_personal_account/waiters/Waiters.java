@@ -12,8 +12,6 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.TestData.AdminPersonalAccount.OPTIMUS_PRIME_WAITER;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_AUTHORIZATION_STAGE_URL;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Common.waiterMenuCategory;
 import static data.selectors.AdminPersonalAccount.Waiters.*;
@@ -161,12 +159,57 @@ public class Waiters extends BaseActions {
 
     }
 
+    @Step("Проверка что сброс поиска работает корректно")
+    public void sendInviteToWaiterWithWrongEmail(String waiterName, String email) {
+
+        searchWaiter(waiterName);
+
+        clickInFirstResult();
+        System.out.println(waiterStatusInCard.getText());
+
+        if (waiterStatusInCard.getText().equals("Статус:\nОфициант верифицирован")) {
+
+            System.out.println("Верифицирован ранее, отменяем привязку");
+            unlinkMailWaiterInCard();
+
+        }
+
+        isDetailWaiterCardCorrectWithWaitingInvitationStatus();
+
+        forceWait(1000); // toDO не успевает прогрузиться инпут емейла, обрезается
+
+        if (waiterStatusInCard.getText().matches("Статус:\nПриглашен в систему")) {
+
+            cancelEMailWaiterInvitationInCard();
+
+        } else if (waiterStatusInCard.getText().matches("Статус:\nОфициант верифицирован")) {
+
+            unlinkMailWaiterInCard();
+
+        }
+
+        sendKeys(enterEmailField,email);
+        click(inviteButton);
+
+        isNegativeSendInvitationCorrect(email);
+
+    }
+
     @Step("Проверка что появилось уведомление об отправке приглашения, почта сохранилась в детальной карточке официанта")
     public void isSendInvitationCorrect(String email) {
 
         enterEmailField.shouldHave(value(email));
         successSendingInvitation.shouldBe(visible,Duration.ofSeconds(5));
         cancelInvitationButton.shouldBe(visible);
+
+    }
+
+    @Step("Проверка что появилось уведомление об отправке приглашения, почта сохранилась в детальной карточке официанта")
+    public void isNegativeSendInvitationCorrect(String email) {
+
+        enterEmailField.shouldHave(value(email));
+        isElementVisible(wrongEmailError);
+
 
     }
 

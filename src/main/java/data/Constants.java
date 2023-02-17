@@ -6,6 +6,7 @@ public class Constants {
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
     public static final int WAIT_FOR_PREPAYMENT_ON_CASH_DESK = 7000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_REVIEW = 10000;
+    public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 10000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 16000;
     public static final int ATTEMPT_FOR_PREPAYMENT_REQUEST = 3;
@@ -15,20 +16,46 @@ public class Constants {
     public static final String ROBOCOP_IMG_PATH = "src/main/resources/robocop.jpeg";
     public static final String downloadFolderPath = "C:\\tapper.cloud\\build\\downloads\\qr";
 
+    public static final String downloadFolderPathAdminSupport = "C:\\tapper.cloud\\build\\downloads\\qrAdminSupport";
+
     public static class TestData {
         public static class TapperTable {
 
-            public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
+            public static final String STAGE_RKEEPER_TABLE_111 = "https://stage-ssr.zedform.ru/testrkeeper/1000046";
+            public static final String STAGE_RKEEPER_TABLE_222 = "https://stage-ssr.zedform.ru/testrkeeper/1000397";
+            public static final String STAGE_RKEEPER_TABLE_333 = "https://stage-ssr.zedform.ru/testrkeeper/1000398";
+            public static final String STAGE_IIKO_TABLE_3 = "https://stage-ssr.zedform.ru/office/3";
+            public static final String AUTO_API_URI = "https://apitapper.zedform.ru/api/";
 
-            public static final String STAGE_IIKO_TABLE_3 = "https://auto-ssr-tapper.zedform.ru/office/3";
+
+
+            /*public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
             public static final String STAGE_RKEEPER_TABLE_222 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000397";
             public static final String STAGE_RKEEPER_TABLE_333 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000398";
-            public static final String STAGE_RKEEPER_TABLE_10 = "https://tapper.staging.zedform.ru/testrkeeper/1000044";
-            public static final String TEST_API_URI = "https://taper.zedform.ru/api/";
-            public static final String AUTO_API_URI = "https://auto-back-tapper.zedform.ru/api/";
+            public static final String STAGE_IIKO_TABLE_3 = "https://auto-ssr-tapper.zedform.ru/office/3";
+            public static final String AUTO_API_URI = "https://auto-back-tapper.zedform.ru/api/";*/
+
+
             public static final Integer PAYMENT_BANKS_MAX_PRIORITY_BANKS = 3;
+            public static final double SUM_AFTER_SERVICE_CHARGE_MAXIMIZE = 13500.0;
+            public static final double SERVICE_CHARGE_MAX = 199.0;
             public static final String TEST_WAITER_COMMENT = "test\\тест";
             public static final String TEST_REVIEW_COMMENT = "test\\тест";
+            public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_ALL = "Это сообщение отправлено всем";
+            public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_WAITERS = "Это сообщение отправлено официантам";
+            public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS = "Это сообщение отправлено админам";
+
+
+
+            public static final String SUM_CHANGED_ALERT_TEXT =
+                    "Сумма оплаты изменилась, так как другой гость выбрал позицию, которую вы хотели оплатить.";
+
+
+            public static final String NON_EXISTING_EMAIL = "test1test2@mail.ru";
+            public static final String NON_EXISTING_PASSWORD = "1!2#asdf";
+            public static final String SHORT_PASSWORD = "1234";
+            public static final String EMPTY_LOGIN = " ";
+            public static final String WRONG_EMAIL_PATTERN = "test";
             public static final Double SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM = 3.0;
             public static final Double SERVICE_CHARGE_PERCENT_FROM_TIPS = 5.0;
             public static final String TIPS_ERROR_MSG = " Минимальная сумма чаевых 49 ₽ ";
@@ -40,7 +67,6 @@ public class Constants {
             public static final String COOKIE_SESSION_SECOND_USER = "1235";
         }
         public static class Best2Pay {
-
             public static final String TEST_BEST2PAY_URL = "https://test.best2pay.net/";
             public static final String BEST2PAY_NAME = "https://test.best2pay.net/";
             public static final String TEST_PAYMENT_CARD_NUMBER = "4809388886227309";
@@ -48,14 +74,12 @@ public class Constants {
             public static final String TEST_PAYMENT_CARD_EXPIRE_YEAR = "24";
             public static final String TEST_PAYMENT_CARD_CVV = "123";
 
-
         }
         public static class Yandex {
             public static final String TEST_YANDEX_LOGIN_EMAIL = "autotests@tapper.cloud";
             public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
             public static final String TEST_YANDEX2_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
             public static final String TEST_YANDEX2_PASSWORD_MAIL = "autotests2023!";
-
             public static final String YANDEX_MAIL_URL =
                 "https://passport.yandex.ru/auth?retpath=https%3A%2F%2Fmail.yandex.ru%2F&backpath=https%3A%2F%2Fmail.yandex.ru%2F%3Fnoretpath%3D1&from=mail&origin=hostroot_homer_auth_ru";
         }
@@ -75,9 +99,10 @@ public class Constants {
             public static final String OPTIMUS_PRIME_WAITER_ID = "23333";
             public static final String IRONHIDE_WAITER_ID = "233333";
             public static final String ADMIN_TEST_PHONE = "+7(123) 456-78-90";
-
             public static final String ADMIN_AUTHORIZATION_STAGE_URL = "https://tapper.staging.zedform.ru/users";
             public static final String ADMIN_PROFILE_STAGE_URL = "https://tapper.staging.zedform.ru/profile";
+            public static final String ROOT_TAPPER_STAGE_URL = "https://tapper.staging.zedform.ru/";
+            public static final String ADMIN_REGISTRATION_STAGE_URL = "https://tapper.staging.zedform.ru/users/registration";
             public static final String ADMIN_RESTAURANT_LOGIN_EMAIL = "kirillk8888@yandex.ru";
             public static final String ADMIN_RESTAURANT_PASSWORD = "777777";
             public static final String ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
@@ -86,9 +111,13 @@ public class Constants {
             public static final String WAITER_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String ROBOCOP_WAITER_CHANGED_NAME = "Робокопище";
             public static final String TELEGRAM_AUTO_CHANNEL_LOGIN = "-1001764474981";
+
+            public static final String VERIFIED_WAITER_TEXT = "Официант верифицирован";
+            public static final String INVITED_IN_SERVICE_TEXT = "Приглаш(е|ё)н в систему";
+
+
         }
         public static class SupportPersonalAccount {
-
             public static final String RESTAURANT_NAME = "testrkeeper";
             public static final String SUPPORT_LOGIN_EMAIL = "varlone_mag2@mail.ru";
             public static final String SUPPORT_PASSWORD = "123123";
@@ -96,7 +125,6 @@ public class Constants {
         }
     }
     public static class RegexPattern {
-
         public static final String tableRegex = "(\\n|.)?Стол: ([\\d+]+)(\\n|.)*";
         public static final String sumInCheckRegex = "(\\n|.)*Сумма в чеке: (\\d*\\.?\\d*)(\\n|.)*";
         public static final String restToPayRegex = "(\\n|.)*Осталось оплатить: (\\d*\\.?\\d*)(\\n|.)*";
@@ -115,7 +143,7 @@ public class Constants {
         public static final String ratingRegex = "(\\n|.)*Рейтинг: ((\\d|\\n)*)Пожелания(\\n|.)*";
         public static final String suggestionRegex = "(\\n|.)*Пожелания: (.*)";
         public static final String tableReviewRegex = "(\\n|.)*Номер столика: ([\\d+]+)(\\n|.)*";
-        public static final String callWaiterCommentRegex = "(\\n|.)*Комментарий: ((\\n|.)*)Время.*";
+        public static final String callWaiterCommentRegex = "(\\n|.)*Комментарий: (.*)\\n?Время.*";
         public static final String restaurantNameRegex = "Ресторан #\\d+ \\((.+)\\)(\\n|.)*";
 
     }

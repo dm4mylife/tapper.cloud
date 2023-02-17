@@ -61,6 +61,7 @@ public class YandexPage extends BaseActions {
         click(tapperMail);
 
         tapperConfirmAuthInMail.shouldBe(visible);
+        System.out.println("Ссылка на регистрацию из почты:\n" + tapperConfirmAuthInMail.getAttribute("href"));
 
         String password = Common.authPassword.getText().replaceAll("(\\n|.)+Пароль:\\s(.*)","$2");
         System.out.println(password + " пароль");
@@ -84,7 +85,11 @@ public class YandexPage extends BaseActions {
 
         yandexAuthorization(email,password);
 
+        tapperMailCheckbox.first().shouldBe(visible);
+
         if (tapperMailCheckbox.first().isDisplayed()) {
+
+            System.out.println("gg");
 
             for (SelenideElement mailCheckbox : tapperMailCheckbox) {
 

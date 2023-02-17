@@ -82,7 +82,8 @@ public class TapperTable {
                     $$x("//li[.//*[@data-auto=\"disabledDishes\"]] | //li[.//*[@data-auto=\"paidDishes\"]]");
             public static final ElementsCollection allNonPaidAndNonDisabledDishesSum =
                     $$x("//li[.//*[@data-auto=\"\"]] | //li[.//*[@data-auto=\"nonPaidDishes\"]]" +
-                            "//*[@class=\"orderItem__price\"]");
+                            "//*[@class=\"orderItem__price\"] | //li[.//*[@data-auto=\"nonPaidDishes\"]]" +
+                            "//*[contains(@class,\"orderItem__price\")][last()]");
             public static final ElementsCollection allNonPaidAndNonDisabledDishesName =
                     $$x("//li[.//*[@data-auto=\"\"]] | //li[.//*[@data-auto=\"nonPaidDishes\"]]" +
                             "//*[@class=\"orderItem__name\"]");
@@ -145,7 +146,7 @@ public class TapperTable {
         public static class PayBlock {
 
             public static final SelenideElement checkContainer = $("[data-auto=\"checkContainer\"]");
-            public static final SelenideElement paymentButton = $(".oldPay__btn button");
+            public static final SelenideElement paymentButton = $("[data-auto=\"paymentButton\"]");
             public static final SelenideElement serviceChargeContainer = $(".serviceFee");
             public static final SelenideElement serviceChargeCheckboxSvg =
                     $(".serviceFee [data-auto=\"serviceCharge\"] svg");
@@ -216,6 +217,10 @@ public class TapperTable {
                     $("[data-auto=\"callWaiterContainer\"] .waiterCallModal__header");
             public static final SelenideElement callWaiterButton =
                     $("[data-auto=\"callWaiterButton\"]");
+
+            public static final SelenideElement callWaiterButtonText =
+                    $("[data-auto=\"callWaiterButton\"] .baseCallButton__container-text");
+
             public static final SelenideElement callWaiterContainer =
                     $("[data-auto=\"callWaiterContainer\"]");
             public static final SelenideElement callWaiterCloseButton =
@@ -225,7 +230,7 @@ public class TapperTable {
             public static final SelenideElement callWaiterButtonCancel =
                     $("[data-auto=\"callWaiterButtonCancel\"]");
             public static final SelenideElement callWaiterCommentArea =
-                    $("[data-auto=\"callWaiterCommentArea\"]");
+                    $(".waiterCallModal__textarea");
             public static final SelenideElement totalSumInWalletCounter =
                     $("[data-auto=\"totalSumInWalletCounter\"]");
             public static final SelenideElement closeCallWaiterFormInSuccessButton =
@@ -238,12 +243,12 @@ public class TapperTable {
                     $("[data-auto=\"callWaiterFadedBackground\"]");
 
             public static final SelenideElement callWaiterFirstGreetingsMessage =
-                    $x("//*[@class='message__text']/p[contains(text(),'Привет! Я отправлю официанту')]");
+                    $x("//*[@class='message__text']/p[contains(text(),'Привет! Я отправлю ')]");
 
             public static final SelenideElement callWaiterUniversalTextMessage =
-                    $x("//*[@class='message__text']/p[contains(text(),'Я отправил сообщение официанту!')]");
+                    $x("//*[@class='message__text']/p[contains(text(),'Я отправил сообщение ')]");
             public static final SelenideElement callWaiterSecondMessage =
-                    $x("//*[@class='message__text']/p[contains(text(),'Я отправил сообщение официанту!')]");
+                    $x("//*[@class='message__text']/p[contains(text(),'Я отправил сообщение ')]");
 
             public static final SelenideElement callWaiterGuestTestComment =
                     $x("//*[@class='message__text']/p[contains(text(),'" + TEST_WAITER_COMMENT + "')]");

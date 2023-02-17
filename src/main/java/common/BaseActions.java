@@ -11,20 +11,18 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Random;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
-import static data.selectors.AdminPersonalAccount.OperationsHistory.periodButton;
+import static data.selectors.TapperTable.RootPage.PayBlock.paymentOptionsContainer;
+import static data.selectors.TapperTable.RootPage.TapBar.appFooter;
 
 
 public class BaseActions {
@@ -43,6 +41,8 @@ public class BaseActions {
         Selenide.executeJavaScript("document.querySelector('" + selector +"').click();");
 
     }
+
+
 
     public void scrollAndClick(SelenideElement element) {
         element.scrollIntoView(false);
@@ -104,14 +104,34 @@ public class BaseActions {
 
     }
 
-    @Step("Принудительно прячем футер")
-    public void hideTapBar() {
-        Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'none'");
+    public void switchBrowserTab(int tabIndex) {
+
+        Selenide.switchTo().window(tabIndex);
+
     }
 
-    @Step("Принудительно раскрываем футер")
-    public void showTapBar() {
-        Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'block'");
+    @Step("Принудительно прячем способы оплаты и футер")
+    public void hidePaymentOptionsAndTapBar() {
+
+        if (paymentOptionsContainer.isDisplayed() || appFooter.isDisplayed()) {
+
+            Selenide.executeJavaScript("document.querySelector('[class=\"payedVariants\"]').style.display = 'none'");
+            Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'none'");
+
+        }
+
+    }
+
+    @Step("Принудительно раскрываем способы оплаты и футер")
+    public void showPaymentOptionsAndTapBar() {
+
+        if (!paymentOptionsContainer.isDisplayed() || !appFooter.isDisplayed()) {
+
+            Selenide.executeJavaScript("document.querySelector('[class=\"payedVariants\"]').style.display = 'block'");
+            Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'block'");
+
+        }
+
     }
 
     @Step("Ввод данных {text} с задержкой")
@@ -135,7 +155,7 @@ public class BaseActions {
     @Step("Проверка что текст {text} содержится в текущем URL")
     public void isTextContainsInURL(String url) {
 
-        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(30));
+        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(50));
 
     }
 
@@ -161,9 +181,12 @@ public class BaseActions {
     @Step("Удаление текста из поля")
     public void clearText(SelenideElement element) {
 
-        element.click();
+        element.click(ClickOptions.usingDefaultMethod().timeout(Duration.ofSeconds(3)));
         element.sendKeys(Keys.CONTROL + "A");
+        forceWait(500);
         element.sendKeys(Keys.BACK_SPACE);
+        forceWait(200);
+        element.shouldHave(empty,Duration.ofSeconds(5));
 
     }
 
@@ -178,7 +201,7 @@ public class BaseActions {
 
         Selenide.executeJavaScript("window.open('" + url + "', '_blank').focus();");
         forceWait(2000);
-        Selenide.switchTo().window(1);
+        switchBrowserTab(1);
 
     }
 

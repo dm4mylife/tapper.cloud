@@ -3,7 +3,9 @@ package tapper.tests.keeper_e2e._5_sockets;
 
 import api.ApiRKeeper;
 import data.Constants;
-import io.qameta.allure.*;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
@@ -11,78 +13,88 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTestTwoBrowsers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Selenide.using;
-import static data.Constants.TestData.TapperTable;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY;
 
-@Order(51)
+@Order(54)
 @Epic("RKeeper")
 @Feature("Сокеты")
-@Story("Частичная и полная оплата. Проверка с 2х устройств")
-@DisplayName("Частичная и полная оплата. Проверка с 2х устройств")
-@Link(
-        url = "https://foundarium.testit.software/projects/1/tests/450?isolatedSection=b12ff1ae-e93f-4e27-a296-b8cc0def1c88",
-        name = "TestIT,"
-)
-
+@Story("Частичная оплата на 1одном устройстве, и проверка этих позиций на другом," +
+        " затем полная оплата с проверками статусов у второго")
+@DisplayName("Частичная оплата на 1одном устройстве, и проверка этих позиций на другом," +
+        " затем полная оплата с проверками статусов у второго")
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _5_4_PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers {
 
-    static String visit;
     static String guid;
     static HashMap<Integer, Map<String, Double>> chosenDishes;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static double totalPay;
-    static String orderType;
+    static String orderType = "part";
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
+    static int amountDishesForFillingOrder = 6;
+    static int amountDishesToBeChosen = 3;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
-    @Disabled
+
+
     @Test
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
-        visit = rs.jsonPath().getString("result.visit");
-        guid = rs.jsonPath().getString("result.guid");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "6000"));
+        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
-        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
+
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
     }
-    @Description("Проверяем что несколько выбранных позиций будет у другого юзера в статусе Оплачивается, затем в " +
-            "Оплачено. Также эти позиции в статусе Оплачено у первого юзера и их нельзя более выбрать")
+
     @Test
-    @DisplayName("1.2. Выбираем рандомно блюда, проверяем все суммы и условия, сохраняем данные для след.теста")
+    @DisplayName("1.2. Открываем стол на двух разных устройствах, проверяем что не пустые")
+    public void openTables() {
+
+        using(firstBrowser, () -> {
+
+            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.isDishListNotEmptyAndVisible();
+
+        });
+
+        using(secondBrowser, () -> {
+
+            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.isDishListNotEmptyAndVisible();
+
+        });
+
+    }
+
+    @Test
+    @DisplayName("1.3. Выбираем рандомно блюда, проверяем все суммы и условия, сохраняем данные для след.теста")
     public void chooseDishesAndCheckAfterDivided() {
 
         using(firstBrowser, () -> {
 
-            rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
-            rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
-
-        });
-
-        using(secondBrowser, () -> rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111));
-
-        using(firstBrowser, () -> {
-
-            rootPageNestedTests.chooseDishesWithRandomAmount(3);
+            rootPage.activateDivideCheckSliderIfDeactivated();
+            rootPage.chooseCertainAmountDishes(amountDishesToBeChosen);
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
 
         });
@@ -110,7 +122,7 @@ public class _5_4_PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
 
         });
 
@@ -129,7 +141,7 @@ public class _5_4_PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers
     public void checkPayment() {
 
         using(firstBrowser, () ->
-                nestedTests.checkPaymentAndB2pTransaction(orderType = "part", transactionId, paymentDataKeeper));
+                nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
 
     }
 
@@ -139,8 +151,8 @@ public class _5_4_PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers
 
         using(firstBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
-            rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+            rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
 
@@ -159,12 +171,11 @@ public class _5_4_PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers
 
     }
 
-    @Disabled
     @Test
     @DisplayName("2.0. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        rootPageNestedTests.closeOrderByAPI(guid);
+        rootPageNestedTests.closeOrderByAPI(guid,R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,AUTO_API_URI);
 
     }
 

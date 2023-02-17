@@ -57,8 +57,8 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
         visit = rsCreateOrder.jsonPath().getString("result.visit");
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "1000"));
 
-        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"), AUTO_API_URI);
-        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH), AUTO_API_URI);
+      //  apiRKeeper.createDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT,guid, CUSTOM_DISCOUNT_ON_ORDER,"5000"), AUTO_API_URI);
+      //  apiRKeeper.createDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH), AUTO_API_URI);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
         rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
@@ -69,7 +69,7 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.2. Определяем скидку")
     public void getTotalDiscount() {
 
-        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_1_ID);
+        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_111_ID);
         rootPage.disableDivideCheckSliderWithOneDish();
     }
 
@@ -78,7 +78,8 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     public void checkSumTipsSC() {
 
         double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
+        rootPageNestedTests.isDiscountCorrectOnTable(discount);
+        rootPageNestedTests.checkAllDishesSumsWithAllConditions();
         nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
 
 
@@ -88,7 +89,8 @@ public class _8_3_CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName("1.4. Проверяем что логика чаевых по сумме корректна к минимальным чаевым")
     public void setScAndCheckTips() {
 
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
+        rootPageNestedTests.isDiscountCorrectOnTable(discount);
+        rootPageNestedTests.checkAllDishesSumsWithAllConditions();
 
     }
 

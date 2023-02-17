@@ -1,24 +1,25 @@
 package admin_personal_account.config_notifications;
 
 
-import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
+import java.util.Objects;
 
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.TapperTable.TEST_WAITER_COMMENT;
-import static data.Constants.TestData.AdminPersonalAccount.TELEGRAM_AUTO_CHANNEL_LOGIN;
 import static data.selectors.AdminPersonalAccount.Common.configNotifications;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.ConfigNotifications.*;
 
 public class ConfigNotifications extends BaseActions {
 
-    @Step("Переход в категорию реквизиты компании")
+    @Step("Переход в категорию Настройка уведомлений")
 
     public void goToConfigNotificationsCategory() {
 
@@ -32,9 +33,6 @@ public class ConfigNotifications extends BaseActions {
     public void isConfigNotificationsCategoryCorrect() {
 
         isElementVisible(legendContainer);
-        telegramLoginInputs.shouldHave(sizeGreaterThan(0)
-            .because("Список групп не должен быть пустой"));
-
         isElementVisible(telegramLoginSettingsSvg.first());
         isElementVisible(telegramLoginSettingsDeleteIcon.first());
         isElementVisible(saveButton);
@@ -76,30 +74,37 @@ public class ConfigNotifications extends BaseActions {
 
     }
 
-    @Step("Находим канал с автоматизацией и удаляем его")
-    public void findAutoChannel(String telegramLogin) {
+    public boolean isTelegramLoginExist(String telegramLogin) {
 
-     for (int index = 0; index <telegramLoginInputs.size(); index++) {
-
-         if (telegramLoginInputs.get(index).getValue().equals(TELEGRAM_AUTO_CHANNEL_LOGIN)) {
-
-             telegramLoginSettingsDeleteIcon.get(index).click();
-             isDeleteTelegramLoginPopCorrect();
-
-             deleteTelegramContainerUnlinkButton.click();
-
-         }
-
-     }
-
-     telegramLoginInputs.filter(attribute("id", TELEGRAM_AUTO_CHANNEL_LOGIN)).shouldBe(CollectionCondition.size(0));
-
-     addAutoChannel(telegramLogin);
+        return telegramLoginInputs.asFixedIterable().stream()
+                .anyMatch(element -> Objects.equals(element.getValue(), telegramLogin));
 
     }
 
-    @Step("Добавляем канал с автоматизацией")
-    public void addAutoChannel(String telegramLogin) {
+    @Step("Удаляем телеграмм группу")
+    public void deleteTelegramGroup(String telegramLogin) {
+
+        for (int index = 0; index <telegramLoginInputs.size(); index++) {
+
+            if (Objects.equals(telegramLoginInputs.get(index).getValue(), telegramLogin)) {
+
+                telegramLoginSettingsDeleteIcon.get(index).click();
+                isDeleteTelegramLoginPopCorrect();
+
+                deleteTelegramContainerUnlinkButton.click();
+
+                click(saveButton);
+
+            }
+
+        }
+
+        telegramLoginInputs.filter(attribute("id", telegramLogin)).shouldBe(size(0));
+
+    }
+
+    @Step("Добавляем телеграм группу")
+    public void addTelegramGroup(String telegramLogin) {
 
         isElementVisible(addButton);
         click(addButton);
@@ -120,6 +125,65 @@ public class ConfigNotifications extends BaseActions {
                 .last()
                 .shouldHave(value(telegramLogin),Duration.ofSeconds(10));
 
+        Selenide.refresh();
+
+        goToConfigNotificationsCategory();
+
+        isTelegramLoginExist(telegramLogin);
+
     }
+
+    @Step("Проверяем редактирование группы, отображение полей и чек боксов")
+    public void isElementNotificationSettingCorrect() {
+
+        click(addButton);
+
+        click(telegramLoginSettingsSvg.last());
+
+        isElementsListVisible(typeNotificationList);
+
+        click(typeNotificationList.first());
+
+        typeNotificationList.filter(attributeMatching("class","sectionTelegram-modal__checkboxItem"))
+                .shouldHave(size(4));
+
+        click(typeNotificationList.first());
+
+        System.out.println(typeNotificationList);
+        typeNotificationList.filter(attributeMatching("class",".*active"))
+                .shouldHave(size(4));
+
+        click(deleteTelegramContainerCloseButton);
+
+        isElementInvisible(deleteTelegramContainer);
+
+    }
+
+    @Step("Проверка опции уведомления в настройках")
+    public void isTypeOptionCorrect(SelenideElement optionToBeChosen) {
+
+        click(telegramLoginSettingsSvg.last());
+
+        typeNotificationList.asFixedIterable().stream().forEach(
+                element -> {
+                    if (Objects.requireNonNull(element.getAttribute("class")).matches(".*active"))
+                        element.click();
+
+        });
+
+        click(optionToBeChosen);
+
+        click(settingsContainerSaveButton);
+
+        click(telegramLoginSettingsSvg.last());
+
+        optionToBeChosen.shouldHave(attributeMatching("class",".*active"));
+        typeNotificationList
+                .filter(attributeMatching("class",".*active")).shouldHave(size(1));
+
+        click(deleteTelegramContainerCloseButton);
+
+    }
+
 
 }

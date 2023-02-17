@@ -8,12 +8,16 @@ import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Objects;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
+import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
 import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeContainer;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
@@ -45,6 +49,7 @@ public class NestedTests extends RootPage {
     @Step("Проверка всего процесса оплаты, транзакции, ожидание пустого стола")
     public void checkPaymentAndB2pTransaction(String orderType, String transactionId, HashMap<String, Integer> paymentDataKeeper) {
 
+        pagePreLoader.shouldNotBe(visible,Duration.ofSeconds(15));
         reviewPageNestedTests.paymentCorrect(orderType);
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
@@ -70,8 +75,9 @@ public class NestedTests extends RootPage {
 
         double totalPaySum = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
         rootPage.clickOnPaymentButton();
-        rootPage.isElementVisibleDuringLongTime(dishesSumChangedHeading, 5);
-        dishesSumChangedHeading.shouldHave(Condition.text("Состав заказа изменился"));
+
+        dishesSumChangedHeading.shouldHave(text("Состав заказа изменился"),Duration.ofSeconds(5));
+        pagePreLoader.shouldNotBe(visible,Duration.ofSeconds(30));
         rootPage.forceWait(2500); // toDo меню не успевает обновится после ошибки изменения суммы оплаты
         double totalPaySumAfterChanging = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
 

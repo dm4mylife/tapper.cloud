@@ -1,28 +1,29 @@
 package tapper.tests.admin_personal_account.operations_history;
 
 
+import admin_personal_account.operations_history.OperationsHistory;
 import api.ApiRKeeper;
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.operations_history.OperationsHistory;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
-import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
 
 @Order(120)
@@ -33,40 +34,39 @@ import static data.Constants.TestData.TapperTable.*;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _12_0_TotalTest extends BaseTest {
 
-    static String visit;
     static String guid;
     static double totalPay;
-    static String orderType = "part";
+    static String orderType = "full";
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
+    static int amountDishesForFillingOrder = 3;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     OperationsHistory operationsHistory = new OperationsHistory();
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
 
-    @Disabled
+
     @Test
-    @DisplayName("1.0 Создание заказа в r_keeper, оплата его, чтобы появилась операция в истории операций")
+    @DisplayName("1.0 Оплачиваем заказ на столе чтобы была хоть одна транзакция в истории операций")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder
-                (rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_333, WAITER_ROBOCOP_VERIFIED_WITH_CARD),
-                        AUTO_API_URI);
-        visit = rs.jsonPath().getString("result.visit");
-        guid = rs.jsonPath().getString("result.guid");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
+        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_333_ID, AUTO_API_URI,dishesForFillingOrder);
+
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
-        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
 
         transactionId = nestedTests.acquiringPayment(totalPay);
-        nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
+        nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
@@ -82,13 +82,17 @@ public class _12_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.2. Переход на категорию история операций")
     public void goToOperationsHistory() {
+
         operationsHistory.goToOperationsHistoryCategory();
+
     }
 
     @Test
     @DisplayName("1.3. Проверка что все элементы корректны")
     public void isOperationsHistoryCorrect() {
+
         operationsHistory.isHistoryOperationsCorrect();
+
     }
 
     @Test
@@ -112,7 +116,9 @@ public class _12_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.6. Сброс периода фильтра")
     public void resetPeriod() {
+
         operationsHistory.resetPeriodDate();
+
     }
 
     @Test

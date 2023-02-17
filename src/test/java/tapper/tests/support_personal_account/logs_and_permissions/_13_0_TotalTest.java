@@ -12,12 +12,17 @@ import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.io.FileNotFoundException;
+import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.FileDownloadMode.FOLDER;
 import static com.codeborne.selenide.FileDownloadMode.PROXY;
 import static data.Constants.LOADER_GIF_PATH;
 import static data.Constants.OLD_LOADER_GIF_PATH;
-import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
-import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
+import static data.Constants.TestData.SupportPersonalAccount.*;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static data.selectors.SupportPersonalAccount.LogsAndPermissions.Common.tabPreloader;
+import static data.selectors.SupportPersonalAccount.LogsAndPermissions.licenseTab.licenseIdTab;
 import static data.selectors.TapperTable.Common.startScreenLogoContainerImageNotSelenide;
 
 @Order(130)
@@ -49,21 +54,27 @@ public class _13_0_TotalTest extends BaseTest {
     public void goToLogsAndPermissions() {
 
         logsAndPermissions.goToLogsAndPermissionsCategory();
-        logsAndPermissions.chooseRestaurant();
-        logsAndPermissions.isLogsAndPermissionsCategoryCorrect();
+
+    }
+    @Test
+    @DisplayName("1.3. Выбор ресторана")
+    public void chooseRestaurant() {
+
+        logsAndPermissions.chooseRestaurant(RESTAURANT_NAME);
 
     }
 
     @Test
-    @DisplayName("1.3. Переход и проверка элементов в разделе Логи")
+    @DisplayName("1.4. Переход и проверка элементов в разделе Логи")
     public void goToLogsTab() {
 
+        logsAndPermissions.isLogsAndPermissionsCategoryCorrect();
         logsAndPermissions.isLogsTabCorrect();
 
     }
 
     @Test
-    @DisplayName("1.4. Переход и проверка элементов в разделе Доступы")
+    @DisplayName("1.5. Переход и проверка элементов в разделе Доступы")
     public void goToPermissionsTab() {
 
         logsAndPermissions.isPermissionsTabCorrect();
@@ -71,23 +82,33 @@ public class _13_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.5. Переход и проверка элементов в разделе id лицензии")
+    @DisplayName("1.6. Переход и проверка элементов в разделе Лицензия R-keeper c опцией XML интерфейс для приложения")
     public void goToLicenseTab() {
 
-        logsAndPermissions.isLicenseIdTabCorrect();
+        rootPage.click(licenseIdTab);
+        tabPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
+        logsAndPermissions.choseXmlApplicationOption();
 
     }
 
     @Test
-    @DisplayName("1.6. Переход и проверка элементов в разделе r-keeper/iiko")
-    public void goToCashDeskTab() {
+    @DisplayName("1.7. Переход и проверка элементов в разделе Лицензия R-keeper c опцией XML сохранение заказов")
+    public void choseXmlSaveOrderOption() {
+
+        logsAndPermissions.choseXmlSaveOrderOption();
+
+    }
+
+    @Test
+    @DisplayName("1.8. Переход и проверка элементов в разделе rkeeper/iiko")
+    public void isCashDeskTabCorrect() {
 
         logsAndPermissions.isCashDeskTabCorrect();
 
     }
 
     @Test
-    @DisplayName("1.7. Переход и проверка элементов в разделе Операции")
+    @DisplayName("1.9. Переход и проверка элементов в разделе Операции")
     public void goToOperationTab() {
 
         logsAndPermissions.isOperationsTabCorrect();
@@ -95,7 +116,7 @@ public class _13_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.8. Переход и проверка элементов в разделе Эквайринг")
+    @DisplayName("2.0. Переход и проверка элементов в разделе Эквайринг")
     public void goToAcquiringTab() {
 
         logsAndPermissions.isAcquiringTabCorrect();
@@ -104,7 +125,23 @@ public class _13_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.9. Переход и проверка элементов в разделе Лоадер")
+    @DisplayName("2.1. Смена типа эквайринга на Best2pay")
+    public void changeAcquiringToBest2Pay() {
+
+        logsAndPermissions.changeAcquiringToBest2Pay();
+
+    }
+
+    @Test
+    @DisplayName("2.2. Возвращаем установленный ранее тип эквайринга")
+    public void returnToDefaultAcquiring() {
+
+        logsAndPermissions.returnToDefaultAcquiring();
+
+    }
+
+    @Test
+    @DisplayName("2.3. Переход и проверка элементов в разделе Лоадер")
     public void goToLoaderTab() {
 
         logsAndPermissions.isLoaderTabCorrect();
@@ -112,38 +149,35 @@ public class _13_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.0. Меняем лоадер и проверяем его на столе")
+    @DisplayName("2.4. Меняем лоадер и проверяем его на столе")
     public void changeLoader() {
 
         logsAndPermissions.changeLoader(LOADER_GIF_PATH);
-
-        rootPage.openNewTabAndSwitchTo("https://stage-ssr.zedform.ru/testrkeeper/1000048");
-
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
         rootPage.isImageCorrect(startScreenLogoContainerImageNotSelenide,
                 "Изображение\\гиф на столе не корректная");
 
     }
 
     @Test
-    @DisplayName("2.1. Меняем лоадер на дефолтный")
+    @DisplayName("2.5. Меняем лоадер на дефолтный")
     public void changeLoaderByDefault() {
 
-        Selenide.switchTo().window(0);
+        rootPage.switchBrowserTab(0);
         logsAndPermissions.changeLoader(OLD_LOADER_GIF_PATH);
 
     }
 
     @Test
-    @DisplayName("2.2. Переход и проверка элементов в разделе Статистика")
+    @DisplayName("2.6. Переход и проверка элементов в разделе Статистика")
     public void goToStatisticsTab() {
 
         logsAndPermissions.isStatisticsTabCorrect();
 
-
     }
 
     @Test
-    @DisplayName("2.3. Скачивание таблицы и балансов официанта")
+    @DisplayName("2.7. Скачивание таблицы и балансов официанта")
     public void downloadStatisticsData() throws FileNotFoundException {
 
         logsAndPermissions.downloadStatisticsData();
@@ -151,7 +185,7 @@ public class _13_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.4. Переход и проверка элементов в разделе Чаевые")
+    @DisplayName("2.8. Переход и проверка элементов в разделе Чаевые")
     public void goToTipsTab() {
 
         logsAndPermissions.isTipsTabCorrect();
@@ -159,12 +193,11 @@ public class _13_0_TotalTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.8. Переход и проверка элементов в разделе Кастомизация")
+    @DisplayName("2.9. Переход и проверка элементов в разделе Кастомизация")
     public void goToCustomizationTab() {
 
         logsAndPermissions.isCustomizationTabCorrect();
 
     }
-
 
 }

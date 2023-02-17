@@ -14,8 +14,7 @@ import total_personal_account_actions.AuthorizationPage;
 import static com.codeborne.selenide.Condition.disappear;
 import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
 import static data.Constants.TestData.SupportPersonalAccount.*;
-import static data.Constants.TestData.TapperTable.STAGE_IIKO_TABLE_3;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.Common.serviceUnavailabilityContainer;
 
 @Order(190)
@@ -70,7 +69,7 @@ public class _19_0_CertainRestaurantTest extends BaseTest {
     @DisplayName("1.5. Проверяем на выбранном столе, что есть предупреждение")
     public void checkOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
         rootPage.isServiceUnavailable();
 
     }
@@ -81,7 +80,7 @@ public class _19_0_CertainRestaurantTest extends BaseTest {
 
         rootPage.openPage(STAGE_IIKO_TABLE_3);
         serviceUnavailabilityContainer.shouldHave(disappear);
-        Selenide.switchTo().window(0);
+        rootPage.switchBrowserTab(0);
 
     }
 
@@ -97,9 +96,8 @@ public class _19_0_CertainRestaurantTest extends BaseTest {
     @DisplayName("1.8. Проверяем на выбранном столе, что оплата заглушена")
     public void isPaymentUnavailable() {
 
-        Selenide.switchTo().window(1);
-        rootPage.openPage(STAGE_RKEEPER_TABLE_111);
-        rootPage.closeHintModal();
+        rootPage.switchBrowserTab(1);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
 
         rootPage.clickOnPaymentButton();
         rootPage.isPaymentUnavailable();
@@ -110,14 +108,12 @@ public class _19_0_CertainRestaurantTest extends BaseTest {
     @DisplayName("1.9. Проверяем в другом ресторане, что оплата не будет заглушена")
     public void isPaymentUnavailableAnotherRestaurant() {
 
-        Selenide.switchTo().window(1);
+        rootPage.switchBrowserTab(1);
         rootPage.openPage(STAGE_IIKO_TABLE_3);
-        rootPage.closeHintModal();
+        rootPage.isDishListNotEmptyAndVisible();
 
         rootPage.clickOnPaymentButton();
         rootPage.isTextContainsInURL(BEST2PAY_NAME);
-
-
 
     }
 
@@ -125,7 +121,7 @@ public class _19_0_CertainRestaurantTest extends BaseTest {
     @DisplayName("2.0. Отключаем все рестораны в админке, очищаем тестовое окружение")
     public void resetAllRestaurants() {
 
-        Selenide.switchTo().window(0);
+        rootPage.switchBrowserTab(0);
         lock.resetAllRestaurants();
 
     }

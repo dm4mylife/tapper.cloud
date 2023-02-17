@@ -1,23 +1,21 @@
 package tapper.tests.admin_personal_account.waiters;
 
 
-import com.codeborne.selenide.Condition;
+import admin_personal_account.AdminAccount;
+import admin_personal_account.waiters.Waiters;
 import com.codeborne.selenide.Configuration;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import admin_personal_account.AdminAccount;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.waiters.Waiters;
 import tapper_table.YandexPage;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
-import static data.Constants.TestData.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
 import static data.Constants.TestData.Yandex.TEST_YANDEX_PASSWORD_MAIL;

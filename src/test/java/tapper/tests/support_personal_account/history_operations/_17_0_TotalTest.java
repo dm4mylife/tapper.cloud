@@ -5,18 +5,17 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import support_personal_account.history_operations.HistoryOperations;
-import support_personal_account.profile.Profile;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 
-@Disabled
+
 @Order(130)
 @Epic("Личный кабинет техподдержки")
 @Feature("История операций")
-@DisplayName("Проверка истории операций, редактирование полей, смена пароля")
+@DisplayName("Проверка истории операций")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _17_0_TotalTest extends BaseTest {
@@ -38,7 +37,15 @@ public class _17_0_TotalTest extends BaseTest {
     @DisplayName("1.2. Переход на категорию история операций, проверка всех элементов")
     public void goToHistoryOperations() {
 
+        historyOperations.goToHistoryOperationsCategory();
 
+    }
+
+    @Test
+    @DisplayName("1.2. Проверка всех элементов")
+    public void isHistoryOperationsCategoryCorrect() {
+
+        historyOperations.isHistoryOperationsCategoryCorrect();
 
     }
 

@@ -8,10 +8,10 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
         "tapper.tests.admin_personal_account",
         "tapper.tests.waiter_personal_account",
-        "tapper.tests.support_personal_account"
-       // "tapper.tests.keeper_e2e._5_sockets",
-       // "tapper.tests.keeper_e2e._3_tips",
-       // "tapper.tests.keeper_e2e._8_discount"
+         "tapper.tests.support_personal_account"
+
+
+
 
 })
 

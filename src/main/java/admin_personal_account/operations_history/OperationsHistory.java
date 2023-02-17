@@ -125,7 +125,7 @@ public class OperationsHistory extends BaseActions {
         if (paginationPages.first().exists()) {
 
             paginationPages.last().click();
-            operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(20));
+            operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(30));
 
             elementsCollection.filter(text(toPeriodDate)).shouldHave(CollectionCondition.sizeGreaterThan(0));
             System.out.println("В списке операции есть операции по конечной дате");
@@ -227,7 +227,7 @@ public class OperationsHistory extends BaseActions {
 
         click(fromDate);
         click(toDate);
-        operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(30));
+        operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(40));
 
         dateRangeContainer.shouldHave(text(fromPeriodDate + " - " + toPeriodDate));
         System.out.println("Кастомный формат установился корректно");

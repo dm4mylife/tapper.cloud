@@ -1,6 +1,7 @@
 package tapper.tests.keeper_e2e._0_common;
 
 
+import admin_personal_account.operations_history.OperationsHistory;
 import api.ApiRKeeper;
 import data.Constants;
 import io.qameta.allure.Epic;
@@ -8,24 +9,22 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import admin_personal_account.AdminAccount;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.operations_history.OperationsHistory;
-import tapper_table.ReviewPage;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.NestedTests;
-import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsFillingOrderBasic;
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.*;
+import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY;
 
 
 @Order(8)
@@ -38,40 +37,39 @@ import static data.Constants.TestData.*;
 public class _0_8_OperationsHistoryTest extends BaseTest {
 
     static double totalPay;
-    static String visit;
     static String guid;
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
-    static String orderType;
-    static int amountDishes = 1;
+    static String orderType = "part";
+    static int amountDishesToBeChosen = 2;
     static HashMap<Integer, HashMap<String, String>> tapperOrderData;
     static HashMap<Integer, HashMap<String, String>> adminOrderData;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
+    static int amountDishesForFillingOrder = 4;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    ReviewPage reviewPage = new ReviewPage();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
     OperationsHistory operationsHistory = new OperationsHistory();
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
-    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
-    AdminAccount adminAccount = new AdminAccount();
 
 
     @Test
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
-        visit = rs.jsonPath().getString("result.visit");
-        guid = rs.jsonPath().getString("result.guid");
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "4000"));
+        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
-        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_111_ID, AUTO_API_URI,dishesForFillingOrder);
+
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
+        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_111_ID);
 
     }
 
@@ -79,9 +77,9 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.2. Выбираем рандомно блюда, проверяем все суммы и условия, проверяем что после шаринга выбранные позиции в ожидаются")
     public void chooseDishesAndCheckAfterDivided() {
 
-        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
+        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishesToBeChosen);
         rootPageNestedTests.activateRandomTipsAndActivateSc();
-        rootPage.setCustomTips(String.valueOf(rootPage.generateRandomNumber(100,1000)));
+        rootPage.setCustomTips(String.valueOf(rootPage.generateRandomNumber(100, 1000)));
 
     }
 
@@ -92,21 +90,23 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         tapperOrderData = rootPage.saveOrderDataForOperationsHistoryInAdmin();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_111_ID);
 
     }
 
     @Test
     @DisplayName("1.4. Переходим на эквайринг, оплачиваем там")
     public void payAndGoToAcquiring() {
+
         transactionId = nestedTests.acquiringPayment(totalPay);
+
     }
 
     @Test
     @DisplayName("1.5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
 
-        nestedTests.checkPaymentAndB2pTransaction(orderType = "part", transactionId, paymentDataKeeper);
+        nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
@@ -114,25 +114,24 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.6. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
-        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
+
 
     @Test
     @DisplayName("1.7. Открываем историю операций, проверяем что платёж есть и корректный")
     public void openAdminOperationsHistory() {
 
-        rootPage.openPage(AdminPersonalAccount.ADMIN_AUTHORIZATION_STAGE_URL);
-        rootPage.forceWait(2000);
-        authorizationPage.authorizeUser(AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL, AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD);
+        rootPage.openNewTabAndSwitchTo(ADMIN_AUTHORIZATION_STAGE_URL);
+        authorizationPage.authorizeUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
+
         operationsHistory.goToOperationsHistoryCategory();
         operationsHistory.isHistoryOperationsCorrect();
 
         adminOrderData = operationsHistory.saveAdminOrderData();
-        rootPage.matchTapperOrderDataWithAdminOrderData(tapperOrderData,adminOrderData);
-
-        adminAccount.logOut();
+        rootPage.matchTapperOrderDataWithAdminOrderData(tapperOrderData, adminOrderData);
 
     }
 
@@ -140,7 +139,7 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @DisplayName("1.8. Делаем полную оплату на столе")
     public void clearDataAndChoseAgain() {
 
-        rootPage.openTableAndSetGuest(TapperTable.STAGE_RKEEPER_TABLE_111, TapperTable.COOKIE_GUEST_FIRST_USER, TapperTable.COOKIE_SESSION_FIRST_USER);
+        rootPage.switchBrowserTab(0);
         savePaymentDataForAcquiring();
 
     }
@@ -157,7 +156,16 @@ public class _0_8_OperationsHistoryTest extends BaseTest {
     @Test
     @DisplayName("2.0. Переход на эквайринг, ввод данных, полная оплата")
     public void checkFullPayInAdmin() {
-        openAdminOperationsHistory();
+
+        rootPage.switchBrowserTab(1);
+
+        rootPage.refreshPage();
+        operationsHistory.goToOperationsHistoryCategory();
+        operationsHistory.isHistoryOperationsCorrect();
+
+        adminOrderData = operationsHistory.saveAdminOrderData();
+        rootPage.matchTapperOrderDataWithAdminOrderData(tapperOrderData, adminOrderData);
+
     }
 
 }

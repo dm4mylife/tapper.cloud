@@ -1,5 +1,6 @@
 package support_personal_account.sending;
 
+import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
@@ -31,6 +32,32 @@ public class Sending extends BaseActions {
         isElementVisible(sendToManagerContainer);
         isElementVisible(messageTextArea);
         isElementVisible(sendButton);
+
+    }
+
+    public void isConfirmationCorrect() {
+
+        isElementVisible(confirmationContainer);
+        isElementVisible(confirmationSendButton);
+        isElementVisible(confirmationCancelButton);
+        isElementVisible(confirmationCloseButton);
+
+    }
+
+    @Step("Отправляем сообщение определенному типу получателей ({recipient})")
+    public void sendMessageToCertainTypeRecipient(SelenideElement recipient, String text) {
+
+        clearText(messageTextArea);
+
+        click(recipient);
+
+        sendKeys(messageTextArea,text);
+
+        click(sendButton);
+
+        isConfirmationCorrect();
+
+        click(confirmationSendButton);
 
     }
 

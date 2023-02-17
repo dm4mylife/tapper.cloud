@@ -152,6 +152,8 @@ public class Lock extends BaseActions {
 
         click(saveButton);
 
+        chosenTypeOfLock.shouldHave(text("Сервис полностью"));
+
     }
 
     @Step("Выбираем заглушить сервис полностью")
@@ -166,6 +168,8 @@ public class Lock extends BaseActions {
         chosenTypeOfLock.shouldHave(text("Только оплату"));
 
         click(saveButton);
+
+        chosenTypeOfLock.shouldHave(text("Только оплату"));
 
     }
 

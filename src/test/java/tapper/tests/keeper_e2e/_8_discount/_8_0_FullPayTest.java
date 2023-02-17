@@ -13,12 +13,15 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.*;
+import static data.Constants.TestData.TapperTable;
+import static data.Constants.TestData.TapperTable.*;
 
 @Order(80)
 @Epic("RKeeper")
@@ -37,29 +40,37 @@ public class _8_0_FullPayTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
-    static int discount;
+    static double discount;
+
+    static int amountDishesForFillingOrder = 10;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+    ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
+
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
 
-    @Disabled
     @Test
     @DisplayName("1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrderTest(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), TapperTable.AUTO_API_URI);
+        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        visit = rsCreateOrder.jsonPath().getString("result.visit");
-        guid = rsCreateOrder.jsonPath().getString("result.guid");
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
 
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "5000"));
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.addDiscount(rqParamsAddCustomDiscount(R_KEEPER_RESTAURANT, guid, CUSTOM_DISCOUNT_ON_ORDER, "5000"), TapperTable.AUTO_API_URI);
-        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT, guid, DISCOUNT_ON_DISH), TapperTable.AUTO_API_URI);
+        apiRKeeper.createDiscountWithCustomSum(discounts, DISCOUNT_WITH_CUSTOM_SUM,"10000");
+        apiRKeeper.createDiscountById(discounts, DISCOUNT_BY_ID);
 
-        rootPage.openUrlAndWaitAfter(TapperTable.STAGE_RKEEPER_TABLE_111);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rsBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        apiRKeeper.createDiscount(rsBodyCreateDiscount);
+
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+
 
     }
 
@@ -67,10 +78,10 @@ public class _8_0_FullPayTest extends BaseTest {
     @DisplayName("2. Проверка суммы, чаевых, сервисного сбора, скидку")
     public void checkSumTipsSC() {
 
-        rootPage.openUrlAndWaitAfter(TapperTable.STAGE_RKEEPER_TABLE_111);
-        discount = Integer.parseInt(rootPageNestedTests.getDiscount(TABLE_AUTO_1_ID)) / 100;
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
-        guid = rootPage.getGuid(TABLE_AUTO_1_ID);
+        discount = rootPageNestedTests.getDiscount(TABLE_AUTO_222_ID);
+        rootPageNestedTests.isDiscountCorrectOnTable(discount);
+        rootPageNestedTests.checkAllDishesSumsWithAllConditions();
+
     }
 
     @Test
@@ -79,7 +90,7 @@ public class _8_0_FullPayTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg();
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
 
     }
 
@@ -100,7 +111,7 @@ public class _8_0_FullPayTest extends BaseTest {
     public void matchTgMsgDataAndTapperData() {
 
 
-        telegramDataForTgMsg = rootPage.getTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

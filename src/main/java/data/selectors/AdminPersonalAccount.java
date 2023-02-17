@@ -128,6 +128,10 @@ public class AdminPersonalAccount {
         public static final SelenideElement enterEmailFieldWrapper =
                 $x("//*[@class='vLandingInput__wrapper'][..//*[input[@id='email']]]");
         public static final SelenideElement enterEmailField = $(".section-profile__group #email");
+
+        public static final SelenideElement wrongEmailError =
+                $x("//*[@class='vLandingInput__err' and text()=' Введите корректный E-mail']");
+
         public static final SelenideElement unlinkMailConfirmPopup = $(".vModalUnlinkEmail");
         public static final SelenideElement unlinkEmailConfirmButton =
                 $x("//*[@class='vModalUnlinkEmail']//button[@class='vButton']");
@@ -195,10 +199,6 @@ public class AdminPersonalAccount {
                 $(".vBlockCallingWaiter__recipient-info g+rect");
         public static final SelenideElement recipientManagerIcon =
                 $(".vBlockCallingWaiter__recipient-info g+rect+rect");
-        public static final SelenideElement msgTextContainer =
-                $(".vBlockCallingWaiter__message");
-        public static final SelenideElement msgTextExample =
-                $(".vBlockCallingWaiter__message-example p");
 
     }
 
@@ -366,9 +366,9 @@ public class AdminPersonalAccount {
         public static final ElementsCollection operationsHistoryListItemsSum =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(6)");
         public static final SelenideElement paginationContainer =
-                $(".Pagination");
+                $("div>.Pagination");
         public static final ElementsCollection paginationPages =
-                $$(".Pagination li:not([class])");
+                $$("div>.Pagination li:not([class])");
 
     }
 
@@ -409,6 +409,22 @@ public class AdminPersonalAccount {
                 $(".sectionTelegram-modal__content [class='vButton']");
         public static final SelenideElement deleteTelegramContainerCancelButton =
                 $(".sectionTelegram-modal__content .vButton--gray");
+
+        public static final ElementsCollection typeNotificationList =
+                $$(".sectionTelegram-modal__checkBoxList li.sectionTelegram-modal__checkboxItem");
+
+        public static final SelenideElement typeAllNotificationOption =
+                $x("//*[contains(@class,'sectionTelegram-modal__checkboxItem') and text()=' Все ']");
+        public static final SelenideElement settingsContainerSaveButton =
+                $x("//*[contains(@class,'vButton') and text()=' Применить ']");
+
+        public static final SelenideElement typeCallWaiterNotificationOption =
+                $x("//*[contains(@class,'sectionTelegram-modal__checkboxItem') and text()=' Сообщения о вызове официанта ']");
+        public static final SelenideElement typeRatingNotificationOption =
+                $x("//*[contains(@class,'sectionTelegram-modal__checkboxItem') and text()=' Сообщения о рейтинге и отзывах ']");
+        public static final SelenideElement typePaymentNotificationOption =
+                $x("//*[contains(@class,'sectionTelegram-modal__checkboxItem') and text()=' Собщения об оплатах ']");
+
         public static final SelenideElement deleteTelegramContainerCloseButton =
                 $(".sectionTelegram-modal__close");
         public static final SelenideElement errorTextInLoginTelegram =

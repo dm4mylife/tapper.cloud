@@ -9,12 +9,12 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.AdminPersonalAccount.Common.customizationCategory;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Customization.*;
 import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
-import static data.selectors.TapperTable.RootPage.TapBar.successCallWaiterHeading;
-import static data.selectors.TapperTable.RootPage.TapBar.successLogoCallWaiter;
+import static data.selectors.TapperTable.RootPage.TapBar.*;
 
 public class Customization extends BaseActions {
 
@@ -37,13 +37,10 @@ public class Customization extends BaseActions {
         isElementVisible(toWhomSendMsgTitle);
         isElementVisible(waiterAndManagerButton);
         isElementVisible(onlyManagerButton);
-        isElementVisible(patternTextMsg);
         isElementVisible(saveButton);
         isElementVisible(recipientContainer);
         isElementVisible(recipientWaiterIcon);
         isElementVisible(recipientManagerIcon);
-        isElementVisible(msgTextContainer);
-        isElementVisible(msgTextExample);
 
     }
 
@@ -76,28 +73,14 @@ public class Customization extends BaseActions {
 
     }
 
-    @Step("Ввод текста в шаблон сообщения")
-    public void setMsgAsTextPattern() {
-
-        clearText(patternTextMsg);
-        patternTextMsg.sendKeys(TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT);
-
-        click(saveButton);
-
-        msgTextExample.shouldHave(text(TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT));
-
-    }
 
     @Step("Проверка изменения шаблона текста на столе")
-    public void isChangedTextPatternCorrectOnTable(String textPattern) {
+    public void checkCallWaiterButtonTypeOnTable(String recipientsType,String heading) {
 
-        rootPage.openCallWaiterForm();
-        rootPage.sendWaiterComment();
-        isElementVisible(successCallWaiterHeading);
-        isElementVisible(successLogoCallWaiter);
-
-        System.out.println(successCallWaiterHeading.getText());
-        successCallWaiterHeading.shouldHave(text(textPattern));
+        callWaiterButtonText.shouldHave(matchText(recipientsType));
+        click(callWaiterButton);
+        callWaiterHeading.shouldHave(matchText(heading));
+        click(callWaiterCloseButton);
 
     }
 
@@ -144,14 +127,22 @@ public class Customization extends BaseActions {
     @Step("Установка вайфая и пароля")
     public void setWifiConfiguration(String wifiName, String wifiPassword) {
 
+        forceWait(500);
         clearText(wifiNetworkName);
+        forceWait(500);
         clearText(wifiNetworkPassword);
-        wifiNetworkName.sendKeys(wifiName);
-        wifiNetworkPassword.sendKeys(wifiPassword);
-        click(saveButton);
+
+        if (wifiNetworkName.getValue().equals("") && wifiNetworkPassword.getValue().equals("")) {
+
+            wifiNetworkName.sendKeys(wifiName);
+            wifiNetworkPassword.sendKeys(wifiPassword);
+            click(saveButton);
+            System.out.println("Установили вайфай\n" +
+                    "Логин: " + wifiNetworkName.getValue() + "\nПароль: " + wifiNetworkPassword.getValue());
+
+
+        }
 
     }
-
-
 
 }

@@ -14,8 +14,7 @@ import total_personal_account_actions.AuthorizationPage;
 import java.util.HashMap;
 
 import static data.Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER;
-import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
-import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
+import static data.Constants.TestData.SupportPersonalAccount.*;
 
 @Order(140)
 @Epic("Личный кабинет техподдержки")
@@ -47,12 +46,19 @@ public class _14_0_WaitersTabTest extends BaseTest {
     public void goToLogsAndPermissions() {
 
         logsAndPermissions.goToLogsAndPermissionsCategory();
-        logsAndPermissions.chooseRestaurant();
 
     }
 
     @Test
-    @DisplayName("1.3. Переход в таб, проверка всех форм, проверка поиска, сброса фильтра")
+    @DisplayName("1.3. Выбор тестового ресторана")
+    public void chooseRestaurant() {
+
+        logsAndPermissions.chooseRestaurant(RESTAURANT_NAME);
+
+    }
+
+    @Test
+    @DisplayName("1.4. Переход в таб, проверка всех форм, проверка поиска, сброса фильтра")
     public void sendInviteWaiter() {
 
         logsAndPermissions.isWaiterTabCorrect();
@@ -63,7 +69,7 @@ public class _14_0_WaitersTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.4. Проверка карточки официанта")
+    @DisplayName("1.5. Проверка карточки официанта")
     public void isWaiterDetailCardCorrect() {
 
         waiters.clickInFirstResult();
@@ -72,7 +78,7 @@ public class _14_0_WaitersTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.5. Установка тг логина и айди")
+    @DisplayName("1.6. Установка тг логина и айди")
     public void setTelegramLoginAndId() {
 
         tgData = waiterTab.setTelegramLoginAndId();
@@ -80,7 +86,7 @@ public class _14_0_WaitersTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.6. Проверка что данные сохранились")
+    @DisplayName("1.7. Проверка что данные сохранились")
     public void isChangedDataCorrect() {
 
         waiters.clickInFirstResult();

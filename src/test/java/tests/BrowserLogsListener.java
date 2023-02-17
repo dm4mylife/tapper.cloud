@@ -9,6 +9,7 @@ import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class BrowserLogsListener implements AfterTestExecutionCallback {
 
@@ -16,10 +17,10 @@ public class BrowserLogsListener implements AfterTestExecutionCallback {
     public void afterTestExecution(ExtensionContext context) {
 
         LogEntries logs = WebDriverRunner.getWebDriver().manage().logs().get(LogType.BROWSER);
-        logs.forEach(System.out::println);
+       // logs.forEach(System.out::println);
 
-        if (logs.getAll().size() != 0)
-            attachLogRequest(logs);
+       // if (logs.getAll().size() != 0)
+        //    attachLogRequest(logs);
 
     }
 

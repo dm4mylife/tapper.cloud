@@ -59,7 +59,7 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
         guid = rsCreateOrder.jsonPath().getString("result.guid");
 
         apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "2000"));
-        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH), AUTO_API_URI);
+     //   apiRKeeper.createDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH), AUTO_API_URI);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
 
@@ -69,8 +69,9 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     @DisplayName("1.2. Проверка суммы, чаевых, сервисного сбора")
     public void checkSumTipsSC() {
 
-        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_1_ID);
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
+        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_111_ID);
+        rootPageNestedTests.isDiscountCorrectOnTable(discount);
+        rootPageNestedTests.checkAllDishesSumsWithAllConditions();
 
     }
 
@@ -91,7 +92,7 @@ public class _8_2_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
 
         rootPage.returnToPreviousPage();
 
-        Response rs = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID, AUTO_API_URI);
+        Response rs = apiRKeeper.getOrderInfo(TABLE_AUTO_111_ID, AUTO_API_URI);
         guid = rs.jsonPath().getString("@attributes.guid");
         uni = rs.jsonPath().getString("Session[1].Discount['@attributes'].uni");
         System.out.println(uni + " uni");

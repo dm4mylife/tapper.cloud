@@ -1,18 +1,17 @@
 package tapper.tests.admin_personal_account.menu;
 
+import admin_personal_account.menu.Menu;
 import com.codeborne.selenide.Configuration;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.menu.Menu;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.visible;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;

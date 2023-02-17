@@ -14,11 +14,14 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+import static com.codeborne.selenide.FileDownloadMode.FOLDER;
 import static com.codeborne.selenide.FileDownloadMode.PROXY;
-import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
-import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
+import static data.Constants.TestData.SupportPersonalAccount.*;
 import static data.Constants.downloadFolderPath;
+import static data.Constants.downloadFolderPathAdminSupport;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 
 
@@ -45,8 +48,8 @@ public class _15_0_TablesTabTest extends BaseTest {
     public void authorizeUser() {
 
         Configuration.browserSize = "1920x1080";
-        Configuration.downloadsFolder = downloadFolderPath;
-        Configuration.fileDownload = PROXY;
+        Configuration.downloadsFolder = downloadFolderPathAdminSupport;
+        Configuration.fileDownload = FOLDER;
         Configuration.proxyEnabled = true;
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
@@ -54,16 +57,23 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.2. Переход на страницу логов, выбор тестового ресторана")
+    @DisplayName("1.2. Переход на страницу логов, проверка элементов на странице")
     public void goToLogsAndPermissions() {
 
         logsAndPermissions.goToLogsAndPermissionsCategory();
-        logsAndPermissions.chooseRestaurant();
 
     }
 
     @Test
-    @DisplayName("1.3. Переход в таб, проверка всех форм, проверка поиска, сброса фильтра")
+    @DisplayName("1.3. Выбор тестового ресторана")
+    public void chooseRestaurant() {
+
+        logsAndPermissions.chooseRestaurant(RESTAURANT_NAME);
+
+    }
+
+    @Test
+    @DisplayName("1.4. Переход в таб, проверка всех форм, проверка поиска, сброса фильтра")
     public void sendInviteWaiter() {
 
         logsAndPermissions.isTablesTabCorrect();
@@ -71,7 +81,7 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.4. Ввод диапазона с 1 по 5")
+    @DisplayName("1.5. Ввод диапазона с 1 по 5")
     public void searchTest_1() {
 
         fromTableSearchValue = 1;
@@ -82,7 +92,7 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.5. Ввод диапазона с 5 и пустого 'по' ")
+    @DisplayName("1.6. Ввод диапазона с 5 и пустого 'по' ")
     public void searchTest_2() {
 
         fromTableSearchValue = 5;
@@ -93,7 +103,7 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.6. Ввод диапазона пустого 'c' и до 5")
+    @DisplayName("1.7. Ввод диапазона пустого 'c' и до 5")
     public void searchTest_3() {
 
         fromTableSearchValue = 0;
@@ -104,7 +114,7 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.7. Ввод диапазона с одинаковым значением с 5 и до 5")
+    @DisplayName("1.8. Ввод диапазона с одинаковым значением с 5 и до 5")
     public void searchTest_4() {
 
         fromTableSearchValue = 5;
@@ -115,13 +125,13 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.8. Проверка что фильтр установленный сохранился если мы проходим в карточку стола")
+    @DisplayName("1.9. Проверка что фильтр установленный сохранился если мы проходим в карточку стола")
     public void isTableFilterSavedAfterGoingInDetailCard() {
         tablesAndQrCodes.isFilterSaved();
     }
 
     @Test
-    @DisplayName("1.9. Переход в детальную карточку стола и проверка элементов")
+    @DisplayName("2.0. Переход в детальную карточку стола и проверка элементов")
     public void goToDetailCard() {
 
         tablesAndQrCodes.goToDetailTableCard();
@@ -130,7 +140,7 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.0. Сохраняем данные по столам")
+    @DisplayName("2.1. Сохраняем данные по столам")
     public void prepareTableData() {
 
         tableUrlInTableItem = tableItemLink.getAttribute("href");
@@ -140,7 +150,7 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.1. Переход на стол по ссылке из админке")
+    @DisplayName("2.2. Переход на стол по ссылке из админке")
     public void goToTapperTable() {
 
         tablesAndQrCodes.clickInTableLinkQR();
@@ -148,7 +158,7 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.2. Проверка что ссылка на стол в админке ведёт на стол и номер стола совпадает с админкой")
+    @DisplayName("2.3. Проверка что ссылка на стол в админке ведёт на стол и номер стола совпадает с админкой")
     public void checkIsTableNumberCorrectInTable() {
 
         tablesAndQrCodes.isTableNumberCorrectInAdminAndInTable(tableUrlInTableItem, tableNumberInAdmin);
@@ -156,7 +166,7 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.3. Чтение qr-кода")
+    @DisplayName("2.4. Чтение qr-кода")
     public void readQrCode() {
 
         tablesAndQrCodes.switchTab(0);
@@ -178,19 +188,39 @@ public class _15_0_TablesTabTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.4. Проверка скачивания qr-кода")
+    @DisplayName("2.5. Проверка скачивания qr-кода")
     public void isDownloadQrCorrect() throws IOException {
 
-        tablesAndQrCodes.isDownloadQrCorrect();
+        tablesAndQrCodes.isDownloadQrCorrect(tableNumberWhite);
 
     }
 
     @Test
-    @DisplayName("2.5. Проверка что скаченный код корректен")
+    @DisplayName("2.6. Проверка что скаченный код корректен")
     public void isDownloadedQrCorrect() throws IOException {
 
-        tablesAndQrCodes.isDownloadedQrCorrect(downloadFolderPath, tableNumberWhite, tableUrlInTableItem);
-        FileUtils.deleteDirectory(new File(downloadFolderPath));
+        tablesAndQrCodes.isDownloadedQrCorrect(downloadFolderPathAdminSupport,tableNumberWhite,tableUrlInTableItem);
+
+    }
+
+    @Test
+    @DisplayName("2.7. Очищение окружения")
+    public void deleteDirectory() throws IOException {
+
+
+        Path path = Path.of(downloadFolderPathAdminSupport);
+        File directory = new File(downloadFolderPathAdminSupport);
+
+        if (directory.isDirectory() && directory.list().length == 0) {
+            FileUtils.deleteDirectory(directory);
+        }
+
+        if (Files.exists(path)) {
+
+            FileUtils.deleteDirectory(directory);
+            System.out.println("Удалили папку");
+
+        }
 
     }
 

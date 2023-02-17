@@ -1,18 +1,18 @@
 package admin_personal_account.profile;
 
+import admin_personal_account.AdminAccount;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import admin_personal_account.AdminAccount;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.TestData.*;
+import static data.Constants.TestData.AdminPersonalAccount;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Common.profileCategory;
 import static data.selectors.AdminPersonalAccount.Profile.*;

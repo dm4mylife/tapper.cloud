@@ -1,18 +1,17 @@
 package tapper.tests.admin_personal_account.waiters;
 
 
+import admin_personal_account.AdminAccount;
+import admin_personal_account.waiters.Waiters;
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import admin_personal_account.AdminAccount;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.waiters.Waiters;
 import tapper_table.YandexPage;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
-import static data.Constants.TestData.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
 import static data.Constants.TestData.Yandex.TEST_YANDEX_PASSWORD_MAIL;
@@ -67,7 +66,7 @@ public class _9_0_TotalTest extends BaseTest {
     public void checkWaiterStatus() {
 
         backToPreviousPage.click();
-        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, "Приглаш(е|ё)н в систему");
+        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, INVITED_IN_SERVICE_TEXT);
         adminAccount.logOut();
 
     }
@@ -81,7 +80,9 @@ public class _9_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.6. Отправка приглашение на почту официанту")
     public void checkInvitationMail() {
+
         password = yandexPage.checkTapperMail();
+
     }
 
     @Test
@@ -89,7 +90,7 @@ public class _9_0_TotalTest extends BaseTest {
     public void goToAuthTapperPage() {
 
         yandexPage.goToAuthPageFromMail();
-        authorizationPage.authorizationUser(TEST_YANDEX_LOGIN_EMAIL, password);
+        authorizationPage.authorizeUser(TEST_YANDEX_LOGIN_EMAIL, password); //toDO тут должен быть authorizeUser, как только боевую ссылку заменять на тестовую
         adminAccount.isRegistrationComplete();
         adminAccount.logOut();
 
@@ -101,7 +102,7 @@ public class _9_0_TotalTest extends BaseTest {
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         waiters.goToWaiterCategory();
-        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, "Официант верифицирован");
+        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, VERIFIED_WAITER_TEXT);
         adminAccount.logOut();
 
     }

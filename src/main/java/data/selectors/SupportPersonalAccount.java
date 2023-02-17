@@ -100,13 +100,22 @@ public class SupportPersonalAccount {
 
         public static class licenseTab {
             public static final SelenideElement licenseIdTab =
-                    $x("//*[contains(@class,'logsPage-tabs__btn') and contains(text(),'id лицензии')]");
+                    $x("//*[contains(@class,'logsPage-tabs__btn') and contains(text(),'Лицензия R-keeper')]");
             public static final SelenideElement licenseIdInput =
                     $("[id=\"licenseId\"]");
+            public static final SelenideElement xmlApplicationButton =
+                    $("[for=\"XML_APPLICATION\"]");
+
+            public static final SelenideElement xmlOrderSaveButton =
+                    $("[for=\"XML_ORDER_SAVE\"]");
+
+            public static final SelenideElement saveButton =
+                    $x("//*[contains(@class,'vButton') and text()=' Сохранить ']");
+
             public static final SelenideElement licenseDateInput =
                     $("[id=\"licenseDate\"]");
             public static final SelenideElement getIdLicenseButton =
-                    $x("//*[text()=' Получить id лицензии ']");
+                    $x("//*[text()=' Получить срок лицензии '] | //*[text()=' Получить id лицензии ']");
 
         }
 
@@ -132,6 +141,11 @@ public class SupportPersonalAccount {
                             "/following-sibling::div");
             public static final SelenideElement acquiringList =
                     $(".vLogsAcquiring__list .vSelect__list");
+            public static final SelenideElement acquiringListB2POption =
+                    $x("//*[@class='vLogsAcquiring__list']//*[@class='vSelect__item' and text()='Best2pay']");
+            public static final SelenideElement acquiringListB2PBarrelOption =
+                    $x("//*[@class='vLogsAcquiring__list']//*[@class='vSelect__item' and text()='BEST2PAY_BARREL']");
+
             public static final ElementsCollection acquiringListOptions =
                     $$(".vLogsAcquiring__list .vSelect__item");
             public static final SelenideElement currencyInput =
@@ -250,25 +264,36 @@ public class SupportPersonalAccount {
 
     public static class HistoryOperations {
 
-
         public static final SelenideElement operationsListTab =
                 $x("//*[contains(@class,'VSectionOrderHistory__switching__tabs') " +
                         "and text()=\" Список операций \"]");
-
+        public static final SelenideElement operationsContainer =
+                $(".VSectionOrderHistory__block");
         public static final SelenideElement stuckTransactionTab =
                 $x("//*[contains(@class,'VSectionOrderHistory__switching__tabs') " +
                         "and text()=\" Застрявшие транзакции \"]");
         public static final SelenideElement restaurantFilterButton =
                 $x("//*[contains(@class,'VFiltersRestaurant__tabs')]" +
                         "[./div/./p[contains(text(),'Ресторан')]]");
-
         public static final SelenideElement tableNumberFilterButton =
                 $x("//*[contains(@class,'VFiltersRestaurant__tabs')]" +
                         "[./div/./p[contains(text(),'Стол')]]");
-
         public static final SelenideElement orderStatusFilterButton =
                 $x("//*[contains(@class,'VFiltersRestaurant__tabs')]" +
-                        "[./div/./p[contains(text(),'Статус заказа УС')]]");
+                        "[./div/./p[contains(text(),'Статус заказа')]]");
+        public static final SelenideElement waiterFilterButton =
+                $x("//*[contains(@class,'VFiltersRestaurant__tabs')]" +
+                        "[./div/./p[contains(text(),'Официант')]]");
+
+
+        public static final SelenideElement dayPeriodButton = $(".vTimePeriod [for=\"day\"]");
+        public static final SelenideElement weekPeriodButton = $(".vTimePeriod [for=\"month\"]");
+        public static final SelenideElement customPeriodButton = $(".vTimePeriod .vTimePeriod__period");
+
+
+
+
+
 
     }
 
@@ -322,6 +347,15 @@ public class SupportPersonalAccount {
                 $x("//*[@class='vSectionMailing__radio__cell'][.//*[@value='MANAGER']]");
         public static final SelenideElement messageTextArea= $(".vSectionMailing__message__textarea");
         public static final SelenideElement sendButton = $(".vButton");
+
+        public static final SelenideElement confirmationContainer = $(".vModalMailing");
+
+        public static final SelenideElement confirmationSendButton =
+                $x("//*[@class='vModalMailing__footer']//*[@class='vButton' and text()=' Отправить ']");
+        public static final SelenideElement confirmationCancelButton =
+                $x("//*[@class='vModalMailing__footer']//*[@class='vButton' and text()=' Отправить ']");
+        public static final SelenideElement confirmationCloseButton = $(".vCloseButton");
+
 
     }
 

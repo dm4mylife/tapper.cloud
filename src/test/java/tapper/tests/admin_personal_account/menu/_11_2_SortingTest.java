@@ -1,5 +1,6 @@
 package tapper.tests.admin_personal_account.menu;
 
+import admin_personal_account.menu.Menu;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import common.BaseActions;
@@ -7,17 +8,15 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.menu.Menu;
 import tapper_table.RootPage;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.$$;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
@@ -76,7 +75,7 @@ public class _11_2_SortingTest extends BaseTest {
 
         baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
 
-        Selenide.switchTo().window(1);
+        rootPage.switchBrowserTab(1);
 
         baseActions.click(appFooterMenuIcon);
 
@@ -104,7 +103,7 @@ public class _11_2_SortingTest extends BaseTest {
         baseActions.click(appFooterMenuIcon);
 
         tapperMenuData = rootPage.saveTapperMenuData();
-        Assertions.assertEquals(adminMenuData,tapperMenuData);
+        Assertions.assertEquals(adminMenuData,tapperMenuData,"Категории и меню не корректны, списки не совпадают");
         System.out.println("Категории и меню корректны, списки совпадают");
 
     }

@@ -1,5 +1,6 @@
 package tapper.tests.admin_personal_account.tables_and_qr_codes;
 
+import admin_personal_account.tables_and_qr_codes.TablesAndQrCodes;
 import com.codeborne.selenide.Configuration;
 import com.google.zxing.NotFoundException;
 import io.qameta.allure.Epic;
@@ -7,13 +8,17 @@ import io.qameta.allure.Feature;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.tables_and_qr_codes.TablesAndQrCodes;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
 
+import static com.codeborne.selenide.FileDownloadMode.FOLDER;
 import static com.codeborne.selenide.FileDownloadMode.PROXY;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
@@ -45,7 +50,7 @@ public class _10_0_TotalTest extends BaseTest {
 
         Configuration.browserSize = "1920x1080";
         Configuration.downloadsFolder = downloadFolderPath;
-        Configuration.fileDownload = PROXY;
+        Configuration.fileDownload = FOLDER;
         Configuration.proxyEnabled = true;
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
@@ -180,7 +185,7 @@ public class _10_0_TotalTest extends BaseTest {
     @DisplayName("2.4. Проверка скачивания qr-кода")
     public void isDownloadQrCorrect() throws IOException {
 
-        tablesAndQrCodes.isDownloadQrCorrect();
+        tablesAndQrCodes.isDownloadQrCorrect(tableNumberWhite);
 
     }
 
@@ -189,7 +194,26 @@ public class _10_0_TotalTest extends BaseTest {
     public void isDownloadedQrCorrect() throws IOException {
 
         tablesAndQrCodes.isDownloadedQrCorrect(downloadFolderPath,tableNumberWhite,tableUrlInTableItem);
-        FileUtils.deleteDirectory(new File(downloadFolderPath));
+
+    }
+
+    @Test
+    @DisplayName("2.6. Очищение окружения")
+    public void deleteDirectory() throws IOException {
+
+        Path path = Path.of(downloadFolderPath);
+        File directory = new File(downloadFolderPath);
+
+        if (directory.isDirectory() && Objects.requireNonNull(directory.list()).length == 0) {
+            FileUtils.deleteDirectory(directory);
+        }
+
+        if (Files.exists(path)) {
+
+            FileUtils.deleteDirectory(directory);
+            System.out.println("Удалили папку");
+
+        }
 
     }
 

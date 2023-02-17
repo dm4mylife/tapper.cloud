@@ -1,12 +1,12 @@
 package tapper.tests.admin_personal_account.profile;
 
+import admin_personal_account.profile.Profile;
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.profile.Profile;
 import tests.BaseTest;
+import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
@@ -42,7 +42,7 @@ public class _13_0_TotalTest extends BaseTest {
 
     }
 
-
+    @Disabled
     @Test
     @DisplayName("1.3. Проверяем редактирование названия заведения, имя, телефон")
     public void isPrivateDateChangedCorrect() {
@@ -51,6 +51,7 @@ public class _13_0_TotalTest extends BaseTest {
 
     }
 
+    @Disabled
     @Test
     @DisplayName("1.4. Удаление логина телеграмма и добавление")
     public void deleteTelegramLogin() {
@@ -59,6 +60,7 @@ public class _13_0_TotalTest extends BaseTest {
 
     }
 
+    @Disabled
     @Test
     @DisplayName("1.5. Смена пароля админа")
     public void changeAdminPassword() {

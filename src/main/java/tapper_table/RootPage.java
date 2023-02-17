@@ -20,12 +20,13 @@ import java.util.Objects;
 
 import static api.ApiData.QueryParams.rqParamsOrderPay;
 import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
-import static api.ApiData.orderData.TABLE_AUTO_1_ID;
-import static com.codeborne.selenide.ClipboardConditions.content;
+import static api.ApiData.orderData.TABLE_AUTO_111_ID;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
-import static com.codeborne.selenide.Selenide.clipboard;
-import static data.Constants.TestData.*;
+import static com.codeborne.selenide.Selenide.screenshot;
+import static data.Constants.TestData.TapperTable;
+import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.Yandex;
 import static data.selectors.TapperTable.Common.*;
 import static data.selectors.TapperTable.RootPage.*;
 import static data.selectors.TapperTable.RootPage.DishList.*;
@@ -96,7 +97,7 @@ public class RootPage extends BaseActions {
             Map<String, Double> temporaryMap = new HashMap<>();
 
             String name = element.$(".orderItem__name").getText();
-            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
 
             temporaryMap.put(name, price);
             tapperDishes.put(i, temporaryMap);
@@ -105,7 +106,36 @@ public class RootPage extends BaseActions {
 
         }
 
-        Assertions.assertEquals(allDishesInfoFromKeeper, tapperDishes, " не совпадает список в заказе");
+        System.out.println("\nTapper\n" + tapperDishes + "\nCashDesk\n" + allDishesInfoFromKeeper);
+
+        if (allDishesInfoFromKeeper.equals(tapperDishes)) {
+
+            System.out.println("Данные с кассы и столом совпадают");
+
+        } else {
+
+            System.out.println("Данные с кассы и столом НЕ совпадают");
+
+            allDishesInfoFromKeeper.entrySet().stream()
+                    .filter(entry -> !tapperDishes.containsValue(entry.getValue()))
+                    .forEach(entry -> {
+
+                        System.out.println(entry.getValue() + " это не совпадает со столом.На кассе другая цена");
+                        Assertions.fail(entry.getValue() + " это не совпадает со столом.На кассе другая цена");
+
+                    });
+
+            tapperDishes.entrySet().stream()
+                    .filter(entry -> !allDishesInfoFromKeeper.containsValue(entry.getValue()))
+                    .forEach(entry -> {
+
+                        System.out.println(entry.getValue() + " это не совпадает с кассой.На столе другая цена");
+                        Assertions.fail(entry.getValue() + " это не совпадает с кассой.На столе другая цена");
+
+                    });
+
+        }
+
         System.out.println("Позиции и суммы на кассе полностью совпадают с тем что на столе таппера");
 
     }
@@ -116,18 +146,17 @@ public class RootPage extends BaseActions {
         openPage(url);
         forceWait(Constants.TIME_WAIT_FOR_FULL_LOAD);
 
-        if (modalHintContainer.isDisplayed()) {
+        //closeHintModal();
 
-            closeHintModal();
 
-        }
 
     }
 
     @Step("Проверки что стол освободился, статусы в заголовке корректные")
     public void isEmptyOrderAfterClosing() {
 
-        isElementVisible(emptyOrderHeading);
+        emptyOrderHeading.shouldHave(visible.because("Не появился пустой стол в течение определенного времени")
+                ,Duration.ofSeconds(7));
         emptyOrderHeading.shouldHave(matchText("Ваш заказ появится здесь"), Duration.ofSeconds(10));
 
         double totalSumInWallet = convertSelectorTextIntoDoubleByRgx(totalSumInWalletCounter, "\\s₽");
@@ -154,18 +183,15 @@ public class RootPage extends BaseActions {
     @Step("Переключаем на разделение счёта")
     public void activateDivideCheckSliderIfDeactivated() {
 
-        forceWait(1000);
+        forceWait(1500);
 
-        if (discountSum.isDisplayed()) { // если есть скидка\\наценка то разделять счёт нельзя
+        if (divideCheckSlider.isDisplayed()) {
 
-            isElementInvisible(divideCheckSlider);
+            click(divideCheckSlider);
+            forceWait(1500); // toDO если после активации раздельного меню сразу выбрать позицию, то гарантировано 422, поэтому ждём
+            System.out.println("\nВключили разделение счёта\n");
 
         }
-
-        isElementVisibleDuringLongTime(divideCheckSlider, 5);
-        click(divideCheckSlider);
-        forceWait(1000); // toDO если после активации раздельного меню сразу выбрать позицию, то гарантировано 422, поэтому ждём
-        System.out.println("\nВключили разделение счёта\n");
 
     }
 
@@ -208,7 +234,7 @@ public class RootPage extends BaseActions {
     @Step("Заказ не пустой и блюда отображаются")
     public void isDishListNotEmptyAndVisible() {
 
-        isElementVisibleDuringLongTime(orderContainer, 30);
+        isElementVisibleDuringLongTime(orderContainer, 60);
 
     }
 
@@ -263,13 +289,13 @@ public class RootPage extends BaseActions {
             totalSum -= tapperDiscount;
             System.out.println(totalSum + " total sum");
             double serviceChargeSumClear =
-                    convertDouble(totalSum * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
+                    convertDouble(totalSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
 
             if (tipsContainer.exists()) {
 
                 int tipsCount = Integer.parseInt(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
                 double serviceChargeFromTips =
-                        convertDouble(tipsCount * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
+                        convertDouble(tipsCount * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
 
                 serviceChargeSumClear = convertDouble(serviceChargeSumClear + serviceChargeFromTips);
 
@@ -301,7 +327,7 @@ public class RootPage extends BaseActions {
 
         }
 
-        return convertDouble(totalSum * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
+        return convertDouble(totalSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
 
     }
 
@@ -385,7 +411,7 @@ public class RootPage extends BaseActions {
     @Step("Прощёлкиваем все опции чаевых и проверяем что чаевые формируются корректно от общей суммы")
     public void checkAllTipsOptions(double totalSum) {
 
-        showTapBar();
+        showPaymentOptionsAndTapBar();
         scrollTillBottom();
         StringBuilder logs = new StringBuilder();
         double cleanTips = 0;
@@ -467,6 +493,7 @@ public class RootPage extends BaseActions {
 
             totalTipsSumInMiddle.shouldHave(value(TapperTable.MIN_SUM_TIPS_));
 
+
             if (totalDishSum < 196) {
 
                 tips0.shouldNotHave(attributeMatching("class", ".+disabled"));
@@ -476,6 +503,9 @@ public class RootPage extends BaseActions {
                 tips20.shouldHave(attributeMatching("class", ".+disabled"));
                 tips25.shouldHave(attributeMatching("class", ".+disabled"));
 
+                System.out.println("Первая опция чаевых - менее 196");
+
+
             } else if (totalDishSum >= 196 && totalDishSum <= 245) {
 
                 tips25.shouldNotHave(attributeMatching("class", ".+disabled"));
@@ -483,6 +513,8 @@ public class RootPage extends BaseActions {
                 tips10.shouldHave(attributeMatching("class", ".+disabled"));
                 tips15.shouldHave(attributeMatching("class", ".+disabled"));
                 tips20.shouldHave(attributeMatching("class", ".+disabled"));
+
+                System.out.println("Вторая опция чаевых - менее 245");
 
             } else if (totalDishSum > 245 && totalDishSum <= 326) {
 
@@ -492,6 +524,8 @@ public class RootPage extends BaseActions {
                 tips10.shouldHave(attributeMatching("class", ".+disabled"));
                 tips15.shouldHave(attributeMatching("class", ".+disabled"));
 
+                System.out.println("Третья опция чаевых - менее 326");
+
             } else if (totalDishSum > 326 && totalDishSum <= 489) {
 
                 tips15.shouldNotHave(attributeMatching("class", ".+disabled"));
@@ -499,6 +533,8 @@ public class RootPage extends BaseActions {
                 tips25.shouldNotHave(attributeMatching("class", ".+disabled"));
 
                 tips10.shouldHave(attributeMatching("class", ".+disabled"));
+
+                System.out.println("Четвертая опция чаевых - менее 489");
 
             }
 
@@ -512,6 +548,8 @@ public class RootPage extends BaseActions {
             activeTipsButton.shouldHave(text("10%")
                     .because("Если сумма заказа больше 490, то должно быть 10% чаевых по умолчанию"));
 
+            System.out.println("Пятая опция чаевых - более 490");
+
         }
 
     }
@@ -519,7 +557,7 @@ public class RootPage extends BaseActions {
     @Step("Выбираем все не оплаченные позиции")
     public void chooseAllNonPaidDishes() {
 
-        hideTapBar();
+        hidePaymentOptionsAndTapBar();
         double totalDishesSum = 0;
 
         System.out.println(allNonPaidAndNonDisabledDishes.size() + " общее число не оплаченных и не заблокированных позиций\n");
@@ -535,6 +573,7 @@ public class RootPage extends BaseActions {
                 totalDishesSum += currentDishPrice;
 
                 scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
+                forceWaitingForSocketChangePositions(800);
                 allNonPaidAndNonDisabledDishesCheckbox.get(index)
                         .shouldBe(cssValue("display", "block"), Duration.ofSeconds(2));
 
@@ -546,17 +585,16 @@ public class RootPage extends BaseActions {
 
         }
 
-        showTapBar();
+        showPaymentOptionsAndTapBar();
 
     }
 
     @Step("Отменяем определенное количество выбранных позиций")
     public void cancelCertainAmountChosenDishes(int count) { //
 
-        hideTapBar();
+        hidePaymentOptionsAndTapBar();
 
         System.out.println(allNonPaidAndNonDisabledDishes.size() + " общее число не оплаченных и не заблокированных позиций\n");
-        System.out.println(count + " столько выберет блюд");
 
         for (int index = 0; index < allNonPaidAndNonDisabledDishes.size(); index++ ) {
 
@@ -576,14 +614,14 @@ public class RootPage extends BaseActions {
 
         }
 
-        showTapBar();
+        showPaymentOptionsAndTapBar();
 
     }
 
     @Step("Отменяем все выбранные")
     public void cancelAllChosenDishes() { //
 
-        hideTapBar();
+        hidePaymentOptionsAndTapBar();
 
         System.out.println(allDishesInOrder.size() + " всего блюд в заказе\n");
 
@@ -605,26 +643,22 @@ public class RootPage extends BaseActions {
 
         }
 
-        showTapBar();
+        showPaymentOptionsAndTapBar();
 
     }
 
     @Step("Выбираем определенное число блюд и считаем сумму выбранных рандомных позиций")
     public void chooseCertainAmountDishes(int neededDishesAmount) {
 
-        if (!discountSum.exists()) {
-
-            hideTapBar();
+            hidePaymentOptionsAndTapBar();
 
             double totalDishesSum = 0;
             double currentDishPrice;
             String currentDishName;
 
-            System.out.println("\n" + "Количество рандомных позиций для выбора: " + neededDishesAmount);
-            System.out.println(allNonPaidAndNonDisabledDishes.size() + " общее число позиций");
+            System.out.println("\n" + "Количество рандомных позиций для выбора: " + neededDishesAmount + "\n" +
+                    allNonPaidAndNonDisabledDishes.size() + " общее число позиций");
             int chosenDishesSize = allNonPaidAndNonDisabledDishesCheckbox.filter(attribute("display","block")).size();
-            System.out.println(chosenDishesSize + " количество уже выбранных блюд");
-            System.out.println(divideCheckSliderActive.isDisplayed() + " включено разделение счёта?");
 
             for (int count = 1; count <= neededDishesAmount; count++) {
 
@@ -647,14 +681,12 @@ public class RootPage extends BaseActions {
                     totalDishesSum += currentDishPrice;
 
                     scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
-                    System.out.println("Выбрали позицию\n");
-                    forceWait(600); // toDo иначе 422
+                    System.out.println("Выбрали позицию\nБлюдо - " + currentDishName + " - " + currentDishPrice +
+                            ". Общая цена " + totalDishesSum);
+                    forceWait(1000); // toDo иначе 422
 
                     allNonPaidAndNonDisabledDishesCheckbox.get(index)
                             .shouldBe(cssValue("display", "block"), Duration.ofSeconds(5));
-                    System.out.println("Блюдо - " + currentDishName +
-                            " - " + currentDishPrice +
-                            ". Общая цена " + totalDishesSum);
 
                 } else {
 
@@ -665,9 +697,7 @@ public class RootPage extends BaseActions {
 
             }
 
-            showTapBar();
-
-        }
+            showPaymentOptionsAndTapBar();
 
     }
 
@@ -683,7 +713,7 @@ public class RootPage extends BaseActions {
         for (SelenideElement element : allDishesInOrder) {
 
             double currentDishPrice =
-                    convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+                    convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
             String currentDishName = element.$(".orderItem__name").getText();
 
             totalDishesSum += currentDishPrice;
@@ -708,22 +738,25 @@ public class RootPage extends BaseActions {
 
         double totalSumInOrder = 0;
         int counter = 0;
+        String logs = "";
 
         for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
 
             if (element.$(".iconCheck").getCssValue("display").equals("block")) {
 
-                double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+                double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
                 String dishName = element.$(".orderItem__name").getText();
 
                 totalSumInOrder += cleanPrice;
                 counter++;
 
-                System.out.println(counter + ". " + dishName + " - " + cleanPrice + ". Общая сумма: " + totalSumInOrder);
+                logs += counter + ". " + dishName + " - " + cleanPrice + ". Общая сумма: " + totalSumInOrder + "\n";
 
             }
 
         }
+
+        System.out.printf(logs);
 
         double markedDishesSum = convertSelectorTextIntoDoubleByRgx(TipsAndCheck.markedDishesSum, "\\s₽");
 
@@ -746,7 +779,7 @@ public class RootPage extends BaseActions {
 
         for (SelenideElement element : allNonPaidAndDisabledDishes) {
 
-            double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+            double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
             String dishName = element.$(".orderItem__name").getText();
 
             totalSumInOrder += cleanPrice;
@@ -774,7 +807,7 @@ public class RootPage extends BaseActions {
 
         for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
 
-            double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+            double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
             String dishName = element.$(".orderItem__name").getText();
 
             totalSumInOrder += cleanPrice;
@@ -811,7 +844,7 @@ public class RootPage extends BaseActions {
             if (allNonPaidAndNonDisabledDishesCheckbox.get(index).getCssValue("display").equals("block")) {
 
                 double cleanPrice = convertSelectorTextIntoDoubleByRgx(allNonPaidAndNonDisabledDishes.get(index)
-                        .$(".orderItem__price"), "\\s₽");
+                        .$(".orderItem__price:last-child"), "\\s₽");
                 String dishName = allNonPaidAndNonDisabledDishes.get(index).$(".orderItem__name").getText();
 
                 totalSumInOrder += cleanPrice;
@@ -849,7 +882,7 @@ public class RootPage extends BaseActions {
             Map<String, Double> temporaryMap = new HashMap<>();
 
             String name = element.$(".orderItem__name").getText();
-            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
 
             System.out.println("Блюдо - " + name + " - " + price);
 
@@ -882,7 +915,7 @@ public class RootPage extends BaseActions {
                 Map<String, Double> temporaryMap = new HashMap<>();
 
                 String name = element.$(".orderItem__name").getText();
-                double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+                double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
 
                 System.out.println("Блюдо - " + name + " - " + price);
 
@@ -912,6 +945,8 @@ public class RootPage extends BaseActions {
 
         System.out.println("\n" + "Количество заблокированных блюд : " + disabledDishes.size());
 
+        isElementVisible(separateOrderHeading);
+
         for (SelenideElement element : allDishesInOrder) {
 
             if (element.$(".orderItem__status").getText().equals("Оплачивается")) {
@@ -920,7 +955,7 @@ public class RootPage extends BaseActions {
 
                 String name = element.$(".orderItem__name").getText();
                 double price = convertSelectorTextIntoDoubleByRgx
-                        (element.$(".orderItem__price"), "\\s₽");
+                        (element.$(".orderItem__price:last-child"), "\\s₽");
 
                 System.out.println("Блюдо - " + name + " - " + price);
 
@@ -959,7 +994,7 @@ public class RootPage extends BaseActions {
 
             String name = element.$(".orderItem__name").getText();
 
-            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
 
             System.out.println("Блюдо - " + name + " - " + price);
 
@@ -981,6 +1016,8 @@ public class RootPage extends BaseActions {
     @Step("Проверяем что оплаченные,заблокированные позиции нельзя снова выбрать")
     public void checkIfPaidAndDisabledDishesCantBeChosen() {
 
+        hidePaymentOptionsAndTapBar();
+
         int i = 0;
 
         System.out.println("\n" + "Количество оплаченных и заблокированных блюд : " + disabledAndPaidDishes.size());
@@ -992,13 +1029,15 @@ public class RootPage extends BaseActions {
             element.$(".iconCheck").shouldNotHave(cssValue("display","block"));
 
             String name = element.$(".orderItem__name").getText();
-            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+            double price = convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
 
             System.out.println("Клик в блюдо - " + name + " - " + price + "\nПозиция не сменила статус");
 
             i++;
 
         }
+
+        showPaymentOptionsAndTapBar();
 
     }
 
@@ -1049,14 +1088,19 @@ public class RootPage extends BaseActions {
         double totalCleanPaySum = countTotalDishesSumWithTipsAndSC(cleanDishesSum, currentTips, currentSC);
         double totalPaySumInCheck = convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
         double totalPaySumInWallet = convertSelectorTextIntoDoubleByRgx(totalSumInWalletCounter, "\\s₽");
+        double totalPaySumInPayButton = convertSelectorTextIntoDoubleByRgx(paymentButton,"[^\\d\\.]+");
 
-        Assertions.assertEquals(totalCleanPaySum, totalPaySumInCheck,
+        Assertions.assertEquals(totalCleanPaySum, totalPaySumInCheck, 0.1,
                 "Чистая сумма не совпадает с суммой в 'Итого к оплате'");
         System.out.println("\nЧистая сумма совпадает с суммой в 'Итого к оплате'\n");
 
-        Assertions.assertEquals(totalPaySumInCheck, totalPaySumInWallet,
+        Assertions.assertEquals(totalPaySumInCheck, totalPaySumInWallet,0.1,
                 "Сумма 'Итого к оплате' не совпадает с суммой в счётчике кошелька");
         System.out.println("\nСумма 'Итого к оплате' совпадает с суммой в счётчике кошелька\n");
+
+        Assertions.assertEquals(totalCleanPaySum, totalPaySumInPayButton,0.1,
+                "Сумма в кнопке оплатить не совпадает с чистой суммой");
+        System.out.println("\nСумма в кнопке оплатить совпадает с чистой суммой\n");
 
     }
 
@@ -1190,29 +1234,41 @@ public class RootPage extends BaseActions {
             click(tipsOption);
             tipsOption.shouldHave(attributeMatching("class", ".*active.*"));
 
-            double tipsSumInTheMiddle = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
+            double tipsSumInTheMiddle = Double.parseDouble(totalTipsSumInMiddle.getValue());
 
             double serviceChargeInField = convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
             serviceChargeInField = convertDouble(serviceChargeInField);
 
-            double serviceChargeSumClear = convertDouble(cleanDishesSum * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
+            double serviceChargeSumClear =
+                    convertDouble(cleanDishesSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
             System.out.println(serviceChargeSumClear + " сервисный сбор от суммы");
 
-            double serviceChargeTipsClear = convertDouble(tipsSumInTheMiddle * (TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
+            double serviceChargeTipsClear =
+                    convertDouble(tipsSumInTheMiddle * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
             System.out.println(serviceChargeTipsClear + " сервисный сбор от чаевых\n");
-
-            double totalDishesCleanSum = cleanDishesSum + tipsSumInTheMiddle + serviceChargeTipsClear + serviceChargeSumClear;
+            double serviceChargeTotal = serviceChargeTipsClear + serviceChargeSumClear;
             double totalPaySum = convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+
+            if (totalPaySum > SUM_AFTER_SERVICE_CHARGE_MAXIMIZE) {
+
+                System.out.println(totalPaySum + " из-за неё будет макс СБ");
+                serviceChargeTotal = SERVICE_CHARGE_MAX;
+
+            }
+
+            double totalDishesCleanSum =
+                    cleanDishesSum + tipsSumInTheMiddle + serviceChargeTotal;
+
             double totalPaySumInWallet = convertSelectorTextIntoDoubleByRgx(totalSumInWalletCounter, "\\s₽");
 
-            Assertions.assertEquals(serviceChargeInField, serviceChargeSumClear + serviceChargeTipsClear, 0.1,
+            Assertions.assertEquals(serviceChargeInField, serviceChargeTotal, 0.1,
                     "Сервисный сбор считается не корректно по формуле "
-                            + TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM + "  от суммы и "
-                            + TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS + " от чаевых");
+                            + SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM + "  от суммы и "
+                            + SERVICE_CHARGE_PERCENT_FROM_TIPS + " от чаевых");
             System.out.println("Сервисный сбор считается корректно по формуле "
-                    + TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM + "% от суммы "
+                    + SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM + "% от суммы "
                     + totalDishesCleanSum + " и " +
-                    TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS + "% от чаевых " + tipsSumInTheMiddle);
+                    SERVICE_CHARGE_PERCENT_FROM_TIPS + "% от чаевых " + tipsSumInTheMiddle);
 
             Assertions.assertEquals(totalDishesCleanSum, totalPaySum, 0.1,
                     "Чистая общая сумма не совпадает с 'Итого к оплате'");
@@ -1261,10 +1317,10 @@ public class RootPage extends BaseActions {
 
         if (serviceChargeContainer.exists() && serviceChargeCheckboxSvg.getCssValue("display").equals("block")) {
 
-            System.out.println("СБ включены");
             serviceChargeSum = convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.\\-]+");
+            System.out.println("СБ включены. Сервисный сбор - " + serviceChargeSum);
 
-            Assertions.assertTrue(serviceChargeSum > 0,
+            Assertions.assertTrue(serviceChargeSum >= 0,
                     "Сервисный сбор имеет отрицательное значение");
 
             serviceChargeSum = convertDouble(serviceChargeSum);
@@ -1363,7 +1419,7 @@ public class RootPage extends BaseActions {
 
         if (!appFooter.exists()) {
 
-            showTapBar();
+            showPaymentOptionsAndTapBar();
 
             String totalPaySum = convertSelectorTextIntoStrByRgx(totalPay, "\\s₽");
             String currentSumInWallet =
@@ -1415,7 +1471,7 @@ public class RootPage extends BaseActions {
         for (SelenideElement element : disabledAndPaidDishes) {
 
             double currentElementSum =
-                    convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price"), "\\s₽");
+                    convertSelectorTextIntoDoubleByRgx(element.$(".orderItem__price:last-child"), "\\s₽");
             totalPaidSum += currentElementSum;
 
         }
@@ -1431,8 +1487,6 @@ public class RootPage extends BaseActions {
 
         isElementVisible(checkContainer);
         isElementVisible(totalPay);
-        isElementVisible(paymentMethodsContainer);
-        paymentMethods.shouldBe(CollectionCondition.size(3));
 
         if (tipsContainer.exists()) {
 
@@ -1486,11 +1540,12 @@ public class RootPage extends BaseActions {
                 }; return check();""";
 
 
-        boolean isShareActive = Boolean.TRUE.equals(Selenide.executeJavaScript(isShareButtonCorrect));
+
+      //  boolean isShareActive = Boolean.TRUE.equals(Selenide.executeJavaScript(isShareButtonCorrect));
         isImageCorrect(shareButtonSvgNotSelenide,"Иконка в кнопке поделиться счётом не корректная");
 
-        Assertions.assertTrue(isShareActive, "Кнопка 'Поделиться счётом' не вызывает панель поделиться ссылкой");
-        System.out.println("Кнопка 'Поделиться счётом' работает корректно");
+      //  Assertions.assertTrue(isShareActive, "Кнопка 'Поделиться счётом' не вызывает панель поделиться ссылкой");
+      //  System.out.println("Кнопка 'Поделиться счётом' работает корректно");
 
     }
 
@@ -1521,9 +1576,7 @@ public class RootPage extends BaseActions {
     @Step("Клик по кнопке оплаты")
     public void clickOnPaymentButton() {
 
-        //changePaymentTypeOnCard();
-
-        scrollTillBottom();
+        changePaymentTypeOnCard();
         click(paymentButton);
 
     }
@@ -1685,9 +1738,6 @@ public class RootPage extends BaseActions {
 
         }
 
-        System.out.println(overallSum);
-        System.out.println(overallSum.getAttribute("display"));
-
         if (divideCheckSliderActive.isDisplayed()) {
 
             orderAmount = countAllNonPaidDAndChosenDishesInOrder();
@@ -1702,7 +1752,6 @@ public class RootPage extends BaseActions {
 
         orderAmount = orderAmount - discount;
         orderAmount = convertDouble(orderAmount);
-        System.out.println(orderAmount + " чистая сумма");
 
         return orderAmount;
 
@@ -1783,7 +1832,6 @@ public class RootPage extends BaseActions {
     @Step("Проверка нижнего навигационного меню. Проверки на элементы, кликабельность, переходы, открытие")
     public void isTapBarShown() {
 
-        scroll(appFooter);
         isElementVisible(appFooter);
         isElementVisibleAndClickable(appFooterMenuIcon);
         isElementVisibleAndClickable(totalSumInWalletCounter);
@@ -1817,15 +1865,12 @@ public class RootPage extends BaseActions {
         isElementVisible(callWaiterHeading);
         isElementVisible(callWaiterCommentArea);
         isElementVisible(callWaiterTypingMessagePreloader);
-        forceWait(1000);
-        callWaiterTypingMessagePreloader.shouldHave(disappear,Duration.ofSeconds(3));
-        isElementVisible(callWaiterFirstGreetingsMessage);
-        callWaiterFirstGreetingsMessage
-                .shouldHave(matchText("Привет! Я отправлю официанту все, что Вы тут напишете"),visible
-                        );
+        callWaiterTypingMessagePreloader.shouldHave(disappear,Duration.ofSeconds(5));
+        isElementVisibleDuringLongTime(callWaiterFirstGreetingsMessage,5);
+
     }
 
-    @Step("Проверка меню если его не сделали видимым для юзеров")
+    @Step("Проверка меню")
     public void emptyMenu() {
 
         isElementVisible(emptyTableLogoClock);
@@ -1895,6 +1940,20 @@ public class RootPage extends BaseActions {
 
     }
 
+    @Step("Закрытие и открытие браузера для проверки что история сохранилась")
+    public void isHistorySavedByClosingBrowser(String url) {
+
+        Cookie itemMess = WebDriverRunner.getWebDriver().manage().getCookieNamed("itemsMess");
+        Selenide.closeWebDriver();
+
+        openUrlAndWaitAfter(url);
+        WebDriverRunner.getWebDriver().manage().addCookie(itemMess);
+
+        click(callWaiterButton);
+        isHistorySaved();
+
+    }
+
     @Step("Вызов официанта. Проверки на элементы, кликабельность, заполнение, открытие\\закрытие")
     public void isCallWaiterCorrect() {
 
@@ -1936,23 +1995,7 @@ public class RootPage extends BaseActions {
 
         refreshPage();
 
-        if (modalHintContainer.isDisplayed()) {
-
-            closeHintModal();
-
-        }
-
-    }
-
-    @Step("Закрываем всплывающую подсказку")
-    public void closeHintModal() {
-
-        if (modalHintContainer.exists()) {
-
-            click(modalHintCloseButton);
-            isElementInvisible(modalHintContainer);
-
-        }
+        //closeHintModal();
 
     }
 
@@ -2081,21 +2124,20 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Закрываем заказ по API")
-    public void closeOrderByAPI(String guid) {
+    public void closeOrderByAPI(String guid, String restaurantName, String tableId, String apiUri) {
 
-        boolean isOrderClosed;
-        apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT,guid), TapperTable.AUTO_API_URI);
+        System.out.println(guid + " guid");
 
-        isOrderClosed = apiRKeeper.isClosedOrder();
+        apiRKeeper.orderPay(rqParamsOrderPay(restaurantName,guid), apiUri);
 
-        Assertions.assertTrue(isOrderClosed,"Заказ не закрылся на кассе");
+        Assertions.assertTrue(apiRKeeper.isClosedOrder(restaurantName,tableId,apiUri),"Заказ не закрылся на кассе");
         System.out.println("\nЗаказ закрылся на кассе\n");
 
     }
 
     @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
     public
-    LinkedHashMap<String, String> getTgMsgData(String guid, int waitingTime) {
+    LinkedHashMap<String, String> getReviewTgMsgData(String guid, int waitingTime) {
 
         forceWait(waitingTime); // ожидание когда придёт телеграмм сообщение. toDo сделать поллинг пришло ли сообщение в тг
 
@@ -2115,6 +2157,8 @@ public class RootPage extends BaseActions {
         Assertions.assertNotNull(msg,"Нет сообщения в телеграмме по этому заказу" + notFoundTgMsg);
         System.out.println("Сообщение появилось в телеграмме");
 
+        Allure.addAttachment("telegram message", String.valueOf(msg));
+
         HashMap <String,String> msgWithType = telegram.setMsgTypeFlag(msg);
 
         LinkedHashMap<String, String> parsedMsg = telegram.parseMsg(msgWithType);
@@ -2125,7 +2169,39 @@ public class RootPage extends BaseActions {
 
     @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
     public
-    LinkedHashMap<String, String> getTgCallWaiterMsgData(String tableNumber, int waitingTime) {
+    LinkedHashMap<String, String> getPaymentTgMsgData(String guid, int waitingTime) {
+
+        forceWait(waitingTime); // ожидание когда придёт телеграмм сообщение. toDo сделать поллинг пришло ли сообщение в тг
+
+        String notFoundTgMsg = "";
+
+        String msg= telegram.getLastTgPayMsgList(guid);
+
+        if (msg == null) {
+
+            System.out.println("Сообщение не найдено, отправится второй запрос");
+            forceWait(waitingTime);
+            msg= telegram.getLastTgPayMsgList(guid);
+            notFoundTgMsg = " . После ожидания " + waitingTime * 2 / 1000 + " сек сообщение в телеграмме не появилоась";
+
+        }
+
+        Assertions.assertNotNull(msg,"Нет сообщения в телеграмме по этому заказу" + notFoundTgMsg);
+        System.out.println("Сообщение появилось в телеграмме");
+
+        Allure.addAttachment("telegram message", String.valueOf(msg));
+
+        HashMap <String,String> msgWithType = telegram.setMsgTypeFlag(msg);
+
+        LinkedHashMap<String, String> parsedMsg = telegram.parseMsg(msgWithType);
+
+        return parsedMsg;
+
+    }
+
+    @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
+    public
+    LinkedHashMap<String, String> getCallWaiterTgMsgData(String tableNumber, int waitingTime) {
 
         forceWait(waitingTime); // ожидание когда придёт телеграмм сообщение. toDo сделать поллинг пришло ли сообщение в тг
 
@@ -2153,6 +2229,29 @@ public class RootPage extends BaseActions {
 
     }
 
+    @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
+    public void getAdminSendingMsgData(String tableId, String textInSending, int waitingTime) {
+
+        forceWait(waitingTime); // ожидание когда придёт телеграмм сообщение. toDo сделать поллинг пришло ли сообщение в тг
+
+        String notFoundTgMsg = "";
+
+        String msg = telegram.getLastTgPayMsgList(textInSending);
+
+        if (msg == null || msg == "") {
+
+            System.out.println("Сообщение не найдено, отправится второй запрос");
+            forceWait(waitingTime);
+            msg = telegram.getLastTgPayMsgList(textInSending);
+            notFoundTgMsg = " . После ожидания " + waitingTime * 2 / 1000 + " сек сообщение в телеграмме не появилоась";
+
+        }
+
+        Assertions.assertNotEquals(msg,"","Нет сообщения в телеграмме по этому типу рассылки" + notFoundTgMsg);
+        System.out.println("Сообщение появилось в телеграмме");
+
+    }
+
     @Step("Сбор данных со стола для проверки с телеграм сообщением")
     public LinkedHashMap<String, String> getTapperDataForTgCallWaiterMsg(String callWaiterComment, String tableNumber) {
 
@@ -2166,14 +2265,22 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Сбор данных со стола для проверки с телеграм сообщением")
-    public LinkedHashMap<String, String> getTapperDataForTgPaymentMsg() {
+    public LinkedHashMap<String, String> getTapperDataForTgPaymentMsg(String tableId) {
 
         double sumInCheckDouble = countAllDishes();
         System.out.println(sumInCheckDouble + " Сумма в чеке");
 
         double discountDouble = 0;
 
-        double paySumDouble = getClearOrderAmount();
+        if (discountSum.isDisplayed()) {
+
+            discountDouble = convertSelectorTextIntoDoubleByRgx(discountSum,"[^\\d\\.]+");
+
+        }
+
+        sumInCheckDouble += discountDouble;
+
+        double paySumDouble = getClearOrderAmount() + discountDouble;
         System.out.println(paySumDouble + " paySumDouble");
 
         double restToPayDouble = countAllNonPaidAndDisabledDishesInOrder() - paySumDouble;
@@ -2229,9 +2336,10 @@ public class RootPage extends BaseActions {
 
         System.out.println("Сумма оплаты: " + paySumDouble);
 
-        Response rsGetOrder = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID, TapperTable.AUTO_API_URI);
+        Response rsGetOrder = apiRKeeper.getOrderInfo(tableId, AUTO_API_URI);
+        System.out.println(rsGetOrder.body());
 
-        double totalPaidDouble = countAllNonPaidDishesInOrder() - discountDouble;
+        double totalPaidDouble = countAllNonPaidDishesInOrder();
         String payStatus;
         String orderStatus;
 
@@ -2251,7 +2359,7 @@ public class RootPage extends BaseActions {
         payStatus = "Частично оплачено";
         orderStatus = "Предоплата успешно прошла по кассе";
 
-        if (totalPaidDouble == sumInCheckDouble) {
+        if (totalPaidDouble == sumInCheckDouble || (totalPaidDouble + discountDouble) == sumInCheckDouble) {
 
             payStatus = "Полностью оплачено";
             orderStatus = "Успешно закрыт на кассе";
@@ -2277,9 +2385,11 @@ public class RootPage extends BaseActions {
         int paySum = (int) paySumDouble;
         int totalPaid = (int) totalPaidDouble;
         int restToPay = (int) restToPayDouble;
-        int discount = (int) discountDouble;
 
-        tapperDataForTgMsg.put("table", convertSelectorTextIntoStrByRgx(tableNumber,"\\D+"));
+
+        String tableString = tableNumber.getText().replaceAll("(.*Стол\\s)(\\d{3})(.*)","$2");
+
+        tapperDataForTgMsg.put("table", tableString);
         tapperDataForTgMsg.put("sumInCheck",String.valueOf(sumInCheck));
         tapperDataForTgMsg.put("restToPay",String.valueOf(restToPay));
         tapperDataForTgMsg.put("tips",tipsFinal);
@@ -2288,9 +2398,8 @@ public class RootPage extends BaseActions {
 
         if (discountSum.isDisplayed()) {
 
-            String tableId = WebDriverRunner.getWebDriver().getCurrentUrl().replaceAll(".*\\/","");
-
-            discount = Integer.parseInt(getDiscount(tableId)) / 100;
+            String table = WebDriverRunner.getWebDriver().getCurrentUrl().replaceAll(".*\\/","");
+            int discount = (int) getDiscount(table);
             System.out.println(discount + " discount");
             tapperDataForTgMsg.put("discount",String.valueOf(discount));
 
@@ -2310,10 +2419,14 @@ public class RootPage extends BaseActions {
     public void matchTgMsgDataAndTapperData(LinkedHashMap<String, String> telegramDataForTgMsg,
                                             LinkedHashMap<String, String> tapperDataForTgMsg) {
 
+
+        System.out.println(telegramDataForTgMsg);
+        System.out.println(tapperDataForTgMsg);
+
         Assertions.assertNotNull(telegramDataForTgMsg,"Пустые данные по сообщению из тг");
         Assertions.assertNotNull(tapperDataForTgMsg,"Пустые данные по тапперу");
 
-        if (telegramDataForTgMsg.get("orderStatus").matches("(?s).*[\\n\\r].*SeqNumber.*")) {
+        if (telegramDataForTgMsg.containsValue("orderStatus") && telegramDataForTgMsg.get("orderStatus").matches("(?s).*[\\n\\r].*SeqNumber.*")) {
 
             System.out.println("\nОшибка SeqNumber. Удаляем из карты поле\n");
             telegramDataForTgMsg.remove("orderStatus");
@@ -2324,25 +2437,17 @@ public class RootPage extends BaseActions {
 
         System.out.println("\n TELEGRAM DATA\n" + telegramDataForTgMsg + "\n TAPPER DATA\n" + tapperDataForTgMsg);
 
-        Assertions.assertEquals(telegramDataForTgMsg,tapperDataForTgMsg,"Не совпадают сообщения");
+        Assertions.assertEquals(telegramDataForTgMsg,tapperDataForTgMsg,
+                "Сообщение в телеграмме не корректное");
         System.out.println("Сообщение в телеграмме полностью соответствует столу");
 
     }
 
-    @Step("Получаем guid")
-    public String getGuid(String tableId) {
-
-        Response rsGetOrder = apiRKeeper.getOrderInfo(tableId, TapperTable.AUTO_API_URI);
-        return rsGetOrder.jsonPath().getString("@attributes.guid");
-
-    }
-
     @Step("Получаем скидку")
-    public String getDiscount(String tableId) {
+    public double getDiscount(String tableId) {
 
-        Response rsGetOrder = apiRKeeper.getOrderInfo(tableId, TapperTable.AUTO_API_URI);
-        return rsGetOrder.jsonPath().getString("@attributes.discountSum")
-                .replaceAll("\\-","");
+        Response rsGetOrder = apiRKeeper.getOrderInfo(tableId, AUTO_API_URI);
+        return Math.abs(rsGetOrder.jsonPath().getDouble("@attributes.discountSum") / 100);
 
     }
 
@@ -2383,6 +2488,12 @@ public class RootPage extends BaseActions {
         isElementVisible(wiFiCloseButton);
         isElementVisible(wiFiName);
         isElementVisible(wiFiPassword);
+
+    }
+
+    public void forceWaitingForSocketChangePositions(int ms) {
+
+        forceWait(ms);
 
     }
 

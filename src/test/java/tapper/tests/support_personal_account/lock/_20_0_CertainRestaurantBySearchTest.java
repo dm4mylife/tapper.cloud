@@ -11,11 +11,9 @@ import tapper_table.RootPage;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
-import static com.codeborne.selenide.Condition.disappear;
 import static data.Constants.TestData.SupportPersonalAccount.*;
-import static data.Constants.TestData.TapperTable.STAGE_IIKO_TABLE_3;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
-import static data.selectors.TapperTable.Common.serviceUnavailabilityContainer;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
 @Order(200)
 @Epic("Личный кабинет техподдержки")
@@ -69,9 +67,9 @@ public class _20_0_CertainRestaurantBySearchTest extends BaseTest {
     @DisplayName("1.5. Проверяем на выбранном столе, что есть предупреждение")
     public void checkOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_111);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
         rootPage.isServiceUnavailable();
-        Selenide.switchTo().window(0);
+        rootPage.switchBrowserTab(0);
 
     }
 
@@ -87,9 +85,8 @@ public class _20_0_CertainRestaurantBySearchTest extends BaseTest {
     @DisplayName("1.7. Проверяем на выбранном столе что оплата заглушена")
     public void isPaymentUnavailable() {
 
-        Selenide.switchTo().window(1);
+        rootPage.switchBrowserTab(1);
         rootPage.refreshPage();
-        rootPage.closeHintModal();
 
         rootPage.clickOnPaymentButton();
         rootPage.isPaymentUnavailable();
@@ -100,7 +97,7 @@ public class _20_0_CertainRestaurantBySearchTest extends BaseTest {
     @DisplayName("1.8. Отключаем все рестораны в админке, очищаем тестовое окружение")
     public void resetAllRestaurants() {
 
-        Selenide.switchTo().window(0);
+        rootPage.switchBrowserTab(0);
         lock.resetAllRestaurants();
 
     }

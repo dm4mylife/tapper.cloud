@@ -1,10 +1,11 @@
 package admin_personal_account.tables_and_qr_codes;
 
-import com.beust.ah.A;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.files.FileFilter;
+import com.codeborne.selenide.files.FileFilters;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
@@ -212,13 +213,18 @@ public class TablesAndQrCodes extends BaseActions {
     }
 
     @Step("Проверка что qr-код скачивается")
-    public void isDownloadQrCorrect() throws FileNotFoundException {
+    public void isDownloadQrCorrect(String tableNumberWhite) throws FileNotFoundException {
 
-        File qrWhite = qrDownloadImageWhite.download(TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED);
+        File qrWhite = qrDownloadImageWhite.download
+                (TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED,FileFilters.withName(tableNumberWhite));
+
+        System.out.println(qrWhite.getPath() + " file path");
+        System.out.println(qrWhite.getAbsolutePath() + " file path");
+        System.out.println(qrWhite.getAbsoluteFile() + " file");
+        System.out.println(qrWhite.getName() + " name");
 
         Assertions.assertNotNull(qrWhite, "Файл не может быть скачен");
         System.out.println("Файл успешно скачался (белая версия)");
-
 
     }
 
@@ -232,40 +238,31 @@ public class TablesAndQrCodes extends BaseActions {
 
             Collection<File> files = FileUtils.listFiles(root, null, true);
 
-            System.out.println(0);
-
             System.out.println(files);
 
             Assertions.assertTrue(files.size() != 0,"Скаченный файл не удалось скачать");
 
             for (File o : files) {
 
-                System.out.println(1);
                 System.out.println(o.getName() + " --- file");
-
-                System.out.println(tableName + " --- table");
 
                 if (o.getName().equals(tableName)) {
 
                     hasMatch = true;
-                    System.out.println(2222222);
 
                     System.out.println("Файл найден " + o.getAbsolutePath());
                     File imageFile = new File(o.getAbsolutePath());
 
-                    System.out.println(1);
                     BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    System.out.println(2);
+
                     LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
-                    System.out.println(3);
+
                     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-                    System.out.println(4);
 
                     Result result = new MultiFormatReader().decode(bitmap);
-                    System.out.println(6);
+
                     String decodedText = result.getText();
 
-                    System.out.println(6);
                     Assertions.assertEquals(decodedText, tableUrl,
                             "Скаченный qr код не содержит корректную ссылку на стол");
                     System.out.println("Скаченный qr код (" + tableName + ") \n" + decodedText + "\nсодержит корректную ссылку на стол \n" + tableUrl);

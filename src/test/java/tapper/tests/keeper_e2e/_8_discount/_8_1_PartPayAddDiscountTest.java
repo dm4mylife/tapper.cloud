@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._8_discount;
 
 
 import api.ApiRKeeper;
+import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -11,16 +12,21 @@ import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
+import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY;
+import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 
 @Order(81)
@@ -35,41 +41,45 @@ public class _8_1_PartPayAddDiscountTest extends BaseTest {
     static double totalPay;
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
-    static String visit;
-    static String orderType;
+    static String orderType = "part";
     static String guid;
     static double discount;
-    static int amountDishes = 3;
+    static int amountDishes = 2;
+    static int amountDishesForFillingOrder = 4;
+    static LinkedHashMap<String, String> tapperDataForTgMsg;
+    static LinkedHashMap<String, String> telegramDataForTgMsg;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+    ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    Best2PayPage best2PayPage = new Best2PayPage();
-    ReviewPage reviewPage = new ReviewPage();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
-    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
-    ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
+    NestedTests nestedTests = new NestedTests();
 
 
     @Test
     @DisplayName("1.1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rsCreateOrder = apiRKeeper.createOrder(rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD), AUTO_API_URI);
+        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        visit = rsCreateOrder.jsonPath().getString("result.visit");
-        guid = rsCreateOrder.jsonPath().getString("result.guid");
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
 
-        apiRKeeper.fillingOrder(rqParamsFillingOrderBasic(R_KEEPER_RESTAURANT, visit, BARNOE_PIVO, "10000"));
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rsBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        apiRKeeper.createDiscount(rsBodyCreateDiscount);
+
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
 
     }
-
 
     @Test
     @DisplayName("1.2. Проверка суммы, чаевых, сервисного сбора")
     public void checkSumTipsSC() {
 
+        rootPage.isDishListNotEmptyAndVisible();
         rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
 
     }
@@ -80,44 +90,50 @@ public class _8_1_PartPayAddDiscountTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        rootPageNestedTests.clickPayment();
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
 
     }
 
     @Test
     @DisplayName("1.4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiring() {
-
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
-        transactionId = transaction_id.getValue();
-        best2PayPage.clickPayButton();
-
+        transactionId = nestedTests.acquiringPayment(totalPay);
     }
 
     @Test
     @DisplayName("1.5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
+        nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
+    }
 
-        reviewPageNestedTests.paymentCorrect(orderType = "part");
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
-        reviewPage.clickOnFinishButton();
+    @Test
+    @DisplayName("1.6. Проверка сообщения в телеграмме")
+    public void matchTgMsgDataAndTapperData() {
+
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
 
     @Test
-    @DisplayName("1.6. Добавляем скидку в заказ и проверяем суммы") // toDO доделать. ждём апи с бэка
+    @DisplayName("1.7. Добавляем скидку в заказ и проверяем суммы") // toDO доделать. ждём апи с бэка
     public void addDiscountAndCheckSums() {
 
-        apiRKeeper.addDiscount(rqParamsAddDiscount(R_KEEPER_RESTAURANT,guid, DISCOUNT_ON_DISH), AUTO_API_URI);
+        apiRKeeper.createDiscountById(discounts, DISCOUNT_BY_ID);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rsBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        apiRKeeper.createDiscount(rsBodyCreateDiscount);
+
         rootPage.refreshPage();
 
-        discount = rootPageNestedTests.getTotalDiscount(TABLE_AUTO_1_ID);
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions(discount);
+        rootPage.isDishListNotEmptyAndVisible();
+        discount = rootPageNestedTests.getDiscount(TABLE_AUTO_222_ID);
+        rootPageNestedTests.isDiscountCorrectOnTable(discount);
+        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
 
     }
 
     @Test
-    @DisplayName("1.7. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    @DisplayName("1.8. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
     public void savePaymentDataForAcquiringAfterAddedDiscount() {
 
         savePaymentDataForAcquiring();
@@ -125,7 +141,7 @@ public class _8_1_PartPayAddDiscountTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.8. Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    @DisplayName("1.9. Переходим на эквайринг, вводим данные, оплачиваем заказ")
     public void payAndGoToAcquiringAfterAddedDiscount() {
 
         payAndGoToAcquiring();
@@ -133,12 +149,19 @@ public class _8_1_PartPayAddDiscountTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.9. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    @DisplayName("2.0. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPaymentAfterAddedDiscount() {
 
-        reviewPageNestedTests.fullPaymentCorrect();
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
-        reviewPage.clickOnFinishButton();
+        nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
+
+    }
+
+    @Test
+    @DisplayName("2.1. Проверка сообщения в телеграмме")
+    public void matchTgMsgDataAndTapperDataFullPay() {
+
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY);
+        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
 

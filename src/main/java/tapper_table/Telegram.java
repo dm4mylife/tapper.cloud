@@ -37,8 +37,34 @@ public class Telegram {
 
     }
 
+    @Step("Получаем последнее сообщение и сравниваем что это сообщение из рассылки")
+    public String getLastTgMsgForAdminSending(String textInSending) {
+
+        List<Object> tgMessages = apiRKeeper.getUpdates();
+        String lastTgMsg = "";
+        String lastMsgObject = tgMessages.get(tgMessages.size()-1).toString();
+
+        if (lastMsgObject.contains(textInSending)) {
+
+            lastTgMsg = lastMsgObject;
+
+            System.out.println("\nСообщение подходящее по текущему заказу \n." +
+                    "Сообщение перед отправкой на проверку --->" + lastTgMsg);
+
+            Allure.addAttachment("Сообщение в телеграмме", "text/plain", lastTgMsg);
+            return lastTgMsg;
+
+        }
+
+        System.out.println("Сообщение перед отправкой на проверку ---> " + lastTgMsg);
+        return lastTgMsg;
+
+    }
+
     @Step("Получаем список всех сообщений об оплате")
-    public String getLastTgPayMsgList(String guid) {
+    public String getReviewMsgList(String guid) {
+
+        System.out.println(guid + " guid для поиска сообщений");
 
         List<Object> tgMessages = apiRKeeper.getUpdates();
         String lastTgMsg;
@@ -50,7 +76,7 @@ public class Telegram {
 
             String currentMsg = tgMessage.toString();
 
-            if (currentMsg.contains(guid)) {
+            if (currentMsg.contains(guid) && !currentMsg.contains("Рейтинг: 0")) {
 
                 System.out.println("\nСообщение подходящее по текущему заказу \n");
 
@@ -74,7 +100,51 @@ public class Telegram {
 
         }
 
-        Allure.addAttachment("Сообщение в телеграмме", "text/plain", String.valueOf(lastTgMsg));
+        Allure.addAttachment("Сообщение в телеграмме", String.valueOf(lastTgMsg));
+
+        return lastTgMsg;
+
+    }
+    @Step("Получаем список всех сообщений об оплате")
+    public String getLastTgPayMsgList(String guid) {
+
+        System.out.println(guid + " guid для поиска сообщений");
+
+        List<Object> tgMessages = apiRKeeper.getUpdates();
+        String lastTgMsg;
+        int msgListByNeededGuidIndex = 0;
+
+        HashMap<Integer,String> msgListByNeededGuid = new HashMap<>();
+
+        for (Object tgMessage : tgMessages) {
+
+            String currentMsg = tgMessage.toString();
+
+            if (currentMsg.contains(guid) && !currentMsg.contains("Рейтинг:")) {
+
+                System.out.println("\nСообщение подходящее по текущему заказу \n");
+
+                msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
+                System.out.println(msgListByNeededGuid.size() + " количество сообщений");
+
+                msgListByNeededGuidIndex++;
+
+            }
+
+        }
+
+        if (msgListByNeededGuid.size() > 0) {
+
+            lastTgMsg = msgListByNeededGuid.get(msgListByNeededGuid.size()-1);
+
+        } else {
+
+            System.out.println("Сообщения не были найдены");
+            return null;
+
+        }
+
+        Allure.addAttachment("Сообщение в телеграмме", String.valueOf(lastTgMsg));
 
         return lastTgMsg;
 

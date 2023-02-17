@@ -1,22 +1,17 @@
 package tapper.tests;
 
 
+import admin_personal_account.menu.Menu;
+import admin_personal_account.operations_history.OperationsHistory;
 import api.ApiRKeeper;
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import support_personal_account.lock.Lock;
 import support_personal_account.logsAndPermissions.LogsAndPermissions;
-import total_personal_account_actions.AuthorizationPage;
-import admin_personal_account.menu.Menu;
-import admin_personal_account.operations_history.OperationsHistory;
 import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
@@ -25,31 +20,22 @@ import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
+import total_personal_account_actions.AuthorizationPage;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
-import static api.ApiData.orderData.TABLE_AUTO_1_ID;
+import static api.ApiData.QueryParams.*;
+import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Selenide.*;
-import static data.Constants.TestData.*;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
-import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
-import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
+import static data.Constants.TestData.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
-import static data.selectors.SupportPersonalAccount.Lock.*;
-import static data.selectors.TapperTable.RootPage.DishList.divideCheckSlider;
-import static org.junit.jupiter.api.Assertions.*;
+import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.tipsWaiter;
 
 
 @Epic("Debug")
@@ -80,75 +66,30 @@ public class Debug {
 
     //  <---------- Tests ---------->
 
+
+
+
+
     @Disabled
     @Test
     @DisplayName("kill")
     public void killTable() {
 
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    ChromeOptions options = new ChromeOptions();
-    options.addArguments("--incognito");
-    capabilities.setCapability(ChromeOptions.CAPABILITY,options);
+
+        int amountDishesForFillingOrder = 7;
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+
+        apiRKeeper.orderFill(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
+
+        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                TABLE_AUTO_111_ID, AUTO_API_URI,dishesForFillingOrder);
+
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
 
+      //  apiRKeeper.orderFill(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
 
-    WebDriver firstBrowser = new ChromeDriver(options);
-    firstBrowser.manage().window().setPosition(new Point(0,0));
-
-    WebDriver secondBrowser = new ChromeDriver(options);
-    secondBrowser.manage().window().setPosition(new Point(960,0));
-
-
-     using(firstBrowser, () -> {
-
-        open("https://stage-ssr.zedform.ru/testrkeeper/1000043");
-
-     });
-
-    using(secondBrowser, () -> {
-
-        open("https://stage-ssr.zedform.ru/testrkeeper/1000043");
-
-    });
-
-    using(firstBrowser, () -> {
-
-        sleep(5000);
-        divideCheckSlider.click();
-        rootPage.chooseCertainAmountDishes(1);
-
-    });
-
-    using(secondBrowser, () -> {
-
-        sleep(5000);
-
-
-    });
-
-
-
-    firstBrowser.close();
-    secondBrowser.close();
-
-
-
-    }
-
-
-
-    @Test
-    public void hasModifier() {
-
-        LocalDate dateMinus = LocalDate.now().minusDays(7);
-
-        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String date = dateMinus.format(formatters);
-
-
-
-
-        System.out.println(date);
+       // apiRKeeper.newFillingOrder( apiRKeeper.rsBodyFillingOrder(R_KEEPER_RESTAURANT, "{D0F34BE9-8FB9-45DF-B97B-9E95EF0DC24B}",dishesForFillingOrder));
 
     }
 
@@ -224,8 +165,6 @@ public class Debug {
         System.out.println(orderData);
 
     }
-
-
 
     @Disabled
     @Test
@@ -373,7 +312,7 @@ public class Debug {
 
         rootPage.forceWait(2000);
 
-        rootPage.openUrlAndWaitAfter(TapperTable.STAGE_RKEEPER_TABLE_10);
+
 
         rootPage.matchTapperOrderWithOrderInKeeper(allDishesInfo);
 
@@ -381,7 +320,7 @@ public class Debug {
 
     }
 
-    @Disabled
+
     @Test
     @DisplayName("discount")
     public void deletePosition() {
@@ -501,7 +440,7 @@ public class Debug {
     @DisplayName("add modificator")
     public void addModificator1() {
 
-        Response rs = apiRKeeper.getOrderInfo(TABLE_AUTO_1_ID, TapperTable.AUTO_API_URI);
+        Response rs = apiRKeeper.getOrderInfo(TABLE_AUTO_111_ID, TapperTable.AUTO_API_URI);
         Object sessionSizeFlag = rs.path("Session");
 
         int sessionSize;
