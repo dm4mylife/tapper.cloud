@@ -16,11 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
-import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY;
 
 @Order(13)
 @Epic("RKeeper")
@@ -50,15 +48,12 @@ public class _1_3_NoTipsScTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_111_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_111_ID);
 
     }
 
@@ -102,7 +97,7 @@ public class _1_3_NoTipsScTest extends BaseTest {
     @DisplayName("6. Проверка сообщения в телеграмме")
     public void clearDataAndChoseAgain() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

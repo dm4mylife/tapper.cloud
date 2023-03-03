@@ -20,132 +20,22 @@ import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
 import static data.Constants.ATTEMPT_FOR_PREPAYMENT_REQUEST;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+
 import static io.restassured.RestAssured.given;
 
 public class ApiRKeeper {
 
     BaseActions baseActions = new BaseActions();
 
-    public LinkedHashMap<String, Object>
-    rsCreateOrder(String restaurantName,String tableId, String waiterId) {
-
-        LinkedHashMap<String, Object> createOrderDataMap = new LinkedHashMap<>();
-
-        createOrderDataMap.put("subDomen", restaurantName);
-        createOrderDataMap.put("tableCode", tableId);
-        createOrderDataMap.put("waiterCode", waiterId);
-        createOrderDataMap.put("persistentComment", "100500");
-
-        return createOrderDataMap;
-
-    }
-
     @Step("Создание заказа")
-    public Response newCreateOrder(LinkedHashMap<String, Object> rsBodyCreateOrder, String apiUri, String tableId,
-                                   String restaurant) {
-
-          if (!newIsClosedOrder(restaurant,tableId,apiUri)) {
-
-            System.out.println("На кассе есть прошлый заказ, закрываем его");
-            String guid = getGuidFromOrderInfo(tableId,apiUri);
-            System.out.println(guid + " guid");
-
-            if (guid.equals("")) {
-
-                System.out.println("На кассе пустой заказ на столе");
-
-            } else {
-
-                orderPay(rqParamsOrderPay(restaurant, guid), apiUri);
-
-                boolean isOrderClosed = newIsClosedOrder(restaurant,tableId,apiUri);
-
-                Assertions.assertTrue(isOrderClosed, "Заказ не закрылся на кассе");
-                System.out.println("\nЗаказ закрылся на кассе\n");
-
-            }
-
-        }
-
-        return newCreateOrderTest(rsBodyCreateOrder, apiUri);
-
-    }
-
-
-    @Step("Создаём заказ на кассе и наполняем его")
-    public Response createAndFillOrder(String restaurantName, String tableCode, String waiterCode, String tableId,
-                                       String apiUri,ArrayList<LinkedHashMap<String, Object>> rqBodyFillingOrder) {
-
-        LinkedHashMap<String, Object> rqBodyCreateOrder =
-                rsCreateOrder(restaurantName, tableCode, waiterCode);
-
-        Response rsCreateOrder = newCreateOrder
-                (rqBodyCreateOrder, apiUri, tableId, restaurantName);
-
-        String guid = getGuidFromCreateOrder(rsCreateOrder);
-
-        newFillingOrder(rsBodyFillingOrder(restaurantName, guid, rqBodyFillingOrder));
-
-        return rsCreateOrder;
-
-    }
-
-
-    @Step("Создание заказа")
-    public Response createOrder(String requestBody, String baseUri) {
-
-      /*  if (!isClosedOrder()) {
-
-            System.out.println("На кассе есть прошлый заказ, закрываем его");
-            String guid = getGuidFromOrderInfo(TABLE_AUTO_111_ID,AUTO_API_URI);
-
-            orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT, guid), AUTO_API_URI);
-
-            boolean isOrderClosed = isClosedOrder();
-
-            Assertions.assertTrue(isOrderClosed, "Заказ не закрылся на кассе");
-            System.out.println("\nЗаказ закрылся на кассе\n");
-
-        } */
-
-        return createOrderTest(requestBody, baseUri);
-
-    }
-
-    public Response createOrderTest(String requestBody, String baseUri) {
+    public Response createOrder(LinkedHashMap<String, Object> rsBodyCreateOrder, String apiUri) {
 
         System.out.println("\nСоздание заказа\n");
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
-                .body(requestBody)
-                .baseUri(baseUri)
-                .when()
-                .post(createOrder)
-                .then()
-                .log().ifError()
-                .statusCode(200)
-                .extract()
-                .response();
-
-        Assertions.assertTrue(response.jsonPath().getBoolean("success"));
-
-        System.out.println("Заказ создался на кассе.Время исполнение запроса "
-                + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
-
-        return response;
-
-    }
-
-    public Response newCreateOrderTest(LinkedHashMap<String, Object> rqBody, String apiUri) {
-
-        System.out.println("\nСоздание заказа\n");
-
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .and()
-                .body(rqBody)
+                .body(rsBodyCreateOrder)
                 .baseUri(apiUri)
                 .when()
                 .post(createOrder)
@@ -165,57 +55,7 @@ public class ApiRKeeper {
     }
 
     @Step("Наполнение заказа")
-    public Response fillingOrder(String requestBody) {
-
-        System.out.println("\nНаполняем заказ\n");
-
-        String hasError;
-        Response response;
-        int errorCounter = 0;
-
-        do {
-
-            response = given()
-                    .contentType(ContentType.JSON)
-                    .log().all()
-                    .and()
-                    .body(requestBody)
-                    .baseUri(AUTO_API_URI)
-                    .when()
-                    .post(EndPoints.fillingOrder)
-                    .then()
-                //    .log().body()
-                    .statusCode(200)
-                    .extract()
-                    .response();
-
-            Assertions.assertTrue(response.jsonPath().getBoolean("success"));
-            Assertions.assertNotEquals(null, response.jsonPath().getMap("result"));
-
-            hasError = response.jsonPath().getString("result.Errors");
-
-            if (hasError != null) {
-
-                errorCounter++;
-                System.out.println("Ошибка запроса -> " + hasError);
-
-            } else {
-
-                System.out.println("Заказ наполнился позициями");
-                errorCounter = 3;
-
-            }
-
-            System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
-
-        } while (errorCounter < 3);
-
-        return response;
-
-    }
-
-    @Step("Наполнение заказа")
-    public Response newFillingOrder(Map<String, Object> rsBody) {
+    public void fillingOrder(Map<String, Object> rsBody) {
 
         System.out.println("\nНаполняем заказ\n");
 
@@ -257,8 +97,6 @@ public class ApiRKeeper {
             System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
         } while (errorCounter < 3);
-
-        return response;
 
     }
 
@@ -306,7 +144,7 @@ public class ApiRKeeper {
                     .when()
                     .delete(deletePosition)
                     .then()
-                  //  .log().body()
+                    .log().body()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -319,6 +157,49 @@ public class ApiRKeeper {
 
                 errorCounter++;
                 System.out.println("\nОшибка в запросе, будет сделан повторный запрос. Попытка № " + errorCounter + "\n");
+
+            } else {
+
+                errorCounter = 3;
+
+            }
+
+        } while (errorCounter < 3);
+
+    }
+
+    public void deleteEmptyOrder(Map<String, Object> rsBody, String baseUri) {
+
+        System.out.println("\nУдаляем пустой заказ\n" + rsBody);
+
+        boolean hasError;
+        Response response;
+        int errorCounter = 0;
+
+        do {
+
+            response = given()
+                    .contentType(ContentType.JSON)
+                    .and()
+                    .baseUri(baseUri)
+                    .body(rsBody)
+                    .when()
+                    .post(deleteOrder)
+                    .then()
+                    .log().body()
+                    .statusCode(200)
+                    .extract()
+                    .response();
+
+            System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
+
+            hasError = response.path("success").equals(true);
+
+            if (!hasError) {
+
+                errorCounter++;
+                System.out.println("\nОшибка в запросе, будет сделан повторный запрос. Повторная попытка № "
+                        + errorCounter + "\n");
 
             } else {
 
@@ -351,7 +232,7 @@ public class ApiRKeeper {
                     .when()
                     .post(addDiscount)
                     .then()
-                //    .log().body()
+                    .log().body()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -376,55 +257,10 @@ public class ApiRKeeper {
 
     }
 
-    public Response deleteEmptyOrder(Map<String, Object> rsBody) {
-
-        System.out.println("\nУдаляем пустой заказ\n" + rsBody);
-
-        boolean hasError;
-        Response response;
-        int errorCounter = 0;
-
-        do {
-
-            response = given()
-                    .contentType(ContentType.JSON)
-                    .and()
-                    .baseUri(AUTO_API_URI)
-                    .body(rsBody)
-                    .when()
-                    .delete(deleteDiscount)
-                    .then()
-                    .log().body()
-                    .statusCode(200)
-                    .extract()
-                    .response();
-
-            System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
-
-            hasError = response.path("success").equals(true);
-
-            if (!hasError) {
-
-                errorCounter++;
-                System.out.println("\nОшибка в запросе, будет сделан повторный запрос. Повторная попытка № "
-                        + errorCounter + "\n");
-
-            } else {
-
-                errorCounter = 3;
-
-            }
-
-        } while (errorCounter < 3);
-
-        return response;
-
-    }
-
     @Step("Удаление скидки заказа")
-    public void deleteDiscount(String requestBody, String baseUri) {
+    public void deleteDiscount(Map<String, Object> rqBody, String baseUri) {
 
-        System.out.println(requestBody);
+        System.out.println(rqBody);
 
         boolean hasError;
         Response response;
@@ -436,7 +272,7 @@ public class ApiRKeeper {
                     .contentType(ContentType.JSON)
                     .and()
                     .baseUri(baseUri)
-                    .body(requestBody)
+                    .body(rqBody)
                     .when()
                     .delete(deleteDiscount)
                     .then()
@@ -467,20 +303,20 @@ public class ApiRKeeper {
     }
 
     @Step("Получение информации о заказе на столе")
-    public Response getOrderInfo(String id_table, String baseUri) {
+    public Response getOrderInfo(String tableId, String apiUri) {
 
         System.out.println("\nЗапрашиваем информацию о заказе на кассе\n");
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
-                .queryParam("id_table", id_table)
-                .queryParam("subDomen", R_KEEPER_RESTAURANT)
-                .baseUri(baseUri)
+                .queryParam("table_id", tableId)
+                .queryParam("domen", R_KEEPER_RESTAURANT)
+                .baseUri(apiUri)
                 .when()
-                .post(getOrderInfo)
+                .get(getOrderInfo)
                 .then()
-               // .log().ifError()
+                .log().ifError()
                 .extract()
                 .response();
 
@@ -491,63 +327,45 @@ public class ApiRKeeper {
 
     }
 
-    @Step("Получаем guid")
-    public String getGuidFromCreateOrder(Response rs) {
-
-        return rs.jsonPath().getString("result.guid");
-
-    }
-
     @Step("Получаем uni")
-    public String getUni(String tableId, String apiUri) {
+    public String getUniFirstValueFromOrderInfo(String tableId, String apiUri) {
 
-        return apiRKeeper.getOrderInfo(tableId,apiUri).jsonPath().getString("Session.Dish['@attributes'].uni");
+        Response rs = apiRKeeper.getOrderInfo(tableId,apiUri);
 
-    }
+        String uniPath = "result.CommandResult.Order.Session.Dish[\"@attributes\"].uni";
+        String uni = "";
 
-    @Step("Получаем guid")
-    public String getGuidFromOrderInfo(String tableId,String baseUri) {
+        System.out.println(rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[\"@attributes\"].uni") + " UNI");
 
-        return getOrderInfo(tableId,baseUri).jsonPath().getString("@attributes.guid");
+        if (rs.path(uniPath) instanceof String) {
 
-    }
+            uni = rs.jsonPath().getString(uniPath) + " string";
+            System.out.println(uni);
 
-    @Step("Получаем visit")
-    public String geVisitFromCreateOrder(Response rs) {
+            return uni;
 
-        return rs.jsonPath().getString("result.guid");
+        } else if (rs.path(uniPath) instanceof List) {
 
-    }
+            System.out.println(rs.jsonPath().getList(uniPath) + " list");
+            uni = rs.jsonPath().getList(uniPath).get(0).toString();
 
-    @Step("Проверка закрыт ли текущий заказ на столе")
-    public Response isOrderClosed(String requestBody, String baseUri) {
+            return uni;
 
-        System.out.println("\nПолучаем информацию по состоянию заказа\n");
+        } else if (rs.path(uniPath) == null) {
 
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .and()
-                .body(requestBody)
-                .baseUri(baseUri)
-                .when()
-                .post(checkOrderClosed)
-                .then()
-                .log().body()
-                .statusCode(200)
-                .extract()
-                .response();
+            System.out.println(rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[0][\"@attributes\"].uni") + " array dish");
+            uni = rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[0][\"@attributes\"].uni");
 
-        System.out.println("Получили информацию по состоянию заказа.Время исполнение запроса "
-                + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+        }
 
-        return response;
+        return uni;
 
     }
 
     @Step("Проверка пришла ли предоплата")
     public Response checkPrepayment(String requestBody, String baseUri) {
 
-        System.out.println("\nПолучаем информацию пришла ли предоплата\n");
+        System.out.println("\nПолучаем информацию пришла ли предоплата\n" + requestBody);
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -570,24 +388,29 @@ public class ApiRKeeper {
     }
 
     @Step("Оплата заказа")
-    public void orderPay(String requestBody, String baseUri) {
+    public void orderPay(Map<String, Object> rsBody, String baseUri) {
 
-        System.out.println("\nОплачиваем заказ\n");
+        System.out.println("\nОплачиваем заказ\n" + rsBody);
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
-                .body(requestBody)
+                .body(rsBody)
                 .baseUri(baseUri)
                 .when()
                 .post(orderPay)
                 .then()
-                .log().all()
+                .log().body()
                 .statusCode(200)
                 .extract()
                 .response();
 
+        Assertions.assertTrue(response.jsonPath().getBoolean("success"),"Текст ошибки: " +
+                response.jsonPath().getString("message"));
+
         System.out.println("Оплатили заказ.Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+
+        baseActions.forceWait(2500); //toDo оплата приходит на кассу, но не успевает примениться
 
     }
 
@@ -618,108 +441,27 @@ public class ApiRKeeper {
 
     }
 
-    @Step("Проверка что заказ закрыт на столе")
-    public boolean isClosedOrder(String restaurantName, String tableId, String apiUri) {
+    @Step("Закрываем заказ через апи")
+    public void closedOrderByApi(String restaurantName, String tableId, String guid, String apiUri) {
 
-        Response rsGetOrder = getOrderInfo(tableId, apiUri);
-        Response isOrderClosed = null;
-        String guid;
-        boolean isClosed = false;
+        Response rs = apiRKeeper.getOrderInfo(tableId,apiUri);
 
-        if (rsGetOrder.statusCode() == 500) {
+        int paySum = Integer.parseInt(apiRKeeper.getOrderSumFromGetOrder(rs));
 
-            System.out.println("Пустой стол");
-            return true;
+        LinkedHashMap<String, Object> rqBody = apiRKeeper.rqBodyOrderPay(restaurantName,guid,paySum);
 
-        } else if (rsGetOrder.statusCode() != 200) {
+        apiRKeeper.orderPay(rqBody, apiUri);
 
-            System.out.println("Ошибка. Запрос не исполнился");
-
-        } else {
-
-            guid = getGuidFromCreateOrder(rsGetOrder);
-            isOrderClosed = isOrderClosed(rqParamsIsOrderClosed(restaurantName, guid), apiUri);
-
-        }
-
-        if (isOrderClosed != null) {
-
-            if (isOrderClosed.jsonPath().getString("message").equals("Заказ НЕ закрыт на кассе")) {
-
-                System.out.println("Заказ НЕ закрыт или его нет на кассе");
-
-            }
-
-        } else {
-
-            boolean isSuccessRs = isOrderClosed.jsonPath().getBoolean("success");
-
-            System.out.println(isOrderClosed.jsonPath().getBoolean("message"));
-
-            if (isSuccessRs) {
-
-                isClosed = true;
-
-            }
-
-        }
-
-        return isClosed;
-
-    }
-
-    @Step("Проверка что заказ закрыт на столе")
-    public boolean newIsClosedOrder(String restaurantName, String tableId, String apiUri) {
-
-        Response rsGetOrder = getOrderInfo(tableId, apiUri);
-        Response isOrderClosed = null;
-        String guid;
-        boolean isClosed = false;
-
-        if (rsGetOrder.statusCode() == 500) {
-
-            System.out.println("Пустой стол");
-            return true;
-
-        } else if (rsGetOrder.statusCode() != 200) {
-
-            System.out.println("Ошибка. Запрос не исполнился");
-
-        } else {
-
-            guid = getGuidFromCreateOrder(rsGetOrder);
-            isOrderClosed = isOrderClosed(rqParamsIsOrderClosed(restaurantName, guid), apiUri);
-
-        }
-
-        if (isOrderClosed != null) {
-
-            if (isOrderClosed.jsonPath().getString("message").equals("Заказ НЕ закрыт на кассе")) {
-
-                System.out.println("Заказ НЕ закрыт или его нет на кассе");
-
-            }
-
-        } else {
-
-            boolean isSuccessRs = isOrderClosed.jsonPath().getBoolean("success");
-
-            System.out.println(isOrderClosed.jsonPath().getBoolean("message"));
-
-            if (isSuccessRs) {
-
-                isClosed = true;
-
-            }
-
-        }
-
-        return isClosed;
+        Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
+                "На столе был прошлый заказ, его не удалось закрыть");
+        System.out.println("\nЗаказ закрылся на кассе\n");
 
     }
 
     @Step("Добавление модификатора в заказ")
     public Response addModificatorOrder(Map<String, Object> rsBody) {
+
+        System.out.println("Добавляем блюдо с модификатором в заказ");
 
         Response response;
         boolean hasError;
@@ -735,7 +477,7 @@ public class ApiRKeeper {
                     .when()
                     .post(addModificatorOrder)
                     .then()
-                    .log().ifError()
+                    .log().body()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -769,9 +511,9 @@ public class ApiRKeeper {
                 .contentType(ContentType.JSON)
                 .and()
                 .when()
-                .get("https://api.telegram.org/bot5989489181:AAGsWoVW-noi9lDDx11H-nGPNPOuw8XtCZI/getUpdates?offset=-100")
+                .get("https://api.telegram.org/bot5989489181:AAGsWoVW-noi9lDDx11H-nGPNPOuw8XtCZI/getUpdates?offset=-25")
                 .then()
-                //.log().body()
+                .log().ifError()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -783,42 +525,82 @@ public class ApiRKeeper {
 
     }
 
-    public Map<String, Object> rsBodyFillingOrder(String domen, String guid, ArrayList<LinkedHashMap<String, Object>> dishes) {
+    @Step("Проверяем не закрыт ли стол")
+    public boolean isTableEmpty(String restaurantName, String tableId, String apiUri) {
 
-        Map<String, Object> rsBody = new LinkedHashMap<>();
-        rsBody.put("domen", domen);
-        rsBody.put("guid", guid);
-        rsBody.put("station", 1);
-        rsBody.put("dishes", dishes);
+        Response rs = apiRKeeper.getOrderInfo(tableId,apiUri);
 
-        return rsBody;
+        boolean isSuccess = false;
+        boolean hasError = rs.jsonPath().getBoolean("success");
+
+        if (hasError) {
+
+            String visit = apiRKeeper.getVisitFromGetOrder(rs);
+            String guid = apiRKeeper.getGuidFromGetOrder(rs);
+            String orderSum = apiRKeeper.getOrderSumFromGetOrder(rs);
+
+            if (orderSum.equals("0")) {
+
+                System.out.println("Пустой заказ, закрываем пустой");
+                apiRKeeper.deleteEmptyOrder(apiRKeeper.rqBodyDeleteEmptyOrder(restaurantName,visit),apiUri);
+
+            } else {
+
+                System.out.println("Заказ имеет позиции, оплачиваем его и проверяем что закрыт");
+                apiRKeeper.orderPay(rqBodyOrderPay(restaurantName,guid, Integer.parseInt(orderSum)),apiUri);
+
+            }
+
+            isTableEmpty(restaurantName,tableId,apiUri);
+            isSuccess = true;
+
+        } else {
+
+            String errorMessage = rs.jsonPath().getString("errors.error");
+
+            if (errorMessage.contains("Не найдена информация по запросу.") ||
+                    errorMessage.contains("Not Found") ) {
+
+                System.out.println("На столе нет заказа");
+                isSuccess = true;
+
+            } else {
+
+                System.out.println("Ошибка: " + errorMessage);
+
+            }
+
+        }
+
+        System.out.println("Ready for next test: " + isSuccess);
+        return isSuccess;
 
     }
 
-    public Map<String, Object> rsBodyAddDiscount(String domen, String guid, ArrayList<LinkedHashMap<String, Object>> discounts) {
+    public LinkedHashMap<String, Object>
+    rqBodyCreateOrder(String restaurantName, String tableId, String waiterId) {
 
-        Map<String, Object> rsBody = new LinkedHashMap<>();
-        rsBody.put("domen", domen);
-        rsBody.put("guid", guid);
-        rsBody.put("station", 1);
-        rsBody.put("discounts", discounts);
+        LinkedHashMap<String, Object> createOrderDataMap = new LinkedHashMap<>();
 
-        return rsBody;
+        createOrderDataMap.put("subDomen", restaurantName);
+        createOrderDataMap.put("tableCode", tableId);
+        createOrderDataMap.put("waiterCode", waiterId);
+        createOrderDataMap.put("persistentComment", "100500");
+
+        return createOrderDataMap;
 
     }
-
-    public Map<String, Object> rsBodyDeleteEmptyOrder(String visit) {
+    public Map<String, Object> rqBodyDeleteEmptyOrder(String domen, String visit) {
 
         Map<String, Object> rsBody = new LinkedHashMap<>();
-        rsBody.put("subDomen", "testrkeeper");
+        rsBody.put("subDomen", domen);
         rsBody.put("visitId", visit);
 
         return rsBody;
 
     }
-
     public ArrayList<LinkedHashMap<String, Object>>
-    orderFill(ArrayList<LinkedHashMap<String, Object>> array, String dishId, int quantity) {
+    createDishObject(ArrayList<LinkedHashMap<String, Object>> array, String dishId, int quantity) {
 
         LinkedHashMap<String, Object> dishObject = new LinkedHashMap<>();
 
@@ -831,8 +613,43 @@ public class ApiRKeeper {
 
     }
 
-    public ArrayList<LinkedHashMap<String, Object>>
-    createDiscountWithCustomSum(ArrayList<LinkedHashMap<String, Object>> array, String discountId, String amount) {
+    public Map<String, Object> rqBodyFillingOrder(String domen, String guid, ArrayList<LinkedHashMap<String,
+            Object>> dishes) {
+
+        Map<String, Object> rsBody = new LinkedHashMap<>();
+        rsBody.put("domen", domen);
+        rsBody.put("guid", guid);
+        rsBody.put("station", 1);
+        rsBody.put("dishes", dishes);
+
+        return rsBody;
+
+    }
+
+    public Map<String, Object> rqBodyAddDiscount(String domen, String guid, ArrayList<LinkedHashMap<String,
+            Object>> discounts) {
+
+        Map<String, Object> rsBody = new LinkedHashMap<>();
+        rsBody.put("domen", domen);
+        rsBody.put("guid", guid);
+        rsBody.put("station", 1);
+        rsBody.put("discounts", discounts);
+
+        return rsBody;
+
+    }
+
+    public void createDiscountByIdObject(ArrayList<LinkedHashMap<String, Object>> array, String discountId) {
+
+        LinkedHashMap<String, Object> dishObject = new LinkedHashMap<>();
+
+        dishObject.put("id", discountId);
+
+        array.add(dishObject);
+
+    }
+    public void createDiscountWithCustomSumObject(ArrayList<LinkedHashMap<String, Object>> array, String discountId,
+                                                  String amount) {
 
         LinkedHashMap<String, Object> discountObject = new LinkedHashMap<>();
 
@@ -841,24 +658,33 @@ public class ApiRKeeper {
 
         array.add(discountObject);
 
-        return array;
+    }
+    public LinkedHashMap<String, Object>
+    createModificatorObject(String dishId, int quantity) {
+
+        LinkedHashMap<String, Object> modificatorObject = new LinkedHashMap<>();
+
+        modificatorObject.put("id", dishId);
+        modificatorObject.put("quantity", quantity);
+
+        return modificatorObject;
 
     }
-
-    public ArrayList<LinkedHashMap<String, Object>>
-    createDiscountById(ArrayList<LinkedHashMap<String, Object>> array, String discountId) {
+    public LinkedHashMap<String, Object>
+    rqBodyFillModificatorArrayWithDishes(String dishId, int quantity,
+                                         ArrayList<LinkedHashMap<String, Object>> modificators ) {
 
         LinkedHashMap<String, Object> dishObject = new LinkedHashMap<>();
 
-        dishObject.put("id", discountId);
+        dishObject.put("id", dishId);
+        dishObject.put("quantity", quantity);
+        dishObject.put("modificators", modificators);
 
-        array.add(dishObject);
 
-        return array;
+        return dishObject;
 
     }
-
-    public Map<String, Object> rsBodyAddModificatorOrder(String domen, String guid,
+    public Map<String, Object> rqBodyAddModificatorOrder(String domen, String guid,
                                                          ArrayList<LinkedHashMap<String, Object>> dishes) {
 
         Map<String, Object> rsBody = new LinkedHashMap<>();
@@ -872,31 +698,68 @@ public class ApiRKeeper {
     }
 
     public LinkedHashMap<String, Object>
-    fillModificatorArrayWithDishes(String dishId, int quantity,
-                                   ArrayList<LinkedHashMap<String, Object>> modificators ) {
+    rqBodyOrderPay(String restaurantName, String guid, int paySum) {
 
         LinkedHashMap<String, Object> dishObject = new LinkedHashMap<>();
 
-        dishObject.put("id", dishId);
-        dishObject.put("quantity", quantity);
-        dishObject.put("modificators", modificators);
-
+        dishObject.put("domen", restaurantName);
+        dishObject.put("guid", guid);
+        dishObject.put("station", 1);
+        dishObject.put("pay", paySum);
 
         return dishObject;
 
     }
 
     public LinkedHashMap<String, Object>
-    createModificatorObject(String dishId, int quantity) {
+    rqBodyDeleteDiscount(String restaurantName, String guid, String uni) {
 
-        LinkedHashMap<String, Object> modificatorObject = new LinkedHashMap<>();
+        LinkedHashMap<String, Object> dishObject = new LinkedHashMap<>();
 
-        modificatorObject.put("id", dishId);
-        modificatorObject.put("quantity", quantity);
+        dishObject.put("domen", restaurantName);
+        dishObject.put("guid", guid);
+        dishObject.put("station", 1);
+        dishObject.put("uni", uni);
 
-        return modificatorObject;
+        return dishObject;
 
     }
 
+    public String getGuidFromCreateOrder(Response rs) {
+
+        return rs.jsonPath().getString("result.guid");
+
+    }
+    public String getUniDiscountFromCreateOrder(String tableId,String apiUri) { // toDO сделать нормальный перебор по сессиям
+
+        Response rs = getOrderInfo(tableId,apiUri);
+
+        return rs.jsonPath().getString("result.CommandResult.Order.Session[1].Discount[\"@attributes\"].uni");
+
+    }
+
+    public String getVisitFromGetOrder(Response rs) {
+
+        return rs.jsonPath().getString("result.CommandResult.Order[\"@attributes\"].visit");
+
+    }
+
+    public String getGuidFromGetOrder(Response rs) {
+
+        return rs.jsonPath().getString("result.CommandResult.Order[\"@attributes\"].guid");
+
+    }
+
+    public String getOrderSumFromGetOrder(Response rs) {
+
+        return rs.jsonPath().getString("result.CommandResult.Order[\"@attributes\"].orderSum");
+
+    }
+
+    public String getPrepaySumSumFromGetOrder(Response rs) {
+
+        return rs.jsonPath().getString("result.CommandResult.Order[\"@attributes\"].prepaySum");
+
+    }
 
 }

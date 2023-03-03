@@ -3,108 +3,18 @@ package tapper_table;
 import api.ApiRKeeper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static data.Constants.RegexPattern.*;
-import static data.Constants.TestData.AdminPersonalAccount.TELEGRAM_TOKEN;
 import static io.restassured.RestAssured.given;
 
 public class Telegram {
 
     ApiRKeeper apiRKeeper = new ApiRKeeper();
 
-    @Step("Получаем сообщения из телеграмма")
-    public void getUpdates() {
-
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .and()
-                .when()
-                .get("https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/getUpdates?offset=20")
-                .then()
-                .log().body()
-                .statusCode(200)
-                .extract()
-                .response();
-
-        System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
-
-    }
-
-    @Step("Получаем последнее сообщение и сравниваем что это сообщение из рассылки")
-    public String getLastTgMsgForAdminSending(String textInSending) {
-
-        List<Object> tgMessages = apiRKeeper.getUpdates();
-        String lastTgMsg = "";
-        String lastMsgObject = tgMessages.get(tgMessages.size()-1).toString();
-
-        if (lastMsgObject.contains(textInSending)) {
-
-            lastTgMsg = lastMsgObject;
-
-            System.out.println("\nСообщение подходящее по текущему заказу \n." +
-                    "Сообщение перед отправкой на проверку --->" + lastTgMsg);
-
-            Allure.addAttachment("Сообщение в телеграмме", "text/plain", lastTgMsg);
-            return lastTgMsg;
-
-        }
-
-        System.out.println("Сообщение перед отправкой на проверку ---> " + lastTgMsg);
-        return lastTgMsg;
-
-    }
-
-    @Step("Получаем список всех сообщений об оплате")
-    public String getReviewMsgList(String guid) {
-
-        System.out.println(guid + " guid для поиска сообщений");
-
-        List<Object> tgMessages = apiRKeeper.getUpdates();
-        String lastTgMsg;
-        int msgListByNeededGuidIndex = 0;
-
-        HashMap<Integer,String> msgListByNeededGuid = new HashMap<>();
-
-        for (Object tgMessage : tgMessages) {
-
-            String currentMsg = tgMessage.toString();
-
-            if (currentMsg.contains(guid) && !currentMsg.contains("Рейтинг: 0")) {
-
-                System.out.println("\nСообщение подходящее по текущему заказу \n");
-
-                msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
-                System.out.println(msgListByNeededGuid.size() + " количество сообщений");
-
-                msgListByNeededGuidIndex++;
-
-            }
-
-        }
-
-        if (msgListByNeededGuid.size() > 0) {
-
-            lastTgMsg = msgListByNeededGuid.get(msgListByNeededGuid.size()-1);
-
-        } else {
-
-            System.out.println("Сообщения не были найдены");
-            return null;
-
-        }
-
-        Allure.addAttachment("Сообщение в телеграмме", String.valueOf(lastTgMsg));
-
-        return lastTgMsg;
-
-    }
     @Step("Получаем список всех сообщений об оплате")
     public String getLastTgPayMsgList(String guid) {
 
@@ -245,15 +155,15 @@ public class Telegram {
     @Step("Наполнение хешкарты если сообщение типа оплаты, без ошибки")
     public LinkedHashMap<String, String> paymentFiller(String textMsg,LinkedHashMap<String, String> tgParsedText) {
 
-        String table = textMsg.replaceAll(tableRegex, "$2");
-        String sumInCheck = textMsg.replaceAll(sumInCheckRegex, "$2");
-        String restToPay = textMsg.replaceAll(restToPayRegex, "$2");
-        String tips = textMsg.replaceAll(tipsRegex, "$2");
-        String paySum = textMsg.replaceAll(paySumRegex, "$2");
-        String totalPaid = textMsg.replaceAll(totalPaidRegex, "$2");
-        String payStatus = textMsg.replaceAll(payStatusRegex, "$2");
-        String orderStatus = textMsg.replaceAll(orderStatusRegex, "$2").trim();
-        String waiter = textMsg.replaceAll(waiterRegex, "$2");
+        String table = textMsg.replaceAll(TelegramMessage.tableRegex, "$2");
+        String sumInCheck = textMsg.replaceAll(TelegramMessage.sumInCheckRegex, "$2");
+        String restToPay = textMsg.replaceAll(TelegramMessage.restToPayRegex, "$2");
+        String tips = textMsg.replaceAll(TelegramMessage.tipsRegex, "$2");
+        String paySum = textMsg.replaceAll(TelegramMessage.paySumRegex, "$2");
+        String totalPaid = textMsg.replaceAll(TelegramMessage.totalPaidRegex, "$2");
+        String payStatus = textMsg.replaceAll(TelegramMessage.payStatusRegex, "$2");
+        String orderStatus = textMsg.replaceAll(TelegramMessage.orderStatusRegex, "$2").trim();
+        String waiter = textMsg.replaceAll(TelegramMessage.waiterRegex, "$2");
 
         tgParsedText.put("table", table);
         tgParsedText.put("sumInCheck", sumInCheck);
@@ -264,13 +174,13 @@ public class Telegram {
 
         if (textMsg.contains("Скидка:")) {
 
-            String discount = textMsg.replaceAll(discountRegex,"$2");
+            String discount = textMsg.replaceAll(TelegramMessage.discountRegex,"$2");
             System.out.println(discount + " discount");
             tgParsedText.put("discount", discount);
 
         } else if (textMsg.contains("Наценка:")) {
 
-            String markUp = textMsg.replaceAll(markUpRegex,"$2");
+            String markUp = textMsg.replaceAll(TelegramMessage.markUpRegex,"$2");
             System.out.println(markUp + " markUp");
             tgParsedText.put("markUp", markUp);
 
@@ -285,27 +195,25 @@ public class Telegram {
     }
 
     @Step("Наполнение хешкарты если сообщение типа оплаты с ошибкой")
-    public LinkedHashMap<String, String> paymentErrorFiller(String textMsg,LinkedHashMap<String, String> tgParsedText) {
+    public void paymentErrorFiller(String textMsg, LinkedHashMap<String, String> tgParsedText) {
 
         LinkedHashMap<String, String> paymentData = paymentFiller(textMsg,tgParsedText);
 
-        String reason = textMsg.replaceAll(reasonError, "$2");
+        String reason = textMsg.replaceAll(TelegramMessage.reasonError, "$2");
         System.out.println(reason + " reason");
 
         paymentData.put("reasonError",reason);
 
-        return paymentData;
-
     }
 
     @Step("Наполнение хешкарты если сообщение типа нулевой отзыв")
-    public LinkedHashMap<String, String> zeroReviewFiller(String textMsg,LinkedHashMap<String, String> tgParsedText) {
+    public void zeroReviewFiller(String textMsg, LinkedHashMap<String, String> tgParsedText) {
 
-        String restaurantName= textMsg.replaceAll(restaurantNameRegex, "$2");
-        String waiter = textMsg.replaceAll(waiterRegex, "$2");
-        String table = textMsg.replaceAll(tableRegex, "$2");
-        String ratingComment = textMsg.replaceAll(ratingCommentRegex, "$2");
-        String rating = textMsg.replaceAll(ratingRegex, "$2");
+        String restaurantName= textMsg.replaceAll(TelegramMessage.restaurantNameRegex, "$2");
+        String waiter = textMsg.replaceAll(TelegramMessage.waiterRegex, "$2");
+        String table = textMsg.replaceAll(TelegramMessage.tableRegex, "$2");
+        String ratingComment = textMsg.replaceAll(TelegramMessage.ratingCommentRegex, "$2");
+        String rating = textMsg.replaceAll(TelegramMessage.ratingRegex, "$2");
 
         tgParsedText.put("restaurantName", restaurantName);
         tgParsedText.put("table", table);
@@ -313,18 +221,16 @@ public class Telegram {
         tgParsedText.put("ratingComment", ratingComment);
         tgParsedText.put("rating", rating);
 
-        return tgParsedText;
-
     }
 
     @Step("Наполнение хешкарты если сообщение типа отзыв")
-    public LinkedHashMap<String, String> reviewFiller(String textMsg,LinkedHashMap<String, String> tgParsedText) {
+    public void reviewFiller(String textMsg, LinkedHashMap<String, String> tgParsedText) {
 
-        String waiter = textMsg.replaceAll(waiterRegex, "$2");
-        String table = textMsg.replaceAll(tableRegex, "$2");
-        String ratingComment = textMsg.replaceAll(ratingCommentRegex, "$2");
-        String rating = textMsg.replaceAll(ratingRegex, "$2");
-        String suggestion = textMsg.replaceAll(suggestionRegex, "$2");
+        String waiter = textMsg.replaceAll(TelegramMessage.waiterRegex, "$2");
+        String table = textMsg.replaceAll(TelegramMessage.tableRegex, "$2");
+        String ratingComment = textMsg.replaceAll(TelegramMessage.ratingCommentRegex, "$2");
+        String rating = textMsg.replaceAll(TelegramMessage.ratingRegex, "$2");
+        String suggestion = textMsg.replaceAll(TelegramMessage.suggestionRegex, "$2");
 
         tgParsedText.put("table", table);
         tgParsedText.put("waiter", waiter);
@@ -332,25 +238,18 @@ public class Telegram {
         tgParsedText.put("rating", rating);
         tgParsedText.put("suggestion", suggestion);
 
-        return tgParsedText;
-
     }
 
     @Step("Наполнение хешкарты если сообщение типа вызов официанта")
-    public LinkedHashMap<String, String> callWaiterFiller(String textMsg,LinkedHashMap<String, String> tgParsedText) {
+    public void callWaiterFiller(String textMsg, LinkedHashMap<String, String> tgParsedText) {
 
-        String tableReview = textMsg.replaceAll(tableReviewRegex, "$2");
-        String callWaiterComment = textMsg.replaceAll(callWaiterCommentRegex, "$2");
+        String tableReview = textMsg.replaceAll(TelegramMessage.tableReviewRegex, "$2");
+        String callWaiterComment = textMsg.replaceAll(TelegramMessage.callWaiterCommentRegex, "$2");
 
         tgParsedText.put("tableNumber", tableReview);
         tgParsedText.put("callWaiterComment", callWaiterComment);
 
-        return tgParsedText;
-
     }
-
-
-
 
     @Step("Парсим сообщение и преобразовываем в в хешкарту в зависимости от типа сообщения")
     public LinkedHashMap<String, String>  parseMsg(HashMap <String,String> msg) {
@@ -404,6 +303,5 @@ public class Telegram {
         return tgParsedText;
 
     }
-
 
 }

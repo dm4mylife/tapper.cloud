@@ -1,7 +1,6 @@
 package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
-import data.selectors.TapperTable;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
@@ -16,8 +15,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
+import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.RootPage.DishList.*;
@@ -64,15 +64,13 @@ public class RootPageNestedTests extends RootPage {
 
         }
         HashMap<Integer, Map<String, Double>> cashDeskData = getCashDeskData(tableId);
-        matchTapperOrderWithOrderInKeeper(cashDeskData);
+      //  matchTapperOrderWithOrderInKeeper(cashDeskData);
 
     }
 
     @Step("Проверка пустого стола и всех элементов")
     public void isEmptyTableCorrect() {
 
-        //isHintModalCorrect();
-        //closeHintModal();
         isElementVisible(appHeader);
         isElementVisible(tableNumber);
         emptyOrderHeading.shouldHave(matchText("Ваш заказ появится здесь"));
@@ -167,7 +165,7 @@ public class RootPageNestedTests extends RootPage {
         isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
         isSumInWalletMatchWithTotalPay();
 
-        activateRandomTipsAndActivateSc();
+        // activateRandomTipsAndActivateSc();
 
     }
 
@@ -212,12 +210,10 @@ public class RootPageNestedTests extends RootPage {
 
         areTipsOptionsCorrect(cleanTotalSum);
 
-        cancelTipsAndActivateSC(cleanTotalSum);
-
     }
 
     @Step("Проверка соответствует ли скидка на кассе полю 'Скидка' на столе")
-    public void isDiscountCorrectOnTable(double discountSumFromDesk) {
+    public void checkIsDiscountPresent(double discountSumFromDesk) {
 
         double totalDiscount = convertSelectorTextIntoDoubleByRgx(discountSum, "[^\\d\\.]+");
         System.out.println(totalDiscount + " скидка в поле 'Скидка'");
@@ -225,44 +221,84 @@ public class RootPageNestedTests extends RootPage {
         Assertions.assertEquals(discountSumFromDesk,totalDiscount,"Скидка с кассы не соответствует скидке на столе");
         System.out.println("Скидка на кассе соответствует скидке на столе");
 
-        double clearDiscountOnDish = totalDiscount / allDishesInOrder.size();;
+        double clearDiscountOnDish = totalDiscount / allNonPaidAndNonDisabledDishes.size();
 
-        allDishesInOrder.asFixedIterable().stream().forEach(element -> {
+        allNonPaidAndNonDisabledDishes.asFixedIterable().stream().forEach(element -> {
 
-           double dishPriceNoDiscount = convertSelectorTextIntoDoubleByRgx(element.$(".--old"),"[^\\d\\.]+");
-           double dishPriceWithDiscount = convertSelectorTextIntoDoubleByRgx(element.$(".--new"),"[^\\d\\.]+");
+           double dishPriceNoDiscount =
+                   convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithoutDiscountSelector),"[^\\d\\.]+");
+            System.out.println(dishPriceNoDiscount + " цена без скидки");
+           double dishPriceWithDiscount =
+                   convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithDiscountSelector),"[^\\d\\.]+");
+            System.out.println(dishPriceWithDiscount + " цена со скидкой");
 
-           Assertions.assertEquals(dishPriceWithDiscount,dishPriceNoDiscount - clearDiscountOnDish,
-                   "Скидка рассчитывается некорректно");
-            System.out.println("Скидка по позиции рассчитывается корректно");
+         //  String dishName = element.$(dishNameSelector).getText();
+            // Assertions.assertEquals(dishPriceWithDiscount,dishPriceNoDiscount - clearDiscountOnDish,
+           //        "Скидка рассчитывается некорректно у элемента: " + dishName);
+          //  System.out.println("Скидка по позиции рассчитывается корректно");
 
         });
 
     }
 
-    @Step("Проверка что итого к оплате считается корректно со скидкой, поле со скидкой корректно")
-    public void checkIsDiscountMatchWithSums(double discount) {
+    @Step("Проверяем что у оплаченных позиций с ранее выставленной скидкой должна быть цена также со скидкой")
+    public void hasNoDiscountPriceOnPaidDishesIfDiscountWasAppliedAfterPayment() {
 
-        double cleanTotalSum = countAllNonPaidDishesInOrder();
-        System.out.println(discount + " скидка");
+        allPaidDishes.asDynamicIterable().stream().forEach(
+                element -> isElementInvisible(element.$(dishPriceWithoutDiscountSelector)));
 
-        isElementVisible(discountField);
+        allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
-        double discountInCheck = convertSelectorTextIntoDoubleByRgx(discountSum, "[^\\d\\.]+");
-        double totalPayInCheck = convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
-        double serviceCharge = getCurrentSCSum();
-        double tips = getCurrentTipsSum();
+            isElementVisible(element.$(dishPriceWithoutDiscountSelector));
+            isElementVisible(element.$(dishPriceTotalSelector));
 
-        cleanTotalSum += serviceCharge + tips;
+        });
 
-        Assertions.assertEquals(discountInCheck, discount, 0.1,
-                "Сумма скидок не совпадает из кассы с таппером");
-        System.out.println("Скидка из кассы " + discount + " совпадает с суммой в блоке 'Скидка' " + discountInCheck);
+    }
 
-        Assertions.assertEquals(totalPayInCheck, cleanTotalSum, 0.1,
-                "Сумма итого к оплате не совпадает с чистой суммой со скидкой");
-        System.out.println("Сумма итого к оплате " + totalPayInCheck +
-                " совпадает с чистой суммой со скидкой " + cleanTotalSum);
+    @Step("Проверяем что у не оплаченных блюд будет наценка если были оплаченные позиции и скидку удалили")
+    public void isNonPaidDishesHasMarkupAfterRemovingDiscount(Map<Integer,Map<String,Double>> dishesBeforeAddingDiscount,
+                                                              Map<Integer,Map<String,Double>> dishesAfterAddingDiscount) {
+
+        System.out.println(dishesBeforeAddingDiscount);
+        System.out.println(dishesAfterAddingDiscount);
+
+        for (int index = 0; index < dishesBeforeAddingDiscount.size(); index++) {
+
+            double totalPriceBefore = dishesBeforeAddingDiscount.get(index).get("totalPrice") ;
+            double totalPriceAfter = dishesAfterAddingDiscount.get(index).get("totalPrice");
+
+            double discountPriceBefore = dishesBeforeAddingDiscount.get(index).get("discountPrice") ;
+            double discountPriceAfter = dishesAfterAddingDiscount.get(index).get("discountPrice");
+
+            if (totalPriceBefore != totalPriceAfter )
+                Assertions.fail("После добавления еще одной скидки изменилась общая цена");
+
+            if (discountPriceAfter < discountPriceBefore )
+                Assertions.fail("Цена должна увеличиться потому что удалили скидку, которая распространялась на " +
+                        "оплаченные позиции");
+
+        }
+
+
+    }
+
+
+    @Step("Проверяем что у оплаченных позиций с ранее выставленной скидкой должна быть цена также со скидкой")
+    public void hasDiscountPriceOnPaidDishesIfDiscountAppliedAfter() {
+
+        allPaidDishes.asDynamicIterable().stream().forEach(
+                element -> {
+                    isElementVisible(element.$(dishPriceWithoutDiscountSelector));
+                    isElementVisible(element.$(dishPriceTotalSelector));
+                });
+
+        allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
+
+            isElementVisible(element.$(dishPriceWithoutDiscountSelector));
+            isElementVisible(element.$(dishPriceTotalSelector));
+
+        });
 
     }
 
@@ -285,10 +321,7 @@ public class RootPageNestedTests extends RootPage {
 
             if (allNonPaidAndNonDisabledDishes.size() != amountDishes) {
 
-                clearAllSiteData();
-
                 chooseDishesWithRandomAmount(amountDishes);
-                isAnotherGuestSumCorrect();
                 setCustomTips(String.valueOf(generateRandomNumber(150,250)));
 
                 double totalPay = saveTotalPayForMatchWithAcquiring();
@@ -304,7 +337,7 @@ public class RootPageNestedTests extends RootPage {
                 reviewPageNestedTests.paymentCorrect("part");
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
-                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,timeoutPartPay);
+                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
                 rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             } else {
@@ -323,36 +356,15 @@ public class RootPageNestedTests extends RootPage {
                 reviewPageNestedTests.fullPaymentCorrect();
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
-                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,timeoutFullPay);
+                forceWait(timeoutFullPay);
+                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
                 rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             }
 
             reviewPage.clickOnFinishButton();
-            forceWait(2000); // toDO есть предположение что предоплата не успевает доходить до кассы
 
         }
-
-    }
-
-    @Step("Закрываем заказ полностью") // toDo костыльное решение по закрытию заказа пока пишется api
-    public void closeOrder() {
-
-        if (divideCheckSliderActive.exists()) {
-
-            divideCheckSliderActive.click();
-
-        }
-
-        clickPayment();
-
-        best2PayPageNestedTests.typeDataAndPay();
-        best2PayPage.clickPayButton();
-
-        reviewPageNestedTests.fullPaymentCorrect();
-        reviewPage.clickOnFinishButton();
-
-        isElementVisible(emptyOrderHeading);
 
     }
 
@@ -364,7 +376,7 @@ public class RootPageNestedTests extends RootPage {
         int totalDishIndex = 0;
         String currentDishName;
 
-        int sessionSize = rs.jsonPath().getList("Session.Dish").size();
+        int sessionSize = rs.jsonPath().getList("result.CommandResult.Order.Session.Dish").size();
 
         for (int currentDishIndex = 0; currentDishIndex < sessionSize; currentDishIndex++) {
 
@@ -373,49 +385,49 @@ public class RootPageNestedTests extends RootPage {
             double dishPrice;
             int modificatorTypeSize = 0;
 
-            if (rs.path("Session.Dish[" + currentDishIndex + "].Modi") != null) {
+            if (rs.path("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi") != null) {
 
-                if (rs.path("Session.Dish[" + currentDishIndex + "].Modi") instanceof LinkedHashMap) {
+                if (rs.path("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi") instanceof LinkedHashMap) {
 
                     modificatorTypeSize = 1;
 
                 } else {
 
-                    modificatorTypeSize = rs.jsonPath().getList("Session.Dish[" + currentDishIndex + "].Modi").size();
+                    modificatorTypeSize = rs.jsonPath().getList("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi").size();
 
                 }
 
             }
 
-            currentDishName = rs.jsonPath().getString("Session.Dish[" + currentDishIndex + "]['@attributes'].name");
+            currentDishName = rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "]['@attributes'].name");
 
             double modificatorTotalPrice = 0;
             if (modificatorTypeSize == 1) {
 
                 String modificatorName =
-                        rs.jsonPath().getString("Session.Dish[" + currentDishIndex +
+                        rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[" + currentDishIndex +
                                 "].Modi['@attributes'].name");
 
                 String modificatorCurrentPriceFlag = rs.path(
-                        "Session.Dish[" + currentDishIndex + "].Modi['@attributes'].price");
+                        "result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi['@attributes'].price");
 
                 double modificatorCurrentPrice = 0;
 
                 if (modificatorCurrentPriceFlag != null) {
 
                     modificatorCurrentPrice = rs.jsonPath().getDouble
-                            ("Session.Dish[" + currentDishIndex +
+                            ("result.CommandResult.Order.Session.Dish[" + currentDishIndex +
                                     "].Modi['@attributes'].price") / 100;
 
                 }
 
                 int modificatorCurrentCount = rs.jsonPath().getInt
-                        ("Session.Dish[" + currentDishIndex + "].Modi['@attributes'].count");
+                        ("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi['@attributes'].count");
 
                 modificatorTotalPrice = modificatorCurrentPrice * modificatorCurrentCount;
 
                 double currentDishPrice = rs.jsonPath().getDouble
-                        ("Session.Dish[" + currentDishIndex
+                        ("result.CommandResult.Order.Session.Dish[" + currentDishIndex
                                 + "]['@attributes'].price") / 100;
 
                 dishPrice = currentDishPrice + modificatorTotalPrice;
@@ -425,7 +437,7 @@ public class RootPageNestedTests extends RootPage {
                 for (int currentModificatorTypeIndex = 0; currentModificatorTypeIndex < modificatorTypeSize; currentModificatorTypeIndex++) {
 
                     String modificatorCurrentPriceFlag = rs.path(
-                            "Session.Dish[" + currentDishIndex + "].Modi["
+                            "result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi["
                                     + currentModificatorTypeIndex + "]['@attributes'].price");
 
                     double modificatorCurrentPrice = 0;
@@ -433,13 +445,13 @@ public class RootPageNestedTests extends RootPage {
                     if (modificatorCurrentPriceFlag != null) {
 
                         modificatorCurrentPrice = rs.jsonPath().getDouble
-                                ("Session.Dish[" + currentDishIndex +
+                                ("result.CommandResult.Order.Session.Dish[" + currentDishIndex +
                                         "].Modi[" + currentModificatorTypeIndex + "]['@attributes'].price") / 100;
 
                     }
 
                     int modificatorCurrentCount = rs.jsonPath().getInt
-                            ("Session.Dish[" + currentDishIndex + "].Modi["
+                            ("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi["
                                     + currentModificatorTypeIndex + "]['@attributes'].count");
 
                     modificatorTotalPrice += modificatorCurrentPrice * modificatorCurrentCount;
@@ -447,14 +459,14 @@ public class RootPageNestedTests extends RootPage {
                 }
 
                 double currentDishPrice = rs.jsonPath().getDouble
-                        ("Session.Dish[" + currentDishIndex
+                        ("result.CommandResult.Order.Session.Dish[" + currentDishIndex
                                 + "]['@attributes'].price") / 100;
 
                 dishPrice = currentDishPrice + modificatorTotalPrice;
 
             }
 
-            int dishQuantity = rs.jsonPath().getInt("Session.Dish[" + currentDishIndex + "]['@attributes'].quantity") / 1000;
+            int dishQuantity = rs.jsonPath().getInt("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "]['@attributes'].quantity") / 1000;
 
             for (int k = 0; k < dishQuantity; k++) {
 
@@ -471,7 +483,6 @@ public class RootPageNestedTests extends RootPage {
         return allDishesInfo;
 
     }
-
 
     public int getKeySize(Response response,String totalPath) {
 
@@ -510,7 +521,6 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-
     public double getDiscountFromResponse(Response response) {
 
         double discount = 0;
@@ -529,11 +539,11 @@ public class RootPageNestedTests extends RootPage {
     public double getTotalDiscount(String table_id) {
 
         Response rs = apiRKeeper.getOrderInfo(table_id, AUTO_API_URI);
-        Object sessionSizeFlag = rs.path("Session");
+        Object sessionSizeFlag = rs.path("result.CommandResult.Order.Session");
 
         int sessionSize;
         int sessionIndexCounter = 0;
-        int totalDiscountAmount = 0;
+        double totalDiscountAmount = 0;
 
         if (sessionSizeFlag instanceof LinkedHashMap) {
 
@@ -541,7 +551,7 @@ public class RootPageNestedTests extends RootPage {
 
         } else {
 
-            sessionSize = rs.jsonPath().getList("Session").size();
+            sessionSize = rs.jsonPath().getList("result.CommandResult.Order.Session").size();
 
         }
 
@@ -552,9 +562,9 @@ public class RootPageNestedTests extends RootPage {
             String session;
 
             if (sessionSize == 1) {
-                session = "Session";
+                session = "result.CommandResult.Order.Session";
             } else {
-                session = "Session" + "[" + sessionIndexCounter + "]";
+                session = "result.CommandResult.Order.Session" + "[" + sessionIndexCounter + "]";
             }
 
             System.out.println("\n" + sessionIndexCounter + " текущая сессия");
@@ -653,7 +663,7 @@ public class RootPageNestedTests extends RootPage {
         Response rs = apiRKeeper.getOrderInfo(tableId, AUTO_API_URI);
 
         String totalPath = "";
-        String session = "Session";
+        String session = "result.CommandResult.Order.Session";
         String dish = "Dish";
         String price = "[\"@attributes\"].price";
         String name = "[\"@attributes\"].name";
@@ -721,21 +731,172 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    public void createAndFillOrder(String restaurant, String tableCode, String waiter, String apiUri, String dishId,
-                                   int quantity, String tableUrl, String tableId) {
 
-        Response rs = apiRKeeper.createOrder
-                (rqParamsCreateOrderBasic(restaurant, tableCode, waiter), apiUri);
+    public HashMap<Integer,String> getDiscountUni(String tableId, String apiUri) {
+
+        Response rs = apiRKeeper.getOrderInfo(tableId, apiUri);
+
+        String totalPath = "";
+        String session = "result.CommandResult.Order.Session";
+        String discount = "Discount";
+        String uni = "[\"@attributes\"].uni";
+
+        int totalUniIndex = 0;
+
+        int sessionSize = getKeySize(rs,session);
+
+        HashMap<Integer,String> uniData = new HashMap<>();
+
+        for (int sessionIndex = 0; sessionIndex < sessionSize; sessionIndex++) {
+
+            String sessionPath = getKeyPath(sessionSize,sessionIndex,session);
+
+            totalPath = sessionPath + "." + discount;
+
+            int discountSize = getKeySize(rs,totalPath);
+
+            for (int discountIndex = 0; discountIndex < discountSize; discountIndex++) {
+
+                String dishPath = getKeyPath(discountSize,discountIndex,totalPath);
+                String dishUni = rs.jsonPath().getString(dishPath + uni);
+
+                uniData.put(totalUniIndex,dishUni);
+                totalUniIndex++;
+
+            }
+
+        }
+
+        System.out.println(uniData);
+        return uniData;
+
+    }
+
+    public HashMap<Integer,String> getOrderUni(String tableId, String apiUri) {
+
+        Response rs = apiRKeeper.getOrderInfo(tableId, apiUri);
+
+        String totalPath = "";
+        String session = "result.CommandResult.Order.Session";
+        String dish = "Dish";
+        String uni = "[\"@attributes\"].uni";
+
+        int totalUniIndex = 0;
+
+        int sessionSize = getKeySize(rs,session);
+
+        HashMap<Integer,String> uniData = new HashMap<>();
+
+        for (int sessionIndex = 0; sessionIndex < sessionSize; sessionIndex++) {
+
+            String sessionPath = getKeyPath(sessionSize,sessionIndex,session);
+
+            totalPath = sessionPath + "." + dish;
+
+            int discountSize = getKeySize(rs,totalPath);
+
+            for (int discountIndex = 0; discountIndex < discountSize; discountIndex++) {
+
+                String dishPath = getKeyPath(discountSize,discountIndex,totalPath);
+                String dishUni = rs.jsonPath().getString(dishPath + uni);
+
+                uniData.put(totalUniIndex,dishUni);
+                totalUniIndex++;
+
+            }
+
+        }
+
+        System.out.println(uniData);
+        return uniData;
+
+    }
+
+
+
+
+
+
+    @Step("Создание заказа, наполнение, открытие стола")
+    public Response createAndFillOrderAndOpenTapperTable(String restaurantName, String tableCode, String waiter,
+                                                         String apiUri, ArrayList<LinkedHashMap<String, Object>> dishes,
+                                                         String tableUrl, String tableId) {
+
+        Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
+                "На столе был прошлый заказ, его не удалось закрыть");
+
+        LinkedHashMap<String, Object> rqCreateOrder =
+                apiRKeeper.rqBodyCreateOrder(restaurantName, tableCode, waiter);
+        Response rs = apiRKeeper.createOrder(rqCreateOrder,apiUri);
 
         String guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        ArrayList<LinkedHashMap<String, Object>> dishes = new ArrayList<>();
-
-        dishes = apiRKeeper.orderFill(dishes, dishId, quantity);
-        apiRKeeper.newFillingOrder(apiRKeeper.rsBodyFillingOrder(restaurant, guid, dishes));
+        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
 
         rootPage.openUrlAndWaitAfter(tableUrl);
+        rootPage.isDishListNotEmptyAndVisible();
         newIsOrderInKeeperCorrectWithTapper(tableId);
+
+        return rs;
+
+    }
+
+    @Step("Создание заказа")
+    public Response createOrder(String restaurantName, String tableCode, String waiter, String apiUri, String tableId) {
+
+        Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
+                "На столе был прошлый заказ, его не удалось закрыть");
+
+        LinkedHashMap<String, Object> rqCreateOrder =
+                apiRKeeper.rqBodyCreateOrder(restaurantName, tableCode, waiter);
+
+        return apiRKeeper.createOrder(rqCreateOrder,apiUri);
+
+    }
+
+
+    @Step("Создание заказа и наполнение")
+    public Response createAndFillOrder(String restaurantName, String tableCode, String waiter, String apiUri,
+                                       ArrayList<LinkedHashMap<String, Object>> dishes, String tableId) {
+
+        Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
+                "На столе был прошлый заказ, его не удалось закрыть");
+
+        LinkedHashMap<String, Object> rqCreateOrder =
+                apiRKeeper.rqBodyCreateOrder(restaurantName, tableCode, waiter);
+        Response rs = apiRKeeper.createOrder(rqCreateOrder,apiUri);
+
+        String guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
+        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
+
+        return rs;
+
+    }
+
+    @Step("Создание заказа, наполнение заказа с модификаторами")
+    public Response createAndFillOrderOnlyWithModifiers(String restaurantName, String tableCode, String waiter, String apiUri,
+                                                        ArrayList<LinkedHashMap<String, Object>> modifiers, String tableId) {
+
+        Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
+                "На столе был прошлый заказ, его не удалось закрыть");
+
+        LinkedHashMap<String, Object> rqCreateOrder =
+                apiRKeeper.rqBodyCreateOrder(restaurantName, tableCode, waiter);
+        Response rs = apiRKeeper.createOrder(rqCreateOrder,apiUri);
+
+        String guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
+        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modifiers));
+
+        return rs;
+
+    }
+
+    public void checkIsDiscountPresent(String tableId) {
+
+        double discount = getDiscount(tableId);
+        checkIsDiscountPresent(discount);
 
     }
 

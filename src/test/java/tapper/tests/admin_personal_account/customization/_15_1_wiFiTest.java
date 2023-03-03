@@ -2,15 +2,14 @@ package tapper.tests.admin_personal_account.customization;
 
 import admin_personal_account.customization.Customization;
 import api.ApiRKeeper;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -21,9 +20,7 @@ import java.util.LinkedHashMap;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.hidden;
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.TestData.TapperTable;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.AdminPersonalAccount.Customization.wifiTab;
 import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
 import static data.selectors.TapperTable.Common.wiFiIcon;
@@ -44,6 +41,7 @@ public class _15_1_wiFiTest extends BaseTest {
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Customization customization = new Customization();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
+    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
 
 
     @Test
@@ -88,14 +86,14 @@ public class _15_1_wiFiTest extends BaseTest {
     @DisplayName("1.5. Переходим на стол, проверяем что есть функционал вайфая, его поля и что данные совпадают с админкой")
     public void setMsgAsTextPattern() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_333_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_111_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        rootPage.openNewTabAndSwitchTo(TapperTable.STAGE_RKEEPER_TABLE_333);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
 
         rootPage.isDishListNotEmptyAndVisible();
         rootPage.checkWiFiOnTapperTable(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
@@ -113,7 +111,7 @@ public class _15_1_wiFiTest extends BaseTest {
         rootPage.refreshPage();
         rootPage.isDishListNotEmptyAndVisible();
 
-        wiFiIcon.shouldBe(Condition.hidden);
+        wiFiIcon.shouldBe(hidden);
 
     }
 

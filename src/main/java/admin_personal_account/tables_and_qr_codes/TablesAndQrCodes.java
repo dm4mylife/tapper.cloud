@@ -216,7 +216,7 @@ public class TablesAndQrCodes extends BaseActions {
     public void isDownloadQrCorrect(String tableNumberWhite) throws FileNotFoundException {
 
         File qrWhite = qrDownloadImageWhite.download
-                (TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED,FileFilters.withName(tableNumberWhite));
+                (TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 
         System.out.println(qrWhite.getPath() + " file path");
         System.out.println(qrWhite.getAbsolutePath() + " file path");

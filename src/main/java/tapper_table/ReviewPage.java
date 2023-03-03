@@ -1,5 +1,6 @@
 package tapper_table;
 
+import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
@@ -11,42 +12,47 @@ import static data.selectors.TapperTable.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
 
-    BaseActions baseActions = new BaseActions();
     RootPage rootPage = new RootPage();
 
     @Step("Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны")
     public void isPaymentProcessContainerShown() {
 
-        baseActions.isElementVisibleDuringLongTime(paymentProcessContainer, 30);
+        isElementVisibleDuringLongTime(paymentProcessContainer, 30);
 
-        baseActions.isElementVisible(paymentProcessGifProcessing);
-        baseActions.isElementVisible(paymentProcessStatus);
-        baseActions.isElementVisible(paymentProcessText);
+        isElementVisible(paymentProcessGifProcessing);
+        isElementVisible(paymentProcessStatus);
+        isElementVisible(paymentProcessText);
         paymentProcessStatus.shouldHave(matchText("Производится оплата"), Duration.ofSeconds(30));
 
         paymentProcessStatus.shouldNotHave(text("Оплата не прошла"))
                             .shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
-        baseActions.isElementVisible(paymentProcessGifSuccess);
+        isElementVisible(paymentProcessGifSuccess);
 
     }
 
     @Step("Проверка заголовка статуса и что все элементы отзыва отображаются")
     public void isReviewBlockCorrect() {
 
-        baseActions.isElementVisibleDuringLongTime(reviewContainer, 10);
+        isElementVisibleDuringLongTime(reviewContainer, 10);
 
-        baseActions.isElementVisible(reviewStars);
-        baseActions.isElementVisible(reviewTextArea);
-        baseActions.isElementVisibleDuringLongTime(finishReviewButton, 10);
+        isElementVisible(paymentLogo);
+        isElementVisible(paymentStatusAfterPay);
+        isElementVisible(paymentTime);
+        isElementVisible(commentHeading);
+
+        isElementVisible(isAllWasGoodHeading);
+        isElementsListVisible(reviewStars);
+        isElementVisible(reviewTextArea);
+        isElementVisibleDuringLongTime(finishReviewButton, 10);
 
     }
 
     @Step("Заголовок соответствует частичной оплате")
     public void partialPaymentHeading() {
 
-        paymentLogo.shouldBe(visible);
+        isElementVisible(paymentLogo);
         paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
-        paymentTime.shouldBe(visible);
+        isElementVisible(paymentTime);
 
     }
 
@@ -59,19 +65,44 @@ public class ReviewPage extends BaseActions {
 
     }
 
-    @Step("Выставляем 5 звёзд")
-    public void rate5Stars() {
+    @Step("Проверка что определенное количество звезд отображает корректную форму с опциями")
+    public void isPositiveAndNegativeOptionsCorrect() {
 
-        baseActions.click(review5Stars);
-        review5Stars.$("svg").shouldHave(attributeMatching("class",".*active.*"));
+        isSuggestionContainerVisible(review1Star);
+
+        isWhatDoULikeContainerVisible(review5Stars);
+
+        isSuggestionContainerVisible(review3Stars);
+
+        isWhatDoULikeContainerVisible(review4Stars);
 
     }
 
-    @Step("Выставляем 1 звезду")
-    public void rate1Stars() {
+    public void isSuggestionContainerVisible(SelenideElement rateStar) {
 
-        click(reviewStars);
-        click(review1Stars);
+        click(rateStar);
+
+        isElementVisible(suggestionHeading);
+        suggestionContainer.shouldHave(attribute("style",""));
+
+    }
+
+    public void isWhatDoULikeContainerVisible(SelenideElement rateStar) {
+
+        click(rateStar);
+
+        isElementInvisible(suggestionHeading);
+        whatDoULikeList.shouldHave(attribute("style",""));
+
+    }
+
+
+
+    @Step("Выставляем 5 звёзд")
+    public void rate5Stars() {
+
+        click(review5Stars);
+        review5Stars.shouldHave(attributeMatching("class",".*active.*"));
 
     }
 
@@ -80,7 +111,7 @@ public class ReviewPage extends BaseActions {
 
         isElementVisible(whatDoULikeList);
         click(whatDoULikeListRandomOption.get(generateRandomNumber(1, 5) - 1));
-        isElementVisible(activeWhatDoULikeListRandomOption);
+        isElementsListVisible(activeWhatDoULikeListRandomOption);
 
     }
 
@@ -95,10 +126,10 @@ public class ReviewPage extends BaseActions {
     }
 
     @Step("Вводим коммент в поле ввода, проверям что сохранился текст")
-    public void typeReviewComment() {
+    public void typeReviewComment(String reviewComment) {
 
-        sendKeys(reviewTextArea, TEST_REVIEW_COMMENT);
-        reviewTextArea.shouldHave(value(TEST_REVIEW_COMMENT));
+        sendKeys(reviewTextArea, reviewComment);
+        reviewTextArea.shouldHave(value(reviewComment));
 
     }
 

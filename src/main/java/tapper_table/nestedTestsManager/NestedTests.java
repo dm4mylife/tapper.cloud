@@ -1,7 +1,6 @@
 package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import tapper_table.Best2PayPage;
@@ -12,8 +11,8 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
+import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
@@ -73,13 +72,14 @@ public class NestedTests extends RootPage {
     @Step("Проверка суммы что суммы изменились после того как изменился заказ на кассе и в таппере нажали оплатить")
     public void checkIfSumsChangedAfterEditingOrder() {
 
-        double totalPaySum = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        double totalPaySum = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
         rootPage.clickOnPaymentButton();
 
-        dishesSumChangedHeading.shouldHave(text("Состав заказа изменился"),Duration.ofSeconds(5));
-        pagePreLoader.shouldNotBe(visible,Duration.ofSeconds(30));
-        rootPage.forceWait(2500); // toDo меню не успевает обновится после ошибки изменения суммы оплаты
-        double totalPaySumAfterChanging = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        dishesSumChangedHeading.shouldHave(visible,Duration.ofSeconds(3));
+        dishesSumChangedHeading.shouldHave(hidden,Duration.ofSeconds(8));
+        pagePreLoader.shouldHave(hidden,Duration.ofSeconds(30));
+
+        double totalPaySumAfterChanging = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
 
         Assertions.assertNotEquals(totalPaySum, totalPaySumAfterChanging,
                 "После изменения заказа на кассе, заказ в таппере не поменялся");
@@ -97,10 +97,10 @@ public class NestedTests extends RootPage {
         double serviceChargeInField =
                 rootPage.convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
         System.out.println(serviceChargeInField + " сервисный сбор в контейнере");
-        serviceChargeInField = convertDouble(serviceChargeInField);
-        double serviceChargeSumClear = convertDouble
+        serviceChargeInField = updateDoubleByDecimalFormat(serviceChargeInField);
+        double serviceChargeSumClear = updateDoubleByDecimalFormat
                 (cleanDishesSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
-        double serviceChargeTipsClear = convertDouble
+        double serviceChargeTipsClear = updateDoubleByDecimalFormat
                 (tipsSumInTheMiddle * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
         double cleanServiceCharge = serviceChargeSumClear + serviceChargeTipsClear;
 

@@ -260,8 +260,8 @@ public class LogsAndPermissions extends BaseActions {
         click(acquiringInput);
         click(acquiringListB2POption);
 
-        isElementInvisible(ndsInput);
-        isElementInvisible(taxSystemInput);
+        isElementVisible(ndsInput);
+        isElementVisible(taxSystemInput);
 
         saveButton.shouldBe(disabled);
 
@@ -306,7 +306,7 @@ public class LogsAndPermissions extends BaseActions {
     @Step("Загружаем новый лоадер")
     public void changeLoader(String filePath) {
 
-        forceWait(2500);
+        forceWait(3500);
 
         String previousLoader = $(loaderInContainerNotSelenide).getAttribute("src");
 
@@ -316,7 +316,7 @@ public class LogsAndPermissions extends BaseActions {
         String newLoader = $(loaderInContainerNotSelenide).getAttribute("src");
 
         click(saveLoaderButton);
-        forceWait(6000);
+        forceWait(8000);
         Assertions.assertNotEquals(previousLoader, newLoader, "Загруженная анимация\\гиф не загрузилась");
 
         isImageCorrect(loaderInContainerNotSelenide, "Лоадер не загружен корректно или битый");
@@ -338,14 +338,18 @@ public class LogsAndPermissions extends BaseActions {
     @Step("Выгрузить таблицу и балансы официантов")
     public void downloadStatisticsData() throws FileNotFoundException {
 
+        forceWait(200); //toDo подумать что можно сделать с этим ужасом
         Selenide.executeJavaScript("document.querySelector('" + dateRangeInputSelector + "').click();");
 
+        forceWait(200);
         click(daysInDateRange.get(10));
+        forceWait(200);
         click(daysInDateRange.get(15));
-
+        forceWait(200);
         isElementVisible(resetButton);
 
         click(downloadTable);
+
 
         File downloadedTable = downloadTable.download(TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 

@@ -18,10 +18,11 @@ public class YandexMail {
         public static final SelenideElement skipAddReserveEmail = $("h1.passp-title");
 
         public static final SelenideElement enteredEarlierLogin = $("a.CurrentAccount");
-
-
+        public static final SelenideElement attachPhoto = $("[aria-label=\"Выбрать фото\"]");
 
         public static final SelenideElement skipButton = $("[data-t='email_skip']>button");
+        public static final SelenideElement skipButtonWhenAddPhoto = $(".registration__avatar-btn span");
+
         public static final SelenideElement loadPhotoProfileContainer = $(".passp-auth-content");
         public static final SelenideElement skipLoadPhotoProfileButton = $(".registration__avatar-btn a");
 

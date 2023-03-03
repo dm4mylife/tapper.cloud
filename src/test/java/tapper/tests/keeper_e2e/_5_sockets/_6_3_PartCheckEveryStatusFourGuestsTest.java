@@ -11,6 +11,7 @@ import tapper_table.Best2PayPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.NestedTests;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTestFourBrowsers;
 
 import java.util.ArrayList;
@@ -21,13 +22,10 @@ import java.util.Map;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.using;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
-import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY;
-import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY;
+import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
-import static data.selectors.TapperTable.RootPage.DishList.disabledDishes;
-import static data.selectors.TapperTable.RootPage.DishList.paidDishes;
+import static data.selectors.TapperTable.RootPage.DishList.allDisabledDishes;
+import static data.selectors.TapperTable.RootPage.DishList.allPaidDishes;
 
 @Order(63)
 @Epic("RKeeper")
@@ -57,17 +55,18 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     Best2PayPage best2PayPage = new Best2PayPage();
 
+    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+
     @Test
     @DisplayName("1.1. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_222, WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_222_ID, AUTO_API_URI, dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
     }
 
     @Test
@@ -124,9 +123,9 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
     @DisplayName("1.4. Проверяем у всех гостей, блюда в статусе Оплачиваются")
     public void checkDisabledDishes() {
 
-        using(secondBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(thirdBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(fourthBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(secondBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(thirdBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(fourthBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
     }
 
@@ -166,7 +165,7 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
 
         using(firstBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
@@ -177,9 +176,9 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
     @DisplayName("1.9. Проверяем у всех гостей, что выбранные ранее блюда первым гостем в статусе Оплачено")
     public void checkIfDishesDisabledAtAnotherGuestArePaid1Guest() {
 
-        using(secondBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(thirdBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(fourthBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(secondBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(thirdBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(fourthBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen)));
 
     }
 
@@ -202,9 +201,9 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
     @DisplayName("2.1. Проверяем у всех гостей, что блюда в статусе Оплачиваются, которые второй гость выбрал")
     public void checkDisabledDishes2Guest() {
 
-        using(firstBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(thirdBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(fourthBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(firstBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(thirdBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(fourthBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
     }
 
@@ -244,7 +243,7 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
 
         using(secondBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
@@ -255,9 +254,9 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
     @DisplayName("2.6. Проверяем у всех гостей, что выбранные ранее блюда вторым гостем в статусе Оплачено")
     public void checkIfDishesDisabledAtAnotherGuestArePaid2Guest() {
 
-        using(secondBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
-        using(thirdBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
-        using(fourthBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
+        using(secondBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
+        using(thirdBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
+        using(fourthBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
 
     }
 
@@ -280,9 +279,9 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
     @DisplayName("2.8. Проверяем у всех гостей что выбранные ранее блюда в статусе Оплачено")
     public void checkDisabledDishes3Guest() {
 
-        using(firstBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(secondBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(fourthBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(firstBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(secondBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(fourthBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
     }
 
@@ -322,7 +321,7 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
 
         using(thirdBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
@@ -333,9 +332,9 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
     @DisplayName("3.3. Проверяем у всех гостей, что выбранные ранее блюда в статусе Оплачено")
     public void checkIfDishesDisabledAtAnotherGuestArePaid3Guest() {
 
-        using(secondBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
-        using(thirdBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
-        using(fourthBrowser, () -> paidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
+        using(secondBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
+        using(thirdBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
+        using(fourthBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
 
     }
 
@@ -359,9 +358,9 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
     @DisplayName("3.5. Проверяем у всех гостей, что блюда выбранные четвертым гостем в статусе Оплачиваются")
     public void checkDisabledDishesWhen4GuestChosen() {
 
-        using(firstBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(secondBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
-        using(thirdBrowser, () -> disabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(firstBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(secondBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(thirdBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
     }
 
@@ -393,7 +392,7 @@ public class _6_3_PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowser
 
         using(fourthBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });

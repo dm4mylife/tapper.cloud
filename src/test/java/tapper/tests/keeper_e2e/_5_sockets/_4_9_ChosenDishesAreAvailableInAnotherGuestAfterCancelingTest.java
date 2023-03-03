@@ -19,8 +19,7 @@ import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Selenide.using;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
+import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
 import static data.selectors.TapperTable.RootPage.PayBlock.paymentButton;
 
@@ -45,10 +44,10 @@ public class _4_9_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest exten
     @DisplayName("1. Создание заказа в r_keeper и открытие стола")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -113,7 +112,7 @@ public class _4_9_ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest exten
     @DisplayName("6. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        rootPageNestedTests.closeOrderByAPI(guid,R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid,AUTO_API_URI);
 
     }
 

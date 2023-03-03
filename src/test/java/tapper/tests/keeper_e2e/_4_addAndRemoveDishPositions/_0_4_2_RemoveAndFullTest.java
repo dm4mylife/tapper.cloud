@@ -19,7 +19,6 @@ import java.util.LinkedHashMap;
 import static api.ApiData.QueryParams.rqParamsDeletePosition;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.TapperTable.*;
-import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY;
 
 @Order(42)
 @Epic("RKeeper")
@@ -38,7 +37,7 @@ public class _0_4_2_RemoveAndFullTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
-    static int amountDishesForFillingOrder = 5;
+    static int amountDishesForFillingOrder = 1;
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
@@ -50,16 +49,14 @@ public class _0_4_2_RemoveAndFullTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_222,TABLE_AUTO_222_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-        uni = apiRKeeper.getUni(TABLE_AUTO_222_ID,AUTO_API_URI);
-
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_222_ID);
+        uni = apiRKeeper.getUniFirstValueFromOrderInfo(TABLE_AUTO_222_ID,AUTO_API_URI);
 
     }
 
@@ -68,7 +65,7 @@ public class _0_4_2_RemoveAndFullTest extends BaseTest {
     public void deletePosition() {
 
         apiRKeeper.deletePosition(rqParamsDeletePosition(R_KEEPER_RESTAURANT, guid, uni, 1000), AUTO_API_URI);
-        rootPage.forceWait(2000); // toDO не успевает прийти запрос на кассу
+        //  rootPage.forceWait(5000); // toDO не успевает прийти запрос на кассу
 
     }
 
@@ -110,7 +107,7 @@ public class _0_4_2_RemoveAndFullTest extends BaseTest {
     @DisplayName("7. Проверка сообщения в телеграмме")
     public void clearDataAndChoseAgain() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

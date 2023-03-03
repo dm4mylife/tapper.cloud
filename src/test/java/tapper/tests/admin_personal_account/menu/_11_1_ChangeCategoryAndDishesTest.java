@@ -7,6 +7,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
+import tapper_table.RootPage;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -30,10 +31,18 @@ public class _11_1_ChangeCategoryAndDishesTest extends BaseTest {
 
     static String categoryNameAfterEditing;
     static String dishNameAfterEditing;
+
+    static String weightAndAmountAfterEditing;
     static int categoryIndex = 0;
+    static int adminBrowserTab = 0;
+
     static int dishIndex = 0;
+    static int tapperBrowserTab = 1;
+
+
 
     BaseActions baseActions = new BaseActions();
+    RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Menu menu = new Menu();
 
@@ -49,7 +58,9 @@ public class _11_1_ChangeCategoryAndDishesTest extends BaseTest {
     @Test
     @DisplayName("1.2. Переход на страницу меню")
     public void goToMenu() {
+
         menu.goToMenuCategory();
+
     }
 
     @Test
@@ -61,33 +72,69 @@ public class _11_1_ChangeCategoryAndDishesTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.4. Редактируем имя категории")
+    @DisplayName("1.4. Проверяем изменения на столе")
+    public void openUrl() {
+
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
+        rootPage.switchBrowserTab(adminBrowserTab);
+
+    }
+
+    @Test
+    @DisplayName("1.5. Редактируем имя категории")
     public void editCategoryName() {
+
         categoryNameAfterEditing = menu.isCategoryEditNameCorrect(categoryIndex);
+
     }
 
     @Test
-    @DisplayName("1.5. Редактируем имя позиции")
+    @DisplayName("1.6. Проверяем изменение категории блюда на столе")
+    public void isCategoryMenuChangingNameCorrect() {
+
+        menu.isChangingAppliedOnTable(tapperBrowserTab,adminBrowserTab,categoryMenuItems,categoryNameAfterEditing);
+
+    }
+
+    @Test
+    @DisplayName("1.7. Редактируем имя позиции")
     public void editDishName() {
-        dishNameAfterEditing = menu.isDishEditNameCorrect(dishIndex);
+
+        dishNameAfterEditing = menu.isDishEditNameByGuestCorrect(dishIndex);
+
     }
 
     @Test
-    @DisplayName("1.6. Проверяем изменения на столе")
-    public void checkChangesInTable() {
+    @DisplayName("1.8. Проверяем изменение категории блюда на столе")
+    public void isDishMenuChangingNameCorrect() {
 
-        baseActions.openPage(STAGE_RKEEPER_TABLE_333);
-        baseActions.isElementVisibleDuringLongTime(appFooterMenuIcon,20);
-        baseActions.forceWait(2000);
-        appFooterMenuIcon.click();
-
-        System.out.println(categoryMenuItems.get(categoryIndex).getText());
-        System.out.println(dishMenuItems.get(dishIndex).getText());
-
-        categoryMenuItems.findBy(matchText(categoryNameAfterEditing)).shouldHave(visible);
-        dishMenuItems.findBy(matchText(dishNameAfterEditing)).shouldHave(visible);
-        System.out.println("На столе изменения категории и блюда отобразились");
+        menu.isChangingAppliedOnTable(tapperBrowserTab,adminBrowserTab,dishMenuItems,dishNameAfterEditing);
 
     }
+
+    @Test
+    @DisplayName("1.9. Редактируем состав")
+    public void isDishEditDescriptionCorrect() {
+
+        menu.isDishEditIngredientsCorrect(dishIndex);
+
+    }
+
+    @Test
+    @DisplayName("2.0. Редактируем вес и его количество")
+    public void isDishEditWeightAndAmountCorrect() {
+
+        weightAndAmountAfterEditing = menu.isDishEditWeightAndAmountCorrect(dishIndex);
+
+    }
+
+    @Test
+    @DisplayName("2.1. Проверяем изменение веса блюда на столе")
+    public void isDishMenuChangingWeightAndAmountCorrect() {
+
+        menu.isChangingAppliedOnTable(tapperBrowserTab,adminBrowserTab,dishMenuItems,weightAndAmountAfterEditing);
+
+    }
+
 
 }

@@ -31,7 +31,7 @@ public class BaseTestFourBrowsers {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        //  options.addArguments("--headless");
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-infobars");
         options.addArguments("--disable-notifications");

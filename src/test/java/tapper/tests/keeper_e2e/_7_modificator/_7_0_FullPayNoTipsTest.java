@@ -19,7 +19,6 @@ import java.util.Map;
 
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.TapperTable.*;
-import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY;
 
 @Order(70)
 @Epic("RKeeper")
@@ -49,16 +48,9 @@ public class _7_0_FullPayNoTipsTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper и открытие стола")
     public void createAndFillOrder() {
 
-        LinkedHashMap<String, Object> rqCreateOrder =
-                apiRKeeper.rsCreateOrder(R_KEEPER_RESTAURANT, TABLE_222, WAITER_ROBOCOP_VERIFIED_WITH_CARD);
-
-        Response rs = apiRKeeper.newCreateOrder(rqCreateOrder,AUTO_API_URI,TABLE_AUTO_222_ID,R_KEEPER_RESTAURANT);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
-        ArrayList<LinkedHashMap<String, Object>> modificators = new ArrayList<>() {
+        ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
             {
-                add(apiRKeeper.fillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_MODI_SOLT_ZERO_PRICE,1));
                         add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
@@ -66,31 +58,31 @@ public class _7_0_FullPayNoTipsTest extends BaseTest {
                         add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
                         add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SALT,1));
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_PEPPER,1));
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_GARLIC,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SALT,1));
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_PEPPER,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SALT,1));
 
@@ -99,12 +91,16 @@ public class _7_0_FullPayNoTipsTest extends BaseTest {
             }
         };
 
-        apiRKeeper.addModificatorOrder(apiRKeeper.rsBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modificators));
+        Response rs = rootPageNestedTests.createAndFillOrderOnlyWithModifiers
+                (R_KEEPER_RESTAURANT, TABLE_CODE_444,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,modifiers,
+                        TABLE_AUTO_444_ID);
 
-        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_222_ID, AUTO_API_URI);
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
+        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_444_ID, AUTO_API_URI);
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_444);
 
     }
 
@@ -124,7 +120,7 @@ public class _7_0_FullPayNoTipsTest extends BaseTest {
         rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
 
         rootPage.isModificatorTextCorrect();
-        rootPage.resetTips();
+        rootPage.checkTipsAfterReset();
 
     }
 
@@ -134,7 +130,7 @@ public class _7_0_FullPayNoTipsTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID);
 
     }
 
@@ -158,7 +154,7 @@ public class _7_0_FullPayNoTipsTest extends BaseTest {
     @DisplayName("7. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

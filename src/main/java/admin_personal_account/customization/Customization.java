@@ -6,6 +6,7 @@ import io.qameta.allure.Step;
 import tapper_table.RootPage;
 
 import java.time.Duration;
+import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.TEST_ADMIN_ADMINISTRATOR_TEXT_PATTERN_COMMENT;
@@ -127,15 +128,17 @@ public class Customization extends BaseActions {
     @Step("Установка вайфая и пароля")
     public void setWifiConfiguration(String wifiName, String wifiPassword) {
 
-        forceWait(500);
+        forceWait(300);
         clearText(wifiNetworkName);
-        forceWait(500);
+        forceWait(300);
         clearText(wifiNetworkPassword);
 
-        if (wifiNetworkName.getValue().equals("") && wifiNetworkPassword.getValue().equals("")) {
+        if (Objects.equals(wifiNetworkName.getValue(), "") && Objects.equals(wifiNetworkPassword.getValue(), "")) {
 
             wifiNetworkName.sendKeys(wifiName);
+            forceWait(300);
             wifiNetworkPassword.sendKeys(wifiPassword);
+            forceWait(300);
             click(saveButton);
             System.out.println("Установили вайфай\n" +
                     "Логин: " + wifiNetworkName.getValue() + "\nПароль: " + wifiNetworkPassword.getValue());

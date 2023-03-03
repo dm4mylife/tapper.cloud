@@ -30,13 +30,20 @@ public class BaseTest {
     @BeforeAll
     static void setUp() {
 
-       // Configuration.browserSize = "400x980";
-       // Configuration.browserPosition = "600x20";
+        /*Configuration.browserSize = "400x1020";
+        Configuration.browserPosition = "600x20";*/
         Configuration.browserSize = "1920x1080";
-
         Configuration.browser = CHROME;
         Configuration.savePageSource = true;
-        Configuration.headless = true;
+
+
+
+
+
+        Configuration.headless = false;
+
+
+
 
 
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
@@ -46,6 +53,11 @@ public class BaseTest {
         loggingPreferences.enable(LogType.BROWSER, Level.WARNING);
         desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
         desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+//        Map<String, String> mobileEmulation = new HashMap<>();
+//        mobileEmulation.put("deviceName", "iPhone XR");
+//        options.setExperimentalOption("mobileEmulation", mobileEmulation);
+//        options.addArguments("--disable-blink-features");
 
         // options.addArguments("--enable-automation");
        // options.addArguments("--auto-open-devtools-for-tabs");

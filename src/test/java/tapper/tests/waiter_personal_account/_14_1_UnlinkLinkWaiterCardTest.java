@@ -66,6 +66,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @DisplayName("1.3. Авторизация в почте яндекса")
     public void yandexAuthorization() {
         yandexPage.yandexAuthorization(TEST_YANDEX2_LOGIN_EMAIL, TEST_YANDEX2_PASSWORD_MAIL);
+
     }
 
     @Test

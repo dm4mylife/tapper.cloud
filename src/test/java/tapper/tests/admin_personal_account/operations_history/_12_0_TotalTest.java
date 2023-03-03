@@ -10,6 +10,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -18,12 +19,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static data.Constants.TestData.TapperTable.*;
 
 
 @Order(120)
@@ -40,7 +39,7 @@ public class _12_0_TotalTest extends BaseTest {
     static HashMap<String, Integer> paymentDataKeeper;
     static String transactionId;
     static int amountDishesForFillingOrder = 3;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     OperationsHistory operationsHistory = new OperationsHistory();
@@ -48,19 +47,20 @@ public class _12_0_TotalTest extends BaseTest {
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     NestedTests nestedTests = new NestedTests();
 
+    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+
 
     @Test
     @DisplayName("1.0 Оплачиваем заказ на столе чтобы была хоть одна транзакция в истории операций")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_333_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_333,TABLE_AUTO_333_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();

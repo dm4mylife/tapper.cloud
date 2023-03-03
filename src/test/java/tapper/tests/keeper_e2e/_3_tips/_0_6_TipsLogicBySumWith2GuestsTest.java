@@ -15,7 +15,6 @@ import tests.BaseTest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.TapperTable.*;
 
@@ -42,15 +41,12 @@ public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
     @DisplayName("1.2. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_222_ID);
 
     }
 
@@ -85,7 +81,7 @@ public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
     @DisplayName("1.6. Делимся счётом со 2 юзером")
     public void openTableBySecondGuest() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_222, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_111, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
 
     }
 
@@ -102,7 +98,7 @@ public class _0_6_TipsLogicBySumWith2GuestsTest extends BaseTest {
     @DisplayName("1.8. Закрываем заказ")
     public void openTableByFirstGuest() {
 
-        rootPage.closeOrderByAPI(guid,R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,guid,AUTO_API_URI);
 
     }
 

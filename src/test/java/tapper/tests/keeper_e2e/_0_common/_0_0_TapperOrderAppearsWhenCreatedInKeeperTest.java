@@ -14,13 +14,11 @@ import tests.BaseTest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
-import static api.ApiData.QueryParams.rqParamsOrderPay;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 
-@Order(0)
+@Order(1)
 @Epic("RKeeper")
 @Feature("Общие")
 @Story("tapper - переход на пустой стол, создание заказа на кассе, появление заказа в таппере")
@@ -41,20 +39,7 @@ public class _0_0_TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
     @DisplayName("1. Открытие пустого стола")
     public void openAndCheck() {
 
-        if (!apiRKeeper.isClosedOrder(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,AUTO_API_URI)) {
-
-            System.out.println("На кассе есть прошлый заказ, закрываем его");
-            String guid = apiRKeeper.getGuidFromOrderInfo(TABLE_AUTO_111_ID,AUTO_API_URI);
-
-            apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT, guid), AUTO_API_URI);
-
-            boolean isOrderClosed = apiRKeeper.isClosedOrder(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,AUTO_API_URI);
-
-            Assertions.assertTrue(isOrderClosed, "Заказ не закрылся на кассе");
-            System.out.println("\nЗаказ закрылся на кассе\n");
-
-        }
-
+        apiRKeeper.isTableEmpty(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,AUTO_API_URI);
         rootPage.openPage(STAGE_RKEEPER_TABLE_111);
 
     }
@@ -71,10 +56,10 @@ public class _0_0_TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
     @DisplayName("3. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_111_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -101,7 +86,7 @@ public class _0_0_TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
     @DisplayName("6. Закрываем заказ")
     public void finishOrder() {
 
-        rootPage.closeOrderByAPI(guid,R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,AUTO_API_URI);
+      apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,guid,AUTO_API_URI);
 
     }
 

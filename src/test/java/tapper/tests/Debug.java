@@ -32,8 +32,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.tipsWaiter;
 
@@ -67,29 +66,10 @@ public class Debug {
     //  <---------- Tests ---------->
 
 
-
-
-
-    @Disabled
     @Test
-    @DisplayName("kill")
-    public void killTable() {
+    public void gg() {
 
-
-        int amountDishesForFillingOrder = 7;
-        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-
-        apiRKeeper.orderFill(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
-
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_111_ID, AUTO_API_URI,dishesForFillingOrder);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
-
-      //  apiRKeeper.orderFill(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
-
-       // apiRKeeper.newFillingOrder( apiRKeeper.rsBodyFillingOrder(R_KEEPER_RESTAURANT, "{D0F34BE9-8FB9-45DF-B97B-9E95EF0DC24B}",dishesForFillingOrder));
+        apiRKeeper.getUniFirstValueFromOrderInfo(TABLE_AUTO_444_ID,AUTO_API_URI);
 
     }
 
@@ -316,7 +296,7 @@ public class Debug {
 
         rootPage.matchTapperOrderWithOrderInKeeper(allDishesInfo);
 
-       rootPageNestedTests.closeOrder();
+
 
     }
 

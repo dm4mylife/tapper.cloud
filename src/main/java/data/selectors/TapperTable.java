@@ -28,7 +28,7 @@ public class TapperTable {
                 $("[data-auto=\"startScreenLogoContainer\"] img");
         public static final String startScreenLogoContainerImageNotSelenide =
                 "[data-auto='startScreenLogoContainer'] img";
-        public static final SelenideElement pagePreLoader = $(".mainPage .basePreloader");
+        public static final SelenideElement pagePreLoader = $(".appPreloader"); // .mainPage .basePreloader
 
     }
 
@@ -66,9 +66,19 @@ public class TapperTable {
             public static final SelenideElement orderMenuContainer = $("[data-auto=\"orderMenuContainer\"]");
             public static final ElementsCollection allDishesInOrder =
                     $$("[data-auto=\"allDishesInOrder\"]");
-            public static final ElementsCollection paidDishes =
+
+
+            public static final String dishModificatorName = ".orderItem__modificator";
+            public static final String dishNameSelector = ".orderItem__name";
+            public static final String dishPriceTotalSelector = ".orderItem__price:last-child";
+
+            public static final String dishPriceWithDiscountSelector = ".orderItem__price.--new";
+            public static final String dishPriceWithoutDiscountSelector = ".orderItem__price.--old";
+
+            public static final String dishCheckboxSelector = ".iconCheck";
+            public static final ElementsCollection allPaidDishes =
                     $$x("//li[.//*[@data-auto=\"paidDishes\"]]");
-            public static final ElementsCollection disabledDishes =
+            public static final ElementsCollection allDisabledDishes =
                     $$x("//li[.//*[@data-auto=\"disabledDishes\"]]");
             public static final ElementsCollection allNonPaidAndNonDisabledDishes =
                     $$x("//li[.//*[@data-auto=\"\"]] | //li[.//*[@data-auto=\"nonPaidDishes\"]]");
@@ -91,6 +101,8 @@ public class TapperTable {
                     $$x("//*[@data-auto=\"menuDishesContainer\"]//*[@data-auto=\"serviceCharge\"]");
             public static final ElementsCollection allDishesStatuses =
                     $$x("//*[@data-auto=\"menuDishesContainer\"]//*[@class=\"orderItem__status\"]");
+
+            public static final String dishOrderStatusSelector = ".orderItem__status";
 
         }
 
@@ -297,7 +309,6 @@ public class TapperTable {
 
     public static class ReviewPage {
 
-
         public static final SelenideElement paymentProcessContainer = $("[data-auto=\"paymentProcessStatus\"]");
         public static final SelenideElement paymentProcessText =
                 $("[data-auto=\"paymentProcessStatus\"] .paymentProcess__text");
@@ -312,19 +323,32 @@ public class TapperTable {
         public static final SelenideElement paymentStatusAfterPay = $("[data-auto=\"paymentStatusAfterPay\"]");
         public static final SelenideElement paymentTime = $("[data-auto=\"paymentTime\"]");
         public static final SelenideElement commentHeading = $("[data-auto=\"commentHeading\"]");
+
+
+
         public static final SelenideElement isAllWasGoodHeading = $("[data-auto=\"isAllWasGoodHeading\"]");
         public static final SelenideElement finishReviewButton = $("[data-auto=\"finishReviewButton\"]");
         public static final SelenideElement reviewTextArea = $("[data-auto=\"reviewTextArea\"]");
-        public static final SelenideElement reviewStars = $("[data-auto=\"reviewStars\"]");
+        public static final ElementsCollection reviewStarsSvg = $$("[data-auto=\"reviewStars\"] svg");
+        public static final String reviewStarsSvgSelector = "svg";
+        public static final ElementsCollection reviewStars = $$("[data-auto=\"reviewStars\"]");
         public static final SelenideElement review5Stars = $("[data-auto=\"reviewStars\"]:nth-child(5)");
-        public static final SelenideElement review1Stars = $("[data-auto=\"reviewStars\"]:nth-child(1)");
+        public static final SelenideElement review1Star = $("[data-auto=\"reviewStars\"]:nth-child(1)");
+        public static final SelenideElement review3Stars = $("[data-auto=\"reviewStars\"]:nth-child(3)");
+        public static final SelenideElement review4Stars = $("[data-auto=\"reviewStars\"]:nth-child(4)");
+
         public static final SelenideElement whatDoULikeList = $("[data-auto=\"whatDoULikeList\"]");
         public static final ElementsCollection whatDoULikeListRandomOption =
                 $$("[data-auto=\"whatDoULikeListRandomOption\"]");
-        public static final SelenideElement activeWhatDoULikeListRandomOption =
-                $("[data-auto=\"activeWhatDoULikeListRandomOption\"]");
+        public static final ElementsCollection activeWhatDoULikeListRandomOption =
+                $$("[data-auto=\"activeWhatDoULikeListRandomOption\"]");
+
+
+        public static final SelenideElement suggestionContainer = $(".reviewModal__suggestions");
         public static final SelenideElement suggestionHeading = $("[data-auto=\"suggestionHeading\"]");
         public static final ElementsCollection suggestionOptions = $$("[data-auto=\"suggestionOptions\"]");
+        public static final String suggestionOptionsSvgSelector = "svg";
+        public static final ElementsCollection suggestionOptionsSvg = $$("[data-auto=\"suggestionOptions\"] svg");
 
     }
 

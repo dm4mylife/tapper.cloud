@@ -15,7 +15,7 @@ public class WaiterPersonalAccount {
         public static final String imageContainerDownloadedImageNotSelenide  = ".section-profile__photo-wrapper img";
         public static final SelenideElement imageDeleteButton= $(".section-profile__photo-del");
         public static final SelenideElement waiterNameInCashDesk = $("[id=\"name\"][disabled]");
-        public static final SelenideElement waiterName = $("[id=\"name\"]:not([disabled])");
+        public static final SelenideElement waiterName = $("[id=\"display_name\"]:not([disabled])");
         public static final SelenideElement telegramLogin = $("[id=\"1\"]");
         public static final SelenideElement waiterEmail = $("[id=\"email\"]");
         public static final SelenideElement waiterPassword = $("[id=\"password\"]");

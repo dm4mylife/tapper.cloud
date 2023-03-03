@@ -152,7 +152,9 @@ public class Waiters extends BaseActions {
 
         }
 
+
         sendKeys(enterEmailField,email);
+        forceWait(300);
         click(inviteButton);
 
         isSendInvitationCorrect(email);
@@ -293,6 +295,7 @@ public class Waiters extends BaseActions {
         enterEmailField.shouldHave(value(""));
         inviteButton.shouldBe(visible,disabled);
         System.out.println("Удалена полностью почта, официант более не в статусе верифицирован");
+        forceWait(300);
 
     }
 

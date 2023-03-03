@@ -16,7 +16,6 @@ import tests.BaseTest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
@@ -49,15 +48,12 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("1.0. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_222_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_222_ID);
 
     }
 
@@ -76,9 +72,10 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
 
         ArrayList<LinkedHashMap<String, Object>> dishes = new ArrayList<>();
 
-        dishes = apiRKeeper.orderFill(dishes, SOLYANKA, 3);
-        apiRKeeper.newFillingOrder(apiRKeeper.rsBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishes));
+        dishes = apiRKeeper.createDishObject(dishes, SOLYANKA, 3);
+        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishes));
         rootPage.refreshPage();
+        rootPage.isDishListNotEmptyAndVisible();
 
     }
 
@@ -138,8 +135,8 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
 
         ArrayList<LinkedHashMap<String, Object>> dishes = new ArrayList<>();
 
-        dishes = apiRKeeper.orderFill(dishes, SOLYANKA, 5);
-        apiRKeeper.newFillingOrder(apiRKeeper.rsBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishes));
+        dishes = apiRKeeper.createDishObject(dishes, SOLYANKA, 5);
+        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishes));
         rootPage.refreshPage();
 
     }
@@ -190,7 +187,7 @@ public class _0_5_CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName("2.3. Закрываем заказ")
     public void payAndGoToAcquiringAgain() {
 
-        rootPage.closeOrderByAPI(guid,R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,guid,AUTO_API_URI);
 
     }
 

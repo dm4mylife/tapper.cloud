@@ -2,7 +2,6 @@ package tapper.tests.keeper_e2e._1_fullPayment;
 
 
 import api.ApiRKeeper;
-import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -17,9 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.QueryParams.rqParamsCreateOrderBasic;
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 
@@ -54,15 +51,12 @@ public class _1_1_TipsScTest extends BaseTest {
             "проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        apiRKeeper.orderFill(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = apiRKeeper.createAndFillOrder(R_KEEPER_RESTAURANT,TABLE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                TABLE_AUTO_111_ID, AUTO_API_URI,dishesForFillingOrder);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+            AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_111_ID);
 
     }
 
@@ -75,7 +69,6 @@ public class _1_1_TipsScTest extends BaseTest {
         rootPage.setRandomTipsAndActivateScIfDeactivated();
 
     }
-
 
     @Test
     @DisplayName("3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
@@ -107,9 +100,9 @@ public class _1_1_TipsScTest extends BaseTest {
     @DisplayName("6. Проверка сообщения в телеграмме")
     public void clearDataAndChoseAgain() {
 
-
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
+
     }
 
 }

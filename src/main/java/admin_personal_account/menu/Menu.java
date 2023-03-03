@@ -8,6 +8,8 @@ import com.github.javafaker.Faker;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.time.Duration;
@@ -21,7 +23,9 @@ import static data.Constants.PASTA_IMG_PATH;
 import static data.selectors.AdminPersonalAccount.Common.menuCategory;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Menu.*;
+import static data.selectors.TapperTable.RootPage.DishList.orderMenuContainer;
 import static data.selectors.TapperTable.RootPage.Menu.menuCategoryInHeader;
+import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
 public class Menu extends BaseActions {
 
@@ -88,6 +92,22 @@ public class Menu extends BaseActions {
 
     }
 
+    @Step("Проверка элементов карточки блюда в списке")
+    public void isDishItemCorrectInList() {
+
+
+        isElementVisible(menuDishIndexNumber);
+        isElementVisible(menuDishItemsImageContainer);
+        isElementVisible(menuDishNameOnCashDesk);
+        isElementVisible(menuDishNameOnGuest);
+        isElementsListVisible(menuDishIngredients);
+        isElementVisible(menuDishPrice);
+        isElementsListVisible(menuDishWeight);
+        isElementVisible(menuDishCalories);
+        isElementVisible(menuDishMark);
+
+    }
+
 
     @Step("Выбираем категорию")
     public void chooseCategory(int index) {
@@ -133,22 +153,21 @@ public class Menu extends BaseActions {
     public void deactivateMenuCategory() {
 
         ElementsCollection activeDishes = categoryEyeIcons
-                .filter(Condition.attributeMatching("class", ".*active.*"));
+                .filter(attributeMatching("class", ".*active.*"));
 
-        for (SelenideElement element : activeDishes) {
+        if (activeDishes.size() != 0)
+            activeDishes.asFixedIterable().stream().forEach(element -> {
 
-            System.out.println("click");
-            element.click();
-            menuPagePreLoader.shouldBe(visible);
-            element.shouldNotHave(Condition.attributeMatching("class", ".*active.*"));
+                click(element);
+                isElementVisible(menuPagePreLoader);
+                element.shouldNotHave(attributeMatching("class", ".*active.*"));
 
-        }
+            });
 
     }
 
     @Step("Удаление фотографии у блюда")
     public void deleteDishImage(int dishIndex) {
-
 
         click(menuDishItemsEditButtons.get(dishIndex));
         forceWait(1000);
@@ -188,9 +207,9 @@ public class Menu extends BaseActions {
 
         menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img-del").shouldBe(visible);
         forceWait(3000);
-        editDishNameOkButton.click();
+
         forceWait(3000);
-        editDishNameOkButton.shouldNotBe(visible);
+
 
         System.out.println(menuDishItems.get(dishIndex).$("img"));
 
@@ -226,7 +245,6 @@ public class Menu extends BaseActions {
         int dishIndex = getRandomActiveCategoryIndex();
         makeVisibleMenuCategory(dishIndex);
         activateShowGuestSliderIfDeactivated();
-
 
     }
     @Step("Включаем первую категорию и первое блюдо")
@@ -278,37 +296,7 @@ public class Menu extends BaseActions {
 
     }
 
-    @Step("Проверка что позиция редактируется и изменения сохраняются")
-    public String isCategoryEditNameCorrect(int categoryIndex) {
 
-        Faker faker = new Faker();
-
-        String newCategoryName = faker.harryPotter().character();
-
-        categoryEditButton.get(categoryIndex).click();
-
-        isEditContainerCorrect();
-
-        String categoryNameBeforeEditing = categoryNameForGuest.getValue();
-
-        categoryNameForGuest.clear();
-        categoryNameForGuest.sendKeys(newCategoryName);
-        saveEditedCategoryNameButton.click();
-        isElementVisible(menuPagePreLoader);
-        forceWait(1000);
-
-        String newCategoryNameInItem = categoryItemsNames.get(categoryIndex).getText();
-        categoryNameInGuest.shouldHave(text(newCategoryName));
-
-        System.out.println(categoryNameBeforeEditing + " старое имя категории");
-        System.out.println(newCategoryNameInItem + " новое имя категории");
-
-        categoryItemsNames.get(categoryIndex).shouldHave(matchText(newCategoryNameInItem));
-        System.out.println("Имя категории изменилось");
-
-        return newCategoryName;
-
-    }
 
     @Step("Очищаем введенное категории ранее")
     public void changeEditedCategoryNameByDefaultValue(String categoryNameBeforeEditing) {
@@ -323,35 +311,211 @@ public class Menu extends BaseActions {
 
     }
 
+
+
+
+
+
+
     @Step("Проверка что позиция редактируется и изменения сохраняются")
-    public String isDishEditNameCorrect(int dishIndex) {
+    public String changeName(int dishIndex) {
+
+        Faker faker = new Faker();
+        String newDishName = faker.harryPotter().spell();
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        isDishEditModalCorrect();
+
+        clearText(editDishNameByGuestInput);
+
+        sendKeys(editDishNameByGuestInput,newDishName);
+
+        click(saveButton);
+
+        isElementInvisible(editDishContainer);
+
+        return newDishName;
+
+    }
+
+    @Step("Проверяем что смена имени категории корректна")
+    public String isCategoryEditNameCorrect(int categoryIndex) {
 
         Faker faker = new Faker();
 
-        String newDishName = faker.harryPotter().spell();
+        String newCategoryName = faker.harryPotter().character();
 
-        menuDishItemsEditButtons.get(dishIndex).click();
-        isElementVisible(editDishNameInput);
-        isElementVisible(editDishNameOkButton);
+        categoryEditButton.get(categoryIndex).click();
 
-        String dishNameBeforeEditing = editDishNameInput.getValue();
+        isEditContainerCorrect();
 
-        editDishNameInput.clear();
-        editDishNameInput.sendKeys(newDishName);
-        editDishNameOkButton.click();
-        forceWait(2000);
+        String categoryNameBeforeEditing = categoryNameForGuest.getValue();
 
-        dishPreloader.shouldHave(cssValue("display", "none"), Duration.ofSeconds(5));
-        String newDishNameInItem = menuDishItemsEditName.get(dishIndex).getText();
+        clearText(categoryNameForGuest);
 
-        System.out.println(dishNameBeforeEditing + " старое имя блюда");
-        System.out.println(newDishNameInItem + " новое имя блюда");
+        sendKeys(categoryNameForGuest,newCategoryName);
 
-        menuDishItemsEditName.get(dishIndex).shouldHave(matchText(newDishNameInItem));
+        click(saveEditedCategoryNameButton);
+        isElementVisible(menuPagePreLoader);
+        forceWait(1000);
 
-        System.out.println("Имя блюда успешно изменилось");
+        String newCategoryNameInItem = categoryItemsNames.get(categoryIndex).getText();
+        categoryNameInGuest.shouldHave(text(newCategoryName));
 
-        return newDishName;
+        System.out.println(categoryNameBeforeEditing + " старое имя категории\n" +
+                newCategoryNameInItem + " новое имя категории");
+
+        categoryItemsNames.get(categoryIndex).shouldHave(matchText(newCategoryNameInItem));
+        System.out.println("Имя категории изменилось");
+
+        return newCategoryName;
+
+    }
+
+    @Step("Проверяем что смена имени блюда корректна")
+    public String isDishEditNameByGuestCorrect(int dishIndex) {
+
+        String dishNameBeforeEditing = menuDishItemsNames.get(dishIndex).getText();
+        String dishNameAfterEditing = changeName(dishIndex);
+
+        System.out.println(dishNameAfterEditing + " dishNameAfterEditing\n" +
+                dishNameBeforeEditing + " dishNameBeforeEditing");
+
+        Assertions.assertNotEquals(dishNameBeforeEditing,dishNameAfterEditing,
+                "Старое имя не изменилось на новое");
+
+        return dishNameAfterEditing;
+
+    }
+    @Step("Проверяем что смена описании блюда корректна")
+    public void isDishEditDescriptionCorrect(int dishIndex) {
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        Faker faker = new Faker();
+        String newDescription = faker.food().dish();
+
+        clearText(editDishDescriptionInput);
+
+        sendKeys(editDishDescriptionInput,newDescription);
+
+        click(saveButton);
+
+        isElementInvisible(editDishContainer);
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        editDishDescriptionInput.shouldHave(value(newDescription));
+
+    }
+
+    @Step("Проверяем что смена описании блюда корректна")
+    public void isDishEditIngredientsCorrect(int dishIndex) {
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        Faker faker = new Faker();
+        String newIngredients = faker.ancient().hero();
+
+        clearText(editDishIngredientsInput);
+
+        sendKeys(editDishIngredientsInput,newIngredients);
+
+        click(saveButton);
+
+        isElementInvisible(editDishContainer);
+
+        Assertions.assertNotNull(menuDishIngredients.findBy(text(newIngredients)));
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        editDishIngredientsInput.shouldHave(value(newIngredients));
+
+        click(editContainerCloseButton);
+
+        isElementInvisible(editDishContainer);
+
+    }
+
+    @Step("Проверяем что смена описании блюда корректна")
+    public String isDishEditWeightAndAmountCorrect(int dishIndex) {
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        Faker faker = new Faker();
+        String newWeight = faker.number().digits(3);
+
+        isElementVisible(editDishAmountInput);
+
+        forceWait(300); //toDo не успевает прогрузиться инпут веса
+        clearText(editDishAmountInput);
+
+        sendKeys(editDishAmountInput,newWeight);
+
+        click(editDishMeasureUnitInput);
+
+        SelenideElement elementToClick = editDishMeasureUnitInputOptions.get(generateRandomNumber(2,7));
+        String measureUnit = elementToClick.getText();
+
+        click(elementToClick);
+
+        editDishMeasureUnitInput.shouldHave(text(measureUnit));
+
+        click(saveButton);
+
+        isElementInvisible(editDishContainer);
+
+        SelenideElement weightAndAmountElement =  menuDishWeight.findBy(text(newWeight));
+        String weightAndAmount = weightAndAmountElement.getText();
+
+        Assertions.assertNotNull(weightAndAmount);
+
+        System.out.println(weightAndAmount + " weightAndAmount");
+        return weightAndAmount;
+
+    }
+
+    @Step("Проверяем что изменения корректны на столе с элементом {textToFind}")
+    public void isChangingAppliedOnTable(int tapper, int admin,ElementsCollection elementsWhereToFind, String textToFind) {
+
+        switchBrowserTab(tapper);
+
+        if (!orderMenuContainer.isDisplayed())
+            click(appFooterMenuIcon);
+
+       Assertions.assertNotNull(elementsWhereToFind.findBy(matchText(textToFind)),"Элемент " + textToFind +
+               " не найден на столе");
+        System.out.println("Изменения корректны");
+
+       switchBrowserTab(admin);
+
+    }
+
+
+    public void isNameByCashDeskShowsWhenNameByGuestIsEmpty() {
+
+
+
+
+    }
+
+
+    public void isDishEditModalCorrect() {
+
+        isElementVisible(editDishContainer);
+        isElementVisible(imageContainer);
+        isElementVisible(editPhotoButton);
+        isElementVisible(editDishNameByCashDeskInput);
+        isElementVisible(editDishNameByGuestInput);
+        isElementVisible(editDishDescriptionInput);
+        isElementVisible(editDishIngredientsInput);
+        isElementVisible(editDishAmountInput);
+        isElementVisible(editDishMeasureUnitInput);
+        isElementVisible(editDishCaloriesInput);
+        isElementVisible(editDishMarksSelect);
+        isElementVisible(saveButton);
+        isElementVisible(cancelButton);
 
     }
 
@@ -359,9 +523,9 @@ public class Menu extends BaseActions {
     public void changeEditedDishNameByDefaultValue(String categoryDishBeforeEditing) {
 
         menuDishItemsEditButtons.get(0).click();
-        editDishNameInput.clear();
-        editDishNameInput.sendKeys(categoryDishBeforeEditing);
-        editDishNameOkButton.click();
+        editDishNameByGuestInput.clear();
+        editDishNameByGuestInput.sendKeys(categoryDishBeforeEditing);
+
         dishPreloader.shouldHave(cssValue("display", "flex"));
         System.out.println("Заменили имя на старое");
 

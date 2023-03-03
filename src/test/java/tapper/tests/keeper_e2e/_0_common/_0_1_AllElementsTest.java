@@ -3,7 +3,6 @@ package tapper.tests.keeper_e2e._0_common;
 
 import admin_personal_account.menu.Menu;
 import api.ApiRKeeper;
-import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -20,7 +19,6 @@ import total_personal_account_actions.AuthorizationPage;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
@@ -29,7 +27,7 @@ import static data.selectors.TapperTable.RootPage.DishList.emptyOrderMenuButton;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
 
-@Order(1)
+@Order(2)
 @Epic("RKeeper")
 @Feature("Общие")
 @Story("Общая функциональность таппера")
@@ -41,6 +39,8 @@ public class _0_1_AllElementsTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String guid;
+    static int amountDishesForFillingOrder = 3;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     Best2PayPage best2PayPage = new Best2PayPage();
@@ -48,35 +48,21 @@ public class _0_1_AllElementsTest extends BaseTest {
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
-
     AuthorizationPage authorizationPage = new AuthorizationPage();
 
     Menu menu = new Menu();
 
     @Test
-    @DisplayName("0. Открываем пустой стол")
+    @DisplayName("1.0. Открываем пустой стол")
     public void openEmptyTable() {
 
-        if (!apiRKeeper.isClosedOrder(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,AUTO_API_URI)) {
-
-            System.out.println("На кассе есть прошлый заказ, закрываем его");
-            String guid = apiRKeeper.getGuidFromOrderInfo(TABLE_AUTO_111_ID,AUTO_API_URI);
-
-            apiRKeeper.orderPay(rqParamsOrderPay(R_KEEPER_RESTAURANT, guid), AUTO_API_URI);
-
-            boolean isOrderClosed = apiRKeeper.isClosedOrder(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,AUTO_API_URI);
-
-            Assertions.assertTrue(isOrderClosed, "Заказ не закрылся на кассе");
-            System.out.println("\nЗаказ закрылся на кассе\n");
-
-        }
-
+        apiRKeeper.isTableEmpty(R_KEEPER_RESTAURANT, TABLE_AUTO_111_ID, AUTO_API_URI);
         rootPage.openPage(STAGE_RKEEPER_TABLE_111);
 
     }
 
     @Test
-    @DisplayName("1.0. Проверка заголовка, номера стола, лого часов, подписи и вызов официанта")
+    @DisplayName("1.1. Проверка заголовка, номера стола, лого часов, подписи и вызов официанта")
     public void isTableNumberShown() {
 
         rootPageNestedTests.isEmptyTableCorrect();
@@ -84,49 +70,44 @@ public class _0_1_AllElementsTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.1 Создание заказа в r_keeper")
+    @DisplayName("1.2. Создание заказа в r_keeper")
     public void createAndFillOrder() {
 
-        Response rs = apiRKeeper.createOrder
-                (rqParamsCreateOrderBasic(R_KEEPER_RESTAURANT, TABLE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD),
-                        AUTO_API_URI);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-
-        ArrayList<LinkedHashMap<String, Object>> dishes = new ArrayList<>();
-
-        dishes = apiRKeeper.orderFill(dishes, BARNOE_PIVO, 3);
-        apiRKeeper.newFillingOrder(apiRKeeper.rsBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishes));
 
     }
 
     @Test
-    @DisplayName("1.2. Открытие стола, проверка что заказ совпадает с кассой")
+    @DisplayName("1.3. Открытие стола")
     public void openTable() {
 
         rootPage.refreshPage();
+
+    }
+
+    @Test
+    @DisplayName("1.4. Проверяем анимацию\\картинку при загрузке стола")
+    public void isKeeperOrderCorrectWithTapper() {
+
+        rootPageNestedTests.isStartScreenShown();
+
+    }
+
+    @Test
+    @DisplayName("1.5.Проверяем что позиции заказа на кассе совпадают с позициями на столе после создания ")
+    public void isStartScreenShown() {
+
         rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_111_ID);
 
     }
 
     @Test
-    @DisplayName("1.3. Проверяем анимацию\\картинку при загрузке стола")
-    public void isKeeperOrderCorrectWithTapper() {
-
-        rootPage.isStartScreenShown();
-
-    }
-
-    @Test
-    @DisplayName("1.4.Проверяем что позиции заказа на кассе совпадают с позициями на столе после создания ")
-    public void isStartScreenShown() {
-
-        rootPageNestedTests.isOrderInKeeperCorrectWithTapper();
-
-    }
-
-    @Test
-    @DisplayName("1.5. Проверяем что стол не пустой и содержит заказ")
+    @DisplayName("1.6. Проверяем что стол не пустой и содержит заказ")
     public void isDishListNotEmptyAndVisible() {
 
         rootPage.isDishListNotEmptyAndVisible();
@@ -268,7 +249,7 @@ public class _0_1_AllElementsTest extends BaseTest {
     @DisplayName("3.1. Проверяем телеграм сообщение")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid, Constants.WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

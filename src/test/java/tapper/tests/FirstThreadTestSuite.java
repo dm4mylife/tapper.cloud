@@ -4,18 +4,19 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
 
+
 @SelectPackages({
 
-        "tapper.tests.admin_personal_account",
-        "tapper.tests.waiter_personal_account",
-         "tapper.tests.support_personal_account"
-
-
+    "tapper.tests.keeper_e2e._0_common",
+    "tapper.tests.keeper_e2e._1_fullPayment",
+    "tapper.tests.keeper_e2e._2_partialPayment",
+    "tapper.tests.keeper_e2e._3_tips"
 
 
 })
-
 @Suite
-@SuiteDisplayName("part test")
+@SuiteDisplayName("full test")
 public class FirstThreadTestSuite {
+
+
 }

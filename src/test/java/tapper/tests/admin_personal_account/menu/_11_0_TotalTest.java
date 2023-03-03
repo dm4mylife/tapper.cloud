@@ -29,7 +29,6 @@ import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _11_0_TotalTest extends BaseTest {
 
-    BaseActions baseActions = new BaseActions();
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Menu menu = new Menu();
@@ -57,7 +56,8 @@ public class _11_0_TotalTest extends BaseTest {
     @DisplayName("1.3. Включаем меню для гостей")
     public void activateMenuForGuests() {
 
-        menu.activateMenuForGuests();
+        menu.activateFirstCategoryAndDishInMenu();
+        menu.isDishItemCorrectInList();
 
     }
 
@@ -65,12 +65,11 @@ public class _11_0_TotalTest extends BaseTest {
     @DisplayName("1.4. Переходим на стол и проверяем что иконка меню есть и само меню отображается")
     public void checkMenuIconAndContainerInTable() {
 
-        baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
-      //  rootPage.closeHintModal();
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
 
-        baseActions.isElementVisible(appFooterMenuIcon);
-        baseActions.click(appFooterMenuIcon);
-        baseActions.isElementVisible(menuDishContainer);
+        rootPage.isElementVisible(appFooterMenuIcon);
+        rootPage.click(appFooterMenuIcon);
+        rootPage.isElementVisible(menuDishContainer);
 
     }
 
@@ -78,14 +77,14 @@ public class _11_0_TotalTest extends BaseTest {
     @DisplayName("1.5. Отключаем отображение меню для гостей по кнопке и проверяем стол")
     public void deactivateMenuForGuest() {
 
-        Selenide.switchTo().window(0);
-        baseActions.click(enableMenuForVisitorsButton);
+        rootPage.switchBrowserTab(0);
+        rootPage.click(enableMenuForVisitorsButton);
 
-        Selenide.switchTo().window(1);
+        rootPage.switchBrowserTab(1);
         rootPage.refreshPage();
 
-        baseActions.click(appFooterMenuIcon);
-        baseActions.isElementInvisible(orderContainer);
+        rootPage.click(appFooterMenuIcon);
+        rootPage.isElementInvisible(orderContainer);
 
     }
 
@@ -93,16 +92,16 @@ public class _11_0_TotalTest extends BaseTest {
     @DisplayName("1.6. В админке отключаем все категории но кнопка показывать гостям активна")
     public void deactivateCategoryButShowGuestButtonIsActive() {
 
-        Selenide.switchTo().window(0);
+        rootPage.switchBrowserTab(0);
 
         menu.deactivateMenuCategory();
-        baseActions.click(enableMenuForVisitorsButton);
+        rootPage.click(enableMenuForVisitorsButton);
 
-        Selenide.switchTo().window(1);
+        rootPage.switchBrowserTab(1);
         rootPage.refreshPage();
 
-        baseActions.click(appFooterMenuIcon);
-        baseActions.isElementInvisible(orderContainer);
+        rootPage.click(appFooterMenuIcon);
+        rootPage.isElementInvisible(orderContainer);
 
     }
 

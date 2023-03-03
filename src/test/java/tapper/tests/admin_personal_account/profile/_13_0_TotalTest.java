@@ -42,7 +42,6 @@ public class _13_0_TotalTest extends BaseTest {
 
     }
 
-    @Disabled
     @Test
     @DisplayName("1.3. Проверяем редактирование названия заведения, имя, телефон")
     public void isPrivateDateChangedCorrect() {
@@ -51,7 +50,6 @@ public class _13_0_TotalTest extends BaseTest {
 
     }
 
-    @Disabled
     @Test
     @DisplayName("1.4. Удаление логина телеграмма и добавление")
     public void deleteTelegramLogin() {
@@ -60,7 +58,6 @@ public class _13_0_TotalTest extends BaseTest {
 
     }
 
-    @Disabled
     @Test
     @DisplayName("1.5. Смена пароля админа")
     public void changeAdminPassword() {

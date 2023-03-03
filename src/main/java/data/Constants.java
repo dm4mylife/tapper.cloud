@@ -7,15 +7,14 @@ public class Constants {
     public static final int WAIT_FOR_PREPAYMENT_ON_CASH_DESK = 7000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_REVIEW = 10000;
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 10000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 16000;
+    public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 8000;
+    public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 10000;
     public static final int ATTEMPT_FOR_PREPAYMENT_REQUEST = 3;
     public static final String PASTA_IMG_PATH = "src/main/resources/pasta.jpg";
     public static final String LOADER_GIF_PATH = "src/main/resources/loader.gif";
     public static final String OLD_LOADER_GIF_PATH = "src/main/resources/oldLoader.gif";
     public static final String ROBOCOP_IMG_PATH = "src/main/resources/robocop.jpeg";
     public static final String downloadFolderPath = "C:\\tapper.cloud\\build\\downloads\\qr";
-
     public static final String downloadFolderPathAdminSupport = "C:\\tapper.cloud\\build\\downloads\\qrAdminSupport";
 
     public static class TestData {
@@ -23,24 +22,28 @@ public class Constants {
 
             public static final String STAGE_RKEEPER_TABLE_111 = "https://stage-ssr.zedform.ru/testrkeeper/1000046";
             public static final String STAGE_RKEEPER_TABLE_222 = "https://stage-ssr.zedform.ru/testrkeeper/1000397";
+            public static final String STAGE_RKEEPER_TABLE_10 = "https://stage-ssr.zedform.ru/testrkeeper/1000044";
             public static final String STAGE_RKEEPER_TABLE_333 = "https://stage-ssr.zedform.ru/testrkeeper/1000398";
+            public static final String STAGE_RKEEPER_TABLE_444 = "https://stage-ssr.zedform.ru/testrkeeper/1000423";
             public static final String STAGE_IIKO_TABLE_3 = "https://stage-ssr.zedform.ru/office/3";
             public static final String AUTO_API_URI = "https://apitapper.zedform.ru/api/";
+            public static final String TEST_API_URI = "https://taper.zedform.ru/api/";
 
 
-
-            /*public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
+          /* public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
             public static final String STAGE_RKEEPER_TABLE_222 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000397";
             public static final String STAGE_RKEEPER_TABLE_333 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000398";
+            public static final String STAGE_RKEEPER_TABLE_444 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000423";
             public static final String STAGE_IIKO_TABLE_3 = "https://auto-ssr-tapper.zedform.ru/office/3";
             public static final String AUTO_API_URI = "https://auto-back-tapper.zedform.ru/api/";*/
 
 
             public static final Integer PAYMENT_BANKS_MAX_PRIORITY_BANKS = 3;
-            public static final double SUM_AFTER_SERVICE_CHARGE_MAXIMIZE = 13500.0;
             public static final double SERVICE_CHARGE_MAX = 199.0;
             public static final String TEST_WAITER_COMMENT = "test\\тест";
             public static final String TEST_REVIEW_COMMENT = "test\\тест";
+            public static final String TEST_REVIEW_COMMENT_NEGATIVE = "Вкусно, но не то чтобы по вкусу вкусно";
+            public static final String TEST_REVIEW_COMMENT_POSITIVE= "Ни о чём не жалею, очень вкусно!";
             public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_ALL = "Это сообщение отправлено всем";
             public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_WAITERS = "Это сообщение отправлено официантам";
             public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS = "Это сообщение отправлено админам";
@@ -79,7 +82,7 @@ public class Constants {
             public static final String TEST_YANDEX_LOGIN_EMAIL = "autotests@tapper.cloud";
             public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
             public static final String TEST_YANDEX2_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
-            public static final String TEST_YANDEX2_PASSWORD_MAIL = "autotests2023!";
+            public static final String TEST_YANDEX2_PASSWORD_MAIL = "W1LrKR29xwp9";
             public static final String YANDEX_MAIL_URL =
                 "https://passport.yandex.ru/auth?retpath=https%3A%2F%2Fmail.yandex.ru%2F&backpath=https%3A%2F%2Fmail.yandex.ru%2F%3Fnoretpath%3D1&from=mail&origin=hostroot_homer_auth_ru";
         }
@@ -111,10 +114,9 @@ public class Constants {
             public static final String WAITER_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String ROBOCOP_WAITER_CHANGED_NAME = "Робокопище";
             public static final String TELEGRAM_AUTO_CHANNEL_LOGIN = "-1001764474981";
-
+            public static final String TELEGRAM_AUTO_LOGIN = "user_unknown_nb";
             public static final String VERIFIED_WAITER_TEXT = "Официант верифицирован";
             public static final String INVITED_IN_SERVICE_TEXT = "Приглаш(е|ё)н в систему";
-
 
         }
         public static class SupportPersonalAccount {
@@ -125,27 +127,47 @@ public class Constants {
         }
     }
     public static class RegexPattern {
-        public static final String tableRegex = "(\\n|.)?Стол: ([\\d+]+)(\\n|.)*";
-        public static final String sumInCheckRegex = "(\\n|.)*Сумма в чеке: (\\d*\\.?\\d*)(\\n|.)*";
-        public static final String restToPayRegex = "(\\n|.)*Осталось оплатить: (\\d*\\.?\\d*)(\\n|.)*";
-        public static final String tipsRegex = "(\\n|.)*Чаевые: (\\d*\\.?\\d*)(\\n|.)*";
-        public static final String paySumRegex = "(\\n|.)*Сумма оплаты: (\\d*\\.?\\d*)(\\n|.)*";
-        public static final String totalPaidRegex = "(\\n|.)*Всего оплачено: (\\d*\\.?\\d*)(\\n|.)*";
-        public static final String markUpRegex = "(\\n|.)*Наценка: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
-        public static final String discountRegex = "(\\n|.)*Скидка: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
-        public static final String payStatusRegex = "(\\n|.)*Статус оплаты: ([а-яА-Я\\s]+)\\nСтатус заказа(\\n|.)*";
-        public static final String orderStatusRegex =
-                "(\\n|.)*Статус заказа: ([а-яaА-Яa-zA-Z\\.\\:\\,\\s]+)\\n?Дата заказа(\\n|.)*";
-        public static final String reasonError = "(\\n|.)*Причина: (.+)(\\n|.)*";
-        public static final String dateOrderRegex = "(\\n|.)*Дата заказа: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
-        public static final String waiterRegex = "(\\n|.)*Официант: ([а-яА-Яaa-zA-Z\\s]+)\\n(\\n|.)*";
-        public static final String ratingCommentRegex = "(\\n|.)*Комментарий: ((\\n|.)*)Рейтинг(\\n|.)*";
-        public static final String ratingRegex = "(\\n|.)*Рейтинг: ((\\d|\\n)*)Пожелания(\\n|.)*";
-        public static final String suggestionRegex = "(\\n|.)*Пожелания: (.*)";
-        public static final String tableReviewRegex = "(\\n|.)*Номер столика: ([\\d+]+)(\\n|.)*";
-        public static final String callWaiterCommentRegex = "(\\n|.)*Комментарий: (.*)\\n?Время.*";
-        public static final String restaurantNameRegex = "Ресторан #\\d+ \\((.+)\\)(\\n|.)*";
+
+        public static class TelegramMessage {
+            public static final String tableRegex = "(\\n|.)+Стол: ([\\d+]+)(\\n|.)*";
+            public static final String tableRegexTelegramMessage = "(.*Стол\\s)(\\d{3})(.*)";
+            public static final String sumInCheckRegex = "(\\n|.)*Сумма в чеке: (\\d*\\.?\\d*)(\\n|.)*";
+            public static final String restToPayRegex = "(\\n|.)*Осталось оплатить: (\\d*\\.?\\d*)(\\n|.)*";
+            public static final String tipsRegex = "(\\n|.)*Чаевые: (\\d*\\.?\\d*)(\\n|.)*";
+            public static final String paySumRegex = "(\\n|.)*Сумма оплаты: (\\d*\\.?\\d*)(\\n|.)*";
+            public static final String totalPaidRegex = "(\\n|.)*Всего оплачено: (\\d*\\.?\\d*)(\\n|.)*";
+            public static final String markUpRegex = "(\\n|.)*Наценка: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
+            public static final String discountRegex = "(\\n|.)*Скидка: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
+            public static final String payStatusRegex = "(\\n|.)*Статус оплаты: ([а-яА-Я\\s]+)\\nСтатус заказа(\\n|.)*";
+            public static final String orderStatusRegex =
+                    "(\\n|.)*Статус заказа: ([а-яaА-Яa-zA-Z\\.\\:\\,\\s]+)\\n?Дата заказа(\\n|.)*";
+            public static final String reasonError = "(\\n|.)*Причина: (.+)(\\n|.)*";
+            public static final String dateOrderRegex = "(\\n|.)*Дата заказа: ([\\d\\.\\s\\|\\:]+)(\\n|.)*";
+            public static final String waiterRegex = "(\\n|.)*Официант: ([а-яА-Яaa-zA-Z\\s]+)\\n(\\n|.)*";
+            public static final String ratingCommentRegex = "(\\n|.)*Комментарий: ((\\n|.)*)Рейтинг(\\n|.)*";
+            public static final String ratingRegex = "(\\n|.)*Рейтинг: ((\\d|\\n)*)Пожелания(\\n|.)*";
+            public static final String suggestionRegex = "(\\n|.)*Пожелания: (.*)";
+            public static final String tableReviewRegex = "(\\n|.)*Номер столика: ([\\d+]+)(\\n|.)*";
+            public static final String callWaiterCommentRegex = "(\\n|.)*Комментарий: (.*)\\n?Время.*";
+            public static final String restaurantNameRegex = "Ресторан #\\d+ \\((.+)\\)(\\n|.)*";
+
+        }
+
+        public static class TapperTable {
+
+            public static final String totalPayRegex = "\\s₽";
+            public static final String totalSumInWalletRegex = "\\s₽";
+            public static final String dishPriceRegex = "\\s₽";
+            public static final String tipsInCheckSumRegex = "\\s₽";
+            public static final String markedDishesRegex = "\\s₽";
+
+            public static final String discountInCheckRegex = "[^\\d\\.]+";
+
+        }
+
 
     }
+    //public static final String testDisplayName = " Создание заказа в r_keeper";
+
 
 }

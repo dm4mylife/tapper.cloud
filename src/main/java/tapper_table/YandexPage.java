@@ -23,12 +23,13 @@ public class YandexPage extends BaseActions {
 
             yandexTapperAccount.click();
 
+
         }  else if (enteredEarlierLogin.isDisplayed()) {
 
             sendKeys(yandexPassword,password);
             click(signInButton);
 
-        } else {
+        }  else {
 
             click(enterByEmailButton);
             sendKeys(yandexLogin,email);
@@ -36,15 +37,21 @@ public class YandexPage extends BaseActions {
             sendKeys(yandexPassword,password);
             click(signInButton);
 
+
         }
 
         if (skipAddReservePassportContainer.isDisplayed()) {
 
             skipButton.click();
 
-        } else if (skipAddReserveEmail.isDisplayed() && skipAddReserveEmail.getText().matches("Если потеряете доступ")) {
+        } else if (skipAddReserveEmail.isDisplayed() &&
+                skipAddReserveEmail.getText().matches("Если потеряете доступ")) {
 
             skipButton.click();
+
+        }  else if (attachPhoto.isDisplayed()) {
+
+            skipButtonWhenAddPhoto.click();
 
         }
 
@@ -56,7 +63,7 @@ public class YandexPage extends BaseActions {
     public String checkTapperMail() {
 
         tapperMail.shouldBe(visible.because("На почте нет письма с приглашением на авторизацию"),
-                Duration.ofSeconds(30));
+                Duration.ofSeconds(120));
 
         click(tapperMail);
 

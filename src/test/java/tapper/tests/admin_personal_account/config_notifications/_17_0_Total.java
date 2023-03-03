@@ -49,11 +49,10 @@ public class _17_0_Total extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.4. Проверка что есть автоканал уже есть в списке")
-    public void isChangingRecipientsCorrect() {
+    @DisplayName("1.4. Добавляем группу")
+    public void addTelegramGroup() {
 
-        Assertions.assertTrue(configNotifications.isTelegramLoginExist(TELEGRAM_AUTO_CHANNEL_LOGIN),
-                "Этой группы " + TELEGRAM_AUTO_CHANNEL_LOGIN + " не было в списке");
+        configNotifications.addTelegramGroup(TELEGRAM_AUTO_CHANNEL_LOGIN);
 
     }
 
@@ -65,16 +64,9 @@ public class _17_0_Total extends BaseTest {
 
     }
 
-    @Test
-    @DisplayName("1.6. Добавляем группу")
-    public void addTelegramGroup() {
-
-        configNotifications.addTelegramGroup(TELEGRAM_AUTO_CHANNEL_LOGIN);
-
-    }
 
     @Test
-    @DisplayName("1.7. Проверяем форму редактирования группы")
+    @DisplayName("1.6. Проверяем форму редактирования группы")
     public void isSettingCorrect() {
 
         configNotifications.isElementNotificationSettingCorrect();
@@ -82,7 +74,7 @@ public class _17_0_Total extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.8. Проверяем все опции выбора типа сообщений")
+    @DisplayName("1.7. Проверяем все опции выбора типа сообщений")
     public void isTypesCorrect() {
 
         configNotifications.isTypeOptionCorrect(typeCallWaiterNotificationOption);

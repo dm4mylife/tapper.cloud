@@ -29,11 +29,15 @@ public class BaseActions {
 
     @Step("Открытие страницы {url}")
     public void openPage(String url) {
+
         open(url);
+
     }
 
     public void click(@NotNull SelenideElement element) {
+
         element.shouldBe(visible).click();
+
     }
 
     public void clickByJs(String selector) {
@@ -42,9 +46,8 @@ public class BaseActions {
 
     }
 
-
-
     public void scrollAndClick(SelenideElement element) {
+
         element.scrollIntoView(false);
         element.click();
     }
@@ -55,51 +58,68 @@ public class BaseActions {
 
     @Step("Элемент присутствует на странице в ходе длительной загрузки ({time}сек.)")
     public void isElementVisibleDuringLongTime(@NotNull SelenideElement element, int time) {
+
         element.shouldBe(visible, Duration.ofSeconds(time));
+
     }
 
     @Step("Переключение на другого гостя ({guest})")
     public void switchTab(int tabIndex) {
-        Selenide.switchTo().window(tabIndex);
-    }
 
+        Selenide.switchTo().window(tabIndex);
+
+    }
 
     public void isElementInvisible(@NotNull SelenideElement element) {
+
         element.shouldBe(hidden);
+
     }
 
-
     public void isElementsListVisible(ElementsCollection elements) {
+
          elements.filterBy(visible).shouldBe(sizeGreaterThan(0));
+
     }
 
     public void isElementsListInVisible(@NotNull ElementsCollection elements) {
+
         elements.shouldBe(size(0));
+
     }
 
     public void isElementVisibleAndClickable(@NotNull SelenideElement element) {
+
         element.shouldBe(visible, enabled);
+
     }
 
     @Step("Генерация рандомного значения от {min} до {max}")
     public int generateRandomNumber(int min, int max) {
+
         return (int) Math.floor(Math.random() * (max - min + 1) + min);
+
     }
 
     @Step("Принудительное ожидание из-за долгой загрузки страницы,элементов,скриптов ({ms} мс)")
     public void forceWait(int ms) {
+
         Selenide.sleep(ms);
+
     }
 
     @Step("Плавный скрол до видимого элемента (без JS)")
     public void scroll(@NotNull SelenideElement element) {
+
         element.scrollIntoView(false);
+
     }
 
     @Step("Плавный скрол до самого низа страницы")
     public void scrollTillBottom() {
 
-        Selenide.executeJavaScript("window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: \"smooth\" });\n;");
+        Selenide.executeJavaScript
+                ("window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: \"smooth\" });\n;");
         Selenide.sleep(1000);
 
     }
@@ -113,24 +133,23 @@ public class BaseActions {
     @Step("Принудительно прячем способы оплаты и футер")
     public void hidePaymentOptionsAndTapBar() {
 
-        if (paymentOptionsContainer.isDisplayed() || appFooter.isDisplayed()) {
+        if (paymentOptionsContainer.isDisplayed())
+            Selenide.executeJavaScript
+                    ("document.querySelector('[class=\"payedVariants\"]').style.display = 'none'");
 
-            Selenide.executeJavaScript("document.querySelector('[class=\"payedVariants\"]').style.display = 'none'");
+        if (appFooter.isDisplayed())
             Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'none'");
-
-        }
 
     }
 
     @Step("Принудительно раскрываем способы оплаты и футер")
     public void showPaymentOptionsAndTapBar() {
 
-        if (!paymentOptionsContainer.isDisplayed() || !appFooter.isDisplayed()) {
-
+        if (!paymentOptionsContainer.isDisplayed())
             Selenide.executeJavaScript("document.querySelector('[class=\"payedVariants\"]').style.display = 'block'");
-            Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'block'");
 
-        }
+        if (!appFooter.isDisplayed())
+            Selenide.executeJavaScript("document.querySelector('[class=\"appFooter\"]').style.display = 'block'");
 
     }
 
@@ -149,13 +168,15 @@ public class BaseActions {
 
     @Step("Ввод данных {text} без задержки")
     public void sendKeys(@NotNull SelenideElement element, String text) {
+
         element.sendKeys(text);
+
     }
 
     @Step("Проверка что текст {text} содержится в текущем URL")
     public void isTextContainsInURL(String url) {
 
-        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(50));
+        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(35));
 
     }
 
@@ -174,6 +195,7 @@ public class BaseActions {
     }
 
     public String convertSelectorTextIntoStrByRgx(@NotNull SelenideElement selector, String regex) {
+
         return selector.getText().replaceAll(regex, "");
 
     }
@@ -185,14 +207,15 @@ public class BaseActions {
         element.sendKeys(Keys.CONTROL + "A");
         forceWait(500);
         element.sendKeys(Keys.BACK_SPACE);
-        forceWait(200);
+        forceWait(500);
         element.shouldHave(empty,Duration.ofSeconds(5));
 
     }
 
-    public double convertDouble(@NotNull Double doubleNumber) {
+    public double updateDoubleByDecimalFormat(@NotNull Double doubleNumber) {
 
-        String formattedDouble = new DecimalFormat("#0.00").format(doubleNumber).replace(",", ".");
+        String formattedDouble =
+                new DecimalFormat("#0.00").format(doubleNumber).replace(",", ".");
         return Double.parseDouble(formattedDouble);
     }
 
@@ -215,7 +238,6 @@ public class BaseActions {
 
         boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(JsScript));
         Assertions.assertTrue(image, assertFailMessage);
-
 
     }
 

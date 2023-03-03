@@ -6,14 +6,12 @@ import static api.ApiData.orderData.*;
 
 public class ApiData {
 
-
-
     public static class EndPoints {
 
         public static final String createOrder = "rkeeper/createorder";
+        public static final String getOrderInfo = " rkeeper-automation/order";
         public static final String fillingOrder = "rkeeper-automation/order/fill";
         public static final String deleteOrder = "rkeeper/delorder";
-        public static final String getOrderInfo = "rkeeper/order";
         public static final String checkOrderClosed = "rkeeper-automation/check-order-closed";
         public static final String checkPrepayment = "rkeeper-automation/check-prepayment";
         public static final String getPrepayment = "rkeeper-automation/prepayment";
@@ -30,13 +28,17 @@ public class ApiData {
 
         public static final String R_KEEPER_RESTAURANT = "testrkeeper";
 
-        public static final String TABLE_111 = "12";
-        public static final String TABLE_222 = "21";
-        public static final String TABLE_333 = "22";
+        public static final String TABLE_CODE_111 = "12";
+        public static final String TABLE_CODE_222 = "21";
+        public static final String TABLE_CODE_10 = "10";
+        public static final String TABLE_CODE_333 = "22";
+        public static final String TABLE_CODE_444 = "18";
 
         public static final String TABLE_AUTO_111_ID = "1000046";
         public static final String TABLE_AUTO_222_ID = "1000397";
+        public static final String TABLE_AUTO_10_ID = "1000044";
         public static final String TABLE_AUTO_333_ID = "1000398";
+        public static final String TABLE_AUTO_444_ID = "1000423";
 
         public static final String WAITER_ROBOCOP_VERIFIED_WITH_CARD = "23";
         public static final String WAITER_TERMINATOR_VERIFIED_NON_CARD = "233";
@@ -57,7 +59,10 @@ public class ApiData {
         public static final String BORSH = "1000102";
         public static final String FREE_NECESSARY_MODI_SALT = "1000114";
         public static final String FREE_NECESSARY_MODI_PEPPER = "1000115";
-        public static final String FREE_NECESSARY_MODI_GARLIC= "1000420";
+        public static final String FREE_NECESSARY_MODI_GARLIC = "1000420";
+
+        public static final String ABISTA_ZERO_PRICE = "1000283";
+        public static final String ABISTA_PAID_NECESSART_MODI = "1000308";
         public static final String XOLODEC = "1000108";
         public static final String FREE_NON_NECESSARY_MODI_BUTTER = "1000120";
         public static final String FREE_NON_NECESSARY_MODI_MAYONES = "1000121";
@@ -79,41 +84,6 @@ public class ApiData {
 
     public static class QueryParams {
 
-
-        public static String rqParamsCreateOrderBasic(String subDomen, String tableCode, String waiterCode) {
-
-            return "{\n" +
-                    "  \"subDomen\": \"" + subDomen + "\",\n" +
-                    "  \"tableCode\": " + tableCode + ",\n" +
-                    "  \"waiterCode\": \"" + waiterCode + "\",\n" +
-                    "  \"persistentComment\": \"100500\"" +
-                    "\n}";
-
-        }
-
-        public static String rqParamsNewFillingOrderBasic(
-                String domen, String guid, List<Object> dishes) {
-
-            return  "{\n" +
-                    "  \"domen\": \"" + domen + "\",\n" +
-                    "  \"guid\": \"" + guid + "\",\n" +
-                    "  \"station\": 1,\n" +
-                    "  \"dishes\": "  + dishes +
-                    "}";
-
-        }
-
-        public static String rqParamsFillingOrderBasic(String subDomen, String visit, String dishId, String quantity) {
-
-            return "{\n" +
-                    "  \"domen\": \"" + subDomen + "\",\n" +
-                    "  \"quantity\": " + quantity + ",\n" +
-                    "  \"visit\": \"" + visit + "\",\n" +
-                    "  \"dishId\": \"" + dishId + "\"\n" +
-                    "}";
-
-        }
-
         public static String rqParamsDeletePosition(String domen, String guid, String uni, int quantity) {
 
             return "{\n" +
@@ -122,29 +92,6 @@ public class ApiData {
                     "  \"station\": 1,\n" +
                     "  \"uni\": \"" + uni + "\",\n" +
                     "  \"quantity\": " + quantity + "\n" +
-                    "}";
-
-        }
-
-        public static String rqParamsAddCustomDiscount(String domen, String guid, String id_discount, String amount_discount) {
-
-            return "{\n" +
-                    "  \"domen\": \"" + domen + "\",\n" +
-                    "  \"guid\": \"" + guid + "\",\n" +
-                    "  \"station\": 1,\n" +
-                    "  \"id_discount\": \"" + id_discount + "\",\n" +
-                    "  \"amount_discount\": \"" + amount_discount + "\"\n" +
-                    "}";
-
-        }
-
-        public static String rqParamsAddDiscount(String domen, String guid, String id_discount) {
-
-            return "{\n" +
-                    "  \"domen\": \"" + domen + "\",\n" +
-                    "  \"guid\": \"" + guid + "\",\n" +
-                    "  \"station\": 1,\n" +
-                    "  \"id_discount\": \"" + id_discount + "\"\n" +
                     "}";
 
         }
@@ -160,27 +107,6 @@ public class ApiData {
 
         }
 
-        public static String rqParamsIsOrderClosed(String domen, String guid){
-
-            return "{\n" +
-                    "  \"domen\": \"" + domen + "\",\n" +
-                    "  \"guid\": \"" + guid + "\",\n" +
-                    "  \"station\": 1\n" +
-                    "}";
-
-        }
-
-        public static String rqParamsOrderPay(String domen, String guid){
-
-            return "{\n" +
-                    "  \"domen\": \"" + domen + "\",\n" +
-                    "  \"guid\": \"" + guid + "\",\n" +
-                    "  \"station\": 1,\n" +
-                    "  \"pay\": 9000000000 \n" +
-                    "}";
-
-        }
-
         public static String rqParamsCheckPrePayment(String transactionId){
 
             return "{\n" +
@@ -189,203 +115,202 @@ public class ApiData {
 
         }
 
-
         static ApiRKeeper apiRKeeper = new ApiRKeeper();
         public static ArrayList<LinkedHashMap<String, Object>> allTypesModificatorList = new ArrayList<>() {
             {
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SALT,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SALT,2));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,2,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,2,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SALT,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_PEPPER,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_PEPPER,2));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,2,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,2,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_PEPPER,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,2,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,2,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SALT,1));
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_PEPPER,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(BORSH,2,new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,2,new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SALT,2));
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_PEPPER,2));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(XOLODEC,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(XOLODEC,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NON_NECESSARY_MODI_BUTTER,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(XOLODEC,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(XOLODEC,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NON_NECESSARY_MODI_BUTTER,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(XOLODEC,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(XOLODEC,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NON_NECESSARY_MODI_MAYONES,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(XOLODEC,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(XOLODEC,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NON_NECESSARY_MODI_MAYONES,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(XOLODEC,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(XOLODEC,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NON_NECESSARY_MODI_BUTTER,1));
                         add(apiRKeeper.createModificatorObject(FREE_NON_NECESSARY_MODI_MAYONES,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_BANAN_SIROP,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_BANAN_SIROP,2));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(CAESAR,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(CAESAR,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_BANAN_SIROP,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_KARAMEL_SIROP,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_KARAMEL_SIROP,2));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(CAESAR,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(CAESAR,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_KARAMEL_SIROP,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(CAESAR,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_BANAN_SIROP,1));
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_KARAMEL_SIROP,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(CAESAR,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(CAESAR,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_BANAN_SIROP,2));
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_KARAMEL_SIROP,2));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(RAGU,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(RAGU,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MODI_SOUS,1));
                     }
                 }));
 
-                add(apiRKeeper.fillModificatorArrayWithDishes(RAGU,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(RAGU,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MODI_SOUS,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(RAGU,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(RAGU,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MODI_SALAT,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(RAGU,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(RAGU,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MODI_SALAT,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(RAGU,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(RAGU,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MODI_SOUS,1));
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MODI_SALAT,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(VODKA,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(VODKA,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MIX_MODI_SALO,1));
                     }
                 }));
 
-                add(apiRKeeper.fillModificatorArrayWithDishes(VODKA,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(VODKA,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MIX_MODI_SALO,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(VODKA,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(VODKA,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MIX_MODI_BREAD,1));
                     }
                 }));
 
-                add(apiRKeeper.fillModificatorArrayWithDishes(VODKA,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(VODKA,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MIX_MODI_BREAD,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(VODKA,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(VODKA,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MIX_MODI_SALO,1));
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MIX_MODI_BREAD,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(PASTA,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(PASTA,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SOUS,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(PASTA,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(PASTA,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SOUS,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(PASTA,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(PASTA,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_BACON,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(PASTA,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(PASTA,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_BACON,1));
                     }
                 }));
-                add(apiRKeeper.fillModificatorArrayWithDishes(PASTA,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(PASTA,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_NECESSARY_MODI_SOUS,1));
                         add(apiRKeeper.createModificatorObject(PAID_NECESSARY_MODI_BACON,1));
                     }
                 }));
 
-                add(apiRKeeper.fillModificatorArrayWithDishes(GOVYADINA_PORTION,2, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,2, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(FREE_MODI_SOLT_ZERO_PRICE,1));
                         add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,2));
@@ -396,7 +321,6 @@ public class ApiData {
             }
 
         };
-
 
     }
 

@@ -75,7 +75,7 @@ public class Best2PayPage extends BaseActions {
 
         double totalPayB2BDouble = baseActions.convertSelectorTextIntoDoubleByRgx(totalPayB2B, "\\s");
 
-        Assertions.assertEquals(totalPayTapper, totalPayB2BDouble, 0.1);
+        Assertions.assertEquals(totalPayTapper, totalPayB2BDouble, 0.1,"Сумма в тапере не сходится с б2п");
         System.out.println("Сумма в тапере " + totalPayTapper + " сходится с суммой в эквайринге " + totalPayB2BDouble);
 
     }
