@@ -30,8 +30,6 @@ public class ApiRKeeper {
     @Step("Создание заказа")
     public Response createOrder(LinkedHashMap<String, Object> rsBodyCreateOrder, String apiUri) {
 
-        System.out.println("\nСоздание заказа\n");
-
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -47,17 +45,12 @@ public class ApiRKeeper {
 
         Assertions.assertTrue(response.jsonPath().getBoolean("success"));
 
-        System.out.println("Заказ создался на кассе.Время исполнение запроса "
-                + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
-
         return response;
 
     }
 
     @Step("Наполнение заказа")
     public void fillingOrder(Map<String, Object> rsBody) {
-
-        System.out.println("\nНаполняем заказ\n");
 
         String hasError;
         Response response;
@@ -89,12 +82,11 @@ public class ApiRKeeper {
 
             } else {
 
-                System.out.println("Заказ наполнился позициями");
                 errorCounter = 3;
 
             }
 
-            System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+            //System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
         } while (errorCounter < 3);
 
@@ -114,21 +106,15 @@ public class ApiRKeeper {
                 .extract()
                 .response();
 
-        System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
-
         Assertions.assertTrue(response.jsonPath().getBoolean("data.status"));
         Assertions.assertTrue(response.jsonPath().getBoolean("success"));
 
-        System.out.println("Транзакция получена.Время исполнения запроса "
-                + response.getTimeIn(TimeUnit.SECONDS) + " сек\n");
         return response;
 
     }
 
     @Step("Удаление позиции заказа")
     public void deletePosition(String requestBody, String baseUri) {
-
-        System.out.println("\nУдаляем позицию с заказа\n" + requestBody);
 
         boolean hasError;
         Response response;
@@ -170,8 +156,6 @@ public class ApiRKeeper {
 
     public void deleteEmptyOrder(Map<String, Object> rsBody, String baseUri) {
 
-        System.out.println("\nУдаляем пустой заказ\n" + rsBody);
-
         boolean hasError;
         Response response;
         int errorCounter = 0;
@@ -191,7 +175,7 @@ public class ApiRKeeper {
                     .extract()
                     .response();
 
-            System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
+            //System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
 
             hasError = response.path("success").equals(true);
 
@@ -218,10 +202,6 @@ public class ApiRKeeper {
         Response response;
         int errorCounter = 0;
 
-        System.out.println(rsBody);
-
-        System.out.println("\nДобавляем скидку в заказ\n");
-
         do {
 
             response = given()
@@ -246,12 +226,11 @@ public class ApiRKeeper {
 
             } else {
 
-                System.out.println("Скидка добавилась к заказу");
                 errorCounter = 3;
 
             }
 
-            System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+           // System.out.println("Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
         } while (errorCounter < 3);
 
@@ -259,8 +238,6 @@ public class ApiRKeeper {
 
     @Step("Удаление скидки заказа")
     public void deleteDiscount(Map<String, Object> rqBody, String baseUri) {
-
-        System.out.println(rqBody);
 
         boolean hasError;
         Response response;
@@ -305,9 +282,9 @@ public class ApiRKeeper {
     @Step("Получение информации о заказе на столе")
     public Response getOrderInfo(String tableId, String apiUri) {
 
-        System.out.println("\nЗапрашиваем информацию о заказе на кассе\n");
+        //System.out.println("Информация о заказе на кассе получена.Время исполнение запроса "+ response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
-        Response response = given()
+        return given()
                 .contentType(ContentType.JSON)
                 .and()
                 .queryParam("table_id", tableId)
@@ -316,14 +293,9 @@ public class ApiRKeeper {
                 .when()
                 .get(getOrderInfo)
                 .then()
-                .log().ifError()
+                //.log().ifError()
                 .extract()
                 .response();
-
-        System.out.println("Информация о заказе на кассе получена.Время исполнение запроса "
-                + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
-
-        return response;
 
     }
 
@@ -335,25 +307,20 @@ public class ApiRKeeper {
         String uniPath = "result.CommandResult.Order.Session.Dish[\"@attributes\"].uni";
         String uni = "";
 
-        System.out.println(rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[\"@attributes\"].uni") + " UNI");
-
         if (rs.path(uniPath) instanceof String) {
 
             uni = rs.jsonPath().getString(uniPath) + " string";
-            System.out.println(uni);
 
             return uni;
 
         } else if (rs.path(uniPath) instanceof List) {
 
-            System.out.println(rs.jsonPath().getList(uniPath) + " list");
             uni = rs.jsonPath().getList(uniPath).get(0).toString();
 
             return uni;
 
         } else if (rs.path(uniPath) == null) {
 
-            System.out.println(rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[0][\"@attributes\"].uni") + " array dish");
             uni = rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[0][\"@attributes\"].uni");
 
         }
@@ -365,8 +332,6 @@ public class ApiRKeeper {
     @Step("Проверка пришла ли предоплата")
     public Response checkPrepayment(String requestBody, String baseUri) {
 
-        System.out.println("\nПолучаем информацию пришла ли предоплата\n" + requestBody);
-
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -375,13 +340,10 @@ public class ApiRKeeper {
                 .when()
                 .post(checkPrepayment)
                 .then()
-                .log().body()
+                //.log().body()
                 .statusCode(200)
                 .extract()
                 .response();
-
-        System.out.println("Получили информацию по предоплате.Время исполнение запроса " +
-                response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
         return response;
 
@@ -389,8 +351,6 @@ public class ApiRKeeper {
 
     @Step("Оплата заказа")
     public void orderPay(Map<String, Object> rsBody, String baseUri) {
-
-        System.out.println("\nОплачиваем заказ\n" + rsBody);
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -400,7 +360,7 @@ public class ApiRKeeper {
                 .when()
                 .post(orderPay)
                 .then()
-                .log().body()
+                //.log().body()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -408,9 +368,7 @@ public class ApiRKeeper {
         Assertions.assertTrue(response.jsonPath().getBoolean("success"),"Текст ошибки: " +
                 response.jsonPath().getString("message"));
 
-        System.out.println("Оплатили заказ.Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
-
-        baseActions.forceWait(2500); //toDo оплата приходит на кассу, но не успевает примениться
+        //System.out.println("Оплатили заказ.Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
 
     }
 
@@ -431,7 +389,6 @@ public class ApiRKeeper {
                 break;
             }
 
-            System.out.println("Предоплата не пришла, делаем повторный запрос");
             hasErrorText = " .Предоплата не пришла даже после " + ATTEMPT_FOR_PREPAYMENT_REQUEST + "№ попытки";
             --rsCounter;
 
@@ -454,14 +411,11 @@ public class ApiRKeeper {
 
         Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
                 "На столе был прошлый заказ, его не удалось закрыть");
-        System.out.println("\nЗаказ закрылся на кассе\n");
 
     }
 
     @Step("Добавление модификатора в заказ")
     public Response addModificatorOrder(Map<String, Object> rsBody) {
-
-        System.out.println("Добавляем блюдо с модификатором в заказ");
 
         Response response;
         boolean hasError;
@@ -484,10 +438,7 @@ public class ApiRKeeper {
 
             hasError = response.path("message").equals("Операция прошла успешно");
 
-            System.out.println(response.jsonPath().getString("message"));
-
             if (!hasError) {
-
 
                 errorCounter++;
                 System.out.println("\nОшибка в запросе, будет сделан повторный запрос. Повторная попытка № "
@@ -518,10 +469,7 @@ public class ApiRKeeper {
                 .extract()
                 .response();
 
-        List<Object> tgMessages = response.jsonPath().getList("result.channel_post.text");
-        System.out.println("Количество сообщений " + tgMessages.size());
-
-        return tgMessages;
+        return response.jsonPath().getList("result.channel_post.text");
 
     }
 
@@ -541,12 +489,12 @@ public class ApiRKeeper {
 
             if (orderSum.equals("0")) {
 
-                System.out.println("Пустой заказ, закрываем пустой");
+                //System.out.println("Пустой заказ, закрываем пустой");
                 apiRKeeper.deleteEmptyOrder(apiRKeeper.rqBodyDeleteEmptyOrder(restaurantName,visit),apiUri);
 
             } else {
 
-                System.out.println("Заказ имеет позиции, оплачиваем его и проверяем что закрыт");
+                //System.out.println("Заказ имеет позиции, оплачиваем его и проверяем что закрыт");
                 apiRKeeper.orderPay(rqBodyOrderPay(restaurantName,guid, Integer.parseInt(orderSum)),apiUri);
 
             }
@@ -561,7 +509,7 @@ public class ApiRKeeper {
             if (errorMessage.contains("Не найдена информация по запросу.") ||
                     errorMessage.contains("Not Found") ) {
 
-                System.out.println("На столе нет заказа");
+                //System.out.println("На столе нет заказа");
                 isSuccess = true;
 
             } else {
@@ -572,7 +520,6 @@ public class ApiRKeeper {
 
         }
 
-        System.out.println("Ready for next test: " + isSuccess);
         return isSuccess;
 
     }

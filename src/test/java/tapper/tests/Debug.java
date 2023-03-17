@@ -288,15 +288,9 @@ public class Debug {
 
         }
 
-        System.out.println("Итоговый список\n" + allDishesInfo);
-
         rootPage.forceWait(2000);
 
-
-
         rootPage.matchTapperOrderWithOrderInKeeper(allDishesInfo);
-
-
 
     }
 

@@ -8,6 +8,7 @@ import io.qameta.allure.Feature;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -31,7 +32,7 @@ import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 @DisplayName("Проверка поиска по столам, детальной карточки, qr-кода")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _10_0_TotalTest extends BaseTest {
+public class _10_0_TotalTest extends AdminBaseTest {
 
     static int fromTableSearchValue;
     static int toTableSearchValue;
@@ -42,16 +43,11 @@ public class _10_0_TotalTest extends BaseTest {
     TablesAndQrCodes tablesAndQrCodes = new TablesAndQrCodes();
     AuthorizationPage authorizationPage = new AuthorizationPage();
 
-    RootPage rootPage = new RootPage();
+
 
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
-        Configuration.downloadsFolder = downloadFolderPath;
-        Configuration.fileDownload = FOLDER;
-        Configuration.proxyEnabled = true;
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 

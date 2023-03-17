@@ -6,6 +6,7 @@ import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import support_personal_account.sending.Sending;
 import tapper_table.RootPage;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -23,7 +24,7 @@ import static data.selectors.SupportPersonalAccount.Sending.*;
 @DisplayName("Проверка категории Рассылка")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _21_0_TotalTest extends BaseTest {
+public class _21_0_TotalTest extends AdminBaseTest {
 
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -32,8 +33,6 @@ public class _21_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 

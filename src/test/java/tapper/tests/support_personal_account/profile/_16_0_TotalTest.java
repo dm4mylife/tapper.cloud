@@ -5,6 +5,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import support_personal_account.profile.Profile;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -17,7 +18,7 @@ import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 @DisplayName("Проверка категории Профиль")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _16_0_TotalTest extends BaseTest {
+public class _16_0_TotalTest extends AdminBaseTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Profile profile = new Profile();
@@ -25,8 +26,6 @@ public class _16_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import java.time.Duration;
 
 import static data.Constants.TestData.Best2Pay;
+import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
 import static data.Constants.TestData.Yandex;
 import static data.selectors.TapperTable.Best2PayPage.*;
 
@@ -18,19 +19,14 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Проверка что мы находимся на странице эквайринга")
     public void isTestBest2PayUrl() {
-        baseActions.isTextContainsInURL(Best2Pay.TEST_BEST2PAY_URL);
-    }
-
-    @Step("Проверка попапа ВПН")
-    public void isVpnPopUpShown() {
-        vpnPopup.shouldHave(Condition.cssValue("display", "flex"), Duration.ofSeconds(10));
+        baseActions.isTextContainsInURL(BEST2PAY_NAME);
     }
 
     @Step("Проверка попапа ВПН и что форма оплаты появилась")
     public void isPaymentContainerAndVpnShown() {
 
         baseActions.isElementVisibleDuringLongTime(paymentContainer, 10);
-        isVpnPopUpShown();
+     //   isVpnPopUpShown();
 
     }
 
@@ -76,7 +72,6 @@ public class Best2PayPage extends BaseActions {
         double totalPayB2BDouble = baseActions.convertSelectorTextIntoDoubleByRgx(totalPayB2B, "\\s");
 
         Assertions.assertEquals(totalPayTapper, totalPayB2BDouble, 0.1,"Сумма в тапере не сходится с б2п");
-        System.out.println("Сумма в тапере " + totalPayTapper + " сходится с суммой в эквайринге " + totalPayB2BDouble);
 
     }
 

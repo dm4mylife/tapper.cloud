@@ -9,6 +9,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.YandexPage;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -25,7 +26,7 @@ import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 @DisplayName("Авторизация администратора,проверка всех статусов приглашения официанта")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _9_0_TotalTest extends BaseTest {
+public class _9_0_TotalTest extends AdminBaseTest {
 
     static String password;
 
@@ -38,7 +39,6 @@ public class _9_0_TotalTest extends BaseTest {
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
 
-        Configuration.browserSize = "1920x1080";
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }

@@ -119,6 +119,15 @@
             <version>6.12.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>2.0.6</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -126,12 +135,10 @@
             <version>2.0.6</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>2.0.6</version>
-        </dependency>
+
+
+
+
         <dependency>
             <groupId>io.github.artsok</groupId>
             <artifactId>rerunner-jupiter</artifactId>
@@ -185,6 +192,13 @@
             <artifactId>awaitility</artifactId>
             <version>4.2.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.selenide/selenide-selenoid -->
+        <dependency>
+            <groupId>org.selenide</groupId>
+            <artifactId>selenide-selenoid</artifactId>
+            <version>2.3.5</version>
+        </dependency>
+
 
     </dependencies>
     <properties>
@@ -207,7 +221,7 @@
                         <include>.*TestSuite.java</include>
                     </includes>
                     <parallel>suites</parallel>
-                    <forkCount>3</forkCount>
+                    <forkCount>5</forkCount>
                     <reuseForks>false</reuseForks>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.4/aspectjweaver-1.9.4.jar"

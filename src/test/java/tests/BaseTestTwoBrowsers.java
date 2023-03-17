@@ -13,6 +13,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.codeborne.selenide.Browsers.CHROME;
 
 
@@ -29,6 +32,7 @@ public class BaseTestTwoBrowsers {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
         options.addArguments("--headless");
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-infobars");
@@ -37,6 +41,23 @@ public class BaseTestTwoBrowsers {
         options.addArguments("--incognito");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
+
+        Map<String, String> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceName", "iPhone XR");
+        options.setExperimentalOption("mobileEmulation", mobileEmulation);
+
+        options.setCapability("selenoid:options", new HashMap<String, Object>() {{
+
+            put("name", "Chrome");
+            put("labels", new HashMap<String, Object>() {{
+                put("manual", "true");
+            }});
+            put("enableVideo", true);
+            put("videoName", "firstVideo.mp4");
+            put("enableVNC", true);
+            put("enableLog", true);
+
+        }});
 
         capabilities.setCapability(ChromeOptions.CAPABILITY,options);
 

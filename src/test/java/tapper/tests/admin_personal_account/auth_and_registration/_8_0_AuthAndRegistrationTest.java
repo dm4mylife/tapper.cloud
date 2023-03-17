@@ -4,7 +4,7 @@ import admin_personal_account.RegistrationPage;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
-import tests.BaseTest;
+import tests.AdminBaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.TapperTable.*;
@@ -17,7 +17,7 @@ import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.*;
 @DisplayName("Авторизация, все кейсы")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _8_0_AuthAndRegistrationTest extends BaseTest {
+public class _8_0_AuthAndRegistrationTest extends AdminBaseTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     RegistrationPage registrationPage = new RegistrationPage();
@@ -70,7 +70,7 @@ public class _8_0_AuthAndRegistrationTest extends BaseTest {
     public void goToRegistrationPageFromRoot() {
 
         authorizationPage.goToRegistrationPageFromRoot();
-        registrationPage.isFormContainerCorrect();
+        registrationPage.isRegistrationFormCorrect();
 
     }
 

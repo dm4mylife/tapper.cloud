@@ -66,6 +66,9 @@ public class AdminPersonalAccount {
         public static final SelenideElement adminPassword = $("[id=\"password\"]");
         public static final SelenideElement adminPasswordConfirmation = $("[id=\"confirmation\"]");
         public static final SelenideElement saveButton = $(".section-profile__form  .vButton");
+
+        public static final ElementsCollection masterStars =
+                $$(".section-profile__star");
         public static final ElementsCollection telegramItemsIcons =
                 $$(".section-profile__inputs-list-item .vMessengerInput__telega");
         public static final ElementsCollection telegramItemsHelpTooltip =
@@ -82,6 +85,18 @@ public class AdminPersonalAccount {
         public static final SelenideElement personalInformationContainer =
                 $x("//*[@class='section-profile__legend']" +
                         "[..//*[contains(text(),'Персональная информация')]]");
+
+        public static final SelenideElement masterInformationContainer =
+                $(".section-profile__legend-star-container");
+
+        public static final ElementsCollection telegramItemsMasterIcon = $$(".section-profile__star");
+        public static final String telegramItemsMasterSvgSelector = ".section-profile__star svg path";
+        public static final ElementsCollection telegramItemsMasterSvg =
+                $$(".section-profile__star svg path");
+
+        public static final String telegramItemsMasterIconSelector = ".section-profile__star";
+
+
 
     }
 
@@ -162,6 +177,10 @@ public class AdminPersonalAccount {
                 $x("//*[contains(@class,'vSectionCustomization__switching-tabs') " +
                         "and contains(text(),'Вызов официанта')]");
 
+        public static final SelenideElement reviewTab =
+                $x("//*[contains(@class,'vSectionCustomization__switching-tabs') " +
+                        "and contains(text(),'Отзывы на внешних сервисах')]");
+
         public static final SelenideElement wifiSlider =
                 $(".vAdminDisplayingWiFi__switch");
 
@@ -202,6 +221,48 @@ public class AdminPersonalAccount {
                 $(".vBlockCallingWaiter__recipient-info g+rect");
         public static final SelenideElement recipientManagerIcon =
                 $(".vBlockCallingWaiter__recipient-info g+rect+rect");
+
+
+
+
+        public static final SelenideElement reviewContainer = $(".vBlockReview");
+
+        public static final SelenideElement yandexInput = $("[id=\"yandex\"]");
+        public static final SelenideElement twoGisInput = $("[id=\"twoGis\"]");
+        public static final SelenideElement googleInput = $("[id=\"google\"]");
+        public static final SelenideElement reviewInfo =
+                $(".vSectionCustomization__reviewInfo .vBlockReviewInfo");
+
+        public static final ElementsCollection reviewToggles =
+                $$(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle");
+
+        public static final ElementsCollection reviewToggleInfo =
+                $$(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle .vBlockReviewInfo__toggle-list");
+
+        public static final SelenideElement yandexTextLabel = $("[for=\"checkYandex\"]");
+        public static final SelenideElement twoGisTextLabel = $("[for=\"checkTwoGis\"]");
+        public static final SelenideElement googleTextLabel = $("[for=\"checkGoogle\"]");
+
+
+        public static final SelenideElement yandexCheckboxContainer =
+                $(".vLandingInput__wrapper [id=\"yandex\"]");
+        public static final SelenideElement twoGisCheckboxContainer =
+                $(".vLandingInput__wrapper [id=\"twoGis\"]");
+        public static final SelenideElement googleCheckboxContainer =
+                $(".vLandingInput__wrapper [id=\"google\"]");
+
+
+        public static final SelenideElement yandexCheckbox = $("[id=\"checkYandex\"]");
+        public static final SelenideElement twoGisCheckbox = $("[id=\"checkTwoGis\"]");
+        public static final SelenideElement googleCheckbox = $("[id=\"checkGoogle\"]");
+        public static final SelenideElement errorEmailInput = $(".vLandingInput__err");
+
+
+
+
+
+
+
 
     }
 
@@ -261,13 +322,38 @@ public class AdminPersonalAccount {
                 $(".vAdminMenuCategoryShield__el:nth-child(2) .vAdminMenuCategoryShield__el-name");
         public static final SelenideElement viewSwitcherContainer = $(".vAdminMenuViews");
         public static final SelenideElement menuTableHeader = $(".vAdmiMenuTable__header");
+        public static final ElementsCollection menuTableHeaderItems = $$(".vAdmiMenuTable__header-item");
 
+        public static final SelenideElement listViewButton = $(".vAdminMenuViews__el:first-child");
+        public static final SelenideElement tileViewButton = $(".vAdminMenuViews__el:last-child");
+
+        public static final ElementsCollection dishCardContainer = $$(".vAdmiMenuTable__item-grid");
+
+
+        public static final SelenideElement cancelConfirmationContainer =
+                $(".modal__confirmation .modal__content");
+
+        public static final SelenideElement cancelConfirmationYesButton =
+                $(".modal__confirmation [class='vButton']");
+
+        public static final SelenideElement cancelConfirmationNoButton =
+                $(".modal__confirmation .vButton--gray");
+
+
+        public static final SelenideElement deleteDishImageButton = $(".image__delete-icon");
         public static final SelenideElement deleteImageContainer =
-                $(".vAdmiMenuTable__modal-close-content");
+                $(".modal__confirmation .modal__content");
+        public static final SelenideElement imagePreviewIcon = $(".image__preview .image__preview-icon");
+        public static final SelenideElement imageUploadInput = $("[ id=\"uploadImg\"]");
+        public static final SelenideElement downloadedPreviewImage = $(".modal__image img");
+        public static final SelenideElement downloadedPreviewImageInDishList = $(".vAdmiMenuTable__item-placeholder");
+
+
+
         public static final SelenideElement deleteImageContainerDeleteButton =
-                $(".vAdmiMenuTable__modal-close-content [class='vButton']");
+                $(".modal__confirmation [class='vButton']");
         public static final SelenideElement deleteImageContainerCancelButton =
-                $(".vAdmiMenuTable__modal-close-content .vButton--gray");
+                $(".modal__confirmation .vButton--gray");
         public static final SelenideElement imagePreviewContainer =
                 $(".vAdmiMenuTable__picture-modal-content");
         public static final SelenideElement imagePreviewContainerCloseButton =
@@ -283,6 +369,9 @@ public class AdminPersonalAccount {
         public static final SelenideElement helpAdminContainer = $(".vAdminMenuHelp__description");
         public static final SelenideElement showActivePositionsForGuestContainer =
                 $(".vAdminMenuAside__active");
+        public static final String categoryItemsCheckboxSelector= ".vCheckbox__container";
+
+
         public static final SelenideElement showActivePositionsForGuestCheckbox = $("#showActive");
         public static final SelenideElement categoryContainer = $(".vAdminMenuAside__list");
         public static final ElementsCollection categoryItems =
@@ -290,6 +379,9 @@ public class AdminPersonalAccount {
         public static final ElementsCollection categoryItemsNames =
                 $$("[class='vAdminMenuAside__category'] " +
                         "[class='vAdminMenuCategoryItem'] .vAdminMenuCategoryItem__info-bottom");
+        public static final String categoryItemsNamesSelector = ".vAdminMenuCategoryItem__info-bottom";
+
+
         public static final ElementsCollection categoryItemsSize =
                 $$(".vAdminMenuCategoryItem__info-top");
         public static final ElementsCollection categoryEditButton =
@@ -330,50 +422,72 @@ public class AdminPersonalAccount {
         public static final SelenideElement menuDishIndexNumber =
                 $(".vAdmiMenuTable__item .vAdmiMenuTable__item-num");
 
-        public static final SelenideElement menuDishItemsImageContainer =
-                $(".vAdmiMenuTable__item .vAdmiMenuTable__item-img");
+        public static final ElementsCollection menuDishItemsImageContainer =
+                $$(".vAdmiMenuTable__item .vAdmiMenuTable__item-img");
+        public static final ElementsCollection menuDishItemsImage =
+                $$(".vAdmiMenuTable__item .vAdmiMenuTable__item-img img");
 
-        public static final SelenideElement menuDishNameOnCashDesk =
+        public static final String menuDishItemsImageInDishListSelector = ".vAdmiMenuTable__item .vAdmiMenuTable__item-img img";
+        public static final String menuDishItemsImageInPreviewDishSelector = ".vAdmiMenuTable__picture-modal img";
+        public static final String editDishImageSelector = ".image__lot img";
+
+        public static final SelenideElement categoryBlockMenuDishNameOnCashDesk =
                 $x("//*[@class='vAdminMenuCategoryShield__el-title' and text()=' Название на кассе ']" +
                         "/following-sibling::div");
-        public static final SelenideElement menuDishNameOnGuest =
+        public static final SelenideElement categoryBlockMenuDishNameOnGuest =
                 $x("//*[@class='vAdminMenuCategoryShield__el-title' and text()=' Название у гостя ']" +
                         "/following-sibling::div");
 
+
+        public static final ElementsCollection menuDishNameAtCashDesk =
+                $$(".vAdmiMenuTable__item [class='vAdmiMenuTable__item-name']");
+
+        public static final ElementsCollection menuDishNameByGuest =
+                $$(".vAdmiMenuTable__item-name.vAdmiMenuTable__item-our-name");
         public static final ElementsCollection menuDishIngredients =
                 $$(".vAdmiMenuTable__item-name.vAdmiMenuTable__item-ingredients");
 
-        public static final SelenideElement menuDishPrice =
-                $(".vAdmiMenuTable__item .vAdmiMenuTable__item-price");
+        public static final ElementsCollection menuDishPrice =
+                $$(".vAdmiMenuTable__item .vAdmiMenuTable__item-price");
 
         public static final ElementsCollection menuDishWeight =
                 $$(".vAdmiMenuTable__item .vAdmiMenuTable__item-gramm");
 
-        public static final SelenideElement menuDishCalories =
-                $(".vAdmiMenuTable__item .vAdmiMenuTable__item-gramm+.vAdmiMenuTable__item-gramm");
+        public static final ElementsCollection menuDishCalories =
+                $$(".vAdmiMenuTable__item .vAdmiMenuTable__item-gramm+.vAdmiMenuTable__item-gramm");
 
-        public static final SelenideElement menuDishMark =
-                $(".vAdmiMenuTable__item .vAdmiMenuTable__item-mark");
-
-
+        public static final ElementsCollection menuDishMark =
+                $$(".vAdmiMenuTable__item .vAdmiMenuTable__item-mark");
 
 
-        public static final SelenideElement editContainerCloseButton = $(".modal .modal__close");
+
+
+        public static final SelenideElement editDishContainerCloseButton = $(".modal .modal__close");
         public static final SelenideElement editDishContainer = $(".modal .modal__content");
         public static final SelenideElement imageContainer = $("[for=\"uploadImg\"]");
         public static final SelenideElement editPhotoButton = $(".modal__image .image__text");
         public static final SelenideElement editDishNameByCashDeskInput = $("[id=\"restName\"]");
         public static final SelenideElement editDishNameByGuestInput = $("[id=\"ourName\"]");
+        public static final SelenideElement editDishNameByCashDeskInputCounter = $("[id=\"ourName\"]+div+span");
+
         public static final SelenideElement editDishDescriptionInput = $("[id=\"description\"]");
+        public static final SelenideElement editDishDescriptionInputCounter = $("[id=\"description\"]+div+span");
         public static final SelenideElement editDishIngredientsInput= $("[id=\"composition\"]");
+        public static final SelenideElement editDishIngredientsInputCounter = $("[id=\"composition\"]+div+span");
         public static final SelenideElement editDishAmountInput= $("[id=\"count\"]");
+        public static final SelenideElement editDishAmountInputCounter = $("[id=\"count\"]+div+span");
         public static final SelenideElement editDishMeasureUnitInput=
-                $x("//*[@class='vSelect'][./*[text()='Ед. измерения']]//*[@class='vSelect__label']");
+                $x("//*[contains(@class,'vSelect')][./*[text()='Ед. измерения']]" +
+                        "//*[@class='vSelect__label']");
 
         public static final ElementsCollection editDishMeasureUnitInputOptions = $$(".modal__row .vSelect li");
         public static final SelenideElement editDishCaloriesInput= $("[id=\"calories\"]");
+        public static final SelenideElement editDishCaloriesInputCounter = $("[id=\"calories\"]+div+span");
         public static final SelenideElement editDishMarksSelect=
-                $(".modal__input-wrap.modal__field-label+.modal__input-wrap .vSelect");
+                $(".modal__input-wrap.modal__field-label+.modal__input-wrap .vSelect .vSelect__label");
+
+        public static final ElementsCollection editDishMarksSelectOptions=
+                $$(".modal__input-wrap.modal__field-label+.modal__input-wrap .vSelect .vSelect__item");
 
         public static final SelenideElement saveButton = $(".modal button[class=vButton]");
         public static final SelenideElement cancelButton = $(".modal .vButton.vButton--gray");

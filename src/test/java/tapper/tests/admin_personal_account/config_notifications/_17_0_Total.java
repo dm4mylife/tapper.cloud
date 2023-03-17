@@ -5,6 +5,7 @@ import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -17,7 +18,7 @@ import static data.selectors.AdminPersonalAccount.ConfigNotifications.*;
 @DisplayName("Проверка блока уведомлений, добавление\\удаление группы")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _17_0_Total extends BaseTest {
+public class _17_0_Total extends AdminBaseTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     ConfigNotifications configNotifications = new ConfigNotifications();
@@ -25,8 +26,6 @@ public class _17_0_Total extends BaseTest {
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 

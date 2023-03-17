@@ -10,6 +10,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.YandexPage;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -30,7 +31,7 @@ import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.errorMsgL
 @DisplayName("Авторизация официанта, когда у него отозвали приглашение")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
+public class _9_2_AuthAfterCancelingInvitationTest extends AdminBaseTest {
 
     static String password;
 
@@ -44,7 +45,6 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
 
-        Configuration.browserSize = "1920x1080";
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }
@@ -62,7 +62,6 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
     @DisplayName("1.3. Отменяем приглашение")
     public void cancelInvitationByAdmin() {
 
-        //rootPage.forceWait(2000); // toDo после отправки инвайта появляется сверху уведомление и перекрывает лейаут у формы отмены инвайта. поэтому ждём
         waiters.cancelEMailWaiterInvitationInCard();
         backToPreviousPage.click();
 
@@ -95,8 +94,6 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
 
         yandexPage.goToAuthPageFromMail();
 
-        baseActions.forceWait(2000); // toDo не успевает прогрузиться инпуты после смены вкладки
-
         authorizationPage.authorizeUser(TEST_YANDEX_LOGIN_EMAIL,password);
 
         errorMsgLoginOrPassword.shouldHave(text("Неверный E-mail или пароль "), Duration.ofSeconds(2));
@@ -107,7 +104,9 @@ public class _9_2_AuthAfterCancelingInvitationTest extends BaseTest {
     @Test
     @DisplayName("1.8. Удаляем письмо на почте Яндекса")
     public void deleteYandexInviteMail() {
+
         yandexPage.deleteMail(TEST_YANDEX_LOGIN_EMAIL, TEST_YANDEX_PASSWORD_MAIL);
+
     }
 
 }

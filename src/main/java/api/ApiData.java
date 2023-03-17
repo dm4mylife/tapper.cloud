@@ -8,7 +8,9 @@ public class ApiData {
 
     public static class EndPoints {
 
+        public static final String selenoidUiHubUrl = "http://localhost:4444/wd/hub";
         public static final String createOrder = "rkeeper/createorder";
+
         public static final String getOrderInfo = " rkeeper-automation/order";
         public static final String fillingOrder = "rkeeper-automation/order/fill";
         public static final String deleteOrder = "rkeeper/delorder";
@@ -33,12 +35,14 @@ public class ApiData {
         public static final String TABLE_CODE_10 = "10";
         public static final String TABLE_CODE_333 = "22";
         public static final String TABLE_CODE_444 = "18";
+        public static final String TABLE_CODE_555 = "17";
 
         public static final String TABLE_AUTO_111_ID = "1000046";
         public static final String TABLE_AUTO_222_ID = "1000397";
         public static final String TABLE_AUTO_10_ID = "1000044";
         public static final String TABLE_AUTO_333_ID = "1000398";
         public static final String TABLE_AUTO_444_ID = "1000423";
+        public static final String TABLE_AUTO_555_ID = "1000437";
 
         public static final String WAITER_ROBOCOP_VERIFIED_WITH_CARD = "23";
         public static final String WAITER_TERMINATOR_VERIFIED_NON_CARD = "233";
@@ -51,6 +55,8 @@ public class ApiData {
         public static final String DISCOUNT_BY_ID = "1000343";
         public static final String BARANINA = "1000367";
         public static final String LIMONAD = "1000362";
+        public static final String ZERO_PRICE_DISH = "1000187";
+
         public static final String GOVYADINA_PORTION = "1000363";
         public static final String FREE_MODI_SOLT_ZERO_PRICE = "1000388";
         public static final String PAID_MODI_KARTOFEL_FRI = "1000117";
@@ -92,17 +98,6 @@ public class ApiData {
                     "  \"station\": 1,\n" +
                     "  \"uni\": \"" + uni + "\",\n" +
                     "  \"quantity\": " + quantity + "\n" +
-                    "}";
-
-        }
-
-        public static String rqParamsDeleteDiscount(String domen, String guid, String uni) {
-
-            return "{\n" +
-                    "  \"domen\": \"" + domen + "\",\n" +
-                    "  \"guid\": \"" + guid + "\",\n" +
-                    "  \"station\": 1,\n" +
-                    "  \"uni\": \"" + uni + "\"\n" +
                     "}";
 
         }

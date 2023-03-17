@@ -13,6 +13,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.codeborne.selenide.Browsers.CHROME;
 
 
@@ -31,7 +34,8 @@ public class BaseTestFourBrowsers {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
-        //  options.addArguments("--headless");
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-infobars");
         options.addArguments("--disable-notifications");
@@ -40,6 +44,10 @@ public class BaseTestFourBrowsers {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
 
+        Map<String, String> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceName", "iPhone XR");
+        options.setExperimentalOption("mobileEmulation", mobileEmulation);
+
         capabilities.setCapability(ChromeOptions.CAPABILITY,options);
 
         firstBrowser = new ChromeDriver(options);
@@ -47,15 +55,15 @@ public class BaseTestFourBrowsers {
         firstBrowser.manage().window().setSize(new Dimension(300,1020));
 
         secondBrowser = new ChromeDriver(options);
-        secondBrowser.manage().window().setPosition(new Point(470,0));
+        secondBrowser.manage().window().setPosition(new Point(430,0));
         secondBrowser.manage().window().setSize(new Dimension(300,1020));
 
         thirdBrowser = new ChromeDriver(options);
-        thirdBrowser.manage().window().setPosition(new Point(940,0));
+        thirdBrowser.manage().window().setPosition(new Point(890,0));
         thirdBrowser.manage().window().setSize(new Dimension(300,1020));
 
         fourthBrowser = new ChromeDriver(options);
-        fourthBrowser.manage().window().setPosition(new Point(1440,0));
+        fourthBrowser.manage().window().setPosition(new Point(1360,0));
         fourthBrowser.manage().window().setSize(new Dimension(300,1020));
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()

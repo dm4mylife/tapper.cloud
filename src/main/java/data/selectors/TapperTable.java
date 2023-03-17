@@ -103,6 +103,9 @@ public class TapperTable {
                     $$x("//*[@data-auto=\"menuDishesContainer\"]//*[@class=\"orderItem__status\"]");
 
             public static final String dishOrderStatusSelector = ".orderItem__status";
+            public static final String dishPreloaderSpinnerSelector = ".orderItem__preloader";
+
+
 
         }
 
@@ -209,10 +212,19 @@ public class TapperTable {
 
             public static final ElementsCollection paymentMethods =
                     $$("[data-auto=\"paymentMethodsContainer\"] img");
-            public static final SelenideElement confPolicyContainer = $("[data-auto=\"confPolicyContainer\"]");
-            public static final SelenideElement confPolicyContent = $("[data-auto=\"confPolicyContent\"]");
+
+            public static final SelenideElement termOfUseLink =
+                    $("[data-auto=\"confPolicyContainer\"] span:first-child");
+            public static final SelenideElement termOfUseContainer = $(".privacyPolicyModal__content");
+            public static final SelenideElement termOfUseContent = $(".privacyPolicyModal__content");
+            public static final SelenideElement termOfUseOverlay = $(".privacyPolicyModal__overlay");
+
             public static final SelenideElement confPolicyLink =
-                    $(".mainPage .privacyPolicy .privacyPolicy__text");
+                    $("[data-auto=\"confPolicyContainer\"] span:last-child");
+            public static final SelenideElement confPolicyContainer = $(".privacyPolicyPersonalModal");
+            public static final SelenideElement confPolicyContent = $(".privacyPolicyPersonalModal__content");
+            public static final SelenideElement confPolicyOverlay = $(".privacyPolicyPersonalModal__overlay");
+
             public static final SelenideElement shareButton = $(".shareBtn");
             public static final String shareButtonSvgNotSelenide = ".shareBtn img";
 
@@ -278,12 +290,42 @@ public class TapperTable {
             public static final ElementsCollection menuCategoryContainerName =
                     $$(".orderMenuList .orderMenuList__title");
             public static final SelenideElement menuDishContainer = $("[data-auto=\"orderMenuContainer\"]");
-            public static final ElementsCollection dishMenuItems =
+            public static final ElementsCollection dishMenuItemsName =
                     $$(".orderMenuList__item .orderMenuProduct__name");
+
+            public static final String dishMenuItemsNameSelector = ".orderMenuProduct__name";
+            public static final String dishMenuItemsPriceSelector = ".orderMenuProduct__price";
+
+            public static final String dishMenuPhotoSelector = ".orderMenuProduct__photo img";
+
+
+            public static final ElementsCollection dishMenuItemsWeightAndCalories =
+                    $$(".orderMenuList__item .orderMenuProduct__count");
+
+            public static final ElementsCollection dishMenuItems =
+                    $$(".orderMenuList__item .orderMenuProductList__item");
+            public static final ElementsCollection dishMenuItemsMark =
+                    $$(".orderMenuList__item .orderMenuProduct__label-text");
+
+            public static final SelenideElement dishDetailCardContent= $(".detail__content");
+            public static final SelenideElement dishDetailCardOverlay = $(".detail__overlay");
+
+            public static final String dishCardImage =
+                    ".detail__content .orderMenuProduct__img";
+
+
+
             public static final ElementsCollection categoryMenuItems =
                     $$(".orderMenu .orderMenuCategorues__item");
-            public static final String menuDishPhotosNotSelenide = ".orderMenuProduct__photo img";
-            public static final ElementsCollection menuDishPhotos = $$(".orderMenuProduct__photo img");
+
+            public static final ElementsCollection menuDishPhotos =
+                    $$(".orderMenuProduct__photo .orderMenuProduct__img");
+
+            public static final SelenideElement menuDishNameInDetailCard = $(".detail__name");
+            public static final SelenideElement menuDishAmountDetailCard = $(".detail__weight");
+            public static final SelenideElement menuDishIngredientsDetailCard =
+                    $(".detail__composition.detail__text");
+
 
         }
 
@@ -292,7 +334,6 @@ public class TapperTable {
     public static class Best2PayPage {
 
         public static final SelenideElement paymentContainer = $(".form__body--payment ");
-        public static final SelenideElement vpnPopup = $(".pin");
         public static final SelenideElement cardNumber = $(".input.input--pan input");
         public static final SelenideElement dateExpire = $(".input.input--date .input__field--date");
         public static final SelenideElement cvv = $(".input--cvv .input__field--cvv");
@@ -318,6 +359,11 @@ public class TapperTable {
                 $("[data-auto=\"paymentProcessStatus\"] .paymentProcess__gif img[src*='process_gif']");
         public static final SelenideElement paymentProcessGifSuccess =
                 $("[data-auto=\"paymentProcessStatus\"] .paymentProcess__gif img[src*='process_yes']");
+        public static final SelenideElement paymentProcessGifError =
+                $("[data-auto=\"paymentProcessStatus\"] .paymentProcess__gif img[src*='process_no']");
+
+        public static final SelenideElement paymentProcessCloseButton = $(".paymentProcess__close");
+
         public static final SelenideElement reviewContainer = $("[data-auto=\"reviewContainer\"]");
         public static final SelenideElement paymentLogo = $("[data-auto=\"paymentLogo\"]");
         public static final SelenideElement paymentStatusAfterPay = $("[data-auto=\"paymentStatusAfterPay\"]");
@@ -332,6 +378,23 @@ public class TapperTable {
         public static final ElementsCollection reviewStarsSvg = $$("[data-auto=\"reviewStars\"] svg");
         public static final String reviewStarsSvgSelector = "svg";
         public static final ElementsCollection reviewStars = $$("[data-auto=\"reviewStars\"]");
+
+
+
+
+        public static final SelenideElement thanksReviewContainer = $(".modalBottom");
+        public static final SelenideElement thanksReviewCloseButton = $(".modalBottom .modalBottom__close");
+        public static final ElementsCollection reviewLinks = $$(".reviewLinksList__item");
+
+        public static final SelenideElement yandexReviewLink = $(".reviewLinksList__item[href*=yandex]");
+        public static final SelenideElement doubleGisReviewLink = $(".reviewLinksList__item[href*=gis]");
+
+        public static final SelenideElement googleReviewLink = $(".reviewLinksList__item[href*=google]");
+        public static final SelenideElement reviewNoThanksButton = $(".reviewLinksList__close");
+
+
+
+
         public static final SelenideElement review5Stars = $("[data-auto=\"reviewStars\"]:nth-child(5)");
         public static final SelenideElement review1Star = $("[data-auto=\"reviewStars\"]:nth-child(1)");
         public static final SelenideElement review3Stars = $("[data-auto=\"reviewStars\"]:nth-child(3)");

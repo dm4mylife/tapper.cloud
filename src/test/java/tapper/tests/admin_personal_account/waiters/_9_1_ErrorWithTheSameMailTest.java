@@ -8,11 +8,11 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 import static data.selectors.AdminPersonalAccount.Waiters.enterEmailField;
 
@@ -24,7 +24,7 @@ import static data.selectors.AdminPersonalAccount.Waiters.enterEmailField;
 @DisplayName("Приглашение на один и тот же e-mail, который уже занят у официанта")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _9_1_ErrorWithTheSameMailTest extends BaseTest {
+public class _9_1_ErrorWithTheSameMailTest extends AdminBaseTest {
 
     static String emailFromVerifiedUser;
 
@@ -36,7 +36,6 @@ public class _9_1_ErrorWithTheSameMailTest extends BaseTest {
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
 
-        Configuration.browserSize = "1920x1080";
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }
@@ -46,8 +45,9 @@ public class _9_1_ErrorWithTheSameMailTest extends BaseTest {
     public void goToCategoryAndFindVerifiedWaiter() {
 
         waiters.goToWaiterCategory();
-        waiters.findFirstMatchByStatusAndClickInWaiterCard("Официант верифицирован");
+        waiters.findFirstMatchByStatusAndClickInWaiterCard(VERIFIED_WAITER_TEXT);
         emailFromVerifiedUser = enterEmailField.getValue();
+        System.out.println(emailFromVerifiedUser);
         backToPreviousPage.click();
 
     }
@@ -56,7 +56,7 @@ public class _9_1_ErrorWithTheSameMailTest extends BaseTest {
     @DisplayName("1.3. Поиск официанта в статусе 'Ожидает приглашения'")
     public void findNonVerifiedWaiter() {
 
-        waiters.findFirstMatchByStatusAndClickInWaiterCard("Ожидает приглашения");
+        waiters.findFirstMatchByStatusAndClickInWaiterCard(IS_WAITING_WAITER_TEXT);
 
     }
 

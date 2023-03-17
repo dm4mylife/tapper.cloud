@@ -2,32 +2,33 @@ package admin_personal_account.menu;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import tapper_table.RootPage;
 
 import java.io.File;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.PASTA_IMG_PATH;
+import static com.codeborne.selenide.Selenide.$;
+import static data.Constants.*;
+import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Common.menuCategory;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Menu.*;
 import static data.selectors.TapperTable.RootPage.DishList.orderMenuContainer;
-import static data.selectors.TapperTable.RootPage.Menu.menuCategoryInHeader;
+import static data.selectors.TapperTable.RootPage.Menu.*;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
 public class Menu extends BaseActions {
+
+    RootPage rootPage = new RootPage();
 
     @Step("Переход в категорию меню")
     public void goToMenuCategory() {
@@ -57,19 +58,14 @@ public class Menu extends BaseActions {
     @Step("Забираем рандомную активную категорию")
     public int getRandomActiveCategoryIndex() {
 
-        int randomCategory = generateRandomNumber(1, categoryEyeIcons.size()) - 1;
-        System.out.println(randomCategory + " индекс рандомной категории");
-
-        return randomCategory;
+        return generateRandomNumber(1, categoryEyeIcons.size()) - 1;
 
     }
 
     @Step("Делаем видимым хотя бы одну категорию меню если они скрыты")
     public void makeVisibleMenuCategory(int randomIndex) {
 
-        System.out.println(categoryEyeIcons.size() + " количество категорий");
-
-        if (!categoryEyeIcons.get(randomIndex).getAttribute("class").matches(".*active.*")) {
+        if (!Objects.requireNonNull(categoryEyeIcons.get(randomIndex).getAttribute("class")).matches(".*active.*")) {
 
             click(categoryEyeIcons.get(randomIndex));
 
@@ -82,9 +78,7 @@ public class Menu extends BaseActions {
     @Step("Делаем видимым хотя бы одно блюдо в категории если они скрыты")
     public void makeVisibleMenuDish() {
 
-        System.out.println(menuDishItemsEyeIcons.size() + " количество блюд");
-
-        if (!menuDishItemsEyeIcons.first().getAttribute("class").matches(".*active.*")) {
+        if (!Objects.requireNonNull(menuDishItemsEyeIcons.first().getAttribute("class")).matches(".*active.*")) {
 
             click(categoryEyeIcons.first());
 
@@ -95,26 +89,23 @@ public class Menu extends BaseActions {
     @Step("Проверка элементов карточки блюда в списке")
     public void isDishItemCorrectInList() {
 
-
         isElementVisible(menuDishIndexNumber);
-        isElementVisible(menuDishItemsImageContainer);
-        isElementVisible(menuDishNameOnCashDesk);
-        isElementVisible(menuDishNameOnGuest);
+        isElementsListVisible(menuDishItemsImageContainer);
+        isElementVisible(categoryBlockMenuDishNameOnCashDesk);
+        isElementVisible(categoryBlockMenuDishNameOnGuest);
         isElementsListVisible(menuDishIngredients);
-        isElementVisible(menuDishPrice);
+        isElementsListVisible(menuDishPrice);
         isElementsListVisible(menuDishWeight);
-        isElementVisible(menuDishCalories);
-        isElementVisible(menuDishMark);
+        isElementsListVisible(menuDishCalories);
+        isElementsListVisible(menuDishMark);
 
     }
-
 
     @Step("Выбираем категорию")
     public void chooseCategory(int index) {
 
-        System.out.println(categoryItems.get(index) + "категория");
         categoryItems.get(index).click();
-        System.out.println("Активируем категорию");
+
         if (menuPagePreLoader.exists()) {
 
             isElementVisible(menuPagePreLoader);
@@ -126,12 +117,7 @@ public class Menu extends BaseActions {
     @Step("Забираем рандомное активное блюдо")
     public int getRandomActiveDishIndex() {
 
-        System.out.println(menuDishItemsEyeIcons.size() + " количество блюд");
-
-        int dishIndex = generateRandomNumber(1,menuDishItemsEyeIcons.size()) - 1;
-        System.out.println(dishIndex + " индекс рандомного блюда");
-
-        return dishIndex;
+        return generateRandomNumber(1,menuDishItemsEyeIcons.size()) - 1;
 
     }
 
@@ -140,10 +126,140 @@ public class Menu extends BaseActions {
 
         if (!menuDishItemsEyeIcons.get(randomIndex).getAttribute("class").matches(".*active.*")) {
 
-            System.out.println(menuDishItems.get(randomIndex));
             menuDishItemsEyeIcons.get(randomIndex).click();
-            System.out.println("Активируем блюдо");
             isElementVisible(dishPreloader);
+
+        }
+
+    }
+
+    @Step("Включить меню для посетителей. Если есть неактивные категории или само отображение выключено, включаем")
+    public void activateMenuForGuests() {
+
+        int dishIndex = getRandomActiveCategoryIndex();
+        makeVisibleMenuCategory(dishIndex);
+        activateShowGuestSliderIfDeactivated();
+
+    }
+
+    @Step("Сопоставление количество блюд в категориях")
+    public void matchDishesItemSizeWithCategorySize() {
+
+        for (int categoryIndex = 0; categoryIndex < categoryItems.size(); categoryIndex++) {
+
+            click(categoryItems.get(categoryIndex));
+            dishPreloader.shouldHave(cssValue("display","none"),Duration.ofSeconds(5));
+
+            int dishSizeInCategory = Integer.parseInt(categoryItemsSize.get(categoryIndex)
+                    .getText().replaceAll("\\D+(\\d+).*","$1"));
+
+            Assertions.assertEquals(dishSizeInCategory,menuDishItems.size(),
+                    "Количество блюд в категории не совпадает с заголовком");
+
+        }
+
+    }
+
+    @Step("'Показать активные для гостя' соответствует отображению в админке и на столе")
+    public ArrayList<String> showActiveCategoryCorrect() {
+
+        hideAllCategoryMenu();
+
+        activateShowActiveForGuest();
+
+        categoryItems.shouldHave(size(0));
+
+        deactivateShowActiveForGuest();
+
+        chooseRandomCategoryByAmount(3);
+        ArrayList<String> dishList = saveChosenAmountCategoryInList();
+
+        activateShowActiveForGuest();
+
+        ArrayList<String> dishListWithActiveCheckboxShowForGuest = saveChosenAmountCategoryInList();
+
+        Assertions.assertEquals(dishList,dishListWithActiveCheckboxShowForGuest);
+
+        return dishListWithActiveCheckboxShowForGuest;
+
+    }
+
+    @Step("Сохранение данных по меню для работы с таппером")
+    public LinkedHashMap<String,Map<String,String>> saveMenuData() {
+
+        hideAllCategoryMenu();
+        deactivateShowActiveForGuest();
+
+        chooseRandomCategoryByAmount(3);
+
+        activateShowActiveForGuest();
+
+        chooseRandomDishByAmount(1);
+
+        LinkedHashMap<String,Map<String,String>> menuData = new LinkedHashMap<>();
+
+        for (SelenideElement categoryElement: categoryItems) {
+
+            click(categoryElement);
+            forceWait(800);
+            menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(10));
+
+            String categoryName = categoryElement.$(categoryItemsNamesSelector).getText()
+                    .replaceAll("\\d+\\.\\s","");
+
+            Map<String, String> dishList = new HashMap<>();
+
+            for (int dishIndex = 0; dishIndex < menuDishItemsEyeIcons.size(); dishIndex++) {
+
+                if (Objects.requireNonNull(menuDishItemsEyeIcons.get(dishIndex).getAttribute("class"))
+                        .matches(".*active.*")) {
+
+                    String dishImage = menuDishItems.get(dishIndex).$(menuDishItemsImageInDishListSelector).exists() ?
+                            menuDishItems.get(dishIndex).$(menuDishItemsImageInDishListSelector).getAttribute("src") :
+                            "";
+
+                    String dishName = menuDishNameByGuest.get(dishIndex).getText().equals("-") ?
+                            menuDishNameAtCashDesk.get(dishIndex).getText() :
+                            menuDishNameByGuest.get(dishIndex).getText();
+
+                    String dishPrice = menuDishItemsPrices.get(dishIndex).getText();
+
+                    dishList.put("name",dishName);
+                    dishList.put("price",dishPrice);
+                    dishList.put("image",dishImage);
+
+                }
+
+            }
+
+            menuData.put(categoryName,dishList);
+
+        }
+
+        return menuData;
+
+    }
+
+    @Step("Проверка списка категорий с админки со столом в таппере меню")
+    public void matchCategoryListWithTapperMenu(ArrayList<String> dishListWithActiveCheckboxShowForGuest) {
+
+        ArrayList<String> tapperCategoryNameHeader = new ArrayList<>();
+        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
+
+        menuCategoryInHeader.asDynamicIterable().stream().forEach
+                (element -> tapperCategoryNameHeader.add(element.getText()));
+
+        Assertions.assertEquals
+                (dishListWithActiveCheckboxShowForGuest.size(),tapperCategoryNameHeader.size(),
+                        "Активных категорий в админке и на столе отличаются");
+
+        for (int index = 0; index < dishListWithActiveCheckboxShowForGuest.size(); index++) {
+
+            String tapperCategoryElement = tapperCategoryNameHeader.get(index);
+            String adminCategoryElement = dishListWithActiveCheckboxShowForGuest.get(index);
+
+            if (!adminCategoryElement.matches(".*" + tapperCategoryElement + ".*"))
+                Assertions.fail("Нет такого значения в столе таппера");
 
         }
 
@@ -170,60 +286,63 @@ public class Menu extends BaseActions {
     public void deleteDishImage(int dishIndex) {
 
         click(menuDishItemsEditButtons.get(dishIndex));
-        forceWait(1000);
 
-        click(menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img-del"));
-        forceWait(1000);
+        if (!imagePreviewIcon.isDisplayed()) {
 
-        isElementVisible(deleteImageContainer);
-        isElementVisible(deleteImageContainerDeleteButton);
-        isElementVisible(deleteImageContainerCancelButton);
+            click(deleteDishImageButton);
 
-        click(deleteImageContainerDeleteButton);
-        dishPreloader.shouldBe(Condition.visible);
-        forceWait(1000);
+            isElementVisible(deleteImageContainer);
+            isElementVisible(deleteImageContainerDeleteButton);
+            isElementVisible(deleteImageContainerCancelButton);
 
-        System.out.println("Фотография удалена");
+            click(deleteImageContainerDeleteButton);
 
+            isElementVisible(imagePreviewIcon);
+
+        }
+
+    }
+
+    public void isImageCorrectInPreview(SelenideElement element) {
+
+        forceWait(WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER);
+        element.shouldHave(image,Duration.ofSeconds(5));
+
+        isElementVisible(imagePreviewContainer);
+
+        isImageCorrect(menuDishItemsImageInPreviewDishSelector,
+                "Изображение блюда в превью редактировании не корректное");
+
+        click(imagePreviewContainerCloseButton);
 
     }
 
     @Step("Загрузка изображения для блюда")
     public String uploadImageFile(int dishIndex) {
 
-        menuDishItemsEditButtons.get(dishIndex).click();
-        forceWait(1000);
-
         File imageFile = new File(PASTA_IMG_PATH);
-        menuDishItemsImageInput.get(dishIndex).uploadFile(imageFile);
+        imageUploadInput.uploadFile(imageFile);
 
-        menuDishItems.get(dishIndex).$("img").shouldBe(exist,Duration.ofSeconds(10));
-        menuDishItems.get(dishIndex).$("img").shouldHave(attribute("src"));
+        downloadedPreviewImage.shouldBe(exist,Duration.ofSeconds(10))
+                            .shouldHave(attribute("src"));
 
-        Selenide.executeJavaScript(
-                "document.querySelectorAll(\".vAdmiMenuTable__item-grid\")" + ".forEach((item)=>{item.remove();})");
+        isImageCorrect(editDishImageSelector,"Изображение блюда загрузилось корректно");
 
-        String imageSelector = ".vAdmiMenuTable__item:nth-of-type("+ (dishIndex + 1) +") .vAdmiMenuTable__item-img img";
+        click(downloadedPreviewImage);
+        isImageCorrectInPreview(downloadedPreviewImage);
 
-        menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img-del").shouldBe(visible);
-        forceWait(3000);
+        click(saveButton);
 
-        forceWait(3000);
+        isImageCorrect(menuDishItemsImageInDishListSelector,"Изображение блюда в списке блюд не корректное");
 
+        menuDishItemsImage.get(dishIndex).click();
+        isImageCorrectInPreview(imagePreviewContainerImage);
 
-        System.out.println(menuDishItems.get(dishIndex).$("img"));
+        String imageUrl = menuDishItemsImage.get(dishIndex).getAttribute("src");
 
-        menuDishItems.get(dishIndex).$("img")
-                .shouldHave(attributeMatching("src","https://storage.tapper.cloud/.*"),Duration.ofSeconds(5));
+        assert imageUrl != null;
 
-        String imageUrl = menuDishItems.get(dishIndex).$("img")
-                .getAttribute("src").replaceAll(".*\\/(\\w*)\\..*","$1");
-
-        isImageCorrect(imageSelector,"Загруженное изображение блюда не корректное или битое");
-
-        isImageFullContainerCorrect(dishIndex);
-
-        return imageUrl;
+        return imageUrl.replaceAll(".*\\/(.*)\\.jpg","$1");
 
     }
 
@@ -239,14 +358,6 @@ public class Menu extends BaseActions {
 
     }
 
-    @Step("Включить меню для посетителей. Если есть неактивные категории или само отображение выключено, включаем")
-    public void activateMenuForGuests() {
-
-        int dishIndex = getRandomActiveCategoryIndex();
-        makeVisibleMenuCategory(dishIndex);
-        activateShowGuestSliderIfDeactivated();
-
-    }
     @Step("Включаем первую категорию и первое блюдо")
     public void activateFirstCategoryAndDishInMenu() {
 
@@ -271,51 +382,29 @@ public class Menu extends BaseActions {
     public void activateCategoryAndDishAndActivateShowGuestMenuByIndex(int categoryIndex, int dishIndex) {
 
 
-        if (!categoryEyeIcons.get(categoryIndex).getAttribute("class").matches(".*active.*")) {
+        if (!Objects.requireNonNull(categoryEyeIcons.get(categoryIndex)
+                .getAttribute("class")).matches(".*active.*")) {
 
             categoryEyeIcons.get(categoryIndex).click();
-            System.out.println("Сделали категорию видимой");
 
         }
 
         categoryItems.get(categoryIndex).click();
 
-        if (!menuDishItemsEyeIcons.get(dishIndex).getAttribute("class").matches(".*active.*")) {
+        if (!Objects.requireNonNull(menuDishItemsEyeIcons.get(dishIndex)
+                .getAttribute("class")).matches(".*active.*")) {
 
             menuDishItemsEyeIcons.get(dishIndex).click();
-            System.out.println("Сделали блюдо видимым");
 
         }
 
         if (!enableMenuForVisitorsInput.isSelected()) {
 
             enableMenuForVisitorsButton.click();
-            System.out.println("Включили 'Показывать гостям'");
 
         }
 
     }
-
-
-
-    @Step("Очищаем введенное категории ранее")
-    public void changeEditedCategoryNameByDefaultValue(String categoryNameBeforeEditing) {
-
-        categoryEditButton.get(0).click();
-        categoryNameForGuest.clear();
-        categoryNameForGuest.sendKeys(categoryNameBeforeEditing);
-        saveEditedCategoryNameButton.click();
-        menuPagePreLoader.shouldBe(visible, Duration.ofSeconds(5));
-        forceWait(1000);
-        System.out.println("Заменили имя на старое");
-
-    }
-
-
-
-
-
-
 
     @Step("Проверка что позиция редактируется и изменения сохраняются")
     public String changeName(int dishIndex) {
@@ -323,6 +412,7 @@ public class Menu extends BaseActions {
         Faker faker = new Faker();
         String newDishName = faker.harryPotter().spell();
 
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(menuDishItemsEditButtons.get(dishIndex));
 
         isDishEditModalCorrect();
@@ -331,11 +421,187 @@ public class Menu extends BaseActions {
 
         sendKeys(editDishNameByGuestInput,newDishName);
 
-        click(saveButton);
+        clickCancelButtonIfNoChangeOrSaveData();
 
         isElementInvisible(editDishContainer);
 
         return newDishName;
+
+    }
+
+    @Step("Проверка что позиция редактируется и изменения сохраняются")
+    public String changeNameButNotSave(int dishIndex) {
+
+        Faker faker = new Faker();
+        String newDishName = faker.harryPotter().spell();
+
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        isDishEditModalCorrect();
+
+        clearText(editDishNameByGuestInput);
+
+        sendKeys(editDishNameByGuestInput,newDishName);
+
+        click(editDishContainerCloseButton);
+
+        isCancelConfirmationContainerCorrect();
+
+        click(cancelConfirmationYesButton);
+
+        isElementInvisible(editDishContainer);
+
+        return newDishName;
+
+    }
+
+    @Step("Проверка закрытия окна редактирования без внесения изменений")
+    public void isPopupClosedWithoutConfirmationAfterNotEditingData(int dishIndex) {
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        isDishEditModalCorrect();
+
+        click(editDishContainerCloseButton);
+
+        isElementInvisible(editDishContainer);
+
+        isElementsListVisible(menuDishItems);
+
+    }
+
+
+    @Step("Проверка отображения вида списка блюда")
+    public void isDishListTileViewCorrect() {
+
+        activateFirstCategoryAndDishInMenu();
+
+        int dishesContainerSize = dishCardContainer.size();
+
+        click(tileViewButton);
+
+        dishCardContainer.filter(cssValue("display","flex"))
+                .shouldHave(size(dishesContainerSize));
+
+        menuTableHeaderItems.filter(hidden)
+                .shouldHave(sizeGreaterThan(0));
+
+        click(listViewButton);
+
+        menuTableHeaderItems.filter(attributeMatching("style",""))
+                .shouldHave(sizeGreaterThan(0));
+
+    }
+
+    @Step("Проверка функциональности кнопки Обновить меню")
+    public void isRefreshMenuCorrect() {
+
+        click(refreshMenuButton);
+        isElementVisible(menuPagePreLoader);
+        menuPagePreLoader.shouldHave(matchText("Выгрузка меню"));
+        menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(40));
+
+    }
+
+    public String isInputAndCounterHasCharLimit(SelenideElement input, String inputTextOverLimit, String inputTextLimit,
+                                              SelenideElement inputCounter, String inputCounterText) {
+
+        clearText(input);
+
+        sendKeys(input,inputTextOverLimit);
+        input.shouldHave(value(inputTextLimit));
+
+        inputCounter.shouldHave(text(inputCounterText));
+
+        return input.getValue();
+
+    }
+
+    public void setDefaultTextToInput(SelenideElement element,String previousText) {
+
+        clearText(element);
+        sendKeys(element,previousText);
+
+        element.shouldHave(value(previousText));
+
+    }
+
+    @Step("Заполнение полей максимальным количеством знаков и проверка отображения")
+    public HashMap<String,String> isInputsLimitCorrect() {
+
+        HashMap<String,String> previousData = new HashMap<>();
+
+        String previousNameByGuest = isInputAndCounterHasCharLimit
+                (editDishNameByGuestInput,OVER_LIMIT_CHARS_NAME_BY_GUEST_INPUT,LIMIT_CHARS_NAME_BY_GUEST_INPUT,
+                        editDishNameByCashDeskInputCounter,LIMIT_CHARS_NAME_BY_GUEST_COUNTER);
+        previousData.put("previousNameByGuest",previousNameByGuest);
+
+        String previousDescription = isInputAndCounterHasCharLimit
+                (editDishDescriptionInput,OVER_LIMIT_CHARS_DESCRIPTIONS_INPUT,LIMIT_CHARS_DESCRIPTIONS_INPUT,
+                        editDishDescriptionInputCounter,LIMIT_CHARS_DESCRIPTIONS_COUNTER);
+        previousData.put("previousDescription",previousDescription);
+
+        String previousIngredients = isInputAndCounterHasCharLimit
+                (editDishIngredientsInput,OVER_LIMIT_CHARS_INGREDIENTS_INPUT,LIMIT_CHARS_INGREDIENTS_INPUT,
+                        editDishIngredientsInputCounter,LIMIT_CHARS_INGREDIENTS_COUNTER);
+        previousData.put("previousIngredients",previousIngredients);
+
+        String previousAmount = isInputAndCounterHasCharLimit
+                (editDishAmountInput, OVER_LIMIT_CHARS_AMOUNT_INPUT, LIMIT_CHARS_AMOUNT_INPUT,
+                        editDishAmountInputCounter, LIMIT_CHARS_AMOUNT_COUNTER);
+        previousData.put("previousAmount",previousAmount);
+
+        String previousCalories = isInputAndCounterHasCharLimit
+                (editDishCaloriesInput, OVER_LIMIT_CHARS_CALORIES_INPUT, LIMIT_CHARS_CALORIES_INPUT,
+                        editDishCaloriesInputCounter, LIMIT_CHARS_CALORIES_COUNTER);
+        previousData.put("previousCalories",previousCalories);
+
+        clickCancelButtonIfNoChangeOrSaveData();
+
+        isElementsListVisible(menuDishItems);
+        forceWait(400);
+        System.out.println(menuDishNameByGuest.get(0).getText());
+
+        return previousData;
+
+    }
+
+    @Step("Установка прошлых значений в карточке товара")
+    public void setDefaultInputsValue(HashMap<String,String> previousData) {
+
+        setDefaultTextToInput(editDishNameByGuestInput,previousData.get("previousNameByGuest"));
+        setDefaultTextToInput(editDishDescriptionInput,previousData.get("previousDescription"));
+        setDefaultTextToInput(editDishIngredientsInput,previousData.get("previousIngredients"));
+        setDefaultTextToInput(editDishAmountInput,previousData.get("previousAmount"));
+        setDefaultTextToInput(editDishCaloriesInput,previousData.get("previousCalories"));
+
+        clickCancelButtonIfNoChangeOrSaveData();
+
+    }
+
+    @Step("Проверка на сохранения изменений в позиции после обновления страницы")
+    public void isChangingSavedAfterPageReload(int dishIndex) {
+
+        String dishNameEdited = isDishEditNameByGuestCorrect(dishIndex);
+
+        rootPage.refreshPage();
+        goToMenuCategory();
+
+        activateFirstCategoryAndDishInMenu();
+
+        String dishNameAfterRefresh = menuDishNameByGuest.get(dishIndex).getText();
+
+        Assertions.assertEquals(dishNameEdited,dishNameAfterRefresh,
+                "Изменения не сохранились после обновления страницы");
+
+    }
+
+    public void isCancelConfirmationContainerCorrect() {
+
+        isElementVisible(cancelConfirmationContainer);
+        isElementVisible(cancelConfirmationNoButton);
+        isElementVisible(cancelConfirmationYesButton);
 
     }
 
@@ -350,28 +616,26 @@ public class Menu extends BaseActions {
 
         isEditContainerCorrect();
 
-        String categoryNameBeforeEditing = categoryNameForGuest.getValue();
-
         clearText(categoryNameForGuest);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         sendKeys(categoryNameForGuest,newCategoryName);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         click(saveEditedCategoryNameButton);
         isElementVisible(menuPagePreLoader);
-        forceWait(1000);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         String newCategoryNameInItem = categoryItemsNames.get(categoryIndex).getText();
         categoryNameInGuest.shouldHave(text(newCategoryName));
 
-        System.out.println(categoryNameBeforeEditing + " старое имя категории\n" +
-                newCategoryNameInItem + " новое имя категории");
-
         categoryItemsNames.get(categoryIndex).shouldHave(matchText(newCategoryNameInItem));
-        System.out.println("Имя категории изменилось");
 
         return newCategoryName;
 
     }
+
+
 
     @Step("Проверяем что смена имени блюда корректна")
     public String isDishEditNameByGuestCorrect(int dishIndex) {
@@ -388,8 +652,25 @@ public class Menu extends BaseActions {
         return dishNameAfterEditing;
 
     }
+
+    @Step("Проверяем что смена имени блюда и затем закрытие формы не сохранит результат")
+    public void isDishEditNameByGuestCorrect_Negative(int dishIndex) {
+
+        String dishNameBeforeEditing = menuDishItemsNames.get(dishIndex).getText();
+        String dishNameAfterEditing = changeNameButNotSave(dishIndex);
+
+        System.out.println(dishNameAfterEditing + " dishNameAfterEditing\n" +
+                dishNameBeforeEditing + " dishNameBeforeEditing");
+
+        Assertions.assertNotEquals(dishNameBeforeEditing,dishNameAfterEditing,
+                "Изменения сохранились, но не должны были");
+
+    }
+
     @Step("Проверяем что смена описании блюда корректна")
-    public void isDishEditDescriptionCorrect(int dishIndex) {
+    public HashMap<String,String> isDishEditDescriptionCorrect(int dishIndex) {
+
+        String dishName = menuDishNameByGuest.get(dishIndex).getText();
 
         click(menuDishItemsEditButtons.get(dishIndex));
 
@@ -400,7 +681,7 @@ public class Menu extends BaseActions {
 
         sendKeys(editDishDescriptionInput,newDescription);
 
-        click(saveButton);
+        clickCancelButtonIfNoChangeOrSaveData();
 
         isElementInvisible(editDishContainer);
 
@@ -408,10 +689,22 @@ public class Menu extends BaseActions {
 
         editDishDescriptionInput.shouldHave(value(newDescription));
 
+        click(editDishContainerCloseButton);
+
+        isElementInvisible(editDishContainer);
+
+        HashMap<String,String> dishNameAndDescription = new HashMap<>();
+        dishNameAndDescription.put("dishName",dishName);
+        dishNameAndDescription.put("description",newDescription);
+
+        return dishNameAndDescription;
+
     }
 
     @Step("Проверяем что смена описании блюда корректна")
-    public void isDishEditIngredientsCorrect(int dishIndex) {
+    public HashMap<String,String> isDishEditIngredientsCorrect(int dishIndex) {
+
+        String dishName = menuDishNameByGuest.get(dishIndex).getText();
 
         click(menuDishItemsEditButtons.get(dishIndex));
 
@@ -422,7 +715,7 @@ public class Menu extends BaseActions {
 
         sendKeys(editDishIngredientsInput,newIngredients);
 
-        click(saveButton);
+        clickCancelButtonIfNoChangeOrSaveData();
 
         isElementInvisible(editDishContainer);
 
@@ -432,37 +725,84 @@ public class Menu extends BaseActions {
 
         editDishIngredientsInput.shouldHave(value(newIngredients));
 
-        click(editContainerCloseButton);
+        click(editDishContainerCloseButton);
 
         isElementInvisible(editDishContainer);
 
+        HashMap<String,String> dishNameAndIngredients = new HashMap<>();
+        dishNameAndIngredients.put("dishName",dishName);
+        dishNameAndIngredients.put("ingredients",newIngredients);
+
+        return dishNameAndIngredients;
+
     }
 
-    @Step("Проверяем что смена описании блюда корректна")
+    @Step("Проверяем что смена цены блюда корректна")
+    public String getDishPrice(int dishIndex) {
+
+        return menuDishPrice.get(dishIndex).getText();
+
+    }
+
+    public void isDownloadedImageCorrectOnTable(String imageUrl) {
+
+        if (!orderMenuContainer.isDisplayed())
+            rootPage.click(appFooterMenuIcon);
+
+        SelenideElement elementWithNewPhoto  =
+                menuDishPhotos.findBy(attributeMatching("src",".*"+imageUrl+".*"));
+
+        String imageSelector = "[src*='" + imageUrl + "']";
+        String imageSelectorInCard = ".detail [src*='" + imageUrl + "']";
+
+        rootPage.isImageCorrect(imageSelector,"Фотография на столе загружена корректно");
+
+        rootPage.click(elementWithNewPhoto);
+
+        rootPage.isImageCorrect(imageSelectorInCard,"Фотография на столе в карточке товара корректна");
+
+    }
+
+    public void clickCancelButtonIfNoChangeOrSaveData() {
+
+        if (saveButton.getAttribute("disabled") == null) {
+
+            click(saveButton);
+
+        } else {
+
+            click(editDishContainerCloseButton);
+
+        }
+
+    }
+
+    @Step("Проверяем что смена веса и количества блюда корректна")
     public String isDishEditWeightAndAmountCorrect(int dishIndex) {
 
         click(menuDishItemsEditButtons.get(dishIndex));
 
         Faker faker = new Faker();
-        String newWeight = faker.number().digits(3);
+        String newWeight = String.valueOf(faker.number().randomDigitNotZero());
 
         isElementVisible(editDishAmountInput);
 
-        forceWait(300); //toDo не успевает прогрузиться инпут веса
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo не успевает прогрузиться инпут веса
         clearText(editDishAmountInput);
 
         sendKeys(editDishAmountInput,newWeight);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo не успевает прогрузиться инпут выбора единицы веса
 
         click(editDishMeasureUnitInput);
 
-        SelenideElement elementToClick = editDishMeasureUnitInputOptions.get(generateRandomNumber(2,7));
+        SelenideElement elementToClick = editDishMeasureUnitInputOptions.get(generateRandomNumber(1,6));
         String measureUnit = elementToClick.getText();
 
         click(elementToClick);
 
         editDishMeasureUnitInput.shouldHave(text(measureUnit));
 
-        click(saveButton);
+        clickCancelButtonIfNoChangeOrSaveData();
 
         isElementInvisible(editDishContainer);
 
@@ -471,36 +811,138 @@ public class Menu extends BaseActions {
 
         Assertions.assertNotNull(weightAndAmount);
 
-        System.out.println(weightAndAmount + " weightAndAmount");
         return weightAndAmount;
 
     }
 
-    @Step("Проверяем что изменения корректны на столе с элементом {textToFind}")
-    public void isChangingAppliedOnTable(int tapper, int admin,ElementsCollection elementsWhereToFind, String textToFind) {
+    @Step("Проверяем что смена калорий блюда корректна")
+    public String isDishEditCaloriesCorrect(int dishIndex) {
 
-        switchBrowserTab(tapper);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        Faker faker = new Faker();
+        String newCalories = String.valueOf(faker.number().randomDigitNotZero());
+
+        isElementVisible(editDishCaloriesInput);
+
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo не успевает прогрузиться инпут веса
+        clearText(editDishCaloriesInput);
+
+        sendKeys(editDishCaloriesInput,newCalories);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo не успевает прогрузиться инпут выбора единицы веса
+
+        editDishCaloriesInput.shouldHave(value(newCalories));
+
+        clickCancelButtonIfNoChangeOrSaveData();
+
+        isElementInvisible(editDishContainer);
+
+        SelenideElement caloriesElement =  menuDishCalories.findBy(text(newCalories));
+        String calories = caloriesElement.getText();
+
+        Assertions.assertNotNull(calories);
+
+        return newCalories;
+
+    }
+
+    @Step("Проверяем что смена меток корректна")
+    public String isDishEditMarkCorrect(int dishIndex) {
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+
+        click(editDishMarksSelect);
+
+        if (!editDishMarksSelect.getText().equals("Пусто")) {
+
+            click(editDishMarksSelectOptions.get(0));
+            click(editDishMarksSelect);
+
+        }
+
+        SelenideElement elementToClick = editDishMarksSelectOptions.get(generateRandomNumber(1,3));
+        String markTextOnOption = elementToClick.getText();
+
+        click(elementToClick);
+
+        editDishMarksSelect.shouldHave(text(markTextOnOption));
+
+        clickCancelButtonIfNoChangeOrSaveData();
+
+        isElementInvisible(editDishContainer);
+
+        SelenideElement markElementInDishListing =  menuDishMark.findBy(text(markTextOnOption));
+        String markText = markElementInDishListing.getText();
+
+        Assertions.assertNotNull(markText);
+
+        return markText;
+
+    }
+
+    @Step("Проверяем что изменения корректны на столе с элементом {textToFind}")
+    public void isChangingAppliedOnTable(ElementsCollection elementsWhereToFind,
+                                         String textToFind) {
 
         if (!orderMenuContainer.isDisplayed())
             click(appFooterMenuIcon);
 
-       Assertions.assertNotNull(elementsWhereToFind.findBy(matchText(textToFind)),"Элемент " + textToFind +
+        SelenideElement element = elementsWhereToFind.findBy(matchText(textToFind));
+        System.out.println(element);
+
+       Assertions.assertNotNull(element,"Элемент " + textToFind +
                " не найден на столе");
-        System.out.println("Изменения корректны");
-
-       switchBrowserTab(admin);
 
     }
 
+    @Step("Проверяем что изменения корректны в карточке блюда с элементом {textToFind}")
+    public void isChangingAppliedOnTableInDishCard(ElementsCollection elementsWhereToFind,
+                                                   HashMap<String,String> data, String type) {
 
-    public void isNameByCashDeskShowsWhenNameByGuestIsEmpty() {
+        if (!orderMenuContainer.isDisplayed())
+            click(appFooterMenuIcon);
 
+        SelenideElement element = elementsWhereToFind.findBy(matchText(data.get("dishName")));
 
+        click(element);
 
+        String neededText;
+
+        if (type.equals("description")) {
+
+            neededText = data.get("description");
+
+        } else {
+
+            neededText = data.get("ingredients");
+
+        }
+
+        Assertions.assertNotNull(dishDetailCardContent,"Элемент " + neededText +
+                " не в карточке товара");
+
+        click(dishDetailCardOverlay);
 
     }
 
+    @Step("Проверяем что изменения корректны в карточке блюда с элементом {textToFind}")
+    public void isChangingAppliedOnTableInDishCard(ElementsCollection elementsWhereToFind,
+                                                   String textToFind) {
 
+        if (!orderMenuContainer.isDisplayed())
+            click(appFooterMenuIcon);
+
+        SelenideElement element = elementsWhereToFind.findBy(matchText(textToFind));
+
+        click(element);
+
+        Assertions.assertNotNull(element,"Элемент " + textToFind +
+                " не в карточке товара");
+
+        click(dishDetailCardOverlay);
+
+    }
     public void isDishEditModalCorrect() {
 
         isElementVisible(editDishContainer);
@@ -519,46 +961,14 @@ public class Menu extends BaseActions {
 
     }
 
-    @Step("Очищаем введенное имя блюда ранее")
-    public void changeEditedDishNameByDefaultValue(String categoryDishBeforeEditing) {
-
-        menuDishItemsEditButtons.get(0).click();
-        editDishNameByGuestInput.clear();
-        editDishNameByGuestInput.sendKeys(categoryDishBeforeEditing);
-
-        dishPreloader.shouldHave(cssValue("display", "flex"));
-        System.out.println("Заменили имя на старое");
-
-    }
-
-    @Step("Сопоставление количество блюд в категориях")
-    public void matchDishesItemSizeWithCategorySize() {
-
-
-        for (int categoryIndex = 0; categoryIndex < categoryItems.size(); categoryIndex++) {
-
-            categoryItems.get(categoryIndex).click();
-            dishPreloader.shouldHave(cssValue("display","none"),Duration.ofSeconds(5));
-
-            int dishSizeInCategory = Integer.parseInt(categoryItemsSize.get(categoryIndex).getText().replaceAll("\\D+(\\d+).*","$1"));
-            int dishItemSize = menuDishItems.size();
-
-            Assertions.assertEquals(dishSizeInCategory,dishItemSize,
-                    "Количество блюд в категории не совпадает с заголовком");
-            System.out.println("Количество блюд в категории совпадает с заголовком");
-
-        }
-
-    }
-
     @Step("Скрыть все категории блюд")
     public void hideAllCategoryMenu() {
 
         for (SelenideElement categoryDishItem : categoryEyeIcons) {
 
-            if (categoryDishItem.getAttribute("class").matches(".*active.*")) {
+            if (Objects.requireNonNull(categoryDishItem.getAttribute("class")).matches(".*active.*")) {
 
-                categoryDishItem.click();
+                click(categoryDishItem);
                 forceWait(200);
 
             }
@@ -573,28 +983,11 @@ public class Menu extends BaseActions {
             if (dishMenu.getAttribute("class").matches(".*active.*")) {
 
                 dishMenu.click();
-                System.out.println("Раскрыли блюдо");
                 dishPreloader.shouldNotBe(visible,Duration.ofSeconds(10));
                 forceWait(200);
 
             }
         }
-    }
-
-    @Step("Проверка изображения в превью контейнере")
-    public void isImageFullContainerCorrect(int dishIndex) {
-
-        click(menuDishItems.get(dishIndex).$("img"));
-
-        isElementVisible(imagePreviewContainer);
-        isElementVisible(imagePreviewContainerCloseButton);
-        isElementVisible(imagePreviewContainerImage);
-        isImageCorrect(imagePreviewContainerImageNotSelenide,"Изображение не корректное или битое");
-        forceWait(500);
-
-        click(imagePreviewContainerCloseButton);
-        imagePreviewContainer.shouldNotBe(visible);
-
     }
 
     @Step("Выбрать рандомное число категорий")
@@ -610,11 +1003,10 @@ public class Menu extends BaseActions {
                 index = generateRandomNumber(1, categoryEyeIcons.size()) - 1;
                 flag = categoryEyeIcons.get(index).getAttribute("class");
 
-            } while (flag.matches(".*active.*"));
+            } while (Objects.requireNonNull(flag).matches(".*active.*"));
 
-            categoryEyeIcons.get(index).click();
-            menuPagePreLoader.shouldNotBe(visible,Duration.ofSeconds(10));
-            System.out.println("Открыли позицию");
+            click(categoryEyeIcons.get(index));
+            menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(10));
 
         }
 
@@ -625,12 +1017,10 @@ public class Menu extends BaseActions {
 
         for (SelenideElement categoryItem : categoryItems) {
 
-            categoryItem.click();
-            dishPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
+            click(categoryItem);
+            dishPreloader.shouldBe(hidden, Duration.ofSeconds(10));
 
             hideAllDishInList();
-
-            System.out.println(neededCategoryAmount + " количество для выбора");
 
             for (int count = 1; count <= neededCategoryAmount; count++) {
 
@@ -642,11 +1032,10 @@ public class Menu extends BaseActions {
                     index = generateRandomNumber(1, menuDishItemsEyeIcons.size()) - 1;
                     flag = menuDishItemsEyeIcons.get(index).getAttribute("class");
 
-                } while (flag.matches(".*active.*"));
+                } while (Objects.requireNonNull(flag).matches(".*active.*"));
 
-                menuDishItemsEyeIcons.get(index).click();
-                dishPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
-                System.out.println("Открыли позицию");
+                click(menuDishItemsEyeIcons.get(index));
+                dishPreloader.shouldBe(hidden, Duration.ofSeconds(10));
 
             }
 
@@ -661,17 +1050,12 @@ public class Menu extends BaseActions {
 
         for (int index = 0; index < categoryItems.size(); index++) {
 
-            if (categoryEyeIcons.get(index).getAttribute("class").matches(".*active.*")) {
-
-               String categoryName = categoryItemsNames.get(index).getText();
-               System.out.println(categoryName + " имя категории");
-               dishList.add(categoryName);
-
-            }
+            if (Objects.requireNonNull
+                    (categoryEyeIcons.get(index).getAttribute("class")).matches(".*active.*"))
+               dishList.add(categoryItemsNames.get(index).getText());
 
         }
 
-        System.out.println("\n" + dishList);
         return dishList;
 
     }
@@ -681,8 +1065,7 @@ public class Menu extends BaseActions {
 
         if (!showActivePositionsForGuestCheckbox.isSelected()) {
 
-            System.out.println("Включили 'Показать активные для гостя'");
-            showActivePositionsForGuestContainer.$(".vCheckbox__container").click();
+            click(showActivePositionsForGuestContainer.$(categoryItemsCheckboxSelector));
             showActivePositionsForGuestCheckbox.shouldBe(checked);
 
         }
@@ -694,151 +1077,19 @@ public class Menu extends BaseActions {
 
         if (showActivePositionsForGuestCheckbox.isSelected()) {
 
-            System.out.println("Выключили 'Показать активные для гостя'");
-            showActivePositionsForGuestContainer.$(".vCheckbox__container").click();
+            click(showActivePositionsForGuestContainer.$(categoryItemsCheckboxSelector));
             showActivePositionsForGuestCheckbox.shouldNotBe(checked);
 
         }
 
     }
 
-    @Step("'Показать активные для гостя' соответствует отображению в админке и на столе")
-    public ArrayList<String>  showActiveCategoryCorrect() {
+    public void switchTabAndRefreshPage(int tab) {
 
-        hideAllCategoryMenu();
-
-        activateShowActiveForGuest();
-
-        categoryItems.shouldHave(size(0));
-
-        deactivateShowActiveForGuest();
-
-        chooseRandomCategoryByAmount(3);
-        ArrayList<String> dishList = saveChosenAmountCategoryInList();
-
-        activateShowActiveForGuest();
-
-        ArrayList<String> dishListWithActiveCheckboxShowForGuest = saveChosenAmountCategoryInList();
-
-        System.out.println(dishList + " категории отмеченные для видимости");
-        System.out.println(dishListWithActiveCheckboxShowForGuest + " категории c 'Показать активные для гостя'");
-
-        Assertions.assertEquals(dishList,dishListWithActiveCheckboxShowForGuest);
-        System.out.println("Список активных категорий и список категорий со включенной 'Показать активные для гостя полностью совпадают'");
-
-        return dishListWithActiveCheckboxShowForGuest;
+        rootPage.switchBrowserTab(tab);
+        rootPage.refreshPage();
 
     }
-
-    @Step("Сохранение данных по меню для работы с таппером")
-    public HashMap<String,Map<String,String>> saveMenuData() {
-
-        hideAllCategoryMenu();
-        deactivateShowActiveForGuest();
-
-        chooseRandomCategoryByAmount(3);
-
-        activateShowActiveForGuest();
-
-        chooseRandomDishByAmount(1);
-
-        HashMap<String,Map<String,String>> menuData = new HashMap<>();
-
-        for (SelenideElement categoryElement: categoryItems) {
-
-            categoryElement.click();
-            forceWait(1000);
-            menuPagePreLoader.shouldNotBe(visible,Duration.ofSeconds(10));
-
-            String categoryName = categoryElement.$(".vAdminMenuCategoryItem__info-bottom")
-                    .getText().replaceAll("\\d+\\.\\s","");
-            System.out.println(categoryName + " текущая категория");
-
-            Map<String, String> dishList = new HashMap<>();
-
-            for (int dishIndex = 0; dishIndex < menuDishItemsEyeIcons.size(); dishIndex++) {
-
-                if (menuDishItemsEyeIcons.get(dishIndex).getAttribute("class").matches(".*active.*")) {
-
-                    String dishName;
-                    String dishImage = "";
-
-                    if (menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img img").exists()) {
-
-                        dishImage = menuDishItems.get(dishIndex).$(".vAdmiMenuTable__item-img img").getAttribute("src");
-
-                    }
-
-                    if (menuDishItemsEditName.get(dishIndex).getText().equals("-")) {
-
-                        dishName = menuDishItemsNames.get(dishIndex).getText();
-
-                    } else {
-
-                        dishName = menuDishItemsEditName.get(dishIndex).getText();
-
-                    }
-
-                    String dishPrice = menuDishItemsPrices.get(dishIndex).getText();
-
-                    System.out.println(menuDishItemsNames.get(dishIndex).getText() + " имя добавленного блюда");
-                    System.out.println(dishPrice + " цена блюда");
-                    System.out.println(dishImage + " ссылка на фотографию");
-
-                    dishList.put("name",dishName);
-                    dishList.put("price",dishPrice);
-                    dishList.put("image",dishImage);
-
-                }
-
-            }
-
-            menuData.put(categoryName,dishList);
-
-        }
-
-        System.out.println(menuData);
-        return menuData;
-
-    }
-
-    @Step("Проверка списка категорий с админки со столом в таппере меню")
-    public void matchCategoryListWithTapperMenu(ArrayList<String> dishListWithActiveCheckboxShowForGuest) {
-
-        ArrayList<String> tapperCategoryNameHeader = new ArrayList<>();
-
-        for (SelenideElement element: menuCategoryInHeader) {
-
-            tapperCategoryNameHeader.add(element.getText());
-
-        }
-
-        System.out.println(tapperCategoryNameHeader);
-
-        Assertions.assertEquals
-                (dishListWithActiveCheckboxShowForGuest.size(),tapperCategoryNameHeader.size(),
-                        "Активных категорий в админке и на столе отличаются");
-
-        for (int index = 0; index < dishListWithActiveCheckboxShowForGuest.size(); index++) {
-
-           String tapperCategoryElement = tapperCategoryNameHeader.get(index);
-           String adminCategoryElement = dishListWithActiveCheckboxShowForGuest.get(index);
-
-            System.out.println(tapperCategoryElement + " значение в таппере");
-            System.out.println(adminCategoryElement + " значение в админке");
-
-           if (!adminCategoryElement.matches(".*" + tapperCategoryElement + ".*")) {
-
-                Assertions.fail("Нет такого значения в столе таппера");
-
-            }
-
-        }
-
-        System.out.println("Все значения совпали со столом и админкой");
-
-    }
-
 
 
 }

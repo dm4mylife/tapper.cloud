@@ -50,9 +50,6 @@ public class WaiterTab extends BaseActions {
         clearText(telegramId);
         forceWait(1000);
 
-        System.out.println(telegramLogin.getValue() + " login");
-        System.out.println(telegramId.getValue() + " id");
-
         scroll(telegramLogin);
         telegramLogin.sendKeys(tgLogin);
         telegramId.sendKeys(tgId);
@@ -74,7 +71,6 @@ public class WaiterTab extends BaseActions {
 
         Assertions.assertEquals(currentTgLogin, tgData.get("login"), "Логин не сохранился в админке");
         Assertions.assertEquals(currentTgId, tgData.get("id"), "Айди не сохранился в админке");
-        System.out.println("Логин и айди телеграма успешно изменились");
 
     }
 

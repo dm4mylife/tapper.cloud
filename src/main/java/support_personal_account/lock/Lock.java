@@ -79,8 +79,6 @@ public class Lock extends BaseActions {
 
             Assertions.assertEquals(restaurantsToLock, restaurantsSize, "Не все рестораны были отменены");
 
-            System.out.println("Все рестораны включены");
-
         }
 
     }
@@ -111,7 +109,6 @@ public class Lock extends BaseActions {
             restaurantsToLock = convertSelectorTextIntoIntByRgx(amountRestaurantsToLock, "\\D+");
 
             Assertions.assertEquals(restaurantsToLock, 0, "Не все рестораны были отменены");
-            System.out.println("Все рестораны отменены");
 
             forceWait(2000); // toDO не всегда успевает сохраниться сброс если оборвём сессию
 

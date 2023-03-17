@@ -68,12 +68,8 @@ public class YandexPage extends BaseActions {
         click(tapperMail);
 
         tapperConfirmAuthInMail.shouldBe(visible);
-        System.out.println("Ссылка на регистрацию из почты:\n" + tapperConfirmAuthInMail.getAttribute("href"));
 
-        String password = Common.authPassword.getText().replaceAll("(\\n|.)+Пароль:\\s(.*)","$2");
-        System.out.println(password + " пароль");
-
-        return password;
+        return Common.authPassword.getText().replaceAll("(\\n|.)+Пароль:\\s(.*)","$2");
 
     }
 
@@ -83,7 +79,6 @@ public class YandexPage extends BaseActions {
         tapperConfirmAuthInMail.click();
         switchTab(1);
         isTextContainsInURL("tapper");
-        System.out.println("Переключились на новую вкладку");
 
     }
 
@@ -96,8 +91,6 @@ public class YandexPage extends BaseActions {
 
         if (tapperMailCheckbox.first().isDisplayed()) {
 
-            System.out.println("gg");
-
             for (SelenideElement mailCheckbox : tapperMailCheckbox) {
 
                 click(mailCheckbox);
@@ -106,7 +99,6 @@ public class YandexPage extends BaseActions {
 
             click(deleteMailButton);
             tapperMail.shouldNotBe(exist);
-            System.out.println("Удалили письмо");
 
         }
 

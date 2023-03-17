@@ -6,6 +6,7 @@ import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -18,7 +19,7 @@ import static data.Constants.TestData.TapperTable.WRONG_EMAIL_PATTERN;
 @DisplayName("Приглашение официанта на некорректный емейл")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _14_2_WrongEmailInvitationTest extends BaseTest {
+public class _14_2_WrongEmailInvitationTest extends AdminBaseTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
 
@@ -27,8 +28,6 @@ public class _14_2_WrongEmailInvitationTest extends BaseTest {
     @Test
     @DisplayName("1.0. Авторизуемся под админом")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         waiters.goToWaiterCategory();

@@ -7,11 +7,13 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 @Order(150)
 @Epic("Личный кабинет администратора ресторана")
@@ -20,7 +22,10 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 @DisplayName("Проверка переключения типу получателя, замена шаблона, проверка на столе")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _15_0_TotalTest extends BaseTest {
+public class _15_0_TotalTest extends AdminBaseTest {
+
+    int adminTab = 0;
+    int tapperTableTab = 1;
 
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -29,8 +34,6 @@ public class _15_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
@@ -51,7 +54,7 @@ public class _15_0_TotalTest extends BaseTest {
 
         customization.choseOnlyManager();
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
         customization.checkCallWaiterButtonTypeOnTable("Написать\nменеджеру","Вызов менеджера");
 
 
@@ -61,14 +64,14 @@ public class _15_0_TotalTest extends BaseTest {
     @DisplayName("1.4. Меняем тип получателя на официанта и менеджерам и проверяем что на столе сменилась кнопка")
     public void checkCallWaiter() {
 
-        rootPage.switchBrowserTab(0);
+        rootPage.switchBrowserTab(adminTab);
         customization.choseWaiterAndManager();
 
-        rootPage.switchBrowserTab(1);
+        rootPage.switchBrowserTab(tapperTableTab);
         rootPage.refreshPage();
         customization.checkCallWaiterButtonTypeOnTable("Написать\nофицианту","Вызов официанта");
 
-        rootPage.switchBrowserTab(0);
+        rootPage.switchBrowserTab(adminTab);
 
     }
 

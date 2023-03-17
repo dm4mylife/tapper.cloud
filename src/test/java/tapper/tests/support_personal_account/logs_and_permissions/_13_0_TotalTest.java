@@ -8,6 +8,7 @@ import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import support_personal_account.logsAndPermissions.LogsAndPermissions;
 import tapper_table.RootPage;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -20,7 +21,7 @@ import static com.codeborne.selenide.FileDownloadMode.PROXY;
 import static data.Constants.LOADER_GIF_PATH;
 import static data.Constants.OLD_LOADER_GIF_PATH;
 import static data.Constants.TestData.SupportPersonalAccount.*;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.Common.tabPreloader;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.licenseTab.licenseIdTab;
 import static data.selectors.TapperTable.Common.startScreenLogoContainerImageNotSelenide;
@@ -32,7 +33,7 @@ import static data.selectors.TapperTable.Common.startScreenLogoContainerImageNot
 @DisplayName("Проверка категории логов/доступы, отображения элементов, всех табов на странице")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _13_0_TotalTest extends BaseTest {
+public class _13_0_TotalTest extends AdminBaseTest {
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     LogsAndPermissions logsAndPermissions = new LogsAndPermissions();
@@ -40,10 +41,8 @@ public class _13_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
-        Configuration.fileDownload = PROXY;
-        Configuration.proxyEnabled = true;
+        
+        Configuration.fileDownload = FOLDER;
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 
@@ -153,7 +152,7 @@ public class _13_0_TotalTest extends BaseTest {
     public void changeLoader() {
 
         logsAndPermissions.changeLoader(LOADER_GIF_PATH);
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
         rootPage.isImageCorrect(startScreenLogoContainerImageNotSelenide,
                 "Изображение\\гиф на столе не корректная");
 

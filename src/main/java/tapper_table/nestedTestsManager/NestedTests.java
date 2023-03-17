@@ -15,6 +15,8 @@ import static com.codeborne.selenide.Condition.*;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
+import static data.Constants.WAIT_UNTIL_TRANSACTION_EXPIRED;
+import static data.Constants.WAIT_UNTIL_TRANSACTION_STILL_ALIVE;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
@@ -45,6 +47,18 @@ public class NestedTests extends RootPage {
 
     }
 
+    @Step("Переход в эквайринг, ввод данных, ожидание пока транзакция \"протухнет\"")
+    public String goToAcquiringAndWaitTillTransactionExpired(double totalPay, int wait) {
+
+        rootPageNestedTests.clickPayment();
+        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
+        forceWait(wait);
+        String transactionId = transaction_id.getValue();
+        best2PayPage.clickPayButton();
+        return transactionId;
+
+    }
+
     @Step("Проверка всего процесса оплаты, транзакции, ожидание пустого стола")
     public void checkPaymentAndB2pTransaction(String orderType, String transactionId, HashMap<String, Integer> paymentDataKeeper) {
 
@@ -55,7 +69,6 @@ public class NestedTests extends RootPage {
         if (orderType.equals("part")) {
 
             apiRKeeper.isPrepaymentSuccess(transactionId);
-            System.out.println("Предоплата прошла по кассе");
 
         }
 
@@ -83,7 +96,6 @@ public class NestedTests extends RootPage {
 
         Assertions.assertNotEquals(totalPaySum, totalPaySumAfterChanging,
                 "После изменения заказа на кассе, заказ в таппере не поменялся");
-        System.out.println("После изменения заказа на кассе, заказ в таппере изменился, итого сумма пересчиталась");
 
     }
 
@@ -96,7 +108,7 @@ public class NestedTests extends RootPage {
         double tipsSumInTheMiddle = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
         double serviceChargeInField =
                 rootPage.convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
-        System.out.println(serviceChargeInField + " сервисный сбор в контейнере");
+
         serviceChargeInField = updateDoubleByDecimalFormat(serviceChargeInField);
         double serviceChargeSumClear = updateDoubleByDecimalFormat
                 (cleanDishesSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
@@ -104,44 +116,32 @@ public class NestedTests extends RootPage {
                 (tipsSumInTheMiddle * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
         double cleanServiceCharge = serviceChargeSumClear + serviceChargeTipsClear;
 
-        System.out.println(serviceChargeSumClear + " сервисный сбор от суммы");
-        System.out.println(serviceChargeTipsClear + " сервисный сбор от чаевых\n");
-
         Assertions.assertEquals(cleanServiceCharge, serviceChargeInField, 0.1,
                 "Сервисный сбор считается не корректно от суммы и чаевых");
-        System.out.println("\nСервисный сбор считается корректно от суммы и чаевых\n");
 
         rootPage.deactivateServiceChargeIfActivated();
 
         double tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
-        System.out.println(tapperTotalPay + " таппер без СБ");
 
         rootPageNestedTests.clickPayment();
 
         double b2pTotalPay = best2PayPage.getPaymentAmount();
-        System.out.println(b2pTotalPay + " б2п");
 
         Assertions.assertEquals(tapperTotalPay, b2pTotalPay,
                 "Сумма итого к оплате не совпадает с суммой в таппере");
-        System.out.println("\nСумма итого к оплате (с СБ) в таппере " + tapperTotalPay +
-                " совпадает с суммой в б2п " + b2pTotalPay + "\n");
 
         returnToPreviousPage();
 
         rootPage.activateServiceChargeIfDeactivated();
 
         tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
-        System.out.println(tapperTotalPay + " сумма итого к оплате в Таппере вместе с СБ\n");
 
         rootPageNestedTests.clickPayment();
 
         b2pTotalPay = best2PayPage.getPaymentAmount();
-        System.out.println(b2pTotalPay + " сумма итого к оплате в б2п\n");
 
         Assertions.assertEquals(tapperTotalPay, b2pTotalPay, 0.1,
                 "Сумма итого к оплате не совпадает с суммой в таппере");
-        System.out.println("\nСумма итого к оплате (бес СБ) в таппере " + tapperTotalPay +
-                " совпадает с суммой в б2п " + b2pTotalPay + "\n");
 
         returnToPreviousPage();
 

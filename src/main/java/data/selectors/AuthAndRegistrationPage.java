@@ -49,6 +49,12 @@ public class AuthAndRegistrationPage {
         public static final SelenideElement restaurantNameField = $("#name_shop");
         public static final SelenideElement captchaContainer = $("[title=\"reCAPTCHA\"]");
         public static final SelenideElement registrationButton = $(".vButton[type=\"submit\"]");
+
+        public static final SelenideElement confPolicyFieldError = $(".vLandingFeedback__error-text");
+        public static final SelenideElement allNecessaryInputsForFilling = $(".sign__container .vLandingInput__wrapper");
+
+
+
         public static final SelenideElement confPolicyField = $(".sign__conditions");
         public static final SelenideElement confPolicyLink= $(".sign__conditions a");
         public static final SelenideElement logoAtBottom= $("a[href='/']");

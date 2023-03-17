@@ -1,20 +1,17 @@
 package admin_personal_account.profile;
 
 import admin_personal_account.AdminAccount;
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 import java.util.Objects;
 
-import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.TestData.AdminPersonalAccount;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
@@ -50,12 +47,14 @@ public class Profile extends BaseActions {
         isElementVisible(adminPassword);
         isElementVisible(adminPasswordConfirmation);
         isElementVisible(saveButton);
+        isElementsListVisible(telegramItemsMasterIcon);
         isElementsListVisible(telegramItemsIcons);
         telegramItemsHelpTooltip.filter(exist).shouldBe(sizeGreaterThan(0));
         isElementsListVisible(telegramItemsHelp);
         isElementsListVisible(telegramItemsCloseIcon);
         isElementVisible(privateDataContainer);
         isElementVisible(profileContainer);
+        isElementVisible(masterInformationContainer);
 
     }
 
@@ -96,34 +95,105 @@ public class Profile extends BaseActions {
         element.shouldHave(value(previousValue));
 
     }
-
-    @Step("Удаление телеграм логина")
+    @Step("Удаление телеграма")
     public void deleteTelegramLogin() {
 
-        telegramItems.asDynamicIterable().stream().forEach(element ->  {
+        telegramItems.asDynamicIterable().stream().forEach(element -> {
 
-            if (Objects.equals(element.$(telegramItemsLoginInputSelector).getAttribute("value"), TELEGRAM_AUTO_LOGIN)) {
-
+            if (Objects.equals
+                    (element.$(telegramItemsLoginInputSelector).getAttribute("value"), TELEGRAM_AUTO_LOGIN))
                 click(element.$(telegramItemsCloseIconSelector));
 
-                click(addTelegramLoginButton);
+        });
 
-                sendKeys(telegramItemsLogin.last(),TELEGRAM_AUTO_LOGIN);
+        clickSaveButton("");
 
-                click(saveButton);
+        telegramItems.asDynamicIterable().stream().forEach
+                (element -> element.shouldNotHave(value(TELEGRAM_AUTO_LOGIN)));
 
-                isElementVisible(pagePreloader);
+    }
 
-                changedDataNotification
-                        .shouldHave(attributeMatching("class",".*active.*"));
-                telegramItemsLogin.last().should(value(TELEGRAM_AUTO_LOGIN));
-                System.out.println("Удаление происходит корректно");
+    @Step("Добавление телеграма")
+    public void addTelegramLogin() {
+
+        click(addTelegramLoginButton);
+
+        sendKeys(telegramItemsLogin.last(),TELEGRAM_AUTO_LOGIN);
+
+        clickSaveButton(TELEGRAM_AUTO_LOGIN);
+
+    }
+
+    public void clickSaveButton(String login) {
+
+        click(saveButton);
+
+        isElementVisible(pagePreloader);
+
+        changedDataNotification
+                .shouldHave(attributeMatching("class",".*active.*"));
+        telegramItemsLogin.last().should(value(login));
+
+    }
+
+    @Step("Добавляем управляющего")
+    public void addMaster(String telegramLogin) {
+
+        telegramItems.asDynamicIterable().stream().forEach(element -> {
+
+            if (Objects.equals
+                    (element.$(telegramItemsLoginInputSelector).getAttribute("value"), telegramLogin)) {
+
+                SelenideElement masterIcon = $(element.$(telegramItemsMasterIconSelector));
+                SelenideElement masterSvg = $(element.$(telegramItemsMasterSvgSelector));
+
+                click(masterIcon);
+                masterSvg.shouldHave(attributeMatching("class",".*active.*"));
 
             }
 
         });
 
+        clickSaveButton(TELEGRAM_AUTO_LOGIN);
+
+        telegramItemsMasterSvg.last().shouldHave(attributeMatching("class",".*active.*"));
+
     }
+
+    @Step("Удаляем управляющего")
+    public void deleteMaster(String telegramLogin) {
+
+        telegramItems.asDynamicIterable().stream().forEach(element -> {
+
+            if (Objects.equals
+                    (element.$(telegramItemsLoginInputSelector).getAttribute("value"), telegramLogin)) {
+
+                SelenideElement masterIcon = $(element.$(telegramItemsMasterIconSelector));
+                SelenideElement masterSvg = $(element.$(telegramItemsMasterSvgSelector));
+
+                click(masterIcon);
+                masterSvg.shouldNotHave(attributeMatching("class",".*active.*"));
+
+            }
+
+        });
+
+        clickSaveButton(TELEGRAM_AUTO_LOGIN);
+
+        telegramItemsMasterSvg.last().shouldNotHave(attributeMatching("class",".*active.*"));
+
+    }
+
+
+    @Step("Устанавливаем телеграм логин управляющим")
+    public void isMasterCorrect(String telegramLogin) {
+
+        addMaster(telegramLogin);
+        deleteMaster(telegramLogin);
+
+    }
+
+
 
     @Step("Смена пароля админской учетной записи")
     public void changeAdminPassword() {
@@ -137,8 +207,7 @@ public class Profile extends BaseActions {
         click(saveButton);
         isElementVisible(pagePreloader);
 
-        changedDataNotification
-                .shouldHave(attributeMatching("class",".*active.*"));
+
         adminPassword.shouldHave(value(ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST));
         adminPasswordConfirmation.shouldHave(value(ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST));
 
@@ -158,8 +227,6 @@ public class Profile extends BaseActions {
         click(saveButton);
         isElementVisible(pagePreloader);
 
-        changedDataNotification
-                .shouldHave(attributeMatching("class",".*active.*"));
         adminPassword.shouldHave(value(ADMIN_RESTAURANT_PASSWORD));
         adminPasswordConfirmation.shouldHave(value(ADMIN_RESTAURANT_PASSWORD));
 
@@ -167,7 +234,6 @@ public class Profile extends BaseActions {
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         isProfileCategoryCorrect();
-        System.out.println("Смена админского пароля корректно");
 
     }
 

@@ -16,8 +16,9 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-import static data.Constants.TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED;
+import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.Constants.TestData.SupportPersonalAccount.RESTAURANT_NAME;
+import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.paginationPages;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.*;
@@ -61,9 +62,9 @@ public class LogsAndPermissions extends BaseActions {
         click(expandLeftMenuButton);
         isElementVisible(openedLeftMenuContainer);
         click(logsAndPermissionsCategoryDropdownButton);
-        forceWait(1000);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         searchRestaurantInput.sendKeys(restaurantName);
-        forceWait(1000);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(searchResultList.first());
 
         pagePreloader.shouldNotHave(attributeMatching("style", "background: transparent;")
@@ -71,7 +72,7 @@ public class LogsAndPermissions extends BaseActions {
 
         click(collapseLeftMenuButton);
         isElementInvisible(openedLeftMenuContainer);
-        forceWait(1000);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         currentChosenRestaurant.shouldHave(text(RESTAURANT_NAME));
 
     }
@@ -338,28 +339,23 @@ public class LogsAndPermissions extends BaseActions {
     @Step("Выгрузить таблицу и балансы официантов")
     public void downloadStatisticsData() throws FileNotFoundException {
 
-        forceWait(200); //toDo подумать что можно сделать с этим ужасом
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo подумать что можно сделать с этим ужасом
         Selenide.executeJavaScript("document.querySelector('" + dateRangeInputSelector + "').click();");
 
-        forceWait(200);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(daysInDateRange.get(10));
-        forceWait(200);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(daysInDateRange.get(15));
-        forceWait(200);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         isElementVisible(resetButton);
 
-        click(downloadTable);
-
-
-        File downloadedTable = downloadTable.download(TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED);
+        File downloadedTable = downloadTable.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 
         Assertions.assertNotNull(downloadedTable, "Файл 'Выгрузить таблицу' не может быть скачен");
-        System.out.println("Таблицы успешно скачены");
 
-        File waitersBalanceDownloaded = waitersBalance.download(TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED);
+        File waitersBalanceDownloaded = waitersBalance.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 
         Assertions.assertNotNull(waitersBalanceDownloaded, "Файл 'Балансы официантов' не может быть скачен");
-        System.out.println("Балансы официантов успешно скачены");
 
     }
 

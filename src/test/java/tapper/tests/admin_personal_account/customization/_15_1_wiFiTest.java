@@ -10,6 +10,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -32,7 +33,7 @@ import static data.selectors.TapperTable.Common.wiFiIcon;
 @DisplayName("Проверка вайфая")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _15_1_wiFiTest extends BaseTest {
+public class _15_1_wiFiTest extends AdminBaseTest {
 
     static String guid;
     static int amountDishesForFillingOrder = 3;
@@ -47,8 +48,6 @@ public class _15_1_wiFiTest extends BaseTest {
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 

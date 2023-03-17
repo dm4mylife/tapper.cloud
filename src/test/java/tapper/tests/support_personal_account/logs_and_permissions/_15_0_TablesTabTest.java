@@ -9,6 +9,7 @@ import io.qameta.allure.Story;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
 import support_personal_account.logsAndPermissions.LogsAndPermissions;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -32,7 +33,7 @@ import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 @DisplayName("Проверка таба Столы")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _15_0_TablesTabTest extends BaseTest {
+public class _15_0_TablesTabTest extends AdminBaseTest {
 
     static int fromTableSearchValue;
     static int toTableSearchValue;
@@ -47,10 +48,8 @@ public class _15_0_TablesTabTest extends BaseTest {
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
 
-        Configuration.browserSize = "1920x1080";
         Configuration.downloadsFolder = downloadFolderPathAdminSupport;
         Configuration.fileDownload = FOLDER;
-        Configuration.proxyEnabled = true;
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 

@@ -1,13 +1,13 @@
 package tapper_table;
 
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.TestData.TapperTable.TEST_REVIEW_COMMENT;
+import static data.Constants.TestData.TapperTable.PAYMENT_ERROR_ORDER_EXPIRED;
 import static data.selectors.TapperTable.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
@@ -72,6 +72,8 @@ public class ReviewPage extends BaseActions {
 
         isWhatDoULikeContainerVisible(review5Stars);
 
+        skipThanksReview();
+
         isSuggestionContainerVisible(review3Stars);
 
         isWhatDoULikeContainerVisible(review4Stars);
@@ -87,6 +89,15 @@ public class ReviewPage extends BaseActions {
 
     }
 
+    public void skipThanksReview() {
+
+        if (thanksReviewContainer.isDisplayed())
+            click(thanksReviewCloseButton);
+
+        isElementInvisible(thanksReviewContainer);
+
+    }
+
     public void isWhatDoULikeContainerVisible(SelenideElement rateStar) {
 
         click(rateStar);
@@ -96,13 +107,38 @@ public class ReviewPage extends BaseActions {
 
     }
 
+    @Step("Проверка формы спасибо за отзывы")
+    public void isThanksForReviewCorrect() {
 
+        isElementVisible(thanksReviewContainer);
+        isElementVisible(thanksReviewCloseButton);
+        isElementsListVisible(reviewLinks);
+        isElementVisible(reviewNoThanksButton);
 
-    @Step("Выставляем 5 звёзд")
-    public void rate5Stars() {
-
+        isLinkCorrect(yandexReviewLink,"yandex");
         click(review5Stars);
-        review5Stars.shouldHave(attributeMatching("class",".*active.*"));
+        isLinkCorrect(doubleGisReviewLink,"2gis");
+        click(review5Stars);
+        isLinkCorrect(googleReviewLink,"google");
+        click(review5Stars);
+
+        click(reviewNoThanksButton);
+        isElementInvisible(thanksReviewContainer);
+
+    }
+
+
+
+    @Step("Проверка корректности перехода по ссылке")
+    public void isLinkCorrect(SelenideElement element, String url) {
+
+        click(element);
+        switchBrowserTab(1);
+
+        isTextContainsInURL(url);
+
+        Selenide.closeWindow();
+        switchBrowserTab(0);
 
     }
 
@@ -114,6 +150,31 @@ public class ReviewPage extends BaseActions {
         isElementsListVisible(activeWhatDoULikeListRandomOption);
 
     }
+
+    @Step("Выбираем первую и последнюю опцию если 4-5 звезды отзыв")
+    public void choseFirstAndLastPositiveWhatDoULikeOptions() {
+
+        isElementVisible(whatDoULikeList);
+        click(whatDoULikeListRandomOption.first());
+        click(whatDoULikeListRandomOption.last());
+        isElementsListVisible(activeWhatDoULikeListRandomOption);
+        activeWhatDoULikeListRandomOption.shouldHave(CollectionCondition.size(2));
+
+    }
+
+    @Step("Выбираем первую и последнюю опцию если 1-3 звезды отзыв")
+    public void choseFirstAndLastNegativeSuggestionOptions() {
+
+        isElementVisible(suggestionContainer);
+        click(suggestionOptions.first());
+        click(suggestionOptions.last());
+
+       suggestionOptionsSvg.filter(attribute("style",""))
+               .shouldHave(CollectionCondition.size(2));
+
+    }
+
+
 
     @Step("Выбираем рандомное пожелание")
     public void chooseRandomSuggestionWhenGreaterThan3() {

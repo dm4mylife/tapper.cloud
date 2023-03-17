@@ -6,6 +6,8 @@ import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
+import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
 import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.*;
 import static data.selectors.AuthAndRegistrationPage.RegistrationPage.copyright;
 import static data.selectors.AuthAndRegistrationPage.RegistrationPage.logoAtBottom;
@@ -18,11 +20,11 @@ public class AuthorizationPage extends BaseActions {
     public void authorizationUser(String login, String password) {
 
         openPage(ADMIN_AUTHORIZATION_STAGE_URL);
-        forceWait(2000); // toDo не успевает прогрузиться
+        forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
         isFormContainerCorrect();
         authorizeUser(login, password);
         isTextContainsInURL(ADMIN_PROFILE_STAGE_URL);
-        forceWait(2000); // toDo не успевает прогрузиться
+        forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
 
     }
 
@@ -45,7 +47,7 @@ public class AuthorizationPage extends BaseActions {
     public void authorizeUser(String login, String password) {
 
         emailInput.shouldBe(appear);
-        forceWait(1500);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         sendKeys(emailInput, login);
         sendKeys(passwordInput, password);
         click(logInButton);
@@ -59,7 +61,7 @@ public class AuthorizationPage extends BaseActions {
         isElementVisibleAndClickable(signInButton);
         click(signInButton);
         isTextContainsInURL(ADMIN_AUTHORIZATION_STAGE_URL);
-        forceWait(1500);
+        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
 
     }
 
@@ -71,7 +73,7 @@ public class AuthorizationPage extends BaseActions {
         click(signInButton);
         click(registrationLink);
         isTextContainsInURL(ADMIN_REGISTRATION_STAGE_URL);
-        forceWait(1500);
+        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
 
     }
 

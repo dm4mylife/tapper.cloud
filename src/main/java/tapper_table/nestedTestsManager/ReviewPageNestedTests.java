@@ -1,21 +1,31 @@
 package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import tapper_table.ReviewPage;
+import tapper_table.RootPage;
+import tapper_table.Telegram;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.codeborne.selenide.Condition.matchText;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$$;
-import static data.Constants.TestData.TapperTable.TEST_REVIEW_COMMENT_NEGATIVE;
-import static data.Constants.TestData.TapperTable.TEST_REVIEW_COMMENT_POSITIVE;
+import static com.codeborne.selenide.files.DownloadActions.click;
+import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.WAIT_UNTIL_TRANSACTION_EXPIRED;
+import static data.Constants.WAIT_UNTIL_TRANSACTION_STILL_ALIVE;
 import static data.selectors.TapperTable.ReviewPage.*;
+import static data.selectors.TapperTable.RootPage.PayBlock.paymentOverlay;
 
 public class ReviewPageNestedTests {
 
+    RootPage rootPage = new RootPage();
     ReviewPage reviewPage = new ReviewPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
 
@@ -46,11 +56,63 @@ public class ReviewPageNestedTests {
 
     }
 
+    @Step("Проверка поочередных статусов оплаты с полной оплатой")
+    public void errorPaymentCorrect(int wait) {
+
+        rootPage.isElementVisibleDuringLongTime(paymentProcessContainer, 30);
+
+        rootPage.isElementVisible(paymentProcessGifProcessing);
+        rootPage.isElementVisible(paymentProcessStatus);
+        rootPage.isElementVisible(paymentProcessText);
+
+        if (wait == WAIT_UNTIL_TRANSACTION_EXPIRED) {
+
+            paymentProcessText.shouldHave(matchText(PAYMENT_ERROR_ORDER_EXPIRED), Duration.ofSeconds(40));
+            rootPage.isElementVisible(paymentProcessGifError);
+            paymentProcessStatus.shouldHave(matchText(PAYMENT_ERROR_TEXT));
+            rootPage.click(paymentProcessCloseButton);
+
+            if (paymentOverlay.isDisplayed())
+                rootPage.click(paymentOverlay);
+
+        } else if (wait == WAIT_UNTIL_TRANSACTION_STILL_ALIVE) {
+
+            paymentProcessStatus.shouldNotHave(text("Оплата не прошла"))
+                    .shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
+            rootPage.isElementVisible(paymentProcessGifSuccess);
+
+        }
+
+    }
+
+    public void skipThanksReview() {
+
+        if (thanksReviewContainer.isDisplayed())
+            reviewPage.click(thanksReviewCloseButton);
+
+    }
+
     @Step("Оставление отзыва 5 звезд с выбором рандомного предложения")
     public void reviewCorrectPositive() {
 
         reviewPage.click(review5Stars);
+
+        skipThanksReview();
+
         reviewPage.chooseRandomWhatDoULikeWhenGreaterThan3();
+        reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_POSITIVE);
+        reviewPage.clickOnFinishButton();
+
+    }
+
+    @Step("Оставление отзыва 5 звезд с выбором нескольких рандомнных предложений")
+    public void reviewCorrectPositiveWithFewOptions() {
+
+        reviewPage.click(review5Stars);
+
+        skipThanksReview();
+
+        reviewPage.choseFirstAndLastPositiveWhatDoULikeOptions();
         reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_POSITIVE);
         reviewPage.clickOnFinishButton();
 
@@ -60,7 +122,23 @@ public class ReviewPageNestedTests {
     public void reviewCorrectNegative() {
 
         reviewPage.click(review1Star);
+
+        skipThanksReview();
+
         reviewPage.chooseRandomSuggestionWhenGreaterThan3();
+        reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_NEGATIVE);
+        reviewPage.clickOnFinishButton();
+
+    }
+
+    @Step("Оставление отзыва 1-3 звезды с выбором рандомного предложения")
+    public void reviewCorrectNegativeFewOptions() {
+
+        reviewPage.click(review1Star);
+
+        skipThanksReview();
+
+        reviewPage.choseFirstAndLastNegativeSuggestionOptions();
         reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_NEGATIVE);
         reviewPage.clickOnFinishButton();
 
@@ -71,27 +149,30 @@ public class ReviewPageNestedTests {
 
         LinkedHashMap<String,String> reviewData = new LinkedHashMap<>();
         String activeStars;
+        String comment = "";
         List<String> suggestions;
 
         if (reviewType.equals("negative")) {
 
             activeStars = convertStarsRatingIntoInt();
             suggestions = convertNegativeSuggestionsIntoList();
+            comment = TEST_REVIEW_COMMENT_NEGATIVE;
 
         } else {
 
              activeStars = convertStarsRatingIntoInt();
-             suggestions = convertPositiveSuggestionsIntoList();
+             suggestions = convertPositiveWhatDoULikeIntoList();
+             comment = TEST_REVIEW_COMMENT_POSITIVE;
 
         }
 
         reviewData.put("tableNumber", tableNumber);
         reviewData.put("waiter",waiter);
-        reviewData.put("comment",reviewTextArea.getValue());
+        reviewData.put("comment",comment);
         reviewData.put("rating", activeStars);
-        reviewData.put("suggestions",suggestions.toString());
+        reviewData.put("suggestions",suggestions.toString()
+                .replaceAll("[\\[\\]]","").replaceAll("\n"," "));
 
-        System.out.println(reviewData);
         return reviewData;
 
     }
@@ -118,39 +199,25 @@ public class ReviewPageNestedTests {
 
         suggestionOptions.asDynamicIterable().stream().forEach(element -> {
 
-            if (Objects.equals(element.$(suggestionOptionsSvgSelector).getAttribute("style"), "")) {
-
-                String suggestionName = element.getText();
-                suggestionArray.add(suggestionName);
-
-            }
+            if (Objects.equals(element.$(suggestionOptionsSvgSelector).getAttribute("style"), ""))
+                suggestionArray.add(element.getText());
 
         });
 
-
-        System.out.println(suggestionArray);
         return suggestionArray;
 
     }
 
-    public List<String> convertPositiveSuggestionsIntoList() {
+    public List<String> convertPositiveWhatDoULikeIntoList() {
 
         List<String> suggestionArray = new ArrayList<>();
 
-        activeWhatDoULikeListRandomOption.asDynamicIterable().stream().forEach(element -> {
+        activeWhatDoULikeListRandomOption.asDynamicIterable().stream().forEach
+                (element -> suggestionArray.add(element.getText()));
 
-           String suggestion = element.getText();
-           suggestionArray.add(suggestion);
-
-        });
-
-
-        System.out.println(suggestionArray);
         return suggestionArray;
 
     }
-
-
 
     @Step("Забираем с транзакции только информацию об оплате")
     public Map<String, Integer> getPayDataFromResponseAndConvToHashMap(Response rs) {
@@ -175,10 +242,7 @@ public class ReviewPageNestedTests {
         Response rs = apiRKeeper.getB2BPayment(transactionId);
         Map<String, Integer> rsPaymentData = getPayDataFromResponseAndConvToHashMap(rs);
 
-        System.out.println(paymentData + " tapper data\n" + rsPaymentData + " b2b data");
-
         Assertions.assertEquals(rsPaymentData, paymentData, "Суммы в таппере не сходятся с транзакцией b2p");
-        System.out.println("Все суммы в таппере сходятся с транзакцией b2p");
 
     }
 

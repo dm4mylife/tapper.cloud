@@ -18,8 +18,6 @@ public class Telegram {
     @Step("Получаем список всех сообщений об оплате")
     public String getLastTgPayMsgList(String guid) {
 
-        System.out.println(guid + " guid для поиска сообщений");
-
         List<Object> tgMessages = apiRKeeper.getUpdates();
         String lastTgMsg;
         int msgListByNeededGuidIndex = 0;
@@ -32,11 +30,7 @@ public class Telegram {
 
             if (currentMsg.contains(guid) && !currentMsg.contains("Рейтинг:")) {
 
-                System.out.println("\nСообщение подходящее по текущему заказу \n");
-
                 msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
-                System.out.println(msgListByNeededGuid.size() + " количество сообщений");
-
                 msgListByNeededGuidIndex++;
 
             }
@@ -49,7 +43,6 @@ public class Telegram {
 
         } else {
 
-            System.out.println("Сообщения не были найдены");
             return null;
 
         }
@@ -61,7 +54,43 @@ public class Telegram {
     }
 
     @Step("Получаем список всех сообщений об официанте")
-    public String getLastTgWaiterMsgList(String tableNumber) {
+    public String getLastTgWaiterMsgList(String guid) {
+
+        List<Object> tgMessages = apiRKeeper.getUpdates();
+        String lastTgMsg;
+        int msgListByNeededGuidIndex = 0;
+
+        HashMap<Integer,String> msgListByNeededGuid = new HashMap<>();
+
+        for (Object tgMessage : tgMessages) {
+
+            String currentMsg = tgMessage.toString();
+
+            if (currentMsg.contains("Рейтинг") && currentMsg.contains(guid)) {
+
+                msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
+                msgListByNeededGuidIndex++;
+
+            }
+
+        }
+
+        if (msgListByNeededGuid.size() > 0) {
+
+            lastTgMsg = msgListByNeededGuid.get(msgListByNeededGuid.size()-1);
+
+        } else {
+
+            return null;
+
+        }
+
+        return lastTgMsg;
+
+    }
+
+    @Step("Получаем список всех сообщений об вызове официанте")
+    public String getLastTgCallWaiterMsgList(String tableNumber) {
 
         List<Object> tgMessages = apiRKeeper.getUpdates();
         String lastTgMsg;
@@ -75,32 +104,23 @@ public class Telegram {
 
             if (currentMsg.contains(tableNumber)) {
 
-                System.out.println("\nСообщение подходящее по текущему заказу \n");
-
                 msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
-                System.out.println(msgListByNeededGuid.size() + " количество сообщений");
-
                 msgListByNeededGuidIndex++;
+
             }
 
         }
 
-        System.out.println(msgListByNeededGuid);
-
         if (msgListByNeededGuid.size() > 0) {
 
-            String tgMsg = msgListByNeededGuid.get(msgListByNeededGuid.size()-1);
-            System.out.println("\nПоследнее сообщение в тг\n" + tgMsg);
-            lastTgMsg = tgMsg;
+            lastTgMsg = msgListByNeededGuid.get(msgListByNeededGuid.size()-1);
 
         } else {
 
-            System.out.println("Сообщения не были найдены");
             return null;
 
         }
 
-        System.out.println(lastTgMsg);
         return lastTgMsg;
 
     }
@@ -112,7 +132,6 @@ public class Telegram {
 
         String isOrderPay = "Статус оплаты:";
         String isOrderError = "Причина:";
-
         String isCallWaiterMsg = "Вызов официанта";
         String isReviewMsg = "Рейтинг:";
         String noReviewMsg = "Рейтинг: 0";
@@ -175,13 +194,11 @@ public class Telegram {
         if (textMsg.contains("Скидка:")) {
 
             String discount = textMsg.replaceAll(TelegramMessage.discountRegex,"$2");
-            System.out.println(discount + " discount");
             tgParsedText.put("discount", discount);
 
         } else if (textMsg.contains("Наценка:")) {
 
             String markUp = textMsg.replaceAll(TelegramMessage.markUpRegex,"$2");
-            System.out.println(markUp + " markUp");
             tgParsedText.put("markUp", markUp);
 
         }
@@ -200,7 +217,6 @@ public class Telegram {
         LinkedHashMap<String, String> paymentData = paymentFiller(textMsg,tgParsedText);
 
         String reason = textMsg.replaceAll(TelegramMessage.reasonError, "$2");
-        System.out.println(reason + " reason");
 
         paymentData.put("reasonError",reason);
 
@@ -230,22 +246,24 @@ public class Telegram {
         String table = textMsg.replaceAll(TelegramMessage.tableRegex, "$2");
         String ratingComment = textMsg.replaceAll(TelegramMessage.ratingCommentRegex, "$2");
         String rating = textMsg.replaceAll(TelegramMessage.ratingRegex, "$2");
-        String suggestion = textMsg.replaceAll(TelegramMessage.suggestionRegex, "$2");
+        String suggestions = textMsg.replaceAll(TelegramMessage.suggestionRegex, "$2");
 
-        tgParsedText.put("table", table);
+        tgParsedText.put("tableNumber", table);
         tgParsedText.put("waiter", waiter);
-        tgParsedText.put("ratingComment", ratingComment);
-        tgParsedText.put("rating", rating);
-        tgParsedText.put("suggestion", suggestion);
+        tgParsedText.put("comment", ratingComment.trim());
+        tgParsedText.put("rating", rating.trim());
+        tgParsedText.put("suggestions", suggestions.replaceAll("\n"," "));
 
     }
 
     @Step("Наполнение хешкарты если сообщение типа вызов официанта")
     public void callWaiterFiller(String textMsg, LinkedHashMap<String, String> tgParsedText) {
 
+        String waiter = textMsg.replaceAll(TelegramMessage.waiterRegex, "$2");
         String tableReview = textMsg.replaceAll(TelegramMessage.tableReviewRegex, "$2");
         String callWaiterComment = textMsg.replaceAll(TelegramMessage.callWaiterCommentRegex, "$2");
 
+        tgParsedText.put("waiter", waiter);
         tgParsedText.put("tableNumber", tableReview);
         tgParsedText.put("callWaiterComment", callWaiterComment);
 
@@ -262,38 +280,32 @@ public class Telegram {
 
             case "orderPay" -> {
 
-                System.out.println("Оплата\n");
                 paymentFiller(textMsg,tgParsedText);
 
             }
             case "orderPayError" -> {
 
-                System.out.println("Оплата с ошибкой\n");
                 paymentErrorFiller(textMsg,tgParsedText);
 
             }
             case "review" -> {
 
-                System.out.println("Отзыв\n");
                 reviewFiller(textMsg,tgParsedText);
 
             }
             case "zeroReview" -> {
 
-                System.out.println("Нулевой отзыв\n");
                 zeroReviewFiller(textMsg,tgParsedText);
 
             }
             case "callWaiter" -> {
 
-                System.out.println("Вызов официанта\n");
                 callWaiterFiller(textMsg,tgParsedText);
 
             }
 
             case "menuAdd" -> {
 
-                System.out.println("Добавить меню\n");
                 tgParsedText.put("message","success");
 
             }

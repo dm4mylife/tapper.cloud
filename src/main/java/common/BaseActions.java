@@ -21,6 +21,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
+import static data.Constants.WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER;
 import static data.selectors.TapperTable.RootPage.PayBlock.paymentOptionsContainer;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooter;
 
@@ -40,6 +41,8 @@ public class BaseActions {
 
     }
 
+
+
     public void clickByJs(String selector) {
 
         Selenide.executeJavaScript("document.querySelector('" + selector +"').click();");
@@ -50,6 +53,7 @@ public class BaseActions {
 
         element.scrollIntoView(false);
         element.click();
+
     }
 
     public void isElementVisible(@NotNull SelenideElement element) {
@@ -173,7 +177,7 @@ public class BaseActions {
 
     }
 
-    @Step("Проверка что текст {text} содержится в текущем URL")
+    @Step("Проверка что текст содержится в текущем URL")
     public void isTextContainsInURL(String url) {
 
         webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(35));
@@ -236,6 +240,7 @@ public class BaseActions {
             "\"); if (img !== null && img.complete && typeof img.naturalWidth != 'undefined' && img.naturalWidth > 0) " +
             "{ return true; } else { return false; }} return isImageNotBroken();";
 
+        forceWait(WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER);
         boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(JsScript));
         Assertions.assertTrue(image, assertFailMessage);
 

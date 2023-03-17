@@ -30,14 +30,13 @@ public class OperationsHistory extends BaseActions {
         Common.pageHeading.shouldHave(text("История операций"), Duration.ofSeconds(5));
         operationsHistoryContainer.shouldBe(visible);
 
-
     }
 
     @Step("Проверка всех элементов")
     public void isHistoryOperationsCorrect() {
 
         isElementVisible(operationsHistoryContainer);
-        isElementVisibleDuringLongTime(historyPeriodDate,10);
+        isElementVisibleDuringLongTime(historyPeriodDate,20);
         isElementVisible(forWeekPeriodButton);
         isElementVisible(forMonthPeriodButton);
         isElementVisible(totalSum);

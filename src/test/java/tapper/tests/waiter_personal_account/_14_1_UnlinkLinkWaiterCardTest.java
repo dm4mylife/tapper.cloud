@@ -8,6 +8,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import tapper_table.YandexPage;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 import waiter_personal_account.Waiter;
@@ -23,7 +24,7 @@ import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 @DisplayName("Отвязка и привязка карты официанта")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
+public class _14_1_UnlinkLinkWaiterCardTest extends AdminBaseTest {
 
     static String password;
     AdminAccount adminAccount = new AdminAccount();
@@ -35,8 +36,6 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @Test
     @DisplayName("1.0. Авторизуемся под админом")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         waiters.goToWaiterCategory();
@@ -106,7 +105,9 @@ public class _14_1_UnlinkLinkWaiterCardTest extends BaseTest {
     @Test
     @DisplayName("1.8. Удаляем письмо на почте Яндекса")
     public void deleteYandexInviteMail() {
+
         yandexPage.deleteMail(TEST_YANDEX2_LOGIN_EMAIL, TEST_YANDEX2_PASSWORD_MAIL);
+
     }
 
 }

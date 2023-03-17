@@ -11,6 +11,7 @@ import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
+import tests.AdminBaseTest;
 import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -31,7 +32,7 @@ import static data.Constants.TestData.TapperTable.*;
 @DisplayName("Проверка всех диапазонов, списка операций по фильтрации")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _12_0_TotalTest extends BaseTest {
+public class _12_0_TotalTest extends AdminBaseTest {
 
     static String guid;
     static double totalPay;
@@ -57,8 +58,8 @@ public class _12_0_TotalTest extends BaseTest {
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_333,TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_555,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_555,TABLE_AUTO_555_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -74,7 +75,6 @@ public class _12_0_TotalTest extends BaseTest {
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
 
-        Configuration.browserSize = "1920x1080";
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }
@@ -83,6 +83,7 @@ public class _12_0_TotalTest extends BaseTest {
     @DisplayName("1.2. Переход на категорию история операций")
     public void goToOperationsHistory() {
 
+
         operationsHistory.goToOperationsHistoryCategory();
 
     }
@@ -90,6 +91,7 @@ public class _12_0_TotalTest extends BaseTest {
     @Test
     @DisplayName("1.3. Проверка что все элементы корректны")
     public void isOperationsHistoryCorrect() {
+
 
         operationsHistory.isHistoryOperationsCorrect();
 

@@ -18,6 +18,7 @@ import java.util.Map;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
+import static data.Constants.RegexPattern.TapperTable.discountInCheckRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.RootPage.DishList.*;
@@ -43,7 +44,6 @@ public class RootPageNestedTests extends RootPage {
         if (modalHintContainer.isDisplayed()) {
 
             click(modalHintCloseButton);
-            System.out.println("Закрыли подсказку");
 
         }
 
@@ -60,7 +60,6 @@ public class RootPageNestedTests extends RootPage {
         if (modalHintContainer.isDisplayed()) {
 
             click(modalHintCloseButton);
-            System.out.println("Закрыли подсказку");
 
         }
         HashMap<Integer, Map<String, Double>> cashDeskData = getCashDeskData(tableId);
@@ -71,6 +70,7 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверка пустого стола и всех элементов")
     public void isEmptyTableCorrect() {
 
+        isStartScreenShown();
         isElementVisible(appHeader);
         isElementVisible(tableNumber);
         emptyOrderHeading.shouldHave(matchText("Ваш заказ появится здесь"));
@@ -116,6 +116,18 @@ public class RootPageNestedTests extends RootPage {
 
     @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
     public void chooseDishesWithRandomAmount(int amountDishes) {
+
+        activateDivideCheckSliderIfDeactivated();
+
+        chooseCertainAmountDishes(amountDishes);
+
+        double cleanTotalSum = countAllChosenDishesDivided();
+        checkSumWithAllConditions(cleanTotalSum);
+
+    }
+
+    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
+    public void chooseDishesWithRandomAmountWithBigAmountDishes(int amountDishes) {
 
         activateDivideCheckSliderIfDeactivated();
 
@@ -215,27 +227,18 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверка соответствует ли скидка на кассе полю 'Скидка' на столе")
     public void checkIsDiscountPresent(double discountSumFromDesk) {
 
-        double totalDiscount = convertSelectorTextIntoDoubleByRgx(discountSum, "[^\\d\\.]+");
-        System.out.println(totalDiscount + " скидка в поле 'Скидка'");
+        double totalDiscount = convertSelectorTextIntoDoubleByRgx(discountSum, discountInCheckRegex);
 
         Assertions.assertEquals(discountSumFromDesk,totalDiscount,"Скидка с кассы не соответствует скидке на столе");
-        System.out.println("Скидка на кассе соответствует скидке на столе");
 
         double clearDiscountOnDish = totalDiscount / allNonPaidAndNonDisabledDishes.size();
 
         allNonPaidAndNonDisabledDishes.asFixedIterable().stream().forEach(element -> {
 
            double dishPriceNoDiscount =
-                   convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithoutDiscountSelector),"[^\\d\\.]+");
-            System.out.println(dishPriceNoDiscount + " цена без скидки");
+                   convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithoutDiscountSelector),discountInCheckRegex);
            double dishPriceWithDiscount =
-                   convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithDiscountSelector),"[^\\d\\.]+");
-            System.out.println(dishPriceWithDiscount + " цена со скидкой");
-
-         //  String dishName = element.$(dishNameSelector).getText();
-            // Assertions.assertEquals(dishPriceWithDiscount,dishPriceNoDiscount - clearDiscountOnDish,
-           //        "Скидка рассчитывается некорректно у элемента: " + dishName);
-          //  System.out.println("Скидка по позиции рассчитывается корректно");
+                   convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithDiscountSelector),discountInCheckRegex);
 
         });
 
@@ -259,9 +262,6 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверяем что у не оплаченных блюд будет наценка если были оплаченные позиции и скидку удалили")
     public void isNonPaidDishesHasMarkupAfterRemovingDiscount(Map<Integer,Map<String,Double>> dishesBeforeAddingDiscount,
                                                               Map<Integer,Map<String,Double>> dishesAfterAddingDiscount) {
-
-        System.out.println(dishesBeforeAddingDiscount);
-        System.out.println(dishesAfterAddingDiscount);
 
         for (int index = 0; index < dishesBeforeAddingDiscount.size(); index++) {
 
@@ -287,11 +287,12 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверяем что у оплаченных позиций с ранее выставленной скидкой должна быть цена также со скидкой")
     public void hasDiscountPriceOnPaidDishesIfDiscountAppliedAfter() {
 
-        allPaidDishes.asDynamicIterable().stream().forEach(
-                element -> {
-                    isElementVisible(element.$(dishPriceWithoutDiscountSelector));
-                    isElementVisible(element.$(dishPriceTotalSelector));
-                });
+        allPaidDishes.asDynamicIterable().stream().forEach(element -> {
+
+            isElementVisible(element.$(dishPriceWithoutDiscountSelector));
+            isElementVisible(element.$(dishPriceTotalSelector));
+
+        });
 
         allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
@@ -310,14 +311,12 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Оплачиваем по {amountDishesPayFor1Time} позиции до тех пор пока весь заказ не будет закрыт")
+    @Step("Оплачиваем по позициям до тех пор пока весь заказ не будет закрыт")
     public void payTillFullSuccessPayment(int amountDishes,String guid, int timeoutPartPay, int timeoutFullPay, String tableId) {
 
         isDishListNotEmptyAndVisible();
 
         while (!allNonPaidAndNonDisabledDishes.isEmpty()) {
-
-            System.out.println(allNonPaidAndNonDisabledDishes.size() + " кол-во не оплаченных блюд");
 
             if (allNonPaidAndNonDisabledDishes.size() != amountDishes) {
 
@@ -336,6 +335,8 @@ public class RootPageNestedTests extends RootPage {
 
                 reviewPageNestedTests.paymentCorrect("part");
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
+
+                forceWait(timeoutPartPay);
 
                 LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
                 rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
@@ -479,7 +480,6 @@ public class RootPageNestedTests extends RootPage {
 
         }
 
-        System.out.println("Итоговый список\n" + allDishesInfo);
         return allDishesInfo;
 
     }
@@ -726,7 +726,6 @@ public class RootPageNestedTests extends RootPage {
 
         }
 
-        System.out.println(orderData);
         return orderData;
 
     }

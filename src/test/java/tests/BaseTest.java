@@ -5,21 +5,36 @@ import com.codeborne.selenide.Browsers;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import com.google.common.io.Files;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
+import static api.ApiData.EndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.CHROME;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 @ExtendWith({
         TestListener.class,
@@ -28,22 +43,14 @@ import static com.codeborne.selenide.Browsers.CHROME;
 public class BaseTest {
 
     @BeforeAll
-    static void setUp() {
+    public static void setUp() {
 
-        /*Configuration.browserSize = "400x1020";
-        Configuration.browserPosition = "600x20";*/
-        Configuration.browserSize = "1920x1080";
+        Configuration.browserSize = "400x1020";
+        Configuration.browserPosition = "600x20";
         Configuration.browser = CHROME;
-        Configuration.savePageSource = true;
-
-
-
-
-
-        Configuration.headless = false;
-
-
-
+        Configuration.remote = selenoidUiHubUrl;
+        Configuration.pageLoadTimeout = 60000;
+        Configuration.savePageSource = false;
 
 
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
@@ -54,14 +61,22 @@ public class BaseTest {
         desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
         desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
-//        Map<String, String> mobileEmulation = new HashMap<>();
-//        mobileEmulation.put("deviceName", "iPhone XR");
-//        options.setExperimentalOption("mobileEmulation", mobileEmulation);
-//        options.addArguments("--disable-blink-features");
+        Map<String, String> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceName", "iPhone 12 Pro");
+        options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
-        // options.addArguments("--enable-automation");
-       // options.addArguments("--auto-open-devtools-for-tabs");
+        options.setCapability("selenoid:options", new HashMap<String, Object>() {{
+            put("name","E2E test");
+            put("labels", new HashMap<String, Object>() {{
+                put("manual", "true");
+            }});
+            put("sessionTimeout", "7m");
+            put("enableVideo", true);
+            put("enableVNC", true);
 
+        }});
+
+        options.addArguments("--remote-allow-origins=*");
         options.addArguments("--safebrowsing-disable-download-protection");
         options.addArguments("--no-default-browser-check");
         options.addArguments("--disable-extensions");
@@ -81,13 +96,14 @@ public class BaseTest {
 
     }
 
+
     @AfterAll
     @DisplayName("Закрытие браузера")
     static void tearDown() {
 
         Selenide.clearBrowserLocalStorage();
         Selenide.clearBrowserCookies();
-        Selenide.closeWebDriver();
+        closeWebDriver();
 
     }
 

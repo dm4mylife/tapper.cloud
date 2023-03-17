@@ -4,8 +4,6 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.files.FileFilter;
-import com.codeborne.selenide.files.FileFilters;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
@@ -25,7 +23,7 @@ import java.time.Duration;
 import java.util.Collection;
 
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED;
+import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Common.tablesAndQrCodesCategory;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
@@ -71,7 +69,7 @@ public class TablesAndQrCodes extends BaseActions {
         findTableButton.click();
         resetTableButton.shouldBe(Condition.visible);
 
-        String logs = "";
+        StringBuilder logs = new StringBuilder();
 
         for (SelenideElement paginationPage : paginationPages) {
 
@@ -88,7 +86,7 @@ public class TablesAndQrCodes extends BaseActions {
 
                 if (tableNumber >= min && tableNumber <= max) {
 
-                    logs += "Стол номер: " + tableNumber + "\n";
+                    logs.append("Стол номер: ").append(tableNumber).append("\n");
 
                 }
 
@@ -138,22 +136,19 @@ public class TablesAndQrCodes extends BaseActions {
 
         String previousValueSearchFrom = tableSearchFrom.getValue();
         String previousValueSearchTo = tableSearchTo.getValue();
-        ElementsCollection previousTableList = tableListItem;
 
         tableListItem.get(0).click();
         backToTableList.click();
 
         String currentValueSearchFrom = tableSearchFrom.getValue();
         String currentValueSearchTo = tableSearchTo.getValue();
-        ElementsCollection currentTableList = tableListItem;
 
         Assertions.assertEquals(previousValueSearchFrom, currentValueSearchFrom,
                 "Не сохранилось значение 'с' в фильтре поиска");
         Assertions.assertEquals(previousValueSearchTo, currentValueSearchTo,
                 "Не сохранилось значение 'по' в фильтре поиска");
-        Assertions.assertEquals(previousTableList, currentTableList,
+        Assertions.assertEquals(tableListItem, tableListItem,
                 "Не сохранился результат поиска по фильтрам");
-        System.out.println("Все данные сохранились по фильтру и результату после прохода и возврата детальной карточки стола");
 
     }
 
@@ -183,7 +178,6 @@ public class TablesAndQrCodes extends BaseActions {
         TapperTable.RootPage.DishList.tableNumber.shouldBe(visible,Duration.ofSeconds(10));
 
         String tapperTableNumber = TapperTable.RootPage.DishList.tableNumber.getText();
-        System.out.println(tapperTableNumber + " tapperTableNumber");
 
         Assertions.assertEquals(tableNumber, tapperTableNumber,
                 "Номера столов не совпадают в админке и в таппере");
@@ -204,11 +198,9 @@ public class TablesAndQrCodes extends BaseActions {
 
         Result result = new MultiFormatReader().decode(bitmap);
         String textPresentInImage = result.getText();
-        System.out.println("Ссылка на QR-код : " + textPresentInImage);
 
         Assertions.assertEquals(textPresentInImage, tableUrlInTableItem,
                 "В QR формируется не корректная ссылка на стол");
-        System.out.println("В QR формируется корректная ссылка на стол\n");
 
     }
 
@@ -216,15 +208,9 @@ public class TablesAndQrCodes extends BaseActions {
     public void isDownloadQrCorrect(String tableNumberWhite) throws FileNotFoundException {
 
         File qrWhite = qrDownloadImageWhite.download
-                (TIME_WAIT_FOR_FILE_TO_BE_DOWNLOADED);
-
-        System.out.println(qrWhite.getPath() + " file path");
-        System.out.println(qrWhite.getAbsolutePath() + " file path");
-        System.out.println(qrWhite.getAbsoluteFile() + " file");
-        System.out.println(qrWhite.getName() + " name");
+                (WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 
         Assertions.assertNotNull(qrWhite, "Файл не может быть скачен");
-        System.out.println("Файл успешно скачался (белая версия)");
 
     }
 
@@ -238,19 +224,14 @@ public class TablesAndQrCodes extends BaseActions {
 
             Collection<File> files = FileUtils.listFiles(root, null, true);
 
-            System.out.println(files);
-
             Assertions.assertTrue(files.size() != 0,"Скаченный файл не удалось скачать");
 
             for (File o : files) {
-
-                System.out.println(o.getName() + " --- file");
 
                 if (o.getName().equals(tableName)) {
 
                     hasMatch = true;
 
-                    System.out.println("Файл найден " + o.getAbsolutePath());
                     File imageFile = new File(o.getAbsolutePath());
 
                     BufferedImage bufferedImage = ImageIO.read(imageFile);
@@ -265,7 +246,6 @@ public class TablesAndQrCodes extends BaseActions {
 
                     Assertions.assertEquals(decodedText, tableUrl,
                             "Скаченный qr код не содержит корректную ссылку на стол");
-                    System.out.println("Скаченный qr код (" + tableName + ") \n" + decodedText + "\nсодержит корректную ссылку на стол \n" + tableUrl);
 
                 }
 

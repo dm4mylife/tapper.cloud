@@ -1,0 +1,269 @@
+package tapper.tests.keeper_e2e._1_1_common;
+
+
+import admin_personal_account.menu.Menu;
+import api.ApiRKeeper;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.*;
+import tapper_table.Best2PayPage;
+import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
+import tapper_table.nestedTestsManager.ReviewPageNestedTests;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
+import tests.BaseTest;
+import tests.SafariBaseTest;
+import total_personal_account_actions.AuthorizationPage;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
+import static api.ApiData.orderData.*;
+import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.RootPage.DishList.emptyOrderMenuButton;
+import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
+
+
+@Order(2)
+@Epic("RKeeper")
+@Feature("Общие")
+@Story("Общая функциональность таппера - Сафари")
+@DisplayName("Общая функциональность таппера - Сафари")
+
+@TestMethodOrder(MethodOrderer.DisplayName.class)
+public class _1_1_AllElementsSafariTest extends SafariBaseTest {
+
+    static LinkedHashMap<String, String> tapperDataForTgMsg;
+    static LinkedHashMap<String, String> telegramDataForTgMsg;
+    static String guid;
+    static int amountDishesForFillingOrder = 3;
+    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+
+    RootPage rootPage = new RootPage();
+    Best2PayPage best2PayPage = new Best2PayPage();
+    ApiRKeeper apiRKeeper = new ApiRKeeper();
+    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
+    ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
+    AuthorizationPage authorizationPage = new AuthorizationPage();
+
+    Menu menu = new Menu();
+
+    @Test
+    @DisplayName("1.0. Открываем пустой стол")
+    public void openEmptyTable() {
+
+        apiRKeeper.isTableEmpty(R_KEEPER_RESTAURANT, TABLE_AUTO_111_ID, AUTO_API_URI);
+        rootPage.openPage(STAGE_RKEEPER_TABLE_111);
+
+    }
+
+    @Test
+    @DisplayName("1.1. Проверка заголовка, номера стола, лого часов, подписи и вызов официанта")
+    public void isTableNumberShown() {
+
+        rootPageNestedTests.isEmptyTableCorrect();
+        rootPageNestedTests.isRefreshButtonCorrect();
+
+    }
+
+    @Test
+    @DisplayName("1.2. Создание заказа в r_keeper")
+    public void createAndFillOrder() {
+
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
+
+        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
+    }
+
+    @Test
+    @DisplayName("1.3. Открытие стола")
+    public void openTable() {
+
+        rootPage.refreshPage();
+
+    }
+
+    @Test
+    @DisplayName("1.4. Проверяем анимацию\\картинку при загрузке стола")
+    public void isKeeperOrderCorrectWithTapper() {
+
+        rootPageNestedTests.isStartScreenShown();
+
+    }
+
+    @Test
+    @DisplayName("1.5.Проверяем что позиции заказа на кассе совпадают с позициями на столе после создания ")
+    public void isStartScreenShown() {
+
+        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_111_ID);
+
+    }
+
+    @Test
+    @DisplayName("1.6. Проверяем что стол не пустой и содержит заказ")
+    public void isDishListNotEmptyAndVisible() {
+
+        rootPage.isDishListNotEmptyAndVisible();
+
+    }
+
+    @Test
+    @DisplayName("1.7. Проверяем что кнопка разделить счёт есть и работает корректно")
+    public void isDivideSliderCorrect() {
+
+        rootPage.isDivideSliderCorrect();
+
+    }
+
+    @Test
+    @DisplayName("1.8. Проверяем что все элементы в блоке чаевых отображаются корректно")
+    public void isTipsContainerCorrect() {
+
+        rootPage.isTipsContainerCorrect();
+
+    }
+
+    @Test
+    @DisplayName("1.9. Проверяем что все элементы в блоке чека отображаются корректно")
+    public void isCheckContainerShown() {
+
+        rootPage.isCheckContainerShown();
+
+    }
+
+    @Test
+    @DisplayName("2.0. Проверяем что кнопка оплатить есть и работает корректно")
+    public void isPaymentButtonShown() {
+
+        rootPage.isPaymentButtonShown();
+
+    }
+
+    @Test
+    @DisplayName("2.1. Проверяем что кнопка поделиться счётом есть и работает корректно")
+    public void isShareButtonShown() {
+
+        rootPage.isShareButtonShown();
+
+    }
+
+    @Test
+    @DisplayName("2.2. Проверяем что кнопка сервисного сбора есть и работает корректно")
+    public void isServiceChargeShown() {
+
+        rootPage.isServiceChargeShown();
+
+    }
+
+    @Test
+    @DisplayName("2.3. Проверяем что кнопка политики конфиденциальности есть и работает корректно")
+    public void isConfPolicyShown() {
+
+        rootPage.isConfPolicyShown();
+
+    }
+
+    @Test
+    @DisplayName("2.4. Проверяем что нижнее навигационное меню есть, корректно работает меню, переходы по табам")
+    public void isTapBarShown() {
+
+        rootPage.isTapBarShown();
+
+    }
+
+    @Test
+    @DisplayName("2.5. Проверяем функционал вызова официанта")
+    public void isCallWaiterCorrect() {
+
+        rootPage.isCallWaiterCorrect();
+
+    }
+
+    @Test
+    @DisplayName("2.6. Оплачиваем заказ")
+    public void payOrder() {
+
+        rootPage.isPaymentOptionsCorrect();
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_111_ID);
+        rootPageNestedTests.clickPayment();
+        best2PayPageNestedTests.typeDataAndPay();
+        best2PayPage.clickPayButton();
+
+    }
+
+    @Test
+    @DisplayName("2.7. Проверяем оплату")
+    public void checkPayment() {
+
+        reviewPageNestedTests.fullPaymentCorrect();
+
+    }
+
+    @Test
+    @DisplayName("2.8. Оставляем отзыв")
+    public void leaveReview() {
+
+        reviewPageNestedTests.reviewCorrectPositive();
+
+    }
+
+    @Test
+    @DisplayName("2.9. Проверяем что стол освободился")
+    public void isTableEmpty() {
+
+        rootPage.isEmptyOrderAfterClosing();
+
+    }
+
+    @Test
+    @DisplayName("3.0. Проверяем меню")
+    public void isMenuCorrect() {
+
+        rootPage.click(appFooterMenuIcon);
+
+        if (emptyOrderMenuButton.isDisplayed()) {
+
+            System.out.println("Меню не было активировано, активируем");
+            rootPage.openNewTabAndSwitchTo(ADMIN_AUTHORIZATION_STAGE_URL);
+            authorizationPage.authorizeUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
+
+            menu.goToMenuCategory();
+            menu.isMenuCorrect();
+            menu.activateFirstCategoryAndDishInMenu();
+
+            rootPage.switchBrowserTab(0);
+            rootPage.refreshPage();
+
+        }
+
+        rootPage.isElementInvisible(emptyOrderMenuButton);
+
+    }
+
+    @Test
+    @DisplayName("3.1. Проверяем телеграм сообщение")
+    public void matchTgMsgDataAndTapperData() {
+
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
+
+    }
+
+    @Test
+    @DisplayName("3.2. Проверка что история с вызовом официанта сохранились при закрытии браузера")
+    public void isHistorySavedByClosingBrowser() {
+
+        rootPage.isHistorySavedByClosingBrowser(STAGE_RKEEPER_TABLE_111);
+
+    }
+
+}
