@@ -61,10 +61,15 @@ public class LogsAndPermissions extends BaseActions {
 
         click(expandLeftMenuButton);
         isElementVisible(openedLeftMenuContainer);
+
         click(logsAndPermissionsCategoryDropdownButton);
         forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
-        searchRestaurantInput.sendKeys(restaurantName);
+
+        searchRestaurantInput.shouldBe(interactable);
+        sendKeys(searchRestaurantInput,restaurantName);
         forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+
+        searchResultList.first().shouldHave(matchText(restaurantName),Duration.ofSeconds(5));
         click(searchResultList.first());
 
         pagePreloader.shouldNotHave(attributeMatching("style", "background: transparent;")

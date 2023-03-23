@@ -67,7 +67,7 @@ public class _9_3_AddDishAfterDiscountTest extends BaseTest {
         uni = rootPageNestedTests.getOrderUni(TABLE_AUTO_444_ID,AUTO_API_URI).get(firstUni);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_444);
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
 

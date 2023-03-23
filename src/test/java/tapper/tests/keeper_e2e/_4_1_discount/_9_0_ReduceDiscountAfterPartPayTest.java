@@ -69,7 +69,7 @@ public class _9_0_ReduceDiscountAfterPartPayTest extends BaseTest {
         uni = rootPageNestedTests.getOrderUni(TABLE_AUTO_444_ID,AUTO_API_URI).get(uniIndex);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_444);
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
 
@@ -127,7 +127,7 @@ public class _9_0_ReduceDiscountAfterPartPayTest extends BaseTest {
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
         rootPage.refreshPage();
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
 

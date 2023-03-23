@@ -18,6 +18,7 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.ROBOCOP_IMG_PATH;
 import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.TestData.Best2Pay.*;
 import static data.selectors.AdminPersonalAccount.Profile.*;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImage;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName;
@@ -92,17 +93,19 @@ public class Waiter extends BaseActions {
 
         isElementVisible(waiterImage);
         isImageCorrect(waiterImageNotSelenide,"Изображение официанта не корректное или битое");
-        System.out.println("Изображение добавилось на столе");
 
     }
 
     @Step("Проверка изображения официанта на столе")
     public void deleteWaiterImage() {
 
-        click(imageDeleteButton);
-        pagePreloader.shouldBe(hidden, Duration.ofSeconds(20));
-        isElementInvisible(imageContainerDownloadedImage.$("img"));
-        System.out.println("Удалили фотографию");
+        if (imageContainerDownloadedImage.$("img").exists()) {
+
+            click(imageDeleteButton);
+            pagePreloader.shouldBe(hidden, Duration.ofSeconds(20));
+            isElementInvisible(imageContainerDownloadedImage.$("img"));
+
+        }
 
     }
 
@@ -124,7 +127,6 @@ public class Waiter extends BaseActions {
     public void checkChangedNameOnTable() {
 
         data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName.shouldHave(text(ROBOCOP_WAITER_CHANGED_NAME));
-        System.out.println("Имя официанта на столе сменилось на " + ROBOCOP_WAITER_CHANGED_NAME);
 
     }
 
@@ -138,7 +140,6 @@ public class Waiter extends BaseActions {
         changedDataNotification
                 .shouldHave(attributeMatching("class", ".*active.*"));
         WaiterPersonalAccount.waiterName.shouldHave(value(""));
-        System.out.println("Имя сменилось прежнее " + WaiterPersonalAccount.waiterName.getValue());
 
     }
 
@@ -154,7 +155,7 @@ public class Waiter extends BaseActions {
         click(saveButton);
 
         pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
-        System.out.println("Логин телеграмма " + newWaiterTelegramLogin);
+
         telegramLogin.shouldHave(value(newWaiterTelegramLogin));
 
         clearText(telegramLogin);
@@ -162,34 +163,18 @@ public class Waiter extends BaseActions {
         sendKeys(telegramLogin,newWaiterTelegramLogin);
         click(saveButton);
 
-        System.out.println("Сменили имя в телеграмме на " + newWaiterTelegramLogin);
-
     }
 
     @Step("Смена пароля учетной записи официанта")
     public void changeWaiterPassword() {
 
-        System.out.println("Новый пароль " + WAITER_NEW_PASSWORD_FOR_TEST);
-
         isSavedPassword(waiterPassword,waiterPasswordConfirmation, WAITER_NEW_PASSWORD_FOR_TEST);
-
-       /* click(waiterPassword);
-        sendKeys(waiterPassword,WAITER_NEW_PASSWORD_FOR_TEST);
-
-        click(waiterPasswordConfirmation);
-        sendKeys(waiterPasswordConfirmation,WAITER_NEW_PASSWORD_FOR_TEST);
-
-        click(saveButton);
-        pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
-        waiterPassword.shouldHave(value(WAITER_NEW_PASSWORD_FOR_TEST));
-        waiterPasswordConfirmation.shouldHave(value(WAITER_NEW_PASSWORD_FOR_TEST));*/
 
         adminAccount.logOut();
         authorizationPage.authorizationUser(WAITER_LOGIN_EMAIL, WAITER_NEW_PASSWORD_FOR_TEST);
         pageTitle.shouldHave(text(" Настройки профиля "));
 
         isSavedPassword(waiterPassword,waiterPasswordConfirmation, WAITER_PASSWORD);
-        System.out.println("Вернули старый пароль + " + WAITER_PASSWORD);
 
     }
 
@@ -213,9 +198,9 @@ public class Waiter extends BaseActions {
 
         click(linkWaiterCard);
         isElementVisible(b2pContainer);
-        b2pCardNumber.sendKeys("4809388886227309");
-        b2pCardExpiredDate.sendKeys("1224");
-        b2pCardCvc.sendKeys("123");
+        b2pCardNumber.sendKeys(TEST_PAYMENT_CARD_NUMBER);
+        b2pCardExpiredDate.sendKeys(TEST_PAYMENT_CARD_EXPIRE_MONTH + TEST_PAYMENT_CARD_EXPIRE_YEAR);
+        b2pCardCvc.sendKeys(TEST_PAYMENT_CARD_CVV);
         click(b2pSaveButton);
 
         pageTitle.shouldHave(text(" Настройки профиля "),Duration.ofSeconds(20));

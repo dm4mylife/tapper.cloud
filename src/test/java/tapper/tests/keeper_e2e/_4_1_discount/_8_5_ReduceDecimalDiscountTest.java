@@ -55,8 +55,8 @@ public class _8_5_ReduceDecimalDiscountTest extends BaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_444,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_444_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_444,
+                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_444_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 

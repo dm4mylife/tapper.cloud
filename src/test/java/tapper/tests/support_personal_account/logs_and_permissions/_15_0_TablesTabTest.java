@@ -49,7 +49,6 @@ public class _15_0_TablesTabTest extends AdminBaseTest {
     public void authorizeUser() {
 
         Configuration.downloadsFolder = downloadFolderPathAdminSupport;
-        Configuration.fileDownload = FOLDER;
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 
@@ -126,7 +125,9 @@ public class _15_0_TablesTabTest extends AdminBaseTest {
     @Test
     @DisplayName("1.9. Проверка что фильтр установленный сохранился если мы проходим в карточку стола")
     public void isTableFilterSavedAfterGoingInDetailCard() {
+
         tablesAndQrCodes.isFilterSaved();
+
     }
 
     @Test
@@ -217,7 +218,6 @@ public class _15_0_TablesTabTest extends AdminBaseTest {
         if (Files.exists(path)) {
 
             FileUtils.deleteDirectory(directory);
-            System.out.println("Удалили папку");
 
         }
 

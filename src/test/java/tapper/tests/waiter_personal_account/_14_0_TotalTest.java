@@ -9,7 +9,6 @@ import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.AdminBaseTest;
-import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 import waiter_personal_account.Waiter;
 
@@ -49,8 +48,8 @@ public class _14_0_TotalTest extends AdminBaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_555,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_555_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_555,
+                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_555_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -79,7 +78,6 @@ public class _14_0_TotalTest extends AdminBaseTest {
 
         rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
         rootPage.isElementInvisible(waiterImage);
-        System.out.println("Изображение удалено на столе");
 
     }
 
@@ -98,7 +96,7 @@ public class _14_0_TotalTest extends AdminBaseTest {
 
         rootPage.switchBrowserTab(tapperTableTab);
         rootPage.refreshPage();
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
         waiter.checkDownloadedWaiterImageOnTable();
 
     }
@@ -118,7 +116,7 @@ public class _14_0_TotalTest extends AdminBaseTest {
 
         rootPage.switchBrowserTab(tapperTableTab);
         rootPage.refreshPage();
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
         waiter.checkChangedNameOnTable();
 
     }

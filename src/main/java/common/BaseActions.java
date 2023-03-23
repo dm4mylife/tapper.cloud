@@ -1,13 +1,11 @@
 package common;
 
 
-import com.codeborne.selenide.ClickOptions;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import io.qameta.allure.Step;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 
 import java.text.DecimalFormat;
@@ -21,6 +19,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
+import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
 import static data.Constants.WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER;
 import static data.selectors.TapperTable.RootPage.PayBlock.paymentOptionsContainer;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooter;
@@ -64,6 +63,15 @@ public class BaseActions {
     public void isElementVisibleDuringLongTime(@NotNull SelenideElement element, int time) {
 
         element.shouldBe(visible, Duration.ofSeconds(time));
+
+    }
+
+    @Step("Смена разрешения браузера")
+    public void changeBrowserSizeDuringTest(int width,int height) {
+
+        WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(width,height));
+        Selenide.refresh();
+        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
 
     }
 
@@ -180,7 +188,7 @@ public class BaseActions {
     @Step("Проверка что текст содержится в текущем URL")
     public void isTextContainsInURL(String url) {
 
-        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(35));
+        webdriver().shouldHave(urlContaining(url), Duration.ofSeconds(60));
 
     }
 

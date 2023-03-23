@@ -1,7 +1,6 @@
 package tests;
 
 
-import com.codeborne.selenide.Browser;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -16,29 +15,30 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 
 import static api.ApiData.EndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.*;
 import static com.codeborne.selenide.FileDownloadMode.FOLDER;
-import static data.Constants.downloadFolderPath;
+import static data.Constants.*;
 
 @ExtendWith({
         TestListener.class,
-        BrowserLogsListener.class
+        BrowserLogsListener.class,
+        AddSelenoidVideoToAllure.class
 })
 public class AdminBaseTest {
 
     @BeforeAll
     static void setUp() {
 
-        Configuration.browserSize = "1920x1080";
+        Configuration.browserSize = DESKTOP_BROWSER_SIZE;
         Configuration.browser = CHROME;
         Configuration.savePageSource = false;
         Configuration.remote = selenoidUiHubUrl;
         Configuration.downloadsFolder = downloadFolderPath;
         Configuration.fileDownload = FOLDER;
+        Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
         Configuration.headless = false;
 
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();

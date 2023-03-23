@@ -1,10 +1,15 @@
 package tapper_table.nestedTestsManager;
 
+import com.codeborne.selenide.Condition;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import tapper_table.Best2PayPage;
 
+import java.time.Duration;
+
 import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
+import static data.selectors.TapperTable.Best2PayPage.payButton;
+import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
 
 public class Best2PayPageNestedTests extends Best2PayPage {
 
@@ -14,7 +19,8 @@ public class Best2PayPageNestedTests extends Best2PayPage {
     @Step("Проверка перехода на б2п, общей суммы, способов оплаты, ввод данных для оплаты")
     public void checkPayMethodsAndTypeAllCreditCardData(double totalPay) {
 
-        baseActions.isTextContainsInURL(BEST2PAY_NAME);
+        paymentContainer.shouldBe(Condition.exist, Duration.ofSeconds(240));
+        // best2PayPage.isPaymentContainerCorrect();
         best2PayPage.isTotalPayInTapperMatchTotalPayB2B(totalPay);
         typeDataAndPay();
 

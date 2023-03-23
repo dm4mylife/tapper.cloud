@@ -18,7 +18,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.HashMap;
 import java.util.logging.Level;
 
+import static api.ApiData.EndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.FIREFOX;
+import static data.Constants.DESKTOP_BROWSER_SIZE;
+import static data.Constants.PAGE_LOAD_TIMEOUT;
 
 @ExtendWith({
         TestListener.class
@@ -29,22 +32,16 @@ public class AdminFirefoxBaseTest {
     static void setUp() {
 
 
-        Configuration.browserSize = "1920x1080";
+        Configuration.browserSize = DESKTOP_BROWSER_SIZE;
         Configuration.browser = FIREFOX;
         Configuration.savePageSource = false;
-
-
-        Configuration.remote = "http://localhost:4444/wd/hub";
-
+        Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
+        Configuration.remote = selenoidUiHubUrl;
         Configuration.headless = false;
 
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         FirefoxOptions options = new FirefoxOptions();
         LoggingPreferences loggingPreferences = new LoggingPreferences();
-
-       // loggingPreferences.enable(LogType.BROWSER, Level.WARNING);
-        //desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
-       // desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
         options.setCapability("selenoid:options", new HashMap<String, Object>() {{
 

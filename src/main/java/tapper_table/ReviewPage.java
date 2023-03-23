@@ -1,18 +1,19 @@
 package tapper_table;
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.TestData.TapperTable.PAYMENT_ERROR_ORDER_EXPIRED;
+import static data.Constants.TestData.TapperTable.FULL_PAY_STATUS_TEXT;
+import static data.Constants.TestData.TapperTable.PART_PAY_STATUS_TEXT;
 import static data.selectors.TapperTable.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
-
-    RootPage rootPage = new RootPage();
 
     @Step("Форма статуса оплаты отображается. Проверки что нет ошибки, статус производится и успешно корректны")
     public void isPaymentProcessContainerShown() {
@@ -25,7 +26,7 @@ public class ReviewPage extends BaseActions {
         paymentProcessStatus.shouldHave(matchText("Производится оплата"), Duration.ofSeconds(30));
 
         paymentProcessStatus.shouldNotHave(text("Оплата не прошла"))
-                            .shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
+                .shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
         isElementVisible(paymentProcessGifSuccess);
 
     }
@@ -51,7 +52,7 @@ public class ReviewPage extends BaseActions {
     public void partialPaymentHeading() {
 
         isElementVisible(paymentLogo);
-        paymentStatusAfterPay.shouldHave(text(" Статус заказа: Частично оплачен "));
+        paymentStatusAfterPay.shouldHave(text(PART_PAY_STATUS_TEXT));
         isElementVisible(paymentTime);
 
     }
@@ -60,7 +61,7 @@ public class ReviewPage extends BaseActions {
     public void fullPaymentHeading() {
 
         paymentLogo.shouldBe(visible);
-        paymentStatusAfterPay.shouldHave(text(" Статус заказа: Полностью оплачен "));
+        paymentStatusAfterPay.shouldHave(text(FULL_PAY_STATUS_TEXT));
         paymentTime.shouldBe(visible);
 
     }
@@ -85,7 +86,7 @@ public class ReviewPage extends BaseActions {
         click(rateStar);
 
         isElementVisible(suggestionHeading);
-        suggestionContainer.shouldHave(attribute("style",""));
+        suggestionContainer.shouldHave(attribute("style", ""));
 
     }
 
@@ -103,7 +104,7 @@ public class ReviewPage extends BaseActions {
         click(rateStar);
 
         isElementInvisible(suggestionHeading);
-        whatDoULikeList.shouldHave(attribute("style",""));
+        whatDoULikeList.shouldHave(attribute("style", ""));
 
     }
 
@@ -115,19 +116,17 @@ public class ReviewPage extends BaseActions {
         isElementsListVisible(reviewLinks);
         isElementVisible(reviewNoThanksButton);
 
-        isLinkCorrect(yandexReviewLink,"yandex");
+        isLinkCorrect(yandexReviewLink, "yandex");
         click(review5Stars);
-        isLinkCorrect(doubleGisReviewLink,"2gis");
+        isLinkCorrect(doubleGisReviewLink, "2gis");
         click(review5Stars);
-        isLinkCorrect(googleReviewLink,"google");
+        isLinkCorrect(googleReviewLink, "google");
         click(review5Stars);
 
         click(reviewNoThanksButton);
         isElementInvisible(thanksReviewContainer);
 
     }
-
-
 
     @Step("Проверка корректности перехода по ссылке")
     public void isLinkCorrect(SelenideElement element, String url) {
@@ -143,7 +142,7 @@ public class ReviewPage extends BaseActions {
     }
 
     @Step("Выбираем рандомное пожелание если 4-5 звезды")
-    public void chooseRandomWhatDoULikeWhenGreaterThan3() {
+    public void chooseRandomWhatDoULikeWhen() {
 
         isElementVisible(whatDoULikeList);
         click(whatDoULikeListRandomOption.get(generateRandomNumber(1, 5) - 1));
@@ -169,15 +168,13 @@ public class ReviewPage extends BaseActions {
         click(suggestionOptions.first());
         click(suggestionOptions.last());
 
-       suggestionOptionsSvg.filter(attribute("style",""))
-               .shouldHave(CollectionCondition.size(2));
+        suggestionOptionsSvg.filter(attribute("style", ""))
+                .shouldHave(CollectionCondition.size(2));
 
     }
 
-
-
     @Step("Выбираем рандомное пожелание")
-    public void chooseRandomSuggestionWhenGreaterThan3() {
+    public void chooseRandomSuggestion() {
 
         isElementVisible(suggestionHeading);
         isElementsListVisible(suggestionOptions);

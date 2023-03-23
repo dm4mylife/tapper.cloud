@@ -42,5 +42,4 @@ public class _14_2_WrongEmailInvitationTest extends AdminBaseTest {
 
     }
 
-
 }

@@ -14,7 +14,9 @@ import org.openqa.selenium.safari.SafariOptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import static api.ApiData.EndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.SAFARI;
+import static data.Constants.*;
 
 @ExtendWith({
         TestListener.class
@@ -24,11 +26,11 @@ public class SafariBaseTest {
     @BeforeAll
     static void setUp() {
 
-        Configuration.browserSize = "400x1020";
-        Configuration.browserPosition = "600x20";
+        Configuration.browserSize = MOBILE_BROWSER_SIZE;
+        Configuration.browserPosition = MOBILE_BROWSER_POSITION;
         Configuration.browser = SAFARI;
-        Configuration.remote = "http://localhost:4444/wd/hub";
-
+        Configuration.remote = selenoidUiHubUrl;
+        Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
 
         SafariOptions options = new SafariOptions();
 
@@ -38,7 +40,7 @@ public class SafariBaseTest {
 
         options.setCapability("selenoid:options", new HashMap<String, Object>() {{
 
-            put("name", "Test badge...");
+            put("name", "E2E test");
             put("labels", new HashMap<String, Object>() {{
                 put("manual", "true");
             }});
@@ -47,7 +49,6 @@ public class SafariBaseTest {
             put("enableLog", true);
 
         }});
-
 
         Configuration.browserCapabilities = options;
 

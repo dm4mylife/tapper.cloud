@@ -1,13 +1,11 @@
 package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
-import tapper_table.Telegram;
 
 import java.time.Duration;
 import java.util.*;
@@ -16,7 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.files.DownloadActions.click;
 import static data.Constants.TestData.TapperTable.*;
 import static data.Constants.WAIT_UNTIL_TRANSACTION_EXPIRED;
 import static data.Constants.WAIT_UNTIL_TRANSACTION_STILL_ALIVE;
@@ -99,9 +96,8 @@ public class ReviewPageNestedTests {
 
         skipThanksReview();
 
-        reviewPage.chooseRandomWhatDoULikeWhenGreaterThan3();
+        reviewPage.chooseRandomWhatDoULikeWhen();
         reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_POSITIVE);
-        reviewPage.clickOnFinishButton();
 
     }
 
@@ -114,7 +110,6 @@ public class ReviewPageNestedTests {
 
         reviewPage.choseFirstAndLastPositiveWhatDoULikeOptions();
         reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_POSITIVE);
-        reviewPage.clickOnFinishButton();
 
     }
 
@@ -125,9 +120,8 @@ public class ReviewPageNestedTests {
 
         skipThanksReview();
 
-        reviewPage.chooseRandomSuggestionWhenGreaterThan3();
+        reviewPage.chooseRandomSuggestion();
         reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_NEGATIVE);
-        reviewPage.clickOnFinishButton();
 
     }
 
@@ -140,7 +134,6 @@ public class ReviewPageNestedTests {
 
         reviewPage.choseFirstAndLastNegativeSuggestionOptions();
         reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_NEGATIVE);
-        reviewPage.clickOnFinishButton();
 
     }
 
@@ -172,6 +165,8 @@ public class ReviewPageNestedTests {
         reviewData.put("rating", activeStars);
         reviewData.put("suggestions",suggestions.toString()
                 .replaceAll("[\\[\\]]","").replaceAll("\n"," "));
+
+        reviewPage.clickOnFinishButton();
 
         return reviewData;
 

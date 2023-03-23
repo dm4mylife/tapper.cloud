@@ -293,7 +293,7 @@ public class ApiRKeeper {
                 .when()
                 .get(getOrderInfo)
                 .then()
-                //.log().ifError()
+                .log().ifError()
                 .extract()
                 .response();
 
@@ -360,7 +360,7 @@ public class ApiRKeeper {
                 .when()
                 .post(orderPay)
                 .then()
-                //.log().body()
+                .log().ifError()
                 .statusCode(200)
                 .extract()
                 .response();

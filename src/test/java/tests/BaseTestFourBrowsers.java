@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Browsers.CHROME;
+import static data.Constants.PAGE_LOAD_TIMEOUT;
 
 
 public class BaseTestFourBrowsers {
@@ -31,6 +32,7 @@ public class BaseTestFourBrowsers {
 
         Configuration.browser = CHROME;
         Configuration.savePageSource = false;
+        Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();

@@ -129,8 +129,6 @@ public class _10_0_TotalTest extends AdminBaseTest {
         tableNumberInAdmin = tableItem.getText().trim().replaceAll(".*Стол (\\d+)\\n.*","$1");
         tableNumberWhite = "table" + tableNumberInAdmin + ".png";
 
-        System.out.println(tableNumberWhite);
-
     }
 
     @Test
@@ -207,7 +205,6 @@ public class _10_0_TotalTest extends AdminBaseTest {
         if (Files.exists(path)) {
 
             FileUtils.deleteDirectory(directory);
-            System.out.println("Удалили папку");
 
         }
 

@@ -93,7 +93,7 @@ public class _8_3_PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
         apiRKeeper.deleteDiscount(apiRKeeper.rqBodyDeleteDiscount(R_KEEPER_RESTAURANT, guid, uni), AUTO_API_URI);
 
         rootPage.refreshPage();
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
         rootPageNestedTests.checkTotalSumCorrectAfterRemovingDiscount();
 
     }

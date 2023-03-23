@@ -69,7 +69,7 @@ public class _9_4_RemoveDishAfterDiscountTest extends BaseTest {
         uni =  apiRKeeper.getUniFirstValueFromOrderInfo(TABLE_AUTO_444_ID,AUTO_API_URI);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_444);
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
 

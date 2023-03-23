@@ -2,7 +2,6 @@ package tapper.tests.admin_personal_account.customization;
 
 import admin_personal_account.customization.Customization;
 import api.ApiRKeeper;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.AdminBaseTest;
-import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
@@ -87,14 +85,14 @@ public class _15_1_wiFiTest extends AdminBaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_111_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_555,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_555_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
 
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
         rootPage.checkWiFiOnTapperTable(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
 
     }
@@ -108,7 +106,7 @@ public class _15_1_wiFiTest extends AdminBaseTest {
 
         rootPage.switchBrowserTab(1);
         rootPage.refreshPage();
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
         wiFiIcon.shouldBe(hidden);
 

@@ -10,8 +10,13 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
+import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.empty;
+import static data.Constants.TestData.AdminPersonalAccount.INVITED_IN_SERVICE_TEXT;
+import static data.Constants.TestData.AdminPersonalAccount.VERIFIED_WAITER_TEXT;
+import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE;
+import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Common.waiterMenuCategory;
 import static data.selectors.AdminPersonalAccount.Waiters.*;
@@ -48,16 +53,17 @@ public class Waiters extends BaseActions {
 
         searchField.clear();
         searchField.sendKeys(waiterName);
-        waiterList.shouldBe(CollectionCondition.sizeGreaterThan(0),Duration.ofSeconds(5));
+        waiterList.shouldBe(sizeGreaterThan(0),Duration.ofSeconds(5));
         waiterCardName.shouldHave(text(waiterName));
-        forceWait(1200); //toDo слишком быстро идёт тест, визуально не видно
 
     }
 
     @Step("Проваливаемся в первую карточку из результатов поиска официантов")
     public void clickInFirstResult() {
-        waiterList.get(0).shouldBe(visible,Duration.ofSeconds(5));
-        click(waiterList.get(0));
+
+        waiterList.first().shouldBe(visible,Duration.ofSeconds(5));
+        click(waiterList.first());
+
     }
 
     @Step("Проверка что поиск выдаст ошибку если такого официанта нет")
@@ -65,10 +71,8 @@ public class Waiters extends BaseActions {
 
         clearText(searchField);
         searchField.sendKeys("Ингеборга Эдмундовна Дапкунайте");
-        waiterList.shouldBe(CollectionCondition.size(0),Duration.ofSeconds(5));
-        searchError.shouldBe(Condition.visible, text("Нет результатов. Попробуйте ввести данные ещё раз"));
-        System.out.println("Негативный поиск отработал корректно");
-        forceWait(2000); // toDO слишком быстро работает тест, не успеваем посмотреть отрицательный поиск
+        waiterList.shouldBe(size(0),Duration.ofSeconds(5));
+        searchError.shouldBe(visible, text("Нет результатов. Попробуйте ввести данные ещё раз"));
 
         resetSearchResult();
 
@@ -78,7 +82,7 @@ public class Waiters extends BaseActions {
     public void resetSearchResult() {
 
         click(searchResetButton);
-        waiterList.shouldBe(CollectionCondition.size(10),Duration.ofSeconds(5));
+        waiterList.shouldBe(size(10),Duration.ofSeconds(5));
         searchField.shouldHave(empty);
         searchResetButton.shouldNotBe(visible);
 
@@ -94,67 +98,32 @@ public class Waiters extends BaseActions {
 
     }
 
-    @Step("Проверка что все элементы в детальной карточке корректны если статус у карточки 'Официант верифицирован'")
-    public void isDetailWaiterCardCorrectWithWaiterVerifiedStatus() {
-
-        isElementVisible(backToPreviousPage);
-        waiterStatusInCard.shouldHave(text(" Статус: Официант верифицирован"));
-        isElementVisible(waiterNameInCashDesk);
-        isElementVisible(waiterName);
-        isElementVisible(enterEmailField);
-        enterEmailField.shouldBe(disabled);
-        isElementVisible(saveButton);
-
-    }
-
-    @Step("Проверка что все элементы в детальной карточке корректны если статус у карточки 'Приглашен в систему'")
-    public void isDetailWaiterCardCorrectWithInvitedToSystemStatus() {
-
-        isElementVisible(backToPreviousPage);
-        waiterStatusInCard.shouldHave(text(" Статус: Приглашен в систему"));
-        isElementVisible(waiterNameInCashDesk);
-        isElementVisible(waiterName);
-        isElementVisible(enterEmailField);
-        enterEmailField.shouldBe(disabled);
-        inviteButton.shouldBe(disabled);
-        isElementVisible(inviteButton);
-
-    }
-
-
-
     @Step("Проверка что сброс поиска работает корректно")
     public void sendInviteToWaiterEmail(String waiterName, String email) {
 
         searchWaiter(waiterName);
 
         clickInFirstResult();
-        System.out.println(waiterStatusInCard.getText());
 
-        if (waiterStatusInCard.getText().equals("Статус:\nОфициант верифицирован")) {
-
-            System.out.println("Верифицирован ранее, отменяем привязку");
+        if (waiterStatusInCard.getText().matches(VERIFIED_WAITER_TEXT))
             unlinkMailWaiterInCard();
-
-        }
 
         isDetailWaiterCardCorrectWithWaitingInvitationStatus();
 
-        forceWait(1000); // toDO не успевает прогрузиться инпут емейла, обрезается
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE); // toDO не успевает прогрузиться инпут емейла, обрезается
 
-        if (waiterStatusInCard.getText().matches("Статус:\nПриглашен в систему")) {
+        if (waiterStatusInCard.getText().matches(INVITED_IN_SERVICE_TEXT)) {
 
             cancelEMailWaiterInvitationInCard();
 
-        } else if (waiterStatusInCard.getText().matches("Статус:\nОфициант верифицирован")) {
+        } else if (waiterStatusInCard.getText().matches(VERIFIED_WAITER_TEXT)) {
 
             unlinkMailWaiterInCard();
 
         }
 
-
         sendKeys(enterEmailField,email);
-        forceWait(300);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(inviteButton);
 
         isSendInvitationCorrect(email);
@@ -167,24 +136,22 @@ public class Waiters extends BaseActions {
         searchWaiter(waiterName);
 
         clickInFirstResult();
-        System.out.println(waiterStatusInCard.getText());
 
-        if (waiterStatusInCard.getText().equals("Статус:\nОфициант верифицирован")) {
+        if (waiterStatusInCard.getText().matches(VERIFIED_WAITER_TEXT)) {
 
-            System.out.println("Верифицирован ранее, отменяем привязку");
             unlinkMailWaiterInCard();
 
         }
 
         isDetailWaiterCardCorrectWithWaitingInvitationStatus();
 
-        forceWait(1000); // toDO не успевает прогрузиться инпут емейла, обрезается
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE); // toDO не успевает прогрузиться инпут емейла, обрезается
 
-        if (waiterStatusInCard.getText().matches("Статус:\nПриглашен в систему")) {
+        if (waiterStatusInCard.getText().matches(INVITED_IN_SERVICE_TEXT)) {
 
             cancelEMailWaiterInvitationInCard();
 
-        } else if (waiterStatusInCard.getText().matches("Статус:\nОфициант верифицирован")) {
+        } else if (waiterStatusInCard.getText().matches(VERIFIED_WAITER_TEXT)) {
 
             unlinkMailWaiterInCard();
 
@@ -212,7 +179,6 @@ public class Waiters extends BaseActions {
         enterEmailField.shouldHave(value(email));
         isElementVisible(wrongEmailError);
 
-
     }
 
     @Step("Проверка что в таппере также изменился статус верификации официанта в превью и детальной карточке")
@@ -222,7 +188,7 @@ public class Waiters extends BaseActions {
         waiterStatusInPreview.shouldHave(matchText(waiter_status)
                 .because("Статус в списке официантов должен быть " + waiter_status));
 
-        click(waiterList.get(0));
+        click(waiterList.first());
 
         waiterStatusInCard.shouldHave(matchText(waiter_status)
                 .because("Статус в карточке официанта должен быть " + waiter_status));
@@ -232,20 +198,12 @@ public class Waiters extends BaseActions {
     @Step("Поиск первого совпадения карточки официанта по статусу '{waiterStatus}' и клик в неё")
     public void findFirstMatchByStatusAndClickInWaiterCard(String waiterStatus) {
 
-        System.out.println(waiterStatus);
-
         for (int index = 0; index < waiterPaginationList.size(); index++) {
 
             for (SelenideElement element: waiterList) {
 
+                if(element.$(waiterStatusSelector).getText().equals(waiterStatus)) {
 
-
-
-                if(element.$(".vWaiterItem__waiterStatus").getText().equals(waiterStatus)) {
-
-                    System.out.println(element.$(".vWaiterItem__waiterName").getText());
-                    System.out.println(element.$(".vWaiterItem__waiterStatus").getText());
-                    System.out.println(element);
                     element.click();
                     break;
 
@@ -263,9 +221,9 @@ public class Waiters extends BaseActions {
         enterEmailField.sendKeys(email);
         inviteButton.click();
 
-        errorMsgEmailWasApplied.shouldHave(Condition.text("E-mail уже привязан к другому официанту "), Duration.ofSeconds(3));
+        errorMsgEmailWasApplied
+                .shouldHave(Condition.text("E-mail уже привязан к другому официанту "), Duration.ofSeconds(3));
         enterEmailFieldWrapper.shouldHave(cssValue("border-color","rgb(236, 78, 78)"));
-        System.out.println("Ошибка привязанного email отображается");
 
     }
 
@@ -280,7 +238,7 @@ public class Waiters extends BaseActions {
         searchWaiter(waiterName);
         clickInFirstResult();
 
-        if (waiterStatusInCard.getText().matches("Статус:\nПриглашен в систему")) {
+        if (waiterStatusInCard.getText().matches(INVITED_IN_SERVICE_TEXT)) {
 
             cancelEMailWaiterInvitationInCard();
 
@@ -300,12 +258,9 @@ public class Waiters extends BaseActions {
         click(unlinkEmailConfirmButton);
         enterEmailField.shouldHave(value(""));
         inviteButton.shouldBe(visible,disabled);
-        System.out.println("Удалена полностью почта, официант более не в статусе верифицирован");
-        forceWait(300);
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
     }
-
-
 
     @Step("Отмена отправленного приглашению на авторизацию")
     public void cancelEMailWaiterInvitationInCard() {
@@ -316,7 +271,6 @@ public class Waiters extends BaseActions {
         click(cancelMailConfirmationSaveButton);
         enterEmailField.shouldHave(value(""));
         inviteButton.shouldBe(visible,disabled);
-        System.out.println("Удалена полностью почта, официант более не в статусе верифицирован");
 
     }
 

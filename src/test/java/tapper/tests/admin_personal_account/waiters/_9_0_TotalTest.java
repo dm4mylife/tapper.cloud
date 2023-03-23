@@ -50,7 +50,6 @@ public class _9_0_TotalTest extends AdminBaseTest {
         waiters.goToWaiterCategory();
         waiters.searchWaiterNegative();
 
-
     }
 
     @Test
@@ -110,13 +109,17 @@ public class _9_0_TotalTest extends AdminBaseTest {
     @Test
     @DisplayName("1.9. Проверка статуса верификации, удаление привязанной почты у официанта")
     public void clearMailWaiter() {
+
         waiters.unlinkMailWaiter(ADMIN_RESTAURANT_LOGIN_EMAIL,ADMIN_RESTAURANT_PASSWORD,OPTIMUS_PRIME_WAITER);
+
     }
 
     @Test
     @DisplayName("2.0. Удаляем письмо на почте Яндекса")
     public void deleteYandexInviteMail() {
+
         yandexPage.deleteMail(TEST_YANDEX_LOGIN_EMAIL, TEST_YANDEX_PASSWORD_MAIL);
+
     }
 
 }

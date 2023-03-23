@@ -122,8 +122,8 @@ public class _15_2_ReviewTest extends AdminBaseTest {
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
         Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT,
-                TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
+                TABLE_CODE_555,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
+                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_555,TABLE_AUTO_555_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 

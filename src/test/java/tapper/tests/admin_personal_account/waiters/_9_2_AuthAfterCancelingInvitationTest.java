@@ -79,13 +79,17 @@ public class _9_2_AuthAfterCancelingInvitationTest extends AdminBaseTest {
     @Test
     @DisplayName("1.5. Авторизация в почте яндекса")
     public void yandexAuthorization() {
+
         yandexPage.yandexAuthorization(TEST_YANDEX_LOGIN_EMAIL, TEST_YANDEX_PASSWORD_MAIL);
+
     }
 
     @Test
     @DisplayName("1.6. Отправка приглашение на почту официанту")
     public void checkInvitationMail() {
+
         password = yandexPage.checkTapperMail();
+
     }
 
     @Test
@@ -97,7 +101,6 @@ public class _9_2_AuthAfterCancelingInvitationTest extends AdminBaseTest {
         authorizationPage.authorizeUser(TEST_YANDEX_LOGIN_EMAIL,password);
 
         errorMsgLoginOrPassword.shouldHave(text("Неверный E-mail или пароль "), Duration.ofSeconds(2));
-        System.out.println("Авторизоваться не удалось, ошибка ввода данных");
 
     }
 

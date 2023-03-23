@@ -41,8 +41,6 @@ public class _13_0_TotalTest extends AdminBaseTest {
     @Test
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
-        
-        Configuration.fileDownload = FOLDER;
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 

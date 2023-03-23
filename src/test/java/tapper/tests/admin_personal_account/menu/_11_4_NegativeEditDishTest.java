@@ -26,11 +26,9 @@ import static data.selectors.AdminPersonalAccount.Menu.menuDishItemsNames;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class _11_4_NegativeEditDishTest extends AdminBaseTest {
 
-    static String imageUrl;
     static int categoryIndex = 0;
     static int adminBrowserTab = 0;
     static int dishIndex = 0;
-    static int tapperBrowserTab = 1;
 
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -40,7 +38,6 @@ public class _11_4_NegativeEditDishTest extends AdminBaseTest {
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
 
-        Configuration.browserSize = "1920x1080";
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }
@@ -91,6 +88,13 @@ public class _11_4_NegativeEditDishTest extends AdminBaseTest {
     public void isChangingAppliedOnTable() {
 
         menu.isChangingSavedAfterPageReload(dishIndex);
+
+    }
+    @Test
+    @DisplayName("1.8. Проверка что вес и единица измерения выдают корректные ошибки при пустых полях")
+    public void isAmountAndMeasureUnitInputsCorrectError() {
+
+        menu.isAmountAndMeasureUnitInputsCorrectError(dishIndex);
 
     }
 

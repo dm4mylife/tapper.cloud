@@ -19,6 +19,7 @@ import static com.codeborne.selenide.Condition.attributeMatching;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 import static data.selectors.TapperTable.RootPage.DishList.orderMenuContainer;
 import static data.selectors.TapperTable.RootPage.Menu.*;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
@@ -66,19 +67,19 @@ public class _11_2_EditImageDishTest extends AdminBaseTest {
     @DisplayName("1.4. Проверяем изменения на столе")
     public void openUrl() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
         rootPage.switchBrowserTab(adminBrowserTab);
 
     }
     @Test
-    @DisplayName("1.5. Удаляем текущую аватарку если есть")
+    @DisplayName("1.5. Удаляем текущую аватарку блюда если есть")
     public void deleteDishImage() {
 
         menu.deleteDishImage(dishIndex);
 
     }
     @Test
-    @DisplayName("1.6. Загружаем новую аватарку")
+    @DisplayName("1.6. Загружаем новую аватарку блюда")
     public void uploadImageFile() {
 
         imageUrl = menu.uploadImageFile(dishIndex);

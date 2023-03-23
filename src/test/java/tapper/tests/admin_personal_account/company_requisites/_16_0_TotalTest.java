@@ -38,6 +38,8 @@ public class _16_0_TotalTest extends AdminBaseTest {
         companyRequisites.goToCompanyRequisitesCategory();
         companyRequisites.isCompanyRequisitesCategoryCorrect();
 
+
+
     }
 
 }

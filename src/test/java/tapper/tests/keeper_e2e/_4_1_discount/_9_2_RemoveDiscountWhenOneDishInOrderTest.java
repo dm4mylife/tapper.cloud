@@ -40,7 +40,6 @@ public class _9_2_RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
-    static double discount;
     static int amountDishes = 5;
     static int firstUni = 0;
     static int amountDishesForFillingOrder = 6;
@@ -72,7 +71,7 @@ public class _9_2_RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
         uni = rootPageNestedTests.getOrderUni(TABLE_AUTO_444_ID,AUTO_API_URI).get(firstUni);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_444);
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
 
@@ -135,7 +134,6 @@ public class _9_2_RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
                 rootPage.saveDishPricesInCollection(allNonPaidAndNonDisabledDishes,dishPriceWithDiscountSelector,
                         dishPriceWithoutDiscountSelector,dishPriceRegex);
 
-
     }
 
     @Test
@@ -145,7 +143,7 @@ public class _9_2_RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
         apiRKeeper.deleteDiscount(apiRKeeper.rqBodyDeleteDiscount(R_KEEPER_RESTAURANT, guid, uni), AUTO_API_URI);
 
         rootPage.refreshPage();
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
     @Test

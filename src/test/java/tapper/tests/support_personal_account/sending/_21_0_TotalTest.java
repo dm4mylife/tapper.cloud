@@ -11,6 +11,7 @@ import tests.BaseTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static api.ApiData.orderData.TABLE_AUTO_111_ID;
+import static api.ApiData.orderData.TABLE_AUTO_555_ID;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 import static data.Constants.TestData.TapperTable.*;
@@ -60,7 +61,7 @@ public class _21_0_TotalTest extends AdminBaseTest {
     public void checkMsgInTgToAll() {
 
         rootPage.getAdminSendingMsgData
-                (TABLE_AUTO_111_ID, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ALL, WAIT_FOR_TELEGRAM_SUPPORT_SENDING);
+                (TABLE_AUTO_555_ID, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ALL, WAIT_FOR_TELEGRAM_SUPPORT_SENDING);
 
     }
 
@@ -77,7 +78,7 @@ public class _21_0_TotalTest extends AdminBaseTest {
     public void checkMsgInTgToAdmins() {
 
         rootPage.getAdminSendingMsgData
-                (TABLE_AUTO_111_ID, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS, WAIT_FOR_TELEGRAM_SUPPORT_SENDING);
+                (TABLE_AUTO_555_ID, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS, WAIT_FOR_TELEGRAM_SUPPORT_SENDING);
 
     }
 

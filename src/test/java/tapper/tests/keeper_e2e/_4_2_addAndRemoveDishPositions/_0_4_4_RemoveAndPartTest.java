@@ -53,8 +53,9 @@ public class _0_4_4_RemoveAndPartTest extends BaseTest {
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
         apiRKeeper.createDishObject(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_444,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_444,TABLE_AUTO_444_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_444,
+                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_444,
+                TABLE_AUTO_444_ID);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
         uni = apiRKeeper.getUniFirstValueFromOrderInfo(TABLE_AUTO_444_ID,AUTO_API_URI);

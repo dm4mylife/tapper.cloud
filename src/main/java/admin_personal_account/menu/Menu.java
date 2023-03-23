@@ -65,11 +65,9 @@ public class Menu extends BaseActions {
     @Step("Делаем видимым хотя бы одну категорию меню если они скрыты")
     public void makeVisibleMenuCategory(int randomIndex) {
 
-        if (!Objects.requireNonNull(categoryEyeIcons.get(randomIndex).getAttribute("class")).matches(".*active.*")) {
-
+        if (!Objects.requireNonNull
+                (categoryEyeIcons.get(randomIndex).getAttribute("class")).matches(".*active.*"))
             click(categoryEyeIcons.get(randomIndex));
-
-        }
 
         chooseCategory(randomIndex);
 
@@ -78,11 +76,9 @@ public class Menu extends BaseActions {
     @Step("Делаем видимым хотя бы одно блюдо в категории если они скрыты")
     public void makeVisibleMenuDish() {
 
-        if (!Objects.requireNonNull(menuDishItemsEyeIcons.first().getAttribute("class")).matches(".*active.*")) {
-
+        if (!Objects.requireNonNull
+                (menuDishItemsEyeIcons.first().getAttribute("class")).matches(".*active.*"))
             click(categoryEyeIcons.first());
-
-        }
 
     }
 
@@ -114,12 +110,6 @@ public class Menu extends BaseActions {
 
     }
 
-    @Step("Забираем рандомное активное блюдо")
-    public int getRandomActiveDishIndex() {
-
-        return generateRandomNumber(1,menuDishItemsEyeIcons.size()) - 1;
-
-    }
 
     @Step("Делаем видимым хотя бы одно блюдо если оно скрыто")
     public void makeVisibleMenuDish(int randomIndex) {
@@ -141,6 +131,43 @@ public class Menu extends BaseActions {
         activateShowGuestSliderIfDeactivated();
 
     }
+
+    @Step("Активируем категории и блюда для автоматизации")
+    public void activateOnlyAllAutoCategoryAndDishes() {
+
+        deactivateMenuCategory();
+        activateAutoCategoryAndDishes(FIRST_AUTO_MENU_CATEGORY);
+        activateAutoCategoryAndDishes(SECOND_AUTO_MENU_CATEGORY);
+
+    }
+
+    public void activateAutoCategoryAndDishes(String autoGroup) {
+
+        categoryItems.asDynamicIterable().stream().forEach(element -> {
+
+            if (element.$(categoryItemsNamesSelector).getText().equals(autoGroup))
+                if (!Objects.requireNonNull
+                        (element.$(categoryEyeIconSelector).getAttribute("class")).matches(".*active.*")) {
+
+                    click(element.$(categoryEyeIconSelector));
+                    click(element.$(categoryItemsNamesSelector));
+
+                    if (!Objects.requireNonNull
+                            (menuDishItemsEyeIcons.first().getAttribute("class")).matches(".*active.*"))
+                        click(categoryEyeIcons.first());
+
+                    if (!Objects.requireNonNull
+                            (menuDishItemsEyeIcons.last().getAttribute("class")).matches(".*active.*"))
+                        click(categoryEyeIcons.last());
+
+                }
+
+        });
+
+
+    }
+
+
 
     @Step("Сопоставление количество блюд в категориях")
     public void matchDishesItemSizeWithCategorySize() {
@@ -333,7 +360,8 @@ public class Menu extends BaseActions {
 
         click(saveButton);
 
-        isImageCorrect(menuDishItemsImageInDishListSelector,"Изображение блюда в списке блюд не корректное");
+        isImageCorrect(menuDishItemsImageInDishListSelector,
+                "Изображение блюда в списке блюд не корректное");
 
         menuDishItemsImage.get(dishIndex).click();
         isImageCorrectInPreview(imagePreviewContainerImage);
@@ -366,6 +394,46 @@ public class Menu extends BaseActions {
         activateShowGuestSliderIfDeactivated();
 
     }
+
+    public void setMeasureUnitValue(int measureUnitOptionsIndex) {
+
+        click(editDishMeasureUnitInput);
+
+        SelenideElement elementToClick = editDishMeasureUnitInputOptions.get(measureUnitOptionsIndex);
+        String measureUnit = elementToClick.getText();
+
+        click(elementToClick);
+
+        editDishMeasureUnitInput.shouldHave(text(measureUnit));
+
+    }
+
+    public void isAmountAndMeasureUnitInputsCorrectError(int dishIndex) {
+
+        click(menuDishItemsEditButtons.get(dishIndex));
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+
+        clearText(editDishAmountInput);
+
+        setMeasureUnitValue(0);
+
+        setMeasureUnitValue(1);
+
+        editDishAmountErrorInput.shouldHave(text(NOT_CHOSEN_DISH_AMOUNT_INPUT_ERROR));
+        editDishAmountErrorContainer
+                .shouldHave(cssValue("border-top-color","rgba(236, 78, 78, 1)"));
+
+        clearText(editDishAmountInput);
+        sendKeys(editDishAmountInput,String.valueOf(generateRandomNumber(100,200)));
+
+        setMeasureUnitValue(0);
+
+        editDishMeasureUnitErrorContainer.shouldBe(visible);
+
+        clearText(editDishAmountInput);
+
+    }
+
 
     @Step("Проверка все элементы в форме редактирования корректны")
     public void isEditContainerCorrect() {
@@ -560,8 +628,7 @@ public class Menu extends BaseActions {
         clickCancelButtonIfNoChangeOrSaveData();
 
         isElementsListVisible(menuDishItems);
-        forceWait(400);
-        System.out.println(menuDishNameByGuest.get(0).getText());
+        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         return previousData;
 
@@ -597,6 +664,8 @@ public class Menu extends BaseActions {
 
     }
 
+
+    @Step("Проверка формы отмены внесенных изменений")
     public void isCancelConfirmationContainerCorrect() {
 
         isElementVisible(cancelConfirmationContainer);
@@ -636,15 +705,11 @@ public class Menu extends BaseActions {
     }
 
 
-
     @Step("Проверяем что смена имени блюда корректна")
     public String isDishEditNameByGuestCorrect(int dishIndex) {
 
         String dishNameBeforeEditing = menuDishItemsNames.get(dishIndex).getText();
         String dishNameAfterEditing = changeName(dishIndex);
-
-        System.out.println(dishNameAfterEditing + " dishNameAfterEditing\n" +
-                dishNameBeforeEditing + " dishNameBeforeEditing");
 
         Assertions.assertNotEquals(dishNameBeforeEditing,dishNameAfterEditing,
                 "Старое имя не изменилось на новое");
@@ -658,9 +723,6 @@ public class Menu extends BaseActions {
 
         String dishNameBeforeEditing = menuDishItemsNames.get(dishIndex).getText();
         String dishNameAfterEditing = changeNameButNotSave(dishIndex);
-
-        System.out.println(dishNameAfterEditing + " dishNameAfterEditing\n" +
-                dishNameBeforeEditing + " dishNameBeforeEditing");
 
         Assertions.assertNotEquals(dishNameBeforeEditing,dishNameAfterEditing,
                 "Изменения сохранились, но не должны были");
@@ -980,7 +1042,7 @@ public class Menu extends BaseActions {
 
         for (SelenideElement dishMenu : menuDishItemsEyeIcons) {
 
-            if (dishMenu.getAttribute("class").matches(".*active.*")) {
+            if (Objects.requireNonNull(dishMenu.getAttribute("class")).matches(".*active.*")) {
 
                 dishMenu.click();
                 dishPreloader.shouldNotBe(visible,Duration.ofSeconds(10));
@@ -1084,6 +1146,7 @@ public class Menu extends BaseActions {
 
     }
 
+    @Step("Переключаемся на другую вкладку и обновляем её")
     public void switchTabAndRefreshPage(int tab) {
 
         rootPage.switchBrowserTab(tab);

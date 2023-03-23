@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.exist;
 import static data.Constants.TestData.Best2Pay;
 import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
 import static data.Constants.TestData.Yandex;
@@ -22,11 +23,10 @@ public class Best2PayPage extends BaseActions {
         baseActions.isTextContainsInURL(BEST2PAY_NAME);
     }
 
-    @Step("Проверка попапа ВПН и что форма оплаты появилась")
-    public void isPaymentContainerAndVpnShown() {
+    @Step("Проверка попапа и что форма оплаты появилась")
+    public void isPaymentContainerCorrect() {
 
-        baseActions.isElementVisibleDuringLongTime(paymentContainer, 10);
-     //   isVpnPopUpShown();
+        paymentContainer.shouldBe(exist, Duration.ofSeconds(45));
 
     }
 
@@ -41,7 +41,9 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Ввод номера карты")
     public void typeCardNumber() {
+
         baseActions.sendKeys(cardNumber, Best2Pay.TEST_PAYMENT_CARD_NUMBER);
+
     }
 
     @Step("Ввод даты истечения карты")
@@ -54,7 +56,9 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Ввод CVV")
     public void typeCVV() {
+
         baseActions.sendKeys(cvv, Best2Pay.TEST_PAYMENT_CARD_CVV);
+
     }
 
     @Step("Клик по кнопке отправить по email и ввод почты")

@@ -134,9 +134,17 @@ public class RootPage extends BaseActions {
 
     }
 
+    public void clickOnMenuInFooter() {
+
+        if (!menuDishContainer.isDisplayed())
+            click(appFooterMenuIcon);
+
+    }
+
     @Step("Проверки что стол освободился, статусы в заголовке корректные")
     public void isEmptyOrderAfterClosing() {
 
+        skipStartScreenLogo();
         emptyOrderHeading.shouldHave(visible.because("Не появился пустой стол в течение определенного времени")
                 , Duration.ofSeconds(7));
         emptyOrderHeading.shouldHave(matchText("Ваш заказ появится здесь"), Duration.ofSeconds(10));
@@ -208,9 +216,16 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Заказ не пустой и блюда отображаются")
-    public void isDishListNotEmptyAndVisible() {
+    public void isTableHasOrder() {
 
+        startScreenLogoContainer.shouldBe(hidden,Duration.ofSeconds(15));
         isElementVisibleDuringLongTime(orderContainer, 60);
+
+    }
+
+    public void skipStartScreenLogo() {
+
+        startScreenLogoContainer.shouldBe(hidden,Duration.ofSeconds(15));
 
     }
 
@@ -1744,7 +1759,7 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Проверка меню")
-    public void emptyMenu() {
+    public void emptyMenuCorrect() {
 
         isElementVisible(emptyTableLogoClock);
         isElementVisible(emptyOrderMenuDescription);
@@ -1999,7 +2014,7 @@ public class RootPage extends BaseActions {
     @Step("Получение и парсинг сообщения отзыва с рейтингом в телеграмм")
     public LinkedHashMap<String, String> getReviewTgMsgData(String guid) {
 
-        forceWait(5000);
+        forceWait(WAIT_FOR_TELEGRAM_MESSAGE_REVIEW);
 
         final String[] msg = new String[1];
 
@@ -2121,7 +2136,7 @@ public class RootPage extends BaseActions {
         double activeTipsBeforeRefresh = Integer.parseInt(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
 
         refreshPage();
-        isDishListNotEmptyAndVisible();
+        isTableHasOrder();
 
         double activeTipsPercentAfterRefresh =
                 Integer.parseInt(activeTipsButton.getText().replaceAll("%",""));

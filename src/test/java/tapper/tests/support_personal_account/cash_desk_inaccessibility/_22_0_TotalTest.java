@@ -36,8 +36,8 @@ public class _22_0_TotalTest extends AdminBaseTest {
     public void authorizeUser() {
         
         Configuration.fileDownload = FOLDER;
-        Configuration.proxyEnabled = true;
-        Configuration.proxyHost = selenoidUiHubUrl;
+       // Configuration.proxyEnabled = true;
+       // Configuration.proxyHost = selenoidUiHubUrl;
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 
@@ -45,7 +45,7 @@ public class _22_0_TotalTest extends AdminBaseTest {
 
     @Test
     @DisplayName("1.2. Переход на категорию недоступность кассы, проверка всех элементов")
-    public void goToCashDeskInaccessibilityCategory() throws FileNotFoundException {
+    public void goToCashDeskInaccessibilityCategory() {
 
         cashDeskInaccessibility.goToCashDeskInaccessibility();
         cashDeskInaccessibility.isCashDeskInaccessibilityCategoryCorrect();
@@ -54,7 +54,7 @@ public class _22_0_TotalTest extends AdminBaseTest {
 
     @Test
     @DisplayName("1.3. Выбираем определенный ресторан")
-    public void choseOnlyCertainRestaurants() throws FileNotFoundException {
+    public void choseOnlyCertainRestaurants() {
 
         cashDeskInaccessibility.choseOnlyCertainRestaurants(RESTAURANT_NAME);
 
@@ -75,7 +75,6 @@ public class _22_0_TotalTest extends AdminBaseTest {
         File table = downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 
         Assertions.assertNotNull(table, "Файл не может быть скачен");
-        System.out.println("Таблицы успешно скачались");
 
     }
 
@@ -101,7 +100,6 @@ public class _22_0_TotalTest extends AdminBaseTest {
         File table = downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 
         Assertions.assertNotNull(table, "Файл не может быть скачен");
-        System.out.println("Таблицы успешно скачались");
 
     }
 

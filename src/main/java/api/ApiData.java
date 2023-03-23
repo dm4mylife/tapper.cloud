@@ -9,6 +9,7 @@ public class ApiData {
     public static class EndPoints {
 
         public static final String selenoidUiHubUrl = "http://localhost:4444/wd/hub";
+        public static final String selenoidHubUrl = "http://localhost:8081";
         public static final String createOrder = "rkeeper/createorder";
 
         public static final String getOrderInfo = " rkeeper-automation/order";
@@ -36,6 +37,7 @@ public class ApiData {
         public static final String TABLE_CODE_333 = "22";
         public static final String TABLE_CODE_444 = "18";
         public static final String TABLE_CODE_555 = "17";
+        public static final String TABLE_CODE_666 = "20";
 
         public static final String TABLE_AUTO_111_ID = "1000046";
         public static final String TABLE_AUTO_222_ID = "1000397";
@@ -43,6 +45,7 @@ public class ApiData {
         public static final String TABLE_AUTO_333_ID = "1000398";
         public static final String TABLE_AUTO_444_ID = "1000423";
         public static final String TABLE_AUTO_555_ID = "1000437";
+        public static final String TABLE_AUTO_666_ID = "1000438";
 
         public static final String WAITER_ROBOCOP_VERIFIED_WITH_CARD = "23";
         public static final String WAITER_TERMINATOR_VERIFIED_NON_CARD = "233";

@@ -1,32 +1,18 @@
 package tests;
 
 
-import com.codeborne.selenide.Browsers;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import com.google.common.io.Files;
-import io.qameta.allure.Allure;
-import io.qameta.allure.Attachment;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -34,22 +20,23 @@ import java.util.logging.Level;
 import static api.ApiData.EndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static data.Constants.*;
 
 @ExtendWith({
         TestListener.class,
-        BrowserLogsListener.class
+        BrowserLogsListener.class,
+        AddSelenoidVideoToAllure.class
 })
 public class BaseTest {
 
     @BeforeAll
     public static void setUp() {
 
-        Configuration.browserSize = "400x1020";
-        Configuration.browserPosition = "600x20";
+        Configuration.browserSize = MOBILE_BROWSER_SIZE;
+        Configuration.browserPosition = MOBILE_BROWSER_POSITION;
         Configuration.browser = CHROME;
         Configuration.remote = selenoidUiHubUrl;
-        Configuration.pageLoadTimeout = 60000;
+        Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
         Configuration.savePageSource = false;
 
 
@@ -96,7 +83,6 @@ public class BaseTest {
 
     }
 
-
     @AfterAll
     @DisplayName("Закрытие браузера")
     static void tearDown() {
@@ -106,7 +92,6 @@ public class BaseTest {
         closeWebDriver();
 
     }
-
 
 }
 

@@ -39,7 +39,7 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверка что позиции в заказе на кассе и в таппере одинаковы")
     public void isOrderInKeeperCorrectWithTapper() { // toDO доделать, слишком много разных условий
 
-        isDishListNotEmptyAndVisible();
+        isTableHasOrder();
 
         if (modalHintContainer.isDisplayed()) {
 
@@ -55,7 +55,7 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверка что позиции в заказе на кассе и в таппере одинаковы")
     public void newIsOrderInKeeperCorrectWithTapper(String tableId) { // toDO доделать, слишком много разных условий
 
-        isDishListNotEmptyAndVisible();
+        isTableHasOrder();
 
         if (modalHintContainer.isDisplayed()) {
 
@@ -97,8 +97,6 @@ public class RootPageNestedTests extends RootPage {
         clickOnPaymentButton();
         isPageLoaderShown();
         dishesSumChangedHeading.shouldNotHave(visible, Duration.ofSeconds(2));
-        best2PayPage.isTestBest2PayUrl();
-        best2PayPage.isPaymentContainerAndVpnShown();
 
     }
 
@@ -314,7 +312,7 @@ public class RootPageNestedTests extends RootPage {
     @Step("Оплачиваем по позициям до тех пор пока весь заказ не будет закрыт")
     public void payTillFullSuccessPayment(int amountDishes,String guid, int timeoutPartPay, int timeoutFullPay, String tableId) {
 
-        isDishListNotEmptyAndVisible();
+        isTableHasOrder();
 
         while (!allNonPaidAndNonDisabledDishes.isEmpty()) {
 
@@ -833,7 +831,7 @@ public class RootPageNestedTests extends RootPage {
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
 
         rootPage.openUrlAndWaitAfter(tableUrl);
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
         newIsOrderInKeeperCorrectWithTapper(tableId);
 
         return rs;

@@ -59,7 +59,7 @@ public class _8_4_PartPayAddDiscountTest extends BaseTest {
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_444);
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
 
@@ -122,7 +122,7 @@ public class _8_4_PartPayAddDiscountTest extends BaseTest {
     @DisplayName("1.8. Проверяем суммы и скидку")
     public void checkIsDiscountPresent() {
 
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
         rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
         rootPageNestedTests.hasNoDiscountPriceOnPaidDishesIfDiscountWasAppliedAfterPayment();
         rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);

@@ -64,6 +64,7 @@ public class _14_1_UnlinkLinkWaiterCardTest extends AdminBaseTest {
     @Test
     @DisplayName("1.3. Авторизация в почте яндекса")
     public void yandexAuthorization() {
+
         yandexPage.yandexAuthorization(TEST_YANDEX2_LOGIN_EMAIL, TEST_YANDEX2_PASSWORD_MAIL);
 
     }
@@ -71,8 +72,10 @@ public class _14_1_UnlinkLinkWaiterCardTest extends AdminBaseTest {
     @Test
     @DisplayName("1.4. Отправка приглашение на почту официанту")
     public void checkInvitationMail() {
+
         password = yandexPage.checkTapperMail();
         yandexPage.goToAuthPageFromMail();
+
     }
 
     @Test
@@ -81,7 +84,6 @@ public class _14_1_UnlinkLinkWaiterCardTest extends AdminBaseTest {
 
         authorizationPage.authorizeUser(TEST_YANDEX2_LOGIN_EMAIL,password);
         adminAccount.isRegistrationComplete();
-
 
     }
 

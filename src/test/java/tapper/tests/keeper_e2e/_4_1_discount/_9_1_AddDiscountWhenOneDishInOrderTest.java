@@ -61,7 +61,7 @@ public class _9_1_AddDiscountWhenOneDishInOrderTest extends BaseTest {
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
         rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_444);
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
 
@@ -117,7 +117,7 @@ public class _9_1_AddDiscountWhenOneDishInOrderTest extends BaseTest {
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
         rootPage.refreshPage();
-        rootPage.isDishListNotEmptyAndVisible();
+        rootPage.isTableHasOrder();
 
     }
 

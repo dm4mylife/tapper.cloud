@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Browsers.CHROME;
+import static data.Constants.PAGE_LOAD_TIMEOUT;
 
 
 public class BaseTestTwoBrowsers {
@@ -29,6 +30,7 @@ public class BaseTestTwoBrowsers {
 
         Configuration.browser = CHROME;
         Configuration.savePageSource = false;
+        Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
@@ -37,6 +39,7 @@ public class BaseTestTwoBrowsers {
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-infobars");
         options.addArguments("--disable-notifications");
+        options.addArguments("--disable-popup-blocking");
         options.addArguments("--no-sandbox");
         options.addArguments("--incognito");
         options.addArguments("--disable-dev-shm-usage");
@@ -45,19 +48,6 @@ public class BaseTestTwoBrowsers {
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPhone XR");
         options.setExperimentalOption("mobileEmulation", mobileEmulation);
-
-        options.setCapability("selenoid:options", new HashMap<String, Object>() {{
-
-            put("name", "Chrome");
-            put("labels", new HashMap<String, Object>() {{
-                put("manual", "true");
-            }});
-            put("enableVideo", true);
-            put("videoName", "firstVideo.mp4");
-            put("enableVNC", true);
-            put("enableLog", true);
-
-        }});
 
         capabilities.setCapability(ChromeOptions.CAPABILITY,options);
 

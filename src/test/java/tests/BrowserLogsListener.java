@@ -17,7 +17,6 @@ public class BrowserLogsListener implements AfterTestExecutionCallback {
     public void afterTestExecution(ExtensionContext context) {
 
         LogEntries logs = WebDriverRunner.getWebDriver().manage().logs().get(LogType.BROWSER);
-        //logs.forEach(System.out::println);
 
         if (logs.getAll().size() != 0)
             attachLogRequest(logs);
