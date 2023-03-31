@@ -1,30 +1,24 @@
 package tapper.tests.admin_personal_account.menu;
 
-import com.codeborne.selenide.Configuration;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 import admin_personal_account.menu.Menu;
 import tapper_table.RootPage;
-import tests.BaseTest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.$$;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
-import static data.Constants.WAIT_MENU_FOR_FULL_LOAD;
 import static data.selectors.TapperTable.RootPage.Menu.dishMenuPhotoSelector;
-import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
 @Order(113)
 @Epic("Личный кабинет администратора ресторана")
@@ -33,7 +27,7 @@ import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 @DisplayName("Сортировка меню, отображение всех категорий и блюд в таппере")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _11_3_SortingTest extends AdminBaseTest {
+public class _11_3_SortingTest extends PersonalAccountTest {
 
     static ArrayList<String> dishListWithActiveCheckboxShowForGuest;
     static LinkedHashMap<String, Map<String,String>> adminMenuData;
@@ -78,8 +72,7 @@ public class _11_3_SortingTest extends AdminBaseTest {
 
         baseActions.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
 
-        baseActions.isElementVisibleDuringLongTime(appFooterMenuIcon,10);
-        baseActions.click(appFooterMenuIcon);
+        rootPage.clickOnMenuInFooter();
 
         menu.matchCategoryListWithTapperMenu(dishListWithActiveCheckboxShowForGuest);
 
@@ -100,13 +93,10 @@ public class _11_3_SortingTest extends AdminBaseTest {
 
         menu.switchTabAndRefreshPage(tapperTable);
 
-        baseActions.isElementVisibleDuringLongTime(appFooterMenuIcon,20);
-
-        baseActions.click(appFooterMenuIcon);
+        rootPage.clickOnMenuInFooter();
 
         tapperMenuData = rootPage.saveTapperMenuData();
         Assertions.assertEquals(adminMenuData,tapperMenuData);
-        System.out.println("Категории и меню корректны, списки совпадают");
 
     }
 

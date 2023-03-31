@@ -30,7 +30,7 @@ public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
     static String guid;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
@@ -59,7 +59,7 @@ public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
 
         apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modifiers));
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
         rootPage.isTableHasOrder();
 
 

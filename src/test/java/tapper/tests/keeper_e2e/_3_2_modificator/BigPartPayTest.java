@@ -32,7 +32,7 @@ public class BigPartPayTest extends BaseTest {
     static String guid;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
@@ -57,7 +57,7 @@ public class BigPartPayTest extends BaseTest {
         Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_333_ID, AUTO_API_URI);
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
         rootPage.isTableHasOrder();
 
     }

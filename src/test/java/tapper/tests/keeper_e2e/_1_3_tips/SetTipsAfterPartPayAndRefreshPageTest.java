@@ -5,7 +5,6 @@ import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -17,6 +16,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
+import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable.isTelegramMessageCorrect;
 import static data.Constants.TestData.TapperTable.*;
 
 
@@ -26,16 +27,24 @@ import static data.Constants.TestData.TapperTable.*;
 @Story("Проверка на корректность чаевых , после проведения частичной оплаты ")
 @DisplayName("Проверка на корректность чаевых , после проведения частичной оплаты ")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class SetTipsAfterPartPayAndRefreshPageTest extends BaseTest {
+class SetTipsAfterPartPayAndRefreshPageTest extends BaseTest {
+
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_111;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
+    protected final String tableId = TABLE_AUTO_111_ID;
+
 
     static String guid;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
-    static LinkedHashMap<String, String> telegramDataForTgMsg;
+
     static String transactionId;
     static int amountDishesToBeChosen = 1;
     static int amountDishesForFillingOrder = 5;
@@ -48,24 +57,21 @@ public class SetTipsAfterPartPayAndRefreshPageTest extends BaseTest {
 
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper и открытие стола, " +
-            "проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable)
+    void createAndFillOrder() {
 
-        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable
-                (R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                        AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
     }
 
     @Test
-    @DisplayName("2. Выбираем рандомно блюда, проверяем все суммы и условия, " +
+    @Order(2)
+    @DisplayName("Выбираем рандомно блюда, проверяем все суммы и условия, " +
             "проверяем что после шаринга выбранные позиции в ожидаются")
-    public void chooseDishesAndCheckAfterDivided() {
+    void chooseDishesAndCheckAfterDivided() {
 
         rootPageNestedTests.chooseDishesWithRandomAmount(amountDishesToBeChosen);
         rootPageNestedTests.activateRandomTipsAndActivateSc();
@@ -73,53 +79,58 @@ public class SetTipsAfterPartPayAndRefreshPageTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName(TapperTable.savePaymentData)
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_111_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
 
     }
 
     @Test
-    @DisplayName("4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiring() {
+    @Order(4)
+    @DisplayName(TapperTable.goToAcquiringAndPayOrder)
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName("5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    public void checkPayment() {
+    @Order(5)
+    @DisplayName(TapperTable.isPaymentCorrect)
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("6. Проверка сообщения в телеграмме")
-    public void clearDataAndChoseAgain() {
+    @Order(6)
+    @DisplayName(isTelegramMessageCorrect)
+    void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
-        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
+        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
 
     }
 
     @Test
-    @DisplayName("7. Обновляем страницу и проверяем что процент и чаевые сбрасываются после обновления страницы")
-    public void payAndGoToAcquiringAgain() {
+    @Order(7)
+    @DisplayName("Обновляем страницу и проверяем что процент и чаевые сбрасываются после обновления страницы")
+    void payAndGoToAcquiringAgain() {
 
         rootPage.isTipsResetAfterRefreshPage();
 
     }
 
     @Test
-    @DisplayName("8. Закрываем заказ")
-    public void closedOrderByApi() {
+    @Order(8)
+    @DisplayName(TapperTable.closedOrder)
+    void closedOrderByApi() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
 
     }
 

@@ -1,12 +1,10 @@
 package tapper.tests.admin_personal_account.config_notifications;
 
 import admin_personal_account.config_notifications.ConfigNotifications;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.*;
@@ -18,7 +16,7 @@ import static data.selectors.AdminPersonalAccount.ConfigNotifications.*;
 @DisplayName("Проверка блока уведомлений, добавление\\удаление группы")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _17_0_Total extends AdminBaseTest {
+public class _17_0_Total extends PersonalAccountTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     ConfigNotifications configNotifications = new ConfigNotifications();

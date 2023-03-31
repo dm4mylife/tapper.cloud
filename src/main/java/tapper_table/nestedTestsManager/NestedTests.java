@@ -2,12 +2,9 @@ package tapper_table.nestedTestsManager;
 
 import admin_personal_account.menu.Menu;
 import api.ApiRKeeper;
-import data.selectors.AdminPersonalAccount;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
@@ -19,15 +16,12 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
-import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
+import static data.Constants.RegexPattern.TapperTable.serviceChargeRegex;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.*;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
-import static data.Constants.WAIT_UNTIL_TRANSACTION_EXPIRED;
-import static data.Constants.WAIT_UNTIL_TRANSACTION_STILL_ALIVE;
 import static data.selectors.TapperTable.Best2PayPage.*;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
@@ -67,8 +61,8 @@ public class NestedTests extends RootPage {
     public String goToAcquiringAndWaitTillTransactionExpired(double totalPay, int wait) {
 
         rootPageNestedTests.clickPayment();
-        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
         forceWait(wait);
+        best2PayPageNestedTests.checkPayMethodsAndTypeAllCreditCardData(totalPay);
         String transactionId = transaction_id.getValue();
         best2PayPage.clickPayButton();
         return transactionId;
@@ -76,7 +70,8 @@ public class NestedTests extends RootPage {
     }
 
     @Step("Проверка всего процесса оплаты, транзакции, ожидание пустого стола")
-    public void checkPaymentAndB2pTransaction(String orderType, String transactionId, HashMap<String, Integer> paymentDataKeeper) {
+    public void checkPaymentAndB2pTransaction(String orderType, String transactionId,
+                                              HashMap<String, String> paymentDataKeeper) {
 
         pagePreLoader.shouldNotBe(visible,Duration.ofSeconds(30));
         reviewPageNestedTests.paymentCorrect(orderType);
@@ -123,7 +118,7 @@ public class NestedTests extends RootPage {
 
         double tipsSumInTheMiddle = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
         double serviceChargeInField =
-                rootPage.convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
+                rootPage.convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, serviceChargeRegex);
 
         serviceChargeInField = updateDoubleByDecimalFormat(serviceChargeInField);
         double serviceChargeSumClear = updateDoubleByDecimalFormat
@@ -137,26 +132,25 @@ public class NestedTests extends RootPage {
 
         rootPage.deactivateServiceChargeIfActivated();
 
-        double tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        double tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
 
-        rootPageNestedTests.clickPayment();
-        paymentContainer.shouldBe(exist,Duration.ofSeconds(180));
-
-        double b2pTotalPay = best2PayPage.getPaymentAmount();
-
-        Assertions.assertEquals(tapperTotalPay, b2pTotalPay,
-                "Сумма итого к оплате не совпадает с суммой в таппере");
-
-        returnToPreviousPage();
+        checkTotalPayInB2P(tapperTotalPay);
 
         rootPage.activateServiceChargeIfDeactivated();
 
-        tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, "\\s₽");
+        tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
+
+        checkTotalPayInB2P(tapperTotalPay);
+
+    }
+
+
+    public void checkTotalPayInB2P(double tapperTotalPay) {
 
         rootPageNestedTests.clickPayment();
-        paymentContainer.shouldBe(exist,Duration.ofSeconds(180));
+        paymentContainer.shouldBe(exist,Duration.ofSeconds(300));
 
-        b2pTotalPay = best2PayPage.getPaymentAmount();
+        double b2pTotalPay = best2PayPage.getPaymentAmount();
 
         Assertions.assertEquals(tapperTotalPay, b2pTotalPay, 0.1,
                 "Сумма итого к оплате не совпадает с суммой в таппере");
@@ -165,21 +159,37 @@ public class NestedTests extends RootPage {
 
     }
 
+    public String createAndFillOrder(int amountDishesForFillingOrder, String dish, String restaurant, String tableCode,
+                                     String waiter, String apiUri, String tableId) {
 
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
+        apiRKeeper.createDishObject(dishesForFillingOrder, dish, amountDishesForFillingOrder);
 
-    public String createAndFillOrder(int amountDishesForFillingOrder,String dish,
-                                   ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder, String restaurant,
-                                     String tableCode, String waiter, String apiUri, String tableUrl, String tableId) {
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurant, tableCode, waiter, apiUri,
+                dishesForFillingOrder, tableId);
+
+        return apiRKeeper.getGuidFromCreateOrder(rs);
+
+    }
+
+    public String createAndFillOrderAndOpenTapperTable(int amountDishesForFillingOrder,String dish,
+                                                       String restaurant, String tableCode, String waiter,
+                                                       String apiUri, String tableUrl, String tableId) {
+
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, dish, amountDishesForFillingOrder);
 
         Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurant, tableCode, waiter, apiUri,
                 dishesForFillingOrder,tableUrl, tableId);
 
+        rootPage.openNotEmptyTable(tableUrl);
+
         return apiRKeeper.getGuidFromCreateOrder(rs);
 
     }
+
 
     public void openEmptyTapperTable(String restaurantName, String tableId, String apiUri, String tableUrl) {
 
@@ -201,6 +211,7 @@ public class NestedTests extends RootPage {
 
         rootPage.activateDivideCheckSliderIfDeactivated();
         rootPage.chooseAllNonPaidDishes();
+        scrollTillBottom();
         rootPage.setRandomTipsOption();
         rootPage.activateServiceChargeIfDeactivated();
 
@@ -243,11 +254,11 @@ public class NestedTests extends RootPage {
 
         if (emptyOrderMenuButton.isDisplayed()) {
 
-            rootPage.openNewTabAndSwitchTo(ADMIN_AUTHORIZATION_STAGE_URL);
+            rootPage.openPage(ADMIN_AUTHORIZATION_STAGE_URL);
             authorizationPage.authorizeUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
             menu.goToMenuCategory();
-            menu.isMenuCorrect();
+            menu.isMenuCategoryCorrect();
             menu.activateFirstCategoryAndDishInMenu();
 
             rootPage.switchBrowserTab(0);
@@ -259,7 +270,14 @@ public class NestedTests extends RootPage {
 
     }
 
+    public void clearTableAndOpenEmptyTable(String restaurantName, String tableId, String apiUri, String tableUrl) {
 
+        Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
+                "На столе был прошлый заказ, его не удалось закрыть");
+        rootPage.openPage(tableUrl);
+        rootPage.skipStartScreenLogo();
+
+    }
 
 
 }

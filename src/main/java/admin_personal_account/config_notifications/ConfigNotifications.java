@@ -13,8 +13,7 @@ import java.util.Objects;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.TapperTable.TEST_WAITER_COMMENT;
-import static data.selectors.AdminPersonalAccount.Common.configNotifications;
-import static data.selectors.AdminPersonalAccount.Common.pageHeading;
+import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.ConfigNotifications.*;
 
 public class ConfigNotifications extends BaseActions {
@@ -32,7 +31,8 @@ public class ConfigNotifications extends BaseActions {
     @Step("Проверка элементов страницы")
     public void isConfigNotificationsCategoryCorrect() {
 
-        isElementVisible(legendContainer);
+        if (!mobileFooter.getCssValue("display").equals("flex"))
+            isElementVisible(legendContainer);
         isElementVisible(telegramLoginSettingsSvg.first());
         isElementVisible(telegramLoginSettingsDeleteIcon.first());
         isElementVisible(saveButton);

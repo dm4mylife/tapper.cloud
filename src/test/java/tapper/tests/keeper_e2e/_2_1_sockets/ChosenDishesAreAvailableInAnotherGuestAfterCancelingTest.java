@@ -5,11 +5,10 @@ import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTestTwoBrowsers;
+import tapper_table.nestedTestsManager.NestedTests;
+import tests.TwoBrowsers;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -19,63 +18,66 @@ import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Selenide.using;
-import static data.Constants.TestData.TapperTable.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable.createOrderInKeeper;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable.isDishesCorrectInCashDeskAndTapperTable;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
 import static data.selectors.TapperTable.RootPage.PayBlock.paymentButton;
 
 
 @Epic("RKeeper")
 @Feature("Сокеты")
-@Story("Открытие стола у двух гостей, второй гость выбирает и отменяет позиции у первого не должно быть заблокировано для оплаты")
-@DisplayName("Открытие стола у двух гостей, второй гость выбирает и отменяет позиции у первого не должно быть заблокировано для оплаты")
+@Story("Открытие стола у двух гостей, второй гость выбирает и отменяет позиции у первого не должно быть заблокировано" +
+        " для оплаты")
+@DisplayName("Открытие стола у двух гостей, второй гость выбирает и отменяет позиции у первого не должно быть " +
+        "заблокировано для оплаты")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends BaseTestTwoBrowsers {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends TwoBrowsers {
 
-    static int amountDishesToBeChosen = 3;
-    static int amountDishesForFillingOrder = 6;
-    static String guid;
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_222;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_222;
+    protected final String tableId = TABLE_AUTO_222_ID;
+
+    int amountDishesToBeChosen = 2;
+    static int amountDishesForFillingOrder = 4;
+
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+    static String guid;
+
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+    NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper и открытие стола")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(createOrderInKeeper + isDishesCorrectInCashDeskAndTapperTable)
+    void createAndFillOrder() {
 
-        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
-
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222
-                ,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableId);
 
     }
 
     @Test
-    @DisplayName("2. Открываем стол на двух разных устройствах, проверяем что не пустые")
-    public void openTables() {
+    @Order(2)
+    @DisplayName("Открываем стол на двух разных устройствах, проверяем что не пустые")
+    void openTables() {
 
-        using(firstBrowser, () -> {
+        using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
-
-        using(secondBrowser, () -> {
-
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
     }
 
     @Test
-    @DisplayName("3. Выбираем рандомно блюда")
-    public void chooseDishesByAnotherGuest() {
+    @Order(3)
+    @DisplayName("Выбираем рандомно блюда")
+    void chooseDishesByAnotherGuest() {
 
         using(firstBrowser, () -> {
 
@@ -87,16 +89,18 @@ public class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends Ba
     }
 
     @Test
-    @DisplayName("4. Отменяем их")
-    public void cancelCertainAmountChosenDishes() {
+    @Order(4)
+    @DisplayName("Отменяем их")
+    void cancelCertainAmountChosenDishes() {
 
         using(firstBrowser, () -> rootPage.cancelCertainAmountChosenDishes(amountDishesToBeChosen));
 
     }
 
     @Test
-    @DisplayName("5. Переключаемся на второго пользователя, проверяем что блюда не заблокированы")
-    public void switchToFirstGuest() {
+    @Order(5)
+    @DisplayName("Переключаемся на второго пользователя, проверяем что блюда не заблокированы")
+    void switchToFirstGuest() {
 
         using(secondBrowser, () -> {
 
@@ -108,10 +112,11 @@ public class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends Ba
     }
 
     @Test
-    @DisplayName("6. Закрываем заказ, очищаем кассу")
-    public void closeOrder() {
+    @Order(6)
+    @DisplayName("Закрываем заказ, очищаем кассу")
+    void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
 
     }
 

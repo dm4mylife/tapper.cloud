@@ -5,7 +5,6 @@ import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -34,16 +33,23 @@ import static data.selectors.TapperTable.RootPage.DishList.dishPriceWithDiscount
 @Story("Полная оплата. Стоимость последней позиции 0 рублей")
 @DisplayName("Полная оплата. Стоимость последней позиции 0 рублей")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class LastDishWithZeroPriceTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class LastDishWithZeroPriceTest extends BaseTest {
+
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_111;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
+    protected final String tableId = TABLE_AUTO_111_ID;
 
     static String guid;
     static double totalPay;
     static String orderType = "full";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
-    static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
+    int amountDishesForFillingOrder = 1;
     static  LinkedHashMap<Integer, Map<String, Double>> dishListOriginalTable;
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
@@ -54,25 +60,24 @@ public class LastDishWithZeroPriceTest extends BaseTest {
 
 
     @Test
-    @DisplayName(1.1 + createOrderInKeeper + isDishesCorrectInCashDeskAndTapperTable + " Добавляем блюдо с нулевой ценой")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable + " Добавляем блюдо с нулевой ценой")
+    void createAndFillOrder() {
 
-        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, 2);
-        apiRKeeper.createDishObject(dishesForFillingOrder, ZERO_PRICE_DISH, 1);
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder * 2);
+        apiRKeeper.createDishObject(dishesForFillingOrder, ZERO_PRICE_DISH, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT,
-                TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,
-                STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
 
         dishListOriginalTable = rootPage.getDishList(allDishesInOrder);
 
     }
 
     @Test
-    @DisplayName(1.2 + isTotalPaySumCorrectTipsSc + setRandomTips)
-    public void checkSumTipsSC() {
+    @Order(2)
+    @DisplayName(TapperTable.isTotalPaySumCorrectTipsSc + TapperTable.setRandomTips)
+    void checkSumTipsSC() {
 
         $$(dishPriceWithDiscountSelector).filter(hidden).shouldHave(size(0)
                         .because("Скидка не должна быть вообще, но нулевая позиция может вызвать её"));
@@ -84,37 +89,40 @@ public class LastDishWithZeroPriceTest extends BaseTest {
     }
 
     @Test
-    @DisplayName(1.3 + savePaymentData)
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName(TapperTable.savePaymentData)
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_111_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
 
     }
 
     @Test
-    @DisplayName(1.4 + goToAcquiringAndPayOrder)
-    public void payAndGoToAcquiring() {
+    @Order(4)
+    @DisplayName(TapperTable.goToAcquiringAndPayOrder)
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName(1.5 + isPaymentCorrect)
-    public void checkPayment() {
+    @Order(5)
+    @DisplayName(TapperTable.isPaymentCorrect)
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName(1.6 + isTelegramMessageCorrect)
-    public void clearDataAndChoseAgain() {
+    @Order(6)
+    @DisplayName(TapperTable.isTelegramMessageCorrect)
+    void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
-        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
+        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
 
     }
 

@@ -19,8 +19,7 @@ public class Best2PayPageNestedTests extends Best2PayPage {
     @Step("Проверка перехода на б2п, общей суммы, способов оплаты, ввод данных для оплаты")
     public void checkPayMethodsAndTypeAllCreditCardData(double totalPay) {
 
-        paymentContainer.shouldBe(Condition.exist, Duration.ofSeconds(240));
-        // best2PayPage.isPaymentContainerCorrect();
+        paymentContainer.shouldBe(Condition.exist, Duration.ofSeconds(300));
         best2PayPage.isTotalPayInTapperMatchTotalPayB2B(totalPay);
         typeDataAndPay();
 

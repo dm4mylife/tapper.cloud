@@ -1,18 +1,15 @@
 package tapper.tests.admin_personal_account.customization;
 
 import admin_personal_account.customization.Customization;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 @Order(150)
@@ -22,7 +19,7 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 @DisplayName("Проверка переключения типу получателя, замена шаблона, проверка на столе")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _15_0_TotalTest extends AdminBaseTest {
+public class _15_0_TotalTest extends PersonalAccountTest {
 
     int adminTab = 0;
     int tapperTableTab = 1;

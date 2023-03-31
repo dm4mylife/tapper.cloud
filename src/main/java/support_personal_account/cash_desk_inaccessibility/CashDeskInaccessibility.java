@@ -4,11 +4,14 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
 import support_personal_account.lock.Lock;
 
+import java.io.FileNotFoundException;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
+import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.CashDeskInaccessibility.*;
 import static data.selectors.SupportPersonalAccount.Common.cashDeskInaccessibilityCategory;
@@ -63,6 +66,14 @@ public class CashDeskInaccessibility extends BaseActions {
 
         clickByJs(choseDateButtonSelector);
         click(firstDateOfPeriod);
+
+    }
+
+    @Step("Загружаем таблицу")
+    public void downloadFile() throws FileNotFoundException {
+
+        Assertions.assertNotNull(downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
+                "Файл не может быть скачен");
 
     }
 

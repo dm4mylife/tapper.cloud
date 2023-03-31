@@ -1,23 +1,18 @@
 package tapper.tests.admin_personal_account.menu;
 
 import admin_personal_account.menu.Menu;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.util.HashMap;
 
-import static com.codeborne.selenide.Condition.matchText;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 import static data.selectors.TapperTable.RootPage.Menu.*;
 
@@ -28,7 +23,7 @@ import static data.selectors.TapperTable.RootPage.Menu.*;
 @DisplayName("Смена имени категории и позиции, проверка на столе")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _11_1_EditingDishCorrectTest extends AdminBaseTest {
+public class _11_1_EditingDishCorrectTest extends PersonalAccountTest {
 
     static String categoryNameAfterEditing;
     static String dishNameAfterEditing;
@@ -51,7 +46,6 @@ public class _11_1_EditingDishCorrectTest extends AdminBaseTest {
     @DisplayName("1.1. Авторизация под администратором в личном кабинете")
     public void authorizeUser() {
 
-        Configuration.browserSize = "1920x1080";
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }

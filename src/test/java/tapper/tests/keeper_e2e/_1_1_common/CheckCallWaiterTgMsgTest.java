@@ -5,22 +5,22 @@ import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-
 import static api.ApiData.orderData.*;
+import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER;
 import static data.Constants.TestData.TapperTable.*;
 import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_CALL_WAITER;
 import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_REVIEW;
-import static data.selectors.TapperTable.RootPage.DishList.*;
+import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 
 
 @Epic("RKeeper")
@@ -28,116 +28,110 @@ import static data.selectors.TapperTable.RootPage.DishList.*;
 @Story("tapper - проверка сообщений вызова официанта при пустом столе и в заказе")
 @DisplayName("tapper - проверка сообщений вызова официанта при пустом столе и в заказе")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class CheckCallWaiterTgMsgTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class CheckCallWaiterTgMsgTest extends BaseTest {
+
+
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_111;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
+    protected final String tableId = TABLE_AUTO_111_ID;
 
     static String guid;
     static String tapperTable;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
-    static int amountDishesForFillingOrder = 4;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+    int amountDishesForFillingOrder = 4;
+
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+    NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1.0. Открытие пустого стола")
-    public void openAndCheck() {
+    @Order(1)
+    @DisplayName(TapperTable.openEmptyTapperTable)
+    void openAndCheck() {
 
-        Assertions.assertTrue(apiRKeeper.isTableEmpty(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,AUTO_API_URI),
-                "На столе был прошлый заказ, его не удалось закрыть");
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_111);
+        nestedTests.clearTableAndOpenEmptyTable(restaurantName, tableId, apiUri, tableUrl);
+        tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber, tableNumberRegex);
 
     }
 
     @Test
-    @DisplayName("1.2. Отправка сообщения в вызов официанта")
-    public void sendCallWaiter() {
+    @Order(2)
+    @DisplayName(TapperTable.callWaiterAndSendMessage)
+    void sendCallWaiter() {
 
-        rootPage.isElementVisible(appHeader);
-        rootPage.openCallWaiterForm();
-        rootPage.sendWaiterComment();
-        rootPage.isSendSuccessful();
+        rootPageNestedTests.callWaiterAndTextMessage();
 
     }
 
     @Test
-    @DisplayName("1.3. Сбор данных со стола и сообщения тг")
-    public void getTgAndTapperMsgData() {
-
-        tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,"\\D+");
+    @Order(3)
+    @DisplayName(TapperTable.isTelegramMessageCorrect)
+    void getTgAndTapperMsgData() {
 
         telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, WAIT_FOR_TELEGRAM_MESSAGE_CALL_WAITER);
-        tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg
-                (UNKNOWN_WAITER,TEST_WAITER_COMMENT,tapperTable);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg(UNKNOWN_WAITER, TEST_WAITER_COMMENT, tapperTable);
 
-    }
-
-    @Test
-    @DisplayName("1.4. Проверка что сообщение корректное")
-    public void matchTgMsgDataAndTapperData() {
-
-        Assertions.assertEquals(telegramDataForTgMsg,tapperDataForTgMsg,
+        Assertions.assertEquals(telegramDataForTgMsg, tapperDataForTgMsg,
                 "Сообщение в телеграмме не корректное");
 
     }
 
     @Test
-    @DisplayName("1.5. Создание заказа в r_keeper")
-    public void createAndFillOrder() {
+    @Order(4)
+    @DisplayName(TapperTable.createOrderInKeeper)
+    void createAndFillOrder() {
 
-        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
-
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_111,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_111_ID);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
 
     }
 
     @Test
-    @DisplayName("1.6. Открытие стола уже с заказом, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void refreshAndCheck() {
+    @Order(5)
+    @DisplayName(TapperTable.refreshPage)
+    void refreshAndCheck() {
 
         rootPage.refreshPage();
         rootPage.isTableHasOrder();
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_111_ID);
 
     }
 
     @Test
-    @DisplayName("1.7. Отправка сообщения в вызов официанта")
-    public void sendCallWaiterOnceMore() {
+    @Order(6)
+    @DisplayName(TapperTable.callWaiterAndSendMessage)
+    void sendCallWaiterOnceMore() {
 
         sendCallWaiter();
 
     }
 
     @Test
-    @DisplayName("1.8. Сбор данных со стола и сообщения тг")
-    public void getTgAndTapperMsgDataAgain() {
+    @Order(7)
+    @DisplayName(TapperTable.isTelegramMessageCorrect)
+    void getTgAndTapperMsgDataAgain() {
 
         telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, WAIT_FOR_TELEGRAM_MESSAGE_REVIEW);
-        tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg
-                (ROBOCOP_WAITER,TEST_WAITER_COMMENT,tapperTable);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg(ROBOCOP_WAITER, TEST_WAITER_COMMENT, tapperTable);
+
+        Assertions.assertEquals(telegramDataForTgMsg, tapperDataForTgMsg,
+                "Сообщение в телеграмме не корректное");
 
     }
 
-    @Test
-    @DisplayName("1.9. Проверка что сообщение корректное")
-    public void matchTgMsgDataAndTapperDataAgain() {
-
-        matchTgMsgDataAndTapperData();
-
-    }
 
     @Test
-    @DisplayName("2.0. Закрываем заказ")
-    public void clearDataAndChoseAgain() {
+    @Order(8)
+    @DisplayName(TapperTable.closedOrder)
+    void closedOrderByApi() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
 
     }
 

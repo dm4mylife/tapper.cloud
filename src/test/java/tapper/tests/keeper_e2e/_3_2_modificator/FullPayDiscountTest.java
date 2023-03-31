@@ -33,7 +33,7 @@ public class FullPayDiscountTest extends BaseTest {
     static String orderType = "full";
 
     static double discount;
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
@@ -104,7 +104,7 @@ public class FullPayDiscountTest extends BaseTest {
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
         rootPage.isTableHasOrder();
 
     }

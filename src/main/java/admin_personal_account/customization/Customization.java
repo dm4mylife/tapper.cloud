@@ -3,6 +3,7 @@ package admin_personal_account.customization;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
@@ -16,10 +17,10 @@ import static com.codeborne.selenide.Condition.*;
 import static data.Constants.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
-import static data.selectors.AdminPersonalAccount.Common.customizationCategory;
-import static data.selectors.AdminPersonalAccount.Common.pageHeading;
+import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.Customization.*;
 import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
+import static data.selectors.TapperTable.RootPage.PayBlock.paymentOptionsContainer;
 import static data.selectors.TapperTable.RootPage.TapBar.*;
 
 public class Customization extends BaseActions {
@@ -104,11 +105,12 @@ public class Customization extends BaseActions {
     @Step("Включаем вайфай")
     public void activateWifiIfDeactivated() {
 
-        if (wifiDeactivatedSlider.exists()) {
+        if (!wifiSliderInput.isEnabled()) {
 
             click(wifiSlider);
+            pagePreloader.shouldBe(visible);
             pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
-            wifiActivatedSlider.shouldBe(appear);
+            wifiSliderInput.shouldBe(enabled);
 
         }
 
@@ -117,11 +119,12 @@ public class Customization extends BaseActions {
     @Step("Выключаем вайфай")
     public void deactivateWifiIfActivated() {
 
-        if (wifiActivatedSlider.exists()) {
+        if (wifiSliderInput.isEnabled()) {
 
             click(wifiSlider);
+            pagePreloader.shouldBe(visible);
             pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
-            wifiDeactivatedSlider.shouldBe(appear);
+            wifiSliderInput.shouldNotBe(enabled);
 
         }
 
@@ -146,6 +149,8 @@ public class Customization extends BaseActions {
             wifiNetworkPassword.sendKeys(wifiPassword);
             forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
             click(saveButton);
+            pagePreloader.shouldBe(visible);
+            pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
 
         }
 
@@ -158,20 +163,28 @@ public class Customization extends BaseActions {
         isElementVisible(yandexInput);
         isElementVisible(twoGisInput);
         isElementVisible(googleInput);
-        isElementVisible(reviewInfo);
-        isElementsListVisible(reviewToggles);
+
+
         isElementVisible(yandexCheckboxContainer);
         isElementVisible(twoGisCheckboxContainer);
         isElementVisible(googleCheckboxContainer);
 
-        for (SelenideElement toggle : reviewToggles) {
 
-            click(toggle);
-            forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+        if (!mobileFooter.getCssValue("display").equals("flex")) {
+
+            isElementVisible(reviewInfo);
+            isElementsListVisible(reviewToggles);
+
+            for (SelenideElement toggle : reviewToggles) {
+
+                click(toggle);
+                forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+
+            }
+
+            reviewToggleInfo.filter(visible).shouldHave(CollectionCondition.size(3));
 
         }
-
-        reviewToggleInfo.filter(visible).shouldHave(CollectionCondition.size(3));
 
     }
     public void clearLink(SelenideElement input, SelenideElement checkbox, SelenideElement label) {
@@ -191,8 +204,27 @@ public class Customization extends BaseActions {
             click(label);
 
     }
+
+
+    @Step("Принудительно прячем мобильное меню в футере")
+    public void hideMobileMenu() {
+
+        if (mobileFooter.getCssValue("display").equals("flex"))
+            Selenide.executeJavaScript("document.querySelector('.vProfileMobileMenu').style.display = 'none'");
+
+    }
+
+    @Step("Принудительно показываем прячем мобильное меню в футере")
+    public void showMobileMenu() {
+
+            Selenide.executeJavaScript("document.querySelector('.vProfileMobileMenu').style.display = 'flex'");
+
+    }
+
     @Step("Удаляем ссылки, отключаем чекбоксы, сохраняем")
     public void clearAllForms() {
+
+        hideMobileMenu();
 
         clearLink(yandexInput,yandexCheckbox,yandexTextLabel);
         clearLink(twoGisInput,twoGisCheckbox,twoGisTextLabel);
@@ -204,10 +236,14 @@ public class Customization extends BaseActions {
         twoGisCheckbox.shouldNotBe(selected);
         googleCheckbox.shouldNotBe(selected);
 
+        showMobileMenu();
+
     }
 
     @Step("Вводим ссылки, включаем чекбоксы")
     public void fillReviewLinks() {
+
+        hideMobileMenu();
 
         fillLink(yandexInput,YANDEX_REVIEW_LINK,yandexCheckbox,yandexTextLabel);
         fillLink(twoGisInput,TWOGIS_REVIEW_LINK,twoGisCheckbox,twoGisTextLabel);
@@ -221,6 +257,8 @@ public class Customization extends BaseActions {
         yandexCheckbox.shouldBe(selected);
         twoGisCheckbox.shouldBe(selected);
         googleCheckbox.shouldBe(selected);
+
+        showMobileMenu();
 
     }
 

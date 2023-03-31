@@ -3,13 +3,11 @@ package tapper.tests.waiter_personal_account;
 
 import admin_personal_account.AdminAccount;
 import admin_personal_account.waiters.Waiters;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import tapper_table.YandexPage;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 import waiter_personal_account.Waiter;
 
@@ -24,7 +22,7 @@ import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 @DisplayName("Отвязка и привязка карты официанта")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _14_1_UnlinkLinkWaiterCardTest extends AdminBaseTest {
+public class _14_1_UnlinkLinkWaiterCardTest extends PersonalAccountTest {
 
     static String password;
     AdminAccount adminAccount = new AdminAccount();

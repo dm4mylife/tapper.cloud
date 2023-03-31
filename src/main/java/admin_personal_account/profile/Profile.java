@@ -14,8 +14,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.TestData.AdminPersonalAccount;
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.selectors.AdminPersonalAccount.Common.pageHeading;
-import static data.selectors.AdminPersonalAccount.Common.profileCategory;
+import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.Profile.*;
 
 
@@ -30,7 +29,6 @@ public class Profile extends BaseActions {
         click(profileCategory);
         pageHeading.shouldHave(text("Профиль"), Duration.ofSeconds(5));
         isElementVisible(profileContainer);
-        isProfileCategoryCorrect();
 
     }
 
@@ -55,6 +53,23 @@ public class Profile extends BaseActions {
         isElementVisible(privateDataContainer);
         isElementVisible(profileContainer);
         isElementVisible(masterInformationContainer);
+
+    }
+
+    @Step("Проверка что все элементы в боковом меню корректны")
+    public void isOpenedLeftMenuCorrect() {
+
+        isElementVisible(mobileFooter);
+        isElementVisible(exitFromAdmin);
+        isElementVisible(profileCategory);
+        isElementVisible(integrationCategory);
+        isElementVisible(waiterMenuCategory);
+        isElementVisible(customizationCategory);
+        isElementVisible(tablesAndQrCodesCategory);
+        isElementVisible(operationsHistoryCategory);
+        isElementVisible(companyRequisitesCategory);
+        isElementVisible(menuCategory);
+        isElementVisible(configNotifications);
 
     }
 

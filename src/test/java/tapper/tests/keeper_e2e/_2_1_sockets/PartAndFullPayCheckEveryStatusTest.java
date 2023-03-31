@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTestTwoBrowsers;
+import tests.TwoBrowsers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import static data.Constants.TestData.TapperTable.*;
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers {
+public class PartAndFullPayCheckEveryStatusTest extends TwoBrowsers {
 
     static String guid;
     static HashMap<Integer, Map<String, Double>> chosenDishes;
@@ -38,7 +38,7 @@ public class PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers {
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static String transactionId;
     static int amountDishesForFillingOrder = 6;
     static int amountDishesToBeChosen = 3;
@@ -69,14 +69,14 @@ public class PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers {
 
         using(firstBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
             rootPage.isTableHasOrder();
 
         });
 
         using(secondBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
             rootPage.isTableHasOrder();
 
         });
@@ -92,6 +92,7 @@ public class PartAndFullPayCheckEveryStatusTest extends BaseTestTwoBrowsers {
             rootPage.activateDivideCheckSliderIfDeactivated();
             rootPage.chooseCertainAmountDishes(amountDishesToBeChosen);
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
+            rootPage.forceWaitingForSocketChangePositions(500);
 
         });
     }

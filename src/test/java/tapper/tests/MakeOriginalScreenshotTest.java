@@ -7,12 +7,11 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
 @SelectPackages({
 
-        "tapper.tests.screenshots_comparison.make_original_screenshot"
+        "tapper.tests.screenshots_comparison"
 
 })
 @Suite
 @SuiteDisplayName("makeOriginalScreenshotTest")
 public class MakeOriginalScreenshotTest {
-
 
 }

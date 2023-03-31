@@ -31,7 +31,7 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
     static String guid;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
@@ -99,7 +99,7 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
 
         apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modificators));
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
         rootPage.isTableHasOrder();
 
     }

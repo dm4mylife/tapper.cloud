@@ -17,9 +17,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.*;
+import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
-
 
 
 @Epic("RKeeper")
@@ -27,15 +28,21 @@ import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisab
 @Story("Частичная оплата. Стоимость последней позиции 0 рублей")
 @DisplayName("Частичная оплата. Стоимость последней позиции 0 рублей")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class LastDishZeroPricePartPayTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class LastDishZeroPricePartPayTest extends BaseTest {
+
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_111;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
+    protected final String tableId = TABLE_AUTO_111_ID;
 
     static String guid;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
-    static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
     static int amountDishesForFillingOrder = 1;
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
@@ -47,25 +54,27 @@ public class LastDishZeroPricePartPayTest extends BaseTest {
 
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper и открытие стола, " +
-            "проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable + " Добавляем блюдо с нулевой ценой")
+    void createAndFillOrder() {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
-        apiRKeeper.createDishObject(dishesForFillingOrder, ZERO_PRICE_DISH, 1);
+        apiRKeeper.createDishObject(dishesForFillingOrder, ZERO_PRICE_DISH, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable
-                (R_KEEPER_RESTAURANT, TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                        AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode, waiter,
+                apiUri, dishesForFillingOrder,tableUrl, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
 
     @Test
-    @DisplayName("2. Выбираем рандомно блюда, проверяем все суммы и условия, " +
+    @Order(2)
+    @DisplayName("Выбираем рандомно блюда, проверяем все суммы и условия, " +
             "проверяем что после шаринга выбранные позиции в ожидаются")
-    public void chooseDishesAndCheckAfterDivided() {
+    void chooseDishesAndCheckAfterDivided() {
 
         rootPage.activateDivideCheckSliderIfDeactivated();
         rootPage.click(allNonPaidAndNonDisabledDishesName.first());
@@ -74,53 +83,58 @@ public class LastDishZeroPricePartPayTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName(TapperTable.savePaymentData)
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_111_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
 
     }
 
     @Test
-    @DisplayName("4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiring() {
+    @Order(4)
+    @DisplayName(TapperTable.goToAcquiringAndPayOrder)
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName("5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    public void checkPayment() {
+    @Order(5)
+    @DisplayName(TapperTable.isPaymentCorrect)
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("6. Проверка сообщения в телеграмме")
-    public void clearDataAndChoseAgain() {
+    @Order(6)
+    @DisplayName(TapperTable.isTelegramMessageCorrect)
+    void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
-        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
+        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
 
     }
 
     @Test
+    @Order(7)
     @DisplayName("7. Проверяем что последняя позиция с нулевой ценой и невозможно оплатить заказ")
-    public void payAndGoToAcquiringAgain() {
+    void payAndGoToAcquiringAgain() {
 
         rootPage.isPaymentDisabled();
 
     }
 
     @Test
-    @DisplayName("8. Закрываем пустой заказ")
-    public void closedOrderByApi() {
+    @Order(8)
+    @DisplayName(TapperTable.closedOrder)
+    void closedOrderByApi() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
 
     }
 

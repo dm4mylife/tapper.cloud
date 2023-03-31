@@ -12,7 +12,7 @@ import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTestFourBrowsers;
+import tests.FourBrowsers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,12 +31,12 @@ import static data.selectors.TapperTable.RootPage.DishList.allPaidDishes;
 
 @Epic("RKeeper")
 @Feature("Сокеты")
-@Story("Одновременная частичная  оплата с 4х устройств ")
-@DisplayName("Одновременная частичная  оплата с 4х устройств ")
+@Story("Четыре пользователя. Частичная оплата на 1одном устройстве, и проверка этих позиций на других")
+@DisplayName("Четыре пользователя. Частичная оплата на 1одном устройстве, и проверка этих позиций на других")
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowsers {
+public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
     static String guid;
     static int amountDishesToBeChosen = 2;
@@ -46,7 +46,7 @@ public class PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowsers {
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static String transactionId;
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
@@ -76,28 +76,28 @@ public class PartCheckEveryStatusFourGuestsTest extends BaseTestFourBrowsers {
 
         using(firstBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
             rootPage.isTableHasOrder();
 
         });
 
         using(secondBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
             rootPage.isTableHasOrder();
 
         });
 
         using(thirdBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
             rootPage.isTableHasOrder();
 
         });
 
         using(fourthBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
             rootPage.isTableHasOrder();
 
         });

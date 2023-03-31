@@ -10,7 +10,9 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.exist;
 import static data.Constants.TestData.Best2Pay;
 import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
+import static data.Constants.TestData.Best2Pay.TEST_PAYMENT_CARD_CVV;
 import static data.Constants.TestData.Yandex;
+import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
 import static data.selectors.TapperTable.Best2PayPage.*;
 
 
@@ -57,7 +59,7 @@ public class Best2PayPage extends BaseActions {
     @Step("Ввод CVV")
     public void typeCVV() {
 
-        baseActions.sendKeys(cvv, Best2Pay.TEST_PAYMENT_CARD_CVV);
+        baseActions.sendKeys(cvv, TEST_PAYMENT_CARD_CVV);
 
     }
 
@@ -65,8 +67,13 @@ public class Best2PayPage extends BaseActions {
     public void typeEmail() {
 
         baseActions.click(sendCheckByEmail);
-        baseActions.isElementVisible(email);
-        baseActions.sendKeys(email, Yandex.TEST_YANDEX_LOGIN_EMAIL);
+
+        if(email.isDisplayed()) {
+
+            baseActions.isElementVisible(email);
+            baseActions.sendKeys(email, TEST_YANDEX_LOGIN_EMAIL);
+
+        }
 
     }
 

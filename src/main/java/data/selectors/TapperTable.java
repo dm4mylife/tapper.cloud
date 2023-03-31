@@ -2,6 +2,7 @@ package data.selectors;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
 import static data.Constants.TestData.TapperTable.TEST_WAITER_COMMENT;
@@ -151,8 +152,7 @@ public class TapperTable {
             public static final SelenideElement paymentOptionCreditCard =
                     $x("//*[@class='paymentMethod__item' and contains(text(),'Банковская карта')]");
             public static final SelenideElement paymentOptionSBP =
-                    $x("//*[@class='paymentMethod__item'" +
-                            " and contains(text(),'Система быстрых платежей')]");
+                    $x("//*[@class='paymentMethod__item'][.//*[contains(text(),'Система быстрых')]]");
             public static final SelenideElement paymentContainerSaveButton = $(".paymentMethod button");
             public static final SelenideElement paymentChosenTypeText = $(".payedVariants__subtitle");
             public static final SelenideElement paymentOverlay = $(".modalBottom__overlay");
@@ -240,6 +240,8 @@ public class TapperTable {
                     $$(".orderMenu .orderMenuCategorues__item");
             public static final ElementsCollection menuDishPhotos =
                     $$(".orderMenuProduct__photo .orderMenuProduct__img");
+            public static final String menuDishPhotosSelector = ".orderMenuProduct__photo .orderMenuProduct__img";
+            public static final By menuDishPhotosBy = By.cssSelector(".orderMenuProduct__photo .orderMenuProduct__img");
             public static final SelenideElement menuDishNameInDetailCard = $(".detail__name");
             public static final SelenideElement menuDishAmountDetailCard = $(".detail__weight");
             public static final SelenideElement menuDishIngredientsDetailCard =

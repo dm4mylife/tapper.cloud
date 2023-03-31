@@ -1,11 +1,11 @@
 package tapper.tests.keeper_e2e._1_1_common;
 
 
-import api.ApiRKeeper;
+import data.AnnotationAndStepNaming;
+import data.selectors.TapperTable;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
@@ -15,17 +15,15 @@ import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.visible;
+import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName;
-
 
 
 @Epic("RKeeper")
@@ -33,49 +31,51 @@ import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName;
 @Story("Проверка всех вариаций рейтинга")
 @DisplayName("Проверка всех вариаций рейтинга")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class ReviewTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class ReviewTest extends BaseTest {
+
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_111;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
+    protected final String tableId = TABLE_AUTO_111_ID;
 
     static String guid;
     static double totalPay;
     static String orderType = "full";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
     static int amountDishesForFillingOrder = 2;
 
     static String tapperTable;
-    static String waiter;
+    static String waiterName;
     RootPage rootPage = new RootPage();
-    ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
     ReviewPage reviewPage = new ReviewPage();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
+
     @Test
-    @DisplayName("1.0. Создание заказа в r_keeper и открытие стола, " +
-            "проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.createOrderInKeeper + AnnotationAndStepNaming.DisplayName.TapperTable.isDishesCorrectInCashDeskAndTapperTable)
+    void createAndFillOrder() {
 
-        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
-
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT,
-                TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
 
     }
 
     @Test
-    @DisplayName("1.1. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void payAndGoToReviewPage() {
+    @Order(2)
+    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.saveDataGoToAcquiringTypeDataAndPay)
+    void payAndGoToReviewPage() {
 
-        tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,"\\D+");
-        waiter = waiterName.getText();
+        tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,tableNumberRegex);
+        waiterName = TapperTable.RootPage.TipsAndCheck.waiterName.getText();
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
@@ -88,33 +88,36 @@ public class ReviewTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.2. Проверка что определенное количество звезд отображает корректную форму с опциями")
-    public void isPositiveAndNegativeOptionsCorrect() {
+    @Order(3)
+    @DisplayName("Проверка что определенное количество звезд отображает корректную форму с опциями")
+    void isPositiveAndNegativeOptionsCorrect() {
 
         reviewPage.isPositiveAndNegativeOptionsCorrect();
 
     }
 
     @Test
-    @DisplayName("1.3. Оставляем негативный отзыв")
-    public void reviewCorrectNegative() {
+    @Order(4)
+    @DisplayName("Оставляем негативный отзыв")
+    void reviewCorrectNegative() {
 
         reviewPageNestedTests.reviewCorrectNegative();
 
     }
 
     @Test
-    @DisplayName("1.4. Сохраняем данные")
-    public void saveReviewDataNegative() {
+    @Order(5)
+    @DisplayName("Сохраняем данные")
+    void saveReviewDataNegative() {
 
-        tapperDataForTgMsg = reviewPageNestedTests.saveReviewData(tapperTable, waiter,"negative");
-
+        tapperDataForTgMsg = reviewPageNestedTests.saveReviewData(tapperTable, waiterName,"negative");
 
     }
 
     @Test
-    @DisplayName("1.5. Проверка сообщения в телеграмме")
-    public void matchTgMsg() {
+    @Order(6)
+    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.isTelegramMessageCorrect)
+    void matchTgMsg() {
 
         telegramDataForTgMsg  = rootPageNestedTests.getReviewTgMsgData(tapperTable);
 
@@ -123,8 +126,9 @@ public class ReviewTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.6. Сохраняем данные")
-    public void createAndPay() {
+    @Order(7)
+    @DisplayName("Сохраняем данные")
+    void createAndPay() {
 
         createAndFillOrder();
         payAndGoToReviewPage();
@@ -132,32 +136,36 @@ public class ReviewTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.7. Оставляем позитивный отзыв")
-    public void checkPayment() {
+    @Order(8)
+    @DisplayName("Оставляем позитивный отзыв")
+    void checkPayment() {
 
         reviewPageNestedTests.reviewCorrectPositive();
 
     }
 
     @Test
-    @DisplayName("1.8. Сохраняем данные")
-    public void saveReviewDataForPositive() {
+    @Order(9)
+    @DisplayName("Сохраняем данные")
+    void saveReviewDataForPositive() {
 
-        tapperDataForTgMsg = reviewPageNestedTests.saveReviewData(tapperTable, waiter,"positive");
+        tapperDataForTgMsg = reviewPageNestedTests.saveReviewData(tapperTable, waiterName,"positive");
 
     }
 
     @Test
-    @DisplayName("1.9. Проверка сообщения в телеграмме")
-    public void matchTgMsgForPositive() {
+    @Order(10)
+    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.isTelegramMessageCorrect)
+    void matchTgMsgForPositive() {
 
         matchTgMsg();
 
     }
 
     @Test
-    @DisplayName("2.0. Создаем еще заказ")
-    public void createAndPayForFewNegativeOptions() {
+    @Order(11)
+    @DisplayName("Создаем еще заказ")
+    void createAndPayForFewNegativeOptions() {
 
         createAndFillOrder();
         payAndGoToReviewPage();
@@ -165,32 +173,36 @@ public class ReviewTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.1. Оставляем негативный отзыв c несколькими вариантами пожеланий")
-    public void reviewCorrectNegativeFewOptions() {
+    @Order(12)
+    @DisplayName("Оставляем негативный отзыв c несколькими вариантами пожеланий")
+    void reviewCorrectNegativeFewOptions() {
 
         reviewPageNestedTests.reviewCorrectNegativeFewOptions();
 
     }
 
     @Test
-    @DisplayName("2.2. Сохраняем данные")
-    public void saveReviewDataForFewNegativeOptions() {
+    @Order(13)
+    @DisplayName("Сохраняем данные")
+    void saveReviewDataForFewNegativeOptions() {
 
         saveReviewDataNegative();
 
     }
 
     @Test
-    @DisplayName("2.3. Проверка сообщения в телеграмме")
-    public void matchTgMsgForFewNegativeOptions() {
+    @Order(14)
+    @DisplayName("Проверка сообщения в телеграмме")
+    void matchTgMsgForFewNegativeOptions() {
 
         matchTgMsg();
 
     }
 
     @Test
-    @DisplayName("2.4. Создаем еще заказ")
-    public void createAndPayForFewPositiveOptions() {
+    @Order(15)
+    @DisplayName("Создаем еще заказ")
+    void createAndPayForFewPositiveOptions() {
 
         createAndFillOrder();
         payAndGoToReviewPage();
@@ -198,24 +210,27 @@ public class ReviewTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.5. Оставляем позитивный отзыв c несколькими вариантами пожеланий")
-    public void reviewCorrectForFewPositiveOptions() {
+    @Order(16)
+    @DisplayName("Оставляем позитивный отзыв c несколькими вариантами пожеланий")
+    void reviewCorrectForFewPositiveOptions() {
 
         reviewPageNestedTests.reviewCorrectPositiveWithFewOptions();
 
     }
 
     @Test
-    @DisplayName("2.6. Сохраняем данные")
-    public void saveReviewDataForFewPositiveOptions() {
+    @Order(17)
+    @DisplayName("Сохраняем данные")
+    void saveReviewDataForFewPositiveOptions() {
 
         saveReviewDataForPositive();
 
     }
 
     @Test
-    @DisplayName("2.7. Проверка сообщения в телеграмме")
-    public void matchTgMsgForFewPositiveOptions() {
+    @Order(18)
+    @DisplayName("Проверка сообщения в телеграмме")
+    void matchTgMsgForFewPositiveOptions() {
 
         matchTgMsg();
 

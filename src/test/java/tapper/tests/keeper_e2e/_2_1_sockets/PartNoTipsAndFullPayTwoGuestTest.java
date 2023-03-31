@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTestTwoBrowsers;
+import tests.TwoBrowsers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ import static data.Constants.TestData.TapperTable.*;
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartNoTipsAndFullPayTwoGuestTest extends BaseTestTwoBrowsers {
+public class PartNoTipsAndFullPayTwoGuestTest extends TwoBrowsers {
 
     static String guid;
     static HashMap<Integer, Map<String, Double>> chosenDishes;
@@ -37,7 +37,7 @@ public class PartNoTipsAndFullPayTwoGuestTest extends BaseTestTwoBrowsers {
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static String transactionId;
     static int amountDishesForFillingOrder = 6;
     static int amountDishesToBeChosen = 3;
@@ -66,18 +66,8 @@ public class PartNoTipsAndFullPayTwoGuestTest extends BaseTestTwoBrowsers {
     @DisplayName("1.2. Открываем стол на двух разных устройствах, проверяем что не пустые")
     public void openTables() {
 
-        using(firstBrowser, () -> {
-
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
-        using(secondBrowser, () -> {
-
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
+        using(firstBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
 
     }
 
@@ -90,6 +80,7 @@ public class PartNoTipsAndFullPayTwoGuestTest extends BaseTestTwoBrowsers {
             rootPage.activateDivideCheckSliderIfDeactivated();
             rootPageNestedTests.chooseCertainAmountDishes(amountDishesToBeChosen);
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
+            rootPage.scrollTillBottom();
             rootPage.setRandomTipsOption();
 
         });

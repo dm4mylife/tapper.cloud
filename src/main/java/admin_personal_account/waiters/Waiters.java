@@ -1,6 +1,5 @@
 package admin_personal_account.waiters;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -13,12 +12,10 @@ import java.time.Duration;
 import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.empty;
-import static data.Constants.TestData.AdminPersonalAccount.INVITED_IN_SERVICE_TEXT;
-import static data.Constants.TestData.AdminPersonalAccount.VERIFIED_WAITER_TEXT;
+import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE;
 import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
-import static data.selectors.AdminPersonalAccount.Common.pageHeading;
-import static data.selectors.AdminPersonalAccount.Common.waiterMenuCategory;
+import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.Waiters.*;
 
 
@@ -39,7 +36,12 @@ public class Waiters extends BaseActions {
     @Step("Проверка что все элементы в поиске официанта корректны")
     public void isWaiterCategoryCorrect() {
 
-        isElementVisible(waiterListHeading);
+        if (mobileFooter.getCssValue("display").equals("none")) {
+
+            isElementVisible(waiterListHeading);
+
+        }
+
         isElementVisible(refreshListButton);
         waiterPaginationList.shouldHave(sizeGreaterThanOrEqual(1));
         click(refreshListButton);
@@ -51,17 +53,17 @@ public class Waiters extends BaseActions {
     @Step("Проверка что официанта находится по имени")
     public void searchWaiter(String waiterName) {
 
-        searchField.clear();
-        searchField.sendKeys(waiterName);
+        clearText(searchField);
+        sendKeys(searchField,waiterName);
         waiterList.shouldBe(sizeGreaterThan(0),Duration.ofSeconds(5));
-        waiterCardName.shouldHave(text(waiterName));
+        waiterListName.shouldHave(text(waiterName));
 
     }
 
     @Step("Проваливаемся в первую карточку из результатов поиска официантов")
     public void clickInFirstResult() {
 
-        waiterList.first().shouldBe(visible,Duration.ofSeconds(5));
+        isElementVisibleDuringLongTime(waiterList.first(),5);
         click(waiterList.first());
 
     }
@@ -70,13 +72,23 @@ public class Waiters extends BaseActions {
     public void searchWaiterNegative() {
 
         clearText(searchField);
-        searchField.sendKeys("Ингеборга Эдмундовна Дапкунайте");
+        sendKeys(searchField,NON_EXIST_WAITER);
         waiterList.shouldBe(size(0),Duration.ofSeconds(5));
-        searchError.shouldBe(visible, text("Нет результатов. Попробуйте ввести данные ещё раз"));
+        searchError.shouldBe(visible, text(SEARCH_WAITER_ERROR_TEXT));
 
         resetSearchResult();
 
     }
+
+    public void searchWaiterNegativeWithoutReset() {
+
+        clearText(searchField);
+        sendKeys(searchField,NON_EXIST_WAITER);
+        waiterList.shouldBe(size(0),Duration.ofSeconds(5));
+        searchError.shouldBe(visible, text(SEARCH_WAITER_ERROR_TEXT));
+
+    }
+
 
     @Step("Проверка что сброс поиска работает корректно")
     public void resetSearchResult() {
@@ -84,7 +96,8 @@ public class Waiters extends BaseActions {
         click(searchResetButton);
         waiterList.shouldBe(size(10),Duration.ofSeconds(5));
         searchField.shouldHave(empty);
-        searchResetButton.shouldNotBe(visible);
+        isElementInvisible(searchResetButton);
+
 
     }
 
@@ -110,13 +123,14 @@ public class Waiters extends BaseActions {
 
         isDetailWaiterCardCorrectWithWaitingInvitationStatus();
 
+
         forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE); // toDO не успевает прогрузиться инпут емейла, обрезается
 
-        if (waiterStatusInCard.getText().matches(INVITED_IN_SERVICE_TEXT)) {
+        if (waiterStatusInCard.getText().matches("(.|\\n)*" +INVITED_IN_SERVICE_TEXT)) {
 
             cancelEMailWaiterInvitationInCard();
 
-        } else if (waiterStatusInCard.getText().matches(VERIFIED_WAITER_TEXT)) {
+        } else if (waiterStatusInCard.getText().matches("(.|\\n)*" +VERIFIED_WAITER_TEXT)) {
 
             unlinkMailWaiterInCard();
 
@@ -195,6 +209,27 @@ public class Waiters extends BaseActions {
 
     }
 
+    @Step("Переход в детальную карточку определенного официанта")
+    public void goToCertainWaiterDetailCard(String waiterName) {
+
+        searchWaiter(waiterName);
+        clickInFirstResult();
+        isDetailCardCorrect();
+
+    }
+
+
+    @Step("Проверка что элементы в карточке официанта корректны")
+    public void isDetailCardCorrect() {
+
+        isElementVisible(waiterStatusInCard);
+        isElementVisible(waiterNameInCashDesk);
+        isElementVisible(waiterName);
+        isElementVisible(enterEmailField);
+        isElementVisible(submitButton);
+
+    }
+
     @Step("Поиск первого совпадения карточки официанта по статусу '{waiterStatus}' и клик в неё")
     public void findFirstMatchByStatusAndClickInWaiterCard(String waiterStatus) {
 
@@ -256,6 +291,7 @@ public class Waiters extends BaseActions {
         click(cancelInvitationButton);
         unlinkMailConfirmPopup.shouldBe(visible,Duration.ofSeconds(2));
         click(unlinkEmailConfirmButton);
+        unlinkMailConfirmPopup.shouldBe(hidden,Duration.ofSeconds(5));
         enterEmailField.shouldHave(value(""));
         inviteButton.shouldBe(visible,disabled);
         forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
@@ -269,6 +305,7 @@ public class Waiters extends BaseActions {
         click(cancelInvitationButton);
         cancelMailConfirmationPopup.shouldBe(visible);
         click(cancelMailConfirmationSaveButton);
+        cancelMailConfirmationPopup.shouldBe(hidden,Duration.ofSeconds(5));
         enterEmailField.shouldHave(value(""));
         inviteButton.shouldBe(visible,disabled);
 

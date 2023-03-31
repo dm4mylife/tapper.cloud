@@ -32,7 +32,7 @@ import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY;
 public class ChoseAndPartPayTillEndTest extends BaseTest {
 
     static double totalPay;
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static String transactionId;
     static String guid;
     static LinkedHashMap<String, String> tapperDataForTgMsg;

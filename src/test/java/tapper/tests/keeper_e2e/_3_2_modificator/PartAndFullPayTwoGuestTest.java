@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTestTwoBrowsers;
+import tests.TwoBrowsers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import static data.Constants.TestData.TapperTable.*;
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartAndFullPayTwoGuestTest extends BaseTestTwoBrowsers {
+public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
     static String guid;
     static HashMap<Integer, Map<String, Double>> chosenDishes;
@@ -36,7 +36,7 @@ public class PartAndFullPayTwoGuestTest extends BaseTestTwoBrowsers {
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static double totalPay;
     static String orderType = "part";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static String transactionId;
     static int amountDishesToBeChosen = 1;
     static HashMap<Integer, Map<String, Double>> orderInKeeper;
@@ -96,14 +96,14 @@ public class PartAndFullPayTwoGuestTest extends BaseTestTwoBrowsers {
 
         using(firstBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
             rootPage.isTableHasOrder();
 
         });
 
         using(secondBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
             rootPage.isTableHasOrder();
 
         });

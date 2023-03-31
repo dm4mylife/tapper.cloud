@@ -3,14 +3,12 @@ package tapper.tests.admin_personal_account.waiters;
 
 import admin_personal_account.AdminAccount;
 import admin_personal_account.waiters.Waiters;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.YandexPage;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.*;
@@ -26,7 +24,7 @@ import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 @DisplayName("Авторизация администратора,проверка всех статусов приглашения официанта")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _9_0_TotalTest extends AdminBaseTest {
+public class _9_0_TotalTest extends PersonalAccountTest {
 
     static String password;
 

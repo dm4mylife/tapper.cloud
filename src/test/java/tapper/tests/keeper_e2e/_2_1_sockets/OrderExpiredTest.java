@@ -35,7 +35,7 @@ public class OrderExpiredTest extends BaseTest {
 
     static String guid;
     static double totalPay;
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String,Double> tableData;
     static LinkedHashMap<Integer, Map<String,Double>> dishList;
     static String transactionId;

@@ -5,17 +5,15 @@ import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTestTwoBrowsers;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import tapper_table.nestedTestsManager.NestedTests;
+import tests.TwoBrowsers;
 
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Selenide.using;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable.createOrderInKeeper;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable.isDishesCorrectInCashDeskAndTapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 
@@ -26,39 +24,42 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 @DisplayName("Проверка на деактивацию кнопки оплатить, на втором устройстве")
 
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class DisabledPaymentTwoGuestTest extends BaseTestTwoBrowsers {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class DisabledPaymentTwoGuestTest extends TwoBrowsers {
 
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_222;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_222;
+    protected final String tableId = TABLE_AUTO_222_ID;
     static String guid;
     static int amountDishesForFillingOrder = 4;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+    NestedTests nestedTests = new NestedTests();
 
 
     @Test
-    @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(createOrderInKeeper + isDishesCorrectInCashDeskAndTapperTable)
+    void createAndFillOrder() {
 
-        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
-
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableId);
 
     }
 
     @Test
-    @DisplayName("1.2. Открываем стол на двух разных устройствах, проверяем что не пустые")
-    public void openTables() {
+    @Order(2)
+    @DisplayName("Открываем стол на двух разных устройствах, проверяем что не пустые")
+    void openTables() {
 
         using(firstBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
+            rootPage.openNotEmptyTable(tableUrl);
+
             rootPage.activateDivideCheckSliderIfDeactivated();
             rootPage.isPaymentDisabled();
             rootPage.deactivateDivideCheckSliderIfActivated();
@@ -69,16 +70,17 @@ public class DisabledPaymentTwoGuestTest extends BaseTestTwoBrowsers {
     }
 
     @Test
-    @DisplayName("1.3. Выбираем рандомно блюда у первого гостя, сохраняем данные для след.теста")
-    public void chooseDishesAndCheckAfterDivided() {
+    @Order(3)
+    @DisplayName("Выбираем рандомно блюда у первого гостя, сохраняем данные для след.теста")
+    void chooseDishesAndCheckAfterDivided() {
 
         using(secondBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
+            rootPage.openNotEmptyTable(tableUrl);
+
             rootPage.isPaymentDisabled();
 
-            apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid,AUTO_API_URI);
+            apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
 
         });
 

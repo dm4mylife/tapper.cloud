@@ -9,7 +9,6 @@ import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tests.BaseTest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -37,7 +36,7 @@ class NoTipsScTest extends BaseTest {
     static String guid;
     static double totalPay;
     static String orderType = "full";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static String transactionId;
     int amountDishesForFillingOrder = 10;
@@ -47,19 +46,17 @@ class NoTipsScTest extends BaseTest {
 
     @Test
     @Order(1)
-    @DisplayName(createOrderInKeeper + isDishesCorrectInCashDeskAndTapperTable)
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable)
     void createAndFillOrder() {
 
-        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-
-        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO, dishesForFillingOrder,
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
 
     }
 
     @Test
     @Order(2)
-    @DisplayName(isTotalPaySumCorrectNoTipsSc)
+    @DisplayName(TapperTable.isTotalPaySumCorrectNoTipsSc)
     void choseAllNonPaidDishesNoTipsNoSc() {
 
         nestedTests.choseAllNonPaidDishesNoTipsSc();
@@ -68,7 +65,7 @@ class NoTipsScTest extends BaseTest {
 
     @Test
     @Order(3)
-    @DisplayName(savePaymentData)
+    @DisplayName(TapperTable.savePaymentData)
     void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
@@ -79,7 +76,7 @@ class NoTipsScTest extends BaseTest {
 
     @Test
     @Order(4)
-    @DisplayName(goToAcquiringAndPayOrder)
+    @DisplayName(TapperTable.goToAcquiringAndPayOrder)
     void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
@@ -88,7 +85,7 @@ class NoTipsScTest extends BaseTest {
 
     @Test
     @Order(5)
-    @DisplayName(isPaymentCorrect)
+    @DisplayName(TapperTable.isPaymentCorrect)
     void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
@@ -97,7 +94,7 @@ class NoTipsScTest extends BaseTest {
 
     @Test
     @Order(6)
-    @DisplayName(isTelegramMessageCorrect)
+    @DisplayName(TapperTable.isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 
         nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);

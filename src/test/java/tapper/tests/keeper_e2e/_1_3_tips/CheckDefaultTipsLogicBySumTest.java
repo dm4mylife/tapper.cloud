@@ -5,21 +5,21 @@ import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
-import tapper_table.Best2PayPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
+import static data.AnnotationAndStepNaming.DisplayName.*;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
-import static data.Constants.TestData.TapperTable.*;
-import static data.selectors.TapperTable.RootPage.DishList.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static data.selectors.TapperTable.RootPage.DishList.dishNameSelector;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
 
 
@@ -28,39 +28,39 @@ import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
 @Story("Проверка логики установки дефолтных чаевых от суммы заказа, ввод кастомных чаевых, ошибки суммы")
 @DisplayName("Проверка логики установки дефолтных чаевых от суммы заказа, ввод кастомных чаевых, ошибки суммы")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class CheckDefaultTipsLogicBySumTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class CheckDefaultTipsLogicBySumTest extends BaseTest {
+
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_111;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
+    protected final String tableId = TABLE_AUTO_111_ID;
+
 
     static String guid;
     static double tapperTotalPay;
-    static double b2pTotalPay;
-    static int amountDishesForFillingOrder = 1;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-
+    int amountDishesForFillingOrder = 1;
 
     RootPage rootPage = new RootPage();
-    Best2PayPage best2PayPage = new Best2PayPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1.0. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(TapperTable.createOrderInKeeper)
+    void createAndFillOrder() {
 
-        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
-
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_111,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_111,
-                TABLE_AUTO_111_ID);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
 
     }
 
     @Test
-    @DisplayName("1.1. Проверяем что логика чаевых по сумме корректна к минимальным чаевым")
-    public void setScAndCheckTips() {
+    @Order(2)
+    @DisplayName(TapperTable.isDefaultTipsLogicCorrect)
+    void setScAndCheckTips() {
 
         double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
         nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
@@ -68,29 +68,32 @@ public class CheckDefaultTipsLogicBySumTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.2. Добавляем еще одно блюдо в заказ")
-    public void addDishes() {
+    @Order(3)
+    @DisplayName(TapperTable.addOneMoreDishToOrder)
+    void addDishes() {
 
         ArrayList<LinkedHashMap<String, Object>> dishes = new ArrayList<>();
 
         dishes = apiRKeeper.createDishObject(dishes, SOLYANKA, 3);
-        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishes));
+        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
         rootPage.refreshPage();
         rootPage.isTableHasOrder();
 
     }
 
     @Test
-    @DisplayName("1.3. Разделяем счёт чтобы выбрать позиции")
-    public void activateDivideCheckSliderIfDeactivated() {
+    @Order(4)
+    @DisplayName(TapperTable.divideOrderToChoseDishes)
+    void activateDivideCheckSliderIfDeactivated() {
 
         rootPage.activateDivideCheckSliderIfDeactivated();
 
     }
 
     @Test
-    @DisplayName("1.4. Проверяем вторую опцию чаевых")
-    public void setScAndCheckTipsWith2ndOption() {
+    @Order(5)
+    @DisplayName(TapperTable.isSecondTipsOptionCorrect)
+    void setScAndCheckTipsWith2ndOption() {
 
         rootPage.chooseAllNonPaidDishes();
         double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
@@ -99,84 +102,84 @@ public class CheckDefaultTipsLogicBySumTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.5. Добавляем еще одно блюдо в заказ")
-    public void addDishesWith3rdOption() {
+    @Order(6)
+    @DisplayName(TapperTable.addOneMoreDishToOrder)
+    void addDishesWith3rdOption() {
 
         addDishes();
 
     }
 
     @Test
-    @DisplayName("1.6. Проверяем 3 опцию чаевых")
-    public void setScAndCheckTipsWith3rdOption() {
+    @Order(7)
+    @DisplayName(TapperTable.isThirdTTipsOptionCorrect)
+    void setScAndCheckTipsWith3rdOption() {
 
         setScAndCheckTipsWith2ndOption();
 
     }
 
     @Test
-    @DisplayName("1.7. Добавляем еще одно блюдо в заказ")
-    public void addDishesWith4thOption() {
+    @Order(8)
+    @DisplayName(TapperTable.addOneMoreDishToOrder)
+    void addDishesWith4thOption() {
 
         addDishes();
 
     }
 
     @Test
-    @DisplayName("1.8. Проверяем 4 опцию чаевых")
-    public void setScAndCheckTipsWith4thOption() {
+    @Order(9)
+    @DisplayName(TapperTable.isFourthTipsOptionCorrect)
+    void setScAndCheckTipsWith4thOption() {
 
         setScAndCheckTipsWith2ndOption();
 
     }
 
     @Test
-    @DisplayName("1.9. Добавляем еще одно блюдо в заказ")
-    public void addDishesWith5thOption() {
+    @Order(10)
+    @DisplayName(TapperTable.addOneMoreDishToOrder)
+    void addDishesWith5thOption() {
 
         ArrayList<LinkedHashMap<String, Object>> dishes = new ArrayList<>();
 
         dishes = apiRKeeper.createDishObject(dishes, SOLYANKA, 5);
-        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishes));
+        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
         rootPage.refreshPage();
 
     }
 
     @Test
-    @DisplayName("2.0. Проверяем 5 опцию чаевых")
-    public void setScAndCheckTipsWith5thOption() {
+    @Order(11)
+    @DisplayName(TapperTable.isFifthTipsOptionCorrect)
+    void setScAndCheckTipsWith5thOption() {
 
         setScAndCheckTipsWith2ndOption();
 
     }
 
     @Test
-    @DisplayName("2.1. Установка кастомных чаевых и проверка суммы")
-    public void setCustomTips() {
+    @Order(12)
+    @DisplayName(TapperTable.setCustomTips)
+    void setCustomTips() {
 
-        rootPage.setCustomTips(String.valueOf(rootPage.generateRandomNumber(100,200)));
+        rootPage.setCustomTips(String.valueOf(rootPage.generateRandomNumber(100, 200)));
         tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
 
-        rootPageNestedTests.clickPayment();
-        b2pTotalPay = best2PayPage.getPaymentAmount();
-
-        Assertions.assertEquals(tapperTotalPay, b2pTotalPay, 0.1,
-                "Сумма итого к оплате не совпадает с суммой в таппере");
-        System.out.println("Сумма итого к оплате (с СБ) в таппере " + tapperTotalPay +
-                " совпадает с суммой в б2п " + b2pTotalPay);
-
-        rootPage.returnToPreviousPage();
+        nestedTests.checkTotalPayInB2P(tapperTotalPay);
 
     }
 
     @Test
-    @DisplayName("2.2. Выбираем все блюда и по одному отщелкиваем, проверяя как выставляются чаевые")
-    public void checkTipsLogicByRemovingPositions() {
+    @Order(13)
+    @DisplayName("Выбираем все блюда и по одному отщелкиваем, проверяя как выставляются чаевые")
+    void checkTipsLogicByRemovingPositions() {
 
         allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
-           rootPage.click(element.$(dishNameSelector));
-           rootPage.isDefaultTipsBySumLogicCorrect();
+            rootPage.click(element.$(dishNameSelector));
+            rootPage.isDefaultTipsBySumLogicCorrect();
 
         });
 
@@ -185,10 +188,11 @@ public class CheckDefaultTipsLogicBySumTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.3. Закрываем заказ")
-    public void payAndGoToAcquiringAgain() {
+    @Order(14)
+    @DisplayName(TapperTable.closedOrder)
+    void payAndGoToAcquiringAgain() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_111_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
 
     }
 

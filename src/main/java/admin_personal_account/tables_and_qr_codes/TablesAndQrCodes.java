@@ -21,11 +21,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Collection;
+import java.util.Objects;
 
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Common.tablesAndQrCodesCategory;
+import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 
 
@@ -40,10 +44,7 @@ public class TablesAndQrCodes extends BaseActions {
 
     }
 
-    @Step("Поиск столов с начального и до конечного значения")
-    public void searchTableRange(int min, int max) {
-
-        forceWait(1000); // toDO не успевает значение проставиться, слишком быстро тест ходит
+    public void searchTableRangeWithoutReset(int min, int max) {
 
         if (min != 0) {
 
@@ -62,41 +63,87 @@ public class TablesAndQrCodes extends BaseActions {
         } else {
 
             tableSearchTo.setValue("");
-            max = 300;
 
         }
 
-        findTableButton.click();
-        resetTableButton.shouldBe(Condition.visible);
+        click(findTableButton);
+        resetTableButton.shouldBe(visible);
 
-        StringBuilder logs = new StringBuilder();
+        if (paginationPages.size() == 1) {
 
-        for (SelenideElement paginationPage : paginationPages) {
+            click(paginationPages.first());
+            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
 
-            if (paginationPages.size() != 1) {
+            if(!Objects.equals(tableSearchFrom.getValue(), ""))
+                tableListItem.filter(matchText(String.valueOf(min))).shouldHave(sizeGreaterThanOrEqual(1));
 
-                paginationPage.click();
-                forceWait(1000);
+            tableListItem.filter(matchText(String.valueOf(max))).shouldHave(sizeGreaterThanOrEqual(1));
 
-            }
+        } else {
 
-            for (SelenideElement element : tableListItem) {
+            click(paginationPages.first());
+            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
+            if(!Objects.equals(tableSearchFrom.getValue(), ""))
+                tableListItem.filter(matchText(String.valueOf(min))).shouldHave(sizeGreaterThanOrEqual(1));
 
-                int tableNumber = Integer.parseInt(element.getText().replaceAll(".*\\s(\\d+)\\s.*", "$1"));
+            click(paginationPages.last());
+            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
+            tableListItem.filter(matchText(String.valueOf(max))).shouldHave(sizeGreaterThanOrEqual(1));
 
-                if (tableNumber >= min && tableNumber <= max) {
+        }
 
-                    logs.append("Стол номер: ").append(tableNumber).append("\n");
+    }
+    @Step("Поиск столов с начального и до конечного значения")
+    public void searchTableRange(int min, int max) {
 
-                }
+        if (min != 0) {
 
-            }
+            tableSearchFrom.setValue(String.valueOf(min));
+
+        } else {
+
+            tableSearchFrom.setValue("");
+
+        }
+
+        if (max != 0) {
+
+            tableSearchTo.setValue(String.valueOf(max));
+
+        } else {
+
+            tableSearchTo.setValue("");
+
+        }
+
+        click(findTableButton);
+        tableAndQRCodesPreloader.shouldHave(cssValue("display","none"),Duration.ofSeconds(10));
+        resetTableButton.shouldBe(visible);
+
+        if (paginationPages.size() == 1) {
+
+            click(paginationPages.first());
+            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
+
+            if(!Objects.equals(tableSearchFrom.getValue(), ""))
+                tableListItem.filter(matchText(String.valueOf(min))).shouldHave(sizeGreaterThanOrEqual(1));
+
+            tableListItem.filter(matchText(String.valueOf(max))).shouldHave(sizeGreaterThanOrEqual(1));
+
+        } else {
+
+            click(paginationPages.first());
+            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
+            if(!Objects.equals(tableSearchFrom.getValue(), ""))
+                tableListItem.filter(matchText(String.valueOf(min))).shouldHave(sizeGreaterThanOrEqual(1));
+
+            click(paginationPages.last());
+            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
+            tableListItem.filter(matchText(String.valueOf(max))).shouldHave(sizeGreaterThanOrEqual(1));
 
         }
 
         resetTableSearch();
-
-        System.out.println(logs);
 
     }
 
@@ -120,14 +167,14 @@ public class TablesAndQrCodes extends BaseActions {
         resetTableButton.shouldHave(cssValue("display", "none"));
         tableSearchFrom.shouldHave(value(""));
         tableSearchTo.shouldHave(value(""));
-        tableListItem.shouldHave(CollectionCondition.size(10));
+        tableListItem.shouldHave(size(10));
 
     }
 
     @Step("Переход в карточку стола")
     public void goToDetailTableCard() {
 
-        tableListItem.get(0).click();
+        click(tableListItem.first());
 
     }
 
@@ -137,8 +184,8 @@ public class TablesAndQrCodes extends BaseActions {
         String previousValueSearchFrom = tableSearchFrom.getValue();
         String previousValueSearchTo = tableSearchTo.getValue();
 
-        tableListItem.get(0).click();
-        backToTableList.click();
+        click(tableListItem.first());
+        click(backToTableList);
 
         String currentValueSearchFrom = tableSearchFrom.getValue();
         String currentValueSearchTo = tableSearchTo.getValue();
@@ -165,7 +212,7 @@ public class TablesAndQrCodes extends BaseActions {
     @Step("Клик в ссылку стола")
     public void clickInTableLinkQR() {
 
-        tableItemLink.click();
+        click(tableItemLink);
         switchTab(1);
 
     }

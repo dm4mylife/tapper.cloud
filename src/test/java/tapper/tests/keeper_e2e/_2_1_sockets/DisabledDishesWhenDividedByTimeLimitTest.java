@@ -9,20 +9,19 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTestTwoBrowsers;
+import tests.TwoBrowsers;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.using;
+import static data.AnnotationAndStepNaming.DisplayName.*;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.RootPage.DishList.allDishesStatuses;
 
@@ -33,61 +32,54 @@ import static data.selectors.TapperTable.RootPage.DishList.allDishesStatuses;
 @Story("Выбор позиций в раздельной оплате на 1-м устройстве, позиции в статусе “Оплачивается” на 2-м устройстве")
 @DisplayName("Выбор позиций в раздельной оплате на 1-м устройстве, позиции в статусе “Оплачивается” на 2-м устройстве")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class DisabledDishesWhenDividedByTimeLimitTest extends BaseTestTwoBrowsers {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class DisabledDishesWhenDividedByTimeLimitTest extends TwoBrowsers {
 
-    static int amountDishesToBeChosen = 3;
-    static int amountDishesForFillingOrder = 6;
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_222;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_222;
+    protected final String tableId = TABLE_AUTO_222_ID;
+
+    int amountDishesToBeChosen = 3;
+    int amountDishesForFillingOrder = 6;
     static String guid;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+    NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable)
+    void createAndFillOrder() {
 
-        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
-
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
-
-        guid = apiRKeeper.getGuidFromCreateOrder(rs);
+        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableId);
 
     }
 
     @Test
-    @DisplayName("2. Выбираем рандомно блюда, проверяем все суммы и условия")
-    public void chooseDishesAndCheckAfterDivided() {
+    @Order(2)
+    @DisplayName(TapperTable.choseRandomDishesAncCheckSums)
+    void chooseDishesAndCheckAfterDivided() {
 
-        using(firstBrowser, () -> {
+        using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
-        });
-
-        using(secondBrowser, () -> {
-
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
-
-        });
-
-        using(firstBrowser, () -> {
-
-            rootPage.isTableHasOrder();
-            rootPageNestedTests.chooseDishesWithRandomAmount(amountDishesToBeChosen);
-
-        });
+        using(firstBrowser, () -> rootPageNestedTests.chooseDishesWithRandomAmount(amountDishesToBeChosen));
 
     }
 
     @Test
-    @DisplayName("3. Проверяем что позиции закрыты для выбора и в статусе ожидается")
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName("Проверяем что позиции закрыты для выбора и в статусе ожидается")
+    void savePaymentDataForAcquiring() {
 
-        using(firstBrowser, Selenide::closeWindow);
+        using(firstBrowser, Selenide::closeWebDriver);
 
         using(secondBrowser, () -> {
 
@@ -113,10 +105,11 @@ public class DisabledDishesWhenDividedByTimeLimitTest extends BaseTestTwoBrowser
     }
 
     @Test
-    @DisplayName("4. Закрываем заказ, очищаем кассу")
-    public void closeOrder() {
+    @Order(4)
+    @DisplayName("Закрываем заказ, очищаем кассу")
+    void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
         using(secondBrowser, Selenide::closeWindow);
 
     }

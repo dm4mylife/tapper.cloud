@@ -6,16 +6,12 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
-import static data.selectors.AdminPersonalAccount.Menu.enableMenuForVisitorsButton;
-import static data.selectors.TapperTable.RootPage.DishList.orderContainer;
-import static data.selectors.TapperTable.RootPage.Menu.menuDishContainer;
-import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
 @Order(116)
 @Epic("Личный кабинет администратора ресторана")
@@ -24,7 +20,7 @@ import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 @DisplayName("Проверка что если меню отключено, то на столе отображается кнопка и информация")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _11_6_EmptyMenuTest extends AdminBaseTest {
+public class _11_6_EmptyMenuTest extends PersonalAccountTest {
 
     int adminTab = 0;
     RootPage rootPage = new RootPage();
@@ -44,15 +40,15 @@ public class _11_6_EmptyMenuTest extends AdminBaseTest {
     public void goToMenu() {
 
         menu.goToMenuCategory();
-        menu.isMenuCorrect();
+        menu.isMenuCategoryCorrect();
 
     }
 
     @Test
     @DisplayName("1.3. Выключаем меню для гостей если включено")
-    public void activateMenuForGuests() {
+    public void deactivateMenu() {
 
-        menu.deactivateShowActiveForGuest();
+        menu.deactivateShowGuestSliderIfActivated();
 
     }
 
@@ -61,9 +57,9 @@ public class _11_6_EmptyMenuTest extends AdminBaseTest {
     public void checkMenuIconAndContainerInTable() {
 
         rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.clickOnMenuInFooter();
 
-        rootPage.isElementVisibleDuringLongTime(appFooterMenuIcon,10);
-        rootPage.click(appFooterMenuIcon);
+
         rootPage.emptyMenuCorrect();
 
     }

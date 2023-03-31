@@ -3,15 +3,13 @@ package tapper.tests.admin_personal_account.waiters;
 
 import admin_personal_account.AdminAccount;
 import admin_personal_account.waiters.Waiters;
-import com.codeborne.selenide.Configuration;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.YandexPage;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
@@ -31,7 +29,7 @@ import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.errorMsgL
 @DisplayName("Авторизация официанта, когда у него отозвали приглашение")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _9_2_AuthAfterCancelingInvitationTest extends AdminBaseTest {
+public class _9_2_AuthAfterCancelingInvitationTest extends PersonalAccountTest {
 
     static String password;
 

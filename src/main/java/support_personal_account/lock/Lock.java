@@ -6,11 +6,14 @@ import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
+import java.io.FileNotFoundException;
 import java.time.Duration;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
+import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
+import static data.selectors.SupportPersonalAccount.CashDeskInaccessibility.downloadTableButton;
 import static data.selectors.SupportPersonalAccount.Common.lockCategory;
 import static data.selectors.SupportPersonalAccount.Lock.*;
 
@@ -63,13 +66,10 @@ public class Lock extends BaseActions {
 
         } else {
 
-            click(dropdownWhereToLockFilterOptions.get(0));
+            click(dropdownWhereToLockFilterOptions.first());
 
-            for (SelenideElement element : dropdownWhereToLockRestaurants) {
-
-                element.shouldHave(attributeMatching("class", ".*active"));
-
-            }
+            dropdownWhereToLockRestaurants.asFixedIterable().stream().forEach
+                    (element -> element.shouldHave(attributeMatching("class", ".*active")));
 
             click(applyButton);
 
@@ -94,11 +94,8 @@ public class Lock extends BaseActions {
 
             click(resetAllButton);
 
-            for (SelenideElement element : dropdownWhereToLockRestaurants) {
-
-                element.shouldNotHave(attributeMatching("class", ".*active"));
-
-            }
+            dropdownWhereToLockRestaurants.asFixedIterable().stream().forEach
+                    (element -> element.shouldNotHave(attributeMatching("class", ".*active")));
 
             click(applyButton);
 
@@ -177,14 +174,11 @@ public class Lock extends BaseActions {
 
         click(whereToLockButton);
 
-       ElementsCollection onlyTestrkeeperRestaurants =
-               dropdownWhereToLockRestaurants.filter(matchText(restaurant));
+        ElementsCollection onlyTestrkeeperRestaurants =
+           dropdownWhereToLockRestaurants.filter(matchText(restaurant));
 
-        for (SelenideElement element : onlyTestrkeeperRestaurants) {
-
-            element.$(".vPlugLst__checkbox").click();
-
-        }
+        onlyTestrkeeperRestaurants.asFixedIterable().stream().forEach
+            (element -> element.$(".vPlugLst__checkbox").click());
 
         click(applyButton);
         click(saveButton);
@@ -202,16 +196,23 @@ public class Lock extends BaseActions {
         ElementsCollection onlyTestrkeeperRestaurants =
                 dropdownWhereToLockRestaurants.filter(matchText(restaurant));
 
-        for (SelenideElement element : onlyTestrkeeperRestaurants) {
-
-            element.$(".vPlugLst__checkbox").click();
-
-        }
+        onlyTestrkeeperRestaurants.asFixedIterable().stream().forEach
+                (element -> element.$(".vPlugLst__checkbox").click());
 
         click(applyButton);
         click(saveButton);
 
     }
+
+    @Step("Загружаем таблицу")
+    public void downloadFile() throws FileNotFoundException {
+
+        Assertions.assertNotNull(downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
+                "Файл не может быть скачен");
+
+    }
+
+
 
 
 }

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.*;
 import support_personal_account.lock.Lock;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import static data.Constants.TestData.TapperTable.*;
 @DisplayName("Проверка всех элементов заглушки, заглушаем все рестораны, сперва весь сервис, потом только оплату")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class LockTotalTest extends AdminBaseTest {
+public class LockTotalTest extends PersonalAccountTest {
 
     static String guid;
     static int amountDishesForFillingOrder = 7;

@@ -1,6 +1,6 @@
 package admin_personal_account.menu;
 
-import com.codeborne.selenide.Condition;
+import admin_personal_account.profile.Profile;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
@@ -35,12 +35,14 @@ public class Menu extends BaseActions {
 
         click(menuCategory);
         pageHeading.shouldHave(text("Меню"), Duration.ofSeconds(5));
-        menuContainer.shouldBe(visible,Duration.ofSeconds(5));
+
+        if (!menuMobilePlug.exists())
+            menuContainer.shouldBe(visible,Duration.ofSeconds(5));
 
     }
 
     @Step("Проверка что все элементы в меню корректны и отображаются")
-    public void isMenuCorrect() {
+    public void isMenuCategoryCorrect() {
 
         isElementVisible(refreshMenuButton);
         isElementVisible(categoryTitle);
@@ -136,6 +138,7 @@ public class Menu extends BaseActions {
     public void activateOnlyAllAutoCategoryAndDishes() {
 
         deactivateMenuCategory();
+        activateShowGuestSliderIfDeactivated();
         activateAutoCategoryAndDishes(FIRST_AUTO_MENU_CATEGORY);
         activateAutoCategoryAndDishes(SECOND_AUTO_MENU_CATEGORY);
 
@@ -154,11 +157,11 @@ public class Menu extends BaseActions {
 
                     if (!Objects.requireNonNull
                             (menuDishItemsEyeIcons.first().getAttribute("class")).matches(".*active.*"))
-                        click(categoryEyeIcons.first());
+                        click(menuDishItemsEyeIcons.first());
 
                     if (!Objects.requireNonNull
                             (menuDishItemsEyeIcons.last().getAttribute("class")).matches(".*active.*"))
-                        click(categoryEyeIcons.last());
+                        click(menuDishItemsEyeIcons.last());
 
                 }
 
@@ -359,6 +362,7 @@ public class Menu extends BaseActions {
         isImageCorrectInPreview(downloadedPreviewImage);
 
         click(saveButton);
+        forceWait(WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER);
 
         isImageCorrect(menuDishItemsImageInDishListSelector,
                 "Изображение блюда в списке блюд не корректное");
@@ -377,12 +381,20 @@ public class Menu extends BaseActions {
     @Step("Включаем по кнопке отображение меню для посетителей если вдруг оно выключено")
     public void activateShowGuestSliderIfDeactivated() {
 
-        if (!enableMenuForVisitorsContainer.$("input").isSelected()) {
+        if (!enableMenuForVisitorsInput.isSelected())
+            click(enableMenuForVisitorsButton);
 
-            enableMenuForVisitorsButton.click();
-            enableMenuForVisitorsContainer.$("input").shouldBe(Condition.checked);
+        enableMenuForVisitorsInput.shouldBe(checked);
 
-        }
+    }
+
+    @Step("Выключаем по кнопке отображение меню для посетителей если вдруг оно включено")
+    public void deactivateShowGuestSliderIfActivated() {
+
+        if (enableMenuForVisitorsInput.isSelected())
+            click(enableMenuForVisitorsButton);
+
+        enableMenuForVisitorsInput.shouldNotBe(checked);
 
     }
 
@@ -653,7 +665,7 @@ public class Menu extends BaseActions {
         String dishNameEdited = isDishEditNameByGuestCorrect(dishIndex);
 
         rootPage.refreshPage();
-        goToMenuCategory();
+        menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(15));
 
         activateFirstCategoryAndDishInMenu();
 

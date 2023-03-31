@@ -9,9 +9,8 @@ import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.SafariBaseTest;
+import tests.SafariTest;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
@@ -26,7 +25,7 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 @DisplayName("Общая функциональность таппера - Сафари")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class AllElementsSafariTest extends SafariBaseTest {
+class AllElementsSafariTest extends SafariTest {
 
 
     protected final String restaurantName = R_KEEPER_RESTAURANT;
@@ -48,7 +47,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(1)
-    @DisplayName(openEmptyTapperTable)
+    @DisplayName(TapperTable.openEmptyTapperTable)
     void openEmptyTapperTable() {
 
         nestedTests.openEmptyTapperTable(restaurantName, tableId, apiUri, tableUrl);
@@ -57,9 +56,10 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(2)
-    @DisplayName(checkEmptyTable)
+    @DisplayName(TapperTable.checkEmptyTable)
     void checkEmptyTable() {
 
+        rootPage.isStartScreenShown();
         rootPageNestedTests.isEmptyTableCorrect();
         rootPageNestedTests.isRefreshButtonCorrect();
 
@@ -67,19 +67,17 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(3)
-    @DisplayName(createOrderInKeeper + isDishesCorrectInCashDeskAndTapperTable)
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable)
     void createAndFillOrder() {
 
-        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-
-        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO, dishesForFillingOrder,
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
 
     }
 
     @Test
     @Order(4)
-    @DisplayName(refreshPage)
+    @DisplayName(TapperTable.refreshPage)
     void refreshPage() {
 
         rootPage.refreshPage();
@@ -88,7 +86,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(5)
-    @DisplayName(isStartScreenRestaurantLogoCorrect)
+    @DisplayName(TapperTable.isStartScreenRestaurantLogoCorrect)
     void isStartScreenShown() {
 
         rootPageNestedTests.isStartScreenShown();
@@ -97,7 +95,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(6)
-    @DisplayName(isDishesCorrectInCashDeskAndTapperTable)
+    @DisplayName(TapperTable.isDishesCorrectInCashDeskAndTapperTable)
     void newIsOrderInKeeperCorrectWithTapper() {
 
         rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(tableId);
@@ -106,7 +104,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(7)
-    @DisplayName(isTableHasOrder)
+    @DisplayName(TapperTable.isTableHasOrder)
     void isDishListNotEmptyAndVisible() {
 
         rootPage.isTableHasOrder();
@@ -115,7 +113,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(8)
-    @DisplayName(isDivideCheckButtonCorrect)
+    @DisplayName(TapperTable.isDivideCheckButtonCorrect)
     void isDivideSliderCorrect() {
 
         rootPage.isDivideSliderCorrect();
@@ -124,7 +122,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(9)
-    @DisplayName(isTipsContainerCorrect)
+    @DisplayName(TapperTable.isTipsContainerCorrect)
     void isTipsContainerCorrect() {
 
         rootPage.isTipsContainerCorrect();
@@ -133,7 +131,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(10)
-    @DisplayName(isCheckContainerCorrect)
+    @DisplayName(TapperTable.isCheckContainerCorrect)
     void isCheckContainerShown() {
 
         rootPage.isCheckContainerShown();
@@ -142,7 +140,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(11)
-    @DisplayName(isPaymentButtonCorrect)
+    @DisplayName(TapperTable.isPaymentButtonCorrect)
     void isPaymentButtonShown() {
 
         rootPage.isPaymentButtonShown();
@@ -151,7 +149,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(12)
-    @DisplayName(isShareButtonCorrect)
+    @DisplayName(TapperTable.isShareButtonCorrect)
     void isShareButtonShown() {
 
         rootPage.isShareButtonShown();
@@ -160,7 +158,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(13)
-    @DisplayName(isServiceChargeCorrect)
+    @DisplayName(TapperTable.isServiceChargeCorrect)
     void isServiceChargeShown() {
 
         rootPage.isServiceChargeShown();
@@ -169,7 +167,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(14)
-    @DisplayName(isPrivateAndConfPolicyCorrect)
+    @DisplayName(TapperTable.isPrivateAndConfPolicyCorrect)
     void isConfPolicyShown() {
 
         rootPage.isConfPolicyShown();
@@ -178,7 +176,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(15)
-    @DisplayName(isAppFooterCorrect)
+    @DisplayName(TapperTable.isAppFooterCorrect)
     void isTapBarShown() {
 
         rootPage.isTapBarShown();
@@ -187,7 +185,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(16)
-    @DisplayName(isCallWaiterCorrect)
+    @DisplayName(TapperTable.isCallWaiterCorrect)
     void isCallWaiterCorrect() {
 
         rootPage.isCallWaiterCorrect();
@@ -196,7 +194,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(17)
-    @DisplayName(isPaymentOptionsCorrect)
+    @DisplayName(TapperTable.isPaymentOptionsCorrect)
     void isPaymentOptionsCorrect() {
 
         rootPage.isPaymentOptionsCorrect();
@@ -206,7 +204,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(18)
-    @DisplayName(saveDataGoToAcquiringTypeDataAndPay)
+    @DisplayName(TapperTable.saveDataGoToAcquiringTypeDataAndPay)
     void payOrder() {
 
         tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
@@ -217,7 +215,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(19)
-    @DisplayName(checkPaymentProcess)
+    @DisplayName(TapperTable.checkPaymentProcess)
     void checkPayment() {
 
         reviewPageNestedTests.fullPaymentCorrect();
@@ -226,7 +224,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(20)
-    @DisplayName(isReviewCorrect)
+    @DisplayName(TapperTable.isReviewCorrect)
     void leaveReview() {
 
         reviewPageNestedTests.reviewCorrectPositive();
@@ -235,7 +233,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(21)
-    @DisplayName(isEmptyTableCorrect)
+    @DisplayName(TapperTable.isEmptyTableCorrect)
     void isTableEmpty() {
 
         rootPage.isEmptyOrderAfterClosing();
@@ -244,16 +242,7 @@ class AllElementsSafariTest extends SafariBaseTest {
 
     @Test
     @Order(22)
-    @DisplayName(isMenuCorrect)
-    void isMenuCorrect() {
-
-        nestedTests.isMenuCorrect();
-
-    }
-
-    @Test
-    @Order(23)
-    @DisplayName(isTelegramMessageCorrect)
+    @DisplayName(TapperTable.isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 
         nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
@@ -261,8 +250,8 @@ class AllElementsSafariTest extends SafariBaseTest {
     }
 
     @Test
-    @Order(24)
-    @DisplayName(isChatHistorySavedCorrectAfterCloseBrowser)
+    @Order(23)
+    @DisplayName(TapperTable.isChatHistorySavedCorrectAfterCloseBrowser)
     public void isHistorySavedByClosingBrowser() {
 
         rootPage.isHistorySavedByClosingBrowser(tableUrl);

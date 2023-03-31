@@ -1,26 +1,20 @@
 package tapper.tests.admin_personal_account.tables_and_qr_codes;
 
 import admin_personal_account.tables_and_qr_codes.TablesAndQrCodes;
-import com.codeborne.selenide.Configuration;
 import com.google.zxing.NotFoundException;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
-import tapper_table.RootPage;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 
-import static com.codeborne.selenide.FileDownloadMode.FOLDER;
-import static com.codeborne.selenide.FileDownloadMode.PROXY;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.downloadFolderPath;
@@ -32,7 +26,7 @@ import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 @DisplayName("Проверка поиска по столам, детальной карточки, qr-кода")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _10_0_TotalTest extends AdminBaseTest {
+public class _10_0_TotalTest extends PersonalAccountTest {
 
     static int fromTableSearchValue;
     static int toTableSearchValue;
@@ -109,7 +103,9 @@ public class _10_0_TotalTest extends AdminBaseTest {
     @Test
     @DisplayName("1.7. Проверка что фильтр установленный сохранился если мы проходим в карточку стола")
     public void isTableFilterSavedAfterGoingInDetailCard() {
+
         tablesAndQrCodes.isFilterSaved();
+
     }
 
     @Test

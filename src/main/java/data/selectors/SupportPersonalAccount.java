@@ -25,7 +25,7 @@ public class SupportPersonalAccount {
                         "[.//*[text()='Логи/доступы']]");
         public static final SelenideElement logsAndPermissionsCategoryDropdownButton =
                 $x("//*[contains(@class,'VMenuProfileLink')][.//*[text()='Логи/доступы']]" +
-                        "/*[@class='vProfileMenu__arrow-right']");
+                        "/*[contains(@class,'vProfileMenu__arrow-right')]");
         public static final SelenideElement historyOperationsCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='История операций']]");
@@ -38,6 +38,11 @@ public class SupportPersonalAccount {
         public static final SelenideElement cashDeskInaccessibilityCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Недоступность кассы']]");
+
+        public static final SelenideElement analyticsCategory =
+                $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
+                        "[.//*[text()='Аналитика']]");
+
 
         public static final SelenideElement pagePreloader =
                 $(".vLightPreloader");
@@ -89,6 +94,31 @@ public class SupportPersonalAccount {
         public static class permissionsTab {
             public static final SelenideElement permissionsTab =
                     $x("//*[contains(@class,'logsPage-tabs__btn') and contains(text(),'Доступы')]");
+            public static final SelenideElement logo = $("h3 img");
+            public static final SelenideElement id = $("[id=\"id\"]");
+            public static final SelenideElement login = $("[id=\"login\"]");
+            public static final SelenideElement password = $("[id=\"password\"]");
+            public static final SelenideElement loginLicense = $("[id=\"login_license\"]");
+            public static final SelenideElement passwordLicense = $("[id=\"password_license\"]");
+            public static final SelenideElement tokenLicense = $("[id=\"token_license\"]");
+            public static final SelenideElement ipLicense = $("[id=\"url\"]");
+            public static final SelenideElement restaurantCodeLicense = $("[id=\"restCode\"]");
+            public static final SelenideElement idLicense = $("[id=\"productGUID\"]");
+
+            public static final SelenideElement instanceLicense = $("[id=\"license_instance\"]");
+            public static final SelenideElement idCurrency = $("[id=\"id_currency\"]");
+            public static final SelenideElement firstRequest = $("[id=\"first_request\"]");
+            public static final SelenideElement codeManager = $("[id=\"id_manager\"]");
+            public static final SelenideElement codeStation = $("[id=\"id_station\"]");
+            public static final SelenideElement idReason = $("[id=\"id_reason\"]");
+            public static final SelenideElement accNumber = $("[id=\"acc_number\"]");
+
+            public static final SelenideElement checkboxesContainer = $(".activity_establishments");
+            public static final SelenideElement saveButton = $(".logsPage-tabs__list button");
+
+            public static final SelenideElement ip = $("[id=\"ip\"]");
+            public static final SelenideElement port = $("[id=\"port\"]");
+            public static final SelenideElement shopsId = $("[id=\"shops_id\"]");
 
         }
 
@@ -246,6 +276,20 @@ public class SupportPersonalAccount {
                     $x("//*[contains(@class,'logsPage-tabs__btn') and contains(text(),'Столы')]");
             public static final SelenideElement tablesTabHeading = $(".vLogsTables__title");
             public static final ElementsCollection tablesTabList = $$(".vSectionQr__list .vSectionQr__item");
+            public static final SelenideElement tableLoader = $(".vSectionQr__preloader");
+
+
+
+        }
+
+        public static class loyaltyTab {
+            public static final SelenideElement loyaltyTab =
+                    $x("//*[contains(@class,'logsPage-tabs__btn')" +
+                            " and contains(text(),'Система лояльности')]");
+            public static final SelenideElement offCheckbox =
+                    $x("//*[contains(@class,'vRadioButton')][.//label[@for='OFF']]");
+            public static final SelenideElement novikovCheckbox =
+                    $x("//*[contains(@class,'vRadioButton')][.//label[@for='NOVIKOV']]");
 
         }
 
@@ -351,6 +395,21 @@ public class SupportPersonalAccount {
                 $x("//*[contains(@class,'vButton') and text()=' Применить ']");
         public static final SelenideElement downloadTableButton =
                 $x(".//*[contains(@class,'vButton') and text()=' Выгрузить таблицу ']");
+
+    }
+
+    public static class Analytics {
+
+        public static final SelenideElement analyticsContainer = $(".vSectionAnalytics__content");
+
+        public static final SelenideElement conversionStatisticsButton =
+                $x("//button[contains(text(),'Статистика по конверсиям')]");
+
+        public static final SelenideElement dateRangeContainer = $(".vBlockConversionStatistics__period");
+        public static final String choseDateButtonSelector = ".mx-datepicker .mx-input-wrapper";
+
+
+        public static final SelenideElement downloadTable = $(".vButton");
 
     }
 

@@ -1,12 +1,10 @@
 package tapper.tests.admin_personal_account.company_requisites;
 
 import admin_personal_account.company_requisites.CompanyRequisites;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
@@ -18,7 +16,7 @@ import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASS
 @DisplayName("Проверка что все элементы отображаются корректно")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _16_0_TotalTest extends AdminBaseTest {
+public class _16_0_TotalTest extends PersonalAccountTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     CompanyRequisites companyRequisites = new CompanyRequisites();

@@ -19,7 +19,6 @@ import java.util.Map;
 
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$$;
 import static data.AnnotationAndStepNaming.DisplayName.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
@@ -29,25 +28,32 @@ import static data.selectors.TapperTable.RootPage.DishList.allDishesInOrder;
 import static data.selectors.TapperTable.RootPage.DishList.dishPriceWithDiscountSelector;
 
 
-
 @Epic("RKeeper")
 @Feature("Общие")
 @Story("Оплата заказа с дублем стола и скидкой")
 @DisplayName("Оплата заказа с дублем стола и скидкой")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class DoubleTableWithDiscountTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class DoubleTableWithDiscountTest extends BaseTest {
+
+
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_111;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
+    protected final String tableId = TABLE_AUTO_111_ID;
 
     static String guid;
     static double totalPay;
     static String orderType = "full";
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
-    static int amountDishesForFillingOrder = 2;
-    static  LinkedHashMap<Integer, Map<String, Double>> dishListOriginalTable;
-    static  LinkedHashMap<Integer, Map<String, Double>> dishListDoubleTable;
+    int amountDishesForFillingOrder = 1;
+    static LinkedHashMap<Integer, Map<String, Double>> dishListOriginalTable;
+    static LinkedHashMap<Integer, Map<String, Double>> dishListDoubleTable;
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
@@ -57,22 +63,22 @@ public class DoubleTableWithDiscountTest extends BaseTest {
 
 
     @Test
-    @DisplayName(1.1 + createOrderInKeeper + isDishesCorrectInCashDeskAndTapperTable + " Добавляем скидку к заказу")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable + " Добавляем скидку к заказу")
+    void createAndFillOrder() {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT,
-                TABLE_CODE_111,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,
-                STAGE_RKEEPER_TABLE_111,TABLE_AUTO_111_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode, waiter, apiUri,
+                dishesForFillingOrder, tableUrl, tableId);
 
         ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,"3500");
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM, "3500");
 
-        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName, guid, discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
         dishListOriginalTable = rootPage.getDishList(allDishesInOrder);
@@ -80,88 +86,96 @@ public class DoubleTableWithDiscountTest extends BaseTest {
     }
 
     @Test
-    @DisplayName(1.2 + " Создание второго дубля")
-    public void createAndFillOrderSecondTable() {
+    @Order(2)
+    @DisplayName("Создание второго дубля стола")
+    void createAndFillOrderSecondTable() {
+
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, SOLYANKA, amountDishesForFillingOrder);
 
         LinkedHashMap<String, Object> rqCreateOrder =
-                apiRKeeper.rqBodyCreateOrder(R_KEEPER_RESTAURANT, TABLE_CODE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD);
-        Response rs = apiRKeeper.createOrder(rqCreateOrder,AUTO_API_URI);
+                apiRKeeper.rqBodyCreateOrder(restaurantName, tableCode, waiter);
+        Response rs = apiRKeeper.createOrder(rqCreateOrder, apiUri);
 
         String guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishesForFillingOrder));
-
+        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishesForFillingOrder));
 
     }
 
     @Test
-    @DisplayName(1.3 + " Создание третьего дубля")
-    public void createAndFillOrderThirdTable() {
+    @Order(3)
+    @DisplayName("Создание третьего дубля стола")
+    void createAndFillOrderThirdTable() {
+
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
 
         LinkedHashMap<String, Object> rqCreateOrder =
-                apiRKeeper.rqBodyCreateOrder(R_KEEPER_RESTAURANT, TABLE_CODE_111, WAITER_ROBOCOP_VERIFIED_WITH_CARD);
-        Response rs = apiRKeeper.createOrder(rqCreateOrder,AUTO_API_URI);
+                apiRKeeper.rqBodyCreateOrder(restaurantName, tableCode, waiter);
+        Response rs = apiRKeeper.createOrder(rqCreateOrder, apiUri);
 
         String guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(R_KEEPER_RESTAURANT, guid, dishesForFillingOrder));
+        apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishesForFillingOrder));
 
     }
 
 
     @Test
-    @DisplayName(1.4 + isTotalPaySumCorrectTipsSc + setRandomTips)
-    public void checkSumTipsSC() {
+    @Order(4)
+    @DisplayName(TapperTable.isTotalPaySumCorrectTipsSc + TapperTable.setRandomTips)
+    void checkSumTipsSC() {
 
         rootPage.refreshPage();
         rootPage.isTableHasOrder();
 
         dishListDoubleTable = rootPage.getDishList(allDishesInOrder);
 
-        Assertions.assertNotEquals(dishListOriginalTable,dishListDoubleTable);
-
-        $$(dishPriceWithDiscountSelector).filter(exist).shouldHave(size(amountDishesForFillingOrder)
-                        .because("Скидка должна быть только у двух позиций"));
+        $$(dishPriceWithDiscountSelector).shouldHave(size(1));
+        Assertions.assertNotEquals(dishListOriginalTable, dishListDoubleTable);
 
         double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
         rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
-        rootPage.setCustomTips(String.valueOf(rootPage.generateRandomNumber(200,500)));
+        rootPage.setRandomTipsAndActivateScIfDeactivated();
 
     }
 
     @Test
-    @DisplayName(1.5 + savePaymentData)
-    public void savePaymentDataForAcquiring() {
+    @Order(5)
+    @DisplayName(TapperTable.savePaymentData)
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_111_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
 
     }
 
     @Test
-    @DisplayName(1.6 + goToAcquiringAndPayOrder)
-    public void payAndGoToAcquiring() {
+    @Order(6)
+    @DisplayName(TapperTable.goToAcquiringAndPayOrder)
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName(1.7 + isPaymentCorrect)
-    public void checkPayment() {
+    @Order(7)
+    @DisplayName(TapperTable.isPaymentCorrect)
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName(1.8 + isTelegramMessageCorrect)
-    public void clearDataAndChoseAgain() {
+    @Order(8)
+    @DisplayName(TapperTable.isTelegramMessageCorrect)
+    void clearDataAndChoseAgain() {
 
         telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);

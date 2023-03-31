@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 import waiter_personal_account.Waiter;
 
@@ -28,7 +28,7 @@ import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImage;
 @DisplayName("Проверка всех элементов, смены имени, телеграмма, пароля, загрузка изображений, сверка со столом")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _14_0_TotalTest extends AdminBaseTest {
+public class _14_0_TotalTest extends PersonalAccountTest {
 
     int adminTab = 0;
     int tapperTableTab = 1;

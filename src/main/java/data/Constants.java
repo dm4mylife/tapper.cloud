@@ -10,28 +10,32 @@ public class Constants {
     public static final Integer WAIT_BETWEEN_SET_DISHES_CHECKBOXES = 700;
     public static final Integer WAIT_UNTIL_TRANSACTION_EXPIRED = 300000;
     public static final Integer WAIT_UNTIL_TRANSACTION_STILL_ALIVE = 200000;
-    public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 10000;
+    public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
     public static final int WAIT_FOR_ORDER_TO_BE_CLOSED_AT_CASH_DESK = 10000;
-    public static final int WAIT_MENU_FOR_FULL_LOAD = 2000;
+    public static final int WAIT_MENU_FOR_FULL_LOAD = 2500;
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
     public static final int WAIT_FOR_PREPAYMENT_ON_CASH_DESK = 7000;
     public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE = 500;
     public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE = 1000;
     public static final int WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER = 2000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_REVIEW = 5000;
+    public static final int WAIT_FOR_GIF_IS_FULL_LOAD_ON_CONTAINER = 4000;
+    public static final int WAIT_FOR_TELEGRAM_MESSAGE_REVIEW = 8000;
     public static final int WAIT_FOR_SOCKETS_CHANGE_POSITION = 2000;
     public static final int WAIT_FOR_SOCKETS_RECEIVED_REQUEST = 4000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_CALL_WAITER = 5000;
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 8000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 10000;
+    public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 10000;
+    public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 12000;
     public static final int ATTEMPT_FOR_PREPAYMENT_REQUEST = 3;
     public static final int MOBILE_IMAGE_PIXEL_SIZE = 2962440;
     public static final int DESKTOP_IMAGE_PIXEL_SIZE = 1907178;
-    public static final double diffPercentImage = 0.3;
-    public static final String SCREENSHOTS_COMPARISON_EXPECTED_PATH = "screenComparison/expected/";
-    public static final String SCREENSHOTS_COMPARISON_ACTUAL_PATH = "screenComparison/actual/";
-    public static final String SCREENSHOTS_COMPARISON_DIFF_PATH = "screenComparison/diff/";
+    public static final double DIFF_PERCENT_IMAGE = 0.3;
+    public static final String DESKTOP_SCREENSHOTS_COMPARISON_ACTUAL_PATH = "screenComparison/desktop/actual/";
+    public static final String DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH = "screenComparison/desktop/original/";
+    public static final String DESKTOP_SCREENSHOTS_COMPARISON_DIFF_PATH = "screenComparison/desktop/diff/";
+    public static final String MOBILE_SCREENSHOTS_COMPARISON_ACTUAL_PATH = "screenComparison/mobile/actual/";
+    public static final String MOBILE_SCREENSHOTS_COMPARISON_ORIGINAL_PATH = "screenComparison/mobile/original/";
+    public static final String MOBILE_SCREENSHOTS_COMPARISON_DIFF_PATH = "screenComparison/mobile/diff/";
     public static final String PASTA_IMG_PATH = "src/main/resources/pasta.jpg";
     public static final String LOADER_GIF_PATH = "src/main/resources/loader.gif";
     public static final String OLD_LOADER_GIF_PATH = "src/main/resources/oldLoader.gif";
@@ -127,12 +131,18 @@ public class Constants {
             public static final String TEST_WIFI_NETWORK_NAME = "auto_wifi";
             public static final String TEST_WIFI_NETWORK_PASSWORD = "12345678";
             public static final String ROBOCOP_WAITER = "Robocop";
+            public static final String NON_EXIST_WAITER = "Ингеборга Эдмундовна Дапкунайте";
+            public static final String SEARCH_WAITER_ERROR_TEXT = "Нет результатов. Попробуйте ввести данные ещё раз";
+
+
             public static final String OPTIMUS_PRIME_WAITER = "Optimus Prime";
             public static final String IRONHIDE_WAITER = "IronHide";
+            public static final String IRON_MAN_WAITER = "Iron Man";
             public static final String ADMIN_TEST_PHONE = "+7(123) 456-78-90";
             public static final String ADMIN_AUTHORIZATION_STAGE_URL = "https://tapper.staging.zedform.ru/users";
             public static final String ADMIN_PROFILE_STAGE_URL = "https://tapper.staging.zedform.ru/profile";
             public static final String ROOT_TAPPER_STAGE_URL = "https://tapper.staging.zedform.ru/";
+            public static final String RESTORE_PASSWORD_STAGE_URL = "https://tapper.staging.zedform.ru/users/forget";
             public static final String ADMIN_REGISTRATION_STAGE_URL =
                     "https://tapper.staging.zedform.ru/users/registration";
             public static final String ADMIN_RESTAURANT_LOGIN_EMAIL = "kirillk8888@yandex.ru";
@@ -190,9 +200,9 @@ public class Constants {
                     "нас формировании" +
                     " проверки прогре";
             public static final String LIMIT_CHARS_INGREDIENTS_COUNTER = "255 / 255";
-            public static final String OVER_LIMIT_CHARS_AMOUNT_INPUT = "12345";
-            public static final String LIMIT_CHARS_AMOUNT_INPUT = "1234";
-            public static final String LIMIT_CHARS_AMOUNT_COUNTER = "4 / 4";
+            public static final String OVER_LIMIT_CHARS_AMOUNT_INPUT = "123456789";
+            public static final String LIMIT_CHARS_AMOUNT_INPUT = "12345678";
+            public static final String LIMIT_CHARS_AMOUNT_COUNTER = "8 / 8";
             public static final String OVER_LIMIT_CHARS_CALORIES_INPUT = "12345";
             public static final String LIMIT_CHARS_CALORIES_INPUT = "1234";
             public static final String LIMIT_CHARS_CALORIES_COUNTER = "4 / 4";
@@ -201,7 +211,8 @@ public class Constants {
 
         public static class SupportPersonalAccount {
 
-            public static final String RESTAURANT_NAME = "testrkeeper";
+            public static final String KEEPER_RESTAURANT_NAME = "testrkeeper";
+            public static final String IIKO_RESTAURANT_NAME = "office";
             public static final String SUPPORT_LOGIN_EMAIL = "varlone_mag2@mail.ru";
             public static final String SUPPORT_PASSWORD = "111111";
 
@@ -256,6 +267,8 @@ public class Constants {
             public static final String anotherGuestSumInCheckRegex = "[^\\d\\.]+";
             public static final String serviceChargeRegex = "[^\\d\\.\\-]+";
             public static final String percentRegex = "\\D+";
+            public static final String tableNumberRegex = "\\D+";
+
 
         }
 

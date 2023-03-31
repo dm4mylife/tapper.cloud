@@ -9,7 +9,7 @@ import org.junit.jupiter.api.*;
 import support_personal_account.lock.Lock;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import static data.selectors.TapperTable.Common.serviceUnavailabilityContainer;
 @DisplayName("Заглушаем только один ресторан и проверяем все вариации заглушки")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class LockCertainRestaurantTest extends AdminBaseTest {
+public class LockCertainRestaurantTest extends PersonalAccountTest {
 
     static String guid;
     static int amountDishesForFillingOrder = 3;
@@ -78,7 +78,7 @@ public class LockCertainRestaurantTest extends AdminBaseTest {
     @DisplayName("1.3. Выбираем определенный ресторан по чекбоксу из всего списка")
     public void choseOnlyCertainRestaurants() {
 
-        lock.choseOnlyCertainRestaurants(RESTAURANT_NAME);
+        lock.choseOnlyCertainRestaurants(KEEPER_RESTAURANT_NAME);
 
     }
 
@@ -122,7 +122,7 @@ public class LockCertainRestaurantTest extends AdminBaseTest {
     public void isPaymentUnavailable() {
 
         rootPage.switchBrowserTab(1);
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
         rootPage.isTableHasOrder();
 
         rootPage.clickOnPaymentButton();

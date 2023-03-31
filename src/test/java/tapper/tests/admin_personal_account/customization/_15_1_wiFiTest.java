@@ -9,7 +9,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
@@ -31,7 +31,7 @@ import static data.selectors.TapperTable.Common.wiFiIcon;
 @DisplayName("Проверка вайфая")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _15_1_wiFiTest extends AdminBaseTest {
+public class _15_1_wiFiTest extends PersonalAccountTest {
 
     static String guid;
     static int amountDishesForFillingOrder = 3;

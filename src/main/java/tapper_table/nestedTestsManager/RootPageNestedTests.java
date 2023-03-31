@@ -55,22 +55,14 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверка что позиции в заказе на кассе и в таппере одинаковы")
     public void newIsOrderInKeeperCorrectWithTapper(String tableId) { // toDO доделать, слишком много разных условий
 
-        isTableHasOrder();
-
-        if (modalHintContainer.isDisplayed()) {
-
-            click(modalHintCloseButton);
-
-        }
         HashMap<Integer, Map<String, Double>> cashDeskData = getCashDeskData(tableId);
-      //  matchTapperOrderWithOrderInKeeper(cashDeskData);
+        matchTapperOrderWithOrderInKeeper(cashDeskData);
 
     }
 
     @Step("Проверка пустого стола и всех элементов")
     public void isEmptyTableCorrect() {
 
-        isStartScreenShown();
         isElementVisible(appHeader);
         isElementVisible(tableNumber);
         emptyOrderHeading.shouldHave(matchText("Ваш заказ появится здесь"));
@@ -140,6 +132,7 @@ public class RootPageNestedTests extends RootPage {
             "все опции чаевых корректны с\\без СБ, СБ считается по формуле корректно")
     public void checkSumWithAllConditions(double cleanDishesSum) {
 
+        scrollTillBottom();
         checkCleanSumMatchWithTotalPay(cleanDishesSum);
         checkTipsOptionWithSC(cleanDishesSum);
         checkTipsOptionWithoutSC(cleanDishesSum);
@@ -151,6 +144,7 @@ public class RootPageNestedTests extends RootPage {
             "чаевые отключены, СБ считается по формуле корректно и включено")
     public void checkSumWithAllConditionsWithNoWaiterCard(double cleanDishesSum) {
 
+        scrollTillBottom();
         checkCleanSumMatchWithTotalPay(cleanDishesSum);
         checkIsNoTipsElementsIfVerifiedNonCard();
         checkScLogic(cleanDishesSum);
@@ -161,6 +155,7 @@ public class RootPageNestedTests extends RootPage {
             "чаевые отключены, СБ считается по формуле корректно и включено")
     public void checkSumWithAllConditionsWithNonVerifiedWaiter(double cleanDishesSum) {
 
+        scrollTillBottom();
         checkCleanSumMatchWithTotalPay(cleanDishesSum);
         checkIsNoTipsElementsIfNonVerifiedNonCard();
         checkScLogic(cleanDishesSum);
@@ -215,9 +210,8 @@ public class RootPageNestedTests extends RootPage {
     public void checkAllDishesSumsWithAllConditions() { //
 
         double cleanTotalSum = countAllNonPaidDishesInOrder();
-
+        scrollTillBottom();
         checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
-
         areTipsOptionsCorrect(cleanTotalSum);
 
     }
@@ -322,7 +316,7 @@ public class RootPageNestedTests extends RootPage {
                 setCustomTips(String.valueOf(generateRandomNumber(150,250)));
 
                 double totalPay = saveTotalPayForMatchWithAcquiring();
-                HashMap<String, Integer> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+                HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
                 LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
 
                 clickPayment();
@@ -343,7 +337,7 @@ public class RootPageNestedTests extends RootPage {
 
                 System.out.println("Последняя оплата");
                 double totalPay = saveTotalPayForMatchWithAcquiring();
-                HashMap<String, Integer> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+                HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
                 LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
 
                 clickPayment();
@@ -830,7 +824,7 @@ public class RootPageNestedTests extends RootPage {
 
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
 
-        rootPage.openUrlAndWaitAfter(tableUrl);
+        rootPage.openNotEmptyTable(tableUrl);
         rootPage.isTableHasOrder();
         newIsOrderInKeeperCorrectWithTapper(tableId);
 
@@ -897,6 +891,13 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+    public void callWaiterAndTextMessage() {
 
+        rootPage.isElementVisible(appHeader);
+        rootPage.openCallWaiterForm();
+        rootPage.sendWaiterComment();
+        rootPage.isSendSuccessful();
+
+    }
 
 }

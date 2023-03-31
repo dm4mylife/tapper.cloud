@@ -4,6 +4,8 @@ import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
@@ -16,12 +18,28 @@ import static data.selectors.AuthAndRegistrationPage.RootTapperPage.signInButton
 public class AuthorizationPage extends BaseActions {
 
 
-    @Step("Авторизуемся на под админом ресторана")
-    public void authorizationUser(String login, String password) {
+    @Step("Переход на страницу авторизации")
+    public void goToAuthorizationPage() {
 
         openPage(ADMIN_AUTHORIZATION_STAGE_URL);
         forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
         isFormContainerCorrect();
+
+    }
+
+    @Step("Переход на страницу восстановления пароля")
+    public void goToRestorePasswordPage() {
+
+        openPage(RESTORE_PASSWORD_STAGE_URL);
+        forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
+        isFormContainerCorrect();
+
+    }
+
+    @Step("Авторизуемся на под админом ресторана")
+    public void authorizationUser(String login, String password) {
+
+        goToAuthorizationPage();
         authorizeUser(login, password);
         isTextContainsInURL(ADMIN_PROFILE_STAGE_URL);
         forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
@@ -31,7 +49,7 @@ public class AuthorizationPage extends BaseActions {
     @Step("Проверка отображения всех элементов на странице авторизации официанта")
     public void isFormContainerCorrect() {
 
-        isElementVisible(welcomeHeading);
+        welcomeHeading.shouldBe(visible,Duration.ofSeconds(40));
         isElementVisible(titleHeading);
         isElementVisible(emailInput);
         isElementVisible(passwordInput);

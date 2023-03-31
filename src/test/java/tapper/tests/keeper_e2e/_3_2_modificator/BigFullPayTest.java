@@ -31,7 +31,7 @@ public class BigFullPayTest extends BaseTest {
     protected static String guid;
     protected static double totalPay;
     protected static String orderType = "full";
-    protected static HashMap<String, Integer> paymentDataKeeper;
+    protected static HashMap<String, String> paymentDataKeeper;
     protected static LinkedHashMap<String, String> tapperDataForTgMsg;
     protected static LinkedHashMap<String, String> telegramDataForTgMsg;
     protected static String transactionId;
@@ -55,7 +55,7 @@ public class BigFullPayTest extends BaseTest {
         Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_333_ID, AUTO_API_URI);
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 
-        rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
         rootPage.isTableHasOrder();
 
     }

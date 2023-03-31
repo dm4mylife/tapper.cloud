@@ -2,7 +2,6 @@ package tapper.tests.admin_personal_account.customization;
 
 import admin_personal_account.customization.Customization;
 import api.ApiRKeeper;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -13,7 +12,7 @@ import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
@@ -27,13 +26,9 @@ import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.AdminPersonalAccount.Customization.reviewTab;
-import static data.selectors.AdminPersonalAccount.Customization.wifiTab;
 import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
 import static data.selectors.TapperTable.Common.pagePreLoader;
-import static data.selectors.TapperTable.Common.wiFiIcon;
 import static data.selectors.TapperTable.ReviewPage.review5Stars;
-import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName;
 
 @Order(152)
 @Epic("Личный кабинет администратора ресторана")
@@ -42,11 +37,11 @@ import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName;
 @DisplayName("Проверка Отзывы на внешних сервисах")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _15_2_ReviewTest extends AdminBaseTest {
+public class _15_2_ReviewTest extends PersonalAccountTest {
 
     static String guid;
     static int amountDishesForFillingOrder = 3;
-    static HashMap<String, Integer> paymentDataKeeper;
+    static HashMap<String, String> paymentDataKeeper;
     static String orderType = "full";
     RootPage rootPage = new RootPage();
     static String transactionId;

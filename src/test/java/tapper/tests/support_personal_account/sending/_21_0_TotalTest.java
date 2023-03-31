@@ -1,21 +1,17 @@
 package tapper.tests.support_personal_account.sending;
 
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import support_personal_account.sending.Sending;
 import tapper_table.RootPage;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
-import static api.ApiData.orderData.TABLE_AUTO_111_ID;
 import static api.ApiData.orderData.TABLE_AUTO_555_ID;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 import static data.Constants.TestData.TapperTable.*;
-import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_REVIEW;
 import static data.Constants.WAIT_FOR_TELEGRAM_SUPPORT_SENDING;
 import static data.selectors.SupportPersonalAccount.Sending.*;
 
@@ -25,7 +21,7 @@ import static data.selectors.SupportPersonalAccount.Sending.*;
 @DisplayName("Проверка категории Рассылка")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _21_0_TotalTest extends AdminBaseTest {
+public class _21_0_TotalTest extends PersonalAccountTest {
 
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();

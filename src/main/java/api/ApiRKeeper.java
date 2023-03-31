@@ -130,7 +130,7 @@ public class ApiRKeeper {
                     .when()
                     .delete(deletePosition)
                     .then()
-                    .log().body()
+                    .log().ifError()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -212,7 +212,7 @@ public class ApiRKeeper {
                     .when()
                     .post(addDiscount)
                     .then()
-                    .log().body()
+                    .log().ifError()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -293,7 +293,7 @@ public class ApiRKeeper {
                 .when()
                 .get(getOrderInfo)
                 .then()
-                .log().ifError()
+              //  .log().ifError()
                 .extract()
                 .response();
 
@@ -350,7 +350,7 @@ public class ApiRKeeper {
     }
 
     @Step("Оплата заказа")
-    public void orderPay(Map<String, Object> rsBody, String baseUri) {
+    public Response orderPay(Map<String, Object> rsBody, String baseUri) {
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -365,10 +365,37 @@ public class ApiRKeeper {
                 .extract()
                 .response();
 
-        Assertions.assertTrue(response.jsonPath().getBoolean("success"),"Текст ошибки: " +
-                response.jsonPath().getString("message"));
+        return response;
 
         //System.out.println("Оплатили заказ.Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+
+    }
+
+    @Step("Проверка что оплата прошла")
+    public void isPaymentSuccess(String restaurantName, String guid, int paySum) {
+
+        String hasErrorText = "";
+        int rsCounter = ATTEMPT_FOR_PREPAYMENT_REQUEST;
+        boolean rqResponse;
+
+        do {
+
+            baseActions.forceWait(Constants.WAIT_FOR_PREPAYMENT_ON_CASH_DESK);
+            Response rs = orderPay(rqBodyOrderPay(restaurantName,guid,paySum),AUTO_API_URI);
+            rqResponse = rs.jsonPath().getBoolean("success");
+            hasErrorText = rs.jsonPath().getString("message");
+
+            if (rqResponse) {
+                break;
+            }
+
+            hasErrorText += "\nОплата не пришла даже после " + ATTEMPT_FOR_PREPAYMENT_REQUEST + "№ попытки";
+            --rsCounter;
+
+        } while (rsCounter != 0);
+
+        Assertions.assertTrue(rqResponse, "Оплата не пришла" + hasErrorText);
+
 
     }
 
@@ -405,9 +432,7 @@ public class ApiRKeeper {
 
         int paySum = Integer.parseInt(apiRKeeper.getOrderSumFromGetOrder(rs));
 
-        LinkedHashMap<String, Object> rqBody = apiRKeeper.rqBodyOrderPay(restaurantName,guid,paySum);
-
-        apiRKeeper.orderPay(rqBody, apiUri);
+        apiRKeeper.isPaymentSuccess(restaurantName,guid,paySum);
 
         Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
                 "На столе был прошлый заказ, его не удалось закрыть");
@@ -431,7 +456,7 @@ public class ApiRKeeper {
                     .when()
                     .post(addModificatorOrder)
                     .then()
-                    .log().body()
+                    .log().ifError()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -495,7 +520,7 @@ public class ApiRKeeper {
             } else {
 
                 //System.out.println("Заказ имеет позиции, оплачиваем его и проверяем что закрыт");
-                apiRKeeper.orderPay(rqBodyOrderPay(restaurantName,guid, Integer.parseInt(orderSum)),apiUri);
+                apiRKeeper.isPaymentSuccess(restaurantName,guid,Integer.parseInt(orderSum));
 
             }
 

@@ -7,11 +7,13 @@ import io.qameta.allure.Step;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static data.selectors.AdminPersonalAccount.Common.integrationCategory;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Integrations.*;
+import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
 
 public class Integrations extends BaseActions {
 
@@ -31,9 +33,9 @@ public class Integrations extends BaseActions {
         isElementsListVisible(integrationItemsBtn);
         isElementsListVisible(integrationItemsImg);
 
-        integrationItems.shouldHave(CollectionCondition.size(3));
-        integrationItemsBtn.shouldHave(CollectionCondition.size(3));
-        integrationItemsImg.shouldHave(CollectionCondition.size(2));
+        integrationItems.shouldHave(size(3));
+        integrationItemsBtn.shouldHave(size(3));
+        integrationItemsImg.shouldHave(size(2));
 
     }
 

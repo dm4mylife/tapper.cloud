@@ -1,15 +1,9 @@
 package layout_screen_compare;
 
-import com.codeborne.selenide.Selenide;
 import common.BaseActions;
 import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.TestWatcher;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
@@ -22,6 +16,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -31,11 +27,26 @@ public class ScreenShotComparison {
 
     static BaseActions baseActions = new BaseActions();
 
-    public static void makeOriginalScreenshot(String expectedName) throws IOException {
+    public static void createDirectory(String path) {
+
+        File directory = new File(path);
+
+        if (!directory.exists())
+            Assertions.assertTrue(directory.mkdirs(),"Директория не создалась");
+
+    }
+
+    public static void makeOriginalScreenshot(String type,String expectedName) throws IOException {
 
         baseActions.forceWait(WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN);
 
-        String pathname = SCREENSHOTS_COMPARISON_EXPECTED_PATH + expectedName + ".png";
+        String fullPath = type.equals("desktop") ?
+                DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH :
+                MOBILE_SCREENSHOTS_COMPARISON_ORIGINAL_PATH;
+
+        createDirectory(fullPath);
+
+        String pathname = fullPath + "original_" + expectedName + ".png";
         Screenshot actual = new AShot()
                 .coordsProvider(new WebDriverCoordsProvider())
                 .takeScreenshot(getWebDriver());
@@ -43,14 +54,22 @@ public class ScreenShotComparison {
 
     }
 
-    public static void makeOriginalScreenshot(String expectedName, Set<By> setIgnoredElements) throws IOException {
+    public static void makeOriginalScreenshot(String type,String expectedName, Set<By> setIgnoredElements) throws IOException {
 
-        String pathname = SCREENSHOTS_COMPARISON_EXPECTED_PATH + expectedName + ".png";
-        Screenshot actual = new AShot()
+        baseActions.forceWait(WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN);
+
+        String fullPath = type.equals("desktop") ?
+                DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH :
+                MOBILE_SCREENSHOTS_COMPARISON_ORIGINAL_PATH;
+
+        createDirectory(fullPath);
+
+        String pathname = fullPath + "original_" + expectedName + ".png";
+        Screenshot original = new AShot()
                 .coordsProvider(new WebDriverCoordsProvider())
                 .ignoredElements(setIgnoredElements)
                 .takeScreenshot(getWebDriver());
-        ImageIO.write(actual.getImage(), "png", new File(pathname));
+        ImageIO.write(original.getImage(), "png", new File(pathname));
 
     }
 
@@ -64,16 +83,38 @@ public class ScreenShotComparison {
 
     }
 
-
-    public static void makeImageDiff(String expectedName, double diffPercent, int imagePixelSize) throws IOException {
+    public static void makeImageDiff(String type,String name, double diffPercent, int imagePixelSize)
+            throws IOException {
 
         baseActions.forceWait(WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN);
 
-        String actualName = "actual_" + expectedName + ".png";
-        String diffName = "diff_" + expectedName + ".png";
-        String fullPathNameExpected = SCREENSHOTS_COMPARISON_EXPECTED_PATH + expectedName + ".png";
-        String fullPathNameActual = SCREENSHOTS_COMPARISON_ACTUAL_PATH + actualName;
-        String fullPathNameDiff = SCREENSHOTS_COMPARISON_DIFF_PATH + diffName;
+        String fullPathActual;
+        String fullPathOriginal;
+        String fullPathDiff;
+
+        if (type.equals("desktop")) {
+
+            fullPathActual = DESKTOP_SCREENSHOTS_COMPARISON_ACTUAL_PATH;
+            fullPathOriginal = DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH;
+            fullPathDiff = DESKTOP_SCREENSHOTS_COMPARISON_DIFF_PATH;
+
+        } else {
+
+            fullPathActual = MOBILE_SCREENSHOTS_COMPARISON_ACTUAL_PATH;
+            fullPathOriginal = MOBILE_SCREENSHOTS_COMPARISON_ORIGINAL_PATH;
+            fullPathDiff = MOBILE_SCREENSHOTS_COMPARISON_DIFF_PATH;
+
+        }
+
+        createDirectory(fullPathActual);
+        createDirectory(fullPathOriginal);
+        createDirectory(fullPathDiff);
+
+        String originalName = "original_" + name + ".png";
+        String diffName = "diff_" + name + ".png";
+        String fullPathNameActual= fullPathActual + name + ".png";
+        String fullPathNameOriginal = fullPathOriginal + originalName;
+        String fullPathNameDiff = fullPathDiff + diffName;
 
         Allure.label("testType", "screenshotDiff");
 
@@ -82,14 +123,14 @@ public class ScreenShotComparison {
                 .takeScreenshot(getWebDriver());
         ImageIO.write(actual.getImage(), "png", new File(fullPathNameActual));
 
-        Screenshot expected = new Screenshot(ImageIO.read(new File(fullPathNameExpected)));
-        ImageDiff diff = new ImageDiffer().makeDiff(actual, expected);
+        Screenshot original = new Screenshot(ImageIO.read(new File(fullPathNameOriginal)));
+        ImageDiff diff = new ImageDiffer().makeDiff(original, actual);
         BufferedImage diffImage = diff.getMarkedImage();
         ImageIO.write(diffImage, "png", new File(fullPathNameDiff));
 
         attachScreenToAllureReport(fullPathNameDiff,"diff");
-        attachScreenToAllureReport(fullPathNameActual,"actual");
-        attachScreenToAllureReport(fullPathNameExpected,"expected");
+        attachScreenToAllureReport(fullPathNameOriginal,"actual");
+        attachScreenToAllureReport(fullPathNameActual,"expected");
 
         double diffPixelPercentRatio = imagePixelSize * (diffPercent / 100);
 
@@ -101,92 +142,101 @@ public class ScreenShotComparison {
 
     }
 
-    public static void makeImageDiff(String expectedName, double diffPercent, int imagePixelSize,
+    public static void makeImageDiff(String type,String name, double diffPercent, int imagePixelSize,
                                      Set<By> setIgnoredElements) throws IOException {
 
-        String actualName = "actual_" + expectedName + ".png";
-        String diffName = "diff_" + expectedName + ".png";
-        String fullPathNameExpected = SCREENSHOTS_COMPARISON_EXPECTED_PATH + expectedName + ".png";
-        String fullPathNameActual = SCREENSHOTS_COMPARISON_ACTUAL_PATH + actualName;
-        String fullPathNameDiff = SCREENSHOTS_COMPARISON_DIFF_PATH + diffName;
+        baseActions.forceWait(WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN);
 
-        // активируем плагин аллюра для дифф
+        String fullPathActual;
+        String fullPathOriginal;
+        String fullPathDiff;
+
+        if (type.equals("desktop")) {
+
+            fullPathActual = DESKTOP_SCREENSHOTS_COMPARISON_ACTUAL_PATH;
+            fullPathOriginal = DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH;
+            fullPathDiff = DESKTOP_SCREENSHOTS_COMPARISON_DIFF_PATH;
+
+        } else {
+
+            fullPathActual = MOBILE_SCREENSHOTS_COMPARISON_ACTUAL_PATH;
+            fullPathOriginal = MOBILE_SCREENSHOTS_COMPARISON_ORIGINAL_PATH;
+            fullPathDiff = MOBILE_SCREENSHOTS_COMPARISON_DIFF_PATH;
+
+        }
+
+        createDirectory(fullPathActual);
+        createDirectory(fullPathOriginal);
+        createDirectory(fullPathDiff);
+
+        String originalName = "original_" + name + ".png";
+        String diffName = "diff_" + name + ".png";
+        String fullPathNameActual= fullPathActual + name + ".png";
+        String fullPathNameOriginal = fullPathOriginal + originalName;
+        String fullPathNameDiff = fullPathDiff + diffName;
+
         Allure.label("testType", "screenshotDiff");
 
-        // делаем скриншот
         Screenshot actual = new AShot()
                 .coordsProvider(new WebDriverCoordsProvider())
                 .ignoredElements(setIgnoredElements)
                 .takeScreenshot(getWebDriver());
         ImageIO.write(actual.getImage(), "png", new File(fullPathNameActual));
 
-        // сравниваем его с примером и сохраняем дифф
-        Screenshot expected = new Screenshot(ImageIO.read(new File(fullPathNameExpected)));
-        ImageDiff diff = new ImageDiffer().makeDiff(actual, expected);
+        Screenshot original = new Screenshot(ImageIO.read(new File(fullPathNameOriginal)));
+        ImageDiff diff = new ImageDiffer().makeDiff(original, actual);
         BufferedImage diffImage = diff.getMarkedImage();
         ImageIO.write(diffImage, "png", new File(fullPathNameDiff));
 
-        // прикрепляем дифф в аллюр отчёт
-        BufferedImage bImage1 = ImageIO.read(new File(fullPathNameDiff));
-        ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-        ImageIO.write(bImage1, "png", bos1);
-        byte[] data1 = bos1.toByteArray();
-        Allure.addAttachment("diff", new ByteArrayInputStream(data1));
-
-        // прикрепляем фактический скриншот в аллюр отчёт
-        BufferedImage bImage2 = ImageIO.read(new File(fullPathNameActual));
-        ByteArrayOutputStream bos2 = new ByteArrayOutputStream();
-        ImageIO.write(bImage2, "png", bos2);
-        byte[] data2 = bos2.toByteArray();
-        Allure.addAttachment("actual", new ByteArrayInputStream(data2));
-
-        // прикрепляем скриншот-пример в аллюр отчёт
-        BufferedImage bImage3 = ImageIO.read(new File(fullPathNameExpected));
-        ByteArrayOutputStream bos3 = new ByteArrayOutputStream();
-        ImageIO.write(bImage3, "png", bos3);
-        byte[] data3 = bos3.toByteArray();
-        Allure.addAttachment("expected", new ByteArrayInputStream(data3));
+        attachScreenToAllureReport(fullPathNameDiff,"diff");
+        attachScreenToAllureReport(fullPathNameOriginal,"actual");
+        attachScreenToAllureReport(fullPathNameActual,"expected");
 
         double diffPixelPercentRatio = imagePixelSize * (diffPercent / 100);
 
         System.out.println("Общее количество различающихся пикселей " + diff.getDiffSize() +
                 "\nДопустимое количество различающихся пикселей " + diffPixelPercentRatio);
 
-        // фейлим тест, если при сравнении разница в пикселях больше допустимой
         Assertions.assertFalse(diff.getDiffSize() > diffPixelPercentRatio,
                 "Скриншоты различаются в более чем " + diffPercent + "%");
 
     }
 
-    public static void isScreenOrDiff(boolean type,String expectedName,double diffPercent,
+    public static void isScreenOrDiff(String browserSizeType,boolean type,String expectedName,double diffPercent,
                                       int imagePixelSize)
             throws IOException {
 
         if (type) {
 
-            makeOriginalScreenshot(expectedName);
+            makeOriginalScreenshot(browserSizeType,expectedName);
 
         } else {
 
-            makeImageDiff(expectedName,diffPercent, imagePixelSize);
+            makeImageDiff(browserSizeType,expectedName,diffPercent, imagePixelSize);
 
         }
 
     }
 
-    public static void isScreenOrDiff(boolean type,String expectedName,double diffPercent,
+    public static void isScreenOrDiff(String browserSizeType,boolean type,String expectedName,double diffPercent,
                                       int imagePixelSize,Set<By> setIgnoredElements)
             throws IOException {
 
         if (type) {
-            System.out.println("SCREEN");
-            makeOriginalScreenshot(expectedName,setIgnoredElements);
+
+            makeOriginalScreenshot(browserSizeType,expectedName,setIgnoredElements);
 
         } else {
-            System.out.println("DIFF IMAGE");
-            makeImageDiff(expectedName,diffPercent, imagePixelSize,setIgnoredElements);
+
+            makeImageDiff(browserSizeType,expectedName,diffPercent, imagePixelSize,setIgnoredElements);
 
         }
+
+    }
+
+    public static Set<By> setIgnoredElements (ArrayList<By> elements) {
+
+        return new HashSet<>(elements);
 
     }
 

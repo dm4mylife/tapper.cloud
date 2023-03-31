@@ -127,10 +127,11 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Переход на страницу {url} и ждём принудительно пока не прогрузятся все скрипты\\элементы\\сокет")
-    public void openUrlAndWaitAfter(String url) {
+    public void openNotEmptyTable(String url) {
 
         openPage(url);
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
+        skipStartScreenLogo();
+        isTableHasOrder();
 
     }
 
@@ -176,7 +177,7 @@ public class RootPage extends BaseActions {
         if (divideCheckSlider.isDisplayed()) {
 
             click(divideCheckSlider);
-            forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDO если после активации раздельного меню сразу выбрать позицию, то гарантировано 422, поэтому ждём
+          //  forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDO если после активации раздельного меню сразу выбрать позицию, то гарантировано 422, поэтому ждём
 
         }
 
@@ -344,19 +345,13 @@ public class RootPage extends BaseActions {
     public void activateServiceChargeIfDeactivated() {
 
         if (serviceChargeContainer.exists() &&
-                serviceChargeCheckboxSvg.getCssValue("display").equals("none")) {
-
-            scrollTillBottom();
+                serviceChargeCheckboxSvg.getCssValue("display").equals("none"))
             click(serviceChargeCheckboxButton);
-
-        }
 
     }
 
     @Step("Деактивируем СБ если активен")
     public void deactivateServiceChargeIfActivated() {
-
-        scrollTillBottom();
 
         if (serviceChargeContainer.exists() && serviceChargeCheckboxSvg.getCssValue("display").equals("block"))
             click(serviceChargeCheckboxButton);
@@ -643,7 +638,6 @@ public class RootPage extends BaseActions {
 
             } else {
 
-                System.out.println("Все блюда выбраны, выходим что из цикла");
                 break;
 
             }
@@ -700,7 +694,8 @@ public class RootPage extends BaseActions {
 
             if (element.$(dishCheckboxSelector).getCssValue("display").equals("block")) {
 
-                double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(dishPriceTotalSelector), dishPriceRegex);
+                double cleanPrice =
+                        convertSelectorTextIntoDoubleByRgx(element.$(dishPriceTotalSelector), dishPriceRegex);
                 String dishName = element.$(dishNameSelector).getText();
 
                 totalSumInOrder += cleanPrice;
@@ -873,9 +868,11 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Проверяем коллекцию всех выбранных ранее позиций что они теперь оплачены")
-    public void checkIfDishesDisabledAtAnotherGuestArePaid(HashMap<Integer, Map<String, Double>> chosenDishesByAnotherGuest) {
+    public void checkIfDishesDisabledAtAnotherGuestArePaid(HashMap<Integer,
+            Map<String, Double>> chosenDishesByAnotherGuest) {
 
         HashMap<Integer, Map<String, Double>> paidDishes = new HashMap<>();
+
         int i = 0;
 
         for (SelenideElement element : DishList.allPaidDishes) {
@@ -942,11 +939,8 @@ public class RootPage extends BaseActions {
 
         double totalClearOrderAmount = getClearOrderAmount();
 
-        if (!totalTipsSumInMiddle.getValue().equals("0")) {
-
+        if (!totalTipsSumInMiddle.getValue().equals("0"))
             checkTipsAfterReset();
-
-        }
 
         allDishesInOrder.asDynamicIterable().stream().forEach
                 (element -> element.$(dishPriceWithoutDiscountSelector).should(disappear));
@@ -990,9 +984,11 @@ public class RootPage extends BaseActions {
         for (SelenideElement tipsOption : notDisabledTipsPercentOptions) {
 
             click(tipsOption);
-            tipsOption.shouldHave(attributeMatching("class", ".*active.*"), Duration.ofSeconds(1));
+            tipsOption
+                    .shouldHave(attributeMatching("class", ".*active.*"), Duration.ofSeconds(1));
 
-            int totalTipsSumInMiddle = Integer.parseInt(Objects.requireNonNull(TipsAndCheck.totalTipsSumInMiddle.getValue()));
+            int totalTipsSumInMiddle =
+                    Integer.parseInt(Objects.requireNonNull(TipsAndCheck.totalTipsSumInMiddle.getValue()));
             double tipsSumInCheck = convertSelectorTextIntoDoubleByRgx(tipsInCheckSum, tipsInCheckSumRegex);
 
             Assertions.assertEquals(totalTipsSumInMiddle, tipsSumInCheck,
@@ -1011,6 +1007,7 @@ public class RootPage extends BaseActions {
             double totalPaySum = convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
             double totalPaySumInWallet =
                     convertSelectorTextIntoDoubleByRgx(totalSumInWalletCounter, totalSumInWalletRegex);
+
             double serviceChargeSum = getCurrentSCSum();
             double totalCleanPaySum = cleanDishesSum + serviceChargeSum + cleanTips;
 
@@ -1041,7 +1038,6 @@ public class RootPage extends BaseActions {
 
             Assertions.assertEquals(totalTipsSumInMiddle, tipsSumInCheck,
                     "Чаевые по центру не совпадают с чаевыми в поле 'Чаевые'");
-
 
             double cleanTips = 0;
             int percent = convertSelectorTextIntoIntByRgx(tipsOption, percentRegex);
@@ -1100,14 +1096,17 @@ public class RootPage extends BaseActions {
 
             double tipsSumInTheMiddle = Double.parseDouble(totalTipsSumInMiddle.getValue());
 
-            double serviceChargeInField = convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, serviceChargeRegex);
+            double serviceChargeInField =
+                    convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, serviceChargeRegex);
             serviceChargeInField = updateDoubleByDecimalFormat(serviceChargeInField);
 
             double serviceChargeSumClear =
-                    updateDoubleByDecimalFormat(cleanDishesSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
+                    updateDoubleByDecimalFormat
+                            (cleanDishesSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
 
             double serviceChargeTipsClear =
-                    updateDoubleByDecimalFormat(tipsSumInTheMiddle * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
+                    updateDoubleByDecimalFormat
+                            (tipsSumInTheMiddle * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
 
             double serviceChargeTotal = serviceChargeTipsClear + serviceChargeSumClear;
             double totalPaySum = convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
@@ -1121,9 +1120,7 @@ public class RootPage extends BaseActions {
 
             }
 
-            double totalDishesCleanSum =
-                    cleanDishesSum + tipsSumInTheMiddle + serviceChargeTotal;
-
+            double totalDishesCleanSum = cleanDishesSum + tipsSumInTheMiddle + serviceChargeTotal;
             double totalPaySumInWallet =
                     convertSelectorTextIntoDoubleByRgx(totalSumInWalletCounter, totalSumInWalletRegex);
 
@@ -1177,7 +1174,6 @@ public class RootPage extends BaseActions {
     @Step("Забираем сумму сервисного сбора если он включен")
     public double getCurrentSCSum() {
 
-        scrollTillBottom();
         double serviceChargeSum = 0;
 
         if (serviceChargeContainer.exists() && serviceChargeCheckboxSvg.getCssValue("display").equals("block")) {
@@ -1206,7 +1202,6 @@ public class RootPage extends BaseActions {
     @Step("Устанавливаем рандомные чаевые")
     public void setRandomTipsOption() {
 
-        scrollTillBottom();
         click(resetTipsButton);
 
         if (notDisabledAndNotZeroTipsPercentOptions.size() != 0) {
@@ -1251,7 +1246,6 @@ public class RootPage extends BaseActions {
     @Step("Сброс чаевых")
     public void resetTips() {
 
-        scrollTillBottom();
         click(resetTipsButton);
         activeTipsButton.shouldHave(text("0%"));
         totalTipsSumInMiddle.shouldHave(value("0"));
@@ -1680,25 +1674,34 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Сохранение общей суммы, чаевых, СБ для проверки с транзакцией б2п")
-    public HashMap<String, Integer> savePaymentDataTapperForB2b() {
+    public HashMap<String, String> savePaymentDataTapperForB2b() {
 
-        HashMap<String, Integer> paymentData = new HashMap<>();
+        HashMap<String, String> paymentData = new HashMap<>();
 
-        int tips = 0;
-        int fee = 0;
+        String tips = "0";
+        String fee = "0";
 
-        double order_amountD = getOrderAmountForOperationHistory();
+        double orderAmountDouble = getOrderAmountForOperationHistory();
 
-        order_amountD = order_amountD * 100;
-        Integer order_amount = (int) order_amountD;
+        String orderAmountString = String.valueOf(orderAmountDouble);
 
-        paymentData.put("order_amount", order_amount);
+        if (orderAmountString.matches("\\d{1,}\\.\\d{1}$")) {
 
-        if (totalTipsSumInMiddle.exists()) {
+            orderAmountString = String.valueOf(orderAmountDouble) + "0";
 
-            double tipsD = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
+        } else {
 
-            tips = (int) (tipsD) * 100;
+            orderAmountString = String.valueOf(orderAmountDouble);
+
+        }
+
+        String orderAmount = orderAmountString.replaceAll("\\.","");
+
+        paymentData.put("order_amount", orderAmount);
+
+        if (totalTipsSumInMiddle.exists() && !totalTipsSumInMiddle.getValue().equals("0")) {
+
+            tips = totalTipsSumInMiddle.getValue() + "00";
 
         }
 
@@ -1706,9 +1709,24 @@ public class RootPage extends BaseActions {
 
         if (serviceChargeContainer.exists() && serviceChargeCheckboxSvg.getCssValue("display").equals("block")) {
 
-            double feeD = convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, serviceChargeRegex);
-            feeD = updateDoubleByDecimalFormat(feeD) * 100;
-            fee = (int) feeD;
+            double feeDouble = convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, serviceChargeRegex);
+            String feeConverted = convDoubleWithDecimal(feeDouble);
+
+            if (feeConverted.matches("\\d{1,}\\.\\d{1}$")) {
+
+                fee = feeConverted + "0";
+
+            } else if (feeConverted.matches("\\d{1,}$")) {
+
+                fee = feeConverted + "00";
+
+            } else {
+
+                fee = feeConverted;
+
+            }
+
+            fee = fee.replaceAll("\\.","");
 
         }
 
@@ -1725,7 +1743,9 @@ public class RootPage extends BaseActions {
         isElementVisibleAndClickable(totalSumInWalletCounter);
 
         click(appFooterMenuIcon);
-        isElementVisible(orderMenuContainer);
+
+        if (!emptyOrderMenuButton.isDisplayed())
+            isElementVisible(orderMenuContainer);
 
         isElementInvisible(orderContainer);
 
@@ -1834,7 +1854,8 @@ public class RootPage extends BaseActions {
         Cookie itemMess = WebDriverRunner.getWebDriver().manage().getCookieNamed("itemsMess");
         Selenide.closeWebDriver();
 
-        openUrlAndWaitAfter(url);
+        openPage(url);
+        skipStartScreenLogo();
         WebDriverRunner.getWebDriver().manage().addCookie(itemMess);
 
         click(callWaiterButton);
@@ -1987,7 +2008,7 @@ public class RootPage extends BaseActions {
     @Step("Открытие стола и смена гостя")
     public void openTableAndSetGuest(String table, String guest, String session) {
 
-        openUrlAndWaitAfter(table);
+        openNotEmptyTable(table);
         setUserCookie(guest, session);
 
     }
@@ -2295,9 +2316,7 @@ public class RootPage extends BaseActions {
        for (int index = 0; index < dishesBeforeAddingDiscount.size(); index++) {
 
            double totalPriceBefore = dishesBeforeAddingDiscount.get(index).get("totalPrice") ;
-           System.out.println(totalPriceBefore);
            double totalPriceAfter = dishesAfterAddingDiscount.get(index).get("totalPrice");
-           System.out.println(totalPriceAfter);
            double discountPriceBefore = dishesBeforeAddingDiscount.get(index).get("discountPrice") ;
            double discountPriceAfter = dishesAfterAddingDiscount.get(index).get("discountPrice");
 

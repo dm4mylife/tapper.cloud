@@ -11,6 +11,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static data.selectors.AdminPersonalAccount.Common.companyRequisitesCategory;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.CompanyRequisites.*;
+import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
 
 public class CompanyRequisites extends BaseActions {
 
@@ -27,6 +28,8 @@ public class CompanyRequisites extends BaseActions {
     @Step("Проверка элементов страницы")
     public void isCompanyRequisitesCategoryCorrect() {
 
+        pagePreloader.shouldBe(visible);
+        pagePreloader.shouldNotBe(visible,Duration.ofSeconds(5));
         isElementVisible(organizationName);
         isElementVisible(innOrganization);
         isElementVisible(phoneOrganization);

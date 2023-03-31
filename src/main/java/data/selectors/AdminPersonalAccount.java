@@ -2,6 +2,7 @@ package data.selectors;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -9,8 +10,13 @@ public class AdminPersonalAccount {
 
     public static class Common {
 
+        public static final SelenideElement mobileFooter = $(".vProfileMobileMenu");
+
         public static final SelenideElement mainMenuIcon = $(".vProfileMenu__info");
         public static final SelenideElement exitFromAdmin = $(".vProfileMenu__exit");
+        public static final SelenideElement closeLeftMenu = $(".vProfileMenu__resize");
+
+        public static final SelenideElement leftMenuOpened = $("[class='vProfileMenu']");
         public static final SelenideElement profileCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Профиль']]");
@@ -64,13 +70,14 @@ public class AdminPersonalAccount {
         public static final SelenideElement saveButton = $(".section-profile__form  .vButton");
         public static final ElementsCollection telegramItemsIcons =
                 $$(".section-profile__inputs-list-item .vMessengerInput__telega");
+        public static final By telegramItemsInput = By.cssSelector(".vMessengerInput__container input");
+        public static final By telegramItemsInput2 = By.cssSelector(".vMessengerInput__container input");
         public static final ElementsCollection telegramItemsHelpTooltip =
                 $$(".section-profile__inputs-list-item .vMessengerInput__tooltip");
         public static final ElementsCollection telegramItemsHelp =
                 $$(".section-profile__inputs-list-item .vMessengerInput__help");
         public static final ElementsCollection telegramItemsCloseIcon =
                 $$(".section-profile__inputs-list-item .vMessengerInput-close");
-
         public static final String telegramItemsCloseIconSelector = ".vMessengerInput-close";
         public static final String telegramItemsLoginInputSelector = "input";
         public static final SelenideElement privateDataContainer =
@@ -78,10 +85,8 @@ public class AdminPersonalAccount {
         public static final SelenideElement personalInformationContainer =
                 $x("//*[@class='section-profile__legend']" +
                         "[..//*[contains(text(),'Персональная информация')]]");
-
         public static final SelenideElement masterInformationContainer =
                 $(".section-profile__legend-star-container");
-
         public static final ElementsCollection telegramItemsMasterIcon = $$(".section-profile__star");
         public static final String telegramItemsMasterSvgSelector = ".section-profile__star svg path";
         public static final ElementsCollection telegramItemsMasterSvg =
@@ -107,6 +112,9 @@ public class AdminPersonalAccount {
         public static final SelenideElement refreshListButton = $(".vSectionWaitersection__btn");
         public static final ElementsCollection waiterPaginationList = $$(".vPagination .vPagination__item");
         public static final SelenideElement pagePreloader = $(".vLightPreloader");
+        public static final By waiterAvatarBy = By.cssSelector(" .vWaiterItem__ava");
+
+
         public static final SelenideElement errorMsgEmailWasApplied =
                 $x("//*[@class='section-profile__group']" +
                         "[.//*[contains(text(),'Пригласить официанта в систему')]]//*[@class='vLandingInput__err']");
@@ -117,8 +125,13 @@ public class AdminPersonalAccount {
                 $(".vSectionWaitersection__top .employeeSearch__btn-reset");
         public static final ElementsCollection waiterList =
                 $$(".vSectionWaitersection__container .vWaiterItem");
-        public static final SelenideElement waiterCardName =
+        public static final SelenideElement waiterListName =
                 $(".vSectionWaitersection__container .vWaiterItem .vWaiterItem__waiterName");
+        public static final By waiterListNameBy =
+                By.cssSelector(".vSectionWaitersection__container .vWaiterItem .vWaiterItem__waiterName");
+        public static final SelenideElement waiterCashDeskNameInCard =
+                $x("//*[@class='vLandingInput'][.//*[@id='name']]");
+
         public static final SelenideElement inviteButton = $(".vSectionWaitersection__container .vButton");
         public static final SelenideElement cancelInvitationButton =
                 $(".vSectionWaitersection__container .vButtonRed");
@@ -144,6 +157,7 @@ public class AdminPersonalAccount {
         public static final SelenideElement waiterNameInCashDesk = $(".section-profile__group #name");
         public static final SelenideElement waiterName = $(".section-profile__group #display_name");
         public static final SelenideElement successSendingInvitation = $(".vAuthentication.active");
+        public static final SelenideElement submitButton = $(".section-profile__form button");
 
     }
 
@@ -160,8 +174,11 @@ public class AdminPersonalAccount {
                         "and contains(text(),'Отзывы на внешних сервисах')]");
         public static final SelenideElement wifiSlider =
                 $(".vAdminDisplayingWiFi__switch");
+
         public static final SelenideElement wifiActivatedSlider =
                 $(".vBlockWiFiInformation input[id='network']:not([disabled])");
+        public static final SelenideElement wifiSliderInput =
+                $(".vAdminDisplayingWiFi__switch input");
         public static final SelenideElement wifiDeactivatedSlider =
                 $(".vBlockWiFiInformation input[id='network'][disabled]");
         public static final SelenideElement wifiNetworkName = $("[id=\"network\"]");
@@ -216,6 +233,8 @@ public class AdminPersonalAccount {
         public static final SelenideElement tableHeading = $(".vSectionQr__header");
         public static final SelenideElement tablesAndQrCodesContainer = $(".vSectionQr");
         public static final SelenideElement tableListHeading = $(".vSectionQr .section-profile__title");
+        public static final SelenideElement tableAndQRCodesPreloader = $(".vSectionQr__preloader");
+
         public static final SelenideElement tableSearchFrom =
                 $("[class=\"vSectionQr__input\"][placeholder*=\"С\"]");
         public static final SelenideElement tableSearchTo =
@@ -241,6 +260,9 @@ public class AdminPersonalAccount {
 
     public static class Menu {
 
+
+
+        public static final SelenideElement menuMobilePlug = $(".vSectionMenuAdmin__zaglushka");
         public static final SelenideElement menuPagePreLoader = $(".vPreloader");
         public static final SelenideElement menuContainer = $(".vSectionMenuAdmin__container");
         public static final SelenideElement refreshMenuButton = $(".vAdminMenuAside .vButton");
@@ -404,25 +426,48 @@ public class AdminPersonalAccount {
         public static final SelenideElement resetPeriodButton = $(".vHistoryBlockHeader__period-reset");
         public static final SelenideElement historyTotalPeriodDate = $(".vHistoryTotalPeriod__date");
         public static final SelenideElement historyPeriodDate = $(".vHistoryList__date");
+        public static final By historyPeriodDateBy = By.cssSelector(".vHistoryList__date");
+
         public static final SelenideElement totalSum =
                 $x("//*[contains(@class,'vHistory') and contains(text(),'Итого:')]");
+
+        public static final By totalSumBy =
+                By.xpath("//*[@class='vHistoryList__el' and contains(text(),'Итого')]/span");
+
         public static final SelenideElement totalTips =
                 $x("//*[contains(@class,'vHistory') and contains(text(),'Чаевые:')]");
+
+        public static final By totalTipsBy =
+                By.xpath("//*[@class='vHistoryList__el' and contains(text(),'Чаевые')]/span");
         public static final SelenideElement operationsHistoryPagePreloader = $(".vLightPreloader");
         public static final SelenideElement operationsHistoryListContainer = $(".vHistoryRows");
         public static final ElementsCollection operationsHistoryListItems = $$(".vHistoryRows li");
         public static final ElementsCollection operationsHistoryListItemsDate =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(1) span");
+        public static final By operationsHistoryListItemsDateBy =
+                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(1)");
         public static final ElementsCollection operationsHistoryListItemsWaiter =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(2) p");
+
+        public static final By operationsHistoryListItemsWaiterBy =
+                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(2) p");
         public static final ElementsCollection operationsHistoryListItemsTable =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(3) p");
+
+        public static final By operationsHistoryListItemsTableBy =
+                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(3) p");
         public static final ElementsCollection operationsHistoryListItemsTips =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(4)");
+        public static final By operationsHistoryListItemsTipsBy =
+                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(4)");
         public static final ElementsCollection operationsHistoryListItemsStatus =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(5) p");
+        public static final By operationsHistoryListItemsStatusBy =
+                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(5) p");
         public static final ElementsCollection operationsHistoryListItemsSum =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(6)");
+        public static final By operationsHistoryListItemsSumBy =
+                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(6)");
         public static final SelenideElement paginationContainer =
                 $("div>.Pagination");
         public static final ElementsCollection paginationPages =

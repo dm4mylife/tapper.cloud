@@ -1,13 +1,12 @@
 package tapper.tests.keeper_e2e._2_3_critical;
 
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import support_personal_account.lock.Lock;
 import tapper_table.RootPage;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.SupportPersonalAccount.*;
@@ -20,7 +19,7 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 @DisplayName("Заглушаем только один ресторан, но через поиск, и проверяем все вариации заглушки")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class LockCertainRestaurantBySearchTest extends AdminBaseTest {
+public class LockCertainRestaurantBySearchTest extends PersonalAccountTest {
 
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -29,8 +28,6 @@ public class LockCertainRestaurantBySearchTest extends AdminBaseTest {
     @Test
     @DisplayName("1.1. Авторизация в аккаунте техподдержке")
     public void authorizeUser() {
-
-        Configuration.browserSize = "1920x1080";
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 
@@ -49,7 +46,7 @@ public class LockCertainRestaurantBySearchTest extends AdminBaseTest {
     @DisplayName("1.3. Выбираем определенный ресторан по чекбоксу из всего списка")
     public void choseOnlyCertainRestaurantsBySearch() {
 
-        lock.choseOnlyCertainRestaurantsBySearch(RESTAURANT_NAME);
+        lock.choseOnlyCertainRestaurantsBySearch(KEEPER_RESTAURANT_NAME);
 
     }
 

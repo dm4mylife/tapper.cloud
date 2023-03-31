@@ -1,12 +1,10 @@
 package tapper.tests.support_personal_account.history_operations;
 
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
 import support_personal_account.history_operations.HistoryOperations;
-import tests.AdminBaseTest;
-import tests.BaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
@@ -19,7 +17,7 @@ import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 @DisplayName("Проверка истории операций")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _17_0_TotalTest extends AdminBaseTest {
+public class _17_0_TotalTest extends PersonalAccountTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     HistoryOperations historyOperations = new HistoryOperations();

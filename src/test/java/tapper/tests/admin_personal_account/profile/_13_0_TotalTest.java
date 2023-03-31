@@ -4,7 +4,7 @@ import admin_personal_account.profile.Profile;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
-import tests.AdminBaseTest;
+import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.*;
@@ -15,7 +15,7 @@ import static data.Constants.TestData.AdminPersonalAccount.*;
 @DisplayName("Проверка профиля, редактирование полей, смена пароля")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class _13_0_TotalTest extends AdminBaseTest {
+public class _13_0_TotalTest extends PersonalAccountTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Profile profile = new Profile();

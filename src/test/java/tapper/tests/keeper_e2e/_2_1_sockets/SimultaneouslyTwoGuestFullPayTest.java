@@ -9,7 +9,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTestTwoBrowsers;
+import tests.TwoBrowsers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -29,7 +29,7 @@ import static data.selectors.TapperTable.RootPage.PayBlock.paymentButton;
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class SimultaneouslyTwoGuestFullPayTest extends BaseTestTwoBrowsers {
+public class SimultaneouslyTwoGuestFullPayTest extends TwoBrowsers {
 
     static String guid;
     static int amountDishesForFillingOrder = 6;
@@ -57,14 +57,14 @@ public class SimultaneouslyTwoGuestFullPayTest extends BaseTestTwoBrowsers {
 
         using(firstBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
             rootPage.isTableHasOrder();
 
         });
 
         using(secondBrowser, () -> {
 
-            rootPage.openUrlAndWaitAfter(STAGE_RKEEPER_TABLE_222);
+            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
             rootPage.isTableHasOrder();
 
         });
