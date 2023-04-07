@@ -14,7 +14,7 @@ import tests.BaseTest;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
-import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER;
 import static data.Constants.TestData.TapperTable.*;

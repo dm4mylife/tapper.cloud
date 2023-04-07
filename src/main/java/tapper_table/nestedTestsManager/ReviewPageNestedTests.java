@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.$$;
 import static data.Constants.TestData.TapperTable.*;
 import static data.Constants.WAIT_UNTIL_TRANSACTION_EXPIRED;
 import static data.Constants.WAIT_UNTIL_TRANSACTION_STILL_ALIVE;

@@ -17,15 +17,16 @@ import java.util.LinkedHashMap;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.RegexPattern.TapperTable.serviceChargeRegex;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.TestData.TapperTable.*;
-import static data.selectors.TapperTable.Best2PayPage.*;
+import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS;
+import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
+import static data.Constants.WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK;
+import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
+import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.Common.pagePreLoader;
-import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
-import static data.selectors.TapperTable.RootPage.DishList.emptyOrderMenuButton;
+import static data.selectors.TapperTable.RootPage.DishList.*;
 import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeContainer;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
@@ -79,7 +80,7 @@ public class NestedTests extends RootPage {
 
         if (orderType.equals("part")) {
 
-            apiRKeeper.isPrepaymentSuccess(transactionId);
+            apiRKeeper.isPrepaymentSuccess(transactionId,WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK);
 
         }
 
@@ -132,12 +133,20 @@ public class NestedTests extends RootPage {
 
         rootPage.deactivateServiceChargeIfActivated();
 
+        totalPay.shouldBe(visible);
+        System.out.println(totalPay.getText() + " selector");
+        System.out.println(totalPay + " TOTAL PAY 1");
         double tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
 
         checkTotalPayInB2P(tapperTotalPay);
 
-        rootPage.activateServiceChargeIfDeactivated();
 
+        rootPage.activateServiceChargeIfDeactivated();
+        totalPay.shouldBe(visible);
+
+
+        System.out.println(totalPay.getText() + " selector");
+        System.out.println(totalPay + " TOTAL PAY 2");
         tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
 
         checkTotalPayInB2P(tapperTotalPay);
@@ -156,6 +165,7 @@ public class NestedTests extends RootPage {
                 "Сумма итого к оплате не совпадает с суммой в таппере");
 
         returnToPreviousPage();
+        rootPage.isTableHasOrder();
 
     }
 

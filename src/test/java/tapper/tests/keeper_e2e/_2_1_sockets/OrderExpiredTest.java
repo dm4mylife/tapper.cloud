@@ -6,7 +6,10 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
@@ -75,7 +78,7 @@ public class OrderExpiredTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.2. Переходим на транзакцию и ждём пока она не \"протухнет \" за 300сек")
+    @DisplayName("1.2. Переходим на транзакцию и ждём пока она не \"протухнет \"")
     public void goToAcquiringAndWaitTillTransactionExpired() {
 
         transactionId = nestedTests.goToAcquiringAndWaitTillTransactionExpired(totalPay, WAIT_UNTIL_TRANSACTION_EXPIRED);

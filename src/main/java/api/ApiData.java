@@ -1,6 +1,7 @@
 package api;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
 
@@ -21,9 +22,17 @@ public class ApiData {
         public static final String orderPay = "rkeeper-automation/order/pay";
         public static final String deletePosition = "rkeeper-automation/position";
         public static final String deleteDiscount = "rkeeper-automation/discount";
+        public static final String deleteRestaurantAdmin = "automation/admin";
+        public static final String adminLogin = "users/login";
+
+
         public static final String addDiscount = "rkeeper-automation/create-discount";
         public static final String addModificatorOrder = "rkeeper-automation/add-modificator-order";
-        public static final String b2bPaymentTransactionStatus = "https://apitapper.zedform.ru/api/payment/transaction-status/";
+        public static final String b2bPaymentTransactionStatus =
+                "https://apitapper.zedform.ru/api/payment/transaction-status/";
+        public static final String loginPersonalAccount = "https://apitapper.zedform.ru/api/users/login";
+
+
 
     }
 

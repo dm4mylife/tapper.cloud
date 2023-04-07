@@ -10,8 +10,6 @@ import data.selectors.AdminPersonalAccount;
 import data.selectors.SupportPersonalAccount;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +20,6 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.*;
-import static data.Constants.TestData.SupportPersonalAccount.KEEPER_RESTAURANT_NAME;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.paginationPages;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.*;
@@ -40,6 +37,7 @@ import static data.selectors.SupportPersonalAccount.LogsAndPermissions.logsTab.l
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.loyaltyTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.operationsTab.operationStatus;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.operationsTab.operationsTab;
+import static data.selectors.SupportPersonalAccount.LogsAndPermissions.permissionsTab.id;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.permissionsTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.statisticsTab.dateRangeContainer;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.statisticsTab.*;

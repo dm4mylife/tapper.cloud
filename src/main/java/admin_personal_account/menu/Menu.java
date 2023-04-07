@@ -1,20 +1,20 @@
 package admin_personal_account.menu;
 
-import admin_personal_account.profile.Profile;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.WebElement;
 import tapper_table.RootPage;
 
 import java.io.File;
 import java.time.Duration;
 import java.util.*;
 
-import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.*;
@@ -22,6 +22,7 @@ import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Common.menuCategory;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Menu.*;
+import static data.selectors.TapperTable.RootPage.DishList.dishPreloaderSpinnerSelector;
 import static data.selectors.TapperTable.RootPage.DishList.orderMenuContainer;
 import static data.selectors.TapperTable.RootPage.Menu.*;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
@@ -102,13 +103,10 @@ public class Menu extends BaseActions {
     @Step("Выбираем категорию")
     public void chooseCategory(int index) {
 
-        categoryItems.get(index).click();
+        click(categoryItems.get(index));
 
-        if (menuPagePreLoader.exists()) {
-
+        if (menuPagePreLoader.exists())
             isElementVisible(menuPagePreLoader);
-
-        }
 
     }
 
@@ -231,7 +229,6 @@ public class Menu extends BaseActions {
         for (SelenideElement categoryElement: categoryItems) {
 
             click(categoryElement);
-            forceWait(800);
             menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(10));
 
             String categoryName = categoryElement.$(categoryItemsNamesSelector).getText()
@@ -274,7 +271,8 @@ public class Menu extends BaseActions {
     public void matchCategoryListWithTapperMenu(ArrayList<String> dishListWithActiveCheckboxShowForGuest) {
 
         ArrayList<String> tapperCategoryNameHeader = new ArrayList<>();
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
+
+        isElementsCollectionIsVisible(menuCategoryInHeader,7);
 
         menuCategoryInHeader.asDynamicIterable().stream().forEach
                 (element -> tapperCategoryNameHeader.add(element.getText()));
@@ -333,13 +331,9 @@ public class Menu extends BaseActions {
 
     }
 
-    public void isImageCorrectInPreview(SelenideElement element) {
-
-        forceWait(WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER);
-        element.shouldHave(image,Duration.ofSeconds(5));
+    public void isImageCorrectInPreview() {
 
         isElementVisible(imagePreviewContainer);
-
         isImageCorrect(menuDishItemsImageInPreviewDishSelector,
                 "Изображение блюда в превью редактировании не корректное");
 
@@ -354,21 +348,23 @@ public class Menu extends BaseActions {
         imageUploadInput.uploadFile(imageFile);
 
         downloadedPreviewImage.shouldBe(exist,Duration.ofSeconds(10))
+                            .shouldBe(image)
                             .shouldHave(attribute("src"));
 
         isImageCorrect(editDishImageSelector,"Изображение блюда загрузилось корректно");
 
+        downloadedPreviewImage.shouldBe(visible,enabled);
         click(downloadedPreviewImage);
-        isImageCorrectInPreview(downloadedPreviewImage);
+        isImageCorrectInPreview();
 
         click(saveButton);
-        forceWait(WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER);
 
+        $(menuDishItemsImageInDishListSelector).shouldHave(image,Duration.ofSeconds(5));
         isImageCorrect(menuDishItemsImageInDishListSelector,
                 "Изображение блюда в списке блюд не корректное");
 
-        menuDishItemsImage.get(dishIndex).click();
-        isImageCorrectInPreview(imagePreviewContainerImage);
+        click(menuDishItemsImage.get(dishIndex));
+        isImageCorrectInPreview();
 
         String imageUrl = menuDishItemsImage.get(dishIndex).getAttribute("src");
 
@@ -409,7 +405,7 @@ public class Menu extends BaseActions {
 
     public void setMeasureUnitValue(int measureUnitOptionsIndex) {
 
-        click(editDishMeasureUnitInput);
+        editDishMeasureUnitInput.shouldBe(interactable).click();
 
         SelenideElement elementToClick = editDishMeasureUnitInputOptions.get(measureUnitOptionsIndex);
         String measureUnit = elementToClick.getText();
@@ -423,7 +419,6 @@ public class Menu extends BaseActions {
     public void isAmountAndMeasureUnitInputsCorrectError(int dishIndex) {
 
         click(menuDishItemsEditButtons.get(dishIndex));
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         clearText(editDishAmountInput);
 
@@ -461,28 +456,28 @@ public class Menu extends BaseActions {
     @Step("Активируем первую категорию,первую позицию и включаем отображение для гостей")
     public void activateCategoryAndDishAndActivateShowGuestMenuByIndex(int categoryIndex, int dishIndex) {
 
-
         if (!Objects.requireNonNull(categoryEyeIcons.get(categoryIndex)
                 .getAttribute("class")).matches(".*active.*")) {
 
-            categoryEyeIcons.get(categoryIndex).click();
+            click(categoryEyeIcons.get(categoryIndex));
+            menuPagePreLoader.shouldBe(visible).shouldBe(hidden);
 
         }
 
-        categoryItems.get(categoryIndex).click();
+        click(categoryItems.get(categoryIndex));
+        menuDishListPreLoader.shouldHave(cssValue("display","flex"))
+                .shouldHave(cssValue("display","none"));
 
         if (!Objects.requireNonNull(menuDishItemsEyeIcons.get(dishIndex)
                 .getAttribute("class")).matches(".*active.*")) {
 
-            menuDishItemsEyeIcons.get(dishIndex).click();
-
+            click(menuDishItemsEyeIcons.get(dishIndex));
+            menuDishListPreLoader.shouldHave(cssValue("display","flex"))
+                    .shouldHave(cssValue("display","none"));
         }
 
-        if (!enableMenuForVisitorsInput.isSelected()) {
-
-            enableMenuForVisitorsButton.click();
-
-        }
+        if (!enableMenuForVisitorsInput.isSelected())
+            click(enableMenuForVisitorsButton);
 
     }
 
@@ -492,7 +487,6 @@ public class Menu extends BaseActions {
         Faker faker = new Faker();
         String newDishName = faker.harryPotter().spell();
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(menuDishItemsEditButtons.get(dishIndex));
 
         isDishEditModalCorrect();
@@ -515,8 +509,7 @@ public class Menu extends BaseActions {
         Faker faker = new Faker();
         String newDishName = faker.harryPotter().spell();
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
-        click(menuDishItemsEditButtons.get(dishIndex));
+        menuDishItemsEditButtons.get(dishIndex).shouldBe(visible,enabled).click();
 
         isDishEditModalCorrect();
 
@@ -590,7 +583,7 @@ public class Menu extends BaseActions {
         clearText(input);
 
         sendKeys(input,inputTextOverLimit);
-        input.shouldHave(value(inputTextLimit));
+        input.shouldHave(value(inputTextLimit),Duration.ofSeconds(2));
 
         inputCounter.shouldHave(text(inputCounterText));
 
@@ -632,6 +625,8 @@ public class Menu extends BaseActions {
                         editDishAmountInputCounter, LIMIT_CHARS_AMOUNT_COUNTER);
         previousData.put("previousAmount",previousAmount);
 
+        setMeasureUnitValue(1);
+
         String previousCalories = isInputAndCounterHasCharLimit
                 (editDishCaloriesInput, OVER_LIMIT_CHARS_CALORIES_INPUT, LIMIT_CHARS_CALORIES_INPUT,
                         editDishCaloriesInputCounter, LIMIT_CHARS_CALORIES_COUNTER);
@@ -640,7 +635,6 @@ public class Menu extends BaseActions {
         clickCancelButtonIfNoChangeOrSaveData();
 
         isElementsListVisible(menuDishItems);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         return previousData;
 
@@ -693,21 +687,19 @@ public class Menu extends BaseActions {
 
         String newCategoryName = faker.harryPotter().character();
 
-        categoryEditButton.get(categoryIndex).click();
+        click(categoryEditButton.get(categoryIndex));
 
         isEditContainerCorrect();
 
         clearText(categoryNameForGuest);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
-
         sendKeys(categoryNameForGuest,newCategoryName);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         click(saveEditedCategoryNameButton);
-        isElementVisible(menuPagePreLoader);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+        menuPagePreLoader.shouldBe(visible).shouldBe(hidden,Duration.ofSeconds(5));
 
+        categoryItemsNames.get(categoryIndex).shouldBe(visible);
         String newCategoryNameInItem = categoryItemsNames.get(categoryIndex).getText();
+
         categoryNameInGuest.shouldHave(text(newCategoryName));
 
         categoryItemsNames.get(categoryIndex).shouldHave(matchText(newCategoryNameInItem));
@@ -821,7 +813,7 @@ public class Menu extends BaseActions {
     public void isDownloadedImageCorrectOnTable(String imageUrl) {
 
         if (!orderMenuContainer.isDisplayed())
-            rootPage.click(appFooterMenuIcon);
+            click(appFooterMenuIcon);
 
         SelenideElement elementWithNewPhoto  =
                 menuDishPhotos.findBy(attributeMatching("src",".*"+imageUrl+".*"));
@@ -843,11 +835,14 @@ public class Menu extends BaseActions {
 
             click(saveButton);
 
+
         } else {
 
             click(editDishContainerCloseButton);
 
         }
+
+        isElementsCollectionIsVisible(menuDishItems);
 
     }
 
@@ -861,11 +856,9 @@ public class Menu extends BaseActions {
 
         isElementVisible(editDishAmountInput);
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo не успевает прогрузиться инпут веса
         clearText(editDishAmountInput);
 
         sendKeys(editDishAmountInput,newWeight);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo не успевает прогрузиться инпут выбора единицы веса
 
         click(editDishMeasureUnitInput);
 
@@ -892,7 +885,6 @@ public class Menu extends BaseActions {
     @Step("Проверяем что смена калорий блюда корректна")
     public String isDishEditCaloriesCorrect(int dishIndex) {
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(menuDishItemsEditButtons.get(dishIndex));
 
         Faker faker = new Faker();
@@ -900,11 +892,9 @@ public class Menu extends BaseActions {
 
         isElementVisible(editDishCaloriesInput);
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo не успевает прогрузиться инпут веса
         clearText(editDishCaloriesInput);
 
         sendKeys(editDishCaloriesInput,newCalories);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE); //toDo не успевает прогрузиться инпут выбора единицы веса
 
         editDishCaloriesInput.shouldHave(value(newCalories));
 
@@ -963,14 +953,13 @@ public class Menu extends BaseActions {
             click(appFooterMenuIcon);
 
         SelenideElement element = elementsWhereToFind.findBy(matchText(textToFind));
-        System.out.println(element);
 
        Assertions.assertNotNull(element,"Элемент " + textToFind +
                " не найден на столе");
 
     }
 
-    @Step("Проверяем что изменения корректны в карточке блюда с элементом {textToFind}")
+    @Step("Проверяем что изменения корректны в карточке блюда с элементом")
     public void isChangingAppliedOnTableInDishCard(ElementsCollection elementsWhereToFind,
                                                    HashMap<String,String> data, String type) {
 
@@ -996,7 +985,7 @@ public class Menu extends BaseActions {
         Assertions.assertNotNull(dishDetailCardContent,"Элемент " + neededText +
                 " не в карточке товара");
 
-        click(dishDetailCardOverlay);
+        click(dishDetailCardCloseButton);
 
     }
 
@@ -1038,30 +1027,33 @@ public class Menu extends BaseActions {
     @Step("Скрыть все категории блюд")
     public void hideAllCategoryMenu() {
 
-        for (SelenideElement categoryDishItem : categoryEyeIcons) {
+        rootPage.isElementsCollectionIsVisible(categoryEyeIcons);
 
-            if (Objects.requireNonNull(categoryDishItem.getAttribute("class")).matches(".*active.*")) {
+        categoryEyeIcons.asDynamicIterable().stream().forEach(element -> {
 
-                click(categoryDishItem);
-                forceWait(200);
+        if (Objects.requireNonNull(element.getAttribute("class")).matches(".*active.*"))
+            click(element);
 
-            }
-        }
+        });
+
     }
 
     @Step("Скрыть все блюда")
     public void hideAllDishInList() {
 
-        for (SelenideElement dishMenu : menuDishItemsEyeIcons) {
+        rootPage.isElementsCollectionIsVisible(categoryEyeIcons);
 
-            if (Objects.requireNonNull(dishMenu.getAttribute("class")).matches(".*active.*")) {
+        menuDishItemsEyeIcons.asDynamicIterable().stream().forEach(element -> {
 
-                dishMenu.click();
-                dishPreloader.shouldNotBe(visible,Duration.ofSeconds(10));
-                forceWait(200);
+            if (Objects.requireNonNull(element.getAttribute("class")).matches(".*active.*")) {
+
+                click(element);
+                dishPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
 
             }
-        }
+
+        });
+
     }
 
     @Step("Выбрать рандомное число категорий")

@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.using;
-import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.RootPage.DishList.allDishesStatuses;
 

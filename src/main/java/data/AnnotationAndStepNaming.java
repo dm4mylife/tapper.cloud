@@ -86,6 +86,7 @@ public class AnnotationAndStepNaming {
         public static class AdminPersonalAccount {
 
             public static final String menu = "Меню";
+            public static final String menuDetailCard = "Детальная карточка меню";
             public static final String disabledMenu = "Отключенное меню на столе";
             public static final String profilePageMobile = "Главная страница с меню";
             public static final String profilePage = "Профиль";
@@ -112,6 +113,12 @@ public class AnnotationAndStepNaming {
 
             public static final String searchRestaurant = "Поиск ресторана";
             public static final String logsAndPermissions = "Логи/доступы";
+
+        }
+
+        public static class WaiterPersonalAccount {
+
+            public static final String waiterProfile = "Профиль";
 
         }
     }

@@ -22,7 +22,7 @@ public class TapperTable {
         public static final SelenideElement wiFiHeader = $(".wifiModal__header");
         public static final SelenideElement wiFiCloseButton = $(".baseButtonClose.wifiModal__close");
         public static final SelenideElement wiFiName = $(".wifiModal__name");
-        public static final SelenideElement wiFiPassword = $(".wifiModal__btn [class='wifiModal__btn-text']");
+        public static final SelenideElement wiFiPassword = $(".wifiModal__footer button");
         public static final SelenideElement startScreenLogoContainer =
                 $("[data-auto=\"startScreenLogoContainer\"]");
         public static final SelenideElement startScreenLogoContainerImage =
@@ -177,6 +177,8 @@ public class TapperTable {
             public static final SelenideElement confPolicyLink =
                     $("[data-auto=\"confPolicyContainer\"] span:last-child");
             public static final SelenideElement confPolicyContainer = $(".privacyPolicyPersonalModal");
+
+            public static final SelenideElement confPolicyCheckbox = $(".privacyPolicy__checkbox");
             public static final SelenideElement confPolicyOverlay = $(".privacyPolicyPersonalModal__overlay");
             public static final SelenideElement shareButton = $(".shareBtn");
             public static final String shareButtonSvgNotSelenide = ".shareBtn img";
@@ -206,10 +208,11 @@ public class TapperTable {
                     $("[data-auto=\"callWaiterFadedBackground\"]");
             public static final SelenideElement callWaiterFirstGreetingsMessage =
                     $x("//*[@class='message__text']/p[contains(text(),'Привет! Я отправлю ')]");
-            public static final SelenideElement callWaiterUniversalTextMessage =
-                    $x("//*[@class='message__text']/p[contains(text(),'Я отправил сообщение ')]");
-            public static final SelenideElement callWaiterSecondMessage =
-                    $x("//*[@class='message__text']/p[contains(text(),'Я отправил сообщение ')]");
+            public static final ElementsCollection callWaiterSecondMessage =
+                    $$x("//*[@class='message__text']/p[contains(text(),'Я отправил сообщение ')]");
+            public static final SelenideElement callWaiterTapperMessage =
+                    $x("//*[@class='message__text']/p[contains(text(),'Таппер создан ')]");
+
             public static final SelenideElement callWaiterGuestTestComment =
                     $x("//*[@class='message__text']/p[contains(text(),'" + TEST_WAITER_COMMENT + "')]");
             public static final SelenideElement callWaiterTypingMessagePreloader = $(".preloader");
@@ -236,16 +239,22 @@ public class TapperTable {
                     $$(".orderMenuList__item .orderMenuProduct__label-text");
             public static final SelenideElement dishDetailCardContent = $(".detail__content");
             public static final SelenideElement dishDetailCardOverlay = $(".detail__overlay");
+            public static final SelenideElement dishDetailCardCloseButton = $(".detail__close");
+
             public static final ElementsCollection categoryMenuItems =
                     $$(".orderMenu .orderMenuCategorues__item");
             public static final ElementsCollection menuDishPhotos =
                     $$(".orderMenuProduct__photo .orderMenuProduct__img");
             public static final String menuDishPhotosSelector = ".orderMenuProduct__photo .orderMenuProduct__img";
             public static final By menuDishPhotosBy = By.cssSelector(".orderMenuProduct__photo .orderMenuProduct__img");
-            public static final SelenideElement menuDishNameInDetailCard = $(".detail__name");
-            public static final SelenideElement menuDishAmountDetailCard = $(".detail__weight");
+            public static final SelenideElement menuDishNameInDetailCard = $(".detail .detail__name");
+            public static final SelenideElement menuDishAmountDetailCard = $(".detail .detail__weight");
             public static final SelenideElement menuDishIngredientsDetailCard =
                     $(".detail__composition.detail__text");
+
+            public static final SelenideElement firstTestDish =
+                    $x("//*[@class='orderMenuProduct__name' and contains(text(),'Кремлёвский шик')]");
+
 
         }
 

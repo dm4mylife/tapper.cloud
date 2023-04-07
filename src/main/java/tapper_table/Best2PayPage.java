@@ -1,6 +1,5 @@
 package tapper_table;
 
-import com.codeborne.selenide.Condition;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +10,6 @@ import static com.codeborne.selenide.Condition.exist;
 import static data.Constants.TestData.Best2Pay;
 import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
 import static data.Constants.TestData.Best2Pay.TEST_PAYMENT_CARD_CVV;
-import static data.Constants.TestData.Yandex;
 import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
 import static data.selectors.TapperTable.Best2PayPage.*;
 

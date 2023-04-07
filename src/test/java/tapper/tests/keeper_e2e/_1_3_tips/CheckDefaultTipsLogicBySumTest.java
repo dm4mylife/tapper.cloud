@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
-import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
@@ -76,8 +76,7 @@ class CheckDefaultTipsLogicBySumTest extends BaseTest {
 
         dishes = apiRKeeper.createDishObject(dishes, SOLYANKA, 3);
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
-        rootPage.refreshPage();
-        rootPage.isTableHasOrder();
+        rootPage.refreshTableWithOrder();
 
     }
 
@@ -146,7 +145,7 @@ class CheckDefaultTipsLogicBySumTest extends BaseTest {
 
         dishes = apiRKeeper.createDishObject(dishes, SOLYANKA, 5);
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
-        rootPage.refreshPage();
+        rootPage.refreshTableWithOrder();
 
     }
 

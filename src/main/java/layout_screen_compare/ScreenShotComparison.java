@@ -54,7 +54,8 @@ public class ScreenShotComparison {
 
     }
 
-    public static void makeOriginalScreenshot(String type,String expectedName, Set<By> setIgnoredElements) throws IOException {
+    public static void makeOriginalScreenshot(String type,String expectedName, Set<By> setIgnoredElements)
+            throws IOException {
 
         baseActions.forceWait(WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN);
 
@@ -166,7 +167,6 @@ public class ScreenShotComparison {
         }
 
         createDirectory(fullPathActual);
-        createDirectory(fullPathOriginal);
         createDirectory(fullPathDiff);
 
         String originalName = "original_" + name + ".png";
@@ -194,11 +194,10 @@ public class ScreenShotComparison {
 
         double diffPixelPercentRatio = imagePixelSize * (diffPercent / 100);
 
-        System.out.println("Общее количество различающихся пикселей " + diff.getDiffSize() +
-                "\nДопустимое количество различающихся пикселей " + diffPixelPercentRatio);
-
         Assertions.assertFalse(diff.getDiffSize() > diffPixelPercentRatio,
-                "Скриншоты различаются в более чем " + diffPercent + "%");
+                "Скриншоты различаются в более чем " + diffPercent +
+                        "%.Общее количество различающихся пикселей " + diff.getDiffSize() +
+                        "\nДопустимое количество различающихся пикселей " + diffPixelPercentRatio);
 
     }
 

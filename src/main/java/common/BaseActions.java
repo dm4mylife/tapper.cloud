@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 import java.text.DecimalFormat;
 import java.time.Duration;
@@ -14,9 +15,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
@@ -36,7 +37,7 @@ public class BaseActions {
 
     public void click(@NotNull SelenideElement element) {
 
-        element.shouldBe(visible).click();
+        element.shouldBe(visible,enabled).click();
 
     }
 
@@ -65,6 +66,22 @@ public class BaseActions {
         element.shouldBe(visible, Duration.ofSeconds(time));
 
     }
+    @Step("Коллекция элементов на странице")
+    public void isElementsCollectionIsVisible(@NotNull ElementsCollection Elementcollections) {
+
+        Elementcollections.should(allMatch("Все элементы должны быть видны",WebElement::isDisplayed));
+
+    }
+
+    @Step("Коллекция элементов присутствует на странице в ходе длительной загрузки ({time}сек.)")
+    public void isElementsCollectionIsVisible(@NotNull ElementsCollection Elementscollection, int time) {
+
+        Elementscollection.should
+                (allMatch("Все элементы должны быть видны",WebElement::isDisplayed),Duration.ofSeconds(time));
+
+    }
+
+
 
     @Step("Смена разрешения браузера")
     public void changeBrowserSizeDuringTest(int width,int height) {
@@ -181,7 +198,8 @@ public class BaseActions {
     @Step("Ввод данных {text} без задержки")
     public void sendKeys(@NotNull SelenideElement element, String text) {
 
-        element.sendKeys(text);
+        element.shouldBe(visible,interactable,editable).sendKeys(text);
+        element.shouldNotBe(empty,Duration.ofSeconds(5));
 
     }
 
@@ -215,11 +233,10 @@ public class BaseActions {
     @Step("Удаление текста из поля")
     public void clearText(SelenideElement element) {
 
-        element.click(ClickOptions.usingDefaultMethod().timeout(Duration.ofSeconds(3)));
-        element.sendKeys(Keys.CONTROL + "A");
-        forceWait(500);
-        element.sendKeys(Keys.BACK_SPACE);
-        forceWait(500);
+        element.click(ClickOptions.usingDefaultMethod().timeout(Duration.ofSeconds(3)))
+                .shouldBe(interactable,editable)
+                .sendKeys(Keys.CONTROL + "A" + Keys.BACK_SPACE);
+
         element.shouldHave(empty,Duration.ofSeconds(5));
 
     }
@@ -235,8 +252,8 @@ public class BaseActions {
     public void openNewTabAndSwitchTo(String url) {
 
         Selenide.executeJavaScript("window.open('" + url + "', '_blank').focus();");
-        forceWait(2000);
         switchBrowserTab(1);
+        isTextContainsInURL(url);
 
     }
 
@@ -248,7 +265,7 @@ public class BaseActions {
             "\"); if (img !== null && img.complete && typeof img.naturalWidth != 'undefined' && img.naturalWidth > 0) " +
             "{ return true; } else { return false; }} return isImageNotBroken();";
 
-        forceWait(WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER);
+        $(element).shouldHave(image,Duration.ofSeconds(5));
         boolean image = Boolean.TRUE.equals(Selenide.executeJavaScript(JsScript));
         Assertions.assertTrue(image, assertFailMessage);
 

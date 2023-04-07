@@ -5,7 +5,10 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import support_personal_account.lock.Lock;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -18,7 +21,8 @@ import java.util.LinkedHashMap;
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
-import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 
 
 @Epic("Личный кабинет техподдержки")

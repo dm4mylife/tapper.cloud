@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 import support_personal_account.logs_and_permissions.LogsAndPermissions;
 import tapper_table.RootPage;
 import tests.ScreenDesktopTest;
-import tests.SixTableData;
+import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 

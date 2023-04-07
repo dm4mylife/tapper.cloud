@@ -21,10 +21,11 @@ import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
-import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
-import static data.selectors.TapperTable.RootPage.DishList.*;
+import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
+import static data.selectors.TapperTable.RootPage.DishList.dishPriceWithDiscountSelector;
 
 
 
@@ -43,7 +44,6 @@ class LastDishWithZeroPriceDiscountTest extends BaseTest {
     protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
     protected final String tableId = TABLE_AUTO_111_ID;
 
-
     static String guid;
     static double totalPay;
     static String orderType = "full";
@@ -51,7 +51,7 @@ class LastDishWithZeroPriceDiscountTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static String transactionId;
     int amountDishesForFillingOrder = 1;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -62,6 +62,8 @@ class LastDishWithZeroPriceDiscountTest extends BaseTest {
     @Order(1)
     @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable + " Добавляем блюдо с нулевой ценой")
     void createAndFillOrder() {
+
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
         apiRKeeper.createDishObject(dishesForFillingOrder, ZERO_PRICE_DISH, amountDishesForFillingOrder);

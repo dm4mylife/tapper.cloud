@@ -10,14 +10,13 @@ import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tests.ScreenDesktopTest;
-import tests.SixTableData;
+import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.io.IOException;
 
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.TestData.AdminPersonalAccount.TEST_WIFI_NETWORK_PASSWORD;
 import static data.selectors.AdminPersonalAccount.Customization.reviewTab;
 import static data.selectors.AdminPersonalAccount.Customization.wifiTab;
 
@@ -72,6 +71,7 @@ class CustomizationTest extends ScreenDesktopTest {
     void wiFiInformation() throws IOException {
 
         rootPage.click(wifiTab);
+
         customization.isWiFiTabCorrect();
         customization.activateWifiIfDeactivated();
         customization.setWifiConfiguration(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);

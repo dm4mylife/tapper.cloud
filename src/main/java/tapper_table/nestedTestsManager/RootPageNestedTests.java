@@ -15,15 +15,15 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.RegexPattern.TapperTable.discountInCheckRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.REFRESH_TABLE_BUTTON_TEXT;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.RootPage.DishList.*;
 import static data.selectors.TapperTable.RootPage.TapBar.*;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.*;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.discountSum;
 
 
 public class RootPageNestedTests extends RootPage {
@@ -78,7 +78,7 @@ public class RootPageNestedTests extends RootPage {
 
         isElementVisible(refreshButtonEmptyPage);
         click(refreshButtonEmptyPage);
-        dishesSumChangedHeading.shouldBe(visible,matchText("Обновлено, но заказ ещё не создан"));
+        dishesSumChangedHeading.shouldBe(visible,matchText(REFRESH_TABLE_BUTTON_TEXT));
         dishesSumChangedHeading.shouldBe(hidden,Duration.ofSeconds(5));
 
     }

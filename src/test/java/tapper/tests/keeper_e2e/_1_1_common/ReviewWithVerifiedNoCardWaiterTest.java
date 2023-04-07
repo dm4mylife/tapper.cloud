@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.BARNOE_PIVO;
-import static api.ApiData.orderData.WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
+import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable.*;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
+import static data.Constants.TestData.AdminPersonalAccount.TERMINATOR_WAITER;
 import static data.Constants.TestData.TapperTable.UNKNOWN_WAITER;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
@@ -41,21 +41,21 @@ class ReviewWithVerifiedNoCardWaiterTest extends BaseTest {
 
     protected final String restaurantName = annotation.restaurantName();
     protected final String tableCode = annotation.tableCode();
-    protected final String waiter = WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
+    protected final String waiter = WAITER_TERMINATOR_VERIFIED_NON_CARD;
     protected final String apiUri = annotation.apiUri();
     protected final String tableUrl = annotation.tableUrl();
     protected final String tableId = annotation.tableId();
 
     static String guid;
     static double totalPay;
-    static String orderType = "full";
+    static String orderType = "part";
     String reviewType = "positive";
     static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String tapperTable;
-    static String waiterName = UNKNOWN_WAITER;
     static String transactionId;
+    String waiterName = TERMINATOR_WAITER;
     static ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
     static int amountDishesForFillingOrder = 6;
 
@@ -85,8 +85,7 @@ class ReviewWithVerifiedNoCardWaiterTest extends BaseTest {
     @DisplayName(isTotalPaySumCorrectNoTipsSc)
     void checkSumTipsSC() {
 
-        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
-        rootPageNestedTests.checkSumWithAllConditionsWithNonVerifiedWaiter(cleanDishesSum);
+        rootPageNestedTests.chooseDishesWithRandomAmountVerifiedNonCard(2);
         rootPage.deactivateServiceChargeIfActivated();
 
     }
@@ -134,15 +133,6 @@ class ReviewWithVerifiedNoCardWaiterTest extends BaseTest {
 
     @Test
     @Order(7)
-    @DisplayName("Сохраняем данные")
-    void saveReviewDataForPositive() {
-
-        tapperDataForTgMsg = reviewPageNestedTests.saveReviewData(tapperTable, waiterName, reviewType);
-
-    }
-
-    @Test
-    @Order(8)
     @DisplayName(isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 

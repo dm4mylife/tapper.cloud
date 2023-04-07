@@ -1,5 +1,6 @@
 package total_personal_account_actions;
 
+import api.ApiRKeeper;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
@@ -8,41 +9,107 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
-import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
 import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.*;
-import static data.selectors.AuthAndRegistrationPage.RegistrationPage.copyright;
-import static data.selectors.AuthAndRegistrationPage.RegistrationPage.logoAtBottom;
+import static data.selectors.AuthAndRegistrationPage.RegistrationPage.*;
 import static data.selectors.AuthAndRegistrationPage.RootTapperPage.signInButton;
 
 public class AuthorizationPage extends BaseActions {
 
+    ApiRKeeper apiRKeeper = new ApiRKeeper();
 
     @Step("Переход на страницу авторизации")
     public void goToAuthorizationPage() {
 
         openPage(ADMIN_AUTHORIZATION_STAGE_URL);
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
         isFormContainerCorrect();
 
     }
 
     @Step("Переход на страницу восстановления пароля")
-    public void goToRestorePasswordPage() {
+    public void goToRestorePasswordFromRootPage() {
 
-        openPage(RESTORE_PASSWORD_STAGE_URL);
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
-        isFormContainerCorrect();
+        openPage(ROOT_TAPPER_STAGE_URL);
+        click(signInButton);
+        click(forgotPasswordLink);
+        isTextContainsInURL("users/forget");
+
+    }
+    @Step("Проверка страницы восстановления пароля")
+    public void isRecoveryPasswordCorrect() {
+
+        titleHeading.shouldHave(text("Восстановление пароля"));
+        isElementVisible(signInLink);
+        isElementVisible(recoveryButton);
+        recoveryButton.shouldBe(disabled);
+        isElementVisible(logoAtBottom);
 
     }
 
-    @Step("Авторизуемся на под админом ресторана")
+    @Step("Проверка страницы ввода нового пароля")
+    public void isNewPasswordCorrect() {
+
+        titleHeading.shouldHave(text("Новый пароль"));
+        isElementVisible(passwordField);
+        isElementVisible(passwordConfirmationField);
+        isElementVisible(saveButton);
+        isElementVisible(logoAtBottom);
+
+    }
+
+    @Step("Проверка на ошибку не существующего в базе емайла")
+    public void isMailErrorCorrect(String email, SelenideElement elementError) {
+
+        clearText(emailInput);
+        sendKeys(emailInput,email);
+
+        if (elementError == nonExistingEmailInputError)
+            click(applyButton);
+
+        isElementVisible(elementError);
+
+    }
+
+    @Step("Ввод нового пароля и сохранение")
+    public void setNewPassword(String password) {
+
+        sendKeys(passwordField,password);
+        sendKeys(passwordConfirmationField,password);
+        applyButton.shouldBe(enabled).click();
+        successRegistrationModal.shouldBe(visible);
+        welcomeHeading.shouldBe(visible,Duration.ofSeconds(10));
+
+    }
+
+
+    @Step("Заполняем пароль и отправляем заявку на восстановление пароля")
+    public void recoverPassword(String email) {
+
+        clearText(emailInput);
+        sendKeys(emailInput,email);
+        click(recoveryButton);
+
+        successRegistrationModal.shouldBe(visible,Duration.ofSeconds(10));
+        successRegistrationModalDescription.shouldBe(visible);
+        isImageCorrect(successRegistrationImageSelector,"Иконка успешной регистрации некорректна");
+
+        isElementVisibleDuringLongTime(welcomeHeading,10);
+        isElementVisible(titleHeading);
+
+    }
+
+    @Step("Авторизуемся под админом ресторана")
     public void authorizationUser(String login, String password) {
 
         goToAuthorizationPage();
         authorizeUser(login, password);
         isTextContainsInURL(ADMIN_PROFILE_STAGE_URL);
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
+
+    }
+
+    @Step("Авторизуемся под админом ресторана")
+    public void authorizationByToken(String url,String login, String password) {
+
+        apiRKeeper.authorizeInPersonalAccount(url, apiRKeeper.rqBodyLoginPersonalAccount(login,password));
 
     }
 
@@ -64,8 +131,7 @@ public class AuthorizationPage extends BaseActions {
     @Step("Авторизация пользователя")
     public void authorizeUser(String login, String password) {
 
-        emailInput.shouldBe(appear);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+        emailInput.shouldBe(visible,interactable);
         sendKeys(emailInput, login);
         sendKeys(passwordInput, password);
         click(logInButton);
@@ -79,7 +145,6 @@ public class AuthorizationPage extends BaseActions {
         isElementVisibleAndClickable(signInButton);
         click(signInButton);
         isTextContainsInURL(ADMIN_AUTHORIZATION_STAGE_URL);
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
 
     }
 
@@ -91,7 +156,6 @@ public class AuthorizationPage extends BaseActions {
         click(signInButton);
         click(registrationLink);
         isTextContainsInURL(ADMIN_REGISTRATION_STAGE_URL);
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
 
     }
 
@@ -113,7 +177,6 @@ public class AuthorizationPage extends BaseActions {
 
         clearText(passwordInput);
         sendKeys(passwordInput, password);
-        forceWait(1000);
         passwordError.shouldNotBe(visible);
         passwordInput.shouldHave(attribute("type", "password"));
         click(passwordEyeIcon);

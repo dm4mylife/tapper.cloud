@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static data.Constants.RegexPattern.*;
-import static io.restassured.RestAssured.given;
+import static data.Constants.RegexPattern.TelegramMessage;
 
 public class Telegram {
 

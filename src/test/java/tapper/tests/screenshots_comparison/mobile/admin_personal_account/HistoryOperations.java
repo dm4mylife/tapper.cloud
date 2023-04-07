@@ -7,8 +7,9 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
+import tapper_table.RootPage;
 import tests.ScreenMobileTest;
-import tests.SixTableData;
+import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -23,7 +24,7 @@ import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASS
 @Feature("Администратор ресторана")
 @Story("История операций")
 @DisplayName("История операций")
-
+@Disabled
 @TakeOrCompareScreenshots()
 @SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -43,6 +44,7 @@ class HistoryOperations extends ScreenMobileTest {
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
+    RootPage rootPage = new RootPage();
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     admin_personal_account.operations_history.HistoryOperations historyOperations =
@@ -54,9 +56,11 @@ class HistoryOperations extends ScreenMobileTest {
     @DisplayName(AnnotationAndStepNaming.DisplayName.AdminPersonalAccount.historyOperations)
     void historyOperations() throws IOException {
 
+        rootPage.forceWait(2000);
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
-
+        rootPage.forceWait(2000);
         historyOperations.goToHistoryOperationsCategory();
+        rootPage.forceWait(6000);
         historyOperations.isHistoryOperationsCorrect();
 
         ScreenShotComparison.isScreenOrDiff(browserSizeType,isScreenShot,

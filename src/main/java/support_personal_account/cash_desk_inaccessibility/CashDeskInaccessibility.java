@@ -45,17 +45,14 @@ public class CashDeskInaccessibility extends BaseActions {
     public void choseOnlyCertainRestaurants(String restaurant) {
 
         lock.resetAllRestaurants();
-        forceWait(500);
-        click(choseRestaurantButton);
+
+        choseRestaurantButton.shouldBe(visible,enabled).click();
 
         ElementsCollection onlyTestrkeeperRestaurants =
                 dropdownWhereToLockRestaurants.filter(matchText(restaurant));
 
-        for (SelenideElement element : onlyTestrkeeperRestaurants) {
-
-            element.$(".vPlugLst__checkbox").click();
-
-        }
+        onlyTestrkeeperRestaurants.asDynamicIterable().stream().forEach(
+                element -> click(element.$(".vPlugLst__checkbox")));
 
         click(applyButton);
 

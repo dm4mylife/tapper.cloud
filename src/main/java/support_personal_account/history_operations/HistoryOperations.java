@@ -10,7 +10,6 @@ import static com.codeborne.selenide.Condition.visible;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.Common.historyOperationsCategory;
 import static data.selectors.SupportPersonalAccount.HistoryOperations.*;
-import static data.selectors.SupportPersonalAccount.Sending.*;
 
 
 public class HistoryOperations extends BaseActions {

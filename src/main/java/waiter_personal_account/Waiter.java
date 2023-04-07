@@ -1,15 +1,11 @@
 package waiter_personal_account;
 
 import admin_personal_account.AdminAccount;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import common.BaseActions;
-import data.Constants;
-import data.selectors.TapperTable;
 import data.selectors.WaiterPersonalAccount;
 import io.qameta.allure.Step;
-import org.openqa.selenium.Keys;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.io.File;
@@ -21,7 +17,6 @@ import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.Best2Pay.*;
 import static data.selectors.AdminPersonalAccount.Profile.*;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImage;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImageNotSelenide;
 import static data.selectors.WaiterPersonalAccount.saveButton;
 import static data.selectors.WaiterPersonalAccount.*;
@@ -44,7 +39,6 @@ public class Waiter extends BaseActions {
         waiterNameInCashDesk.shouldBe(disabled);
         isElementVisible(WaiterPersonalAccount.waiterName);
         isElementVisible(privateDataContainer);
-        isElementVisible(learnMoreLink);
         isLearnMoreCorrect();
         isElementVisible(telegramLogin);
         isElementVisible(waiterEmail);
@@ -150,7 +144,6 @@ public class Waiter extends BaseActions {
         String newWaiterTelegramLogin = faker.gameOfThrones().character();
 
         clearText(telegramLogin);
-
         sendKeys(telegramLogin,newWaiterTelegramLogin);
         click(saveButton);
 
@@ -159,7 +152,6 @@ public class Waiter extends BaseActions {
         telegramLogin.shouldHave(value(newWaiterTelegramLogin));
 
         clearText(telegramLogin);
-
         sendKeys(telegramLogin,newWaiterTelegramLogin);
         click(saveButton);
 

@@ -22,6 +22,7 @@ public class Profile extends BaseActions {
 
     AdminAccount adminAccount = new AdminAccount();
     AuthorizationPage authorizationPage = new AuthorizationPage();
+    BaseActions baseActions = new BaseActions();
 
     @Step("Переход в меню профиля")
     public void goToProfileCategory() {
@@ -82,32 +83,32 @@ public class Profile extends BaseActions {
 
     }
 
+    public void setInputValue(SelenideElement element,String value) {
+
+        clearText(element);
+        sendKeys(element,value);
+
+        click(saveButton);
+        isElementVisible(pagePreloader);
+
+        isChangedSavingsHeadingCorrect();
+
+        element.shouldHave(value(value));
+
+    }
+
     @Step("Смена значения в поле")
     public void changeFieldValue(SelenideElement element, String value) {
 
         String previousValue = element.getValue();
 
-        clearText(element);
+        setInputValue(element,value);
 
-        element.sendKeys(value);
-        click(saveButton);
-        isElementVisible(pagePreloader);
-
-        changedDataNotification
-                .shouldHave(attributeMatching("class",".*active.*"));
-        element.shouldHave(value(value));
-
-        clearText(element);
-
-        element.sendKeys(previousValue);
-        click(saveButton);
+        setInputValue(element,previousValue);
 
         assert previousValue != null;
+
         element.should(value(previousValue));
-        isElementVisible(pagePreloader);
-        changedDataNotification
-                .shouldHave(attributeMatching("class",".*active.*"));
-        element.shouldHave(value(previousValue));
 
     }
     @Step("Удаление телеграма")
@@ -128,6 +129,14 @@ public class Profile extends BaseActions {
 
     }
 
+    public void isChangedSavingsHeadingCorrect() {
+
+        changedDataNotification
+                .shouldHave(attributeMatching("class",".*active.*"))
+                .shouldNotHave(attributeMatching("class",".*active.*"));
+
+    }
+
     @Step("Добавление телеграма")
     public void addTelegramLogin() {
 
@@ -141,12 +150,13 @@ public class Profile extends BaseActions {
 
     public void clickSaveButton(String login) {
 
+        saveButton.shouldBe(visible,enabled);
         click(saveButton);
 
         isElementVisible(pagePreloader);
 
-        changedDataNotification
-                .shouldHave(attributeMatching("class",".*active.*"));
+        isChangedSavingsHeadingCorrect();
+
         telegramItemsLogin.last().should(value(login));
 
     }
@@ -199,7 +209,6 @@ public class Profile extends BaseActions {
 
     }
 
-
     @Step("Устанавливаем телеграм логин управляющим")
     public void isMasterCorrect(String telegramLogin) {
 
@@ -207,8 +216,6 @@ public class Profile extends BaseActions {
         deleteMaster(telegramLogin);
 
     }
-
-
 
     @Step("Смена пароля админской учетной записи")
     public void changeAdminPassword() {
@@ -221,7 +228,6 @@ public class Profile extends BaseActions {
 
         click(saveButton);
         isElementVisible(pagePreloader);
-
 
         adminPassword.shouldHave(value(ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST));
         adminPasswordConfirmation.shouldHave(value(ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST));

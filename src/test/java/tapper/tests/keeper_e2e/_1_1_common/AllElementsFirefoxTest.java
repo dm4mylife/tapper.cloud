@@ -1,22 +1,29 @@
 package tapper.tests.keeper_e2e._1_1_common;
 
 
+import com.codeborne.selenide.Condition;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
+import tapper_table.Best2PayPage;
 import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.FirefoxTest;
 
+import java.time.Duration;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
+import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
+import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 
 
 @Epic("RKeeper")
@@ -44,6 +51,8 @@ class AllElementsFirefoxTest extends FirefoxTest {
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
     NestedTests nestedTests = new NestedTests();
+    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
+    Best2PayPage best2PayPage = new Best2PayPage();
 
     @Test
     @Order(1)
@@ -208,7 +217,11 @@ class AllElementsFirefoxTest extends FirefoxTest {
 
         tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
-        nestedTests.acquiringPayment(totalPay);
+        rootPageNestedTests.clickPayment();
+        paymentContainer.shouldBe(Condition.exist, Duration.ofSeconds(300));
+        best2PayPage.isTotalPayInTapperMatchTotalPayB2B(totalPay);
+        best2PayPageNestedTests.typeDataAndPay(WAIT_FOR_FULL_LOAD_PAGE);
+        best2PayPage.clickPayButton();
 
     }
 

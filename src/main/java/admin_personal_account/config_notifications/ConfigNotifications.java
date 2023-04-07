@@ -54,25 +54,32 @@ public class ConfigNotifications extends BaseActions {
 
         int currentSizeBeforeAdding = telegramLoginInputs.size();
 
-        click(addButton);
-        forceWait(500);
-
-        telegramLoginInputs
-                .last()
-                .shouldBe(appear)
-                .shouldHave(value(""));
-
-        telegramLoginInputs
-                .last()
-                .sendKeys(TEST_WAITER_COMMENT);
-
-        errorTextInLoginTelegram.shouldHave(appear);
-        telegramLoginSettingsDeleteIcon.last().click();
+        addLogin(TEST_WAITER_COMMENT,true);
 
         Assertions.assertEquals(currentSizeBeforeAdding,telegramLoginInputs.size());
-        System.out.println("Уведомление об ошибке логина телеграмма корректно");
 
     }
+
+    public void addLogin(String telegramLogin,boolean hasError) {
+
+        addButton.shouldBe(visible,enabled).click();
+
+        telegramLoginInputs.last().shouldBe(visible,editable,interactable).shouldHave(value(""))
+                .sendKeys(telegramLogin);
+
+        if (hasError) {
+
+            errorTextInLoginTelegram.shouldHave(appear);
+            click(telegramLoginSettingsDeleteIcon.last());
+
+        } else {
+
+            click(saveButton);
+
+        }
+
+    }
+
 
     public boolean isTelegramLoginExist(String telegramLogin) {
 
@@ -106,24 +113,9 @@ public class ConfigNotifications extends BaseActions {
     @Step("Добавляем телеграм группу")
     public void addTelegramGroup(String telegramLogin) {
 
-        isElementVisible(addButton);
-        click(addButton);
-        forceWait(500);
+        addLogin(telegramLogin,false);
 
-        telegramLoginInputs
-                .last()
-                .shouldBe(appear)
-                .shouldHave(value(""));
-
-        telegramLoginInputs
-                .last()
-                .sendKeys(telegramLogin);
-
-        click(saveButton);
-
-        telegramLoginInputs
-                .last()
-                .shouldHave(value(telegramLogin),Duration.ofSeconds(10));
+        telegramLoginInputs.last().shouldHave(value(telegramLogin),Duration.ofSeconds(10));
 
         Selenide.refresh();
 
@@ -182,6 +174,13 @@ public class ConfigNotifications extends BaseActions {
                 .filter(attributeMatching("class",".*active")).shouldHave(size(1));
 
         click(deleteTelegramContainerCloseButton);
+
+    }
+
+    public void isCorrectAfterPageRefresh() {
+
+        Selenide.refresh();
+        isConfigNotificationsCategoryCorrect();
 
     }
 

@@ -7,8 +7,6 @@ import tapper_table.Best2PayPage;
 
 import java.time.Duration;
 
-import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
-import static data.selectors.TapperTable.Best2PayPage.payButton;
 import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
 
 public class Best2PayPageNestedTests extends Best2PayPage {
@@ -29,6 +27,17 @@ public class Best2PayPageNestedTests extends Best2PayPage {
     public void typeDataAndPay() {
 
         best2PayPage.checkPayMethods();
+        best2PayPage.typeCardNumber();
+        best2PayPage.typeDateExpire();
+        best2PayPage.typeCVV();
+        best2PayPage.typeEmail();
+
+    }
+    @Step("Ввод данных и оплата")
+    public void typeDataAndPay(int timeout) {
+
+        best2PayPage.checkPayMethods();
+        forceWait(timeout);
         best2PayPage.typeCardNumber();
         best2PayPage.typeDateExpire();
         best2PayPage.typeCVV();

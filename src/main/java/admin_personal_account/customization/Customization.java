@@ -2,12 +2,11 @@ package admin_personal_account.customization;
 
 
 import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.github.javafaker.Faker;
 import common.BaseActions;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 import tapper_table.RootPage;
 
 import java.time.Duration;
@@ -16,11 +15,9 @@ import java.util.Objects;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.Customization.*;
 import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
-import static data.selectors.TapperTable.RootPage.PayBlock.paymentOptionsContainer;
 import static data.selectors.TapperTable.RootPage.TapBar.*;
 
 public class Customization extends BaseActions {
@@ -95,6 +92,7 @@ public class Customization extends BaseActions {
     @Step("Проверка таба вайфая")
     public void isWiFiTabCorrect() {
 
+
         isElementVisible(wifiSlider);
         isElementVisible(wifiNetworkName);
         isElementVisible(wifiNetworkPassword);
@@ -105,11 +103,14 @@ public class Customization extends BaseActions {
     @Step("Включаем вайфай")
     public void activateWifiIfDeactivated() {
 
-        if (!wifiSliderInput.isEnabled()) {
+        boolean isActivated =
+                Boolean.TRUE.equals(Selenide.executeJavaScript
+                        ("return document.querySelector('.vAdminDisplayingWiFi__switch input').checked"));
+
+        if (!isActivated) {
 
             click(wifiSlider);
-            pagePreloader.shouldBe(visible);
-            pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
+            pagePreloader.shouldBe(visible).shouldBe(hidden,Duration.ofSeconds(5));
             wifiSliderInput.shouldBe(enabled);
 
         }
@@ -119,12 +120,14 @@ public class Customization extends BaseActions {
     @Step("Выключаем вайфай")
     public void deactivateWifiIfActivated() {
 
-        if (wifiSliderInput.isEnabled()) {
+        boolean isActivated =
+                Boolean.TRUE.equals(Selenide.executeJavaScript
+                        ("return document.querySelector('.vAdminDisplayingWiFi__switch input').checked"));
+
+        if (isActivated) {
 
             click(wifiSlider);
-            pagePreloader.shouldBe(visible);
-            pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
-            wifiSliderInput.shouldNotBe(enabled);
+            pagePreloader.shouldBe(visible).shouldBe(hidden,Duration.ofSeconds(5));
 
         }
 
@@ -134,22 +137,43 @@ public class Customization extends BaseActions {
 
     }
 
+    public void clearWifiInputs() {
+
+        wifiNetworkName.shouldBe(interactable);
+        clearText(wifiNetworkName);
+        wifiNetworkPassword.shouldBe(interactable);
+        clearText(wifiNetworkPassword);
+
+    }
+
     @Step("Установка вайфая и пароля")
     public void setWifiConfiguration(String wifiName, String wifiPassword) {
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
-        clearText(wifiNetworkName);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
-        clearText(wifiNetworkPassword);
+        clearWifiInputs();
 
-        if (Objects.equals(wifiNetworkName.getValue(), "") && Objects.equals(wifiNetworkPassword.getValue(), "")) {
+        if (Objects.equals(wifiNetworkName.getValue(), "") &&
+                Objects.equals(wifiNetworkPassword.getValue(), "")) {
 
-            wifiNetworkName.sendKeys(wifiName);
-            forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
-            wifiNetworkPassword.sendKeys(wifiPassword);
-            forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+            sendKeys(wifiNetworkName,wifiName);
+            sendKeys(wifiNetworkPassword,wifiPassword);
             click(saveButton);
-            pagePreloader.shouldBe(visible);
+            isElementVisible(pagePreloader);
+            pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
+
+        }
+
+    }
+
+    @Step("Установка вайфая без пароля")
+    public void setWifiConfigurationWithoutPassword(String wifiName) {
+
+        clearWifiInputs();
+
+        if (Objects.equals(wifiNetworkPassword.getValue(), "")) {
+
+            sendKeys(wifiNetworkName,wifiName);
+            click(saveButton);
+            isElementVisible(pagePreloader);
             pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
 
         }
@@ -164,23 +188,21 @@ public class Customization extends BaseActions {
         isElementVisible(twoGisInput);
         isElementVisible(googleInput);
 
-
         isElementVisible(yandexCheckboxContainer);
         isElementVisible(twoGisCheckboxContainer);
         isElementVisible(googleCheckboxContainer);
-
 
         if (!mobileFooter.getCssValue("display").equals("flex")) {
 
             isElementVisible(reviewInfo);
             isElementsListVisible(reviewToggles);
 
-            for (SelenideElement toggle : reviewToggles) {
+            reviewToggles.asDynamicIterable().stream().forEach(element -> {
 
-                click(toggle);
+                click(element);
                 forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
-            }
+            });
 
             reviewToggleInfo.filter(visible).shouldHave(CollectionCondition.size(3));
 
@@ -217,7 +239,7 @@ public class Customization extends BaseActions {
     @Step("Принудительно показываем прячем мобильное меню в футере")
     public void showMobileMenu() {
 
-            Selenide.executeJavaScript("document.querySelector('.vProfileMobileMenu').style.display = 'flex'");
+        Selenide.executeJavaScript("document.querySelector('.vProfileMobileMenu').style.display = 'flex'");
 
     }
 
@@ -290,6 +312,12 @@ public class Customization extends BaseActions {
 
     }
 
+    public void isSavedPageAfterReload() {
+
+        rootPage.refreshPage();
+        isCustomizationCategoryCorrect();
+
+    }
 
 
 }

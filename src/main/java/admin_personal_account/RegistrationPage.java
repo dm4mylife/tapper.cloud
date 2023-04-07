@@ -1,17 +1,20 @@
 package admin_personal_account;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.collections.AllMatch;
 import common.BaseActions;
 import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
+
+import java.time.Duration;
+import java.util.HashMap;
 
 import static com.codeborne.selenide.CollectionCondition.allMatch;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.RegistrationData.*;
-import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
-import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.*;
+import static data.Constants.TestData.Yandex.EXISTING_ADMIN_RESTAURANT_MAIL;
+import static data.selectors.AdminPersonalAccount.Profile.*;
+import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.registrationLink;
 import static data.selectors.AuthAndRegistrationPage.RegistrationPage.*;
 import static data.selectors.AuthAndRegistrationPage.RootTapperPage.signInButton;
 
@@ -24,7 +27,6 @@ public class RegistrationPage extends BaseActions {
     public void goToRegistrationPage() {
 
         openPage(ADMIN_REGISTRATION_STAGE_URL);
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDo не успевает прогрузиться
         isRegistrationFormCorrect();
 
     }
@@ -51,12 +53,12 @@ public class RegistrationPage extends BaseActions {
         isElementVisible(passwordField);
         isElementVisible(passwordConfirmationField);
         isElementVisible(restaurantNameField);
-        isElementVisible(registrationButton);
+        isElementVisible(applyButton);
         isElementVisible(confPolicyField);
         isElementVisible(confPolicyLink);
         isElementVisible(logoAtBottom);
         isElementVisible(copyright);
-        registrationButton.shouldBe(disabled);
+        applyButton.shouldBe(disabled);
 
     }
 
@@ -74,28 +76,80 @@ public class RegistrationPage extends BaseActions {
         clearText(element);
         sendKeys(element,text);
 
+        if(!element.equals(phoneField))
+            element.shouldHave(value(text));
+
     }
 
     @Step("Заполняем все необходимые поля")
-    public void fillRegistrationForm() {
+    public HashMap <String,String> fillRegistrationForm(boolean hasError) {
 
         typeDataInField(nameField,NAME);
         typeDataInField(phoneField,TELEPHONE_NUMBER);
-        typeDataInField(emailField,EMAIL);
+
+        if (hasError) {
+
+            typeDataInField(emailField,EXISTING_ADMIN_RESTAURANT_MAIL);
+
+        } else {
+
+            typeDataInField(emailField,EMAIL);
+
+        }
+
         typeDataInField(passwordField,PASSWORD);
         typeDataInField(passwordConfirmationField,CONFIRMATION_PASSWORD);
         typeDataInField(restaurantNameField,RESTAURANT_NAME);
 
+        HashMap <String,String> registrationData = new HashMap<>();
+
+        registrationData.put("restaurantName",RESTAURANT_NAME);
+        registrationData.put("name",NAME);
+        registrationData.put("phone",phoneField.getValue());
+        registrationData.put("email",EMAIL);
+
+        return registrationData;
+
     }
 
-    public void isReadyForRegistration() {
+
+
+
+    @Step("Заполняем все необходимые поля но не выставляем галочку политики конфиденциальности")
+    public void isConfPolicyCorrectWhenDeactivated() {
+
+        if(confPolicyInput.isEnabled())
+            click(confPolicyField);
+
+        confPolicyInput.shouldBe(enabled);
+        isElementVisible(confPolicyFieldError);
+        applyButton.shouldBe(disabled);
+
+        click(confPolicyField);
+        Assertions.assertTrue(confPolicyField.isEnabled());
+
+    }
+
+
+    public void registrationAdministrator(HashMap<String,String> registrationData) {
 
         allNecessaryInputsForFilling.should(allMatch("Все поля корректно заполнены",
                 element -> element.getCssValue("border-color").equals("rgb(230, 231, 235)")));
 
         isElementInvisible(confPolicyFieldError);
-        registrationButton.shouldNotBe(disabled);
-        //click(registrationButton);
+        applyButton.shouldNotBe(disabled);
+        click(applyButton);
+
+        successRegistrationModal.shouldBe(visible, Duration.ofSeconds(20));
+        successRegistrationModalDescription.shouldBe(visible);
+        isImageCorrect(successRegistrationImageSelector,"Иконка успешной регистрации некорректна");
+
+        profileContainer.should(visible,Duration.ofSeconds(10));
+
+        restaurantName.shouldHave(value(registrationData.get("restaurantName")));
+        adminName.shouldHave(value(registrationData.get("name")));
+        adminPhone.shouldHave(value(registrationData.get("phone")));
+        adminEmail.shouldHave(value(registrationData.get("email")));
 
     }
 

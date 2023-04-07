@@ -43,16 +43,13 @@ public class WaiterTab extends BaseActions {
         tgData.put("login", tgLogin);
         tgData.put("id", tgId);
 
-        forceWait(2000);
         telegramLogin.shouldBe(visible, Duration.ofSeconds(5));
         clearText(telegramLogin);
-        forceWait(1000);
         clearText(telegramId);
-        forceWait(1000);
 
         scroll(telegramLogin);
-        telegramLogin.sendKeys(tgLogin);
-        telegramId.sendKeys(tgId);
+        sendKeys(telegramLogin,tgLogin);
+        sendKeys(telegramId,tgId);
 
         saveButton.shouldNotBe(disabled);
         click(saveButton);

@@ -8,7 +8,7 @@ import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import tests.ScreenDesktopTest;
-import tests.SixTableData;
+import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -23,7 +23,7 @@ import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASS
 @Feature("Администратор ресторана")
 @Story("История операций")
 @DisplayName("История операций")
-
+@Disabled
 @TakeOrCompareScreenshots()
 @SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

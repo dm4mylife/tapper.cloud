@@ -1,24 +1,30 @@
 package tapper.tests.screenshots_comparison.desktop.support_personal_account;
 
-import admin_personal_account.AdminAccount;
+import common.BaseActions;
 import data.ScreenLayout;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import support_personal_account.profile.Profile;
 import tests.ScreenDesktopTest;
-import tests.SixTableData;
+import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import static data.AnnotationAndStepNaming.DisplayName.AdminPersonalAccount.leftMenu;
 import static data.AnnotationAndStepNaming.DisplayName.AdminPersonalAccount.profilePage;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
+import static data.selectors.AdminPersonalAccount.Common.closeLeftMenu;
+import static data.selectors.AdminPersonalAccount.Profile.telegramItemsInput;
 
 
 @Epic("Тесты по верстке проекта")
@@ -48,33 +54,37 @@ class ProfileTest extends ScreenDesktopTest {
 
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    support_personal_account.profile.Profile profile = new support_personal_account.profile.Profile();
-    AdminAccount adminAccount = new AdminAccount();
+    Profile profile = new Profile();
+    BaseActions baseActions = new BaseActions();
+
 
     @Test
     @Order(1)
-    @DisplayName(profilePage)
-    void profile() throws IOException {
+    @DisplayName(leftMenu)
+    void leftMenu() throws IOException {
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 
-        profile.goToProfileCategory();
         profile.isProfileCategoryCorrect();
+        profile.isOpenedLeftMenuCorrect();
 
-        ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize,isScreenShot, ScreenLayout.SupportPersonalAccount.profile, diffPercent, imagePixelSize);
+        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+                ScreenLayout.SupportPersonalAccount.openedLeftMenu, diffPercent, imagePixelSize);
 
     }
 
     @Test
     @Order(2)
-    @DisplayName(leftMenu)
-    void leftMenu() throws IOException {
+    @DisplayName(profilePage)
+    void profile() throws IOException {
 
-        adminAccount.openedLeftMenu();
+        baseActions.click(closeLeftMenu);
+        profile.goToProfileCategory();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.SupportPersonalAccount.openedLeftMenu, diffPercent, imagePixelSize);
+        Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(telegramItemsInput)));
+
+        ScreenShotComparison.isScreenOrDiff(browserTypeSize, isScreenShot,
+                ScreenLayout.SupportPersonalAccount.profilePart, diffPercent, imagePixelSize, ignoredElements);
 
     }
 

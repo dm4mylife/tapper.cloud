@@ -9,7 +9,6 @@ import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 
 import java.util.List;
-import java.util.logging.Level;
 
 public class BrowserLogsListener implements AfterTestExecutionCallback {
 

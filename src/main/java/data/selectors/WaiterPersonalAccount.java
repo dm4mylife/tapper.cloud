@@ -9,6 +9,9 @@ public class WaiterPersonalAccount {
 
     public static final SelenideElement pageTitle = $(".section-profile__title");
     public static final SelenideElement imageContainer = $(".section-profile__photo-block");
+
+    public static final SelenideElement profileCategory = $(".vProfileMenu__list a[href=\"/profile\"]");
+
     public static final SelenideElement imageContainerDownloadImageButton =
             $(".section-profile__photo-block .section-profile__file");
     public static final SelenideElement imageContainerDownloadedImage = $(".section-profile__photo-wrapper");

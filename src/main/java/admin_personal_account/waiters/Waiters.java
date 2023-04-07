@@ -1,17 +1,24 @@
 package admin_personal_account.waiters;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
+import tapper_table.RootPage;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Collections;
+import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.*;
-import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE;
 import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
@@ -22,6 +29,7 @@ import static data.selectors.AdminPersonalAccount.Waiters.*;
 public class Waiters extends BaseActions {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
+    RootPage rootPage = new RootPage();
 
     @Step("Переход в меню официанта")
     public void goToWaiterCategory() {
@@ -29,6 +37,14 @@ public class Waiters extends BaseActions {
         click(waiterMenuCategory);
         pageHeading.shouldHave(text("Официанты"), Duration.ofSeconds(5));
         isElementVisible(waiterContainer);
+        isWaiterCategoryCorrect();
+
+    }
+
+
+    public void isCorrectAfterPageRefresh() {
+
+        rootPage.refreshPage();
         isWaiterCategoryCorrect();
 
     }
@@ -56,7 +72,7 @@ public class Waiters extends BaseActions {
         clearText(searchField);
         sendKeys(searchField,waiterName);
         waiterList.shouldBe(sizeGreaterThan(0),Duration.ofSeconds(5));
-        waiterListName.shouldHave(text(waiterName));
+        waiterListName.first().shouldHave(text(waiterName));
 
     }
 
@@ -123,21 +139,18 @@ public class Waiters extends BaseActions {
 
         isDetailWaiterCardCorrectWithWaitingInvitationStatus();
 
-
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE); // toDO не успевает прогрузиться инпут емейла, обрезается
-
-        if (waiterStatusInCard.getText().matches("(.|\\n)*" +INVITED_IN_SERVICE_TEXT)) {
+        if (waiterStatusInCard.getText().matches("(.|\\n)*" + INVITED_IN_SERVICE_TEXT)) {
 
             cancelEMailWaiterInvitationInCard();
 
-        } else if (waiterStatusInCard.getText().matches("(.|\\n)*" +VERIFIED_WAITER_TEXT)) {
+        } else if (waiterStatusInCard.getText().matches("(.|\\n)*" + VERIFIED_WAITER_TEXT)) {
 
             unlinkMailWaiterInCard();
 
         }
 
         sendKeys(enterEmailField,email);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+        inviteButton.shouldBe(visible,enabled);
         click(inviteButton);
 
         isSendInvitationCorrect(email);
@@ -172,7 +185,6 @@ public class Waiters extends BaseActions {
         }
 
         sendKeys(enterEmailField,email);
-        click(inviteButton);
 
         isNegativeSendInvitationCorrect(email);
 
@@ -192,6 +204,7 @@ public class Waiters extends BaseActions {
 
         enterEmailField.shouldHave(value(email));
         isElementVisible(wrongEmailError);
+        inviteButton.shouldBe(disabled);
 
     }
 
@@ -230,6 +243,22 @@ public class Waiters extends BaseActions {
 
     }
 
+
+    public void isAlphabeticOrderCorrect() {
+
+        List<String> actualTexts = new ArrayList<>();
+
+        for (SelenideElement element : waiterListName) {
+            actualTexts.add(element.getText());
+        }
+
+        Collections.sort(actualTexts);
+        System.out.println(actualTexts);
+
+        waiterListName.shouldHave(texts(actualTexts));
+
+    }
+
     @Step("Поиск первого совпадения карточки официанта по статусу '{waiterStatus}' и клик в неё")
     public void findFirstMatchByStatusAndClickInWaiterCard(String waiterStatus) {
 
@@ -253,8 +282,8 @@ public class Waiters extends BaseActions {
     @Step("Проверка ошибки раннее привязанной почты к другому официанту")
     public void isErrorMailCorrect(String email) {
 
-        enterEmailField.sendKeys(email);
-        inviteButton.click();
+        sendKeys(enterEmailField,email);
+        click(inviteButton);
 
         errorMsgEmailWasApplied
                 .shouldHave(Condition.text("E-mail уже привязан к другому официанту "), Duration.ofSeconds(3));
@@ -290,6 +319,7 @@ public class Waiters extends BaseActions {
 
         click(cancelInvitationButton);
         unlinkMailConfirmPopup.shouldBe(visible,Duration.ofSeconds(2));
+        cancelInvitationButton.shouldBe(visible,enabled);
         click(unlinkEmailConfirmButton);
         unlinkMailConfirmPopup.shouldBe(hidden,Duration.ofSeconds(5));
         enterEmailField.shouldHave(value(""));
@@ -302,6 +332,7 @@ public class Waiters extends BaseActions {
     public void cancelEMailWaiterInvitationInCard() {
 
         successSendingInvitation.shouldNotBe(visible,Duration.ofSeconds(6));
+        cancelInvitationButton.shouldBe(visible,enabled);
         click(cancelInvitationButton);
         cancelMailConfirmationPopup.shouldBe(visible);
         click(cancelMailConfirmationSaveButton);

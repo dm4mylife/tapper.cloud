@@ -1,14 +1,16 @@
 package data;
 
+import com.github.javafaker.Faker;
+
 import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
 
 public class Constants {
-    public static final Integer WAIT_FOR_FULL_LOAD_PAGE = 1500;
+    public static final Integer WAIT_FOR_FULL_LOAD_PAGE = 1000;
     public static final Integer WAIT_UNTIL_TABLE_WILL_BE_CREATED = 2000;
     public static final Integer PAGE_LOAD_TIMEOUT = 360000;
     public static final Integer WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN = 400;
     public static final Integer WAIT_BETWEEN_SET_DISHES_CHECKBOXES = 700;
-    public static final Integer WAIT_UNTIL_TRANSACTION_EXPIRED = 300000;
+    public static final Integer WAIT_UNTIL_TRANSACTION_EXPIRED = 360000;
     public static final Integer WAIT_UNTIL_TRANSACTION_STILL_ALIVE = 200000;
     public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
     public static final int WAIT_FOR_ORDER_TO_BE_CLOSED_AT_CASH_DESK = 10000;
@@ -24,6 +26,7 @@ public class Constants {
     public static final int WAIT_FOR_SOCKETS_RECEIVED_REQUEST = 4000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_CALL_WAITER = 5000;
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
+    public static final int WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK = 20000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 10000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 12000;
     public static final int ATTEMPT_FOR_PREPAYMENT_REQUEST = 3;
@@ -79,6 +82,9 @@ public class Constants {
             public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_ALL = "Это сообщение отправлено всем";
             public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS = "Это сообщение отправлено админам";
             public static final String UNKNOWN_WAITER = "Неизвестный официант";
+            public static final String REFRESH_TABLE_BUTTON_TEXT = "Обновлено, но заказ ещё не создан";
+
+
             public static final String PAYMENT_ERROR_ORDER_EXPIRED = "Order expired";
             public static final String PAYMENT_ERROR_TEXT = "Оплата не прошла";
             public static final String SUM_CHANGED_ALERT_TEXT =
@@ -120,24 +126,32 @@ public class Constants {
         public static class Yandex {
             public static final String TEST_YANDEX_LOGIN_EMAIL = "autotests@tapper.cloud";
             public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
-            public static final String TEST_YANDEX2_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
-            public static final String TEST_YANDEX2_PASSWORD_MAIL = "W1LrKR29xwp9";
+            public static final String ADMIN_RESTAURANT_TEST_LOGIN_EMAIL = "autotests_admin_restaurant@tapper.cloud";
+            public static final String ADMIN_RESTAURANT_TEST_PASSWORD_MAIL = "SxyvGCseCS*a";
+            public static final String WAITER_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
+
+            public static final String EXISTING_ADMIN_RESTAURANT_MAIL = "veydedumli@gufum.com";
+            public static final String WAITER_PASSWORD_MAIL = "W1LrKR29xwp9";
             public static final String YANDEX_MAIL_URL =
-                    "https://passport.yandex.ru/auth?retpath=https%3A%2F%2Fmail.yandex.ru%2F&backpath=https%3A%2F%2Fmail.yandex.ru%2F%3Fnoretpath%3D1&from=mail&origin=hostroot_homer_auth_ru";
+                    "https://passport.yandex.ru/auth?retpath=https%3A%2F%2Fmail.yandex.ru%2F&backpath=https%3A%2F%2F" +
+                            "mail.yandex.ru%2F%3Fnoretpath%3D1&from=mail&origin=hostroot_homer_auth_ru";
         }
 
         public static class AdminPersonalAccount {
 
             public static final String TEST_WIFI_NETWORK_NAME = "auto_wifi";
             public static final String TEST_WIFI_NETWORK_PASSWORD = "12345678";
+            public static final String TEST_WIFI_NETWORK_PASSWORD_MAX_LENGTH = "1234567890123456789012345";
             public static final String ROBOCOP_WAITER = "Robocop";
+            public static final String MEGATRON_WAITER = "Megatron";
+            public static final String MEGATRON_WAITER_ID = "1000081";
+            public static final String OPTIMUS_PRIME_WAITER = "Optimus Prime";
+            public static final String TERMINATOR_WAITER = "Terminator";
+            public static final String IRONHIDE_WAITER = "IronHide";
+            public static final String IRON_MAN_WAITER = "Iron Man";
             public static final String NON_EXIST_WAITER = "Ингеборга Эдмундовна Дапкунайте";
             public static final String SEARCH_WAITER_ERROR_TEXT = "Нет результатов. Попробуйте ввести данные ещё раз";
 
-
-            public static final String OPTIMUS_PRIME_WAITER = "Optimus Prime";
-            public static final String IRONHIDE_WAITER = "IronHide";
-            public static final String IRON_MAN_WAITER = "Iron Man";
             public static final String ADMIN_TEST_PHONE = "+7(123) 456-78-90";
             public static final String ADMIN_AUTHORIZATION_STAGE_URL = "https://tapper.staging.zedform.ru/users";
             public static final String ADMIN_PROFILE_STAGE_URL = "https://tapper.staging.zedform.ru/profile";
@@ -178,17 +192,19 @@ public class Constants {
             public static final String LIMIT_CHARS_NAME_BY_GUEST_INPUT =
                     "В этом поле будет содержаться более шестидесяти одного символ";
             public static final String LIMIT_CHARS_NAME_BY_GUEST_COUNTER = "61 / 61";
+
+            static Faker faker = new Faker();
+            static String randomWords = faker.lorem().fixedString(7);
             public static final String OVER_LIMIT_CHARS_DESCRIPTIONS_INPUT =
-                    "Рост намеченных и разработке играет от формировании порядка, позиций, порядка, " +
+                    "Рост намеченных и разработке играет от формировании порядка, " + randomWords + ", порядка, " +
                             "также оценить занимаемых соответствующий реализация условий. Рост и структура организации" +
                             " заданий активности образом также намеченных идейные анализа от сфера условий задач. " +
                             "Роль нашей и форм намеченных показывает, в наше время";
             public static final String LIMIT_CHARS_DESCRIPTIONS_INPUT =
-                    "Рост намеченных и разработке играет от формировании порядка, позиций, порядка, также оценить" +
+                    "Рост намеченных и разработке играет от формировании порядка, " + randomWords + ", порядка, также оценить" +
                             " занимаемых соответствующий реализация условий. Рост и структура организации заданий" +
                             " активности образом также намеченных идейные анализа от сфера условий задач. Роль нашей" +
                             " и форм намеченных показывает, в наше";
-
             public static final String LIMIT_CHARS_DESCRIPTIONS_COUNTER = "300 / 300";
             public static final String OVER_LIMIT_CHARS_INGREDIENTS_INPUT = "Играет особенности важную важную роль" +
                     " идейные отношении же оценить количественный важные и позволяет кадров формировании порядка," +
@@ -222,10 +238,12 @@ public class Constants {
 
             public static final String NAME = "Робокоп";
             public static final String TELEPHONE_NUMBER = "9068723655";
-            public static final String EMAIL = TEST_YANDEX_LOGIN_EMAIL;
-            public static final String PASSWORD = "250491";
-            public static final String CONFIRMATION_PASSWORD = "250491";
+            public static final String EMAIL = Yandex.ADMIN_RESTAURANT_TEST_LOGIN_EMAIL;
+            public static final String PASSWORD = Yandex.ADMIN_RESTAURANT_TEST_PASSWORD_MAIL;
+            public static final String CONFIRMATION_PASSWORD = Yandex.ADMIN_RESTAURANT_TEST_PASSWORD_MAIL;
             public static final String RESTAURANT_NAME = "show me your love";
+            public static final String EXISTING_EMAIL_ERROR_TEXT = "Этот E-mail уже зарегистрирован";
+
         }
 
     }

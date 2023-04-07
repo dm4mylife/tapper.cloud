@@ -7,7 +7,10 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import support_personal_account.logs_and_permissions.LogsAndPermissions;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
@@ -16,8 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 import static data.Constants.TestData.SupportPersonalAccount.*;
+import static data.Constants.downloadFolderPath;
 import static data.Constants.downloadFolderPathAdminSupport;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 
@@ -34,7 +39,7 @@ public class TablesTabTest extends PersonalAccountTest {
     static int fromTableSearchValue;
     static int toTableSearchValue;
     static String tableUrlInTableItem;
-    static String tableNumberWhite;
+    static String downloadedFileName;
     static String tableNumberInAdmin;
     AuthorizationPage authorizationPage = new AuthorizationPage();
     LogsAndPermissions logsAndPermissions = new LogsAndPermissions();
@@ -129,7 +134,7 @@ public class TablesTabTest extends PersonalAccountTest {
 
         tableUrlInTableItem = tableItemLink.getAttribute("href");
         tableNumberInAdmin = tableItem.getText().trim().replaceAll(".*Стол (\\d+)\\n.*", "$1");
-        tableNumberWhite = "table" + tableNumberInAdmin + ".png";
+        downloadedFileName = "table" + tableNumberInAdmin + ".png";
 
     }
 
@@ -167,6 +172,8 @@ public class TablesTabTest extends PersonalAccountTest {
 
             e.printStackTrace();
 
+        } catch (java.net.URISyntaxException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -175,7 +182,9 @@ public class TablesTabTest extends PersonalAccountTest {
     @DisplayName("2.5. Проверка скачивания qr-кода")
     public void isDownloadQrCorrect() throws IOException {
 
-        tablesAndQrCodes.isDownloadQrCorrect(tableNumberWhite);
+        tablesAndQrCodes.isDownloadQrCorrect(qrDownloadImageWhite);
+        tablesAndQrCodes.isDownloadedQrCorrect
+                ("white",downloadFolderPathAdminSupport, downloadedFileName,tableUrlInTableItem);
 
     }
 
@@ -183,8 +192,9 @@ public class TablesTabTest extends PersonalAccountTest {
     @DisplayName("2.6. Проверка что скаченный код корректен")
     public void isDownloadedQrCorrect() throws IOException {
 
-        tablesAndQrCodes.isDownloadedQrCorrect(downloadFolderPathAdminSupport,tableNumberWhite,tableUrlInTableItem);
-
+        tablesAndQrCodes.isDownloadQrCorrect(qrDownloadImageBlack);
+        tablesAndQrCodes.isDownloadedQrCorrect
+                ("black",downloadFolderPathAdminSupport, downloadedFileName,tableUrlInTableItem);
     }
 
     @Test
@@ -195,7 +205,7 @@ public class TablesTabTest extends PersonalAccountTest {
         Path path = Path.of(downloadFolderPathAdminSupport);
         File directory = new File(downloadFolderPathAdminSupport);
 
-        if (directory.isDirectory() && directory.list().length == 0) {
+        if (directory.isDirectory() && Objects.requireNonNull(directory.list()).length == 0) {
             FileUtils.deleteDirectory(directory);
         }
 

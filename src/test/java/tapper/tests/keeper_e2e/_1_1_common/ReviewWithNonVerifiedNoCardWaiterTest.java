@@ -40,7 +40,7 @@ class ReviewWithNonVerifiedNoCardWaiterTest extends BaseTest {
 
     protected final String restaurantName = annotation.restaurantName();
     protected final String tableCode = annotation.tableCode();
-    protected final String waiter = WAITER_TERMINATOR_VERIFIED_NON_CARD;
+    protected final String waiter = WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
     protected final String apiUri = annotation.apiUri();
     protected final String tableUrl = annotation.tableUrl();
     protected final String tableId = annotation.tableId();
@@ -133,15 +133,6 @@ class ReviewWithNonVerifiedNoCardWaiterTest extends BaseTest {
 
     @Test
     @Order(7)
-    @DisplayName("Сохраняем данные")
-    void saveReviewDataForPositive() {
-
-        tapperDataForTgMsg = reviewPageNestedTests.saveReviewData(tapperTable, waiterName, reviewType);
-
-    }
-
-    @Test
-    @Order(8)
     @DisplayName(isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 

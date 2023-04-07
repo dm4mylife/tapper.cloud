@@ -20,6 +20,10 @@ public class AdminPersonalAccount {
         public static final SelenideElement profileCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Профиль']]");
+
+        public static final String integrationCategorySelector = "a[href*=\"integration\"]";
+
+
         public static final SelenideElement integrationCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Интеграции']]");
@@ -52,7 +56,6 @@ public class AdminPersonalAccount {
     }
 
     public static class Profile {
-
         public static final SelenideElement profileContainer = $(".section-profile__form");
         public static final SelenideElement profileTitle = $(".section-profile__title");
         public static final SelenideElement restaurantName = $("[id=\"name_shop\"]");
@@ -125,8 +128,8 @@ public class AdminPersonalAccount {
                 $(".vSectionWaitersection__top .employeeSearch__btn-reset");
         public static final ElementsCollection waiterList =
                 $$(".vSectionWaitersection__container .vWaiterItem");
-        public static final SelenideElement waiterListName =
-                $(".vSectionWaitersection__container .vWaiterItem .vWaiterItem__waiterName");
+        public static final ElementsCollection waiterListName =
+                $$(".vSectionWaitersection__container .vWaiterItem .vWaiterItem__waiterName");
         public static final By waiterListNameBy =
                 By.cssSelector(".vSectionWaitersection__container .vWaiterItem .vWaiterItem__waiterName");
         public static final SelenideElement waiterCashDeskNameInCard =
@@ -253,6 +256,8 @@ public class AdminPersonalAccount {
         public static final SelenideElement qrBlockBlack = $(".vSectionQr__qr--black");
         public static final SelenideElement qrDownloadImageWhite =
                 $("[class='vSectionQr__qr'] [class='vSectionQr__download']");
+        public static final SelenideElement qrDownloadImageBlack =
+                $(".vSectionQr__qr--black .vSectionQr__download");
         public static final String qrWhiteImage = "[class='vSectionQr__qr'] img";
         public static final String qrBlackImage = "[class='vSectionQr__qr vSectionQr__qr--black'] img";
 
@@ -264,6 +269,9 @@ public class AdminPersonalAccount {
 
         public static final SelenideElement menuMobilePlug = $(".vSectionMenuAdmin__zaglushka");
         public static final SelenideElement menuPagePreLoader = $(".vPreloader");
+        public static final SelenideElement menuDishListPreLoader = $(".vLightPreloader.notFixed");
+
+
         public static final SelenideElement menuContainer = $(".vSectionMenuAdmin__container");
         public static final SelenideElement refreshMenuButton = $(".vAdminMenuAside .vButton");
         public static final SelenideElement categoryTitle = $(".vAdminMenuAside__title");
@@ -290,7 +298,10 @@ public class AdminPersonalAccount {
         public static final SelenideElement deleteImageContainer = $(".modal__confirmation .modal__content");
         public static final SelenideElement imagePreviewIcon = $(".image__preview .image__preview-icon");
         public static final SelenideElement imageUploadInput = $("[ id=\"uploadImg\"]");
-        public static final SelenideElement downloadedPreviewImage = $(".modal__image img");
+        public static final SelenideElement downloadedPreviewImage = $(".image__lot-img");
+
+
+
         public static final SelenideElement deleteImageContainerDeleteButton =
                 $(".modal__confirmation [class='vButton']");
         public static final SelenideElement deleteImageContainerCancelButton =

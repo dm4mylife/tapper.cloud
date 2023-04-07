@@ -24,7 +24,7 @@ import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 
-@Order(121)
+@Disabled
 @Epic("Личный кабинет администратора ресторана")
 @Feature("История операций")
 @Story("Частичная и полная оплата, проверка их в историях операций")

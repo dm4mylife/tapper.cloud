@@ -3,7 +3,6 @@ package admin_personal_account;
 import common.BaseActions;
 import io.qameta.allure.Step;
 
-import static data.selectors.AdminPersonalAccount.Common;
 import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.Waiters.enterEmailField;
 import static data.selectors.AdminPersonalAccount.Waiters.waiterNameInCashDesk;

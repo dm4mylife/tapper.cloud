@@ -6,7 +6,6 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
-import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 
@@ -212,7 +211,7 @@ public class HistoryOperations extends BaseActions {
 
         do {
 
-            forceWait(300);
+            leftArrowMonthPeriod.shouldBe(visible,enabled);
             click(leftArrowMonthPeriod);
 
         } while(!currentMonth.getText().equals("Ноябрь"));

@@ -1,13 +1,16 @@
 package api;
 
 
+import com.codeborne.selenide.Selenide;
 import common.BaseActions;
 import data.Constants;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,11 +19,13 @@ import java.util.concurrent.TimeUnit;
 
 import static api.ApiData.EndPoints;
 import static api.ApiData.EndPoints.*;
-import static api.ApiData.QueryParams.*;
-import static api.ApiData.orderData.*;
+import static api.ApiData.QueryParams.apiRKeeper;
+import static api.ApiData.QueryParams.rqParamsCheckPrePayment;
+import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
 import static data.Constants.ATTEMPT_FOR_PREPAYMENT_REQUEST;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_PROFILE_STAGE_URL;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-
+import static data.Constants.WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK;
 import static io.restassured.RestAssured.given;
 
 public class ApiRKeeper {
@@ -330,7 +335,7 @@ public class ApiRKeeper {
     }
 
     @Step("Проверка пришла ли предоплата")
-    public Response checkPrepayment(String requestBody, String baseUri) {
+    public boolean checkPrepayment(String requestBody, String baseUri) {
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -340,17 +345,17 @@ public class ApiRKeeper {
                 .when()
                 .post(checkPrepayment)
                 .then()
-                //.log().body()
+                .log().ifError()
                 .statusCode(200)
                 .extract()
                 .response();
 
-        return response;
+        return response.jsonPath().getString("message").equals("Предоплата прошла по кассе");
 
     }
 
     @Step("Оплата заказа")
-    public Response orderPay(Map<String, Object> rsBody, String baseUri) {
+    public boolean orderPay(Map<String, Object> rsBody, String baseUri) {
 
         Response response = given()
                 .contentType(ContentType.JSON)
@@ -365,63 +370,67 @@ public class ApiRKeeper {
                 .extract()
                 .response();
 
-        return response;
+        return response.jsonPath().getBoolean("success");
 
         //System.out.println("Оплатили заказ.Время исполнение запроса " + response.getTimeIn(TimeUnit.SECONDS) + "сек\n");
+
+    }
+
+    @Step("Удаление администратора ресторана")
+    public boolean deleteRestaurantAdmin(int id, String baseUri) {
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .baseUri(baseUri)
+                .when()
+                .delete(deleteRestaurantAdmin + "/" + id)
+                .then()
+                .log().ifError()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        return response.jsonPath().getBoolean("success");
+
+    }
+
+    public int adminLogin(Map<String, Object> rsBody, String baseUri) {
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .body(rsBody)
+                .baseUri(baseUri)
+                .when()
+                .post(adminLogin)
+                .then()
+                .log().ifError()
+                .extract()
+                .response();
+
+        return response.path("result.users_id") != null ?
+                response.jsonPath().getInt("result.users_id") : 0;
+
 
     }
 
     @Step("Проверка что оплата прошла")
     public void isPaymentSuccess(String restaurantName, String guid, int paySum) {
 
-        String hasErrorText = "";
-        int rsCounter = ATTEMPT_FOR_PREPAYMENT_REQUEST;
-        boolean rqResponse;
-
-        do {
-
-            baseActions.forceWait(Constants.WAIT_FOR_PREPAYMENT_ON_CASH_DESK);
-            Response rs = orderPay(rqBodyOrderPay(restaurantName,guid,paySum),AUTO_API_URI);
-            rqResponse = rs.jsonPath().getBoolean("success");
-            hasErrorText = rs.jsonPath().getString("message");
-
-            if (rqResponse) {
-                break;
-            }
-
-            hasErrorText += "\nОплата не пришла даже после " + ATTEMPT_FOR_PREPAYMENT_REQUEST + "№ попытки";
-            --rsCounter;
-
-        } while (rsCounter != 0);
-
-        Assertions.assertTrue(rqResponse, "Оплата не пришла" + hasErrorText);
-
+        Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
+                .atMost(WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK, TimeUnit.MINUTES)
+                .timeout(Duration.ofSeconds(WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK)).untilAsserted(() ->
+                        Assertions.assertTrue(orderPay(rqBodyOrderPay(restaurantName,guid,paySum),AUTO_API_URI)));
 
     }
 
     @Step("Проверка что предоплата пришла")
-    public void isPrepaymentSuccess(String transactionId) {
+    public void isPrepaymentSuccess(String transactionId, int maxTimeout) {
 
-        String hasErrorText = "";
-        int rsCounter = ATTEMPT_FOR_PREPAYMENT_REQUEST;
-        boolean rqResponse;
-
-        do {
-
-            baseActions.forceWait(Constants.WAIT_FOR_PREPAYMENT_ON_CASH_DESK);
-            Response rs = checkPrepayment(rqParamsCheckPrePayment(transactionId), AUTO_API_URI);
-            rqResponse = rs.jsonPath().getString("message").equals("Предоплата прошла по кассе");
-
-            if (rqResponse) {
-                break;
-            }
-
-            hasErrorText = " .Предоплата не пришла даже после " + ATTEMPT_FOR_PREPAYMENT_REQUEST + "№ попытки";
-            --rsCounter;
-
-        } while (rsCounter != 0);
-
-        Assertions.assertTrue(rqResponse, "Предоплата не пришла" + hasErrorText);
+        Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
+                .atMost(maxTimeout, TimeUnit.MINUTES).timeout(Duration.ofSeconds(maxTimeout)).untilAsserted(() ->
+                        Assertions.assertTrue(checkPrepayment(rqParamsCheckPrePayment(transactionId), AUTO_API_URI)));
 
     }
 
@@ -549,6 +558,46 @@ public class ApiRKeeper {
 
     }
 
+    public void authorizeInPersonalAccount(String url,Map<String, Object> rsBody) {
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .body(rsBody)
+                .when()
+                .post(loginPersonalAccount)
+                .then()
+                .log().ifError()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        String userToken = response.jsonPath().getString("result.access_token");
+        String refreshToken = response.jsonPath().getString("result.refresh_token");
+
+        baseActions.openPage(url);
+
+        Selenide.localStorage().setItem("userTokenData",userToken);
+        Selenide.localStorage().setItem("refreshTokenData",refreshToken);
+
+        baseActions.openPage(url);
+
+    }
+
+    public void deleteAdmin(String email,String password) {
+
+        int adminId = apiRKeeper.adminLogin(apiRKeeper.rqBodyAdminLogin(email, password),AUTO_API_URI);
+
+        if (adminId != 0)
+            apiRKeeper.deleteRestaurantAdmin(adminId,AUTO_API_URI);
+
+
+    }
+
+
+
+
+
     public LinkedHashMap<String, Object>
     rqBodyCreateOrder(String restaurantName, String tableId, String waiterId) {
 
@@ -571,6 +620,27 @@ public class ApiRKeeper {
         return rsBody;
 
     }
+
+    public Map<String, Object> rqBodyAdminLogin(String login, String password) {
+
+        Map<String, Object> rsBody = new LinkedHashMap<>();
+        rsBody.put("email", login);
+        rsBody.put("password", password);
+
+        return rsBody;
+
+    }
+
+    public Map<String, Object> rqBodyLoginPersonalAccount(String email, String password) {
+
+        Map<String, Object> rsBody = new LinkedHashMap<>();
+        rsBody.put("email", email);
+        rsBody.put("password", password);
+
+        return rsBody;
+
+    }
+
     public ArrayList<LinkedHashMap<String, Object>>
     createDishObject(ArrayList<LinkedHashMap<String, Object>> array, String dishId, int quantity) {
 

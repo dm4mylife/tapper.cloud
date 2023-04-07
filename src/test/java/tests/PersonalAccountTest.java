@@ -5,6 +5,8 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -18,9 +20,10 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 import static api.ApiData.EndPoints.selenoidUiHubUrl;
-import static com.codeborne.selenide.Browsers.*;
+import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.FileDownloadMode.FOLDER;
 import static data.Constants.*;
+import static io.restassured.RestAssured.given;
 
 @ExtendWith({
         TestListener.class,
@@ -79,6 +82,10 @@ public class PersonalAccountTest {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .includeSelenideSteps(false)
                 .savePageSource(false)
+
+
+
+
         );
 
     }

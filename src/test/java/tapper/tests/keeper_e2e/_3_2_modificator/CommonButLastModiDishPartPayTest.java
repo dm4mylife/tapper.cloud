@@ -6,7 +6,10 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -17,7 +20,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static data.Constants.WAIT_FOR_SOCKETS_CHANGE_POSITION;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 
 @Epic("RKeeper")
@@ -114,7 +119,7 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
         rootPage.scrollAndClick(allNonPaidAndNonDisabledDishesName.first());
         rootPage.scrollAndClick(allNonPaidAndNonDisabledDishesName.last());
         rootPage.showPaymentOptionsAndTapBar();
-        rootPage.forceWait(2500);
+        rootPage.forceWaitingForSocketChangePositions(WAIT_FOR_SOCKETS_CHANGE_POSITION);
         double cleanDishesSum = rootPage.countAllChosenDishesDivided();
         rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
         rootPage.setRandomTipsOption();

@@ -9,7 +9,8 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.io.FileNotFoundException;
 
-import static data.Constants.TestData.SupportPersonalAccount.*;
+import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
+import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 
 
 @Epic("Личный кабинет техподдержки")

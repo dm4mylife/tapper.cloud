@@ -11,7 +11,7 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import tapper_table.RootPage;
 import tests.ScreenMobileTest;
-import tests.SixTableData;
+import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -31,7 +31,6 @@ import static data.selectors.AdminPersonalAccount.Profile.telegramItemsInput;
 @Story("Профиль")
 @DisplayName("Профиль")
 
-
 @TakeOrCompareScreenshots()
 @SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -50,11 +49,12 @@ class ProfileTest extends ScreenMobileTest {
     boolean isScreenShot = annotation.isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
+    String browserTypeSize = getBrowserSizeType();
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Profile profile = new Profile();
     RootPage rootPage = new RootPage();
-    String browserTypeSize = getBrowserSizeType();
+
 
 
     @Test

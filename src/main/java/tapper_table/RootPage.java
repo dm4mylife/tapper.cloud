@@ -20,16 +20,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import static com.codeborne.selenide.ClipboardConditions.content;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$x;
-import static data.Constants.*;
+import static com.codeborne.selenide.Selenide.clipboard;
 import static data.Constants.RegexPattern.TapperTable.*;
 import static data.Constants.RegexPattern.TelegramMessage.discountRegex;
 import static data.Constants.RegexPattern.TelegramMessage.tableRegexTelegramMessage;
 import static data.Constants.TestData.TapperTable;
 import static data.Constants.TestData.TapperTable.*;
 import static data.Constants.TestData.Yandex;
+import static data.Constants.*;
 import static data.selectors.TapperTable.Common.*;
 import static data.selectors.TapperTable.RootPage.*;
 import static data.selectors.TapperTable.RootPage.DishList.*;
@@ -75,6 +76,15 @@ public class RootPage extends BaseActions {
 
         Selenide.refresh();
         forceWait(WAIT_FOR_FULL_LOAD_PAGE);
+
+    }
+
+
+    @Step("Обновляем текущую страницу")
+    public void refreshTableWithOrder() {
+
+        Selenide.refresh();
+        isTableHasOrder();
 
     }
 
@@ -158,7 +168,7 @@ public class RootPage extends BaseActions {
     @Step("Первичная заставка\\лого\\анимация при открытии страницы")
     public void isStartScreenShown() {
 
-        startScreenLogoContainer.shouldHave(appear, Duration.ofSeconds(5));
+        startScreenLogoContainer.shouldHave(appear, Duration.ofSeconds(8));
 
         if (startScreenLogoContainerImage.exists()) {
 
@@ -186,7 +196,7 @@ public class RootPage extends BaseActions {
     @Step("Отключаем разделение счёта")
     public void deactivateDivideCheckSliderIfActivated() {
 
-        if (discountSum.isDisplayed()) { // если есть скидка\\наценка то разделять счёт нельзя
+        if (discountSum.isDisplayed()) {
 
             isElementInvisible(divideCheckSlider);
 
@@ -516,6 +526,8 @@ public class RootPage extends BaseActions {
         hidePaymentOptionsAndTapBar();
         double totalDishesSum = 0;
 
+        isElementsCollectionIsVisible(allNonPaidAndNonDisabledDishes);
+
         for (int index = 0; index < allNonPaidAndNonDisabledDishes.size(); index++) {
 
             if (!allNonPaidAndNonDisabledDishesCheckbox.get(index).getCssValue("display").equals("block")) {
@@ -546,12 +558,8 @@ public class RootPage extends BaseActions {
         scrollAndClick(elements.first());
         scrollAndClick(elements.last());
         showPaymentOptionsAndTapBar();
-        forceWait(2500);
 
     }
-
-
-
 
     @Step("Отменяем определенное количество выбранных позиций")
     public void cancelCertainAmountChosenDishes(int count) { //
@@ -690,6 +698,8 @@ public class RootPage extends BaseActions {
         int counter = 0;
         String logs = "";
 
+        isElementsCollectionIsVisible(allNonPaidAndNonDisabledDishes);
+
         for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
 
             if (element.$(dishCheckboxSelector).getCssValue("display").equals("block")) {
@@ -748,6 +758,8 @@ public class RootPage extends BaseActions {
         int counter = 0;
         StringBuilder logs = new StringBuilder();
 
+        isElementsCollectionIsVisible(allNonPaidAndNonDisabledDishes);
+
         for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
 
             double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(dishPriceTotalSelector), dishPriceRegex);
@@ -762,6 +774,7 @@ public class RootPage extends BaseActions {
         }
 
         printAndAttachAllureLogs(logs, "Список не оплаченных и не заблокированных блюд");
+        System.out.println(totalSumInOrder +  " total sum");
 
         return totalSumInOrder;
 
@@ -1793,6 +1806,7 @@ public class RootPage extends BaseActions {
     @Step("Закрытие формы по крестику закрытия")
     public void closeCallWaiterFormByCloseButton() {
 
+        callWaiterCloseButton.shouldBe(visible,enabled);
         click(callWaiterCloseButton);
         isElementInvisible(callWaiterContainer);
 
@@ -1801,21 +1815,23 @@ public class RootPage extends BaseActions {
     @Step("Написать 'счет' чтобы получить специальное сообщение от таппера")
     public void typeTextToGetSpecialMessage() {
 
-        sendHumanKeys(callWaiterCommentArea, "Счет");
+        sendKeys(callWaiterCommentArea, "Счет");
         callWaiterCommentArea.shouldHave(value("Счет"));
 
         isElementVisible(callWaiterButtonSend);
         click(callWaiterButtonSend);
-        forceWait(2000);
-        isElementVisibleDuringLongTime(callWaiterSecondMessage, 3);
 
-        sendHumanKeys(callWaiterCommentArea, "Счет");
+        callWaiterTapperMessage.shouldBe(visible);
+
+        sendKeys(callWaiterCommentArea, "Счет");
         callWaiterCommentArea.shouldHave(value("Счет"));
 
         isElementVisible(callWaiterButtonSend);
         click(callWaiterButtonSend);
-        forceWait(2000);
-        isElementVisibleDuringLongTime(callWaiterUniversalTextMessage, 3);
+
+        callWaiterTypingMessagePreloader.shouldHave(disappear, Duration.ofSeconds(5));
+        callWaiterSecondMessage.last().shouldBe(visible,Duration.ofSeconds(5));
+
 
     }
 
@@ -1823,11 +1839,12 @@ public class RootPage extends BaseActions {
     public void sendWaiterComment() {
 
         callWaiterCommentArea.shouldHave(attribute("placeholder", "Cообщение"));
-        sendHumanKeys(callWaiterCommentArea, TapperTable.TEST_WAITER_COMMENT);
+        sendKeys(callWaiterCommentArea, TapperTable.TEST_WAITER_COMMENT);
         callWaiterCommentArea.shouldHave(value(TapperTable.TEST_WAITER_COMMENT));
 
         isElementVisible(callWaiterButtonSend);
         click(callWaiterButtonSend);
+        callWaiterSecondMessage.first().shouldBe(visible,Duration.ofSeconds(3));
 
     }
 
@@ -1835,7 +1852,7 @@ public class RootPage extends BaseActions {
     public void isSendSuccessful() {
 
         isElementVisible(callWaiterGuestTestComment);
-        isElementVisible(callWaiterSecondMessage);
+        isElementsCollectionIsVisible(callWaiterSecondMessage);
 
     }
 
@@ -1843,7 +1860,7 @@ public class RootPage extends BaseActions {
     public void isHistorySaved() {
 
         isElementVisible(callWaiterGuestTestComment);
-        isElementVisible(callWaiterSecondMessage);
+        isElementsCollectionIsVisible(callWaiterSecondMessage);
         isElementInvisible(callWaiterTypingMessagePreloader);
 
     }
@@ -1871,8 +1888,6 @@ public class RootPage extends BaseActions {
         isCallContainerWaiterCorrect();
 
         sendWaiterComment();
-
-        forceWait(1000);
 
         closeCallWaiterFormByCloseButton();
 
@@ -1903,13 +1918,12 @@ public class RootPage extends BaseActions {
         WebDriverRunner.getWebDriver().manage().addCookie(cookieSession);
 
         refreshPage();
+        isTableHasOrder();
 
     }
 
     @Step("Сохраняем информацию по меню со стола в таппере")
     public LinkedHashMap<String, Map<String, String>> saveTapperMenuData() {
-
-        forceWait(WAIT_MENU_FOR_FULL_LOAD);
 
         LinkedHashMap<String, Map<String, String>> menuData = new LinkedHashMap<>();
 
@@ -2370,37 +2384,52 @@ public class RootPage extends BaseActions {
         isElementVisibleAndClickable(wiFiIcon);
         click(wiFiIcon);
 
-        isWifiContainerCorrect();
+        isWifiContainerCorrect(true);
 
         String wifiPasswordText = wiFiPassword.getText().replaceAll("Пароль: ", "");
         String wifiNameText = wiFiName.getText().replaceAll("Сеть: ", "");
 
         Assertions.assertEquals(wifiPassword, wifiPasswordText,
                 "Пароль wifi не совпадет с установленным в админке");
-        System.out.println("Пароль wifi совпадет с установленным в админке");
 
         Assertions.assertEquals(wifiName, wifiNameText, "Имя wifi совпадет с установленным в админке");
-        System.out.println("Имя wifi совпадет с установленным в админке");
 
         click(wiFiPassword);
         wiFiPassword.shouldHave(text("Скопировано"));
 
-        //  clipboard().shouldHave(content(wifiPasswordText),Duration.ofSeconds(5)); toDO in headless mode doesnt work clipboard. Разобраться почему отвалилось
-        //  System.out.println("Текст успешно скопирован в буфер обмена");
+        clipboard().shouldHave(content(wifiPasswordText),Duration.ofSeconds(5));
 
         click(wiFiCloseButton);
         isElementInvisible(wiFiContainer);
 
     }
 
+    @Step("Проверка вайфая на столе")
+    public void checkWiFiOnTapperTableWithoutPassword(String wifiName) {
+
+        isElementVisibleAndClickable(wiFiIcon);
+        click(wiFiIcon);
+
+        isWifiContainerCorrect(false);
+
+        String wifiNameText = wiFiName.getText().replaceAll("Сеть: ", "");
+
+        wiFiPassword.shouldBe(hidden);
+
+        Assertions.assertEquals(wifiName, wifiNameText, "Имя wifi совпадет с установленным в админке");
+
+    }
+
     @Step("Проверка корректности вайфай контейнера")
-    public void isWifiContainerCorrect() {
+    public void isWifiContainerCorrect(boolean hasPassword) {
 
         isElementVisible(wiFiContainer);
         isElementVisible(wiFiHeader);
         isElementVisible(wiFiCloseButton);
         isElementVisible(wiFiName);
-        isElementVisible(wiFiPassword);
+
+        if(hasPassword)
+            isElementVisible(wiFiPassword);
 
     }
 

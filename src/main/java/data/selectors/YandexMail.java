@@ -23,12 +23,28 @@ public class YandexMail {
     public static final SelenideElement tapperMail =
             $x("//*[@class='mail-MessageSnippet-Content']" +
                     "[.//*[contains(text(),'Вас приветствует команда Tapper')]]");
+
     public static final ElementsCollection tapperMailCheckbox =
             $$x("//*[@class='mail-MessageSnippet-Content']" +
                     "[.//*[contains(text(),'Вас приветствует команда Tapper')]]" +
                     "//*[@class='_nb-checkbox-flag _nb-checkbox-normal-flag']");
-    public static final SelenideElement deleteMailButton = $("[accesskey='Delete']");
+
     public static final SelenideElement tapperConfirmAuthInMail =
-            $x("//a[contains(text(),'Перейти к авторизации')]");
+            $x("//a[contains(text(),'Перейти к авторизации')] | " +
+                    "//span[contains(text(),'Ссылка на ваш профиль')]/following-sibling::a[1]");
+
+    public static final SelenideElement recoveryMail =
+            $x("//*[@class='mail-MessageSnippet-Content']" +
+                    "[.//*[contains(text(),'Вы отправили запрос на')]]");
+    public static final SelenideElement recoveryMailLinkInMail =
+            $x("//td[contains(text(),'Вы можете задать новый пароль')]/a");
+
+
+    public static final ElementsCollection recoveryMailCheckbox =
+            $$x("//*[@class='mail-MessageSnippet-Content']" +
+                    "[.//*[contains(text(),'Вы можете задать новый пароль')]]" +
+                    "//*[@class='_nb-checkbox-flag _nb-checkbox-normal-flag']");
+
+    public static final SelenideElement deleteMailButton = $("[accesskey='Delete']");
 
 }

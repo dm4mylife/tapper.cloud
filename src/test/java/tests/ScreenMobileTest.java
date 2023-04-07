@@ -14,7 +14,6 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;

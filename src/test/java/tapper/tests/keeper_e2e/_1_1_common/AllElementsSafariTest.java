@@ -14,7 +14,7 @@ import tests.SafariTest;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.orderData.*;
-import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 

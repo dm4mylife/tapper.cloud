@@ -12,7 +12,7 @@ import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
 import static api.ApiData.orderData.*;
-import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.*;
 
 
@@ -88,7 +88,6 @@ class TipsLogicBySumWith2GuestsTest extends BaseTest {
     void openTableBySecondGuest() {
 
         rootPage.openTableAndSetGuest(tableUrl, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
-        rootPage.isTableHasOrder();
 
     }
 

@@ -1,8 +1,6 @@
 package admin_personal_account.tables_and_qr_codes;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
@@ -12,13 +10,15 @@ import data.selectors.TapperTable;
 import io.qameta.allure.Step;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
+import tapper_table.RootPage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Objects;
@@ -34,6 +34,8 @@ import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 
 
 public class TablesAndQrCodes extends BaseActions {
+
+    RootPage rootPage = new RootPage();
 
     @Step("Переход в меню столики и qr-коды")
     public void goToTablesAndQrCodesCategory() {
@@ -93,6 +95,16 @@ public class TablesAndQrCodes extends BaseActions {
         }
 
     }
+
+    @Step("Проверка что после обновления страницы, мы остались на этой вкладке")
+    public void isCorrectAfterRefresh() {
+
+        rootPage.refreshPage();
+        isTableAndQrCodesCorrect();
+
+    }
+
+
     @Step("Поиск столов с начального и до конечного значения")
     public void searchTableRange(int min, int max) {
 
@@ -232,13 +244,12 @@ public class TablesAndQrCodes extends BaseActions {
     }
 
     @Step("Считываем qr-код")
-    public void readQrCode(String src, String tableUrlInTableItem) throws NotFoundException, IOException {
+    public void readQrCode(String src, String tableUrlInTableItem) throws
+            NotFoundException, IOException, URISyntaxException {
 
-        isImageCorrect(qrWhiteImage,"Изображение белого qr-кода не корректное или битое");
-        isImageCorrect(qrBlackImage,"Изображение черного qr-кода не корректное или битое");
+        URI urlOfImage = new URI(src);
 
-        URL urlOfImage = new URL(src);
-        BufferedImage bufferedImage = ImageIO.read(urlOfImage);
+        BufferedImage bufferedImage = ImageIO.read(urlOfImage.toURL());
 
         LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
@@ -252,25 +263,24 @@ public class TablesAndQrCodes extends BaseActions {
     }
 
     @Step("Проверка что qr-код скачивается")
-    public void isDownloadQrCorrect(String tableNumberWhite) throws FileNotFoundException {
+    public void isDownloadQrCorrect(SelenideElement element) throws FileNotFoundException {
 
-        File qrWhite = qrDownloadImageWhite.download
-                (WAIT_FOR_FILE_TO_BE_DOWNLOADED);
+        File file = element.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 
-        Assertions.assertNotNull(qrWhite, "Файл не может быть скачен");
+        Assertions.assertNotNull(file, "Файл не может быть скачен");
 
     }
 
     @Step("Проверка qr-кода после того как мы его скачали")
-    public void isDownloadedQrCorrect(String downloadFolder, String tableName, String tableUrl) throws IOException {
+    public void isDownloadedQrCorrect(String type,String downloadFolder, String tableName, String tableUrl) {
 
         File root = new File(downloadFolder);
+
         boolean hasMatch = false;
 
         try {
 
             Collection<File> files = FileUtils.listFiles(root, null, true);
-
             Assertions.assertTrue(files.size() != 0,"Скаченный файл не удалось скачать");
 
             for (File o : files) {
@@ -280,19 +290,20 @@ public class TablesAndQrCodes extends BaseActions {
                     hasMatch = true;
 
                     File imageFile = new File(o.getAbsolutePath());
-
                     BufferedImage bufferedImage = ImageIO.read(imageFile);
-
                     LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
 
-                    BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                    BinaryBitmap bitmap = type.equals("white") ?
+                            new BinaryBitmap(new HybridBinarizer(source)) :
+                            new BinaryBitmap(new HybridBinarizer(source.invert()));
 
                     Result result = new MultiFormatReader().decode(bitmap);
-
                     String decodedText = result.getText();
 
                     Assertions.assertEquals(decodedText, tableUrl,
                             "Скаченный qr код не содержит корректную ссылку на стол");
+
+                    Assertions.assertTrue(imageFile.delete(), "Файл не удалился после проверки");
 
                 }
 

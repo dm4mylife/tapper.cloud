@@ -15,11 +15,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static api.ApiData.orderData.*;
-import static data.AnnotationAndStepNaming.DisplayName.*;
+import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
-import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
-import static data.selectors.TapperTable.RootPage.DishList.*;
+import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
+import static data.selectors.TapperTable.RootPage.DishList.dishNameSelector;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
 
 
@@ -54,8 +55,8 @@ public class CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName(TapperTable.createOrderInKeeper)
     void createAndFillOrder() {
 
-        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
-                restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
+        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableId);
 
         apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,"10000");
         apiRKeeper.createDiscountByIdObject(discounts, DISCOUNT_BY_ID);
@@ -86,8 +87,7 @@ public class CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
 
         dishes = apiRKeeper.createDishObject(dishes, SOLYANKA, 3);
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
-        rootPage.refreshPage();
-        rootPage.isTableHasOrder();
+        rootPage.refreshTableWithOrder();
 
     }
 
@@ -148,7 +148,7 @@ public class CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
 
         dishes = apiRKeeper.createDishObject(dishes, SOLYANKA, 5);
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
-        rootPage.refreshPage();
+        rootPage.refreshTableWithOrder();
 
     }
 
