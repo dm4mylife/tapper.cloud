@@ -119,7 +119,7 @@ public class _12_1_HistoryOperationsInTableTest extends BaseTest {
     @DisplayName("1.7. Открываем историю операций, проверяем что платёж есть и корректный")
     public void openAdminOperationsHistory() {
 
-        rootPage.openNewTabAndSwitchTo(ADMIN_AUTHORIZATION_STAGE_URL);
+        rootPage.openNewTabAndSwitchTo(PERSONAL_ACCOUNT_AUTHORIZATION_STAGE_URL);
         authorizationPage.authorizeUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
         operationsHistory.goToHistoryOperationsCategory();

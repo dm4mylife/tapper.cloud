@@ -24,7 +24,7 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static data.Constants.*;
 
 
-@ExtendWith({TestListener.class})
+
 public class ScreenMobileTest {
 
     int imagePixelSize = MOBILE_IMAGE_PIXEL_SIZE;

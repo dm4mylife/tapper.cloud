@@ -66,7 +66,6 @@ class ErrorWithTheSameMailTest extends PersonalAccountTest {
     @DisplayName("Проверка ошибки уже привязанной почты")
     void sendInviteWaiter() {
 
-        baseActions.forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         waiters.isErrorMailCorrect(emailFromVerifiedUser);
 
     }

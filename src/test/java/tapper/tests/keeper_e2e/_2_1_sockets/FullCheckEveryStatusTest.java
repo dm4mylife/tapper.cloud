@@ -25,6 +25,8 @@ import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 import static data.Constants.WAIT_FOR_SOCKETS_RECEIVED_REQUEST;
+import static data.selectors.TapperTable.RootPage.DishList.allDishesDisabledStatuses;
+import static data.selectors.TapperTable.RootPage.DishList.allDishesInOrder;
 
 
 @Epic("RKeeper")
@@ -95,7 +97,6 @@ public class FullCheckEveryStatusTest extends TwoBrowsers {
             rootPageNestedTests.activateDivideCheckSliderIfDeactivated();
             rootPageNestedTests.chooseAllNonPaidDishes();
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
-            rootPage.forceWaitingForSocketChangePositions(WAIT_FOR_SOCKETS_RECEIVED_REQUEST); // toDO после выбора блюд у второго юзера есть небольшая задержка в сокетах, из-за чего они могу отобразиться как не выбранные
 
         });
 
@@ -105,7 +106,13 @@ public class FullCheckEveryStatusTest extends TwoBrowsers {
     @DisplayName("1.4. Проверяем у второго гостя, что у него блюда в статусе Оплачиваются, которые первый гость выбрал")
     public void checkDisabledDishes() {
 
-        using(secondBrowser, () -> rootPage.checkIfDishesDisabledEarlier(chosenDishes));
+        using(secondBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesDisabledStatuses,allDishesInOrder.size());
+            rootPage.checkIfDishesDisabledEarlier(chosenDishes);
+
+
+        });
 
     }
 

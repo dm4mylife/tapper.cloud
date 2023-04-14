@@ -12,6 +12,7 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
+import tests.FirstTableData;
 import tests.ThirdTableData;
 
 import java.time.Duration;
@@ -33,11 +34,11 @@ import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 @Story("Отзыв если официант верифицирован но без привязанной карты")
 @DisplayName("Отзыв если официант верифицирован но без привязанной карты")
 
-@ThirdTableData
+@FirstTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReviewWithVerifiedNoCardWaiterTest extends BaseTest {
 
-    ThirdTableData annotation = ReviewWithVerifiedNoCardWaiterTest.class.getAnnotation(ThirdTableData.class);
+    FirstTableData annotation = ReviewWithVerifiedNoCardWaiterTest.class.getAnnotation(FirstTableData.class);
 
     protected final String restaurantName = annotation.restaurantName();
     protected final String tableCode = annotation.tableCode();

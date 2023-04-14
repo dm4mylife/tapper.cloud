@@ -26,6 +26,7 @@ import java.util.Objects;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.files.FileFilters.withExtension;
 import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Common.tablesAndQrCodesCategory;
@@ -135,23 +136,26 @@ public class TablesAndQrCodes extends BaseActions {
         if (paginationPages.size() == 1) {
 
             click(paginationPages.first());
-            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
 
             if(!Objects.equals(tableSearchFrom.getValue(), ""))
-                tableListItem.filter(matchText(String.valueOf(min))).shouldHave(sizeGreaterThanOrEqual(1));
+                tableListItem.filter(matchText(String.valueOf(min)))
+                        .shouldHave(sizeGreaterThanOrEqual(1),Duration.ofSeconds(5));
 
-            tableListItem.filter(matchText(String.valueOf(max))).shouldHave(sizeGreaterThanOrEqual(1));
+            tableListItem.filter(matchText(String.valueOf(max)))
+                    .shouldHave(sizeGreaterThanOrEqual(1),Duration.ofSeconds(5));
 
         } else {
 
             click(paginationPages.first());
-            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
+
             if(!Objects.equals(tableSearchFrom.getValue(), ""))
-                tableListItem.filter(matchText(String.valueOf(min))).shouldHave(sizeGreaterThanOrEqual(1));
+                tableListItem.filter(matchText(String.valueOf(min)))
+                        .shouldHave(sizeGreaterThanOrEqual(1),Duration.ofSeconds(5));
 
             click(paginationPages.last());
-            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
-            tableListItem.filter(matchText(String.valueOf(max))).shouldHave(sizeGreaterThanOrEqual(1));
+
+            tableListItem.filter(matchText(String.valueOf(max)))
+                    .shouldHave(sizeGreaterThanOrEqual(1),Duration.ofSeconds(5));
 
         }
 
@@ -198,6 +202,7 @@ public class TablesAndQrCodes extends BaseActions {
 
         click(tableListItem.first());
         click(backToTableList);
+        isElementsCollectionIsVisible(tableListItem);
 
         String currentValueSearchFrom = tableSearchFrom.getValue();
         String currentValueSearchTo = tableSearchTo.getValue();
@@ -265,7 +270,9 @@ public class TablesAndQrCodes extends BaseActions {
     @Step("Проверка что qr-код скачивается")
     public void isDownloadQrCorrect(SelenideElement element) throws FileNotFoundException {
 
-        File file = element.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
+        element.shouldBe(interactable);
+
+        File file = element.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("png"));
 
         Assertions.assertNotNull(file, "Файл не может быть скачен");
 

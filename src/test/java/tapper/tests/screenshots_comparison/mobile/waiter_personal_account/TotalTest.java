@@ -56,7 +56,6 @@ public class TotalTest extends ScreenMobileTest {
     void profilePartOne() throws IOException {
 
         authorizationPage.authorizationUser(WAITER_LOGIN_EMAIL, WAITER_PASSWORD);
-        rootPage.click(profileCategory);
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize, isScreenShot,
                 ScreenLayout.WaiterPersonalAccount.profilePartOne, diffPercent, imagePixelSize);

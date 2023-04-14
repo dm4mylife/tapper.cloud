@@ -66,7 +66,6 @@ class LogsAndPermissionsTest extends ScreenDesktopTest {
         rootPage.isElementVisible(openedLeftMenuContainer);
 
         rootPage.click(logsAndPermissionsCategoryDropdownButton);
-        rootPage.forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.SupportPersonalAccount.restaurantSearch, diffPercent, imagePixelSize);
@@ -79,7 +78,6 @@ class LogsAndPermissionsTest extends ScreenDesktopTest {
     void logsAndPermissions() throws IOException {
 
         rootPage.sendKeys(searchRestaurantInput,restaurantName);
-        rootPage.forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         searchResultList.first().shouldHave(matchText(restaurantName), Duration.ofSeconds(5));
         rootPage.click(searchResultList.first());
@@ -90,7 +88,7 @@ class LogsAndPermissionsTest extends ScreenDesktopTest {
 
         rootPage.click(collapseLeftMenuButton);
         rootPage.isElementInvisible(openedLeftMenuContainer);
-        rootPage.forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+
 
         currentChosenRestaurant.shouldHave(visible,text(KEEPER_RESTAURANT_NAME));
 

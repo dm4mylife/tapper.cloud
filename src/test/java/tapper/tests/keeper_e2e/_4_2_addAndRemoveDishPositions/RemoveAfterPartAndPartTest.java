@@ -126,8 +126,8 @@ public class RemoveAfterPartAndPartTest extends BaseTest {
     @DisplayName("1.8. Удаляем одно блюдо на кассе")
     public void deleteDishInOrder() {
 
-        apiRKeeper.deletePosition(rqParamsDeletePosition(R_KEEPER_RESTAURANT, guid, uni, 1000), AUTO_API_URI);
-        rootPage.forceWait(2000); // toDO не успевает прийти запрос на кассу
+        apiRKeeper.isDeletedDishPositions(R_KEEPER_RESTAURANT, guid, uni, 1000, AUTO_API_URI);
+
     }
 
     @Test

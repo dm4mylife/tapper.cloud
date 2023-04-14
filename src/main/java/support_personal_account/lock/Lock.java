@@ -106,8 +106,6 @@ public class Lock extends BaseActions {
 
             Assertions.assertEquals(restaurantsToLock, 0, "Не все рестораны были отменены");
 
-            forceWait(2000); // toDO не всегда успевает сохраниться сброс если оборвём сессию
-
         }
 
     }

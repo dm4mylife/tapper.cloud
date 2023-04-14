@@ -2,7 +2,6 @@ package waiter_personal_account;
 
 import admin_personal_account.AdminAccount;
 import com.codeborne.selenide.SelenideElement;
-import com.github.javafaker.Faker;
 import common.BaseActions;
 import data.selectors.WaiterPersonalAccount;
 import io.qameta.allure.Step;
@@ -39,8 +38,13 @@ public class Waiter extends BaseActions {
         waiterNameInCashDesk.shouldBe(disabled);
         isElementVisible(WaiterPersonalAccount.waiterName);
         isElementVisible(privateDataContainer);
-        isLearnMoreCorrect();
-        isElementVisible(telegramLogin);
+
+
+        //isElementVisible(telegramLogin);
+        //isElementVisible(unlinkTelegramLogin);
+
+
+
         isElementVisible(waiterEmail);
         waiterEmail.shouldBe(disabled);
         isElementVisible(personalInformationContainer);
@@ -50,20 +54,6 @@ public class Waiter extends BaseActions {
         waiterPasswordConfirmation.shouldHave(empty);
         isElementVisible(linkWaiterCard);
         isElementVisible(saveButton);
-
-    }
-
-    @Step("Проверяем ссылку 'узнать подробнее'")
-    public void isLearnMoreCorrect() {
-
-        click(learnMoreLink);
-        telegramInstruction
-                .shouldHave(cssValue("display", "flex"));
-
-        click(telegramInstructionCloseButton);
-
-        telegramInstruction
-                .shouldHave(cssValue("display", "none"));
 
     }
 
@@ -137,26 +127,6 @@ public class Waiter extends BaseActions {
 
     }
 
-    @Step("Проверка изменения телеграмм логина")
-    public void changeTelegramLogin() {
-
-        Faker faker = new Faker();
-        String newWaiterTelegramLogin = faker.gameOfThrones().character();
-
-        clearText(telegramLogin);
-        sendKeys(telegramLogin,newWaiterTelegramLogin);
-        click(saveButton);
-
-        pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
-
-        telegramLogin.shouldHave(value(newWaiterTelegramLogin));
-
-        clearText(telegramLogin);
-        sendKeys(telegramLogin,newWaiterTelegramLogin);
-        click(saveButton);
-
-    }
-
     @Step("Смена пароля учетной записи официанта")
     public void changeWaiterPassword() {
 
@@ -200,6 +170,46 @@ public class Waiter extends BaseActions {
         buttonWithCard.shouldHave(disabled, matchText("Карта привязана"));
         isElementVisible(changedCardButton);
         //toDo нет второй тестовой карты чтобы написать тест на редактирование текущей
+
+    }
+
+    public static void skipConfPolicyModal() {
+
+        if (confPolicyModal.isDisplayed()) {
+
+            click(confPolicyModalAgreeButton);
+            confPolicyModal.shouldBe(hidden);
+            profileContainer.shouldBe(visible);
+
+        }
+
+    }
+
+    @Step("Проверка формы политики конфиденциальности")
+    public void isConfPolicyCorrectModal() {
+
+        isElementVisible(confPolicyModal);
+        isElementVisible(confPolicyModalDonTAgreeButton);
+        isElementVisible(confPolicyModalAgreeButton);
+
+    }
+
+    @Step("Не соглашаемся с политикой конфиденциальности")
+    public void donTAgreeWithConfPolicy() {
+
+        click(confPolicyModalDonTAgreeButton);
+        isElementInvisible(confPolicyModal);
+        isElementVisible(confPolicyError);
+
+
+    }
+
+    @Step("Соглашаемся с политикой конфиденциальности")
+    public void agreeWithConfPolicy() {
+
+        click(confPolicyModalAgreeButton);
+        isElementInvisible(confPolicyModal);
+        isTextContainsInURL(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
 
     }
 

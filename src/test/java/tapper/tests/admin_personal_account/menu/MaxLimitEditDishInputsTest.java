@@ -12,7 +12,6 @@ import total_personal_account_actions.AuthorizationPage;
 import java.util.HashMap;
 
 import static com.codeborne.selenide.Condition.matchText;
-import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
@@ -57,8 +56,8 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
 
         menu.goToMenuCategory();
         menu.isMenuCategoryCorrect();
-        menu.deactivateMenuCategory();
-        menu.activateCategoryAndDishAndActivateShowGuestMenuByIndex(categoryIndex,dishIndex);
+        menu.deactivateAllMenuCategory();
+        menu.activateNonAutoCategoryAndDishAndActivateShowGuestMenuByIndex(categoryIndex,dishIndex);
 
     }
 

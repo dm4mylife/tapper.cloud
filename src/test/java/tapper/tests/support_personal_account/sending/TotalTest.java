@@ -78,7 +78,7 @@ class TotalTest extends PersonalAccountTest {
 
     @Test
     @Order(6)
-    @DisplayName("1.6. Проверяем сообщение в телеграмме")
+    @DisplayName("Проверяем сообщение в телеграмме")
     public void checkMsgInTgToAdmins() {
 
         rootPage.getAdminSendingMsgData

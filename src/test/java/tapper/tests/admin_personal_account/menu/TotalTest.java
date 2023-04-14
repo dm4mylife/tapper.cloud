@@ -97,7 +97,7 @@ class TotalTest extends PersonalAccountTest {
 
         rootPage.switchBrowserTab(adminTab);
 
-        menu.deactivateMenuCategory();
+        menu.deactivateAllMenuCategory();
         rootPage.click(enableMenuForVisitorsButton);
 
         rootPage.switchBrowserTab(tapperTableTab);

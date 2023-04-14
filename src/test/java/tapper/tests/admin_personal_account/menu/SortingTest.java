@@ -57,7 +57,7 @@ class SortingTest extends PersonalAccountTest {
     void goToMenu() {
 
         menu.goToMenuCategory();
-        menu.activateCategoryAndDishAndActivateShowGuestMenuByIndex(categoryIndex,dishIndex);
+        menu.activateNonAutoCategoryAndDishAndActivateShowGuestMenuByIndex(categoryIndex,dishIndex);
 
     }
 

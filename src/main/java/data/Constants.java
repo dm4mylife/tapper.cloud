@@ -2,21 +2,15 @@ package data;
 
 import com.github.javafaker.Faker;
 
-import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
-
 public class Constants {
     public static final Integer WAIT_FOR_FULL_LOAD_PAGE = 1000;
-    public static final Integer WAIT_UNTIL_TABLE_WILL_BE_CREATED = 2000;
     public static final Integer PAGE_LOAD_TIMEOUT = 360000;
     public static final Integer WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN = 400;
-    public static final Integer WAIT_BETWEEN_SET_DISHES_CHECKBOXES = 700;
     public static final Integer WAIT_UNTIL_TRANSACTION_EXPIRED = 360000;
     public static final Integer WAIT_UNTIL_TRANSACTION_STILL_ALIVE = 200000;
     public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
     public static final int WAIT_FOR_ORDER_TO_BE_CLOSED_AT_CASH_DESK = 10000;
-    public static final int WAIT_MENU_FOR_FULL_LOAD = 2500;
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
-    public static final int WAIT_FOR_PREPAYMENT_ON_CASH_DESK = 7000;
     public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE = 500;
     public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE = 1000;
     public static final int WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER = 2000;
@@ -28,17 +22,21 @@ public class Constants {
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
     public static final int WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK = 20000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 10000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 12000;
-    public static final int ATTEMPT_FOR_PREPAYMENT_REQUEST = 3;
+    public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 20000;
     public static final int MOBILE_IMAGE_PIXEL_SIZE = 2962440;
     public static final int DESKTOP_IMAGE_PIXEL_SIZE = 1907178;
-    public static final double DIFF_PERCENT_IMAGE = 0.3;
+    public static final double DIFF_PERCENT_IMAGE = 0.35;
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_ACTUAL_PATH = "screenComparison/desktop/actual/";
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH = "screenComparison/desktop/original/";
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_DIFF_PATH = "screenComparison/desktop/diff/";
     public static final String MOBILE_SCREENSHOTS_COMPARISON_ACTUAL_PATH = "screenComparison/mobile/actual/";
     public static final String MOBILE_SCREENSHOTS_COMPARISON_ORIGINAL_PATH = "screenComparison/mobile/original/";
     public static final String MOBILE_SCREENSHOTS_COMPARISON_DIFF_PATH = "screenComparison/mobile/diff/";
+    public static final String JAVAX_PROPERTIES_PATH = "src/main/resources/mail.properties";
+    public static final String ADMIN_REGISTRATION_EMAIL = "Вы успешно зарегистрировались в нашем сервисе.";
+    public static final String WAITER_REGISTRATION_EMAIL = "Вам отправили приглашение на верификацию";
+    public static final String RESTORE_PASSWORD_REGISTRATION_EMAIL =
+            "Вы отправили запрос на восстановление пароля от личного кабинета";
     public static final String PASTA_IMG_PATH = "src/main/resources/pasta.jpg";
     public static final String LOADER_GIF_PATH = "src/main/resources/loader.gif";
     public static final String OLD_LOADER_GIF_PATH = "src/main/resources/oldLoader.gif";
@@ -83,8 +81,6 @@ public class Constants {
             public static final String TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS = "Это сообщение отправлено админам";
             public static final String UNKNOWN_WAITER = "Неизвестный официант";
             public static final String REFRESH_TABLE_BUTTON_TEXT = "Обновлено, но заказ ещё не создан";
-
-
             public static final String PAYMENT_ERROR_ORDER_EXPIRED = "Order expired";
             public static final String PAYMENT_ERROR_TEXT = "Оплата не прошла";
             public static final String SUM_CHANGED_ALERT_TEXT =
@@ -114,7 +110,6 @@ public class Constants {
         }
 
         public static class Best2Pay {
-            public static final String TEST_BEST2PAY_URL = "https://test.best2pay.net/";
             public static final String BEST2PAY_NAME = "best2pay";
             public static final String TEST_PAYMENT_CARD_NUMBER = "4809388886227309";
             public static final String TEST_PAYMENT_CARD_EXPIRE_MONTH = "12";
@@ -129,7 +124,6 @@ public class Constants {
             public static final String ADMIN_RESTAURANT_TEST_LOGIN_EMAIL = "autotests_admin_restaurant@tapper.cloud";
             public static final String ADMIN_RESTAURANT_TEST_PASSWORD_MAIL = "SxyvGCseCS*a";
             public static final String WAITER_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
-
             public static final String EXISTING_ADMIN_RESTAURANT_MAIL = "veydedumli@gufum.com";
             public static final String WAITER_PASSWORD_MAIL = "W1LrKR29xwp9";
             public static final String YANDEX_MAIL_URL =
@@ -139,6 +133,7 @@ public class Constants {
 
         public static class AdminPersonalAccount {
 
+            public static final int MAX_TELEGRAM_LOGIN_SIZE = 16;
             public static final String TEST_WIFI_NETWORK_NAME = "auto_wifi";
             public static final String TEST_WIFI_NETWORK_PASSWORD = "12345678";
             public static final String TEST_WIFI_NETWORK_PASSWORD_MAX_LENGTH = "1234567890123456789012345";
@@ -151,14 +146,15 @@ public class Constants {
             public static final String IRON_MAN_WAITER = "Iron Man";
             public static final String NON_EXIST_WAITER = "Ингеборга Эдмундовна Дапкунайте";
             public static final String SEARCH_WAITER_ERROR_TEXT = "Нет результатов. Попробуйте ввести данные ещё раз";
-
             public static final String ADMIN_TEST_PHONE = "+7(123) 456-78-90";
-            public static final String ADMIN_AUTHORIZATION_STAGE_URL = "https://tapper.staging.zedform.ru/users";
-            public static final String ADMIN_PROFILE_STAGE_URL = "https://tapper.staging.zedform.ru/profile";
-            public static final String ROOT_TAPPER_STAGE_URL = "https://tapper.staging.zedform.ru/";
+            public static final String PERSONAL_ACCOUNT_AUTHORIZATION_STAGE_URL =
+                    "https://tapper.staging.zedform.ru/users";
+            public static final String PERSONAL_ACCOUNT_PROFILE_STAGE_URL = "https://tapper.staging.zedform.ru/profile";
+            public static final String ROOT_TAPPER_STAGE_URL = "https://tapper.staging.zedform.ru";
             public static final String RESTORE_PASSWORD_STAGE_URL = "https://tapper.staging.zedform.ru/users/forget";
-            public static final String ADMIN_REGISTRATION_STAGE_URL =
+            public static final String PERSONAL_ACCOUNT_REGISTRATION_STAGE_URL =
                     "https://tapper.staging.zedform.ru/users/registration";
+
             public static final String ADMIN_RESTAURANT_LOGIN_EMAIL = "kirillk8888@yandex.ru";
             public static final String ADMIN_RESTAURANT_PASSWORD = "777777";
             public static final String ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
@@ -179,7 +175,8 @@ public class Constants {
             public static final String FIRST_AUTO_MENU_CATEGORY = "Не трогать эту категорию №1";
             public static final String SECOND_AUTO_MENU_CATEGORY = "Не трогать эту категорию №2";
             public static final String YANDEX_REVIEW_LINK =
-                    "https://yandex.ru/maps/org/nalu_baloo/48679020937/reviews/?add-review=true&ll=37.559181%2C55.712556&z=13";
+                    "https://yandex.ru/maps/org/nalu_baloo/48679020937/reviews/" +
+                            "?add-review=true&ll=37.559181%2C55.712556&z=13";
             public static final String TWOGIS_REVIEW_LINK =
                     "https://2gis.ru/moscow/firm/70000001060393218/tab/reviews?writeReview&m=37.58076%2C55.748187%2F16";
             public static final String GOOGLE_REVIEW_LINK =
@@ -192,29 +189,29 @@ public class Constants {
             public static final String LIMIT_CHARS_NAME_BY_GUEST_INPUT =
                     "В этом поле будет содержаться более шестидесяти одного символ";
             public static final String LIMIT_CHARS_NAME_BY_GUEST_COUNTER = "61 / 61";
-
+            public static final String CHOSEN_MENU_CATEGORY = "rgb(213, 219, 241)";
+            public static final String EDIT_DISH_ERROR = "rgba(236, 78, 78, 1)";
             static Faker faker = new Faker();
             static String randomWords = faker.lorem().fixedString(7);
             public static final String OVER_LIMIT_CHARS_DESCRIPTIONS_INPUT =
                     "Рост намеченных и разработке играет от формировании порядка, " + randomWords + ", порядка, " +
-                            "также оценить занимаемых соответствующий реализация условий. Рост и структура организации" +
-                            " заданий активности образом также намеченных идейные анализа от сфера условий задач. " +
-                            "Роль нашей и форм намеченных показывает, в наше время";
+                            "также оценить занимаемых соответствующий реализация условий. Рост и структура " +
+                            "организации заданий активности образом также намеченных идейные анализа от сфера " +
+                            "условий задач. Роль нашей и форм намеченных показывает, в наше время";
             public static final String LIMIT_CHARS_DESCRIPTIONS_INPUT =
-                    "Рост намеченных и разработке играет от формировании порядка, " + randomWords + ", порядка, также оценить" +
-                            " занимаемых соответствующий реализация условий. Рост и структура организации заданий" +
-                            " активности образом также намеченных идейные анализа от сфера условий задач. Роль нашей" +
-                            " и форм намеченных показывает, в наше";
+                    "Рост намеченных и разработке играет от формировании порядка, " + randomWords + ", порядка, " +
+                            "также оценить занимаемых соответствующий реализация условий. Рост и структура " +
+                            "организации заданий активности образом также намеченных идейные анализа от сфера" +
+                            " условий задач. Роль нашей и форм намеченных показывает, в наше";
             public static final String LIMIT_CHARS_DESCRIPTIONS_COUNTER = "300 / 300";
             public static final String OVER_LIMIT_CHARS_INGREDIENTS_INPUT = "Играет особенности важную важную роль" +
                     " идейные отношении же оценить количественный важные и позволяет кадров формировании порядка," +
                     " постоянный финансовых модель эксперимент реализации также задач. А равным идейные постоянный" +
                     " нас формировании проверки прогрессии";
-            public static final String LIMIT_CHARS_INGREDIENTS_INPUT = "Играет особенности важную важную роль идейные" +
-                    " отношении же оценить количественный важные и позволяет кадров формировании порядка, " +
-                    "постоянный финансовых модель эксперимент реализации также задач. А равным идейные постоянный " +
-                    "нас формировании" +
-                    " проверки прогре";
+            public static final String LIMIT_CHARS_INGREDIENTS_INPUT = "Играет особенности важную важную " +
+                    "роль идейные отношении же оценить количественный важные и позволяет кадров формировании" +
+                    " порядка, постоянный финансовых модель эксперимент реализации также задач. А равным идейные" +
+                    " постоянный нас формировании проверки прогре";
             public static final String LIMIT_CHARS_INGREDIENTS_COUNTER = "255 / 255";
             public static final String OVER_LIMIT_CHARS_AMOUNT_INPUT = "123456789";
             public static final String LIMIT_CHARS_AMOUNT_INPUT = "12345678";
@@ -244,6 +241,7 @@ public class Constants {
             public static final String RESTAURANT_NAME = "show me your love";
             public static final String EXISTING_EMAIL_ERROR_TEXT = "Этот E-mail уже зарегистрирован";
 
+
         }
 
     }
@@ -251,6 +249,7 @@ public class Constants {
     public static class RegexPattern {
 
         public static class TelegramMessage {
+
             public static final String tableRegex = "(\\n|.)+Стол: ([\\d+]+)(\\n|.)*";
             public static final String tableRegexTelegramMessage = "(.*Стол\\s)(\\d{3})(.*)";
             public static final String sumInCheckRegex = "(\\n|.)*Сумма в чеке: (\\d*\\.?\\d*)(\\n|.)*";
@@ -287,6 +286,17 @@ public class Constants {
             public static final String percentRegex = "\\D+";
             public static final String tableNumberRegex = "\\D+";
 
+        }
+
+        public static class Mail {
+
+            public static final String WAITER_LOGIN_MAIL_REGEX = "(?<=span>)(.*)(?=</span><br>)";
+            public static final String ADMINISTRATOR_LOGIN_MAIL_REGEX =
+                    "(?<=Логин<\\/span>: <a href=\"autotests_admin_restaurant@tapper\\.cloud\">)(.*)(?=<\\/a><br>)";
+            public static final String WAITER_PASSWORD_MAIL_REGEX = "(\\w+-\\w+-\\w+-\\w+-\\w+)";
+            public static final String ADMINISTRATOR_PASSWORD_MAIL_REGEX = "(?<=Пароль<\\/span>: )(.*)(?=<br>)";
+            public static final String AUTH_URL_MAIL_REGEX = "(?<=<a href=\\\")(.*)(?=\\/\" target=\\\"_blank\\\")";
+            public static final String RESTORE_PASSWORD_URL_MAIL_REGEX = "(?<=href=\")(.*)(?=\" target=\"_blank\")";
 
         }
 

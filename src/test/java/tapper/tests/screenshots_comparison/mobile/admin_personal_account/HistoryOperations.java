@@ -56,11 +56,11 @@ class HistoryOperations extends ScreenMobileTest {
     @DisplayName(AnnotationAndStepNaming.DisplayName.AdminPersonalAccount.historyOperations)
     void historyOperations() throws IOException {
 
-        rootPage.forceWait(2000);
+
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
-        rootPage.forceWait(2000);
+
         historyOperations.goToHistoryOperationsCategory();
-        rootPage.forceWait(6000);
+
         historyOperations.isHistoryOperationsCorrect();
 
         ScreenShotComparison.isScreenOrDiff(browserSizeType,isScreenShot,

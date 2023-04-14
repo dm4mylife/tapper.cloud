@@ -3,17 +3,25 @@ package tapper.tests.admin_personal_account.waiters;
 
 import admin_personal_account.AdminAccount;
 import admin_personal_account.waiters.Waiters;
+import api.MailByApi;
+import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
+import junit.framework.Assert;
 import org.junit.jupiter.api.*;
 import tapper_table.YandexPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.HashMap;
+
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
 import static data.Constants.TestData.Yandex.TEST_YANDEX_PASSWORD_MAIL;
+import static data.Constants.WAITER_REGISTRATION_EMAIL;
 import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 import static data.selectors.YandexMail.tapperMail;
 import static data.selectors.YandexMail.tapperMailCheckbox;
@@ -28,7 +36,7 @@ import static data.selectors.YandexMail.tapperMailCheckbox;
 class TotalTest extends PersonalAccountTest {
 
     static String password;
-
+    static HashMap<String,String> waiterData = new HashMap<>();
     AdminAccount adminAccount = new AdminAccount();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     YandexPage yandexPage = new YandexPage();
@@ -76,7 +84,7 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Отправка приглашение на почту официанту")
     void negativeSearchWaiter() {
 
-        waiters.sendInviteToWaiterEmail(OPTIMUS_PRIME_WAITER, TEST_YANDEX_LOGIN_EMAIL);
+        waiters.sendInviteToWaiterEmail(IRONHIDE_WAITER, Constants.TestData.Yandex.WAITER_LOGIN_EMAIL);
 
     }
 
@@ -86,68 +94,55 @@ class TotalTest extends PersonalAccountTest {
     void checkWaiterStatus() {
 
         backToPreviousPage.click();
-        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, INVITED_IN_SERVICE_TEXT);
+        waiters.isWaiterStatusCorrectInPreviewAndCard(IRONHIDE_WAITER, INVITED_IN_SERVICE_TEXT);
         adminAccount.logOut();
 
     }
 
     @Test
     @Order(6)
-    @DisplayName("Авторизация в почте яндекса")
-    void yandexAuthorization() {
+    @DisplayName("Получаем данные из письма по приглашению")
+    void getMailData() throws MessagingException, IOException {
 
-        yandexPage.yandexAuthorization(TEST_YANDEX_LOGIN_EMAIL, TEST_YANDEX_PASSWORD_MAIL);
+        waiterData = MailByApi.getMailData
+                ("waiter.yandex.mail", "waiter.yandex.password", WAITER_REGISTRATION_EMAIL);
+
+        Assert.assertEquals(waiterData.get("url"), PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
 
     }
 
     @Test
     @Order(7)
-    @DisplayName("Отправка приглашение на почту официанту")
-    void checkInvitationMail() {
+    @DisplayName("Проверяем что авторизация успешна под данными из письма")
+    void isRegistrationComplete() {
 
-        password = yandexPage.checkTapperMail();
+        authorizationPage.authorizeFromMailUrl
+                (waiterData.get("login"), waiterData.get("password"),waiterData.get("url"),false);
 
-    }
-
-    @Test
-    @Order(8)
-    @DisplayName("Переход на авторизацию из письма в приглашении с присланными данными и авторизация")
-    void goToAuthTapperPage() {
-
-        yandexPage.goToAuthPageFromMail();
-        authorizationPage.authorizeUser(TEST_YANDEX_LOGIN_EMAIL, password);
         adminAccount.isRegistrationComplete();
         adminAccount.logOut();
 
     }
 
     @Test
-    @Order(9)
+    @Order(8)
     @DisplayName("Проверка что авторизация корректна")
     void checkIfWaiterVerifiedSuccessfully() {
 
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         waiters.goToWaiterCategory();
-        waiters.isWaiterStatusCorrectInPreviewAndCard(OPTIMUS_PRIME_WAITER, VERIFIED_WAITER_TEXT);
+        waiters.isWaiterStatusCorrectInPreviewAndCard(IRONHIDE_WAITER, VERIFIED_WAITER_TEXT);
         adminAccount.logOut();
 
     }
 
     @Test
-    @Order(10)
-    @DisplayName("Проверка статуса верификации, удаление привязанной почты у официанта")
-    void clearMailWaiter() {
-
-        waiters.unlinkMailWaiter(ADMIN_RESTAURANT_LOGIN_EMAIL,ADMIN_RESTAURANT_PASSWORD,OPTIMUS_PRIME_WAITER);
-
-    }
-
-    @Test
-    @Order(11)
+    @Order(9)
     @DisplayName("Удаляем письмо на почте Яндекса")
     void deleteYandexInviteMail() {
 
-        yandexPage.deleteMail(TEST_YANDEX_LOGIN_EMAIL, TEST_YANDEX_PASSWORD_MAIL,tapperMailCheckbox,tapperMail);
+        MailByApi.deleteMailsByApi
+                ("waiter.yandex.mail", "waiter.yandex.password", WAITER_REGISTRATION_EMAIL);
 
     }
 

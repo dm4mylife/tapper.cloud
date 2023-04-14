@@ -3,7 +3,6 @@ package api;
 
 import com.codeborne.selenide.Selenide;
 import common.BaseActions;
-import data.Constants;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -19,11 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 import static api.ApiData.EndPoints;
 import static api.ApiData.EndPoints.*;
-import static api.ApiData.QueryParams.apiRKeeper;
-import static api.ApiData.QueryParams.rqParamsCheckPrePayment;
+import static api.ApiData.QueryParams.*;
 import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
-import static data.Constants.ATTEMPT_FOR_PREPAYMENT_REQUEST;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_PROFILE_STAGE_URL;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK;
 import static io.restassured.RestAssured.given;
@@ -119,15 +115,9 @@ public class ApiRKeeper {
     }
 
     @Step("Удаление позиции заказа")
-    public void deletePosition(String requestBody, String baseUri) {
+    public boolean deletePosition(String requestBody, String baseUri) {
 
-        boolean hasError;
-        Response response;
-        int errorCounter = 0;
-
-        do {
-
-            response = given()
+           Response response = given()
                     .contentType(ContentType.JSON)
                     .and()
                     .baseUri(baseUri)
@@ -140,22 +130,16 @@ public class ApiRKeeper {
                     .extract()
                     .response();
 
-            System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
+            return response.path("message").equals("Операция прошла успешно");
 
-            hasError = response.path("message").equals("Операция прошла успешно");
 
-            if (!hasError) {
+    }
+    public void isDeletedDishPositions(String restaurantName, String guid, String uni, int quantity, String apiUri) {
 
-                errorCounter++;
-                System.out.println("\nОшибка в запросе, будет сделан повторный запрос. Попытка № " + errorCounter + "\n");
-
-            } else {
-
-                errorCounter = 3;
-
-            }
-
-        } while (errorCounter < 3);
+        Awaitility.await().pollInterval(2, TimeUnit.SECONDS)
+                .atMost(20, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(() ->
+                        Assertions.assertTrue(deletePosition
+                                (rqParamsDeletePosition(restaurantName, guid, uni, quantity), apiUri)));
 
     }
 
@@ -298,7 +282,7 @@ public class ApiRKeeper {
                 .when()
                 .get(getOrderInfo)
                 .then()
-              //  .log().ifError()
+                .log().ifError()
                 .extract()
                 .response();
 

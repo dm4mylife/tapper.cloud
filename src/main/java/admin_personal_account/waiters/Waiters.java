@@ -172,8 +172,6 @@ public class Waiters extends BaseActions {
 
         isDetailWaiterCardCorrectWithWaitingInvitationStatus();
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE); // toDO не успевает прогрузиться инпут емейла, обрезается
-
         if (waiterStatusInCard.getText().matches(INVITED_IN_SERVICE_TEXT)) {
 
             cancelEMailWaiterInvitationInCard();
@@ -324,7 +322,6 @@ public class Waiters extends BaseActions {
         unlinkMailConfirmPopup.shouldBe(hidden,Duration.ofSeconds(5));
         enterEmailField.shouldHave(value(""));
         inviteButton.shouldBe(visible,disabled);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
     }
 

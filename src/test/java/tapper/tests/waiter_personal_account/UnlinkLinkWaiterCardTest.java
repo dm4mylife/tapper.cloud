@@ -3,21 +3,23 @@ package tapper.tests.waiter_personal_account;
 
 import admin_personal_account.AdminAccount;
 import admin_personal_account.waiters.Waiters;
+import api.MailByApi;
 import data.Constants;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import junit.framework.Assert;
 import org.junit.jupiter.api.*;
-import tapper_table.RootPage;
-import tapper_table.YandexPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 import waiter_personal_account.Waiter;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.HashMap;
+
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.TestData.Yandex.WAITER_PASSWORD_MAIL;
+import static data.Constants.WAITER_REGISTRATION_EMAIL;
 import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
-import static data.selectors.YandexMail.tapperMail;
-import static data.selectors.YandexMail.tapperMailCheckbox;
 
 
 @Epic("Личный кабинет официант ресторана")
@@ -27,13 +29,11 @@ import static data.selectors.YandexMail.tapperMailCheckbox;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UnlinkLinkWaiterCardTest extends PersonalAccountTest {
 
-    static String password;
+    static HashMap<String,String> waiterData;
     AdminAccount adminAccount = new AdminAccount();
-    YandexPage yandexPage = new YandexPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Waiter waiter = new Waiter();
     Waiters waiters = new Waiters();
-    RootPage rootPage = new RootPage();
 
     @Test
     @Order(1)
@@ -67,37 +67,30 @@ class UnlinkLinkWaiterCardTest extends PersonalAccountTest {
 
     @Test
     @Order(4)
-    @DisplayName("Авторизация в почте яндекса")
-    void yandexAuthorization() {
+    @DisplayName("Получение письма на почту и сохранение данных")
+    void getMailData() throws MessagingException, IOException {
 
-        yandexPage.yandexAuthorization
-                (Constants.TestData.Yandex.WAITER_LOGIN_EMAIL, Constants.TestData.Yandex.WAITER_PASSWORD_MAIL);
+        waiterData = MailByApi.getMailData
+                ("waiter.yandex.mail", "waiter.yandex.password", WAITER_REGISTRATION_EMAIL);
+
+        Assert.assertEquals(waiterData.get("url"), PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
 
     }
 
     @Test
     @Order(5)
-    @DisplayName("Отправка приглашение на почту официанту")
-    void checkInvitationMail() {
+    @DisplayName("Авторизация по данным из письма")
+    void authorizeFromMailUrl() {
 
-        password = yandexPage.checkTapperMail();
-        yandexPage.goToAuthPageFromMail();
+        authorizationPage.authorizeFromMailUrl
+                (waiterData.get("login"), waiterData.get("password"),waiterData.get("url"),false);
 
-    }
-
-    @Test
-    @Order(6)
-    @DisplayName("Переход на авторизацию из письма в приглашении с присланными данными и авторизация")
-    void goToAuthTapperPage() {
-
-
-        authorizationPage.authorizeUser(Constants.TestData.Yandex.WAITER_LOGIN_EMAIL,password);
         adminAccount.isRegistrationComplete();
 
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     @DisplayName("Привязка кредитной карты в профиле официанта")
     void linkWaiterCard() {
 
@@ -107,22 +100,12 @@ class UnlinkLinkWaiterCardTest extends PersonalAccountTest {
     }
 
     @Test
-    @Order(8)
-    @DisplayName("Отвязываем почту официанта админом ресторана")
-    void unlinkMailWaiter() {
-
-        waiters.unlinkMailWaiter(ADMIN_RESTAURANT_LOGIN_EMAIL,ADMIN_RESTAURANT_PASSWORD,IRONHIDE_WAITER);
-
-    }
-
-    @Test
-    @Order(9)
+    @Order(7)
     @DisplayName("Удаляем письмо на почте Яндекса")
     void deleteYandexInviteMail() {
 
-        yandexPage.deleteMail
-                (Constants.TestData.Yandex.WAITER_LOGIN_EMAIL, Constants.TestData.Yandex.WAITER_PASSWORD_MAIL,
-                        tapperMailCheckbox,tapperMail);
+        MailByApi.deleteMailsByApi
+                ("waiter.yandex.mail", "waiter.yandex.password", WAITER_REGISTRATION_EMAIL);
 
     }
 

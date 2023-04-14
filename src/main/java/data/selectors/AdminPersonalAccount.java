@@ -213,6 +213,8 @@ public class AdminPersonalAccount {
                 $(".vSectionCustomization__reviewInfo .vBlockReviewInfo");
         public static final ElementsCollection reviewToggles =
                 $$(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle");
+        public static final SelenideElement reviewToggle =
+                $(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle");
         public static final ElementsCollection reviewToggleInfo =
                 $$(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle .vBlockReviewInfo__toggle-list");
         public static final SelenideElement yandexTextLabel = $("[for=\"checkYandex\"]");
@@ -330,9 +332,23 @@ public class AdminPersonalAccount {
                 $$(".vAdminMenuCategoryItem__info-top");
         public static final ElementsCollection categoryEditButton =
                 $$(".vAdminMenuCategoryItem .vAdminMenuCategoryItem__btn:nth-child(2)");
+
+        public static final String categoryEditButtonSelector =
+                ".vAdminMenuCategoryItem__btn:nth-child(2)";
         public static final ElementsCollection categoryEyeIcons =
                 $$("[class='vAdminMenuAside__category'] .vAdminMenuCategoryItem__btn:nth-child(3)");
+
+        public static final ElementsCollection notAutoMenuCategory =
+                $$x("//*[@class='vAdminMenuCategoryItem']" +
+                        "[..//*[@class='vAdminMenuCategoryItem__info-bottom'" +
+                        " and not(contains(text(),'Не трогать эту категорию'))]]");
+
+
+
         public static final String categoryEyeIconSelector = ".--eye";
+
+        public static final String categoryNameTotalSelector = ".vAdminMenuCategoryItem__info";
+        public static final String categoryNameSelector = ".vAdminMenuCategoryItem__info-bottom";
         public static final SelenideElement editCategoryContainer = $(".vAdminMenuEditModal__content");
         public static final SelenideElement categoryNameForGuest = $("#ourName");
         public static final SelenideElement saveEditedCategoryNameButton =

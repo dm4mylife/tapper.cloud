@@ -24,6 +24,7 @@ import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
+import static data.selectors.TapperTable.RootPage.DishList.allDishesDisabledStatuses;
 
 
 @Epic("RKeeper")
@@ -96,6 +97,7 @@ public class PartAndFullPayTwoGuestNoSCTest extends TwoBrowsers {
         using(secondBrowser, () -> {
 
             rootPage.activateDivideCheckSliderIfDeactivated();
+            rootPage.isDishStatusChanged(allDishesDisabledStatuses,amountDishesToBeChosen);
             rootPage.checkIfDishesDisabledEarlier(chosenDishes);
             rootPage.checkIfPaidAndDisabledDishesCantBeChosen();
 

@@ -65,7 +65,9 @@ public class Telegram {
 
             String currentMsg = tgMessage.toString();
 
-            if (currentMsg.contains("Рейтинг") && currentMsg.contains(guid)) {
+            if (currentMsg.contains("Рейтинг") &&
+                    currentMsg.contains(guid) &&
+                    !currentMsg.contains("Рейтинг: 0") ) {
 
                 msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
                 msgListByNeededGuidIndex++;

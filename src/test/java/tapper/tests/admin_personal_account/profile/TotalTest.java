@@ -12,7 +12,7 @@ import static data.Constants.TestData.AdminPersonalAccount.*;
 
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Профиль")
-@DisplayName("Проверка профиля, редактирование полей, смена пароля")
+@DisplayName("Общие")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TotalTest extends PersonalAccountTest {
@@ -77,6 +77,15 @@ class TotalTest extends PersonalAccountTest {
 
     @Test
     @Order(7)
+    @DisplayName("Проверка на максимальное количество логинов телеграма")
+    void isMaxTelegramLoginSize() {
+
+        profile.isMaxTelegramLoginSize();
+
+    }
+
+    @Test
+    @Order(8)
     @DisplayName("Смена пароля админа")
     void changeAdminPassword() {
 

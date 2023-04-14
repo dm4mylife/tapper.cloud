@@ -4,6 +4,7 @@ import api.ApiRKeeper;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
+import waiter_personal_account.Waiter;
 
 import java.time.Duration;
 
@@ -15,12 +16,14 @@ import static data.selectors.AuthAndRegistrationPage.RootTapperPage.signInButton
 
 public class AuthorizationPage extends BaseActions {
 
+
+
     ApiRKeeper apiRKeeper = new ApiRKeeper();
 
     @Step("Переход на страницу авторизации")
     public void goToAuthorizationPage() {
 
-        openPage(ADMIN_AUTHORIZATION_STAGE_URL);
+        openPage(PERSONAL_ACCOUNT_AUTHORIZATION_STAGE_URL);
         isFormContainerCorrect();
 
     }
@@ -102,7 +105,44 @@ public class AuthorizationPage extends BaseActions {
 
         goToAuthorizationPage();
         authorizeUser(login, password);
-        isTextContainsInURL(ADMIN_PROFILE_STAGE_URL);
+        isTextContainsInURL(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
+        Waiter.skipConfPolicyModal();
+
+    }
+
+
+    @Step("Авторизуемся под админом ресторана")
+    public void authorizeFromMailUrl(String login, String password, String url, boolean hasExistingMailError) {
+
+        openPage(url);
+        isFormContainerCorrect();
+        authorizeUser(login, password);
+
+        if(hasExistingMailError) {
+
+            errorMsgLoginOrPassword.shouldHave(text("Неверный E-mail или пароль "), Duration.ofSeconds(2));
+
+        } else {
+
+            isTextContainsInURL(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
+            Waiter.skipConfPolicyModal();
+
+        }
+
+    }
+
+    @Step("Авторизуемся под новым официантом")
+    public void authorizeNewWaiter(String login, String password, String url) {
+
+        openPage(url);
+        isFormContainerCorrect();
+        emailInput.shouldBe(visible,interactable);
+        sendKeys(emailInput, login);
+        sendKeys(passwordInput, password);
+        click(logInButton);
+        pagePreloader.shouldBe(visible).shouldBe(hidden,Duration.ofSeconds(20));
+        isTextContainsInURL(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
+
 
     }
 
@@ -135,6 +175,8 @@ public class AuthorizationPage extends BaseActions {
         sendKeys(emailInput, login);
         sendKeys(passwordInput, password);
         click(logInButton);
+        pagePreloader.shouldBe(visible).shouldBe(hidden,Duration.ofSeconds(20));
+        Waiter.skipConfPolicyModal();
 
     }
 
@@ -144,7 +186,7 @@ public class AuthorizationPage extends BaseActions {
         openPage(ROOT_TAPPER_STAGE_URL);
         isElementVisibleAndClickable(signInButton);
         click(signInButton);
-        isTextContainsInURL(ADMIN_AUTHORIZATION_STAGE_URL);
+        isTextContainsInURL(PERSONAL_ACCOUNT_AUTHORIZATION_STAGE_URL);
 
     }
 
@@ -155,7 +197,7 @@ public class AuthorizationPage extends BaseActions {
         isElementVisibleAndClickable(signInButton);
         click(signInButton);
         click(registrationLink);
-        isTextContainsInURL(ADMIN_REGISTRATION_STAGE_URL);
+        isTextContainsInURL(PERSONAL_ACCOUNT_REGISTRATION_STAGE_URL);
 
     }
 

@@ -2,7 +2,6 @@ package tapper.tests.admin_personal_account.history_operations;
 
 
 import admin_personal_account.operations_history.HistoryOperations;
-import admin_personal_account.profile.Profile;
 import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -80,7 +79,7 @@ class TotalTest extends PersonalAccountTest {
 
        // authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         authorizationPage.authorizationByToken
-                (ADMIN_PROFILE_STAGE_URL,ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
+                (PERSONAL_ACCOUNT_PROFILE_STAGE_URL,ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }
 

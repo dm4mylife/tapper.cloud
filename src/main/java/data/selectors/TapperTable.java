@@ -18,6 +18,7 @@ public class TapperTable {
         public static final SelenideElement techWorkInfoContainer = $(".payBlocked__description");
         public static final SelenideElement techWorkCloseButton = $(".baseModal button");
         public static final SelenideElement wiFiIcon = $(".appHeader__wifi");
+        public static final By wiFiIconBy = By.cssSelector(".appHeader__wifi");
         public static final SelenideElement wiFiContainer = $(".wifiModal");
         public static final SelenideElement wiFiHeader = $(".wifiModal__header");
         public static final SelenideElement wiFiCloseButton = $(".baseButtonClose.wifiModal__close");
@@ -92,8 +93,20 @@ public class TapperTable {
                     $$x("//*[@data-auto=\"menuDishesContainer\"]//*[@data-auto=\"serviceCharge\"]");
             public static final ElementsCollection allDishesStatuses =
                     $$x("//*[@data-auto=\"menuDishesContainer\"]//*[@class=\"orderItem__status\"]");
+
+            public static final ElementsCollection allDishesDisabledStatuses =
+                    $$x("//*[@data-auto=\"menuDishesContainer\"]//*[@class=\"orderItem__status\" and " +
+                            "contains(text(),'Оплачивается')]");
+            public static final ElementsCollection allDishesPayedStatuses =
+                    $$x("//*[@data-auto=\"menuDishesContainer\"]//*[@class=\"orderItem__status\" and " +
+                            "contains(text(),'Оплачено')]");
+
             public static final String dishOrderStatusSelector = ".orderItem__status";
+            public static final ElementsCollection dishOrderStatus = $$(".orderItem__status");
             public static final String dishPreloaderSpinnerSelector = ".orderItem__preloader";
+            public static final SelenideElement dishPreloaderSpinner = $(".orderItem__preloader");
+
+            public static final By dishPreloaderSpinnerSelectorBy = By.cssSelector(".orderItem__preloader");
 
         }
 
@@ -252,8 +265,8 @@ public class TapperTable {
             public static final SelenideElement menuDishIngredientsDetailCard =
                     $(".detail__composition.detail__text");
 
-            public static final SelenideElement firstTestDish =
-                    $x("//*[@class='orderMenuProduct__name' and contains(text(),'Кремлёвский шик')]");
+            public static final ElementsCollection firstTestDish =
+                    $$x("//*[@class='orderMenuProduct__name']");
 
 
         }

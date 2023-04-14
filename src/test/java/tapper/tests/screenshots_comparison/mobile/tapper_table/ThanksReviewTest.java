@@ -9,6 +9,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -20,7 +21,10 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import static api.ApiData.orderData.BARNOE_PIVO;
 import static com.codeborne.selenide.Condition.visible;
@@ -28,6 +32,7 @@ import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Customization.reviewTab;
 import static data.selectors.TapperTable.Common.pagePreLoader;
+import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.ReviewPage.review5Stars;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 
@@ -53,6 +58,8 @@ class ThanksReviewTest extends ScreenMobileTest {
     protected final String tableId = data.tableId();
 
     public static boolean isScreenShot = annotation.isTakeScreenshot();
+    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
+
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
@@ -99,7 +106,7 @@ class ThanksReviewTest extends ScreenMobileTest {
 
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
-
+        rootPage.ignoreWifiIcon();
     }
 
     @Test
@@ -128,7 +135,7 @@ class ThanksReviewTest extends ScreenMobileTest {
         reviewPage.click(review5Stars);
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.thanksReview,diffPercent,imagePixelSize);
+                ScreenLayout.Tapper.thanksReview,diffPercent,imagePixelSize,ignoredElements);
 
     }
 

@@ -8,7 +8,9 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -145,6 +147,51 @@ public class Profile extends BaseActions {
         sendKeys(telegramItemsLogin.last(),TELEGRAM_AUTO_LOGIN);
 
         clickSaveButton(TELEGRAM_AUTO_LOGIN);
+
+    }
+
+    @Step("Проверка что максимальное количество логинова телеграмма равно 16")
+    public void isMaxTelegramLoginSize() {
+
+        if (telegramItems.size() < MAX_TELEGRAM_LOGIN_SIZE) {
+
+            int currentTelegramSize = telegramItemsLogin.filter(not(empty)).size();
+
+            addMaxTelegramLogins();
+
+            deleteEmptyTelegramLogins();
+
+            telegramItemsLogin.shouldHave(size(currentTelegramSize));
+
+        }
+
+    }
+
+    public void addMaxTelegramLogins() {
+
+        for (int index = 0; index < MAX_TELEGRAM_LOGIN_SIZE - telegramItemsLogin.filter(not(empty)).size(); index++) {
+
+            isElementVisible(addTelegramLoginButton);
+            click(addTelegramLoginButton);
+
+        }
+
+        telegramItems.shouldHave(size(MAX_TELEGRAM_LOGIN_SIZE));
+
+    }
+
+    public void deleteEmptyTelegramLogins() {
+
+        int size = telegramItemsLogin.filter(empty).size();
+
+
+        for (int i = 0; i < size; i++) {
+
+            click(telegramItemsCloseIcon.last());
+
+        }
+
+        telegramItemsLogin.filter(empty).shouldHave(size(0));
 
     }
 

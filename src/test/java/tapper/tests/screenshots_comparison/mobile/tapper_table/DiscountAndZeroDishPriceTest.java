@@ -3,25 +3,26 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
 import data.ScreenLayout;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import static api.ApiData.orderData.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 
 @Epic("Тесты по верстке проекта (Мобильные)")
@@ -29,16 +30,21 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 @Story("Заказ")
 @DisplayName("Скидка и позиция стоимостью 0")
 @TakeOrCompareScreenshots()
+@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DiscountAndZeroDishPriceTest extends ScreenMobileTest {
+    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
     static TakeOrCompareScreenshots annotation =
-            DiscountAndZeroDishPriceTest.class.getAnnotation(TakeOrCompareScreenshots.class);
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_111;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
-    protected final String tableId = TABLE_AUTO_111_ID;
+            PaymentErrorTest.class.getAnnotation(TakeOrCompareScreenshots.class);
+
+    protected final String restaurantName = data.restaurantName();
+    protected final String tableCode = data.tableCode();
+    protected final String waiter = data.waiter();
+    protected final String apiUri = data.apiUri();
+    protected final String tableUrl = data.tableUrl();
+    protected final String tableId = data.tableId();
+
+    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
 
     public static boolean isScreenShot = annotation.isTakeScreenshot();
     double diffPercent = getDiffPercent();
@@ -75,14 +81,16 @@ class DiscountAndZeroDishPriceTest extends ScreenMobileTest {
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
         rootPage.openNotEmptyTable(tableUrl);
-
+        rootPage.ignoreWifiIcon();
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.tapperTableWithDiscountAndZeroPriceDishOrderPartOne,diffPercent,imagePixelSize);
+                ScreenLayout.Tapper.tapperTableWithDiscountAndZeroPriceDishOrderPartOne,diffPercent,imagePixelSize,
+                ignoredElements);
 
         rootPage.scrollTillBottom();
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.tapperTableWithDiscountAndZeroPriceDishOrderPartTwo,diffPercent,imagePixelSize);
+                ScreenLayout.Tapper.tapperTableWithDiscountAndZeroPriceDishOrderPartTwo,diffPercent,imagePixelSize,
+                ignoredElements);
 
         apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
 

@@ -11,8 +11,6 @@ import org.junit.platform.suite.api.SuiteDisplayName;
     "tapper.tests.keeper_e2e._1_2_fullPayment",
     "tapper.tests.keeper_e2e._1_3_tips"
 
-
-
 })
 @Suite
 @SuiteDisplayName("full test")

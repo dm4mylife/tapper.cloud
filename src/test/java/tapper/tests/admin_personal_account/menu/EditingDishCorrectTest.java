@@ -66,7 +66,7 @@ public class EditingDishCorrectTest extends PersonalAccountTest {
     @DisplayName("Делаем видимым категорию, блюдо и переключатель если отключены")
     void activateFirstCategoryAndActivateShowGuestMenu() {
 
-        menu.activateCategoryAndDishAndActivateShowGuestMenuByIndex(categoryIndex,dishIndex);
+        menu.activateNonAutoCategoryAndDishAndActivateShowGuestMenuByIndex(categoryIndex,dishIndex);
 
     }
 

@@ -134,19 +134,14 @@ public class NestedTests extends RootPage {
         rootPage.deactivateServiceChargeIfActivated();
 
         totalPay.shouldBe(visible);
-        System.out.println(totalPay.getText() + " selector");
-        System.out.println(totalPay + " TOTAL PAY 1");
+
         double tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
 
         checkTotalPayInB2P(tapperTotalPay);
 
-
         rootPage.activateServiceChargeIfDeactivated();
         totalPay.shouldBe(visible);
 
-
-        System.out.println(totalPay.getText() + " selector");
-        System.out.println(totalPay + " TOTAL PAY 2");
         tapperTotalPay = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
 
         checkTotalPayInB2P(tapperTotalPay);
@@ -191,8 +186,8 @@ public class NestedTests extends RootPage {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, dish, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurant, tableCode, waiter, apiUri,
-                dishesForFillingOrder,tableUrl, tableId);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurant, tableCode, waiter, apiUri,
+                dishesForFillingOrder, tableId);
 
         rootPage.openNotEmptyTable(tableUrl);
 
@@ -264,7 +259,7 @@ public class NestedTests extends RootPage {
 
         if (emptyOrderMenuButton.isDisplayed()) {
 
-            rootPage.openPage(ADMIN_AUTHORIZATION_STAGE_URL);
+            rootPage.openPage(PERSONAL_ACCOUNT_AUTHORIZATION_STAGE_URL);
             authorizationPage.authorizeUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
             menu.goToMenuCategory();

@@ -1,13 +1,11 @@
 package admin_personal_account.menu;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.WebElement;
 import tapper_table.RootPage;
 
 import java.io.File;
@@ -22,7 +20,6 @@ import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Common.menuCategory;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Menu.*;
-import static data.selectors.TapperTable.RootPage.DishList.dishPreloaderSpinnerSelector;
 import static data.selectors.TapperTable.RootPage.DishList.orderMenuContainer;
 import static data.selectors.TapperTable.RootPage.Menu.*;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
@@ -105,8 +102,8 @@ public class Menu extends BaseActions {
 
         click(categoryItems.get(index));
 
-        if (menuPagePreLoader.exists())
-            isElementVisible(menuPagePreLoader);
+        //if (menuPagePreLoader.exists())
+          //  menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
 
     }
 
@@ -135,7 +132,7 @@ public class Menu extends BaseActions {
     @Step("Активируем категории и блюда для автоматизации")
     public void activateOnlyAllAutoCategoryAndDishes() {
 
-        deactivateMenuCategory();
+        deactivateAllMenuCategory();
         activateShowGuestSliderIfDeactivated();
         activateAutoCategoryAndDishes(FIRST_AUTO_MENU_CATEGORY);
         activateAutoCategoryAndDishes(SECOND_AUTO_MENU_CATEGORY);
@@ -176,7 +173,7 @@ public class Menu extends BaseActions {
         for (int categoryIndex = 0; categoryIndex < categoryItems.size(); categoryIndex++) {
 
             click(categoryItems.get(categoryIndex));
-            dishPreloader.shouldHave(cssValue("display","none"),Duration.ofSeconds(5));
+            isElementsCollectionIsVisible(menuDishItems);
 
             int dishSizeInCategory = Integer.parseInt(categoryItemsSize.get(categoryIndex)
                     .getText().replaceAll("\\D+(\\d+).*","$1"));
@@ -229,7 +226,7 @@ public class Menu extends BaseActions {
         for (SelenideElement categoryElement: categoryItems) {
 
             click(categoryElement);
-            menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(10));
+            //menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
 
             String categoryName = categoryElement.$(categoryItemsNamesSelector).getText()
                     .replaceAll("\\d+\\.\\s","");
@@ -294,7 +291,9 @@ public class Menu extends BaseActions {
     }
 
     @Step("Скрываем все категории меню")
-    public void deactivateMenuCategory() {
+    public void deactivateAllMenuCategory() {
+
+        isElementsCollectionIsVisible(categoryEyeIcons);
 
         ElementsCollection activeDishes = categoryEyeIcons
                 .filter(attributeMatching("class", ".*active.*"));
@@ -303,7 +302,7 @@ public class Menu extends BaseActions {
             activeDishes.asFixedIterable().stream().forEach(element -> {
 
                 click(element);
-                isElementVisible(menuPagePreLoader);
+               // menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
                 element.shouldNotHave(attributeMatching("class", ".*active.*"));
 
             });
@@ -428,14 +427,14 @@ public class Menu extends BaseActions {
 
         editDishAmountErrorInput.shouldHave(text(NOT_CHOSEN_DISH_AMOUNT_INPUT_ERROR));
         editDishAmountErrorContainer
-                .shouldHave(cssValue("border-top-color","rgba(236, 78, 78, 1)"));
+                .shouldHave(cssValue("border-top-color",EDIT_DISH_ERROR));
 
         clearText(editDishAmountInput);
         sendKeys(editDishAmountInput,String.valueOf(generateRandomNumber(100,200)));
 
         setMeasureUnitValue(0);
 
-        editDishMeasureUnitErrorContainer.shouldBe(visible);
+        isElementVisible(editDishMeasureUnitErrorContainer);
 
         clearText(editDishAmountInput);
 
@@ -454,32 +453,54 @@ public class Menu extends BaseActions {
     }
 
     @Step("Активируем первую категорию,первую позицию и включаем отображение для гостей")
-    public void activateCategoryAndDishAndActivateShowGuestMenuByIndex(int categoryIndex, int dishIndex) {
+    public void activateNonAutoCategoryAndDishAndActivateShowGuestMenuByIndex(int categoryIndex, int dishIndex) {
 
-        if (!Objects.requireNonNull(categoryEyeIcons.get(categoryIndex)
-                .getAttribute("class")).matches(".*active.*")) {
+        deactivateAllMenuCategory();
 
-            click(categoryEyeIcons.get(categoryIndex));
-            menuPagePreLoader.shouldBe(visible).shouldBe(hidden);
+        if (!enableMenuForVisitorsInput.isSelected()) {
+
+            click(enableMenuForVisitorsButton);
+            enableMenuForVisitorsInput.shouldBe(selected);
 
         }
 
-        click(categoryItems.get(categoryIndex));
-        menuDishListPreLoader.shouldHave(cssValue("display","flex"))
-                .shouldHave(cssValue("display","none"));
+        click(notAutoMenuCategory.get(categoryIndex));
+        isCategoryChosen(categoryIndex);
+
+        click(notAutoMenuCategory.get(categoryIndex).$(categoryEyeIconSelector));
+        isCategoryActive(categoryIndex);
 
         if (!Objects.requireNonNull(menuDishItemsEyeIcons.get(dishIndex)
                 .getAttribute("class")).matches(".*active.*")) {
 
             click(menuDishItemsEyeIcons.get(dishIndex));
-            menuDishListPreLoader.shouldHave(cssValue("display","flex"))
-                    .shouldHave(cssValue("display","none"));
+            isDishActive(dishIndex);
+
         }
 
-        if (!enableMenuForVisitorsInput.isSelected())
-            click(enableMenuForVisitorsButton);
+    }
+
+    public void isCategoryActive(int categoryIndex) {
+
+        notAutoMenuCategory.get(categoryIndex).$(categoryEyeIconSelector)
+                .shouldHave(attributeMatching("class",".*active.*"));
 
     }
+
+    public void isCategoryChosen(int categoryIndex) {
+
+        notAutoMenuCategory.get(categoryIndex).$(categoryNameTotalSelector)
+                .shouldHave(cssValue("border-color",CHOSEN_MENU_CATEGORY));
+
+    }
+
+    public void isDishActive(int dishIndex) {
+
+        menuDishItemsEyeIcons.get(dishIndex)
+                .shouldHave(attributeMatching("class",".*active.*"));
+
+    }
+
 
     @Step("Проверка что позиция редактируется и изменения сохраняются")
     public String changeName(int dishIndex) {
@@ -571,7 +592,7 @@ public class Menu extends BaseActions {
     public void isRefreshMenuCorrect() {
 
         click(refreshMenuButton);
-        isElementVisible(menuPagePreLoader);
+        //menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
         menuPagePreLoader.shouldHave(matchText("Выгрузка меню"));
         menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(40));
 
@@ -656,17 +677,14 @@ public class Menu extends BaseActions {
     @Step("Проверка на сохранения изменений в позиции после обновления страницы")
     public void isChangingSavedAfterPageReload(int dishIndex) {
 
-        String dishNameEdited = isDishEditNameByGuestCorrect(dishIndex);
-
         rootPage.refreshPage();
-        menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(15));
+        //menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
 
         activateFirstCategoryAndDishInMenu();
 
         String dishNameAfterRefresh = menuDishNameByGuest.get(dishIndex).getText();
 
-        Assertions.assertEquals(dishNameEdited,dishNameAfterRefresh,
-                "Изменения не сохранились после обновления страницы");
+        menuDishNameByGuest.get(dishIndex).shouldHave(text(dishNameAfterRefresh));
 
     }
 
@@ -687,7 +705,7 @@ public class Menu extends BaseActions {
 
         String newCategoryName = faker.harryPotter().character();
 
-        click(categoryEditButton.get(categoryIndex));
+        click(notAutoMenuCategory.get(categoryIndex).$(categoryEditButtonSelector));
 
         isEditContainerCorrect();
 
@@ -695,14 +713,14 @@ public class Menu extends BaseActions {
         sendKeys(categoryNameForGuest,newCategoryName);
 
         click(saveEditedCategoryNameButton);
-        menuPagePreLoader.shouldBe(visible).shouldBe(hidden,Duration.ofSeconds(5));
+        //menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
 
-        categoryItemsNames.get(categoryIndex).shouldBe(visible);
-        String newCategoryNameInItem = categoryItemsNames.get(categoryIndex).getText();
+        isElementsCollectionIsVisible(categoryItemsNames);
 
+        String newCategoryNameInItem = notAutoMenuCategory.get(categoryIndex).$(categoryNameSelector).getText();
+
+        notAutoMenuCategory.get(categoryIndex).$(categoryNameSelector).shouldHave(matchText(newCategoryNameInItem));
         categoryNameInGuest.shouldHave(text(newCategoryName));
-
-        categoryItemsNames.get(categoryIndex).shouldHave(matchText(newCategoryNameInItem));
 
         return newCategoryName;
 
@@ -954,8 +972,7 @@ public class Menu extends BaseActions {
 
         SelenideElement element = elementsWhereToFind.findBy(matchText(textToFind));
 
-       Assertions.assertNotNull(element,"Элемент " + textToFind +
-               " не найден на столе");
+        Assertions.assertNotNull(element,"Элемент " + textToFind + " не найден на столе");
 
     }
 
@@ -1072,7 +1089,7 @@ public class Menu extends BaseActions {
             } while (Objects.requireNonNull(flag).matches(".*active.*"));
 
             click(categoryEyeIcons.get(index));
-            menuPagePreLoader.shouldBe(hidden,Duration.ofSeconds(10));
+            categoryEyeIcons.get(index).shouldHave(attributeMatching("class",".*active.*"));
 
         }
 

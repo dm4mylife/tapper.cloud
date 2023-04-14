@@ -8,6 +8,8 @@ public class ScreenLayout {
         public static final String tapperTableRefreshTable = "tapper_table_refresh_button";
         public static final String tapperTableWithOrdinaryOrder = "tapper_table_with_order";
         public static final String tapperTablePartPay = "tapper_table_part_pay";
+        public static final String tapperTableDisabledAndPayedDish = "tapper_table_disabled_and_payed_dish";
+        public static final String tapperTableDisabledDish = "tapper_table_disabled_dish";
         public static final String tapperChangeDishSum = "tapper_table_changed_dish_sum";
         public static final String tapperChangeDishSumWithDiscount = "tapper_table_changed_with_discount_sum";
         public static final String tapperTableOrderExpired = "tapper_table_order_expired";

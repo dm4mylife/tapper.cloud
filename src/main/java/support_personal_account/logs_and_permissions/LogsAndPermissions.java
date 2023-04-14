@@ -71,14 +71,11 @@ public class LogsAndPermissions extends BaseActions {
                 (logsAndPermissionsCategoryDropdownButton.getAttribute("class")).matches(".*active.*")) {
 
             click(logsAndPermissionsCategoryDropdownButton);
-            forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         }
 
         clearText(searchRestaurantInput);
-        searchRestaurantInput.shouldBe(interactable);
         sendKeys(searchRestaurantInput,restaurantName);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         searchResultList.first().shouldHave(matchText(restaurantName),Duration.ofSeconds(5));
         click(searchResultList.first());
@@ -89,7 +86,6 @@ public class LogsAndPermissions extends BaseActions {
 
         click(collapseLeftMenuButton);
         isElementInvisible(openedLeftMenuContainer);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         currentChosenRestaurant.shouldHave(text(restaurantName));
 
     }
@@ -408,16 +404,13 @@ public class LogsAndPermissions extends BaseActions {
     @Step("Выгрузить таблицу и балансы официантов")
     public void downloadStatisticsData() throws FileNotFoundException {
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+        isElementVisible(dateRangeContainer);
         Selenide.executeJavaScript("document.querySelector('" + dateRangeInputSelector + "').click();");
 
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(daysInDateRange.get(10));
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
         click(daysInDateRange.get(15));
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+
         isElementVisible(resetButton);
-        forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
 
         File downloadedTable = downloadTable.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
 

@@ -70,7 +70,7 @@ public class RemoveAndFullTest extends BaseTest {
     public void deletePosition() {
 
         apiRKeeper.deletePosition(rqParamsDeletePosition(R_KEEPER_RESTAURANT, guid, uni, 1000), AUTO_API_URI);
-        //  rootPage.forceWait(5000); // toDO не успевает прийти запрос на кассу
+
 
     }
 

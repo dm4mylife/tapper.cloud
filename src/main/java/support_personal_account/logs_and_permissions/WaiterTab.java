@@ -44,11 +44,11 @@ public class WaiterTab extends BaseActions {
         tgData.put("id", tgId);
 
         telegramLogin.shouldBe(visible, Duration.ofSeconds(5));
-        clearText(telegramLogin);
-        clearText(telegramId);
-
         scroll(telegramLogin);
+        clearText(telegramLogin);
         sendKeys(telegramLogin,tgLogin);
+
+        clearText(telegramId);
         sendKeys(telegramId,tgId);
 
         saveButton.shouldNotBe(disabled);

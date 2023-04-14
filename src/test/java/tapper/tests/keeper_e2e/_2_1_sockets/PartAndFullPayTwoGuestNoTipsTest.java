@@ -24,6 +24,7 @@ import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
+import static data.selectors.TapperTable.RootPage.DishList.allDishesDisabledStatuses;
 
 
 @Epic("RKeeper")
@@ -69,19 +70,8 @@ public class PartAndFullPayTwoGuestNoTipsTest extends TwoBrowsers {
     @DisplayName("1.2. Открываем стол на двух разных устройствах, проверяем что не пустые")
     public void openTables() {
 
-        using(firstBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
-
-        using(secondBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
+        using(firstBrowser, () ->  rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
 
     }
 
@@ -106,6 +96,7 @@ public class PartAndFullPayTwoGuestNoTipsTest extends TwoBrowsers {
         using(secondBrowser, () -> {
 
             rootPage.activateDivideCheckSliderIfDeactivated();
+            rootPage.isDishStatusChanged(allDishesDisabledStatuses,amountDishesToBeChosen);
             rootPage.checkIfDishesDisabledEarlier(chosenDishes);
             rootPage.checkIfPaidAndDisabledDishesCantBeChosen();
 

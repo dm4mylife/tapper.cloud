@@ -26,7 +26,7 @@ public class RegistrationPage extends BaseActions {
     @Step("Переход на страницу регистрации")
     public void goToRegistrationPage() {
 
-        openPage(ADMIN_REGISTRATION_STAGE_URL);
+        openPage(PERSONAL_ACCOUNT_REGISTRATION_STAGE_URL);
         isRegistrationFormCorrect();
 
     }
@@ -36,9 +36,9 @@ public class RegistrationPage extends BaseActions {
 
         baseActions.openPage(ROOT_TAPPER_STAGE_URL);
         click(signInButton);
-        isTextContainsInURL(ADMIN_AUTHORIZATION_STAGE_URL);
+        isTextContainsInURL(PERSONAL_ACCOUNT_AUTHORIZATION_STAGE_URL);
         click(registrationLink);
-        isTextContainsInURL(ADMIN_REGISTRATION_STAGE_URL);
+        isTextContainsInURL(PERSONAL_ACCOUNT_REGISTRATION_STAGE_URL);
 
     }
 
@@ -140,7 +140,7 @@ public class RegistrationPage extends BaseActions {
         applyButton.shouldNotBe(disabled);
         click(applyButton);
 
-        successRegistrationModal.shouldBe(visible, Duration.ofSeconds(20));
+        successRegistrationModal.shouldBe(visible, Duration.ofSeconds(30));
         successRegistrationModalDescription.shouldBe(visible);
         isImageCorrect(successRegistrationImageSelector,"Иконка успешной регистрации некорректна");
 

@@ -3,11 +3,13 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
 import data.ScreenLayout;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tests.ScreenMobileTest;
@@ -16,12 +18,15 @@ import tests.TakeOrCompareScreenshots;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
 
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.hidden;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
 
 
@@ -30,17 +35,20 @@ import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeadi
 @Story("Заказ")
 @DisplayName("Уведомление об изменении цены")
 @TakeOrCompareScreenshots()
+@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ChangedOrderSumNotificationTest extends ScreenMobileTest {
+    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
     static TakeOrCompareScreenshots annotation =
-            ChangedOrderSumNotificationTest.class.getAnnotation(TakeOrCompareScreenshots.class);
+            PaymentErrorTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_111;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
-    protected final String tableId = TABLE_AUTO_111_ID;
+    protected final String restaurantName = data.restaurantName();
+    protected final String tableCode = data.tableCode();
+    protected final String waiter = data.waiter();
+    protected final String apiUri = data.apiUri();
+    protected final String tableUrl = data.tableUrl();
+    protected final String tableId = data.tableId();
+    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
 
     public static boolean isScreenShot = annotation.isTakeScreenshot();
     double diffPercent = getDiffPercent();
@@ -61,7 +69,7 @@ class ChangedOrderSumNotificationTest extends ScreenMobileTest {
 
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
-
+        rootPage.ignoreWifiIcon();
         apiRKeeper.createDishObject(dishes, BARNOE_PIVO, 1);
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
 
@@ -70,7 +78,7 @@ class ChangedOrderSumNotificationTest extends ScreenMobileTest {
         dishesSumChangedHeading.shouldHave(visible);
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.tapperChangeDishSum,diffPercent,imagePixelSize);
+                ScreenLayout.Tapper.tapperChangeDishSum,diffPercent,imagePixelSize,ignoredElements);
 
         apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
 

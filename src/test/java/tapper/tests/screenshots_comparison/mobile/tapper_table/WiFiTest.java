@@ -5,6 +5,7 @@ import api.ApiRKeeper;
 import data.ScreenLayout;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
@@ -28,8 +29,8 @@ import static data.selectors.TapperTable.Common.wiFiIcon;
 
 @Epic("Тесты по верстке проекта (Мобильные)")
 @Feature("Стол")
+@Story("Заказ")
 @DisplayName("Проверка вайфая")
-
 @TakeOrCompareScreenshots()
 @SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -123,12 +124,6 @@ class WiFiTest extends ScreenMobileTest {
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.AdminPersonalAccount.wifiInformationWithoutPassword, diffPercent, imagePixelSize);
-
-    }
-    @Test
-    @Order(5)
-    @DisplayName("Возвращаемся в админку, отключаем его, проверяем что на столе корректно")
-    void isChangedTextPatternCorrectOnTable() {
 
         rootPage.switchBrowserTab(adminTab);
         customization.deactivateWifiIfActivated();

@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
+import data.AnnotationAndStepNaming;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -77,13 +78,20 @@ class DisabledPaymentTwoGuestTest extends TwoBrowsers {
         using(secondBrowser, () -> {
 
             rootPage.openNotEmptyTable(tableUrl);
-
             rootPage.isPaymentDisabled();
-
-            apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
 
         });
 
     }
+
+    @Test
+    @Order(4)
+    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.closedOrder)
+    void closeOrder() {
+
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+
+    }
+
 
 }

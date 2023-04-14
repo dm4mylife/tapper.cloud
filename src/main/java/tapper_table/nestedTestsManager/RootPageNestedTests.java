@@ -366,111 +366,167 @@ public class RootPageNestedTests extends RootPage {
 
         HashMap<Integer, Map<String, Double>> allDishesInfo = new HashMap<>();
 
+
         int totalDishIndex = 0;
         String currentDishName;
 
-        int sessionSize = rs.jsonPath().getList("result.CommandResult.Order.Session.Dish").size();
+        Object sessionSizeFlag = rs.path("result.CommandResult.Order.Session");
+        int sessionSize;
+        int sessionIndexCounter = 0;
 
-        for (int currentDishIndex = 0; currentDishIndex < sessionSize; currentDishIndex++) {
+        if (sessionSizeFlag instanceof LinkedHashMap) {
 
-            Map<String, Double> temporaryMap = new HashMap<>();
+            sessionSize = 1;
 
-            double dishPrice;
-            int modificatorTypeSize = 0;
+        } else {
 
-            if (rs.path("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi") != null) {
+            sessionSize = rs.jsonPath().getList("result.CommandResult.Order.Session").size();
 
-                if (rs.path("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi") instanceof LinkedHashMap) {
+        }
 
-                    modificatorTypeSize = 1;
+        System.out.println(sessionSize + " количество сессий\n");
 
-                } else {
+        for (; sessionIndexCounter < sessionSize; sessionIndexCounter++) {
 
-                    modificatorTypeSize = rs.jsonPath().getList("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi").size();
+            String session;
 
-                }
-
+            if (sessionSize == 1) {
+                session = "result.CommandResult.Order.Session";
+            } else {
+                session = "result.CommandResult.Order.Session" + "[" + sessionIndexCounter + "]";
             }
 
-            currentDishName = rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "]['@attributes'].name");
+            String dishPath = session + ".Dish";
 
-            double modificatorTotalPrice = 0;
-            if (modificatorTypeSize == 1) {
+            Object dishSizeSizeFlag = rs.path(dishPath);
 
-                String modificatorName =
-                        rs.jsonPath().getString("result.CommandResult.Order.Session.Dish[" + currentDishIndex +
-                                "].Modi['@attributes'].name");
 
-                String modificatorCurrentPriceFlag = rs.path(
-                        "result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi['@attributes'].price");
+            int dishSize;
+            int dishIndexCounter = 0;
 
-                double modificatorCurrentPrice = 0;
+            if (dishSizeSizeFlag instanceof LinkedHashMap) {
 
-                if (modificatorCurrentPriceFlag != null) {
+                dishSize = 1;
 
-                    modificatorCurrentPrice = rs.jsonPath().getDouble
-                            ("result.CommandResult.Order.Session.Dish[" + currentDishIndex +
-                                    "].Modi['@attributes'].price") / 100;
+            } else if (dishSizeSizeFlag == null) {
 
-                }
-
-                int modificatorCurrentCount = rs.jsonPath().getInt
-                        ("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi['@attributes'].count");
-
-                modificatorTotalPrice = modificatorCurrentPrice * modificatorCurrentCount;
-
-                double currentDishPrice = rs.jsonPath().getDouble
-                        ("result.CommandResult.Order.Session.Dish[" + currentDishIndex
-                                + "]['@attributes'].price") / 100;
-
-                dishPrice = currentDishPrice + modificatorTotalPrice;
+                dishSize = 0;
 
             } else {
 
-                for (int currentModificatorTypeIndex = 0; currentModificatorTypeIndex < modificatorTypeSize; currentModificatorTypeIndex++) {
+                dishSize = rs.jsonPath().getList(dishPath).size();
+                dishPath += "[" + dishIndexCounter + "]";
 
-                    String modificatorCurrentPriceFlag = rs.path(
-                            "result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi["
-                                    + currentModificatorTypeIndex + "]['@attributes'].price");
+            }
+
+            System.out.println(dishSize + " количество блюд\n");
+            System.out.println(dishPath + " dish path");
+
+            for (; dishIndexCounter < dishSize; dishIndexCounter++) {
+
+
+                Map<String, Double> temporaryMap = new HashMap<>();
+
+                double dishPrice;
+
+
+
+                int modificatorTypeSize = 0;
+                String modiPath = dishPath + ".Modi";
+
+                if (rs.path(modiPath) != null) {
+
+                    if (rs.path(modiPath) instanceof LinkedHashMap) {
+
+                        modificatorTypeSize = 1;
+
+                    } else {
+
+                        modificatorTypeSize = rs.jsonPath().getList(modiPath).size();
+
+
+                    }
+
+                }
+
+                currentDishName = rs.jsonPath().getString(dishPath + "['@attributes'].name");
+
+                double modificatorTotalPrice = 0;
+                if (modificatorTypeSize == 1) {
+
+
+                    String modificatorCurrentPriceFlag = rs.path(modiPath + "['@attributes'].price");
 
                     double modificatorCurrentPrice = 0;
 
                     if (modificatorCurrentPriceFlag != null) {
 
-                        modificatorCurrentPrice = rs.jsonPath().getDouble
-                                ("result.CommandResult.Order.Session.Dish[" + currentDishIndex +
-                                        "].Modi[" + currentModificatorTypeIndex + "]['@attributes'].price") / 100;
+                        modificatorCurrentPrice = rs.jsonPath().getDouble(modiPath + "['@attributes'].price") / 100;
 
                     }
 
-                    int modificatorCurrentCount = rs.jsonPath().getInt
-                            ("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "].Modi["
-                                    + currentModificatorTypeIndex + "]['@attributes'].count");
+                    int modificatorCurrentCount = rs.jsonPath().getInt(modiPath + "['@attributes'].count");
 
-                    modificatorTotalPrice += modificatorCurrentPrice * modificatorCurrentCount;
+                    modificatorTotalPrice = modificatorCurrentPrice * modificatorCurrentCount;
+
+                    double currentDishPrice = rs.jsonPath().getDouble(dishPath + "['@attributes'].price") / 100;
+
+                    dishPrice = currentDishPrice + modificatorTotalPrice;
+
+                } else {
+
+                    int currentModificatorTypeIndex = 0;
+                    modiPath += "[" + currentModificatorTypeIndex + "]";
+
+                    for (; currentModificatorTypeIndex < modificatorTypeSize; currentModificatorTypeIndex++) {
+
+                        String modificatorCurrentPriceFlag = rs.path(modiPath + "['@attributes'].price");
+
+                        double modificatorCurrentPrice = 0;
+
+                        if (modificatorCurrentPriceFlag != null) {
+
+                            modificatorCurrentPrice = rs.jsonPath().getDouble
+                                    (modiPath + "['@attributes'].price") / 100;
+
+                        }
+
+                        int modificatorCurrentCount = rs.jsonPath().getInt(modiPath + "['@attributes'].count");
+
+                        modificatorTotalPrice += modificatorCurrentPrice * modificatorCurrentCount;
+
+                    }
+
+                    double currentDishPrice = rs.jsonPath().getDouble(dishPath + "['@attributes'].price") / 100;
+
+                    dishPrice = currentDishPrice + modificatorTotalPrice;
 
                 }
 
-                double currentDishPrice = rs.jsonPath().getDouble
-                        ("result.CommandResult.Order.Session.Dish[" + currentDishIndex
-                                + "]['@attributes'].price") / 100;
 
-                dishPrice = currentDishPrice + modificatorTotalPrice;
 
-            }
 
-            int dishQuantity = rs.jsonPath().getInt("result.CommandResult.Order.Session.Dish[" + currentDishIndex + "]['@attributes'].quantity") / 1000;
 
-            for (int k = 0; k < dishQuantity; k++) {
+                int dishQuantity = rs.jsonPath().getInt(dishPath + "['@attributes'].quantity") / 1000;
 
-                temporaryMap.put(currentDishName, dishPrice);
-                allDishesInfo.put(totalDishIndex, temporaryMap);
+                for (int k = 0; k < dishQuantity; k++) {
 
-                totalDishIndex++;
+                    temporaryMap.put(currentDishName, dishPrice);
+                    allDishesInfo.put(totalDishIndex, temporaryMap);
+
+                    totalDishIndex++;
+
+                }
 
             }
+
 
         }
+
+
+
+
+
 
         return allDishesInfo;
 
@@ -527,155 +583,33 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Забираем скидку из кассы")
-    public double getTotalDiscount(String table_id) {
 
-        Response rs = apiRKeeper.getOrderInfo(table_id, AUTO_API_URI);
-        Object sessionSizeFlag = rs.path("result.CommandResult.Order.Session");
-
-        int sessionSize;
-        int sessionIndexCounter = 0;
-        double totalDiscountAmount = 0;
-
-        if (sessionSizeFlag instanceof LinkedHashMap) {
-
-            sessionSize = 1;
-
-        } else {
-
-            sessionSize = rs.jsonPath().getList("result.CommandResult.Order.Session").size();
-
-        }
-
-        System.out.println(sessionSize + " количество сессий\n");
-
-        for (; sessionIndexCounter < sessionSize; sessionIndexCounter++) {
-
-            String session;
-
-            if (sessionSize == 1) {
-                session = "result.CommandResult.Order.Session";
-            } else {
-                session = "result.CommandResult.Order.Session" + "[" + sessionIndexCounter + "]";
-            }
-
-            System.out.println("\n" + sessionIndexCounter + " текущая сессия");
-
-            Object discountOrderFlag = rs.path(session + ".Discount['@attributes'].amount");
-
-            if (discountOrderFlag != null) {
-
-                String discountOrderPath = ".Discount";
-                Object discountFlag = rs.path(session + discountOrderPath);
-
-                int discountSize;
-                int discountIndexCounter = 0;
-
-                if (discountFlag instanceof LinkedHashMap) {
-
-                    discountSize = 1;
-
-                } else {
-
-                    discountSize = rs.jsonPath().getList(session + discountOrderPath).size();
-
-                }
-
-                for (; discountIndexCounter < discountSize; discountIndexCounter++) {
-
-                    String discount;
-
-                    if (discountSize == 1) {
-
-                        discount = session + discountOrderPath;
-
-                    } else {
-
-                        discount = session + discountOrderPath + "[" + discountIndexCounter + "]";
-
-                    }
-
-                    double discountOrder = rs.jsonPath().getDouble(discount + "['@attributes'].amount") / 100;
-                    System.out.println("\n" + discountOrder + " скидка по заказу");
-
-                    totalDiscountAmount -= discountOrder;
-
-                }
-
-            }
-
-            String dishPath = ".Dish";
-            Object dishSizeSizeFlag = rs.path(session + dishPath);
-
-            String dish = ".Dish";
-            int dishSize;
-            int dishIndexCounter = 0;
-
-            if (dishSizeSizeFlag instanceof LinkedHashMap) {
-
-                dishSize = 1;
-
-            } else if (dishSizeSizeFlag == null) {
-
-                dishSize = 0;
-
-            } else {
-
-                dishSize = rs.jsonPath().getList(session + dishPath).size();
-                dish = dishPath + "[" + dishIndexCounter + "]";
-
-            }
-
-            System.out.println(dishSize + " количество блюд\n");
-
-            for (; dishIndexCounter < dishSize; dishIndexCounter++) {
-
-                Object discountDishFlag = rs.path(session + dish + ".Discount['@attributes'].amount");
-
-                if (discountDishFlag != null) {
-
-                    double discountDish = rs.jsonPath().getDouble(session + dish + ".Discount['@attributes'].amount") / 100;
-                    System.out.println(discountDish + " скидка на блюдо");
-
-                    totalDiscountAmount -= discountDish;
-
-                }
-
-            }
-
-        }
-
-        System.out.println("\n" + totalDiscountAmount + " общая скидка");
-        return totalDiscountAmount;
-
-    }
-
-    public HashMap<Integer,Map<String,Double>> getCashDeskData(String tableId) {
+    public LinkedHashMap<Integer,Map<String,Double>> getCashDeskData(String tableId) {
 
         Response rs = apiRKeeper.getOrderInfo(tableId, AUTO_API_URI);
 
         String totalPath = "";
         String session = "result.CommandResult.Order.Session";
         String dish = "Dish";
-        String price = "[\"@attributes\"].price";
+        String price = "[\"@attributes\"].amount";
         String name = "[\"@attributes\"].name";
         String quantity = "[\"@attributes\"].quantity";
         int totalDishIndex = 0;
 
         int sessionSize = getKeySize(rs,session);
 
-        HashMap<Integer,Map<String,Double>> orderData = new HashMap<>();
+        LinkedHashMap<Integer,Map<String,Double>> orderData = new LinkedHashMap<>();
 
         for (int sessionIndex = 0; sessionIndex < sessionSize; sessionIndex++) {
 
             String sessionPath = getKeyPath(sessionSize,sessionIndex,session);
-            double discount = getDiscountFromResponse(rs);
 
             totalPath = sessionPath + "." + dish;
 
             int dishSize = getKeySize(rs,totalPath);
 
             for (int dishIndex = 0; dishIndex < dishSize; dishIndex++) {
+
 
                 HashMap<String,Double> tempData = new HashMap<>();
 
@@ -694,7 +628,7 @@ public class RootPageNestedTests extends RootPage {
                     for (; dishQuantityIndex < dishQuantity; dishQuantityIndex++) {
 
                        // System.out.println(totalDishIndex+dishQuantityIndex + " counter");
-                        tempData.put(dishName,dishPrice);
+                        tempData.put(dishName,dishPrice / dishQuantity);
                         orderData.put(totalDishIndex + dishQuantityIndex,tempData);
                       //  System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
 
@@ -717,6 +651,7 @@ public class RootPageNestedTests extends RootPage {
             totalDishIndex++;
 
         }
+
 
         return orderData;
 

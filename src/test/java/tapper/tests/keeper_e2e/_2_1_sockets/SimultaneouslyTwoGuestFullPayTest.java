@@ -34,6 +34,12 @@ import static data.selectors.TapperTable.RootPage.PayBlock.paymentButton;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class SimultaneouslyTwoGuestFullPayTest extends TwoBrowsers {
 
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_222;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_222;
+    protected final String tableId = TABLE_AUTO_222_ID;
     static String guid;
     static int amountDishesForFillingOrder = 6;
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
@@ -47,8 +53,8 @@ public class SimultaneouslyTwoGuestFullPayTest extends TwoBrowsers {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, apiUri,
+                dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -58,19 +64,8 @@ public class SimultaneouslyTwoGuestFullPayTest extends TwoBrowsers {
     @DisplayName("1.2. Открываем стол на двух разных устройствах, проверяем что не пустые")
     public void openTables() {
 
-        using(firstBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
-
-        using(secondBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
+        using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
     }
 
@@ -101,7 +96,7 @@ public class SimultaneouslyTwoGuestFullPayTest extends TwoBrowsers {
     @DisplayName("1.5. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
 
     }
 

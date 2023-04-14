@@ -103,6 +103,8 @@ public class Customization extends BaseActions {
     @Step("Включаем вайфай")
     public void activateWifiIfDeactivated() {
 
+        forceWait(1000); // toDo инпут ведет себя очень нестабильно, пока нет понимания как привязать к нему
+
         boolean isActivated =
                 Boolean.TRUE.equals(Selenide.executeJavaScript
                         ("return document.querySelector('.vAdminDisplayingWiFi__switch input').checked"));
@@ -200,7 +202,7 @@ public class Customization extends BaseActions {
             reviewToggles.asDynamicIterable().stream().forEach(element -> {
 
                 click(element);
-                forceWait(WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE);
+                reviewToggle.shouldHave(attributeMatching("class",".*active.*"));
 
             });
 

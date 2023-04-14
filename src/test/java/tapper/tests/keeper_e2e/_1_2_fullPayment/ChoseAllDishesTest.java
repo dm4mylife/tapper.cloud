@@ -39,7 +39,7 @@ class ChoseAllDishesTest extends BaseTest {
     static HashMap<String, String> paymentDataKeeper;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static String transactionId;
-    int amountDishesForFillingOrder = 5;
+    int amountDishesForFillingOrder = 60;
 
 
     RootPage rootPage = new RootPage();

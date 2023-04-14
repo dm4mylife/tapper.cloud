@@ -10,6 +10,7 @@ import io.restassured.response.Response;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebElement;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,6 +22,8 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.ClipboardConditions.content;
+import static com.codeborne.selenide.CollectionCondition.allMatch;
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.clipboard;
@@ -32,6 +35,7 @@ import static data.Constants.TestData.TapperTable.*;
 import static data.Constants.TestData.Yandex;
 import static data.Constants.*;
 import static data.selectors.TapperTable.Common.*;
+import static data.selectors.TapperTable.ReviewPage.reviewContainer;
 import static data.selectors.TapperTable.RootPage.*;
 import static data.selectors.TapperTable.RootPage.DishList.*;
 import static data.selectors.TapperTable.RootPage.Menu.*;
@@ -79,6 +83,13 @@ public class RootPage extends BaseActions {
 
     }
 
+    public void ignoreWifiIcon(){
+
+        if (wiFiIcon.exists())
+            Selenide.executeJavaScript("document.querySelector('.appHeader__wifi').style.display = \"none\";");
+
+    }
+
 
     @Step("Обновляем текущую страницу")
     public void refreshTableWithOrder() {
@@ -91,7 +102,7 @@ public class RootPage extends BaseActions {
     @Step("Сбор всех блюд со страницы таппера и проверка с блюдами на кассе")
     public void matchTapperOrderWithOrderInKeeper(HashMap<Integer, Map<String, Double>> allDishesInfoFromKeeper) {
 
-        HashMap<Integer, Map<String, Double>> tapperDishes = new HashMap<>();
+        LinkedHashMap<Integer, Map<String, Double>> tapperDishes = new LinkedHashMap<>();
 
         int i = 0;
 
@@ -109,6 +120,8 @@ public class RootPage extends BaseActions {
 
         }
 
+        System.out.println("\nTAPPER\n" + tapperDishes + "\nDESK\n " + allDishesInfoFromKeeper );
+
 
         if (!allDishesInfoFromKeeper.equals(tapperDishes)) {
 
@@ -118,7 +131,8 @@ public class RootPage extends BaseActions {
                     .filter(entry -> !tapperDishes.containsValue(entry.getValue()))
                     .forEach(entry -> {
 
-                        System.out.println(entry.getValue() + " это не совпадает со столом.На кассе другая цена");
+                        System.out.println(entry.getKey() + " - " + entry.getValue() +
+                                " это не совпадает со столом.На кассе другая цена");
                         Assertions.fail(entry.getValue() + " это не совпадает со столом.На кассе другая цена");
 
                     });
@@ -127,7 +141,8 @@ public class RootPage extends BaseActions {
                     .filter(entry -> !allDishesInfoFromKeeper.containsValue(entry.getValue()))
                     .forEach(entry -> {
 
-                        System.out.println(entry.getValue() + " это не совпадает с кассой.На столе другая цена");
+                        System.out.println(entry.getKey() + " - " + entry.getValue() +
+                                " это не совпадает с кассой.На столе другая цена");
                         Assertions.fail(entry.getValue() + " это не совпадает с кассой.На столе другая цена");
 
                     });
@@ -149,6 +164,14 @@ public class RootPage extends BaseActions {
 
         if (!menuDishContainer.isDisplayed())
             click(appFooterMenuIcon);
+
+    }
+
+    public void isPositionsChangedStatus(ElementsCollection elements) {
+
+
+
+
 
     }
 
@@ -184,12 +207,8 @@ public class RootPage extends BaseActions {
     @Step("Переключаем на разделение счёта")
     public void activateDivideCheckSliderIfDeactivated() {
 
-        if (divideCheckSlider.isDisplayed()) {
-
+        if (divideCheckSlider.isDisplayed())
             click(divideCheckSlider);
-          //  forceWait(WAIT_FOR_FULL_LOAD_PAGE); // toDO если после активации раздельного меню сразу выбрать позицию, то гарантировано 422, поэтому ждём
-
-        }
 
     }
 
@@ -204,7 +223,6 @@ public class RootPage extends BaseActions {
 
         isElementVisibleDuringLongTime(divideCheckSliderActive, 5);
         click(divideCheckSliderActive);
-        forceWait(1000);  // toDO если после активации раздельного меню сразу выбрать позицию, то гарантировано 422, поэтому ждём
 
     }
 
@@ -231,6 +249,8 @@ public class RootPage extends BaseActions {
 
         startScreenLogoContainer.shouldBe(hidden,Duration.ofSeconds(15));
         isElementVisibleDuringLongTime(orderContainer, 60);
+        isElementsCollectionIsVisible(allDishesInOrder);
+        reviewContainer.shouldBe(hidden);
 
     }
 
@@ -452,6 +472,8 @@ public class RootPage extends BaseActions {
     }
 
 
+
+
     @Step("Проверка что логика установленных чаевых по умолчанию от общей суммы корректна")
     public void isDefaultTipsBySumLogicCorrect() {
 
@@ -539,7 +561,6 @@ public class RootPage extends BaseActions {
                 totalDishesSum += currentDishPrice;
 
                 scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
-                forceWaitingForSocketChangePositions(WAIT_FOR_SOCKETS_CHANGE_POSITION);
                 allNonPaidAndNonDisabledDishesCheckbox.get(index)
                         .shouldBe(cssValue("display", "block"), Duration.ofSeconds(4));
 
@@ -573,7 +594,6 @@ public class RootPage extends BaseActions {
                 if (allNonPaidAndNonDisabledDishesCheckbox.get(index).getAttribute("style").equals("")) {
 
                     scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
-                    forceWait(WAIT_BETWEEN_SET_DISHES_CHECKBOXES); // toDo иначе 422
                     count--;
 
                 }
@@ -596,7 +616,6 @@ public class RootPage extends BaseActions {
             if (allNonPaidAndNonDisabledDishesCheckbox.get(index).getAttribute("style").equals("")) {
 
                 scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
-                forceWait(WAIT_BETWEEN_SET_DISHES_CHECKBOXES); // toDo иначе 422
 
             }
 
@@ -639,10 +658,9 @@ public class RootPage extends BaseActions {
                 totalDishesSum += currentDishPrice;
 
                 scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
-                forceWait(1500); // toDo иначе 422
 
                 allNonPaidAndNonDisabledDishesCheckbox.get(index)
-                        .shouldBe(cssValue("display", "block"), Duration.ofSeconds(5));
+                        .shouldBe(cssValue("display", "block"));
 
             } else {
 
@@ -683,11 +701,17 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Выбираем первое блюдо")
+    @Step("Выбираем последнее блюдо")
     public void chooseLastDish(ElementsCollection elements) {
 
         scrollAndClick(elements.last().$(dishNameSelector));
-        forceWait(WAIT_BETWEEN_SET_DISHES_CHECKBOXES);
+
+    }
+
+    @Step("Выбираем первое блюдо")
+    public void chooseFirstDish(ElementsCollection elements) {
+
+        scrollAndClick(elements.first().$(dishNameSelector));
 
     }
 
@@ -774,7 +798,6 @@ public class RootPage extends BaseActions {
         }
 
         printAndAttachAllureLogs(logs, "Список не оплаченных и не заблокированных блюд");
-        System.out.println(totalSumInOrder +  " total sum");
 
         return totalSumInOrder;
 
@@ -822,9 +845,11 @@ public class RootPage extends BaseActions {
 
         HashMap<Integer, Map<String, Double>> tapperDishes = new HashMap<>();
 
-        int i = 0;
+        final int[] i = {0};
 
-        for (SelenideElement element : allDishesInOrder) {
+        isElementsCollectionIsVisible(allDishesInOrder);
+
+        allDishesInOrder.asDynamicIterable().stream().forEach(element -> {
 
             if (element.$(dishCheckboxSelector).getAttribute("style").equals("")) {
 
@@ -834,13 +859,13 @@ public class RootPage extends BaseActions {
                 double price = convertSelectorTextIntoDoubleByRgx(element.$(dishPriceTotalSelector), dishPriceRegex);
 
                 temporaryMap.put(name, price);
-                tapperDishes.put(i, temporaryMap);
+                tapperDishes.put(i[0], temporaryMap);
 
-                i++;
+                i[0]++;
 
             }
 
-        }
+        });
 
         return tapperDishes;
 
@@ -2033,7 +2058,7 @@ public class RootPage extends BaseActions {
         final String[] msg = new String[1];
 
         Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
-                .atMost(20, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(
+                .atMost(25, TimeUnit.MINUTES).timeout(Duration.ofSeconds(25)).untilAsserted(
                         () -> Assertions.assertNotNull(msg[0] = telegram.getLastTgPayMsgList(guid)));
 
         Allure.addAttachment("telegram message", String.valueOf(msg[0]));
@@ -2076,7 +2101,7 @@ public class RootPage extends BaseActions {
         final String[] msg = new String[1];
 
         Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
-                .atMost(20, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(
+                .atMost(15, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(
                         () -> Assertions.assertNotNull(msg[0] = telegram.getLastTgPayMsgList(guid)));
 
         Allure.addAttachment("telegram message", String.valueOf(msg[0]));
@@ -2139,6 +2164,15 @@ public class RootPage extends BaseActions {
         return tapperDataForTgMsg;
 
     }
+
+    @Step("Проверка что статус блюда отображён и соответствует ранему количеству блюд")
+    public void isDishStatusChanged(ElementsCollection elements, int collectionSize) {
+
+        elements.should(allMatch("Все элементы должны быть видны", WebElement::isDisplayed),
+                        Duration.ofSeconds(5)).shouldHave(size(collectionSize));
+
+    }
+
 
     @Step("Сбор данных со стола для проверки с телеграм сообщением")
     public LinkedHashMap<String, String> getTapperDataForReviewMsg(String tableNumber,String waiter,

@@ -5,11 +5,13 @@ import api.ApiRKeeper;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
 import data.selectors.TapperTable;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -22,14 +24,14 @@ import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 import static api.ApiData.orderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.Common.pagePreLoader;
+import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.ReviewPage.review1Star;
 import static data.selectors.TapperTable.ReviewPage.review5Stars;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
@@ -39,21 +41,26 @@ import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 @Feature("Стол")
 @Story("Отзыв")
 @DisplayName("Рейтинг")
+@SixTableData
 @TakeOrCompareScreenshots()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReviewTest extends ScreenMobileTest {
 
+    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
     static TakeOrCompareScreenshots annotation =
-            ReviewTest.class.getAnnotation(TakeOrCompareScreenshots.class);
+            WaiterNonVerifiedTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_111;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
-    protected final String tableId = TABLE_AUTO_111_ID;
+    protected final String restaurantName = data.restaurantName();
+    protected final String tableCode = data.tableCode();
+    protected final String waiter = data.waiter();
+    protected final String apiUri = data.apiUri();
+    protected final String tableUrl = data.tableUrl();
+    protected final String tableId = data.tableId();
+
 
     public static boolean isScreenShot = annotation.isTakeScreenshot();
+    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
+
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
@@ -78,7 +85,7 @@ class ReviewTest extends ScreenMobileTest {
 
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
-
+        rootPage.ignoreWifiIcon();
     }
 
     @Test
@@ -107,7 +114,7 @@ class ReviewTest extends ScreenMobileTest {
         reviewPageNestedTests.reviewCorrectNegative();
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.reviewNegative,diffPercent,imagePixelSize);
+                ScreenLayout.Tapper.reviewNegative,diffPercent,imagePixelSize,ignoredElements);
 
     }
 
@@ -131,7 +138,7 @@ class ReviewTest extends ScreenMobileTest {
         reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_POSITIVE);
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.reviewPositive,diffPercent,imagePixelSize);
+                ScreenLayout.Tapper.reviewPositive,diffPercent,imagePixelSize,ignoredElements);
 
     }
 

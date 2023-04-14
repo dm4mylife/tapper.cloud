@@ -25,6 +25,8 @@ import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 import static data.Constants.WAIT_FOR_SOCKETS_RECEIVED_REQUEST;
+import static data.selectors.TapperTable.RootPage.DishList.allDishesDisabledStatuses;
+import static data.selectors.TapperTable.RootPage.DishList.allDishesPayedStatuses;
 
 
 @Epic("RKeeper")
@@ -36,7 +38,12 @@ import static data.Constants.WAIT_FOR_SOCKETS_RECEIVED_REQUEST;
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class PartCheckEveryStatusTest extends TwoBrowsers {
 
-
+    protected final String restaurantName = R_KEEPER_RESTAURANT;
+    protected final String tableCode = TABLE_CODE_222;
+    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+    protected final String apiUri = AUTO_API_URI;
+    protected final String tableUrl = STAGE_RKEEPER_TABLE_222;
+    protected final String tableId = TABLE_AUTO_222_ID;
     static String guid;
     static int amountDishesToBeChosen = 3;
     static int amountDishesForFillingOrder = 6;
@@ -60,8 +67,8 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, apiUri,
+                dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -71,19 +78,8 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
     @DisplayName("1.2. Открываем стол на двух разных устройствах, проверяем что не пустые")
     public void openTables() {
 
-        using(firstBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
-
-        using(secondBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
+        using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
     }
 
@@ -96,7 +92,6 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
             rootPage.activateDivideCheckSliderIfDeactivated();
             rootPage.chooseCertainAmountDishes(amountDishesToBeChosen);
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
-            rootPage.forceWaitingForSocketChangePositions(WAIT_FOR_SOCKETS_RECEIVED_REQUEST);
 
         });
 
@@ -106,7 +101,12 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
     @DisplayName("1.4. Проверяем у второго гостя, что у него блюда в статусе Оплачиваются, которые первый гость выбрал")
     public void checkDisabledDishes() {
 
-        using(secondBrowser, () -> rootPage.checkIfDishesDisabledEarlier(chosenDishes));
+        using(secondBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesDisabledStatuses,amountDishesToBeChosen);
+            rootPage.checkIfDishesDisabledEarlier(chosenDishes);
+
+        });
 
     }
 
@@ -118,7 +118,7 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
 
         });
 
@@ -136,7 +136,8 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
     @DisplayName("1.7. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
 
-        using(firstBrowser, () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
+        using(firstBrowser,
+                () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
 
     }
 
@@ -157,7 +158,12 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
     @DisplayName("1.9. Переключаемся на второго гостя, проверяем что выбранные ранее блюда в статусе Оплачено")
     public void switchTo2ndGuestAndCheckPaidDishes() {
 
-        using(secondBrowser, () -> rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes));
+        using(secondBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesPayedStatuses,amountDishesToBeChosen);
+            rootPage.checkIfDishesDisabledAtAnotherGuestArePaid(chosenDishes);
+
+        });
 
     }
 
@@ -165,7 +171,7 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
     @DisplayName("2.0. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
 
     }
 

@@ -35,7 +35,7 @@ public class BaseActions {
 
     }
 
-    public void click(@NotNull SelenideElement element) {
+    public static void click(@NotNull SelenideElement element) {
 
         element.shouldBe(visible,enabled).click();
 
@@ -52,7 +52,8 @@ public class BaseActions {
     public void scrollAndClick(SelenideElement element) {
 
         element.scrollIntoView(false);
-        element.click();
+        element.shouldBe(interactable,visible).click();
+        forceWait(200); //toDo после выбора позиций не успевают стили наложиться на чекбокс
 
     }
 
@@ -88,7 +89,7 @@ public class BaseActions {
 
         WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(width,height));
         Selenide.refresh();
-        forceWait(WAIT_FOR_FULL_LOAD_PAGE);
+
 
     }
 

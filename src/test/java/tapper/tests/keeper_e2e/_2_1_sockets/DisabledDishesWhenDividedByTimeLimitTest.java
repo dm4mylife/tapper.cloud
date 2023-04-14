@@ -79,8 +79,6 @@ class DisabledDishesWhenDividedByTimeLimitTest extends TwoBrowsers {
     @DisplayName("Проверяем что позиции закрыты для выбора и в статусе ожидается")
     void savePaymentDataForAcquiring() {
 
-        using(firstBrowser, Selenide::closeWebDriver);
-
         using(secondBrowser, () -> {
 
             Stopwatch stopwatch = Stopwatch.createStarted();
@@ -110,7 +108,6 @@ class DisabledDishesWhenDividedByTimeLimitTest extends TwoBrowsers {
     void closeOrder() {
 
         apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
-        using(secondBrowser, Selenide::closeWindow);
 
     }
 

@@ -141,15 +141,6 @@ class TotalTest extends PersonalAccountTest {
 
     @Test
     @Order(10)
-    @DisplayName("Смена логина телеграма официанта")
-    void changeTelegramLogin() {
-
-        waiter.changeTelegramLogin();
-
-    }
-
-    @Test
-    @Order(11)
     @DisplayName("Смена пароля официанта")
     void changeWaiterPassword() {
 

@@ -61,6 +61,7 @@ public class ApiData {
         public static final String WAITER_IRONMAN_NON_VERIFIED_NON_CARD = "2333";
         public static final String BARNOE_PIVO = "1000361";
         public static final String GLAZUNYA = "1000368";
+        public static final String WEIGHT_DISH = "1000475";
         public static final String TORT = "1000385";
         public static final String SOLYANKA = "1000364";
         public static final String DISCOUNT_WITH_CUSTOM_SUM = "1000057";
@@ -90,7 +91,8 @@ public class ApiData {
         public static final String RAGU = "1000107";
         public static final String PAID_NON_NECESSARY_MODI_KARTOSHKA_FRI = "1000117";
         public static final String PAID_NON_NECESSARY_MODI_SOUS = "1000118";
-        public static final String PAID_NON_NECESSARY_MODI_SALAT = "1000388";
+        public static final String PAID_NON_NECESSARY_MODI_SALAT = "1000421";
+        public static final String FREE_NON_NECESSARY_MODI_SALAT = "1000388";
         public static final String VODKA = "1000130";
         public static final String PAID_NON_NECESSARY_MIX_MODI_SALO = "1000128";
         public static final String PAID_NON_NECESSARY_MIX_MODI_BREAD = "1000129";

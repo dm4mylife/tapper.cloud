@@ -2,38 +2,34 @@ package tapper.tests;
 
 
 import admin_personal_account.AdminAccount;
+import admin_personal_account.waiters.Waiters;
 import api.ApiRKeeper;
-import com.codeborne.selenide.LocalStorage;
-import com.codeborne.selenide.LocalStorageConditions;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import common.BaseActions;
-import common.JavaxMail;
+import api.MailByApi;
+import data.Constants;
 import io.qameta.allure.Epic;
-import io.qameta.allure.Step;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import layout_screen_compare.ScreenShotComparison;
-import org.junit.jupiter.api.*;
+import junit.framework.Assert;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import support_personal_account.lock.Lock;
 import support_personal_account.logs_and_permissions.LogsAndPermissions;
-import tapper_table.Best2PayPage;
-import tapper_table.ReviewPage;
-import tapper_table.RootPage;
-import tapper_table.Telegram;
+import tapper_table.*;
 import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
+import waiter_personal_account.Waiter;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
+import java.util.HashMap;
 
-import static api.ApiData.EndPoints.createOrder;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_AUTHORIZATION_STAGE_URL;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_PROFILE_STAGE_URL;
-import static data.selectors.AuthAndRegistrationPage.RegistrationPage.allNecessaryInputsForFilling;
-import static io.restassured.RestAssured.given;
+import static data.Constants.*;
+import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 
 
 @Epic("Debug")
@@ -61,14 +57,18 @@ public class Debug extends AdminAccount {
     AuthorizationPage authorizationPage = new AuthorizationPage();
     LogsAndPermissions logsAndPermissions = new LogsAndPermissions();
 
-    ScreenShotComparison screenShotComparison = new ScreenShotComparison();
+    AdminAccount adminAccount = new AdminAccount();
+    YandexPage yandexPage = new YandexPage();
 
-    JavaxMail javaxMail = new JavaxMail();
+    Waiter waiter = new Waiter();
+    Waiters waiters = new Waiters();
+
+
     //  <---------- Tests ---------->
 
 
     @Test
-    public void screenCompare() throws IOException {
+    public void screenCompare() throws IOException, MessagingException {
 
 
 

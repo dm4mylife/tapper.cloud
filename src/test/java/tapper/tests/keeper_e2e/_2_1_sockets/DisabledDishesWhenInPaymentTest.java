@@ -3,6 +3,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -66,7 +67,6 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
     void openTables() {
 
         using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
-
         using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
     }
@@ -87,6 +87,7 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
 
         using(secondBrowser, () -> {
 
+            rootPage.isElementsCollectionIsVisible(allDisabledDishes);
             allDisabledDishes.shouldHave(size(amountDishesForFillingOrder), Duration.ofSeconds(10));
             paymentButton.shouldHave(disabled);
 
@@ -103,6 +104,7 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
 
             Selenide.back();
             rootPage.isTableHasOrder();
+            rootPage.isElementsCollectionIsVisible(allNonPaidAndNonDisabledDishes);
             rootPage.cancelAllChosenDishes();
 
         });
@@ -129,7 +131,7 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
     @DisplayName(TapperTable.closedOrder)
     void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+
 
     }
 

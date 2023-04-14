@@ -3,6 +3,7 @@ package tapper.tests.admin_personal_account.auth_and_registration;
 import admin_personal_account.AdminAccount;
 import admin_personal_account.RegistrationPage;
 import api.ApiRKeeper;
+import api.MailByApi;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
@@ -13,10 +14,15 @@ import tapper_table.YandexPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.HashMap;
 
+import static common.BaseActions.click;
+import static data.Constants.ADMIN_REGISTRATION_EMAIL;
 import static data.Constants.TestData.RegistrationData.EXISTING_EMAIL_ERROR_TEXT;
 import static data.Constants.TestData.Yandex.*;
+import static data.Constants.WAITER_REGISTRATION_EMAIL;
 import static data.selectors.AuthAndRegistrationPage.RegistrationPage.*;
 import static data.selectors.YandexMail.tapperMail;
 import static data.selectors.YandexMail.tapperMailCheckbox;
@@ -29,14 +35,14 @@ import static data.selectors.YandexMail.tapperMailCheckbox;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RegistrationTest extends PersonalAccountTest {
 
+    static HashMap<String,String> waiterData = new HashMap<>();
     static HashMap<String,String> registrationData = new HashMap<>();
-    static String password;
+
     RegistrationPage registrationPage = new RegistrationPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-    RootPage rootPage = new RootPage();
-    YandexPage yandexPage = new YandexPage();
     AdminAccount adminAccount = new AdminAccount();
-    AuthorizationPage authorizationPage = new AuthorizationPage();
+
+
     @Test
     @Order(1)
     @DisplayName("Переход на регистрации")
@@ -91,7 +97,8 @@ class RegistrationTest extends PersonalAccountTest {
         goToAuthPageFromRoot();
         isRegistrationFormCorrect();
         registrationPage.fillRegistrationForm(true);
-        rootPage.click(applyButton);
+
+        click(applyButton);
         emailFieldError.shouldHave(Condition.matchText(EXISTING_EMAIL_ERROR_TEXT));
 
     }
@@ -99,20 +106,13 @@ class RegistrationTest extends PersonalAccountTest {
     @Test
     @Order(7)
     @DisplayName("Авторизация в почте яндекса")
-    void yandexAuthorization() {
+    void yandexAuthorization() throws MessagingException, IOException {
 
-        yandexPage.yandexAuthorization(ADMIN_RESTAURANT_TEST_LOGIN_EMAIL, ADMIN_RESTAURANT_TEST_PASSWORD_MAIL);
-
-    }
-
-    @Test
-    @Order(8)
-    @DisplayName("Проверка письма по регистрации на почте")
-    void checkInvitationMail() {
-
-        password = yandexPage.checkTapperMail();
+        waiterData = MailByApi.getMailData
+                ("administrator.yandex.mail", "administrator.yandex.password", ADMIN_REGISTRATION_EMAIL);
 
     }
+
 
     @Test
     @Order(9)
@@ -127,8 +127,8 @@ class RegistrationTest extends PersonalAccountTest {
     @DisplayName("Удаляем письмо на почте Яндекса")
     void deleteYandexInviteMail() {
 
-        yandexPage.deleteMail
-                (ADMIN_RESTAURANT_TEST_LOGIN_EMAIL, ADMIN_RESTAURANT_TEST_PASSWORD_MAIL,tapperMailCheckbox,tapperMail);
+        MailByApi.deleteMailsByApi
+                ("administrator.yandex.mail", "administrator.yandex.password", ADMIN_REGISTRATION_EMAIL);
 
     }
 

@@ -29,8 +29,7 @@ import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 import static data.Constants.WAIT_FOR_SOCKETS_RECEIVED_REQUEST;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
-import static data.selectors.TapperTable.RootPage.DishList.allDisabledDishes;
-import static data.selectors.TapperTable.RootPage.DishList.allPaidDishes;
+import static data.selectors.TapperTable.RootPage.DishList.*;
 
 
 @Epic("RKeeper")
@@ -78,33 +77,10 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("1.2. Открываем стол на четырёх разных устройствах")
     public void openTables() {
 
-        using(firstBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
-
-        using(secondBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
-
-        using(thirdBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
-
-        using(fourthBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
-            rootPage.isTableHasOrder();
-
-        });
+        using(firstBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
+        using(thirdBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
+        using(fourthBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
 
     }
 
@@ -117,7 +93,6 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
             rootPage.activateDivideCheckSliderIfDeactivated();
             rootPage.chooseCertainAmountDishes(amountDishesToBeChosen);
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
-            rootPage.forceWaitingForSocketChangePositions(WAIT_FOR_SOCKETS_RECEIVED_REQUEST);
 
         });
 
@@ -127,7 +102,12 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("1.4. Проверяем у всех гостей, блюда в статусе Оплачиваются")
     public void checkDisabledDishes() {
 
-        using(secondBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(secondBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesDisabledStatuses,amountDishesToBeChosen);
+            allDisabledDishes.shouldHave(size(amountDishesToBeChosen));
+
+        });
         using(thirdBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
         using(fourthBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
@@ -159,7 +139,8 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("1.7. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment() {
 
-        using(firstBrowser, () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
+        using(firstBrowser,
+                () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
 
     }
 
@@ -180,7 +161,12 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("1.9. Проверяем у всех гостей, что выбранные ранее блюда первым гостем в статусе Оплачено")
     public void checkIfDishesDisabledAtAnotherGuestArePaid1Guest() {
 
-        using(secondBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(secondBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesPayedStatuses,amountDishesToBeChosen);
+            allPaidDishes.shouldHave(size(amountDishesToBeChosen));
+
+        });
         using(thirdBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen)));
         using(fourthBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen)));
 
@@ -195,7 +181,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
             rootPage.activateDivideCheckSliderIfDeactivated();
             rootPage.chooseCertainAmountDishes(amountDishesToBeChosen);
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
-            rootPage.forceWaitingForSocketChangePositions(WAIT_FOR_SOCKETS_RECEIVED_REQUEST);
+
 
         });
 
@@ -205,7 +191,12 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("2.1. Проверяем у всех гостей, что блюда в статусе Оплачиваются, которые второй гость выбрал")
     public void checkDisabledDishes2Guest() {
 
-        using(firstBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(firstBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesDisabledStatuses,amountDishesToBeChosen);
+            allDisabledDishes.shouldHave(size(amountDishesToBeChosen));
+
+        });
         using(thirdBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
         using(fourthBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
@@ -237,7 +228,8 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("2.4. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment2Guest() {
 
-        using(secondBrowser, () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
+        using(secondBrowser,
+                () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
 
     }
 
@@ -258,7 +250,12 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("2.6. Проверяем у всех гостей, что выбранные ранее блюда вторым гостем в статусе Оплачено")
     public void checkIfDishesDisabledAtAnotherGuestArePaid2Guest() {
 
-        using(secondBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
+        using(secondBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesPayedStatuses,amountDishesToBeChosen * 2);
+            allPaidDishes.shouldHave(size(amountDishesToBeChosen * 2));
+
+        });
         using(thirdBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
         using(fourthBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 2)));
 
@@ -273,7 +270,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
             rootPage.activateDivideCheckSliderIfDeactivated();
             rootPage.chooseCertainAmountDishes(amountDishesToBeChosen);
             chosenDishes = rootPage.getChosenDishesAndSetCollection();
-            rootPage.forceWaitingForSocketChangePositions(WAIT_FOR_SOCKETS_RECEIVED_REQUEST);
+
 
         });
 
@@ -283,7 +280,12 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("2.8. Проверяем у всех гостей что выбранные ранее блюда в статусе Оплачено")
     public void checkDisabledDishes3Guest() {
 
-        using(firstBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(firstBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesDisabledStatuses,amountDishesToBeChosen);
+            allDisabledDishes.shouldHave(size(amountDishesToBeChosen));
+
+        });
         using(secondBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
         using(fourthBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
@@ -315,7 +317,8 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("3.1. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPayment3Guest() {
 
-        using(thirdBrowser, () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
+        using(thirdBrowser,
+                () -> nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper));
 
     }
 
@@ -336,7 +339,12 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("3.3. Проверяем у всех гостей, что выбранные ранее блюда в статусе Оплачено")
     public void checkIfDishesDisabledAtAnotherGuestArePaid3Guest() {
 
-        using(secondBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
+        using(secondBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesPayedStatuses,amountDishesToBeChosen* 3);
+            allPaidDishes.shouldHave(size(amountDishesToBeChosen * 3));
+
+        });
         using(thirdBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
         using(fourthBrowser, () -> allPaidDishes.shouldHave(size(amountDishesToBeChosen * 3)));
 
@@ -362,7 +370,12 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("3.5. Проверяем у всех гостей, что блюда выбранные четвертым гостем в статусе Оплачиваются")
     public void checkDisabledDishesWhen4GuestChosen() {
 
-        using(firstBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
+        using(firstBrowser, () -> {
+
+            rootPage.isDishStatusChanged(allDishesDisabledStatuses,amountDishesToBeChosen);
+            allDisabledDishes.shouldHave(size(amountDishesToBeChosen));
+
+        });
         using(secondBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
         using(thirdBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
