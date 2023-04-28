@@ -14,7 +14,7 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.io.IOException;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;

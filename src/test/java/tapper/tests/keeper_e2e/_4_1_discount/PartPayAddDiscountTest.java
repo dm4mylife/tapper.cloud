@@ -2,14 +2,12 @@ package tapper.tests.keeper_e2e._4_1_discount;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -20,9 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_444;
+import static api.ApiData.OrderData.*;
 
 
 @Epic("RKeeper")
@@ -30,8 +26,15 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_444;
 @Story("Частичная оплата + применение скидки (Частичная оплата, потом скидка, потом полная оплата)")
 @DisplayName("Частичная оплата + применение скидки (Частичная оплата, потом скидка, потом полная оплата)")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartPayAddDiscountTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class PartPayAddDiscountTest extends BaseTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_444.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_444.tableCode;
+    protected final String waiter = TableData.Keeper.Table_444.waiter;
+    protected final String apiUri = TableData.Keeper.Table_444.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_444.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_444.tableId;
 
     static double totalPay;
     static HashMap<String, String> paymentDataKeeper;
@@ -42,8 +45,8 @@ public class PartPayAddDiscountTest extends BaseTest {
     static int amountDishesForFillingOrder = 4;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-    ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
+
+
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -52,58 +55,65 @@ public class PartPayAddDiscountTest extends BaseTest {
 
 
     @Test
-    @DisplayName("1.1. Создание заказа в r_keeper")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName("Создание заказа в r_keeper и открытие стола")
+    void createAndFillOrder() {
+
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT,
-                TABLE_CODE_444,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_444_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode,waiter, apiUri,
+                dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_444);
-        rootPage.isTableHasOrder();
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
 
     @Test
-    @DisplayName("1.2. Проверка суммы, чаевых, сервисного сбора")
-    public void checkSumTipsSC() {
+    @Order(2)
+    @DisplayName("Проверка суммы, чаевых, сервисного сбора")
+    void checkSumTipsSC() {
 
         rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
 
     }
 
     @Test
-    @DisplayName("1.3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    void savePaymentDataForAcquiringPartPay() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
     @Test
-    @DisplayName("1.4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiring() {
+    @Order(4)
+    @DisplayName("Переходим в эквайринг, оплачиваем позиции")
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName("1.5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    public void checkPayment() {
+    @Order(5)
+    @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    void checkPaymentAfterDeletedDiscount() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("1.6. Проверка сообщения в телеграмме")
-    public void matchTgMsgDataAndTapperData() {
+    @Order(6)
+    @DisplayName("Проверка сообщения в телеграмме")
+    void matchTgMsgDataAndTapperDataPartPay() {
 
         telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
@@ -111,46 +121,53 @@ public class PartPayAddDiscountTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.7. Добавляем скидку")
-    public void addDiscountAndCheckSums() {
+    @Order(7)
+    @DisplayName("Добавляем скидку")
+    void addDiscountAndCheckSums() {
+
+        ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
 
         apiRKeeper.createDiscountByIdObject(discounts, DISCOUNT_BY_ID);
-        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("Проверяем суммы и скидку")
+    void checkIsDiscountPresent() {
+
         rootPage.refreshPage();
-
-    }
-
-    @Test
-    @DisplayName("1.8. Проверяем суммы и скидку")
-    public void checkIsDiscountPresent() {
-
         rootPage.isTableHasOrder();
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
+
+        rootPageNestedTests.checkIsDiscountPresent(tableId);
         rootPageNestedTests.hasNoDiscountPriceOnPaidDishesIfDiscountWasAppliedAfterPayment();
-        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
+        rootPageNestedTests.checkChosenDishesSumsWithAllConditionsConsideringDiscount(amountDishes);
 
     }
 
     @Test
-    @DisplayName("1.9. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiringAfterAddedDiscount() {
+    @Order(9)
+    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    void savePaymentDataForAcquiringAfterAddedDiscount() {
 
-        savePaymentDataForAcquiring();
+        savePaymentDataForAcquiringPartPay();
 
     }
 
     @Test
-    @DisplayName("2.0. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiringAfterAddedDiscount() {
+    @Order(10)
+    @DisplayName("Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    void payAndGoToAcquiringAfterAddedDiscount() {
 
         payAndGoToAcquiring();
 
     }
 
     @Test
-    @DisplayName("2.1. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    @Order(11)
+    @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     public void checkPaymentAfterAddedDiscount() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
@@ -158,7 +175,8 @@ public class PartPayAddDiscountTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2.2. Проверка сообщения в телеграмме")
+    @Order(12)
+    @DisplayName("Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperDataFullPay() {
 
         telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");

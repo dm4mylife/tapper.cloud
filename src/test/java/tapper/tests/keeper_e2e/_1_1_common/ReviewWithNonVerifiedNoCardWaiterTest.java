@@ -13,14 +13,13 @@ import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 import tests.FirstTableData;
-import tests.ThirdTableData;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable.*;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
@@ -98,7 +97,7 @@ class ReviewWithNonVerifiedNoCardWaiterTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
         tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber, tableNumberRegex);
 
     }
@@ -138,7 +137,7 @@ class ReviewWithNonVerifiedNoCardWaiterTest extends BaseTest {
     void matchTgMsgDataAndTapperData() {
 
         tapperDataForTgMsg = reviewPageNestedTests.saveReviewData(tapperTable, waiterName, reviewType);
-        telegramDataForTgMsg = rootPageNestedTests.getReviewTgMsgData(tapperTable);
+        telegramDataForTgMsg = rootPageNestedTests.getReviewTgMsgData(guid,reviewType);
 
         Assertions.assertEquals(tapperDataForTgMsg, telegramDataForTgMsg);
 

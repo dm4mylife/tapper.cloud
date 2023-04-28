@@ -20,8 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.*;
+import static api.ApiData.OrderData.*;
 import static data.ScreenLayout.Tapper.*;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 
@@ -76,7 +75,7 @@ class WaiterNonVerifiedTest extends ScreenMobileTest {
         ScreenShotComparison.isScreenOrDiff
                 (browserTypeSize, isScreenShot, tapperTableNonVerified, diffPercent, imagePixelSize,ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

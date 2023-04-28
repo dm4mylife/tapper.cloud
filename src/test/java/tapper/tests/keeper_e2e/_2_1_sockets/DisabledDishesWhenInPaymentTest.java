@@ -3,7 +3,6 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 import api.ApiRKeeper;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -15,7 +14,7 @@ import tests.TwoBrowsers;
 
 import java.time.Duration;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Selenide.using;
@@ -87,7 +86,7 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
 
         using(secondBrowser, () -> {
 
-            rootPage.isElementsCollectionIsVisible(allDisabledDishes);
+            rootPage.isElementsCollectionVisible(allDisabledDishes);
             allDisabledDishes.shouldHave(size(amountDishesForFillingOrder), Duration.ofSeconds(10));
             paymentButton.shouldHave(disabled);
 
@@ -104,7 +103,7 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
 
             Selenide.back();
             rootPage.isTableHasOrder();
-            rootPage.isElementsCollectionIsVisible(allNonPaidAndNonDisabledDishes);
+            rootPage.isElementsCollectionVisible(allNonPaidAndNonDisabledDishes);
             rootPage.cancelAllChosenDishes();
 
         });

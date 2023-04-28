@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.$$;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
@@ -64,7 +64,8 @@ class DoubleTableWithDiscountTest extends BaseTest {
 
     @Test
     @Order(1)
-    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable + " Добавляем скидку к заказу")
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable +
+            " Добавляем скидку к заказу")
     void createAndFillOrder() {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
@@ -76,7 +77,7 @@ class DoubleTableWithDiscountTest extends BaseTest {
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM, "3500");
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID, "3500");
 
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName, guid, discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
@@ -134,11 +135,14 @@ class DoubleTableWithDiscountTest extends BaseTest {
 
         dishListDoubleTable = rootPage.getDishList(allDishesInOrder);
 
+        rootPage.activateDivideCheckSliderIfDeactivated();
+
         $$(dishPriceWithDiscountSelector).shouldHave(size(1));
         Assertions.assertNotEquals(dishListOriginalTable, dishListDoubleTable);
 
-        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
-        rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
+        rootPage.deactivateDivideCheckSliderIfActivated();
+
+        rootPageNestedTests.checkAllDishesSumsWithAllConditionsConsideringDiscount();
         rootPage.setRandomTipsAndActivateScIfDeactivated();
 
     }
@@ -150,7 +154,7 @@ class DoubleTableWithDiscountTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -177,7 +181,7 @@ class DoubleTableWithDiscountTest extends BaseTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void clearDataAndChoseAgain() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
         rootPage.forceWait(WAIT_FOR_ORDER_TO_BE_CLOSED_AT_CASH_DESK);
 

@@ -4,125 +4,94 @@ import api.ApiRKeeper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 import static data.Constants.RegexPattern.TelegramMessage;
+import static data.Constants.TestData.TapperTable.TEST_REVIEW_COMMENT_NEGATIVE;
+import static data.Constants.TestData.TapperTable.TEST_REVIEW_COMMENT_POSITIVE;
 
 public class Telegram {
 
     ApiRKeeper apiRKeeper = new ApiRKeeper();
 
     @Step("Получаем список всех сообщений об оплате")
-    public String getLastTgPayMsgList(String guid) {
+    public String getLastTgPayMsg(String guid, String paymentType) {
+
+        String paymentTypeFlag =
+                paymentType != null && paymentType.equals("full") ? "Полностью оплачено" : "Частично оплачено" ;
 
         List<Object> tgMessages = apiRKeeper.getUpdates();
-        String lastTgMsg;
-        int msgListByNeededGuidIndex = 0;
+        String currentMsg;
 
-        HashMap<Integer,String> msgListByNeededGuid = new HashMap<>();
+        for (int i = tgMessages.size() - 1; i >= 0; i--) {
 
-        for (Object tgMessage : tgMessages) {
+            currentMsg = tgMessages.get(i).toString();
 
-            String currentMsg = tgMessage.toString();
+            if (currentMsg.contains(guid) && currentMsg.contains(paymentTypeFlag)) {
 
-            if (currentMsg.contains(guid) && !currentMsg.contains("Рейтинг:")) {
+                Allure.addAttachment("Сообщение в телеграмме", currentMsg);
+                return currentMsg;
 
-                msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
-                msgListByNeededGuidIndex++;
+            }
+
+            if (currentMsg.contains(guid) &&
+                    currentMsg.contains(paymentTypeFlag) &&
+                    !currentMsg.contains("Рейтинг:")) {
+
+                Allure.addAttachment("Сообщение в телеграмме", currentMsg);
+                return currentMsg;
 
             }
 
         }
 
-        if (msgListByNeededGuid.size() > 0) {
-
-            lastTgMsg = msgListByNeededGuid.get(msgListByNeededGuid.size()-1);
-
-        } else {
-
-            return null;
-
-        }
-
-        Allure.addAttachment("Сообщение в телеграмме", String.valueOf(lastTgMsg));
-
-        return lastTgMsg;
+        return null;
 
     }
 
     @Step("Получаем список всех сообщений об официанте")
-    public String getLastTgWaiterMsgList(String guid) {
+    public String getLastTgWaiterMsg(String guid, String reviewType) {
 
         List<Object> tgMessages = apiRKeeper.getUpdates();
-        String lastTgMsg;
-        int msgListByNeededGuidIndex = 0;
+        String currentMsg;
 
-        HashMap<Integer,String> msgListByNeededGuid = new HashMap<>();
+        String reviewTypeFlag = reviewType.equals("positive") ?
+                TEST_REVIEW_COMMENT_POSITIVE :
+                TEST_REVIEW_COMMENT_NEGATIVE ;
 
         for (Object tgMessage : tgMessages) {
 
-            String currentMsg = tgMessage.toString();
+            currentMsg = tgMessage.toString();
 
-            if (currentMsg.contains("Рейтинг") &&
-                    currentMsg.contains(guid) &&
-                    !currentMsg.contains("Рейтинг: 0") ) {
-
-                msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
-                msgListByNeededGuidIndex++;
-
-            }
+            if (currentMsg.contains(reviewTypeFlag) && !currentMsg.contains("Рейтинг: 0") && currentMsg.contains(guid))
+                return currentMsg;
 
         }
 
-        if (msgListByNeededGuid.size() > 0) {
-
-            lastTgMsg = msgListByNeededGuid.get(msgListByNeededGuid.size()-1);
-
-        } else {
-
-            return null;
-
-        }
-
-        return lastTgMsg;
+        return null;
 
     }
 
     @Step("Получаем список всех сообщений об вызове официанте")
-    public String getLastTgCallWaiterMsgList(String tableNumber) {
+    public String getLastTgCallWaiterMsgList(String tableNumber, String waiterName) {
 
         List<Object> tgMessages = apiRKeeper.getUpdates();
-        String lastTgMsg;
-        int msgListByNeededGuidIndex = 0;
-
-        HashMap<Integer,String> msgListByNeededGuid = new HashMap<>();
 
         for (Object tgMessage : tgMessages) {
 
             String currentMsg = tgMessage.toString();
 
-            if (currentMsg.contains(tableNumber)) {
+            if (currentMsg.contains(tableNumber) &&
+                    currentMsg.contains(waiterName) &&
+                    currentMsg.contains("Вызов официанта")) {
 
-                msgListByNeededGuid.put(msgListByNeededGuidIndex, currentMsg);
-                msgListByNeededGuidIndex++;
+                return currentMsg;
 
             }
 
         }
 
-        if (msgListByNeededGuid.size() > 0) {
-
-            lastTgMsg = msgListByNeededGuid.get(msgListByNeededGuid.size()-1);
-
-        } else {
-
-            return null;
-
-        }
-
-        return lastTgMsg;
+        return null;
 
     }
 
@@ -184,6 +153,10 @@ public class Telegram {
         String payStatus = textMsg.replaceAll(TelegramMessage.payStatusRegex, "$2");
         String orderStatus = textMsg.replaceAll(TelegramMessage.orderStatusRegex, "$2").trim();
         String waiter = textMsg.replaceAll(TelegramMessage.waiterRegex, "$2");
+        String restaurantName = textMsg.replaceAll(TelegramMessage.restaurantNameRegex, "$1");
+
+        if (waiter.equals("Robocop") || waiter.equals("Робокопище"))
+            waiter = "Robocop";
 
         tgParsedText.put("table", table);
         tgParsedText.put("sumInCheck", sumInCheck);
@@ -191,6 +164,7 @@ public class Telegram {
         tgParsedText.put("tips", tips);
         tgParsedText.put("paySum", paySum);
         tgParsedText.put("totalPaid", totalPaid);
+        tgParsedText.put("restaurantName", restaurantName);
 
         if (textMsg.contains("Скидка:")) {
 

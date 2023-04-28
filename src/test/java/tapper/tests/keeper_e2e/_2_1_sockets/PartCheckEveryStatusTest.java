@@ -20,11 +20,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
-import static data.Constants.WAIT_FOR_SOCKETS_RECEIVED_REQUEST;
 import static data.selectors.TapperTable.RootPage.DishList.allDishesDisabledStatuses;
 import static data.selectors.TapperTable.RootPage.DishList.allDishesPayedStatuses;
 
@@ -118,7 +117,7 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
         });
 
@@ -171,7 +170,7 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
     @DisplayName("2.0. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

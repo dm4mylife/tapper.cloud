@@ -82,6 +82,38 @@ public class Lock extends BaseActions {
 
     }
 
+
+    @Step("Активировать все рестораны у б2п")
+    public void activateAllRestaurantsB2P() {
+
+        int chosenRestaurants = dropdownWhereToLockRestaurants
+                .filter(attributeMatching("class", ".*active")).size();
+
+        int restaurantsSize = dropdownWhereToLockRestaurants.size();
+
+        if (chosenRestaurants == restaurantsSize) {
+
+            click(lockInfoContainer);
+
+        } else {
+
+            click(b2pLockOption);
+
+            dropdownWhereToLockRestaurants.asFixedIterable().stream().forEach
+                    (element -> element.shouldHave(attributeMatching("class", ".*active")));
+
+            click(applyButton);
+
+            int restaurantsToLock = convertSelectorTextIntoIntByRgx(amountRestaurantsToLock, "\\D+");
+
+            isElementInvisible(dropdownWhereToLockTitle);
+
+            Assertions.assertEquals(restaurantsToLock, restaurantsSize, "Не все рестораны были отменены");
+
+        }
+
+    }
+
     @Step("Сбросить все рестораны что заглушены")
     public void resetAllRestaurants() {
 
@@ -93,14 +125,11 @@ public class Lock extends BaseActions {
 
             click(resetAllButton);
 
-            dropdownWhereToLockRestaurants.asFixedIterable().stream().forEach
-                    (element -> element.shouldNotHave(attributeMatching("class", ".*active")));
-
             click(applyButton);
 
             isElementInvisible(dropdownWhereToLockTitle);
 
-            click(saveButton);
+            saveChanges();
 
             restaurantsToLock = convertSelectorTextIntoIntByRgx(amountRestaurantsToLock, "\\D+");
 
@@ -120,6 +149,32 @@ public class Lock extends BaseActions {
         activateAllRestaurants();
 
     }
+
+    @Step("Выбираем только b2p")
+    public void choseOnlyBest2Pay() {
+
+        resetAllRestaurants();
+
+        click(whereToLockButton);
+        isWhereToLockCorrect();
+
+        click(b2pLockOption);
+
+        click(applyButton);
+
+        isElementInvisible(dropdownWhereToLockTitle);
+
+        saveChanges();
+
+    }
+
+    public void saveChanges() {
+
+        click(saveButton);
+        lockPreloader.shouldHave(cssValue("display","flex"));
+        saveButton.shouldBe(disabled);
+
+    };
 
     @Step("Проверяем отображение элементов в открытой форме Как заглушить")
     public void isHowToLockCorrect() {
@@ -141,13 +196,13 @@ public class Lock extends BaseActions {
 
         chosenTypeOfLock.shouldHave(text("Сервис полностью"));
 
-        click(saveButton);
+        saveChanges();
 
         chosenTypeOfLock.shouldHave(text("Сервис полностью"));
 
     }
 
-    @Step("Выбираем заглушить сервис полностью")
+    @Step("Выбираем заглушить только оплату")
     public void choseOnlyPaymentToLockOption() {
 
         click(howToLockButton);
@@ -158,7 +213,7 @@ public class Lock extends BaseActions {
 
         chosenTypeOfLock.shouldHave(text("Только оплату"));
 
-        click(saveButton);
+        saveChanges();
 
         chosenTypeOfLock.shouldHave(text("Только оплату"));
 
@@ -178,7 +233,8 @@ public class Lock extends BaseActions {
             (element -> element.$(".vPlugLst__checkbox").click());
 
         click(applyButton);
-        click(saveButton);
+
+        saveChanges();
 
     }
     @Step("Выбираем только определенный ресторан и выбираем его по поиску")
@@ -197,19 +253,10 @@ public class Lock extends BaseActions {
                 (element -> element.$(".vPlugLst__checkbox").click());
 
         click(applyButton);
-        click(saveButton);
+
+        saveChanges();
 
     }
-
-    @Step("Загружаем таблицу")
-    public void downloadFile() throws FileNotFoundException {
-
-        Assertions.assertNotNull(downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
-                "Файл не может быть скачен");
-
-    }
-
-
 
 
 }

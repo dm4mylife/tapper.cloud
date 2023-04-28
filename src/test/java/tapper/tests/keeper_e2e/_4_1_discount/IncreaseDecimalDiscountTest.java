@@ -2,14 +2,12 @@ package tapper.tests.keeper_e2e._4_1_discount;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -20,10 +18,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.RegexPattern.TapperTable.dishPriceRegex;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_444;
 import static data.selectors.TapperTable.RootPage.DishList.*;
 
 
@@ -32,8 +28,15 @@ import static data.selectors.TapperTable.RootPage.DishList.*;
 @Story("Увеличение скидки (Целой)")
 @DisplayName("Увеличение скидки (Целой)")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class IncreaseDecimalDiscountTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class IncreaseDecimalDiscountTest extends BaseTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_444.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_444.tableCode;
+    protected final String waiter = TableData.Keeper.Table_444.waiter;
+    protected final String apiUri = TableData.Keeper.Table_444.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_444.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_444.tableId;
 
     static String guid;
     static double totalPay;
@@ -44,11 +47,10 @@ public class IncreaseDecimalDiscountTest extends BaseTest {
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
     static int amountDishesForFillingOrder = 10;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-    ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
-
     static Map<Integer,Map<String,Double>> dishesBeforeAddingDiscount = new HashMap<>();
     static Map<Integer,Map<String,Double>> dishesAfterAddingDiscount = new HashMap<>();
+    ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
+
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -56,57 +58,62 @@ public class IncreaseDecimalDiscountTest extends BaseTest {
     NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName("Создание заказа в r_keeper")
+    void createAndFillOrder() {
 
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_444,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_444_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, apiUri,
+                dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discountAmount);
-        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discountAmount);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_444);
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
     @Test
-    @DisplayName("2. Проверка суммы, чаевых, сервисного сбора, скидку")
-    public void checkSumTipsSC() {
+    @Order(2)
+    @DisplayName("Проверка суммы, чаевых, сервисного сбора, скидку")
+    void checkSumTipsSC() {
 
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
+        rootPageNestedTests.checkIsDiscountPresent(tableId);
         rootPageNestedTests.hasDiscountPriceOnPaidDishesIfDiscountAppliedAfter();
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions();
+        rootPageNestedTests.checkAllDishesSumsWithAllConditionsConsideringDiscount();
         rootPage.setRandomTipsOption();
 
-        dishesBeforeAddingDiscount =
-                rootPage.saveDishPricesInCollection
-                        (allDishesInOrder,dishPriceWithDiscountSelector,dishPriceWithoutDiscountSelector,dishPriceRegex);
+        dishesBeforeAddingDiscount = rootPage.saveDishPricesInCollection(allDishesInOrder,dishPriceWithDiscountSelector,
+                dishPriceWithoutDiscountSelector,dishPriceRegex);
 
     }
     @Test
-    @DisplayName("3. Добавляем скидку из заказа, и проверяем суммы")
-    public void addDiscountAndCheckSums() {
+    @Order(3)
+    @DisplayName("Добавляем скидку из заказа, и проверяем суммы")
+    void addDiscountAndCheckSums() {
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discountAmount);
-        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discountAmount);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
     }
     @Test
-    @DisplayName("4. Пытаемся оплатить и получаем ошибку изменения суммы")
-    public void checkChangedSumAfterAdding() {
+    @Order(4)
+    @DisplayName("Пытаемся оплатить и получаем ошибку изменения суммы")
+    void checkChangedSumAfterAdding() {
 
         nestedTests.checkIfSumsChangedAfterEditingOrder();
 
     }
 
     @Test
-    @DisplayName("5. Проверяем как изменилась скидка, сверяем все позиции")
-    public void matchDishesDiscountPriceAfterAddingDiscount() {
+    @Order(5)
+    @DisplayName("Проверяем как изменилась скидка, сверяем все позиции")
+    void matchDishesDiscountPriceAfterAddingDiscount() {
 
         dishesAfterAddingDiscount =
                 rootPage.saveDishPricesInCollection
@@ -117,36 +124,40 @@ public class IncreaseDecimalDiscountTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("6. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiring() {
+    @Order(6)
+    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
     @Test
-    @DisplayName("7. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiring() {
+    @Order(7)
+    @DisplayName("Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName("8. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    public void checkPayment() {
+    @Order(8)
+    @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("9. Проверка сообщения в телеграмме")
-    public void matchTgMsgDataAndTapperData() {
+    @Order(8)
+    @DisplayName("Проверка сообщения в телеграмме")
+    void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

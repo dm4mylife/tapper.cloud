@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
@@ -32,7 +32,7 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
 public class NonVerifiedPartNoCardNoScTest extends BaseTest {
 
-    static String visit;
+
     static String guid;
     static double totalPay;
     static String orderType = "part";
@@ -95,7 +95,7 @@ public class NonVerifiedPartNoCardNoScTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
 
     }
 
@@ -119,7 +119,7 @@ public class NonVerifiedPartNoCardNoScTest extends BaseTest {
     @DisplayName("8. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
@@ -128,7 +128,7 @@ public class NonVerifiedPartNoCardNoScTest extends BaseTest {
     @DisplayName("9. Закрываем заказ")
     public void clearDataAndChoseAgain() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_333_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_333_ID,guid);
 
     }
 

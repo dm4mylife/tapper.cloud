@@ -173,7 +173,7 @@ public class Menu extends BaseActions {
         for (int categoryIndex = 0; categoryIndex < categoryItems.size(); categoryIndex++) {
 
             click(categoryItems.get(categoryIndex));
-            isElementsCollectionIsVisible(menuDishItems);
+            isElementsCollectionVisible(menuDishItems);
 
             int dishSizeInCategory = Integer.parseInt(categoryItemsSize.get(categoryIndex)
                     .getText().replaceAll("\\D+(\\d+).*","$1"));
@@ -226,7 +226,6 @@ public class Menu extends BaseActions {
         for (SelenideElement categoryElement: categoryItems) {
 
             click(categoryElement);
-            //menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
 
             String categoryName = categoryElement.$(categoryItemsNamesSelector).getText()
                     .replaceAll("\\d+\\.\\s","");
@@ -238,10 +237,6 @@ public class Menu extends BaseActions {
                 if (Objects.requireNonNull(menuDishItemsEyeIcons.get(dishIndex).getAttribute("class"))
                         .matches(".*active.*")) {
 
-                    String dishImage = menuDishItems.get(dishIndex).$(menuDishItemsImageInDishListSelector).exists() ?
-                            menuDishItems.get(dishIndex).$(menuDishItemsImageInDishListSelector).getAttribute("src") :
-                            "";
-
                     String dishName = menuDishNameByGuest.get(dishIndex).getText().equals("-") ?
                             menuDishNameAtCashDesk.get(dishIndex).getText() :
                             menuDishNameByGuest.get(dishIndex).getText();
@@ -250,7 +245,6 @@ public class Menu extends BaseActions {
 
                     dishList.put("name",dishName);
                     dishList.put("price",dishPrice);
-                    dishList.put("image",dishImage);
 
                 }
 
@@ -269,7 +263,7 @@ public class Menu extends BaseActions {
 
         ArrayList<String> tapperCategoryNameHeader = new ArrayList<>();
 
-        isElementsCollectionIsVisible(menuCategoryInHeader,7);
+        isElementsCollectionVisible(menuCategoryInHeader,7);
 
         menuCategoryInHeader.asDynamicIterable().stream().forEach
                 (element -> tapperCategoryNameHeader.add(element.getText()));
@@ -293,7 +287,7 @@ public class Menu extends BaseActions {
     @Step("Скрываем все категории меню")
     public void deactivateAllMenuCategory() {
 
-        isElementsCollectionIsVisible(categoryEyeIcons);
+        isElementsCollectionVisible(categoryEyeIcons);
 
         ElementsCollection activeDishes = categoryEyeIcons
                 .filter(attributeMatching("class", ".*active.*"));
@@ -302,7 +296,6 @@ public class Menu extends BaseActions {
             activeDishes.asFixedIterable().stream().forEach(element -> {
 
                 click(element);
-               // menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
                 element.shouldNotHave(attributeMatching("class", ".*active.*"));
 
             });
@@ -365,11 +358,7 @@ public class Menu extends BaseActions {
         click(menuDishItemsImage.get(dishIndex));
         isImageCorrectInPreview();
 
-        String imageUrl = menuDishItemsImage.get(dishIndex).getAttribute("src");
-
-        assert imageUrl != null;
-
-        return imageUrl.replaceAll(".*\\/(.*)\\.jpg","$1");
+        return menuDishNameByGuest.get(dishIndex).getText();
 
     }
 
@@ -454,6 +443,8 @@ public class Menu extends BaseActions {
 
     @Step("Активируем первую категорию,первую позицию и включаем отображение для гостей")
     public void activateNonAutoCategoryAndDishAndActivateShowGuestMenuByIndex(int categoryIndex, int dishIndex) {
+
+        isElementsCollectionVisible(notAutoMenuCategory);
 
         deactivateAllMenuCategory();
 
@@ -629,6 +620,7 @@ public class Menu extends BaseActions {
         String previousNameByGuest = isInputAndCounterHasCharLimit
                 (editDishNameByGuestInput,OVER_LIMIT_CHARS_NAME_BY_GUEST_INPUT,LIMIT_CHARS_NAME_BY_GUEST_INPUT,
                         editDishNameByCashDeskInputCounter,LIMIT_CHARS_NAME_BY_GUEST_COUNTER);
+        System.out.println(previousNameByGuest);
         previousData.put("previousNameByGuest",previousNameByGuest);
 
         String previousDescription = isInputAndCounterHasCharLimit
@@ -715,7 +707,7 @@ public class Menu extends BaseActions {
         click(saveEditedCategoryNameButton);
         //menuPagePreLoader.shouldBe(hidden).shouldBe(visible).shouldBe(hidden);
 
-        isElementsCollectionIsVisible(categoryItemsNames);
+        isElementsCollectionVisible(categoryItemsNames);
 
         String newCategoryNameInItem = notAutoMenuCategory.get(categoryIndex).$(categoryNameSelector).getText();
 
@@ -828,22 +820,19 @@ public class Menu extends BaseActions {
 
     }
 
-    public void isDownloadedImageCorrectOnTable(String imageUrl) {
+    public void isDownloadedImageCorrectOnTable(String imageName) {
 
         if (!orderMenuContainer.isDisplayed())
             click(appFooterMenuIcon);
 
-        SelenideElement elementWithNewPhoto  =
-                menuDishPhotos.findBy(attributeMatching("src",".*"+imageUrl+".*"));
+        SelenideElement elementWithNewPhoto  = dishMenuItemsName.findBy(text(imageName));
 
-        String imageSelector = "[src*='" + imageUrl + "']";
-        String imageSelectorInCard = ".detail [src*='" + imageUrl + "']";
+        rootPage.isImageCorrect(menuDishPhotosSelector,"Фотография на столе загружена корректно");
 
-        rootPage.isImageCorrect(imageSelector,"Фотография на столе загружена корректно");
+        click(elementWithNewPhoto);
 
-        rootPage.click(elementWithNewPhoto);
-
-        rootPage.isImageCorrect(imageSelectorInCard,"Фотография на столе в карточке товара корректна");
+        rootPage.isImageCorrect(menuDishPhotoInDetailCard,
+                "Фотография на столе в карточке товара корректна");
 
     }
 
@@ -860,7 +849,7 @@ public class Menu extends BaseActions {
 
         }
 
-        isElementsCollectionIsVisible(menuDishItems);
+        isElementsCollectionVisible(menuDishItems);
 
     }
 
@@ -1044,7 +1033,7 @@ public class Menu extends BaseActions {
     @Step("Скрыть все категории блюд")
     public void hideAllCategoryMenu() {
 
-        rootPage.isElementsCollectionIsVisible(categoryEyeIcons);
+        rootPage.isElementsCollectionVisible(categoryEyeIcons);
 
         categoryEyeIcons.asDynamicIterable().stream().forEach(element -> {
 
@@ -1058,7 +1047,7 @@ public class Menu extends BaseActions {
     @Step("Скрыть все блюда")
     public void hideAllDishInList() {
 
-        rootPage.isElementsCollectionIsVisible(categoryEyeIcons);
+        rootPage.isElementsCollectionVisible(categoryEyeIcons);
 
         menuDishItemsEyeIcons.asDynamicIterable().stream().forEach(element -> {
 

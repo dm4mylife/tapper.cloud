@@ -86,6 +86,7 @@ class UnlinkLinkWaiterCardTest extends PersonalAccountTest {
                 (waiterData.get("login"), waiterData.get("password"),waiterData.get("url"),false);
 
         adminAccount.isRegistrationComplete();
+        Waiter.skipConfPolicyModal();
 
     }
 

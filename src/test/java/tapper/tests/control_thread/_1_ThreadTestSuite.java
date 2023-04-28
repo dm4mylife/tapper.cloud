@@ -8,7 +8,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @SelectPackages({
 
     "tapper.tests.keeper_e2e._1_1_common",
-    "tapper.tests.keeper_e2e._1_2_fullPayment",
+    "tapper.tests.keeper_e2e._1_2_full_payment",
     "tapper.tests.keeper_e2e._1_3_tips"
 
 })

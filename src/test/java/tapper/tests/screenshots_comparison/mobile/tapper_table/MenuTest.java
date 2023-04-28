@@ -2,6 +2,7 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import admin_personal_account.AdminAccount;
 import admin_personal_account.menu.Menu;
+import common.BaseActions;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
 import data.table_data_annotation.SixTableData;
@@ -109,7 +110,7 @@ class MenuTest extends ScreenDesktopTest {
     @DisplayName(AnnotationAndStepNaming.DisplayName.AdminPersonalAccount.menuDetailCard)
     void dishInDetailCard() throws IOException {
 
-        rootPage.click(firstTestDish.first());
+        BaseActions.click(firstTestDish.first());
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.detailCardMenu,diffPercent, imagePixelSize,ignoredElements);

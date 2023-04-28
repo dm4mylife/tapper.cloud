@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_444;
 
@@ -64,7 +64,7 @@ public class ReduceDiscountTest extends BaseTest {
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discountAmount);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discountAmount);
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
@@ -87,7 +87,7 @@ public class ReduceDiscountTest extends BaseTest {
     @DisplayName("3. Выбираем блюда, проверяем все условия")
     public void checkAllDishesSumsWithAllConditions() {
 
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions();
+        rootPageNestedTests.checkAllDishesSumsWithAllConditionsConsideringDiscount();
         rootPage.setRandomTipsOption();
 
     }
@@ -98,7 +98,7 @@ public class ReduceDiscountTest extends BaseTest {
 
         apiRKeeper.deleteDiscount(apiRKeeper.rqBodyDeleteDiscount(R_KEEPER_RESTAURANT, guid, uni), AUTO_API_URI);
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discountReduced);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discountReduced);
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
@@ -117,7 +117,7 @@ public class ReduceDiscountTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID, "keeper");
 
     }
 

@@ -1,6 +1,6 @@
 package admin_personal_account.tables_and_qr_codes;
 
-import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
@@ -191,6 +191,7 @@ public class TablesAndQrCodes extends BaseActions {
     public void goToDetailTableCard() {
 
         click(tableListItem.first());
+        pagePreloader.shouldBe(hidden);
 
     }
 
@@ -202,7 +203,7 @@ public class TablesAndQrCodes extends BaseActions {
 
         click(tableListItem.first());
         click(backToTableList);
-        isElementsCollectionIsVisible(tableListItem);
+        isElementsCollectionVisible(tableListItem);
 
         String currentValueSearchFrom = tableSearchFrom.getValue();
         String currentValueSearchTo = tableSearchTo.getValue();
@@ -221,8 +222,9 @@ public class TablesAndQrCodes extends BaseActions {
 
         isElementVisible(backToTableList);
         isElementVisible(tableItem);
-        isElementVisible(qrBlockWhite);
-        isElementVisible(qrBlockBlack);
+        Assertions.assertTrue(tableItem.isDisplayed());
+        Assertions.assertTrue(qrBlockWhite.isDisplayed());
+        Assertions.assertTrue(qrBlockBlack.isDisplayed());
 
     }
 
@@ -239,7 +241,8 @@ public class TablesAndQrCodes extends BaseActions {
 
         isTextContainsInURL(tableUrlInTableItem);
 
-        TapperTable.RootPage.DishList.tableNumber.shouldBe(visible,Duration.ofSeconds(10));
+        rootPage.skipStartScreenLogo();
+        isElementVisible(TapperTable.RootPage.DishList.tableNumber);
 
         String tapperTableNumber = TapperTable.RootPage.DishList.tableNumber.getText();
 

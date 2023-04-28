@@ -217,6 +217,9 @@ public class AdminPersonalAccount {
                 $(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle");
         public static final ElementsCollection reviewToggleInfo =
                 $$(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle .vBlockReviewInfo__toggle-list");
+
+        public static final SelenideElement reviewToggleInfoElement =
+                $(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle .vBlockReviewInfo__toggle-list");
         public static final SelenideElement yandexTextLabel = $("[for=\"checkYandex\"]");
         public static final SelenideElement twoGisTextLabel = $("[for=\"checkTwoGis\"]");
         public static final SelenideElement googleTextLabel = $("[for=\"checkGoogle\"]");

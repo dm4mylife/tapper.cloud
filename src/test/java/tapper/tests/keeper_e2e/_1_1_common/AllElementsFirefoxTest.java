@@ -17,19 +17,18 @@ import tests.FirefoxTest;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
 import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
-import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 
 
 @Epic("RKeeper")
 @Feature("Общие")
 @Story("Общая функциональность таппера")
-@DisplayName("Общая функциональность таппера")
+@DisplayName("Общая функциональность таппера - Firefox")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AllElementsFirefoxTest extends FirefoxTest {
@@ -215,7 +214,7 @@ class AllElementsFirefoxTest extends FirefoxTest {
     @DisplayName(TapperTable.saveDataGoToAcquiringTypeDataAndPay)
     void payOrder() {
 
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         rootPageNestedTests.clickPayment();
         paymentContainer.shouldBe(Condition.exist, Duration.ofSeconds(300));
@@ -257,7 +256,7 @@ class AllElementsFirefoxTest extends FirefoxTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 
-        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
+        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg, "full");
 
     }
 

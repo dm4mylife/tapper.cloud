@@ -13,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.util.HashMap;
 
-import static api.ApiData.EndPoints.selenoidUiHubUrl;
+import static api.ApiData.KeeperEndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.FIREFOX;
 import static data.Constants.*;
 
@@ -29,6 +29,7 @@ public class FirefoxTest {
         Configuration.browserPosition = MOBILE_BROWSER_POSITION;
         Configuration.browser = FIREFOX;
         Configuration.savePageSource = false;
+
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
         Configuration.remote = selenoidUiHubUrl;
         Configuration.headless = false;

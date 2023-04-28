@@ -2,14 +2,12 @@ package tapper.tests.keeper_e2e._4_1_discount;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -20,7 +18,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
+import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.TestData.TapperTable.*;
 
 
@@ -29,10 +28,16 @@ import static data.Constants.TestData.TapperTable.*;
 @Story("Добавление скидки, когда в заказе осталась одна позиция")
 @DisplayName("Добавление скидки, когда в заказе осталась одна позиция")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class AddDiscountWhenOneDishInOrderTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class AddDiscountWhenOneDishInOrderTest extends BaseTest {
 
-    static String uni;
+    protected final String restaurantName = TableData.Keeper.Table_444.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_444.tableCode;
+    protected final String waiter = TableData.Keeper.Table_444.waiter;
+    protected final String apiUri = TableData.Keeper.Table_444.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_444.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_444.tableId;
+
     static String guid;
     static double totalPay;
     static String orderType = "part";
@@ -41,11 +46,11 @@ public class AddDiscountWhenOneDishInOrderTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
-    static double discount;
-    static int amountDishes = 5;
-    static int amountDishesForFillingOrder = 6;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-    ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
+
+    static int amountDishesToBeChosen = 3;
+    static int amountDishesForFillingOrder = 4;
+
+
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -53,70 +58,80 @@ public class AddDiscountWhenOneDishInOrderTest extends BaseTest {
     NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1.0. Создание заказа в r_keeper")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName("Создание заказа в r_keeper")
+    void createAndFillOrder() {
+
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_444,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI, dishesForFillingOrder, TABLE_AUTO_444_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, apiUri,
+                dishesForFillingOrder, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_444);
-        rootPage.isTableHasOrder();
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
 
     @Test
-    @DisplayName("1.1. Выбираем все позиции, кроме одной")
-    public void checkSumTipsSC() {
+    @Order(2)
+    @DisplayName("Выбираем все позиции, кроме одной")
+    void checkSumTipsSC() {
 
-        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
+        rootPageNestedTests.checkChosenDishesSumsWithAllConditionsConsideringDiscount(amountDishesToBeChosen);
 
     }
 
     @Test
-    @DisplayName("1.2. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
     @Test
-    @DisplayName("1.3. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiring() {
+    @Order(4)
+    @DisplayName("Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName("1.4. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    public void checkPayment() {
+    @Order(5)
+    @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("1.5. Проверка сообщения в телеграмме")
-    public void matchTgMsgDataAndTapperData() {
+    @Order(6)
+    @DisplayName("Проверка сообщения в телеграмме")
+    void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
 
     @Test
-    @DisplayName("1.6. Добавляем скидку к заказу")
-    public void addDiscountAndCheckSums() {
+    @Order(7)
+    @DisplayName("Добавляем скидку к заказу")
+    void addDiscountAndCheckSums() {
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM, discountAmount);
-        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT, guid, discounts);
+        ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
+
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID, discountAmount);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName, guid, discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
         rootPage.refreshPage();
@@ -125,19 +140,21 @@ public class AddDiscountWhenOneDishInOrderTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.7. Проверяем скидку на столе")
-    public void isDiscountCorrectOnTableAfterPay() {
+    @Order(8)
+    @DisplayName("Проверяем что скидка применилась на столе и но нельзя разделить счет")
+    void isDiscountCorrectOnTableAfterPay() {
 
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
-        rootPageNestedTests.hasNoDiscountPriceOnPaidDishesIfDiscountWasAppliedAfterPayment();
+        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.isDivideSliderDisabledWhenOneDish();
 
     }
 
     @Test
-    @DisplayName("1.8. Оплачиваем остатки")
-    public void payAndGoToAcquiringAgain() {
+    @Order(9)
+    @DisplayName("Оплачиваем остатки")
+    void payAndGoToAcquiringAgain() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_444, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(tableUrl, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
 
         savePaymentDataForAcquiring();
 

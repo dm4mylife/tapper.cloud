@@ -21,11 +21,9 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.text;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_666;
 import static data.ScreenLayout.Tapper.*;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.ReviewPage.*;
@@ -95,7 +93,7 @@ class TotalTest extends ScreenMobileTest {
 
     @Test
     @Order(2)
-    @DisplayName("Стол с заказом когда поделились")
+    @DisplayName("Стол с заказом когда разделили счёт")
     void tableWithOrderDivided() throws IOException {
 
         rootPage.activateDivideCheckSliderIfDeactivated();
@@ -154,7 +152,7 @@ class TotalTest extends ScreenMobileTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }

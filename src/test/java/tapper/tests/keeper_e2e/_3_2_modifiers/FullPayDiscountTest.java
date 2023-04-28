@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_2_modifiers;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -20,9 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static api.ApiData.OrderData.*;
 
 @Epic("RKeeper")
 @Feature("Модификаторы")
@@ -31,6 +30,13 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class FullPayDiscountTest extends BaseTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = TableData.Keeper.Table_333.waiter;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
 
     static String guid;
     static double totalPay;
@@ -52,8 +58,7 @@ public class FullPayDiscountTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper и открытие стола")
     public void createAndFillOrder() {
 
-        Response rs = rootPageNestedTests.createOrder(R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createOrder(restaurantName, tableCode,waiter, apiUri,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
         ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
@@ -99,17 +104,16 @@ public class FullPayDiscountTest extends BaseTest {
             }
         };
 
-        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modifiers));
+        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(restaurantName,guid, modifiers));
 
         ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,"10000");
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,"10000");
 
-        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
-        rootPage.isTableHasOrder();
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
 
@@ -117,11 +121,8 @@ public class FullPayDiscountTest extends BaseTest {
     @DisplayName("2. Проверка суммы, чаевых, сервисного сбора. Сбрасываем чаевые")
     public void checkSumTipsSC() {
 
-        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
-        rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
-
-        discount = rootPageNestedTests.getDiscount(TABLE_AUTO_333_ID);
-        rootPageNestedTests.checkIsDiscountPresent(discount);
+        rootPageNestedTests.checkAllDishesSumsWithAllConditionsConsideringDiscount();
+        rootPageNestedTests.checkIsDiscountPresent(tableId);
 
         rootPage.isModificatorTextCorrect();
         rootPage.checkTipsAfterReset();
@@ -134,7 +135,7 @@ public class FullPayDiscountTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 

@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.BARNOE_PIVO;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.AdminPersonalAccount.*;

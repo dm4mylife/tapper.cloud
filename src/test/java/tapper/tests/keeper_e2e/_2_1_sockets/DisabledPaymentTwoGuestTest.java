@@ -11,7 +11,7 @@ import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tests.TwoBrowsers;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Selenide.using;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable.createOrderInKeeper;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable.isDishesCorrectInCashDeskAndTapperTable;
@@ -89,7 +89,7 @@ class DisabledPaymentTwoGuestTest extends TwoBrowsers {
     @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.closedOrder)
     void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid);
 
     }
 

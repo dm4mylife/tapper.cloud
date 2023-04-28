@@ -14,8 +14,7 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.io.IOException;
 
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
-import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
+import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.ScreenLayout.AdminPersonalAccount.adminMenu;
 import static data.ScreenLayout.AdminPersonalAccount.adminMenuNTooltip;
 import static data.selectors.AdminPersonalAccount.Menu.helpAdminContainer;

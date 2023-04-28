@@ -1,6 +1,8 @@
 package tapper_table.nestedTestsManager;
 
 import admin_personal_account.menu.Menu;
+import api.ApiData;
+import api.ApiIiko;
 import api.ApiRKeeper;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -16,6 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
+import static api.ApiData.IikoData.Dish.BURGER;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.RegexPattern.TapperTable.serviceChargeRegex;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
@@ -43,6 +46,7 @@ public class NestedTests extends RootPage {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
     ReviewPage reviewPage = new ReviewPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
+    ApiIiko apiIiko = new ApiIiko();
     AuthorizationPage authorizationPage = new AuthorizationPage();
 
     Menu menu = new Menu();
@@ -78,19 +82,25 @@ public class NestedTests extends RootPage {
         reviewPageNestedTests.paymentCorrect(orderType);
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
-        if (orderType.equals("part")) {
-
+        if (orderType.equals("part"))
             apiRKeeper.isPrepaymentSuccess(transactionId,WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK);
-
-        }
 
         reviewPage.clickOnFinishButton();
 
-        if (orderType.equals("full")) {
-
+        if (orderType.equals("full"))
             rootPage.isEmptyOrderAfterClosing();
 
-        }
+    }
+
+
+    public void payOrder(String tableId, String orderType, String guid) {
+
+        double totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
+        HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+        LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
+        String transactionId = acquiringPayment(totalPay);
+        checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
+        matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg, "full");
 
     }
 
@@ -190,10 +200,13 @@ public class NestedTests extends RootPage {
                 dishesForFillingOrder, tableId);
 
         rootPage.openNotEmptyTable(tableUrl);
+        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(tableId);
 
         return apiRKeeper.getGuidFromCreateOrder(rs);
 
     }
+
+
 
 
     public void openEmptyTapperTable(String restaurantName, String tableId, String apiUri, String tableUrl) {
@@ -247,9 +260,10 @@ public class NestedTests extends RootPage {
     }
 
 
-    public void matchTgMsgDataAndTapperData(String guid, LinkedHashMap<String, String> tapperDataForTgMsg) {
+    public void matchTgMsgDataAndTapperData(String guid, LinkedHashMap<String, String> tapperDataForTgMsg,
+                                            String paymentType) {
 
-        rootPage.matchTgMsgDataAndTapperData(rootPage.getPaymentTgMsgData(guid), tapperDataForTgMsg);
+        rootPage.matchTgMsgDataAndTapperData(rootPage.getPaymentTgMsgData(guid,paymentType), tapperDataForTgMsg);
 
     }
 
@@ -281,6 +295,19 @@ public class NestedTests extends RootPage {
                 "На столе был прошлый заказ, его не удалось закрыть");
         rootPage.openPage(tableUrl);
         rootPage.skipStartScreenLogo();
+
+    }
+
+    public String createOrderAndOpenTable(String tableId, String tableUrl, ApiData.IikoData.Dish dish, int amountDishesForFillingOrder) {
+
+        apiIiko.closedOrderByApi(tableId);
+
+        String orderId =  apiIiko.createOrder(apiIiko.rqBodyCreateOrder(tableId));
+        apiIiko.fillingOrder(apiIiko.rqBodyFillingOrder(orderId,dish.getId(),amountDishesForFillingOrder));
+
+        rootPage.openNotEmptyTable(tableUrl);
+
+        return orderId;
 
     }
 

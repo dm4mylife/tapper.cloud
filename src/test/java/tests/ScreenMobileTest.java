@@ -8,7 +8,6 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static api.ApiData.EndPoints.selenoidUiHubUrl;
+import static api.ApiData.KeeperEndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static data.Constants.*;

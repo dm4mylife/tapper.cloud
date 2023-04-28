@@ -3,6 +3,7 @@ package tapper.tests.admin_personal_account.auth_and_registration;
 import admin_personal_account.RegistrationPage;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
@@ -14,6 +15,7 @@ import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.*;
 
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Авторизация\\регистрация")
+@Story("Авторизация")
 @DisplayName("Авторизация, все кейсы")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

@@ -3,11 +3,11 @@ package api;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 
 public class ApiData {
 
-    public static class EndPoints {
+    public static class KeeperEndPoints {
 
         public static final String selenoidUiHubUrl = "http://localhost:4444/wd/hub";
         public static final String selenoidHubUrl = "http://localhost:8081";
@@ -21,6 +21,8 @@ public class ApiData {
         public static final String getPrepayment = "rkeeper-automation/prepayment";
         public static final String orderPay = "rkeeper-automation/order/pay";
         public static final String deletePosition = "rkeeper-automation/position";
+
+        public static final String changeWaiter = "rkeeper-automation/order/waiter/change";
         public static final String deleteDiscount = "rkeeper-automation/discount";
         public static final String deleteRestaurantAdmin = "automation/admin";
         public static final String adminLogin = "users/login";
@@ -36,11 +38,67 @@ public class ApiData {
 
     }
 
-    public static class orderData {
+
+
+
+
+
+        public static class IikoData {
+
+            public static class IikoEndpoints {
+
+                public static final String createOrder = "automation/iiko/order/create";
+                public static final String deleteOrder = "automation/iiko/order";
+                public static final String fillingOrder = "automation/iiko/order/fill";
+                public static final String getOrderInfo = " order/get";
+                public static final String addDiscount = "automation/iiko/order/discount/create";
+                public static final String deletePosition = "automation/iiko/order/position";
+            }
+
+            public enum Dish {
+
+                BURGER("Бургер","0aa844b8-e0f4-4eac-9bf8-8251db6bb738"),
+                ZERO_PRICE_DISH("Блюдо 0", "6dca3bc0-8644-4caf-80eb-c4b0b0811f31"),
+                ESPRESSO("Эспрессо", "9124e406-e8d8-42de-b2d1-0ce2493d994e"),
+                SHASHLIK_GOVYADINA("Шашлык из говядины", "86a6f1ea-7246-4b05-a74c-50782a8ef7b8"),
+                SHASHLIK_SVININA("Шашлык из свинины", "f6b417ed-69af-4abb-a829-3932c4af6a15"),
+                CUSTOM_DISCOUNT_ID("Ручная скидка",
+                        "378c83a7-2a7a-4460-9077-790797b23b8d"),
+                HOT_DOG("Хот-дог", "22b38c79-1267-445f-a29f-91bae8e2e24c"),
+                HOT_DOG_GORCHIZA_MODIFIER("Горчица", "3a4b1637-118d-4f60-a9e7-0f888f343c35"),
+                HOT_DOG_SOUS_MODIFIER("Сливочный соус", "a643b67f-4dfd-4412-bbb3-0ee71b6fd417");
+
+                private final String name;
+                private final String id;
+
+                Dish(String name, String id) {
+                    this.name = name;
+                    this.id = id;
+                }
+
+                public String getName() {
+                    return name;
+                }
+                public String getId() {
+                    return id;
+                }
+
+            }
+
+
+        }
+
+
+
+
+
+    public static class OrderData {
 
         public static final String R_KEEPER_RESTAURANT = "testrkeeper";
+        public static final String Iiko_RESTAURANT = "office";
 
         public static final String TABLE_CODE_111 = "12";
+        public static final String Iiko_TABLE_CODE_111 = "111";
         public static final String TABLE_CODE_222 = "21";
         public static final String TABLE_CODE_10 = "10";
         public static final String TABLE_CODE_333 = "22";
@@ -49,6 +107,8 @@ public class ApiData {
         public static final String TABLE_CODE_666 = "20";
 
         public static final String TABLE_AUTO_111_ID = "1000046";
+        public static final String IIKO_TABLE_AUTO_111_ID = "111";
+        public static final String IIKO_TABLE_AUTO_222_ID = "222";
         public static final String TABLE_AUTO_222_ID = "1000397";
         public static final String TABLE_AUTO_10_ID = "1000044";
         public static final String TABLE_AUTO_333_ID = "1000398";
@@ -57,14 +117,16 @@ public class ApiData {
         public static final String TABLE_AUTO_666_ID = "1000438";
 
         public static final String WAITER_ROBOCOP_VERIFIED_WITH_CARD = "23";
+        public static final String WAITER_MEGATRON_VERIFIED_WITH_CARD = "33";
         public static final String WAITER_TERMINATOR_VERIFIED_NON_CARD = "233";
         public static final String WAITER_IRONMAN_NON_VERIFIED_NON_CARD = "2333";
         public static final String BARNOE_PIVO = "1000361";
+
         public static final String GLAZUNYA = "1000368";
-        public static final String WEIGHT_DISH = "1000475";
+        public static final String WEIGHT_DISH = "1000458";
         public static final String TORT = "1000385";
         public static final String SOLYANKA = "1000364";
-        public static final String DISCOUNT_WITH_CUSTOM_SUM = "1000057";
+        public static final String DISCOUNT_WITH_CUSTOM_SUM_ID = "1000057";
         public static final String DISCOUNT_BY_ID = "1000343";
         public static final String BARANINA = "1000367";
         public static final String LIMONAD = "1000362";

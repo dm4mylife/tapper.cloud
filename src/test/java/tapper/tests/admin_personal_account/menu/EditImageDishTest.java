@@ -1,6 +1,7 @@
 package tapper.tests.admin_personal_account.menu;
 
 import admin_personal_account.menu.Menu;
+import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -23,7 +24,7 @@ import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class EditImageDishTest extends PersonalAccountTest {
 
-    static String imageUrl;
+    static String imageName;
     static int categoryIndex = 0;
     static int adminBrowserTab = 0;
     static int dishIndex = 0;
@@ -78,7 +79,7 @@ class EditImageDishTest extends PersonalAccountTest {
     @DisplayName("Загружаем новую аватарку блюда")
     void uploadImageFile() {
 
-        imageUrl = menu.uploadImageFile(dishIndex);
+       imageName =  menu.uploadImageFile(dishIndex);
 
     }
     @Test
@@ -89,8 +90,8 @@ class EditImageDishTest extends PersonalAccountTest {
         menu.switchTabAndRefreshPage(tapperBrowserTab);
 
         rootPage.isElementVisibleDuringLongTime(appFooterMenuIcon,10);
-        rootPage.click(appFooterMenuIcon);
-        menu.isDownloadedImageCorrectOnTable(imageUrl);
+        BaseActions.click(appFooterMenuIcon);
+        menu.isDownloadedImageCorrectOnTable(imageName);
 
     }
 

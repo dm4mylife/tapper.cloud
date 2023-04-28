@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._1_3_tips;
 
 
 import api.ApiRKeeper;
+import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -13,7 +14,7 @@ import tests.BaseTest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
@@ -177,7 +178,7 @@ class CheckDefaultTipsLogicBySumTest extends BaseTest {
 
         allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
-            rootPage.click(element.$(dishNameSelector));
+            BaseActions.click(element.$(dishNameSelector));
             rootPage.isDefaultTipsBySumLogicCorrect();
 
         });
@@ -191,7 +192,7 @@ class CheckDefaultTipsLogicBySumTest extends BaseTest {
     @DisplayName(TapperTable.closedOrder)
     void payAndGoToAcquiringAgain() {
 
-        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid);
 
     }
 

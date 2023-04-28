@@ -18,7 +18,7 @@ import total_personal_account_actions.AuthorizationPage;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;

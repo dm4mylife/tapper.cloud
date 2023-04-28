@@ -2,7 +2,6 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 
 import api.ApiRKeeper;
-import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
 import data.selectors.TapperTable;
 import data.table_data_annotation.SixTableData;
@@ -16,7 +15,6 @@ import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
@@ -27,13 +25,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
-import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
-import static data.selectors.TapperTable.ReviewPage.review5Stars;
 import static data.selectors.TapperTable.RootPage.DishList.allDishesInOrder;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 
@@ -105,7 +101,7 @@ class PartPayTest extends ScreenMobileTest {
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperTablePartPay,diffPercent,imagePixelSize,ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

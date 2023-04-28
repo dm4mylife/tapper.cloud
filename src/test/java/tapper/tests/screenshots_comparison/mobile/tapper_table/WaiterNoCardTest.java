@@ -20,11 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_666;
+import static api.ApiData.OrderData.*;
 import static data.ScreenLayout.Tapper.tapperTableNoCardWaiter;
-import static data.ScreenLayout.Tapper.tapperTableNonVerified;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 
@@ -73,7 +70,12 @@ class WaiterNoCardTest extends ScreenMobileTest {
 
         Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode, waiter,
                 apiUri,dishesForFillingOrder,tableUrl, tableId);
+
+
+
         rootPage.ignoreWifiIcon();
+
+
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
         rootPage.scrollTillBottom();
@@ -81,7 +83,7 @@ class WaiterNoCardTest extends ScreenMobileTest {
         ScreenShotComparison.isScreenOrDiff
                 (browserTypeSize, isScreenShot, tapperTableNoCardWaiter, diffPercent, imagePixelSize,ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

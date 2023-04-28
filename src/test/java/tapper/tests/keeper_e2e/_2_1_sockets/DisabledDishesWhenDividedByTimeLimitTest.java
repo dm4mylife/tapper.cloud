@@ -2,7 +2,6 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.google.common.base.Stopwatch;
 import io.qameta.allure.Allure;
@@ -18,7 +17,7 @@ import tests.TwoBrowsers;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.using;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
@@ -107,7 +106,7 @@ class DisabledDishesWhenDividedByTimeLimitTest extends TwoBrowsers {
     @DisplayName("Закрываем заказ, очищаем кассу")
     void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

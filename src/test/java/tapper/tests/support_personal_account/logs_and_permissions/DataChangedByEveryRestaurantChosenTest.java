@@ -19,7 +19,7 @@ import static data.Constants.TestData.SupportPersonalAccount.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DataChangedByEveryRestaurantChosenTest extends PersonalAccountTest {
-    RootPage rootPage = new RootPage();
+
     AuthorizationPage authorizationPage = new AuthorizationPage();
     LogsAndPermissions logsAndPermissions = new LogsAndPermissions();
 

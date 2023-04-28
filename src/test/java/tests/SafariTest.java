@@ -14,7 +14,7 @@ import org.openqa.selenium.safari.SafariOptions;
 import java.util.HashMap;
 import java.util.Map;
 
-import static api.ApiData.EndPoints.selenoidUiHubUrl;
+import static api.ApiData.KeeperEndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.SAFARI;
 import static data.Constants.*;
 

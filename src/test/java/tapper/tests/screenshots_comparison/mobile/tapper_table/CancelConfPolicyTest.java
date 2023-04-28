@@ -1,7 +1,6 @@
 package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
-import data.ScreenLayout;
 import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -10,26 +9,19 @@ import io.restassured.response.Response;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import tapper_table.ReviewPage;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.*;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_666;
 import static data.ScreenLayout.Tapper.*;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
-import static data.selectors.TapperTable.ReviewPage.*;
 import static data.selectors.TapperTable.RootPage.PayBlock.*;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.tips25;
 
 
 @Epic("Тесты по верстке проекта (Мобильные)")
@@ -87,7 +79,7 @@ class CancelConfPolicyTest extends ScreenMobileTest {
                 (browserTypeSize, isScreenShot, tapperTableCancelConfPolicyCheckBox, diffPercent, imagePixelSize,
                         ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

@@ -16,7 +16,6 @@ import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGI
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 import static data.selectors.AdminPersonalAccount.Menu.menuDishItemsEditButtons;
-import static data.selectors.AdminPersonalAccount.Menu.menuDishNameByGuest;
 import static data.selectors.TapperTable.RootPage.Menu.*;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
@@ -32,7 +31,7 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
     int adminTab = 0;
     static int categoryIndex = 0;
     static int dishIndex = 0;
-    static String dishName;
+
 
     static HashMap<String,String> previousDishData;
 
@@ -68,7 +67,6 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
 
         rootPage.click(menuDishItemsEditButtons.get(dishIndex));
         previousDishData = menu.isInputsLimitCorrect();
-        dishName = menuDishNameByGuest.get(dishIndex).getText();
 
     }
 
@@ -82,7 +80,7 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
         rootPage.isElementVisibleDuringLongTime(appFooterMenuIcon,10);
         rootPage.click(appFooterMenuIcon);
         rootPage.isElementVisible(menuDishContainer);
-        rootPage.isElementsCollectionIsVisible(dishMenuItemsName);
+        rootPage.isElementsCollectionVisible(dishMenuItemsName);
 
     }
 
@@ -91,11 +89,11 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
     @DisplayName("Проверяем изменение имени,веса,количества,состава")
     void isDishMenuChangingWeightAndAmountCorrect() {
 
-        System.out.println(dishName);
+        System.out.println(previousDishData.get("previousNameByGuest"));
 
         dishMenuItemsName.asFixedIterable().stream().forEach(element -> {
 
-            if (element.getText().matches(dishName)) {
+            if (element.getText().matches(previousDishData.get("previousNameByGuest"))) {
 
                 System.out.println("find match");
                 rootPage.click(element);

@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 import static data.Constants.WAIT_UNTIL_TRANSACTION_EXPIRED;
@@ -105,7 +105,7 @@ public class OrderExpiredTest extends BaseTest {
     @DisplayName("1.5. Закрываем заказ")
     public void closedOrderByApi() {
 
-       apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid,AUTO_API_URI);
+       apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid);
 
     }
 

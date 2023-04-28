@@ -11,11 +11,10 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable.isTelegramMessageCorrect;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
@@ -84,7 +83,7 @@ class SetTipsAfterPartPayAndRefreshPageTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -111,7 +110,7 @@ class SetTipsAfterPartPayAndRefreshPageTest extends BaseTest {
     @DisplayName(isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 
-        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
+        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg, orderType);
 
     }
 
@@ -129,7 +128,7 @@ class SetTipsAfterPartPayAndRefreshPageTest extends BaseTest {
     @DisplayName(TapperTable.closedOrder)
     void closedOrderByApi() {
 
-        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid);
 
     }
 

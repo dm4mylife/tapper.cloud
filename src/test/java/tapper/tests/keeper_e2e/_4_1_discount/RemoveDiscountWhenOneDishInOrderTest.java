@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.RegexPattern.TapperTable.dishPriceRegex;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.RootPage.DishList.*;
@@ -67,14 +67,13 @@ public class RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discountAmount);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discountAmount);
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
         uni = rootPageNestedTests.getOrderUni(TABLE_AUTO_444_ID,AUTO_API_URI).get(firstUni);
 
         rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_444);
-        rootPage.isTableHasOrder();
 
     }
 
@@ -90,7 +89,7 @@ public class RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
     @DisplayName("1.2. Выбираем все позиции, кроме одной")
     public void checkSumTipsSC() {
 
-        rootPageNestedTests.chooseDishesWithRandomAmount(amountDishes);
+        rootPageNestedTests.checkChosenDishesSumsWithAllConditionsConsideringDiscount(amountDishes);
 
     }
 
@@ -100,7 +99,7 @@ public class RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID, "keeper");
 
     }
 

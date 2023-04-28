@@ -85,6 +85,7 @@ class TablesAndQrCodesTest extends ScreenDesktopTest {
         tablesAndQrCodes.goToDetailTableCard();
         tablesAndQrCodes.areTableCardElementCorrect();
 
+
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.AdminPersonalAccount.tableDetailCard, diffPercent, imagePixelSize);
 

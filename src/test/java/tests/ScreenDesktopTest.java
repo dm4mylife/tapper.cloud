@@ -17,7 +17,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import static api.ApiData.EndPoints.selenoidUiHubUrl;
+import static api.ApiData.KeeperEndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static data.Constants.*;

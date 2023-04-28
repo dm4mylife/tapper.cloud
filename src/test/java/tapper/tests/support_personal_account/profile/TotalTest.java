@@ -40,4 +40,31 @@ class TotalTest extends PersonalAccountTest {
 
     }
 
+    @Test
+    @Order(3)
+    @DisplayName("Проверяем редактирование названия заведения, имя, телефон, тг")
+    void isPrivateDateChangedCorrect() {
+
+        profile.isPrivateDateChangedCorrect();
+
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Проверяем ошибки на некорректные данные")
+    void isErrorFieldsCorrect() {
+
+        profile.isErrorFieldsCorrect();
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("Смена пароля")
+    void changeAdminPassword() {
+
+        profile.changeAdminPassword();
+
+    }
+
+
 }

@@ -2,14 +2,12 @@ package tapper.tests.keeper_e2e._4_1_discount;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -20,9 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_444;
+import static api.ApiData.OrderData.*;
 
 
 @Epic("RKeeper")
@@ -30,9 +26,15 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_444;
 @Story("Полная оплата с общей скидкой, позиции с модификаторами")
 @DisplayName("Полная оплата с общей скидкой, позиции с модификаторами")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class ModifiersFullPayTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class ModifiersFullPayTest extends BaseTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_444.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_444.tableCode;
+    protected final String waiter = TableData.Keeper.Table_444.waiter;
+    protected final String apiUri = TableData.Keeper.Table_444.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_444.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_444.tableId;
     static String guid;
     static double totalPay;
     static String orderType = "full";
@@ -49,8 +51,9 @@ public class ModifiersFullPayTest extends BaseTest {
     NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName("Создание заказа в r_keeper")
+    void createAndFillOrder() {
 
         ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
             {
@@ -96,68 +99,73 @@ public class ModifiersFullPayTest extends BaseTest {
         };
 
         Response rs = rootPageNestedTests.createAndFillOrderOnlyWithModifiers
-                (R_KEEPER_RESTAURANT, TABLE_CODE_444,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,modifiers,
-                        TABLE_AUTO_444_ID);
+                (restaurantName, tableCode,waiter, apiUri,modifiers, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discountAmount);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discountAmount);
         apiRKeeper.createDiscountByIdObject(discounts, DISCOUNT_BY_ID);
 
-        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
+        Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_444);
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
 
     @Test
-    @DisplayName("2. Проверка скидки")
-    public void checkIsDiscountPresent() {
+    @Order(2)
+    @DisplayName("Проверка скидки")
+    void checkIsDiscountPresent() {
 
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
-
-    }
-
-    @Test
-    @DisplayName("3. Проверяем суммы, чаевые, сб")
-    public void checkAllDishesSumsWithAllConditions() {
-
-        rootPageNestedTests.checkAllDishesSumsWithAllConditions();
+        rootPageNestedTests.checkIsDiscountPresent(tableId);
 
     }
 
     @Test
-    @DisplayName("4. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName("Проверяем суммы, чаевые, сб")
+    void checkAllDishesSumsWithAllConditions() {
+
+        rootPageNestedTests.checkAllDishesSumsWithAllConditionsConsideringDiscount();
+
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
     @Test
-    @DisplayName("5. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiring() {
+    @Order(5)
+    @DisplayName("Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName("6. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    public void checkPayment() {
+    @Order(6)
+    @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("7. Проверка сообщения в телеграмме")
-    public void matchTgMsgDataAndTapperData() {
+    @Order(7)
+    @DisplayName("Проверка сообщения в телеграмме")
+    void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

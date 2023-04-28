@@ -11,10 +11,8 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tests.TwoBrowsers;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Selenide.using;
@@ -46,7 +44,7 @@ class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends TwoBrowse
     int amountDishesToBeChosen = 2;
     static int amountDishesForFillingOrder = 4;
 
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+
     static String guid;
 
     RootPage rootPage = new RootPage();
@@ -57,6 +55,7 @@ class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends TwoBrowse
     @Order(1)
     @DisplayName(createOrderInKeeper + isDishesCorrectInCashDeskAndTapperTable)
     void createAndFillOrder() {
+
 
         guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableId);
@@ -69,7 +68,6 @@ class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends TwoBrowse
     void openTables() {
 
         using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
-
         using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
     }
@@ -104,6 +102,7 @@ class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends TwoBrowse
 
         using(secondBrowser, () -> {
 
+            rootPage.isElementsCollectionVisible(allNonPaidAndNonDisabledDishes);
             allNonPaidAndNonDisabledDishes.shouldHave(size(amountDishesForFillingOrder), Duration.ofSeconds(10));
             paymentButton.shouldNotHave(disabled);
 
@@ -116,7 +115,7 @@ class ChosenDishesAreAvailableInAnotherGuestAfterCancelingTest extends TwoBrowse
     @DisplayName("Закрываем заказ, очищаем кассу")
     void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid);
 
     }
 

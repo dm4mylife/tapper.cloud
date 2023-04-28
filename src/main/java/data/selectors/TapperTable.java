@@ -40,6 +40,8 @@ public class TapperTable {
 
             public static final SelenideElement refreshButtonEmptyPage =
                     $(".baseButtonUpdate .baseButtonUpdate__container");
+            public static final By refreshButtonEmptyPageBy =
+                    By.cssSelector(".baseButtonUpdate__container__text");
             public static final SelenideElement modalHintContainer = $(".modalHint");
             public static final SelenideElement modalHintCloseButton = $(".modalHint .baseButtonClose");
             public static final SelenideElement appHeader = $(".appHeader");
@@ -65,7 +67,8 @@ public class TapperTable {
             public static final String dishNameSelector = ".orderItem__name";
             public static final String dishPriceTotalSelector = ".orderItem__price:last-child";
             public static final String dishPriceWithDiscountSelector = ".orderItem__price.--new";
-            public static final String dishPriceWithoutDiscountSelector = ".orderItem__price.--old";
+            public static final String dishPriceWithoutDiscountSelector = ".orderItem__price:first-child";
+
             public static final String dishCheckboxSelector = ".iconCheck";
             public static final ElementsCollection allPaidDishes =
                     $$x("//li[.//*[@data-auto=\"paidDishes\"]]");
@@ -133,6 +136,9 @@ public class TapperTable {
             public static final SelenideElement activeTipsButton = $("[data-auto=\"activeTipsButton\"]");
             public static final ElementsCollection tipsListItem = $$("[data-auto=\"tipsListItem\"]");
             public static final SelenideElement totalPay = $("[data-auto=\"totalPay\"]+span");
+            public static final SelenideElement totalOrderPay = $(".orderTotal__container span+span");
+
+
             public static final SelenideElement tipsErrorMsg = $("[data-auto=\"tipsErrorMsg\"]");
             public static final SelenideElement tips0 =
                     $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '0%']]");
@@ -161,6 +167,15 @@ public class TapperTable {
                     $(".serviceFee [data-auto=\"serviceCharge\"] svg");
             public static final SelenideElement serviceChargeCheckboxButton =
                     $(".serviceFee [data-auto=\"serviceCharge\"]");
+
+            public static final SelenideElement serviceChargePopUp = $(".ModalServiceFee__content");
+            public static final SelenideElement serviceChargePopUpConfirmButton =
+                    $(".ModalServiceFee__content button.baseButton");
+
+            public static final SelenideElement serviceChargePopUpDisableButton =
+                    $(".ModalServiceFee__content button.ModalServiceFee__btn");
+
+
             public static final SelenideElement paymentOptionsContainer = $(".payedVariants__header");
             public static final SelenideElement paymentOptionCreditCard =
                     $x("//*[@class='paymentMethod__item' and contains(text(),'Банковская карта')]");
@@ -256,8 +271,7 @@ public class TapperTable {
 
             public static final ElementsCollection categoryMenuItems =
                     $$(".orderMenu .orderMenuCategorues__item");
-            public static final ElementsCollection menuDishPhotos =
-                    $$(".orderMenuProduct__photo .orderMenuProduct__img");
+            public static final String menuDishPhotoInDetailCard = ".detail__image-wrap img";
             public static final String menuDishPhotosSelector = ".orderMenuProduct__photo .orderMenuProduct__img";
             public static final By menuDishPhotosBy = By.cssSelector(".orderMenuProduct__photo .orderMenuProduct__img");
             public static final SelenideElement menuDishNameInDetailCard = $(".detail .detail__name");

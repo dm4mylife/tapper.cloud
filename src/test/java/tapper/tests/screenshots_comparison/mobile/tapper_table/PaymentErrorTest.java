@@ -1,7 +1,6 @@
 package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 
-import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
 import data.selectors.TapperTable;
 import data.table_data_annotation.SixTableData;
@@ -11,11 +10,8 @@ import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
-import tapper_table.nestedTestsManager.ReviewPageNestedTests;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
@@ -26,14 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.matchText;
-import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.TapperTable.*;
 import static data.Constants.TestData.TapperTable.PAYMENT_ERROR_TEXT;
 import static data.Constants.WAIT_UNTIL_TRANSACTION_EXPIRED;
-import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.ReviewPage.*;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;

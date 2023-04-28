@@ -11,7 +11,7 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.*;
 
@@ -106,7 +106,7 @@ class TipsLogicBySumWith2GuestsTest extends BaseTest {
     @DisplayName(TapperTable.closedOrder)
     void payAndGoToAcquiringAgain() {
 
-        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid);
 
     }
 

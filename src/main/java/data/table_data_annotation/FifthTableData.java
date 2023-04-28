@@ -3,7 +3,7 @@ package data.table_data_annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.TapperTable.*;
 
 @Retention(RetentionPolicy.RUNTIME)

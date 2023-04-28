@@ -5,14 +5,14 @@ import com.codeborne.selenide.WebDriverRunner;
 import common.BaseActions;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
-import ru.yandex.qatools.ashot.comparison.ImageDiff;
-import ru.yandex.qatools.ashot.comparison.ImageDiffer;
+import ru.yandex.qatools.ashot.comparison.*;
+import ru.yandex.qatools.ashot.coordinates.Coords;
+import ru.yandex.qatools.ashot.coordinates.CoordsPreparationStrategy;
 import ru.yandex.qatools.ashot.coordinates.WebDriverCoordsProvider;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 import tapper_table.RootPage;
 
 import javax.imageio.ImageIO;
@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.source;
 import static data.Constants.*;
@@ -167,19 +168,42 @@ public class ScreenShotComparison {
 
         int diffPixelPercentRatio = (int) (imagePixelSize * (diffPercent / 100));
 
-        Screenshot actual = new AShot()
+        System.out.println(ignoredElements);
+
+
+        Screenshot actualIgnore = new AShot()
+
                 .ignoredElements(ignoredElements)
                 .coordsProvider(new WebDriverCoordsProvider())
                 .takeScreenshot(getWebDriver());
 
-        Screenshot original = new Screenshot(ImageIO.read(new File(fullPathNameOriginal)));
-        original.setIgnoredAreas(actual.getIgnoredAreas());
-        original.setCoordsToCompare(actual.getCoordsToCompare());
+        Screenshot actualNoIgnore = new AShot()
+                .coordsProvider(new WebDriverCoordsProvider())
+                .takeScreenshot(getWebDriver());
 
-        ImageDiff diff = new ImageDiffer().makeDiff(original, actual);
+
+        Screenshot original = new Screenshot(ImageIO.read(new File(fullPathNameOriginal)));
+
+
+        original.setIgnoredAreas(actualIgnore.getIgnoredAreas());
+        original.setCoordsToCompare(actualIgnore.getCoordsToCompare());
+
+        System.out.println(actualIgnore.getIgnoredAreas());
+
+
+        ImageDiff diff = new ImageDiffer().makeDiff(actualIgnore, original);
+        int noIgnoreScreeDiffSize = new ImageDiffer().makeDiff(actualNoIgnore, original).getDiffSize();
+        int totalDiffSize = noIgnoreScreeDiffSize - diff.getDiffSize();
+
+        System.out.println(noIgnoreScreeDiffSize + " noIgnoreScreeDiffSize");
+        System.out.println(diffPixelPercentRatio + " diffPixelPercentRatio");
+        System.out.println(diff.getDiffSize() + " diff size");
+        System.out.println(totalDiffSize + " total diff size");
+
+
 
         BufferedImage diffImage = diff.getMarkedImage();
-        ImageIO.write(actual.getImage(), "png", new File(fullPathNameActual));
+        ImageIO.write(actualIgnore.getImage(), "png", new File(fullPathNameActual));
         ImageIO.write(diffImage, "png", new File(fullPathNameDiff));
 
         attachScreenToAllureReport(fullPathNameDiff,"diff");
@@ -189,11 +213,21 @@ public class ScreenShotComparison {
         System.out.println(diff.getDiffSize() + " Общее количество различающихся пикселей");
         System.out.println(diffPixelPercentRatio + " Допустимое количество различающихся пикселей");
 
-        Assertions.assertFalse(diff.getDiffSize() > diffPixelPercentRatio,
+        Assertions.assertFalse(totalDiffSize > diffPixelPercentRatio,
                 "Скриншоты различаются в более чем " + diffPercent +
-                        "%.\nОбщее количество различающихся пикселей " + diff.getDiffSize() +
+                        "%.\nОбщее количество различающихся пикселей " + totalDiffSize +
                         "\nДопустимое количество различающихся пикселей " + diffPixelPercentRatio);
 
+    }
+
+    public static Set<Coords> getCoords(Set<By> ignoredElements) {
+        Set<Coords> ignoredCoords = new HashSet<>();
+        for (By locator : ignoredElements) {
+            Point point = $(locator).getLocation();
+            Dimension dimension = $(locator).getSize();
+            ignoredCoords.add(new Coords(point.getX(), point.getY(), dimension.getWidth(), dimension.getHeight()));
+        }
+        return ignoredCoords;
     }
 
     public static void isScreenOrDiff(String browserSizeType,boolean type,String expectedName,double diffPercent,

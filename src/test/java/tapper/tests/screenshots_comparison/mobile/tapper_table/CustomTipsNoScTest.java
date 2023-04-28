@@ -2,9 +2,8 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 
 import api.ApiRKeeper;
-import data.AnnotationAndStepNaming;
+import common.BaseActions;
 import data.ScreenLayout;
-import data.selectors.TapperTable;
 import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -12,29 +11,19 @@ import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
-import tapper_table.nestedTestsManager.ReviewPageNestedTests;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.*;
-import static com.codeborne.selenide.Condition.visible;
-import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
-import static data.selectors.TapperTable.Common.pagePreLoader;
+import static api.ApiData.OrderData.*;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
-import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
+import static data.selectors.TapperTable.RootPage.PayBlock.*;
 
 
 @Epic("Тесты по верстке проекта (Мобильные)")
@@ -70,20 +59,36 @@ class CustomTipsNoScTest extends ScreenMobileTest {
 
     @Test
     @Order(1)
-    @DisplayName("Отмена сервисного сбора и ручной ввод чаевых")
-    void createAndFillOrder() throws IOException {
+    @DisplayName("Окно сервисного сбора")
+    void isServiceChargeCorrect() throws IOException {
 
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
         rootPage.ignoreWifiIcon();
-        rootPage.setCustomTips("155");
         rootPage.scrollTillBottom();
+
+        BaseActions.click(serviceChargeCheckboxButton);
+
+        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+                ScreenLayout.Tapper.tapperTableServiceChargePopUp,diffPercent,imagePixelSize,ignoredElements);
+
+        rootPage.disableScPopUp();
+
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("Отмена сервисного сбора и ручной ввод чаевых")
+    void createAndFillOrder() throws IOException {
+
+        rootPage.setCustomTips("155");
+
         rootPage.deactivateServiceChargeIfActivated();
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperTableCustomTipsAndNoSc,diffPercent,imagePixelSize,ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

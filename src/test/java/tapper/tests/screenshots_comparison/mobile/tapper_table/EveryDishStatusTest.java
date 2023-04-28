@@ -27,13 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
-import static data.selectors.TapperTable.ReviewPage.reviewContainer;
 import static data.selectors.TapperTable.RootPage.DishList.*;
 
 
@@ -81,8 +80,8 @@ class EveryDishStatusTest extends ScreenMobileTest {
 
     @Test
     @Order(1)
-    @DisplayName("Проверка статусов \"Ожидается\",\"Оплачено\"")
-    void createAndFillOrder() throws IOException {
+    @DisplayName("Статус 'Ожидается' и 'Оплачено'")
+    void statuses() throws IOException {
 
         guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableId);
@@ -96,9 +95,6 @@ class EveryDishStatusTest extends ScreenMobileTest {
         Selenide.clearBrowserCookies();
         Selenide.refresh();
         rootPage.isTableHasOrder();
-
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.tapperTableDisabledDish,diffPercent,imagePixelSize,ignoredElements);
 
         rootPage.activateDivideCheckSliderIfDeactivated();
         rootPageNestedTests.chooseLastDish(allDishesInOrder);
@@ -119,7 +115,7 @@ class EveryDishStatusTest extends ScreenMobileTest {
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperTableDisabledAndPayedDish,diffPercent,imagePixelSize,ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

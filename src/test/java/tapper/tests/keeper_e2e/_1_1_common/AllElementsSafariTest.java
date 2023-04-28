@@ -13,7 +13,7 @@ import tests.SafariTest;
 
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
@@ -21,8 +21,8 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 
 @Epic("RKeeper")
 @Feature("Общие")
-@Story("Общая функциональность таппера - Сафари")
-@DisplayName("Общая функциональность таппера - Сафари")
+@Story("Общая функциональность таппера")
+@DisplayName("Общая функциональность таппера - Safari")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AllElementsSafariTest extends SafariTest {
@@ -207,7 +207,7 @@ class AllElementsSafariTest extends SafariTest {
     @DisplayName(TapperTable.saveDataGoToAcquiringTypeDataAndPay)
     void payOrder() {
 
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         nestedTests.acquiringPayment(totalPay);
 
@@ -245,7 +245,7 @@ class AllElementsSafariTest extends SafariTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 
-        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
+        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg, "full");
 
     }
 

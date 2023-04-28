@@ -6,8 +6,10 @@ import api.ApiRKeeper;
 import api.MailByApi;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.YandexPage;
@@ -18,7 +20,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static common.BaseActions.click;
+
 import static data.Constants.ADMIN_REGISTRATION_EMAIL;
 import static data.Constants.TestData.RegistrationData.EXISTING_EMAIL_ERROR_TEXT;
 import static data.Constants.TestData.Yandex.*;
@@ -30,6 +32,7 @@ import static data.selectors.YandexMail.tapperMailCheckbox;
 
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Авторизация\\регистрация")
+@Story("Регистрация")
 @DisplayName("Регистрация администратора ресторана")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -40,6 +43,7 @@ class RegistrationTest extends PersonalAccountTest {
 
     RegistrationPage registrationPage = new RegistrationPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
+    BaseActions baseActions = new BaseActions();
     AdminAccount adminAccount = new AdminAccount();
 
 
@@ -98,7 +102,7 @@ class RegistrationTest extends PersonalAccountTest {
         isRegistrationFormCorrect();
         registrationPage.fillRegistrationForm(true);
 
-        click(applyButton);
+        baseActions.click(applyButton);
         emailFieldError.shouldHave(Condition.matchText(EXISTING_EMAIL_ERROR_TEXT));
 
     }

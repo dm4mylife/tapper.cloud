@@ -18,7 +18,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
@@ -120,7 +120,7 @@ class ReviewTest extends BaseTest {
     @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.isTelegramMessageCorrect)
     void matchTgMsg() {
 
-        telegramDataForTgMsg  = rootPageNestedTests.getReviewTgMsgData(tapperTable);
+        telegramDataForTgMsg  = rootPageNestedTests.getReviewTgMsgData(guid,"negative");
 
         Assertions.assertEquals(tapperDataForTgMsg,telegramDataForTgMsg);
 
@@ -159,7 +159,10 @@ class ReviewTest extends BaseTest {
     @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.isTelegramMessageCorrect)
     void matchTgMsgForPositive() {
 
-        matchTgMsg();
+        telegramDataForTgMsg  = rootPageNestedTests.getReviewTgMsgData(guid,"positive");
+
+        Assertions.assertEquals(tapperDataForTgMsg,telegramDataForTgMsg);
+
 
     }
 
@@ -233,7 +236,7 @@ class ReviewTest extends BaseTest {
     @DisplayName("Проверка сообщения в телеграмме")
     void matchTgMsgForFewPositiveOptions() {
 
-        matchTgMsg();
+        matchTgMsgForPositive();
 
     }
 

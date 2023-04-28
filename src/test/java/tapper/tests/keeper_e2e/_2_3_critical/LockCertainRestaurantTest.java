@@ -18,7 +18,7 @@ import total_personal_account_actions.AuthorizationPage;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.disappear;
 import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
 import static data.Constants.TestData.SupportPersonalAccount.*;

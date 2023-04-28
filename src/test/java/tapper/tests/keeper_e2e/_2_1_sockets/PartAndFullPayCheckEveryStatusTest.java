@@ -2,7 +2,6 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
-import com.codeborne.selenide.ElementsCollection;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -11,26 +10,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.openqa.selenium.WebElement;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.TwoBrowsers;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
-import static com.codeborne.selenide.CollectionCondition.allMatch;
-import static com.codeborne.selenide.CollectionCondition.size;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 import static data.selectors.TapperTable.RootPage.DishList.allDishesDisabledStatuses;
-import static data.selectors.TapperTable.RootPage.DishList.allDishesStatuses;
 
 @Epic("RKeeper")
 @Feature("Сокеты")
@@ -119,7 +113,7 @@ public class PartAndFullPayCheckEveryStatusTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
 
         });
 
@@ -172,7 +166,7 @@ public class PartAndFullPayCheckEveryStatusTest extends TwoBrowsers {
     @DisplayName("2.0. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid);
 
     }
 

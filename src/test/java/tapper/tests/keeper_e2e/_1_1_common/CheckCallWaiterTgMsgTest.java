@@ -13,20 +13,18 @@ import tests.BaseTest;
 
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER;
 import static data.Constants.TestData.TapperTable.*;
-import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_CALL_WAITER;
-import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_REVIEW;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 
 
 @Epic("RKeeper")
 @Feature("Общие")
-@Story("tapper - проверка сообщений вызова официанта при пустом столе и в заказе")
-@DisplayName("tapper - проверка сообщений вызова официанта при пустом столе и в заказе")
+@Story("Проверка сообщений вызова официанта при пустом столе и в заказе")
+@DisplayName("Проверка сообщений вызова официанта при пустом столе и в заказе")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CheckCallWaiterTgMsgTest extends BaseTest {
@@ -75,7 +73,7 @@ class CheckCallWaiterTgMsgTest extends BaseTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void getTgAndTapperMsgData() {
 
-        telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, WAIT_FOR_TELEGRAM_MESSAGE_CALL_WAITER);
+        telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, UNKNOWN_WAITER);
         tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg(UNKNOWN_WAITER, TEST_WAITER_COMMENT, tapperTable);
 
         Assertions.assertEquals(telegramDataForTgMsg, tapperDataForTgMsg,
@@ -117,7 +115,7 @@ class CheckCallWaiterTgMsgTest extends BaseTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void getTgAndTapperMsgDataAgain() {
 
-        telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, WAIT_FOR_TELEGRAM_MESSAGE_REVIEW);
+        telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, ROBOCOP_WAITER);
         tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg(ROBOCOP_WAITER, TEST_WAITER_COMMENT, tapperTable);
 
         Assertions.assertEquals(telegramDataForTgMsg, tapperDataForTgMsg,
@@ -131,7 +129,7 @@ class CheckCallWaiterTgMsgTest extends BaseTest {
     @DisplayName(TapperTable.closedOrder)
     void closedOrderByApi() {
 
-        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid);
 
     }
 

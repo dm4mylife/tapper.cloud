@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_2_modifiers;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -19,9 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static api.ApiData.OrderData.*;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 
 @Epic("RKeeper")
@@ -31,6 +30,13 @@ import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisab
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = TableData.Keeper.Table_333.waiter;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
     static String guid;
     static double totalPay;
     static String orderType = "part";
@@ -47,8 +53,7 @@ public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
     @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rs = rootPageNestedTests.createOrder(R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createOrder(restaurantName, tableCode,waiter, apiUri,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
         ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
@@ -61,11 +66,9 @@ public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
             }
         };
 
-        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modifiers));
+        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(restaurantName,guid, modifiers));
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
-        rootPage.isTableHasOrder();
-
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
 
@@ -76,7 +79,7 @@ public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
         rootPage.activateDivideCheckSliderIfDeactivated();
         rootPage.choseFirstAndLastDishes(allNonPaidAndNonDisabledDishesName);
 
-        double cleanDishesSum = rootPage.countAllChosenDishesDivided();
+        double cleanDishesSum = rootPage.countOnlyAllChosenDishesDivided();
         rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
         rootPage.setRandomTipsOption();
         rootPage.isModificatorTextCorrect();
@@ -89,7 +92,7 @@ public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -113,7 +116,7 @@ public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
     @DisplayName("6. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
@@ -122,7 +125,7 @@ public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
     @DisplayName("7. Закрываем заказ")
     public void closeOrderByAPI() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_333_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
     }
 
 }

@@ -15,7 +15,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.hidden;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
@@ -110,6 +110,7 @@ class WiFiTest extends PersonalAccountTest {
         customization.setWifiConfigurationWithoutPassword(TEST_WIFI_NETWORK_NAME);
         rootPage.switchBrowserTab(tappetTab);
         rootPage.refreshPage();
+        rootPage.isTableHasOrder();
         rootPage.checkWiFiOnTapperTableWithoutPassword(TEST_WIFI_NETWORK_NAME);
 
     }

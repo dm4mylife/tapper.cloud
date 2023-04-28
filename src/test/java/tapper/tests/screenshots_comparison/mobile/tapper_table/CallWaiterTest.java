@@ -1,6 +1,5 @@
 package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
-import api.ApiRKeeper;
 import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -9,22 +8,15 @@ import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import tapper_table.RootPage;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_666;
 import static data.ScreenLayout.Tapper.*;
-import static data.selectors.AdminPersonalAccount.Profile.telegramItemsInput;
-import static data.selectors.TapperTable.Common.wiFiIcon;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 

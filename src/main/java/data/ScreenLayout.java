@@ -14,6 +14,7 @@ public class ScreenLayout {
         public static final String tapperChangeDishSumWithDiscount = "tapper_table_changed_with_discount_sum";
         public static final String tapperTableOrderExpired = "tapper_table_order_expired";
         public static final String tapperTableCustomTipsAndNoSc = "tapper_table_custom_tips_and_no_sc";
+        public static final String tapperTableServiceChargePopUp = "tapper_table_service_charge_popup";
         public static final String tapperTableCancelConfPolicyCheckBox = "tapper_table_cancel_confpolicy_checkbox";
         public static final String tapperTableNonVerified = "tapper_table_waiter_non_verified";
         public static final String tapperTableNoCardWaiter = "tapper_table_waiter_no_card";

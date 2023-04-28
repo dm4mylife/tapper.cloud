@@ -17,7 +17,7 @@ import tests.TwoBrowsers;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.TapperTable.*;
@@ -96,7 +96,7 @@ public class SimultaneouslyTwoGuestFullPayTest extends TwoBrowsers {
     @DisplayName("1.5. Закрываем заказ, очищаем кассу")
     public void closeOrder() {
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

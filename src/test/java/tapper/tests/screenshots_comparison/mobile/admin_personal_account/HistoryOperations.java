@@ -15,7 +15,7 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.io.IOException;
 
-import static admin_personal_account.operations_history.HistoryOperations.ignoredArraySelectorsInHistoryOperations;
+import static admin_personal_account.history_operations.HistoryOperations.ignoredArraySelectorsInHistoryOperations;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 
@@ -47,8 +47,8 @@ class HistoryOperations extends ScreenMobileTest {
     RootPage rootPage = new RootPage();
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    admin_personal_account.operations_history.HistoryOperations historyOperations =
-            new admin_personal_account.operations_history.HistoryOperations();
+    admin_personal_account.history_operations.HistoryOperations historyOperations =
+            new admin_personal_account.history_operations.HistoryOperations();
     
 
     @Test

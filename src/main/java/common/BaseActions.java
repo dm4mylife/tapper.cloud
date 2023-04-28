@@ -20,8 +20,6 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
-import static data.Constants.WAIT_FOR_FULL_LOAD_PAGE;
-import static data.Constants.WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER;
 import static data.selectors.TapperTable.RootPage.PayBlock.paymentOptionsContainer;
 import static data.selectors.TapperTable.RootPage.TapBar.appFooter;
 
@@ -68,14 +66,14 @@ public class BaseActions {
 
     }
     @Step("Коллекция элементов на странице")
-    public void isElementsCollectionIsVisible(@NotNull ElementsCollection Elementcollections) {
+    public void isElementsCollectionVisible(@NotNull ElementsCollection Elementcollections) {
 
         Elementcollections.should(allMatch("Все элементы должны быть видны",WebElement::isDisplayed));
 
     }
 
     @Step("Коллекция элементов присутствует на странице в ходе длительной загрузки ({time}сек.)")
-    public void isElementsCollectionIsVisible(@NotNull ElementsCollection Elementscollection, int time) {
+    public void isElementsCollectionVisible(@NotNull ElementsCollection Elementscollection, int time) {
 
         Elementscollection.should
                 (allMatch("Все элементы должны быть видны",WebElement::isDisplayed),Duration.ofSeconds(time));
@@ -185,13 +183,16 @@ public class BaseActions {
 
     @Step("Ввод данных {text} с задержкой")
     public void sendHumanKeys(SelenideElement element, @NotNull String text) {
+
         Random r = new Random();
+
         for (int i = 0; i < text.length(); i++) {
 
             Selenide.sleep((int) (r.nextGaussian() * 15 + 50));
 
             String s = String.valueOf(text.charAt(i));
             element.sendKeys(s);
+
         }
 
     }

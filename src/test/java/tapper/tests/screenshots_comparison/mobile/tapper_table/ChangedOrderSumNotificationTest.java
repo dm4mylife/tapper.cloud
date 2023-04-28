@@ -21,11 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.orderData.*;
-import static com.codeborne.selenide.Condition.hidden;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
 
@@ -80,7 +77,7 @@ class ChangedOrderSumNotificationTest extends ScreenMobileTest {
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperChangeDishSum,diffPercent,imagePixelSize,ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

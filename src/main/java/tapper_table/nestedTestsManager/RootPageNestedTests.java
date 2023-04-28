@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.R_KEEPER_RESTAURANT;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.RegexPattern.TapperTable.discountInCheckRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
@@ -99,7 +98,7 @@ public class RootPageNestedTests extends RootPage {
 
         chooseCertainAmountDishes(amountDishes);
 
-        double cleanTotalSum = countAllChosenDishesDivided();
+        double cleanTotalSum = countOnlyAllChosenDishesDivided();
         checkSumWithAllConditionsWithNoWaiterCard(cleanTotalSum);
 
     }
@@ -111,19 +110,8 @@ public class RootPageNestedTests extends RootPage {
 
         chooseCertainAmountDishes(amountDishes);
 
-        double cleanTotalSum = countAllChosenDishesDivided();
-        checkSumWithAllConditions(cleanTotalSum);
+        double cleanTotalSum = countOnlyAllChosenDishesDivided();
 
-    }
-
-    @Step("Выбираем рандомное число блюд ({amountDishes}), проверяем сумму, проводим все проверки с чаевыми и СБ")
-    public void chooseDishesWithRandomAmountWithBigAmountDishes(int amountDishes) {
-
-        activateDivideCheckSliderIfDeactivated();
-
-        chooseCertainAmountDishes(amountDishes);
-
-        double cleanTotalSum = countAllChosenDishesDivided();
         checkSumWithAllConditions(cleanTotalSum);
 
     }
@@ -167,7 +155,7 @@ public class RootPageNestedTests extends RootPage {
 
         deactivateTipsAndDeactivateSc();
 
-        isTotalSumInDishesMatchWithTotalPay(cleanTotalSum);
+        isTotalSumInDishesMatchWithTotalPay(cleanTotalSum, 0);
         isSumInWalletMatchWithTotalPay();
 
         // activateRandomTipsAndActivateSc();
@@ -206,50 +194,88 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-    @Step("Проверяем сумму всего не оплаченного заказа c чаевыми и с СБ")
-    public void checkAllDishesSumsWithAllConditions() { //
+    @Step("Проверяем сумму всего не оплаченного заказа c чаевыми и с СБ и со скидкой")
+    public void checkAllDishesSumsWithAllConditionsConsideringDiscount() { //
 
-        double cleanTotalSum = countAllNonPaidDishesInOrder();
+        double cleanTotalSumWithDiscount = countAllNonPaidDiscountDishesInOrder();
+        cleanTotalSumWithDiscount -= convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
+        double cleanTotalDishAmount = countAllDishes();
+
         scrollTillBottom();
-        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSum);
-        areTipsOptionsCorrect(cleanTotalSum);
+
+        isTotalCheckSumCorrect(cleanTotalDishAmount);
+
+        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSumWithDiscount);
+
+        areTipsOptionsCorrect(cleanTotalSumWithDiscount);
 
     }
 
+    @Step("Проверяем сумму всего не оплаченного заказа c чаевыми и с СБ и со скидкой")
+    public void checkChosenDishesSumsWithAllConditionsConsideringDiscount(int amountDishesToBeChosen) { //
+
+        activateDivideCheckSliderIfDeactivated();
+        chooseCertainAmountDishes(amountDishesToBeChosen);
+
+        double cleanTotalSumWithDiscount = countOnlyAllChosenDishesDivided();
+        double cleanTotalDishAmount = countAllDishes();
+
+        scrollTillBottom();
+
+        isMarkedSumCorrect(cleanTotalSumWithDiscount);
+        isTotalCheckSumCorrect(cleanTotalDishAmount);
+
+        checkTotalDishSumWithTotalPayInCheckAndInWalletCounter(cleanTotalSumWithDiscount);
+
+        areTipsOptionsCorrect(cleanTotalSumWithDiscount);
+
+    }
+
+
     @Step("Проверка соответствует ли скидка на кассе полю 'Скидка' на столе")
-    public void checkIsDiscountPresent(double discountSumFromDesk) {
+    public void isDiscountVisible(double discountSumFromDesk) {
+
+        discountSum.shouldBe(visible);
 
         double totalDiscount = convertSelectorTextIntoDoubleByRgx(discountSum, discountInCheckRegex);
 
-        Assertions.assertEquals(discountSumFromDesk,totalDiscount,"Скидка с кассы не соответствует скидке на столе");
-
-        double clearDiscountOnDish = totalDiscount / allNonPaidAndNonDisabledDishes.size();
-
-        allNonPaidAndNonDisabledDishes.asFixedIterable().stream().forEach(element -> {
-
-           double dishPriceNoDiscount =
-                   convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithoutDiscountSelector),discountInCheckRegex);
-           double dishPriceWithDiscount =
-                   convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithDiscountSelector),discountInCheckRegex);
-
-        });
+        Assertions.assertEquals(discountSumFromDesk,totalDiscount,
+                "Скидка с кассы не соответствует скидке на столе");
 
     }
 
     @Step("Проверяем что у оплаченных позиций с ранее выставленной скидкой должна быть цена также со скидкой")
     public void hasNoDiscountPriceOnPaidDishesIfDiscountWasAppliedAfterPayment() {
 
-        allPaidDishes.asDynamicIterable().stream().forEach(
-                element -> isElementInvisible(element.$(dishPriceWithoutDiscountSelector)));
+        if (divideCheckSliderActive.isDisplayed()) {
 
-        allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
+            allPaidDishes.asDynamicIterable().stream().forEach(
+                    element -> isElementInvisible(element.$(dishPriceWithoutDiscountSelector)));
 
-            isElementVisible(element.$(dishPriceWithoutDiscountSelector));
-            isElementVisible(element.$(dishPriceTotalSelector));
+            allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
-        });
+                isElementVisible(element.$(dishPriceWithoutDiscountSelector));
+                isElementVisible(element.$(dishPriceTotalSelector));
+
+            });
+
+        } else {
+
+            allPaidDishes.asDynamicIterable().stream().forEach(
+                    element -> isElementInvisible(element.$(dishPriceWithDiscountSelector)));
+
+        }
+
 
     }
+
+
+    public void isDivideSliderDisabledWhenOneDish() {
+
+        divideCheckSlider.shouldHave(attributeMatching("class",".*disabled.*"));
+
+    }
+
 
     @Step("Проверяем что у не оплаченных блюд будет наценка если были оплаченные позиции и скидку удалили")
     public void isNonPaidDishesHasMarkupAfterRemovingDiscount(Map<Integer,Map<String,Double>> dishesBeforeAddingDiscount,
@@ -304,7 +330,8 @@ public class RootPageNestedTests extends RootPage {
     }
 
     @Step("Оплачиваем по позициям до тех пор пока весь заказ не будет закрыт")
-    public void payTillFullSuccessPayment(int amountDishes,String guid, int timeoutPartPay, int timeoutFullPay, String tableId) {
+    public void payTillFullSuccessPayment(int amountDishes, String guid, int timeoutPartPay, int timeoutFullPay, String
+            tableId, String cashDeskType) {
 
         isTableHasOrder();
 
@@ -317,7 +344,8 @@ public class RootPageNestedTests extends RootPage {
 
                 double totalPay = saveTotalPayForMatchWithAcquiring();
                 HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-                LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+                LinkedHashMap<String, String> tapperDataForTgMsg =
+                        rootPage.getTapperDataForTgPaymentMsg(tableId, cashDeskType);
 
                 clickPayment();
 
@@ -330,7 +358,7 @@ public class RootPageNestedTests extends RootPage {
 
                 forceWait(timeoutPartPay);
 
-                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"part");
                 rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             } else {
@@ -338,7 +366,8 @@ public class RootPageNestedTests extends RootPage {
                 System.out.println("Последняя оплата");
                 double totalPay = saveTotalPayForMatchWithAcquiring();
                 HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-                LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+                LinkedHashMap<String, String> tapperDataForTgMsg =
+                        rootPage.getTapperDataForTgPaymentMsg(tableId, cashDeskType);
 
                 clickPayment();
 
@@ -524,10 +553,6 @@ public class RootPageNestedTests extends RootPage {
         }
 
 
-
-
-
-
         return allDishesInfo;
 
     }
@@ -544,7 +569,6 @@ public class RootPageNestedTests extends RootPage {
 
         } else if (keySizeFlag == null) {
 
-            System.out.println("Нет блюд");
             return -1;
 
         } else {
@@ -559,30 +583,12 @@ public class RootPageNestedTests extends RootPage {
 
     public String getKeyPath(int keySize, int keyIndex,String keyName) {
 
-        if (keySize != 1) {
-
+        if (keySize != 1)
             keyName += "[" + keyIndex + "]";
-
-        }
 
         return keyName;
 
     }
-
-    public double getDiscountFromResponse(Response response) {
-
-        double discount = 0;
-
-        if (response.path("@attributes.discountSum") != null) {
-
-            discount = Math.abs(response.jsonPath().getDouble("@attributes.discountSum") / 100);
-
-        }
-
-        return discount;
-
-    }
-
 
     public LinkedHashMap<Integer,Map<String,Double>> getCashDeskData(String tableId) {
 
@@ -610,15 +616,14 @@ public class RootPageNestedTests extends RootPage {
 
             for (int dishIndex = 0; dishIndex < dishSize; dishIndex++) {
 
-
                 HashMap<String,Double> tempData = new HashMap<>();
 
                 String dishPath = getKeyPath(dishSize,dishIndex,totalPath);
 
                 double dishPrice = rs.jsonPath().getDouble(dishPath + price) / 100;
                 String dishName = rs.jsonPath().getString(dishPath + name);
-
                 int dishQuantity = rs.jsonPath().getInt(dishPath + quantity) / 1000;
+
                 //System.out.println(dishQuantity + " quantity");
 
                 if (dishQuantity != 1) {
@@ -657,46 +662,6 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
-
-    public HashMap<Integer,String> getDiscountUni(String tableId, String apiUri) {
-
-        Response rs = apiRKeeper.getOrderInfo(tableId, apiUri);
-
-        String totalPath = "";
-        String session = "result.CommandResult.Order.Session";
-        String discount = "Discount";
-        String uni = "[\"@attributes\"].uni";
-
-        int totalUniIndex = 0;
-
-        int sessionSize = getKeySize(rs,session);
-
-        HashMap<Integer,String> uniData = new HashMap<>();
-
-        for (int sessionIndex = 0; sessionIndex < sessionSize; sessionIndex++) {
-
-            String sessionPath = getKeyPath(sessionSize,sessionIndex,session);
-
-            totalPath = sessionPath + "." + discount;
-
-            int discountSize = getKeySize(rs,totalPath);
-
-            for (int discountIndex = 0; discountIndex < discountSize; discountIndex++) {
-
-                String dishPath = getKeyPath(discountSize,discountIndex,totalPath);
-                String dishUni = rs.jsonPath().getString(dishPath + uni);
-
-                uniData.put(totalUniIndex,dishUni);
-                totalUniIndex++;
-
-            }
-
-        }
-
-        System.out.println(uniData);
-        return uniData;
-
-    }
 
     public HashMap<Integer,String> getOrderUni(String tableId, String apiUri) {
 
@@ -813,16 +778,30 @@ public class RootPageNestedTests extends RootPage {
 
         String guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modifiers));
+        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(restaurantName,guid, modifiers));
 
         return rs;
 
     }
 
+    @Step("Проверка что скидка есть на столе")
     public void checkIsDiscountPresent(String tableId) {
 
         double discount = getDiscount(tableId);
-        checkIsDiscountPresent(discount);
+
+        if (divideCheckSliderActive.isDisplayed()) {
+
+            allPaidDishes.asFixedIterable().stream().forEach(
+                    element -> isElementVisible(element.$(dishPriceWithoutDiscountSelector)));
+
+        } else {
+
+            allPaidDishes.asFixedIterable().stream().forEach(
+                    element -> isElementInvisible(element.$(dishPriceWithDiscountSelector)));
+
+        }
+
+        isDiscountVisible(discount);
 
     }
 
@@ -834,5 +813,9 @@ public class RootPageNestedTests extends RootPage {
         rootPage.isSendSuccessful();
 
     }
+
+
+
+
 
 }

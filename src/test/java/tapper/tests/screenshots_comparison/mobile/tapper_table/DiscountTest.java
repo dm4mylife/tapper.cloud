@@ -19,8 +19,7 @@ import tests.TakeOrCompareScreenshots;
 import java.io.IOException;
 import java.util.*;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.*;
+import static api.ApiData.OrderData.*;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 
@@ -94,7 +93,7 @@ class DiscountTest extends ScreenMobileTest {
         apiRKeeper.createDishObject(dishes, TORT, amountDishesForFillingOrder);
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discountAmount);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discountAmount);
         apiRKeeper.createDiscountByIdObject(discounts, DISCOUNT_BY_ID);
 
         Map<String, Object> rqBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
@@ -110,7 +109,7 @@ class DiscountTest extends ScreenMobileTest {
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperTableWithDiscountOrderPartTwo,diffPercent,imagePixelSize,ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

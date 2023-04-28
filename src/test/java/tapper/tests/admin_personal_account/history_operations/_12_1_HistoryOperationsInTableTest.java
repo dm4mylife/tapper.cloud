@@ -1,7 +1,7 @@
 package tapper.tests.admin_personal_account.history_operations;
 
 
-import admin_personal_account.operations_history.HistoryOperations;
+import admin_personal_account.history_operations.HistoryOperations;
 import api.ApiRKeeper;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
@@ -85,7 +85,7 @@ public class _12_1_HistoryOperationsInTableTest extends BaseTest {
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         tapperOrderData = rootPage.saveOrderDataForOperationsHistoryInAdmin();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_555_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_555_ID, "keeper");
 
     }
 

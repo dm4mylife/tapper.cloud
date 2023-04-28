@@ -11,10 +11,7 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
@@ -22,8 +19,8 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 
 @Epic("RKeeper")
 @Feature("Общие")
-@Story("tapper - переход на пустой стол, создание заказа на кассе, появление заказа в таппере")
-@DisplayName("tapper - переход на пустой стол, создание заказа на кассе, появление заказа в таппере")
+@Story("Переход на пустой стол, создание заказа на кассе, появление заказа в таппере")
+@DisplayName("Переход на пустой стол, создание заказа на кассе, появление заказа в таппере")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
@@ -37,7 +34,6 @@ public class TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
 
     static String guid;
     static int amountDishesForFillingOrder = 3;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -96,7 +92,7 @@ public class TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
     @DisplayName(TapperTable.closedOrder)
     void finishOrder() {
 
-      apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+      apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

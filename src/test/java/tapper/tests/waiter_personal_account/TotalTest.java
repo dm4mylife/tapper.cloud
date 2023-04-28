@@ -15,7 +15,7 @@ import waiter_personal_account.Waiter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.AdminPersonalAccount.WAITER_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.WAITER_PASSWORD;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;

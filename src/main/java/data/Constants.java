@@ -5,7 +5,7 @@ import com.github.javafaker.Faker;
 public class Constants {
     public static final Integer WAIT_FOR_FULL_LOAD_PAGE = 1000;
     public static final Integer PAGE_LOAD_TIMEOUT = 360000;
-    public static final Integer WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN = 400;
+    public static final Integer WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN = 200;
     public static final Integer WAIT_UNTIL_TRANSACTION_EXPIRED = 360000;
     public static final Integer WAIT_UNTIL_TRANSACTION_STILL_ALIVE = 200000;
     public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
@@ -13,19 +13,13 @@ public class Constants {
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
     public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE = 500;
     public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE = 1000;
-    public static final int WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER = 2000;
-    public static final int WAIT_FOR_GIF_IS_FULL_LOAD_ON_CONTAINER = 4000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_REVIEW = 8000;
-    public static final int WAIT_FOR_SOCKETS_CHANGE_POSITION = 2000;
-    public static final int WAIT_FOR_SOCKETS_RECEIVED_REQUEST = 4000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_CALL_WAITER = 5000;
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
-    public static final int WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK = 20000;
+    public static final int WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK = 15000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 10000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 20000;
     public static final int MOBILE_IMAGE_PIXEL_SIZE = 2962440;
     public static final int DESKTOP_IMAGE_PIXEL_SIZE = 1907178;
-    public static final double DIFF_PERCENT_IMAGE = 0.35;
+    public static final double DIFF_PERCENT_IMAGE = 0.1;
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_ACTUAL_PATH = "screenComparison/desktop/actual/";
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH = "screenComparison/desktop/original/";
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_DIFF_PATH = "screenComparison/desktop/diff/";
@@ -49,12 +43,25 @@ public class Constants {
     public static final String MOBILE_BROWSER_SIZE = "400x1020";
     public static final String DESKTOP_BROWSER_POSITION = "0x0";
     public static final String MOBILE_BROWSER_POSITION = "600x20";
+    public static final String SUPPORT_HISTORY_OPERATIONS_ACTIVE_DATE_FORMAT_PATTERN = "dd-MM-yyyy";
+    public static final String SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN = "dd.MM.yyyy";
+    public static final String SUPPORT_HISTORY_OPERATIONS_CUSTOM_DATE_PATTERN = "MM/d/yyyy";
+
+    public static final String EXPIRED_USER_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmbGVldCIsImlhdC" +
+            "I6MTY4MDg0NzQzNCwiZXhwIjoxNjgwODUxMDM0LCJzdWIiOjU4Mywicm9sZXNfaWQiOjR9.0wRDY-wr-GAcs1h7lfDowi6BDg0cLQ0P" +
+            "7lQ1-kdZcWY";
+
+    public static final String EXPIRED_REFRESH_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmbGVldCIsIml" +
+            "hdCI6MTY4MDg0NzQzNCwiZXhwIjoxNjgzNDM5NDM0LCJzdWIiOjU4Mywicm9sZXNfaWQiOjR9.xJto6ERVyBac_xouQM7zgPDhtvF2f" +
+            "mA9iEMqb2r1M5k";
 
     public static class TestData {
 
         public static class TapperTable {
 
-            public static final String STAGE_RKEEPER_TABLE_111 = "https://stage-ssr.zedform.ru/testrkeeper/1000046";
+           public static final String STAGE_RKEEPER_TABLE_111 = "https://stage-ssr.zedform.ru/testrkeeper/1000046";
+            public static final String STAGE_IIKO_TABLE_111 = "https://stage-ssr.zedform.ru/office/111";
+            public static final String STAGE_IIKO_TABLE_222 = "https://stage-ssr.zedform.ru/office/222";
             public static final String STAGE_RKEEPER_TABLE_222 = "https://stage-ssr.zedform.ru/testrkeeper/1000397";
             public static final String STAGE_RKEEPER_TABLE_333 = "https://stage-ssr.zedform.ru/testrkeeper/1000398";
             public static final String STAGE_RKEEPER_TABLE_444 = "https://stage-ssr.zedform.ru/testrkeeper/1000423";
@@ -62,17 +69,19 @@ public class Constants {
             public static final String STAGE_RKEEPER_TABLE_666 = "https://stage-ssr.zedform.ru/testrkeeper/1000438";
             public static final String STAGE_IIKO_TABLE_3 = "https://stage-ssr.zedform.ru/office/3";
             public static final String AUTO_API_URI = "https://apitapper.zedform.ru/api/";
-            public static final String TEST_API_URI = "https://taper.zedform.ru/api/";
 
-          /* public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
+
+           /*  public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
+            public static final String STAGE_IIKO_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/office/111";
             public static final String STAGE_RKEEPER_TABLE_222 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000397";
             public static final String STAGE_RKEEPER_TABLE_333 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000398";
             public static final String STAGE_RKEEPER_TABLE_444 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000423";
+            public static final String STAGE_RKEEPER_TABLE_555 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000437";
+            public static final String STAGE_RKEEPER_TABLE_666 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000438";
             public static final String STAGE_IIKO_TABLE_3 = "https://auto-ssr-tapper.zedform.ru/office/3";
             public static final String AUTO_API_URI = "https://auto-back-tapper.zedform.ru/api/";*/
 
             public static final Integer PAYMENT_BANKS_MAX_PRIORITY_BANKS = 3;
-            public static final double SERVICE_CHARGE_MAX = 199.0;
             public static final String TEST_WAITER_COMMENT = "test\\тест";
             public static final String TEST_REVIEW_COMMENT = "test\\тест";
             public static final String TEST_REVIEW_COMMENT_NEGATIVE = "Вкусно, но не то чтобы по вкусу вкусно";
@@ -97,8 +106,9 @@ public class Constants {
             public static final String SHORT_PASSWORD = "1234";
             public static final String EMPTY_LOGIN = " ";
             public static final String WRONG_EMAIL_PATTERN = "test";
-            public static final Double SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM = 3.0;
+            public static final Double SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM = 3.5;
             public static final Double SERVICE_CHARGE_PERCENT_FROM_TIPS = 5.0;
+            public static final double SERVICE_CHARGE_MAX = 299.0;
             public static final String TIPS_ERROR_MSG = " Минимальная сумма чаевых 49 ₽ ";
             public static final String MIN_SUM_FOR_TIPS_ERROR = "48";
             public static final String MIN_SUM_TIPS_ = "49";
@@ -228,6 +238,13 @@ public class Constants {
             public static final String IIKO_RESTAURANT_NAME = "office";
             public static final String SUPPORT_LOGIN_EMAIL = "varlone_mag2@mail.ru";
             public static final String SUPPORT_PASSWORD = "111111";
+            public static final String INCORRECT_DATA = "1111";
+
+            public static final String SUPPORT_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
+            public static final String SUPPORT_TEST_PHONE = "+7(123) 456-78-90";
+
+
+
 
         }
 

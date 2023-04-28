@@ -110,13 +110,19 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide-core</artifactId>
-            <version>6.12.3</version>
+            <version>6.13.0</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.codeborne/selenide-proxy -->
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide-proxy</artifactId>
+            <version>6.13.0</version>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>6.12.3</version>
+            <version>6.13.0</version>
             <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14 -->
@@ -173,12 +179,7 @@
             <artifactId>javase</artifactId>
             <version>3.5.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.codeborne/selenide-proxy -->
-        <dependency>
-            <groupId>com.codeborne</groupId>
-            <artifactId>selenide-proxy</artifactId>
-            <version>6.12.3</version>
-        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
         <dependency>
             <groupId>com.github.javafaker</groupId>
@@ -208,6 +209,12 @@
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
+        </dependency>
 
 
 
@@ -232,7 +239,7 @@
                         <include>.*TestSuite.java</include>
                     </includes>
                     <parallel>suites</parallel>
-                    <forkCount>5</forkCount>
+                    <forkCount>6</forkCount>
                     <reuseForks>false</reuseForks>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.4/aspectjweaver-1.9.4.jar"

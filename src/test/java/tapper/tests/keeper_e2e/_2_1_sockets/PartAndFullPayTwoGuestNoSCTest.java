@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Selenide.using;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
@@ -113,7 +113,7 @@ public class PartAndFullPayTwoGuestNoSCTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
 
         });
 
@@ -171,7 +171,7 @@ public class PartAndFullPayTwoGuestNoSCTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID);
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
 
         });
 

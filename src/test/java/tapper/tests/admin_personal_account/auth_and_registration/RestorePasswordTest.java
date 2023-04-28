@@ -7,6 +7,7 @@ import api.MailByApi;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.YandexPage;
@@ -26,6 +27,7 @@ import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.*;
 
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Авторизация\\регистрация")
+@Story("Восстановление пароля")
 @DisplayName("Восстановление пароля")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

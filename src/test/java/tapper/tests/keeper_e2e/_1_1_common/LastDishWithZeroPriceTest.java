@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.hidden;
 import static com.codeborne.selenide.Selenide.$$;
@@ -95,7 +95,7 @@ class LastDishWithZeroPriceTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -122,7 +122,7 @@ class LastDishWithZeroPriceTest extends BaseTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 
-        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
+        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg, "full");
 
     }
 

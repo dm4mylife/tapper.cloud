@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_2_modifiers;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -20,10 +21,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Selenide.using;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.TapperTable.RootPage.DishList.allDishesDisabledStatuses;
 import static data.selectors.TapperTable.RootPage.DishList.allDishesPayedStatuses;
 
@@ -36,6 +35,13 @@ import static data.selectors.TapperTable.RootPage.DishList.allDishesPayedStatuse
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = TableData.Keeper.Table_333.waiter;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
+
     static String guid;
     static HashMap<Integer, Map<String, Double>> chosenDishes;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
@@ -45,7 +51,6 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
     static HashMap<String, String> paymentDataKeeper;
     static String transactionId;
     static int amountDishesToBeChosen = 1;
-    static HashMap<Integer, Map<String, Double>> orderInKeeper;
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -57,8 +62,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
     @DisplayName("1.1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     public void createAndFillOrder() {
 
-        Response rs = rootPageNestedTests.createOrder(R_KEEPER_RESTAURANT, TABLE_CODE_333,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createOrder(restaurantName, tableCode, waiter, apiUri,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -89,10 +93,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
             }
         };
 
-        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modifiers));
-
-        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_333_ID, AUTO_API_URI);
-        orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
+        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(restaurantName,guid, modifiers));
 
     }
 
@@ -102,17 +103,12 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
         using(firstBrowser, () -> {
 
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
-            rootPage.isTableHasOrder();
+            rootPage.openNotEmptyTable(tableUrl);
+            rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(tableId);
 
         });
 
-        using(secondBrowser, () -> {
-
-            rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
-            rootPage.isTableHasOrder();
-
-        });
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
     }
 
@@ -153,7 +149,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID);
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
         });
 
@@ -182,7 +178,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
         using(firstBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
@@ -212,7 +208,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID);
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
         });
 

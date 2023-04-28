@@ -7,6 +7,7 @@ public class AnnotationAndStepNaming {
         public static class TapperTable {
 
             public static final String createOrderInKeeper = " Создание заказа на кассе rkeeper.";
+            public static final String createOrderInIiko = " Создание заказа на кассе Iiko.";
             public static final String isDishesCorrectInCashDeskAndTapperTable =
                     "  Проверка что позиции на кассе совпадают с позициями в таппере.";
             public static final String openEmptyTapperTable = " Открываем пустой стол.";
@@ -24,7 +25,8 @@ public class AnnotationAndStepNaming {
                     " Проверяем что все элементы в блоке чаевых отображаются корректно.";
             public static final String isCheckContainerCorrect =
                     " Проверяем что все элементы в блоке чека отображаются корректно.";
-            public static final String isPaymentButtonCorrect = " Проверяем что кнопка оплатить есть и работает корректно.";
+            public static final String isPaymentButtonCorrect =
+                    " Проверяем что кнопка оплатить есть и работает корректно.";
             public static final String isShareButtonCorrect =
                     " Проверяем что кнопка поделиться счётом есть и работает корректно.";
             public static final String isServiceChargeCorrect =

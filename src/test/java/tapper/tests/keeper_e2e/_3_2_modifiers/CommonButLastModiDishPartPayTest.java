@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
@@ -119,7 +119,7 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
         rootPage.scrollAndClick(allNonPaidAndNonDisabledDishesName.last());
         rootPage.showPaymentOptionsAndTapBar();
 
-        double cleanDishesSum = rootPage.countAllChosenDishesDivided();
+        double cleanDishesSum = rootPage.countOnlyAllChosenDishesDivided();
         rootPageNestedTests.checkSumWithAllConditions(cleanDishesSum);
         rootPage.setRandomTipsOption();
 
@@ -131,7 +131,7 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
 
     }
 
@@ -164,7 +164,7 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
     @DisplayName("7. Закрываем заказ")
     public void closeOrderByAPI() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_333_ID,guid,AUTO_API_URI);
+        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_333_ID,guid);
     }
 
 }

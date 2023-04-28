@@ -1,8 +1,7 @@
 package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 
-import api.ApiRKeeper;
-import data.AnnotationAndStepNaming;
+import common.BaseActions;
 import data.ScreenLayout;
 import data.selectors.TapperTable;
 import data.table_data_annotation.SixTableData;
@@ -16,9 +15,6 @@ import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
-import tapper_table.nestedTestsManager.RootPageNestedTests;
-import tests.BaseTest;
-import tests.ScreenDesktopTest;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
@@ -26,13 +22,12 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.Constants.TestData.TapperTable.*;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
-import static data.selectors.TapperTable.ReviewPage.review1Star;
 import static data.selectors.TapperTable.ReviewPage.review5Stars;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 
@@ -79,19 +74,12 @@ class ReviewTest extends ScreenMobileTest {
 
     @Test
     @Order(1)
-    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.createOrderInKeeper +
-            AnnotationAndStepNaming.DisplayName.TapperTable.isDishesCorrectInCashDeskAndTapperTable)
-    void createAndFillOrder() {
+    @DisplayName("Негативный отзыв")
+    void createAndFillOrder() throws IOException {
 
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
         rootPage.ignoreWifiIcon();
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.saveDataGoToAcquiringTypeDataAndPay)
-    void payAndGoToReviewPage() {
 
         tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,tableNumberRegex);
         waiterName = TapperTable.RootPage.TipsAndCheck.waiterName.getText();
@@ -104,36 +92,33 @@ class ReviewTest extends ScreenMobileTest {
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
         reviewPage.isReviewBlockCorrect();
 
-    }
-
-    @Test
-    @Order(3)
-    @DisplayName("Оставляем негативный отзыв")
-    void reviewCorrectNegative() throws IOException {
-
         reviewPageNestedTests.reviewCorrectNegative();
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.reviewNegative,diffPercent,imagePixelSize,ignoredElements);
-
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("Сохраняем данные")
-    void createAndPay() {
-
-        createAndFillOrder();
-        payAndGoToReviewPage();
-
     }
 
     @Test
     @Order(5)
-    @DisplayName("Оставляем позитивный отзыв")
+    @DisplayName("Позитивный отзыв")
     void checkPayment() throws IOException {
 
-        reviewPage.click(review5Stars);
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
+                restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
+        rootPage.ignoreWifiIcon();
+
+        tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,tableNumberRegex);
+        waiterName = TapperTable.RootPage.TipsAndCheck.waiterName.getText();
+
+        totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
+        paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
+        transactionId = nestedTests.acquiringPayment(totalPay);
+        pagePreLoader.shouldNotBe(visible, Duration.ofSeconds(15));
+        reviewPageNestedTests.paymentCorrect(orderType = "full");
+        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
+        reviewPage.isReviewBlockCorrect();
+
+        BaseActions.click(review5Stars);
         reviewPage.skipThanksReview();
         reviewPage.typeReviewComment(TEST_REVIEW_COMMENT_POSITIVE);
 

@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static api.ApiData.EndPoints.selenoidHubUrl;
+import static api.ApiData.KeeperEndPoints.selenoidHubUrl;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class AddSelenoidVideoToAllure implements AfterTestExecutionCallback {

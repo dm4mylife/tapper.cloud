@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._1_1_common;
 
 
 import api.ApiRKeeper;
+import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
@@ -75,7 +76,7 @@ class LastDishWithZeroPriceDiscountTest extends BaseTest {
 
         ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,"5000");
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,"5000");
 
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
@@ -89,10 +90,10 @@ class LastDishWithZeroPriceDiscountTest extends BaseTest {
     @DisplayName(TapperTable.isTotalPaySumCorrectTipsSc + TapperTable.setRandomTips)
     void checkSumTipsSC() {
 
+        rootPage.activateDivideCheckSliderIfDeactivated();
         $$(dishPriceWithDiscountSelector).filter(visible).shouldHave(size(1));
 
-        rootPage.activateDivideCheckSliderIfDeactivated();
-        rootPage.click(allNonPaidAndNonDisabledDishesName.first());
+        BaseActions.click(allNonPaidAndNonDisabledDishesName.first());
         rootPageNestedTests.activateRandomTipsAndActivateSc();
 
     }
@@ -104,7 +105,7 @@ class LastDishWithZeroPriceDiscountTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId);
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -131,7 +132,7 @@ class LastDishWithZeroPriceDiscountTest extends BaseTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void matchTgMsgDataAndTapperData() {
 
-        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg);
+        nestedTests.matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg, "full");
 
     }
 

@@ -2,11 +2,13 @@ package admin_personal_account.customization;
 
 
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import common.BaseActions;
 import io.qameta.allure.Step;
+import org.openqa.selenium.WebElement;
 import tapper_table.RootPage;
 
 import java.time.Duration;
@@ -202,11 +204,13 @@ public class Customization extends BaseActions {
             reviewToggles.asDynamicIterable().stream().forEach(element -> {
 
                 click(element);
+                reviewToggleInfoElement.shouldBe(visible);
                 reviewToggle.shouldHave(attributeMatching("class",".*active.*"));
 
             });
 
-            reviewToggleInfo.filter(visible).shouldHave(CollectionCondition.size(3));
+            reviewToggleInfo.should(CollectionCondition.allMatch("Раскрытые тултипы должны отображаться",
+                    WebElement::isDisplayed)).shouldHave(CollectionCondition.size(3));
 
         }
 

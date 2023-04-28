@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
@@ -42,7 +42,7 @@ public class CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
 
     static String guid;
     static double tapperTotalPay;
-    int amountDishesForFillingOrder = 1;
+    int amountDishesForFillingOrder = 2;
     ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
 
     RootPage rootPage = new RootPage();
@@ -58,7 +58,7 @@ public class CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
         guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableId);
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,"10000");
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,"5000");
         apiRKeeper.createDiscountByIdObject(discounts, DISCOUNT_BY_ID);
 
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
@@ -194,7 +194,7 @@ public class CheckDefaultTipsLogicBySumWithDiscount extends BaseTest {
     @DisplayName(TapperTable.closedOrder)
     void payAndGoToAcquiringAgain() {
 
-        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid, apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName, tableId, guid);
 
     }
 

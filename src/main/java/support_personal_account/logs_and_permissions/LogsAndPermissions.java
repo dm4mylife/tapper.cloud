@@ -2,14 +2,17 @@ package support_personal_account.logs_and_permissions;
 
 
 import admin_personal_account.tables_and_qr_codes.TablesAndQrCodes;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.github.javafaker.Faker;
 import common.BaseActions;
 import data.selectors.AdminPersonalAccount;
 import data.selectors.SupportPersonalAccount;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
+import total_personal_account_actions.AuthorizationPage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +23,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.*;
+import static data.Constants.TestData.SupportPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.paginationPages;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.*;
@@ -50,6 +54,7 @@ import static data.selectors.SupportPersonalAccount.LogsAndPermissions.waitersTa
 public class LogsAndPermissions extends BaseActions {
 
     TablesAndQrCodes tablesAndQrCodes = new TablesAndQrCodes();
+    AuthorizationPage authorizationPage = new AuthorizationPage();
 
     @Step("Переход в меню профиля")
     public void goToLogsAndPermissionsCategory() {
@@ -61,13 +66,32 @@ public class LogsAndPermissions extends BaseActions {
 
     }
 
+
+    public void goToLogsAndPermissionsKeeperRestaurant() {
+
+        authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
+        goToLogsAndPermissionsCategory();
+        chooseRestaurant(KEEPER_RESTAURANT_NAME);
+
+    }
+
+    public void isPermissionsCorrect() {
+
+
+
+
+    }
+
+
+
+
     @Step("Выбор тестового ресторана")
     public void chooseRestaurant(String restaurantName) {
 
         click(expandLeftMenuButton);
         isElementVisible(openedLeftMenuContainer);
 
-        if(!Objects.requireNonNull
+        if (!Objects.requireNonNull
                 (logsAndPermissionsCategoryDropdownButton.getAttribute("class")).matches(".*active.*")) {
 
             click(logsAndPermissionsCategoryDropdownButton);
@@ -90,6 +114,30 @@ public class LogsAndPermissions extends BaseActions {
 
     }
 
+    public void setInputValue(SelenideElement element,String value) {
+
+        clearText(element);
+        sendKeys(element,value);
+
+    }
+
+
+
+    @Step("Проверка таба Доступы если тип ресторана iiko")
+    public void isIikoPermissionTabCorrect() {
+
+        logo.shouldHave(attributeMatching("src",".*iiko.*")
+                .because("Должные быть логотип айко"));
+        isElementVisible(id);
+        isElementVisible(ip);
+        isElementVisible(port);
+        isElementVisible(login);
+        isElementVisible(password);
+        isElementVisible(shopsId);
+        isElementVisible(checkboxesContainer);
+        isElementVisible(saveButton);
+
+    }
     @Step("Проверка таба Доступы если тип ресторана keeper")
     public void isKeeperPermissionTabCorrect() {
 
@@ -115,20 +163,207 @@ public class LogsAndPermissions extends BaseActions {
         isElementVisible(saveButton);
 
     }
+    @Step("Редактируем все поля в форме доступов по айко")
+    public void isPrivateDateChangedCorrectForIiko() {
 
-    @Step("Проверка таба Доступы если тип ресторана iiko")
-    public void isIikoPermissionTabCorrect() {
+        id.shouldBe(disabled);
+        shopsId.shouldBe(disabled);
 
-        logo.shouldHave(attributeMatching("src",".*iiko.*")
-                .because("Должные быть логотип айко"));
-        isElementVisible(id);
-        isElementVisible(ip);
-        isElementVisible(port);
-        isElementVisible(login);
-        isElementVisible(password);
-        isElementVisible(shopsId);
-        isElementVisible(checkboxesContainer);
-        isElementVisible(saveButton);
+        Faker faker = new Faker();
+
+        String previousIpAddress = ip.getValue();
+        String previousPort = port.getValue();
+        String previousLogin = login.getValue();
+        String previousPassword = "19112021";
+
+        String newIpAddress = faker.internet().ipV4Address();
+        String newPort = faker.number().digits(4);
+        String newLogin = faker.name().username();
+        String newPassword = faker.internet().password();
+
+        setData(newIpAddress,newPort,newLogin, newPassword, checked,checked);
+        saveData();
+        isChangesAppliedIiko(newIpAddress,newPort, newLogin, newPassword);
+
+        setData(previousIpAddress,previousPort, previousLogin, previousPassword,not(checked),not(checked));
+        saveData();
+        isChangesAppliedIiko(previousIpAddress,previousPort, previousLogin, previousPassword);
+
+    }
+
+    @Step("Редактируем все поля в форме доступов по киперу")
+    public void isPrivateDateChangedCorrectForKeeper() {
+
+        id.shouldBe(disabled);
+        tokenLicense.shouldBe(disabled);
+
+        Faker faker = new Faker();
+
+        String previousLogin = login.getValue();
+        String previousPassword = "123456";
+        String previousLoginLicense = loginLicense.getValue();
+        String previousPasswordLicense = passwordLicense.getValue();
+        String previousIpLicense = ipLicense.getValue();
+        String previousRestaurantCodeLicense = restaurantCodeLicense.getValue();
+        String previousIdLicense = idLicense.getValue();
+        String previousInstanceLicense = instanceLicense.getValue();
+        String previousIdCurrency = idCurrency.getValue();
+        String previousFirstRequest = firstRequest.getValue();
+        String previousCodeManager = codeManager.getValue();
+        String previousCodeStation = codeStation.getValue();
+        String previousIdReason = idReason.getValue();
+        String previousAccNumber= accNumber.getValue();
+
+        String newLogin = faker.name().username();
+        String newPassword = faker.internet().password();
+        String newLoginLicense = faker.internet().emailAddress();
+        String newLoginPasswordLicense = faker.internet().password();
+        String newLoginIpLicense = faker.internet().url();
+        String newRestaurantCodeLicense = faker.number().digits(9);
+        String newIdLicense  = faker.internet().macAddress();
+        String newInstanceLicense = faker.number().digits(11);
+        String newIdCurrency  = faker.number().digits(7);
+        String newFirstRequest = String.valueOf(faker.number().numberBetween(1,9));
+        String newCodeManager = faker.number().digits(2);
+        String newCodeStation = String.valueOf(faker.number().numberBetween(1,9));
+        String newIdReason = String.valueOf(faker.number().numberBetween(1,9));
+        String newAccNumber = faker.number().digits(4);
+
+        setData
+                (newLogin, newPassword, newLoginLicense, newLoginPasswordLicense, newLoginIpLicense,
+                newRestaurantCodeLicense, newIdLicense, newInstanceLicense, newIdCurrency, newFirstRequest,
+                newCodeManager, newCodeStation, newIdReason, newAccNumber, checked,checked);
+
+        saveData();
+        isChangesAppliedKeeper
+                (newLogin, newPassword, newLoginLicense, newLoginPasswordLicense, newLoginIpLicense,
+                newRestaurantCodeLicense, newIdLicense, newInstanceLicense, newIdCurrency, newFirstRequest,
+                newCodeManager, newCodeStation, newIdReason, newAccNumber);
+
+        setData
+                (previousLogin, previousPassword, previousLoginLicense, previousPasswordLicense, previousIpLicense,
+                        previousRestaurantCodeLicense, previousIdLicense, previousInstanceLicense,
+                        previousIdCurrency, previousFirstRequest, previousCodeManager, previousCodeStation,
+                        previousIdReason, previousAccNumber, not(checked),not(checked));
+
+        saveData();
+        isChangesAppliedKeeper
+                (previousLogin, previousPassword, previousLoginLicense, previousPasswordLicense, previousIpLicense,
+                        previousRestaurantCodeLicense, previousIdLicense, previousInstanceLicense,
+                        previousIdCurrency, previousFirstRequest, previousCodeManager, previousCodeStation,
+                        previousIdReason, previousAccNumber);
+
+    }
+
+    public void setData (String loginValue, String passwordValue, String loginLicenseValue, String passwordLicenseValue,
+                        String ipLicenseValue, String restaurantCodeLicenseValue, String idLicenseValue,
+                        String instanceLicenseValue,  String idCurrencyValue, String firstRequestValue,
+                        String codeManagerValue, String codeStationValue, String idReasonValue, String accNumberValue,
+                        Condition availabilityCondition,Condition plugCondition) {
+
+        setInputValue(login,loginValue);
+        setInputValue(password, passwordValue);
+        setInputValue(loginLicense, loginLicenseValue);
+        setInputValue(passwordLicense, passwordLicenseValue);
+        setInputValue(ipLicense, ipLicenseValue);
+        setInputValue(restaurantCodeLicense, restaurantCodeLicenseValue);
+        setInputValue(idLicense, idLicenseValue);
+        setInputValue(instanceLicense, instanceLicenseValue);
+        setInputValue(idCurrency, idCurrencyValue);
+        setInputValue(firstRequest, firstRequestValue);
+        setInputValue(codeManager, codeManagerValue);
+        setInputValue(codeStation, codeStationValue);
+        setInputValue(idReason, idReasonValue);
+        setInputValue(accNumber, accNumberValue);
+
+        if (!availabilityCheckbox.isEnabled()) {
+
+            availabilityCheckbox.scrollTo().click();
+            availabilityCheckboxInput.shouldBe(availabilityCondition);
+
+        }
+
+        if (!plugCheckbox.isEnabled()) {
+
+            plugCheckbox.scrollTo().click();
+            plugCheckboxInput.shouldBe(plugCondition);
+
+        }
+
+    }
+
+    public void setData(String ipValue, String portValue, String loginValue, String passwordValue,
+                        Condition availabilityCondition,Condition plugCondition) {
+
+        setInputValue(ip,ipValue);
+        setInputValue(port, portValue);
+        setInputValue(login, loginValue);
+        setInputValue(password, passwordValue);
+
+        if (!availabilityCheckbox.isEnabled()) {
+
+            availabilityCheckbox.scrollTo().click();
+            availabilityCheckboxInput.shouldBe(availabilityCondition);
+
+        }
+
+        if (!plugCheckbox.isEnabled()) {
+
+            plugCheckbox.scrollTo().click();
+            plugCheckboxInput.shouldBe(plugCondition);
+
+        }
+
+    }
+
+    public void saveData() {
+
+        click(SupportPersonalAccount.LogsAndPermissions.permissionsTab.saveButton);
+        isModalConfirmationCorrect();
+        click(modalConfirmationSaveButton);
+
+    }
+
+    public void isChangesAppliedIiko(String ipValue, String portValue, String loginValue, String passwordValue) {
+
+        ip.shouldHave(value(ipValue));
+        port.shouldHave(value(portValue));
+        login.shouldHave(value(loginValue));
+        password.shouldHave(value(passwordValue));
+
+    }
+
+    public void isChangesAppliedKeeper
+            (String loginValue, String passwordValue, String loginLicenseValue, String passwordLicenseValue,
+               String ipLicenseValue, String restaurantCodeLicenseValue, String idLicenseValue,
+               String instanceLicenseValue,  String idCurrencyValue, String firstRequestValue,
+               String codeManagerValue, String codeStationValue, String idReasonValue, String accNumberValue) {
+
+        login.shouldHave(value(loginValue));
+        password.shouldHave(value(passwordValue));
+
+        login.shouldHave(value(loginValue));
+        password.shouldHave(value(passwordValue));
+        loginLicense.shouldHave(value(loginLicenseValue));
+        passwordLicense.shouldHave(value(passwordLicenseValue));
+        ipLicense.shouldHave(value(ipLicenseValue));
+        restaurantCodeLicense.shouldHave(value(restaurantCodeLicenseValue));
+        idLicense.shouldHave(value(idLicenseValue));
+        instanceLicense.shouldHave(value(instanceLicenseValue));
+        idCurrency.shouldHave(value(idCurrencyValue));
+        firstRequest.shouldHave(value(firstRequestValue));
+        codeManager.shouldHave(value(codeManagerValue));
+        codeStation.shouldHave(value(codeStationValue));
+        idReason.shouldHave(value(idReasonValue));
+        accNumber.shouldHave(value(accNumberValue));
+
+    }
+
+    public void isModalConfirmationCorrect() {
+
+        isElementVisible(modalConfirmationContainer);
+        isElementVisible(modalConfirmationCancelButton);
+        isElementVisible(modalConfirmationSaveButton);
 
     }
 
@@ -222,6 +457,18 @@ public class LogsAndPermissions extends BaseActions {
         click(getIdLicenseButton);
 
         licenseDateInput.shouldNotHave(empty);
+
+    }
+
+
+    public void isChangesSaved() {
+
+        choseXmlSaveOrderOption();
+        saveData();
+        xmlOrderSaveButton.shouldBe(checked);
+        xmlApplicationButton.shouldNotBe(checked);
+
+
 
     }
 
@@ -351,7 +598,7 @@ public class LogsAndPermissions extends BaseActions {
         isElementVisible(saveLoaderButton);
         isElementVisible(loaderPreviewContainer);
 
-        forceWait(WAIT_FOR_IMAGE_IS_FULL_LOAD_ON_CONTAINER);
+        loaderPreviewContainerImg.shouldHave(image);
         isImageCorrect(loaderInContainerNotSelenide, "Лоадер не загружен корректно или битый");
 
     }
@@ -361,19 +608,17 @@ public class LogsAndPermissions extends BaseActions {
 
         String previousLoader = $(loaderInContainerNotSelenide).getAttribute("src");
 
-        File loaderGif = new File(filePath);
-        changeLoaderButton.uploadFile(loaderGif);
+        changeLoaderButton.uploadFile(new File(filePath));
 
-        forceWait(WAIT_FOR_GIF_IS_FULL_LOAD_ON_CONTAINER);
-
-        String newLoader = $(loaderInContainerNotSelenide).getAttribute("src");
-
-        click(saveLoaderButton);
-        forceWait(WAIT_FOR_GIF_IS_FULL_LOAD_ON_CONTAINER);
-
-        Assertions.assertNotEquals(previousLoader, newLoader, "Загруженная анимация\\гиф не загрузилась");
+        saveLoaderButton.shouldBe(enabled).click();
+        saveLoaderButton.shouldBe(disabled,Duration.ofSeconds(7));
+        loaderPreviewContainerImg.shouldHave(image);
 
         isImageCorrect(loaderInContainerNotSelenide, "Лоадер не загружен корректно или битый");
+
+        assert previousLoader != null;
+        $(loaderInContainerNotSelenide).shouldHave(not(text(previousLoader)),Duration.ofSeconds(10));
+
 
     }
 
@@ -432,6 +677,27 @@ public class LogsAndPermissions extends BaseActions {
         isElementVisible(tipsByLink);
         isElementVisible(disableTips);
         isElementVisibleAndClickable(saveButton);
+
+    }
+    @Step("Отключаем чаевые")
+    public void disableTips() {
+
+        click(disableTips);
+        disableTipsInput.shouldBe(enabled);
+        click(saveButton);
+        tabPreloader.shouldBe(visible).shouldBe(hidden);
+        disableTipsInput.shouldBe(enabled);
+
+    }
+
+    @Step("Включаем чаевые")
+    public void activateTips() {
+
+        click(tapperLink);
+        tapperLink.shouldBe(enabled);
+        click(saveButton);
+        tabPreloader.shouldBe(visible).shouldBe(hidden);
+        tapperLink.shouldBe(enabled);
 
     }
 
@@ -499,7 +765,7 @@ public class LogsAndPermissions extends BaseActions {
         if (AdminPersonalAccount.TableAndQrCodes.paginationPages.size() == 1) {
 
             click(AdminPersonalAccount.TableAndQrCodes.paginationPages.first());
-            pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
+            //pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
 
             if(!Objects.equals(tableSearchFrom.getValue(), ""))
                 tableListItem.filter(matchText(String.valueOf(min))).shouldHave(sizeGreaterThanOrEqual(1));

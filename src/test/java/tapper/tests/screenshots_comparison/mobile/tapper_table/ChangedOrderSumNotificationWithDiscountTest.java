@@ -18,10 +18,8 @@ import tests.TakeOrCompareScreenshots;
 import java.io.IOException;
 import java.util.*;
 
-import static api.ApiData.orderData.*;
+import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
 
@@ -59,7 +57,7 @@ class ChangedOrderSumNotificationWithDiscountTest extends ScreenMobileTest {
 
     @Test
     @Order(1)
-    @DisplayName("Изменение цены со скидкой")
+    @DisplayName("Уведомление об изменении цены со скидкой")
     void createAndFillOrder() throws IOException {
 
         ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
@@ -67,7 +65,7 @@ class ChangedOrderSumNotificationWithDiscountTest extends ScreenMobileTest {
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
         rootPage.ignoreWifiIcon();
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discount);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discount);
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
@@ -78,7 +76,7 @@ class ChangedOrderSumNotificationWithDiscountTest extends ScreenMobileTest {
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperChangeDishSumWithDiscount,diffPercent,imagePixelSize,ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

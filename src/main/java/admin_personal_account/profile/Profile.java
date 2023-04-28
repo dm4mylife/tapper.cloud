@@ -75,7 +75,20 @@ public class Profile extends BaseActions {
         isElementVisible(configNotifications);
 
     }
+    @Step("Смена значения в поле")
+    public void changeFieldValue(SelenideElement element, String value) {
 
+        String previousValue = element.getValue();
+
+        setInputValue(element,value);
+
+        setInputValue(element,previousValue);
+
+        assert previousValue != null;
+
+        element.should(value(previousValue));
+
+    }
     @Step("Проверка смены имени ресторана")
     public void isPrivateDateChangedCorrect() {
 
@@ -99,20 +112,7 @@ public class Profile extends BaseActions {
 
     }
 
-    @Step("Смена значения в поле")
-    public void changeFieldValue(SelenideElement element, String value) {
 
-        String previousValue = element.getValue();
-
-        setInputValue(element,value);
-
-        setInputValue(element,previousValue);
-
-        assert previousValue != null;
-
-        element.should(value(previousValue));
-
-    }
     @Step("Удаление телеграма")
     public void deleteTelegramLogin() {
 
@@ -267,10 +267,8 @@ public class Profile extends BaseActions {
     @Step("Смена пароля админской учетной записи")
     public void changeAdminPassword() {
 
-        click(adminPassword);
-        sendKeys(adminPassword,ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST);
 
-        click(adminPasswordConfirmation);
+        sendKeys(adminPassword,ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST);
         sendKeys(adminPasswordConfirmation,ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST);
 
         click(saveButton);
@@ -286,10 +284,7 @@ public class Profile extends BaseActions {
         adminPassword.shouldHave(value(""));
         adminPasswordConfirmation.shouldHave(value(""));
 
-        click(adminPassword);
         sendKeys(adminPassword,ADMIN_RESTAURANT_PASSWORD);
-
-        click(adminPasswordConfirmation);
         sendKeys(adminPasswordConfirmation,ADMIN_RESTAURANT_PASSWORD);
 
         click(saveButton);

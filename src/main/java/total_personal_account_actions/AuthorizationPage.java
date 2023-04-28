@@ -20,6 +20,7 @@ public class AuthorizationPage extends BaseActions {
 
     ApiRKeeper apiRKeeper = new ApiRKeeper();
 
+
     @Step("Переход на страницу авторизации")
     public void goToAuthorizationPage() {
 
@@ -107,6 +108,16 @@ public class AuthorizationPage extends BaseActions {
         authorizeUser(login, password);
         isTextContainsInURL(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
         Waiter.skipConfPolicyModal();
+
+    }
+
+    @Step("Авторизуемся под официантом который уже соглашался ранее с политикой соглашения")
+    public void authorizationWaiterThatAgreedConfPolicy(String login, String password) {
+
+        goToAuthorizationPage();
+        authorizeUser(login, password);
+        isTextContainsInURL(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
+        isElementInvisible(confPolicyContainer);
 
     }
 

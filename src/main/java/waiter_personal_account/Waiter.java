@@ -39,12 +39,6 @@ public class Waiter extends BaseActions {
         isElementVisible(WaiterPersonalAccount.waiterName);
         isElementVisible(privateDataContainer);
 
-
-        //isElementVisible(telegramLogin);
-        //isElementVisible(unlinkTelegramLogin);
-
-
-
         isElementVisible(waiterEmail);
         waiterEmail.shouldBe(disabled);
         isElementVisible(personalInformationContainer);
@@ -97,10 +91,11 @@ public class Waiter extends BaseActions {
     public void changeWaiterName() {
 
         clearText(WaiterPersonalAccount.waiterName);
+        sendKeys(WaiterPersonalAccount.waiterName,ROBOCOP_WAITER_CHANGED_NAME);
 
-        WaiterPersonalAccount.waiterName.sendKeys(ROBOCOP_WAITER_CHANGED_NAME);
         click(saveButton);
-        pagePreloader.shouldBe(visible);
+        isElementVisible(pagePreloader);
+
         changedDataNotification
                 .shouldHave(attributeMatching("class", ".*active.*"));
         WaiterPersonalAccount.waiterName.shouldHave(value(ROBOCOP_WAITER_CHANGED_NAME));

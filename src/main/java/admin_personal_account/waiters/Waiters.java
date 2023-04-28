@@ -134,11 +134,6 @@ public class Waiters extends BaseActions {
 
         clickInFirstResult();
 
-        if (waiterStatusInCard.getText().matches(VERIFIED_WAITER_TEXT))
-            unlinkMailWaiterInCard();
-
-        isDetailWaiterCardCorrectWithWaitingInvitationStatus();
-
         if (waiterStatusInCard.getText().matches("(.|\\n)*" + INVITED_IN_SERVICE_TEXT)) {
 
             cancelEMailWaiterInvitationInCard();
@@ -148,6 +143,8 @@ public class Waiters extends BaseActions {
             unlinkMailWaiterInCard();
 
         }
+
+        isDetailWaiterCardCorrectWithWaitingInvitationStatus();
 
         sendKeys(enterEmailField,email);
         inviteButton.shouldBe(visible,enabled);
@@ -164,14 +161,6 @@ public class Waiters extends BaseActions {
 
         clickInFirstResult();
 
-        if (waiterStatusInCard.getText().matches(VERIFIED_WAITER_TEXT)) {
-
-            unlinkMailWaiterInCard();
-
-        }
-
-        isDetailWaiterCardCorrectWithWaitingInvitationStatus();
-
         if (waiterStatusInCard.getText().matches(INVITED_IN_SERVICE_TEXT)) {
 
             cancelEMailWaiterInvitationInCard();
@@ -181,6 +170,8 @@ public class Waiters extends BaseActions {
             unlinkMailWaiterInCard();
 
         }
+
+        isDetailWaiterCardCorrectWithWaitingInvitationStatus();
 
         sendKeys(enterEmailField,email);
 

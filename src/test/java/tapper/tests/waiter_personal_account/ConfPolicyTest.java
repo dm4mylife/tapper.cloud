@@ -9,6 +9,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import junit.framework.Assert;
 import org.junit.jupiter.api.*;
+import tapper_table.RootPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 import waiter_personal_account.Waiter;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import static data.Constants.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
+import static data.selectors.WaiterPersonalAccount.confPolicyModal;
 
 
 @Epic("Личный кабинет официант ресторана")
@@ -32,6 +34,7 @@ class ConfPolicyTest extends PersonalAccountTest {
     static HashMap<String,String> waiterData = new HashMap<>();
     AdminAccount adminAccount = new AdminAccount();
     AuthorizationPage authorizationPage = new AuthorizationPage();
+    RootPage rootPage = new RootPage();
     Waiters waiters = new Waiters();
     Waiter waiter = new Waiter();
 
@@ -77,6 +80,8 @@ class ConfPolicyTest extends PersonalAccountTest {
         authorizationPage.authorizeNewWaiter
                 (waiterData.get("login"), waiterData.get("password"),waiterData.get("url"));
 
+
+
     }
 
     @Test
@@ -112,11 +117,22 @@ class ConfPolicyTest extends PersonalAccountTest {
     void agreeWithConfPolicy() {
 
         waiter.agreeWithConfPolicy();
+        adminAccount.logOut();
 
     }
 
     @Test
     @Order(9)
+    @DisplayName("Проверка что политики нет если соглашались и заново авторизовались")
+    void authorizationWaiterThatAgreedConfPolicy() {
+
+        authorizationPage.authorizationWaiterThatAgreedConfPolicy(waiterData.get("login"), waiterData.get("password"));
+
+    }
+
+
+    @Test
+    @Order(10)
     @DisplayName("Отвязываем почту от учетной записи")
     void unlinkMailWaiter() {
 
@@ -125,7 +141,7 @@ class ConfPolicyTest extends PersonalAccountTest {
     }
 
     @Test
-    @Order(10)
+    @Order(11)
     @DisplayName("Удаляем письмо на почте Яндекса")
     void deleteYandexInviteMail() {
 

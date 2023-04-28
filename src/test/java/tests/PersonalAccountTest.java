@@ -5,8 +5,6 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +17,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import static api.ApiData.EndPoints.selenoidUiHubUrl;
+import static api.ApiData.KeeperEndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.FileDownloadMode.FOLDER;
 import static data.Constants.*;

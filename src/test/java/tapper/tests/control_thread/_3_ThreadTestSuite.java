@@ -8,8 +8,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @SelectPackages({
 
     "tapper.tests.keeper_e2e._3_1_waiter",
-    "tapper.tests.keeper_e2e._3_2_modificator",
-    "tapper.tests.keeper_e2e._3_3_partPayment"
+    "tapper.tests.keeper_e2e._3_2_modifiers",
+    "tapper.tests.keeper_e2e._3_3_part_payment"
 
 })
 @Suite

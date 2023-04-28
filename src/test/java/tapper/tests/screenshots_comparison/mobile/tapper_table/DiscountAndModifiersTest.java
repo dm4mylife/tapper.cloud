@@ -19,9 +19,7 @@ import tests.TakeOrCompareScreenshots;
 import java.io.IOException;
 import java.util.*;
 
-import static api.ApiData.orderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
+import static api.ApiData.OrderData.*;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 
@@ -60,7 +58,7 @@ class DiscountAndModifiersTest extends ScreenMobileTest {
 
     @Test
     @Order(1)
-    @DisplayName("Скидка")
+    @DisplayName("Скидка с модификаторами")
     void createAndFillOrder() throws IOException {
 
         ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
@@ -95,7 +93,7 @@ class DiscountAndModifiersTest extends ScreenMobileTest {
         apiRKeeper.createDishObject(dishes, TORT, amountDishesForFillingOrder);
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
 
-        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM,discountAmount);
+        apiRKeeper.createDiscountWithCustomSumObject(discounts, DISCOUNT_WITH_CUSTOM_SUM_ID,discountAmount);
         apiRKeeper.createDiscountByIdObject(discounts, DISCOUNT_BY_ID);
 
         Map<String, Object> rqBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
@@ -113,7 +111,7 @@ class DiscountAndModifiersTest extends ScreenMobileTest {
                 ScreenLayout.Tapper.tapperTableWithDiscountAndModifiersOrderPartTwo,diffPercent,imagePixelSize,
                 ignoredElements);
 
-        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid,apiUri);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

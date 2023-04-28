@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static api.ApiData.EndPoints.selenoidUiHubUrl;
+import static api.ApiData.KeeperEndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static data.Constants.*;
@@ -47,6 +47,7 @@ public class BaseTest {
         loggingPreferences.enable(LogType.BROWSER, Level.WARNING);
         desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
         desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        options.setCapability(ChromeOptions.LOGGING_PREFS, loggingPreferences);
 
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPhone 12 Pro");
@@ -62,6 +63,7 @@ public class BaseTest {
             put("enableVNC", true);
 
         }});
+
 
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--safebrowsing-disable-download-protection");
