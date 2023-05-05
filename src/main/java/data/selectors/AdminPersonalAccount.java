@@ -451,8 +451,8 @@ public class AdminPersonalAccount {
         public static final SelenideElement currentMonth =
                 $(".mx-calendar-panel-date:first-child .mx-calendar-header .mx-calendar-header-label " +
                         ".mx-btn-current-month");
-        public static final ElementsCollection daysOnMonthPeriod =
-                $$(".mx-calendar:first-child .mx-calendar-content td[class='cell']");
+        public static final ElementsCollection daysOnMonthPeriod = $$(".mx-calendar:first-child " +
+                ".mx-calendar-content tbody tr td:not([class*='not-current-month'])");
         public static final SelenideElement resetPeriodButton = $(".vHistoryBlockHeader__period-reset");
         public static final SelenideElement historyTotalPeriodDate = $(".vHistoryTotalPeriod__date");
         public static final SelenideElement historyPeriodDate = $(".vHistoryList__date");

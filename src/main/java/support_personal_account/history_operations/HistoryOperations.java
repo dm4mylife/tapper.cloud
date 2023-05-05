@@ -18,6 +18,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static data.Constants.*;
+import static data.Constants.TestData.SupportPersonalAccount.HISTORY_OPERATION_DEFAULT_LIST_ITEM_SIZE;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.*;
 
@@ -27,6 +28,8 @@ import static data.selectors.SupportPersonalAccount.HistoryOperations.totalSum;
 
 
 public class HistoryOperations extends BaseActions {
+
+    private int fromDate;
 
     @Step("Переход в категорию Истории операций")
     public void goToHistoryOperationsCategory() {
@@ -90,10 +93,11 @@ public class HistoryOperations extends BaseActions {
         isElementVisible(generalTotalsum.first());
         isElementVisible(generalTips.first());
         isElementVisible(generalServiceCharge.first());
-        isElementVisible(generalComment.first());
+
         isElementVisible(loadMoreButton);
 
         click(tipsCategory);
+        preloader.shouldBe(visible).shouldBe(hidden);
 
         isElementVisible(stuckRestaurantName.first());
         isElementVisible(stuckTableNumber.first());
@@ -200,7 +204,7 @@ public class HistoryOperations extends BaseActions {
     }
 
     @Step("Выбор диапазона из календаря")
-    public void setCustomPeriod() throws ParseException {
+    public void setCustomPeriod(String month, int fromDateValue, int toDateValue) throws ParseException {
 
         clickByJs(periodButton);
 
@@ -209,25 +213,27 @@ public class HistoryOperations extends BaseActions {
             leftArrowMonthPeriod.shouldBe(visible,enabled);
             click(leftArrowMonthPeriod);
 
-        } while(!currentMonth.getText().equals("Ноябрь"));
+        } while(!currentMonth.getText().equals(month));
 
-        SelenideElement fromDate = daysOnMonthPeriod.first(),
-                        toDate = daysOnMonthPeriod.last();
+        SelenideElement fromDate = daysOnMonthPeriod.get(fromDateValue-1);
 
         String fromPeriodDate =
-                convertDataFormat(fromDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_CUSTOM_DATE_PATTERN);
+                convertDataFormat(fromDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN);
 
         fromDate.hover().click();
 
+        SelenideElement toDate = daysOnMonthPeriod.get(toDateValue-1);
+
         String
                 toDateForCustomPeriodButton =
-                convertDataFormat(toDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_CUSTOM_DATE_PATTERN),
+                convertDataFormat(toDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN),
                 toDateForOperationsItems =
                 convertDataFormat(toDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN),
                 toDateForCurrentDateContainer =
                 convertDataFormat(toDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ACTIVE_DATE_FORMAT_PATTERN);
 
-        toDate.hover().click();
+        toDate.hover();
+        click(toDate);
 
         activePeriodDate.shouldHave(text(toDateForCurrentDateContainer),Duration.ofSeconds(10));
         customPeriodButton.shouldHave(text(fromPeriodDate + " - " + toDateForCustomPeriodButton));
@@ -249,7 +255,7 @@ public class HistoryOperations extends BaseActions {
 
         isOpenedRestaurantFilterCorrect();
         isRestaurantBySearchCorrect(restaurantName);
-        isOperationListCorrectWitFilters(restaurantName);
+        isOperationListCorrectWithFilters(restaurantName);
 
         click($(deleteCurrentFilterButton));
         isElementInvisible(restaurantFilterButton.$(deleteCurrentFilterButton));
@@ -257,7 +263,7 @@ public class HistoryOperations extends BaseActions {
         click(restaurantFilterButton);
         isOpenedRestaurantFilterCorrect();
         isRestaurantFromDropdownListCorrect(restaurantName);
-        isOperationListCorrectWitFilters(restaurantName);
+        isOperationListCorrectWithFilters(restaurantName);
 
         resetAllFilters();
 
@@ -279,6 +285,7 @@ public class HistoryOperations extends BaseActions {
         sendKeys(restaurantFilterSearchInput,restaurantName);
         click(restaurantFilterListItems.first());
         isAppliedFilter(restaurantFilterContainer,restaurantFilterButton,restaurantName);
+        forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED); // toDo список операций прогружается с задержкой, не понятно за что зацепиться пока
 
     }
     @Step("Проверяем корректность выбора ресторана из списка")
@@ -296,19 +303,56 @@ public class HistoryOperations extends BaseActions {
 
     }
 
-    public void isOperationListCorrectWitFilters(String restaurantName) {
+    @Step("Устанавливаем стол")
+    public void setTableFilter(String restaurantName, String tableNumber) {
 
-        generalRestaurantName.shouldBe(allMatch("В списке должны быть все операции по этому ресторану",
-               element -> element.getText().equals(restaurantName) ));
+        isOpenedTableFilterCorrect();
+        isTableFilterBySearchCorrect(tableNumber);
+        isOperationListCorrectWithFilters(restaurantName,tableNumber);
 
     }
 
-    public void isOperationListCorrectWitFilters(String restaurantName, String tableNumber) {
+    @Step("Устанавливаем статус заказа")
+    public void setOrderStatusFilter(String restaurantName, String tableNumber,String orderStatus) {
 
-        isOperationListCorrectWitFilters(restaurantName);
+        isOpenedStatusFilterCorrect();
+        choseCertainOptionInOrderStatusFilter(orderStatus);
+        isOperationListCorrectWithFilters(restaurantName,tableNumber,orderStatus);
+
+    }
+
+    public void isOperationListCorrectWithFilters(String restaurantName) {
+
+        generalRestaurantName.shouldBe(allMatch("В списке должны быть все операции по этому ресторану",
+               element -> element.getText().equals(restaurantName) ),Duration.ofSeconds(6));
+
+    }
+
+    public void isOperationListCorrectWithFilters(String restaurantName, String tableNumber) {
+
+        isOperationListCorrectWithFilters(restaurantName);
 
         generalTableNumber.shouldBe(allMatch("В списке должны быть все операции по этому столу",
                 element -> element.getText().equals(tableNumber) ));
+
+    }
+
+    public void isOperationListCorrectWithFilters(String restaurantName, String tableNumber, String orderStatusText) {
+
+        isOperationListCorrectWithFilters(restaurantName,tableNumber);
+
+        orderStatus.shouldBe(allMatch("В списке должны быть все операции по этому статусу",
+                element -> element.getText().contains(orderStatusText) ));
+
+    }
+
+    public void isOperationListCorrectWithFilters(String restaurantName, String tableNumber, String orderStatusText,
+                                                  String waiter) {
+
+        isOperationListCorrectWithFilters(restaurantName,tableNumber,orderStatusText);
+
+        waiterName.shouldBe(allMatch("В списке должны быть все операции по этому официанту",
+                element -> element.getText().contains(waiter) ));
 
     }
 
@@ -316,17 +360,32 @@ public class HistoryOperations extends BaseActions {
     public void isTableFilterCorrect(String restaurantName,String tableNumber) {
 
         setRestaurantFilter(restaurantName);
-        click(tableNumberFilterButton);
-        isOpenedTableFilterCorrect();
-        isTableFilterBySearchCorrect(tableNumber);
-        isOperationListCorrectWitFilters(restaurantName,tableNumber);
+
+        setTableFilter(restaurantName, tableNumber);
 
         resetAllFilters();
 
     }
 
+    @Step("Проверяем работу фильтра Статус заказа")
+    public void isOrderStatusFilterCorrect(String restaurantName,String tableNumber, String orderStatus) {
+
+        setRestaurantFilter(restaurantName);
+
+        setTableFilter(restaurantName, tableNumber);
+
+        setOrderStatusFilter(restaurantName,tableNumber,orderStatus);
+
+        resetAllFilters();
+
+    }
+
+
+
     @Step("Проверяем все элементы в фильтре Столы")
     public void isOpenedTableFilterCorrect() {
+
+        click(tableNumberFilterButton);
 
         isElementVisible(tableNumberFilterContainer);
         isElementVisible(tableNumberFilterSearch);
@@ -340,6 +399,7 @@ public class HistoryOperations extends BaseActions {
         sendKeys(tableNumberFilterSearchInput,tableNumber);
         click(tableNumberFilterApplyButton);
         isAppliedFilter(tableNumberFilterContainer,tableNumberFilterButton,tableNumber);
+        forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED); // toDo список операций прогружается с задержкой, не понятно за что зацепиться пока
 
     }
 
@@ -351,31 +411,220 @@ public class HistoryOperations extends BaseActions {
         element.shouldHave(cssValue("border-color","rgb(103, 100, 255)"));
 
     }
+    public void isAppliedWaiterFilter() {
 
+        isElementInvisible(waiterFilterContainer);
+        isElementVisible(waiterFilterButton.$(deleteCurrentFilterButton));
+        waiterFilterButton.shouldHave(cssValue("border-color","rgb(103, 100, 255)"));
+
+    }
+
+    @Step("Сбрасываем фильтры")
     public void resetAllFilters() {
 
         filterButtons.asDynamicIterable().stream().forEach(element -> {
 
-            System.out.println(element);
-            System.out.println(!Objects.requireNonNull(element.getAttribute("class")).matches(".*disabled"));
-
             if (!Objects.requireNonNull(element.getAttribute("class")).matches(".*disabled")) {
-
-                System.out.println("click in " + element);
 
                 if(element.$(deleteCurrentFilterButton).exists())
                     element.$(deleteCurrentFilterButton).click();
 
                 element.$(deleteCurrentFilterButton).shouldBe(hidden);
-                System.out.println("end");
 
             }
 
         });
+
         $$(deleteCurrentFilterButton).shouldHave(size(0));
 
     }
 
+    public void isOpenedStatusFilterCorrect() {
+
+        click(orderStatusFilterButton);
+
+        isElementVisible(orderStatusFilterContainer);
+        isElementVisible(orderStatusFilterOpenButton);
+        isElementVisible(orderStatusFilterCloseButton);
+        isElementVisible(filterCloseButton);
+
+    }
+
+    public void choseCertainOptionInOrderStatusFilter(String orderStatus) {
+
+        if (orderStatus.contains("Открыт")) {
+
+            click(orderStatusFilterOpenButton);
+
+        } else {
+
+            click(orderStatusFilterCloseButton);
+
+        }
+
+        isAppliedFilter(orderStatusFilterContainer,orderStatusFilterButton,orderStatus);
+
+    }
+
+    @Step("Проверка фильтра Официант")
+    public void isWaiterFilterCorrect(String restaurantName,String tableNumber, String orderStatus, String waiterName) {
+
+        setRestaurantFilter(restaurantName);
+
+        setTableFilter(restaurantName, tableNumber);
+
+        setOrderStatusFilter(restaurantName,tableNumber,orderStatus);
+
+        click(waiterFilterButton);
+
+        isOpenedWaiterFilterCorrect();
+
+        isWaiterBySearchCorrect(waiterName);
+
+        isOperationListCorrectWithFilters(restaurantName,tableNumber,orderStatus,waiterName);
+
+        click(deleteFilterButtons.last());
+        isElementInvisible(waiterFilterButton.$(deleteCurrentFilterButton));
+
+        click(waiterFilterButton);
+
+        isOpenedWaiterFilterCorrect();
+
+        isWaiterFromDropdownListCorrect(waiterName);
+
+        isOperationListCorrectWithFilters(restaurantName,tableNumber,orderStatus,waiterName);
+
+        resetAllFilters();
+
+    }
+
+    @Step("Проверка списка операций с фильтром ресторана и официанта на определенном столе")
+    public void isOperationListCorrectWithCertainWaiterAndTable(String restaurantName,String tableNumber, String orderStatus, String waiterName) {
+
+        setRestaurantFilter(restaurantName);
+
+        click(waiterFilterButton);
+
+        isOpenedWaiterFilterCorrect();
+
+        isWaiterBySearchCorrect(waiterName);
+
+        setTableFilter(restaurantName, tableNumber);
+
+        setOrderStatusFilter(restaurantName,tableNumber,orderStatus);
+
+        isOperationListCorrectWithFilters(restaurantName,tableNumber,orderStatus,waiterName);
+
+        resetAllFilters();
+
+    }
+
+    @Step("Проверка списка операций со всеми фильтрами и диапазоном")
+    public void isOperationListCorrectWithAllFiltersAndDataRange
+            (String restaurantName,String tableNumber, String orderStatus, String waiterName, String month)
+            throws ParseException {
+
+        setRestaurantFilter(restaurantName);
+
+        click(waiterFilterButton);
+
+        isOpenedWaiterFilterCorrect();
+
+        isWaiterBySearchCorrect(waiterName);
+
+        setTableFilter(restaurantName, tableNumber);
+
+        isOpenedStatusFilterCorrect();
+        choseCertainOptionInOrderStatusFilter(orderStatus);
+
+        setCustomPeriod(month,1,20);
+
+        isOperationListCorrectWithFilters(restaurantName,tableNumber,orderStatus,waiterName);
+
+    }
+
+    @Step("Проверка кнопки Загрузить еще")
+    public void isLoadMoreButtonCorrect(String month) throws ParseException {
+
+        setCustomPeriod(month,1,20);
+
+        operationsItems.shouldHave(size(HISTORY_OPERATION_DEFAULT_LIST_ITEM_SIZE));
+
+        loadMoreButton.shouldBe(visible);
+        scrollAndClick(loadMoreButton);
+
+        operationsItems.shouldHave(size(HISTORY_OPERATION_DEFAULT_LIST_ITEM_SIZE * 2));
+
+        loadMoreButton.shouldBe(visible);
+        scrollAndClick(loadMoreButton);
+
+        operationsItems.shouldHave(size(HISTORY_OPERATION_DEFAULT_LIST_ITEM_SIZE * 3));
+
+    }
+
+    @Step("Проверка Показать только возвраты")
+    public void isShowOnlyRefundsCorrect() {
+
+        click(showOnlyRefundsButton);
+        showOnlyRefundsInput.shouldBe(checked);
+
+        if (Objects.requireNonNull(dayPeriodButton.getAttribute("class")).matches(".*active.*"))
+            click(dayPeriodButton);
+
+        isElementsCollectionVisible(refundSum);
+
+        operationsItems.shouldHave(allMatch("Все операции должны быть с возвратом",
+                element -> element.getText().contains("Сумма возврата") ));
+
+        click(showOnlyRefundsButton);
+        showOnlyRefundsInput.shouldNotBe(checked);
+
+        operationsItems.shouldHave(allMatch("Все операции должны быть с возвратом",
+                element -> !element.getText().contains("Сумма возврата") ));
+
+    }
+
+    @Step("Проверка открытой истории застрявшей операции")
+    public void isOpenedRefundOperationCorrect() {
+
+       click(operationsItems.first());
+
+        operationsItems.first().shouldHave(attributeMatching("class",".*active.*"));
+
+        Assertions.assertEquals(refundSum.first().getText(),openedRefundSum.first().getText(),
+                "Сумма возврата не совпадает");
+
+    }
+
+
+
+    @Step("Проверка корректности элементов в фильтре Официант")
+    public void isOpenedWaiterFilterCorrect() {
+
+        isElementVisible(waiterFilterContainer);
+        isElementVisible(waiterFilterSearch);
+        isElementsCollectionVisible(waiterFilterItems);
+        isElementVisible(filterCloseButton);
+
+    }
+
+    @Step("Проверяем корректность поиска официанта")
+    public void isWaiterBySearchCorrect(String waiter) {
+
+        sendKeys(waiterFilterSearchInput,waiter);
+        click(waiterFilterItems.first());
+        isAppliedWaiterFilter();
+        forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED); // toDo список операций прогружается с задержкой, не понятно за что зацепиться пока
+
+    }
+
+    @Step("Проверяем корректность выбора официанта из списка")
+    public void isWaiterFromDropdownListCorrect(String waiter) {
+
+        waiterFilterItems.find(text(waiter)).click();
+        isAppliedWaiterFilter();
+
+    }
 
 
 }

@@ -81,7 +81,7 @@ public class RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
     @DisplayName("1.1. Проверяем скидку на столе")
     public void isDiscountCorrectOnTable() {
 
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
+        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID, "keeper");
 
     }
 

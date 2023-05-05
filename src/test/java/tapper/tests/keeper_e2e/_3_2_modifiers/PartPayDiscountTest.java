@@ -130,7 +130,7 @@ class PartPayDiscountTest extends BaseTest {
     void checkSumTipsSC() {
 
         rootPageNestedTests.checkChosenDishesSumsWithAllConditionsConsideringDiscount(amountDishesToBeChosen);
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
 
         rootPage.isModificatorTextCorrect();
         rootPage.activateServiceChargeIfDeactivated();

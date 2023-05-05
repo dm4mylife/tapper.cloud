@@ -137,7 +137,7 @@ public class ReduceDiscountAfterPartPayTest extends BaseTest {
     @DisplayName("1.7. Проверяем скидку на столе")
     public void checkIsDiscountPresent() {
 
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
+        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID, "keeper");
 
     }
 

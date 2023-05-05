@@ -141,7 +141,7 @@ class PartPayAddDiscountTest extends BaseTest {
         rootPage.refreshPage();
         rootPage.isTableHasOrder();
 
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
         rootPageNestedTests.hasNoDiscountPriceOnPaidDishesIfDiscountWasAppliedAfterPayment();
         rootPageNestedTests.checkChosenDishesSumsWithAllConditionsConsideringDiscount(amountDishes);
 

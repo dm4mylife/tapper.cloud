@@ -37,7 +37,13 @@ public class WaiterTab extends BaseActions {
         String tgLogin = tgLoginFaker.harryPotter().house();
 
         Faker tgIdFaker = new Faker();
-        String tgId = tgIdFaker.number().digits(6);
+        String tgId;
+
+        do {
+
+            tgId = tgIdFaker.number().digits(6);
+
+        } while (String.valueOf(tgId).charAt(0) == '0');
 
         HashMap<String, String> tgData = new HashMap<>();
         tgData.put("login", tgLogin);
@@ -49,6 +55,7 @@ public class WaiterTab extends BaseActions {
         sendKeys(telegramLogin,tgLogin);
 
         clearText(telegramId);
+
         sendKeys(telegramId,tgId);
 
         saveButton.shouldNotBe(disabled);

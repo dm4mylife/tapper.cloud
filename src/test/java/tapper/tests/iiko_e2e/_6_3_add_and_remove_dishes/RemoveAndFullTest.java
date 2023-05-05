@@ -18,7 +18,7 @@ import static api.ApiData.IikoData.Dish.BURGER;
 import static api.ApiData.IikoData.Dish.SHASHLIK_GOVYADINA;
 
 
-@Epic("RKeeper")
+@Epic("Iiko")
 @Feature("Добавление и удаление позиций из заказа")
 @Story("Удаление позиции, полная оплата")
 @DisplayName("Удаление позиции, полная оплата")

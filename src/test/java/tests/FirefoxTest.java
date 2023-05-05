@@ -28,10 +28,9 @@ public class FirefoxTest {
         Configuration.browserSize = MOBILE_BROWSER_SIZE;
         Configuration.browserPosition = MOBILE_BROWSER_POSITION;
         Configuration.browser = FIREFOX;
-        Configuration.savePageSource = false;
-
-        Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
         Configuration.remote = selenoidUiHubUrl;
+        Configuration.savePageSource = false;
+        Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
         Configuration.headless = false;
 
         FirefoxOptions options = new FirefoxOptions();

@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -21,6 +22,7 @@ import static com.codeborne.selenide.Selenide.using;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
+import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
 import static data.selectors.TapperTable.RootPage.DishList.allDisabledDishes;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
 import static data.selectors.TapperTable.RootPage.PayBlock.paymentButton;
@@ -46,9 +48,10 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
     int amountDishesForFillingOrder = 6;
     static String guid;
     RootPage rootPage = new RootPage();
-    ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
+
+    ApiRKeeper apiRKeeper = new ApiRKeeper();
 
     @Test
     @Order(1)
@@ -75,7 +78,12 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
     @DisplayName("Переходим в оплату у первого гостя")
     void chooseDishesByAnotherGuest() {
 
-        using(firstBrowser, () -> rootPageNestedTests.clickPayment());
+        using(firstBrowser, () -> {
+
+            rootPageNestedTests.clickPayment();
+            paymentContainer.shouldBe(Condition.exist, Duration.ofSeconds(300));
+
+        });
 
     }
 
@@ -130,7 +138,7 @@ class DisabledDishesWhenInPaymentTest extends TwoBrowsers {
     @DisplayName(TapperTable.closedOrder)
     void closeOrder() {
 
-
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

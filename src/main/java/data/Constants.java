@@ -6,16 +6,17 @@ public class Constants {
     public static final Integer WAIT_FOR_FULL_LOAD_PAGE = 1000;
     public static final Integer PAGE_LOAD_TIMEOUT = 360000;
     public static final Integer WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN = 200;
-    public static final Integer WAIT_UNTIL_TRANSACTION_EXPIRED = 360000;
+    public static final Integer WAIT_UNTIL_TRANSACTION_EXPIRED = 250000;
     public static final Integer WAIT_UNTIL_TRANSACTION_STILL_ALIVE = 200000;
     public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
     public static final int WAIT_FOR_ORDER_TO_BE_CLOSED_AT_CASH_DESK = 10000;
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
     public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE = 500;
+    public static final int WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED = 300;
     public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE = 1000;
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
     public static final int WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK = 15000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 10000;
+    public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 15000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 20000;
     public static final int MOBILE_IMAGE_PIXEL_SIZE = 2962440;
     public static final int DESKTOP_IMAGE_PIXEL_SIZE = 1907178;
@@ -62,6 +63,7 @@ public class Constants {
            public static final String STAGE_RKEEPER_TABLE_111 = "https://stage-ssr.zedform.ru/testrkeeper/1000046";
             public static final String STAGE_IIKO_TABLE_111 = "https://stage-ssr.zedform.ru/office/111";
             public static final String STAGE_IIKO_TABLE_222 = "https://stage-ssr.zedform.ru/office/222";
+            public static final String STAGE_IIKO_TABLE_333 = "https://stage-ssr.zedform.ru/office/333";
             public static final String STAGE_RKEEPER_TABLE_222 = "https://stage-ssr.zedform.ru/testrkeeper/1000397";
             public static final String STAGE_RKEEPER_TABLE_333 = "https://stage-ssr.zedform.ru/testrkeeper/1000398";
             public static final String STAGE_RKEEPER_TABLE_444 = "https://stage-ssr.zedform.ru/testrkeeper/1000423";
@@ -242,6 +244,8 @@ public class Constants {
 
             public static final String SUPPORT_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String SUPPORT_TEST_PHONE = "+7(123) 456-78-90";
+
+            public static final int HISTORY_OPERATION_DEFAULT_LIST_ITEM_SIZE = 15;
 
 
 

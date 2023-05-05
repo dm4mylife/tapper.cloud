@@ -78,7 +78,7 @@ public class ReduceDiscountTest extends BaseTest {
     @DisplayName("2. Проверка скидки")
     public void checkSumTipsSC() {
 
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
+        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID, "keeper");
         rootPageNestedTests.hasDiscountPriceOnPaidDishesIfDiscountAppliedAfter();
 
     }

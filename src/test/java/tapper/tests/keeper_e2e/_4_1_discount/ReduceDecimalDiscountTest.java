@@ -83,7 +83,7 @@ public class ReduceDecimalDiscountTest extends BaseTest {
     @DisplayName("2. Проверка скидки")
     public void checkSumTipsSC() {
 
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
         rootPageNestedTests.hasDiscountPriceOnPaidDishesIfDiscountAppliedAfter();
 
     }

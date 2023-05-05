@@ -50,7 +50,7 @@ public class ApiIiko {
                 .when()
                 .post(createOrder)
                 .then()
-                .log().body()
+                .log().ifError()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -79,7 +79,6 @@ public class ApiIiko {
     public Map<String, Object> rqBodyFillingOrderWithModifiers(String order_id, String product_id, int amount,
                                                   ArrayList<LinkedHashMap<String, Object>> modifiers) {
 
-
         Map<String, Object> rsBody = rqBodyFillingOrder(order_id,product_id,amount);
 
         rsBody.put("modifiers", modifiers);
@@ -88,15 +87,17 @@ public class ApiIiko {
 
     }
 
-    public LinkedHashMap<String, Object>
-    createModificatorObject(String modifiersId, int quantity) {
+    public ArrayList<LinkedHashMap<String, Object>>
+    createModificatorObject(ArrayList<LinkedHashMap<String, Object>> modifiersArray, String modifiersId, int quantity) {
 
         LinkedHashMap<String, Object> modificatorObject = new LinkedHashMap<>();
 
         modificatorObject.put("Key", modifiersId);
         modificatorObject.put("Value", quantity);
 
-        return modificatorObject;
+        modifiersArray.add(modificatorObject);
+
+        return modifiersArray;
 
     }
 
@@ -107,11 +108,12 @@ public class ApiIiko {
                     .contentType(ContentType.JSON)
                     .and()
                     .body(rsBody)
+                   .log().body()
                     .baseUri(AUTO_API_URI)
                     .when()
                     .put(fillingOrder)
                     .then()
-                    .log().ifError()
+                    .log().all()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -174,6 +176,26 @@ public class ApiIiko {
 
     }
 
+    @Step("Добавление скидки в заказ")
+    public boolean deleteDiscount(Map<String, Object> rsBody) {
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .baseUri(AUTO_API_URI)
+                .body(rsBody)
+                .when()
+                .delete(deleteDiscount)
+                .then()
+                .log().ifError()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        return response.jsonPath().getBoolean("success");
+
+    }
+
 
     public Map<String, Object> rqBodyDeletePosition(String orderId, String positionId, String productId) {
 
@@ -182,6 +204,16 @@ public class ApiIiko {
         rsBody.put("order_id", orderId);
         rsBody.put("position_id", positionId);
         rsBody.put("product_id", productId);
+        return rsBody;
+
+    }
+
+    public Map<String, Object> rqBodyDeleteDiscount(String orderId, String discountId) {
+
+        Map<String, Object> rsBody = new LinkedHashMap<>();
+        rsBody.put("domen", Iiko_RESTAURANT);
+        rsBody.put("order_id", orderId);
+        rsBody.put("discount", discountId);
         return rsBody;
 
     }

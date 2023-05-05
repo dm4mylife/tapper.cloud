@@ -144,7 +144,7 @@ class AddDiscountWhenOneDishInOrderTest extends BaseTest {
     @DisplayName("Проверяем что скидка применилась на столе и но нельзя разделить счет")
     void isDiscountCorrectOnTableAfterPay() {
 
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
         rootPageNestedTests.isDivideSliderDisabledWhenOneDish();
 
     }

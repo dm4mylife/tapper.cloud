@@ -82,7 +82,7 @@ class IncreaseDecimalDiscountTest extends BaseTest {
     @DisplayName("Проверка суммы, чаевых, сервисного сбора, скидку")
     void checkSumTipsSC() {
 
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
         rootPageNestedTests.hasDiscountPriceOnPaidDishesIfDiscountAppliedAfter();
         rootPageNestedTests.checkAllDishesSumsWithAllConditionsConsideringDiscount();
         rootPage.setRandomTipsOption();

@@ -25,7 +25,7 @@ import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 
-@Disabled
+
 @Epic("Личный кабинет администратора ресторана")
 @Feature("История операций")
 @Story("Проверка всех диапазонов, списка операций по фильтрации")
@@ -91,6 +91,7 @@ class TotalTest extends PersonalAccountTest {
         //authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         operationsHistory.goToHistoryOperationsCategory();
 
+
     }
 
     @Test
@@ -98,7 +99,9 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Проверка что все элементы корректны")
     void isOperationsHistoryCorrect() {
 
+        rootPage.forceWait(10000);
         operationsHistory.isHistoryOperationsCorrect();
+
 
     }
 
@@ -114,10 +117,18 @@ class TotalTest extends PersonalAccountTest {
 
     @Test
     @Order(6)
-    @DisplayName("Проверка недельного и месячного фильтра")
+    @DisplayName("Проверка недельного фильтра")
     void isWeekAndMonthPeriodCorrect() {
 
         operationsHistory.isWeekPeriodCorrect();
+
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("Проверка месячного фильтра")
+    void isMonthPeriodCorrect() {
+
         operationsHistory.isMonthPeriodCorrect();
 
     }

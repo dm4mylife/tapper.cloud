@@ -1,9 +1,7 @@
 package tapper.tests.iiko_e2e._6_0_common;
 
 
-import api.ApiData;
 import api.ApiIiko;
-import api.ApiRKeeper;
 import common.BaseActions;
 import data.TableData;
 import io.qameta.allure.Epic;
@@ -16,10 +14,8 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static api.ApiData.IikoData.Dish.*;
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -68,7 +64,7 @@ class LastDishWithZeroPriceDiscountTest extends BaseTest {
         guid =  apiIiko.createOrder(apiIiko.rqBodyCreateOrder(tableId));
         apiIiko.fillingOrder(apiIiko.rqBodyFillingOrder(guid,BURGER.getId(),amountDishesForFillingOrder));
         apiIiko.fillingOrder(apiIiko.rqBodyFillingOrder(guid,
-                ZERO_PRICE_DISH.getId(),amountDishesForFillingOrder));
+                ZERO_PRICE_DISH_TEA.getId(),amountDishesForFillingOrder));
 
         apiIiko.createDiscount(apiIiko.rqBodyAddDiscount(guid,CUSTOM_DISCOUNT_ID.getId(),50));
 

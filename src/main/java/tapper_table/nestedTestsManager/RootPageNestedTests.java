@@ -458,8 +458,6 @@ public class RootPageNestedTests extends RootPage {
 
                 double dishPrice;
 
-
-
                 int modificatorTypeSize = 0;
                 String modiPath = dishPath + ".Modi";
 
@@ -532,10 +530,6 @@ public class RootPageNestedTests extends RootPage {
 
                 }
 
-
-
-
-
                 int dishQuantity = rs.jsonPath().getInt(dishPath + "['@attributes'].quantity") / 1000;
 
                 for (int k = 0; k < dishQuantity; k++) {
@@ -549,9 +543,7 @@ public class RootPageNestedTests extends RootPage {
 
             }
 
-
         }
-
 
         return allDishesInfo;
 
@@ -785,9 +777,20 @@ public class RootPageNestedTests extends RootPage {
     }
 
     @Step("Проверка что скидка есть на столе")
-    public void checkIsDiscountPresent(String tableId) {
+    public void checkIsDiscountPresent(String tableId, String cashDeskType) {
 
-        double discount = getDiscount(tableId);
+        double discount = 0;
+
+        if (cashDeskType.equals("keeper")) {
+
+            discount = getDiscount(tableId);
+
+        } else if (cashDeskType.equals("iiko")) {
+
+            discount = getDiscountFromTable();
+
+        }
+
 
         if (divideCheckSliderActive.isDisplayed()) {
 

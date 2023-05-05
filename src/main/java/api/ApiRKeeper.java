@@ -428,7 +428,8 @@ public class ApiRKeeper {
 
         Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
                 .atMost(maxTimeout, TimeUnit.MILLISECONDS).timeout(Duration.ofMillis(maxTimeout)).untilAsserted(() ->
-                        Assertions.assertTrue(checkPrepayment(rqParamsCheckPrePayment(transactionId), AUTO_API_URI)));
+                        Assertions.assertTrue(checkPrepayment(rqParamsCheckPrePayment(transactionId), AUTO_API_URI),
+                                "Предоплата не пришла на кассу"));
 
     }
 

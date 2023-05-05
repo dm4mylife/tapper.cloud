@@ -77,7 +77,7 @@ public class RemoveDiscountAfterPartPayTest extends BaseTest {
     @DisplayName("1.1. Проверка скидки")
     public void checkSumTipsSC() {
 
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID);
+        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID, "keeper");
 
 
     }

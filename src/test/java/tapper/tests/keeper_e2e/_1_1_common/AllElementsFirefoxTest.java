@@ -27,7 +27,7 @@ import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
 
 @Epic("RKeeper")
 @Feature("Общие")
-@Story("Общая функциональность таппера")
+@Story("Общая функциональность таппера - Firefox")
 @DisplayName("Общая функциональность таппера - Firefox")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

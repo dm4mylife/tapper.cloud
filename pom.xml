@@ -239,7 +239,7 @@
                         <include>.*TestSuite.java</include>
                     </includes>
                     <parallel>suites</parallel>
-                    <forkCount>6</forkCount>
+                    <forkCount>7</forkCount>
                     <reuseForks>false</reuseForks>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.4/aspectjweaver-1.9.4.jar"

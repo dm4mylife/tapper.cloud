@@ -85,7 +85,7 @@ class PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     @DisplayName("Проверка скидки")
     void checkIsDiscountPresent() {
 
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
 
     }
 

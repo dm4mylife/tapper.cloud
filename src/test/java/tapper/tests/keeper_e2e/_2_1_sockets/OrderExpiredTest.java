@@ -6,10 +6,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
@@ -33,8 +30,8 @@ import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisab
 @Story("Вывод ошибки OrderExpired")
 @DisplayName("Вывод ошибки OrderExpired")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
-public class OrderExpiredTest extends BaseTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class OrderExpiredTest extends BaseTest {
 
     static String guid;
     static double totalPay;
@@ -51,9 +48,10 @@ public class OrderExpiredTest extends BaseTest {
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
 
     @Test
-    @DisplayName("1.0. Создание заказа в r_keeper и открытие стола, " +
+    @Order(1)
+    @DisplayName("Создание заказа в r_keeper и открытие стола, " +
             "проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    void createAndFillOrder() {
 
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
@@ -67,8 +65,9 @@ public class OrderExpiredTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.1. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void payAndGoToReviewPage() {
+    @Order(2)
+    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    void payAndGoToReviewPage() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
@@ -78,32 +77,36 @@ public class OrderExpiredTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1.2. Переходим на транзакцию и ждём пока она не \"протухнет \"")
-    public void goToAcquiringAndWaitTillTransactionExpired() {
+    @Order(3)
+    @DisplayName("Переходим на транзакцию и ждём пока она не \"протухнет \"")
+    void goToAcquiringAndWaitTillTransactionExpired() {
 
         transactionId = nestedTests.goToAcquiringAndWaitTillTransactionExpired(totalPay, WAIT_UNTIL_TRANSACTION_EXPIRED);
 
     }
 
     @Test
-    @DisplayName("1.3. Проверяем что получили ошибку")
-    public void reviewCorrectNegative() {
+    @Order(4)
+    @DisplayName("Проверяем что получили ошибку")
+    void reviewCorrectNegative() {
 
         reviewPageNestedTests.errorPaymentCorrect(WAIT_UNTIL_TRANSACTION_EXPIRED);
 
     }
 
     @Test
-    @DisplayName("1.4. Проверяем что суммы,блюда не изменились")
-    public void isCurrentTableDataCorrectAfterErrorPayment() {
+    @Order(5)
+    @DisplayName("Проверяем что суммы,блюда не изменились")
+    void isCurrentTableDataCorrectAfterErrorPayment() {
 
        rootPage.isCurrentTableDataCorrectAfterErrorPayment(allNonPaidAndNonDisabledDishes,dishList,tableData);
 
     }
 
     @Test
-    @DisplayName("1.5. Закрываем заказ")
-    public void closedOrderByApi() {
+    @Order(6)
+    @DisplayName("Закрываем заказ")
+    void closedOrderByApi() {
 
        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_222_ID,guid);
 

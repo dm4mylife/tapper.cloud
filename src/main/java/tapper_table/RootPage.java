@@ -768,8 +768,6 @@ public class RootPage extends BaseActions {
 
         }
 
-        System.out.println(totalSumInOrder);
-
         return totalSumInOrder;
 
     }
@@ -1719,7 +1717,8 @@ public class RootPage extends BaseActions {
                                                            LinkedHashMap<Integer, Map<String, Double>> previousDishList,
                                                            LinkedHashMap<String,Double> previousTableData) {
 
-        dishes.asFixedIterable().stream().forEach(element -> element.$(dishOrderStatusSelector).shouldHave(empty));
+        dishes.asFixedIterable().stream().forEach
+                (element -> element.$(dishOrderStatusSelector).shouldHave(text("Не оплачено")));
 
         LinkedHashMap<String,Double> currentTableData = getTableData();
         LinkedHashMap<Integer, Map<String, Double>> currentDishList = getDishList(dishes);
@@ -2198,7 +2197,8 @@ public class RootPage extends BaseActions {
 
         Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
                 .atMost(15, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(
-                        () -> Assertions.assertNotNull(msg[0] = telegram.getLastTgPayMsg(guid, payment)));
+                        () -> Assertions.assertNotNull(msg[0] = telegram.getLastTgPayMsg(guid, payment),
+                                "Сообщение в телеграм не пришло или некорректное"));
 
         HashMap<String, String> msgWithType = telegram.setMsgTypeFlag(msg[0]);
         LinkedHashMap<String, String> parsedMsg = telegram.parseMsg(msgWithType);
@@ -2362,8 +2362,6 @@ public class RootPage extends BaseActions {
 
             } else {
 
-                rsGetOrder = apiIiko.getOrderInfo(tableId);
-
                 unpaidSum = rsGetOrder.jsonPath().getDouble
                      ("result.CommandResult.Order[\"@attributes\"].unpaidSum") / 100;
                 prepayedSum = rsGetOrder.jsonPath()
@@ -2385,11 +2383,11 @@ public class RootPage extends BaseActions {
 
         }
 
-        System.out.println("\nbefore status\n");
+       /* System.out.println("\nbefore status\n");
         System.out.println(totalPaidDouble + " totalPaidDouble");
         System.out.println((totalPaidDouble + discountDouble) + " totalPaidDouble with discount");
         System.out.println(sumInCheckDouble + " sumInCheckDouble");
-        System.out.println(restToPayDouble + " restToPayDouble");
+        System.out.println(restToPayDouble + " restToPayDouble"); */
 
         if (totalPaidDouble == sumInCheckDouble || (totalPaidDouble + discountDouble) == sumInCheckDouble) {
 
@@ -2538,6 +2536,13 @@ public class RootPage extends BaseActions {
         Response rsGetOrder = apiRKeeper.getOrderInfo(tableId, AUTO_API_URI);
         return Math.abs(rsGetOrder.jsonPath()
                 .getDouble("result.CommandResult.Order[\"@attributes\"].discountSum") / 100);
+
+    }
+
+    @Step("Получаем скидку")
+    public double getDiscountFromTable() {
+
+       return convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
 
     }
 

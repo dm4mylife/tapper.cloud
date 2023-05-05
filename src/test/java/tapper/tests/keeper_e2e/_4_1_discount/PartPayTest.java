@@ -83,7 +83,7 @@ class PartPayTest extends BaseTest {
     @DisplayName("Проверка суммы, чаевых, сервисного сбора, скидку")
     void checkIsDiscountPresent() {
 
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
 
     }
 

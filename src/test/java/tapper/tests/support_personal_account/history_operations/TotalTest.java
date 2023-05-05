@@ -13,7 +13,7 @@ import java.text.ParseException;
 
 import static data.Constants.TestData.SupportPersonalAccount.*;
 import static data.selectors.SupportPersonalAccount.HistoryOperations.operationsListTab;
-
+import static data.selectors.SupportPersonalAccount.HistoryOperations.restaurantFilterButton;
 
 
 @Epic("Личный кабинет техподдержки")
@@ -21,7 +21,11 @@ import static data.selectors.SupportPersonalAccount.HistoryOperations.operations
 @DisplayName("Проверка истории операций")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TotalTest extends PersonalAccountTest {
+class TotalTest extends PersonalAccountTest {
+
+    String tableNumber = "111";
+    String orderStatus = "Закрыт";
+    String waiterName = "Robocop";
 
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -64,20 +68,20 @@ public class TotalTest extends PersonalAccountTest {
 
         historyOperations.isStuckOperationsCorrect();
         BaseActions.click(operationsListTab);
-
-    }
-    @Test
-    @Order(5)
-    @DisplayName("Проверка фильтров и диапазона")
-    void checkInitialDateByDefault() throws ParseException {
-
-        historyOperations.isMonthPeriodCorrect();
-        historyOperations.setCustomPeriod();
-
     }
 
     @Test
     @Order(6)
+    @DisplayName("Проверка фильтров и диапазона")
+    void checkInitialDateByDefault() throws ParseException {
+
+        historyOperations.isMonthPeriodCorrect();
+        historyOperations.setCustomPeriod("Ноябрь",1,30);
+
+    }
+
+    @Test
+    @Order(7)
     @DisplayName("Проверка фильтра Ресторан")
     void isRestaurantFilterCorrect() {
 
@@ -87,14 +91,75 @@ public class TotalTest extends PersonalAccountTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     @DisplayName("Проверка фильтра Столы")
     void isTableFilterCorrect() {
 
         rootPage.refreshPage();
-        historyOperations.isTableFilterCorrect(KEEPER_RESTAURANT_NAME,"111");
+        historyOperations.isTableFilterCorrect(KEEPER_RESTAURANT_NAME,tableNumber);
 
     }
 
+    @Test
+    @Order(9)
+    @DisplayName("Проверка фильтра Статус заказа")
+    void isOrderStatusFilterCorrect() {
+
+        rootPage.refreshPage();
+        historyOperations.isOrderStatusFilterCorrect(KEEPER_RESTAURANT_NAME,tableNumber, orderStatus);
+
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("Проверка фильтра Официант")
+    void isWaiterFilterCorrect() {
+
+        rootPage.refreshPage();
+        historyOperations.isWaiterFilterCorrect(KEEPER_RESTAURANT_NAME,tableNumber, orderStatus,waiterName);
+
+    }
+
+    @Test
+    @Order(11)
+    @DisplayName("Проверка списка операций у определенного официанта на определенном столе")
+    void isOperationListCorrectWithCertainWaiterAndTable() {
+
+        rootPage.refreshPage();
+        historyOperations.isOperationListCorrectWithCertainWaiterAndTable
+                (KEEPER_RESTAURANT_NAME,tableNumber, orderStatus,waiterName);
+
+    }
+
+    @Test
+    @Order(12)
+    @DisplayName("Проверка списка операций со всеми фильтрами и диапазоном")
+    void isOperationListCorrectWithAllFiltersAndDataRange() throws ParseException {
+
+        rootPage.refreshPage();
+        historyOperations.isOperationListCorrectWithAllFiltersAndDataRange
+                (KEEPER_RESTAURANT_NAME,tableNumber, orderStatus,waiterName,"Январь");
+
+
+    }
+    @Test
+    @Order(13)
+    @DisplayName("Проверка кнопки Загрузить еще")
+    void isLoadMoreButtonCorrect() throws ParseException {
+
+        rootPage.refreshPage();
+        historyOperations.isLoadMoreButtonCorrect("Январь");
+
+
+    }
+    @Test
+    @Order(14)
+    @DisplayName("Проверка Показать только возвраты")
+    void isShowOnlyRefundsCorrect() {
+
+        rootPage.refreshPage();
+        historyOperations.isShowOnlyRefundsCorrect();
+
+    }
 
 }

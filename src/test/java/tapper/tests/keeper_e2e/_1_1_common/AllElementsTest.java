@@ -21,7 +21,7 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 
 @Epic("RKeeper")
 @Feature("Общие")
-@Story("Общая функциональность таппера")
+@Story("Общая функциональность таппера - Chrome")
 @DisplayName("Общая функциональность таппера - Chrome")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

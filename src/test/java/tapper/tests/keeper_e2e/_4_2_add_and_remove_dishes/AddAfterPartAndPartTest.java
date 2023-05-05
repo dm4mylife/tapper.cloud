@@ -144,9 +144,9 @@ class AddAfterPartAndPartTest extends BaseTest {
 
         savePaymentDataForAcquiring();
         payAndGoToAcquiring();
-        nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
+        nestedTests.checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper);
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

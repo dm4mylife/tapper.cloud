@@ -1,6 +1,7 @@
 package tapper_table.nestedTestsManager;
 
 import api.ApiRKeeper;
+import common.BaseActions;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
@@ -66,10 +67,10 @@ public class ReviewPageNestedTests {
             paymentProcessText.shouldHave(matchText(PAYMENT_ERROR_ORDER_EXPIRED), Duration.ofSeconds(40));
             rootPage.isElementVisible(paymentProcessGifError);
             paymentProcessStatus.shouldHave(matchText(PAYMENT_ERROR_TEXT));
-            rootPage.click(paymentProcessCloseButton);
+            BaseActions.click(paymentProcessCloseButton);
 
             if (paymentOverlay.isDisplayed())
-                rootPage.click(paymentOverlay);
+                BaseActions.click(paymentOverlay);
 
         } else if (wait == WAIT_UNTIL_TRANSACTION_STILL_ALIVE) {
 

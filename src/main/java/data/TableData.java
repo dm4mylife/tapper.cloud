@@ -96,7 +96,14 @@ public class TableData {
             public static final String tableId = IIKO_TABLE_AUTO_222_ID;
 
         }
+        public static class Table_333 {
 
+            public static final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+            public static final String apiUri = AUTO_API_URI;
+            public static final String tableUrl = STAGE_IIKO_TABLE_333;
+            public static final String tableId = IIKO_TABLE_AUTO_333_ID;
+
+        }
 
     }
 

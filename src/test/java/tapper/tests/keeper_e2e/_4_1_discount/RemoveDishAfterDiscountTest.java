@@ -84,7 +84,7 @@ public class RemoveDishAfterDiscountTest extends BaseTest {
     @DisplayName("Проверяем скидку на столе")
     void isDiscountCorrectOnTable() {
 
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
 
     }
 

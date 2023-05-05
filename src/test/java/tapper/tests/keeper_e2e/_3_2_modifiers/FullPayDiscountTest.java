@@ -122,7 +122,7 @@ public class FullPayDiscountTest extends BaseTest {
     public void checkSumTipsSC() {
 
         rootPageNestedTests.checkAllDishesSumsWithAllConditionsConsideringDiscount();
-        rootPageNestedTests.checkIsDiscountPresent(tableId);
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
 
         rootPage.isModificatorTextCorrect();
         rootPage.checkTipsAfterReset();

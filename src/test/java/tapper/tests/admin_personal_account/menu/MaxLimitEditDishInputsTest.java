@@ -1,6 +1,8 @@
 package tapper.tests.admin_personal_account.menu;
 
 import admin_personal_account.menu.Menu;
+import com.codeborne.selenide.SelenideElement;
+import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -89,18 +91,16 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
     @DisplayName("Проверяем изменение имени,веса,количества,состава")
     void isDishMenuChangingWeightAndAmountCorrect() {
 
-        System.out.println(previousDishData.get("previousNameByGuest"));
+        for (SelenideElement selenideElement : dishMenuItemsName) {
 
-        dishMenuItemsName.asFixedIterable().stream().forEach(element -> {
+            if (selenideElement.getText().matches(previousDishData.get("previousNameByGuest"))) {
 
-            if (element.getText().matches(previousDishData.get("previousNameByGuest"))) {
+                BaseActions.click(selenideElement);
+                break;
 
-                System.out.println("find match");
-                rootPage.click(element);
             }
 
-
-        });
+        }
 
         menuDishNameInDetailCard.shouldHave(matchText(previousDishData.get("previousNameByGuest")));
         menuDishAmountDetailCard.shouldHave(matchText(previousDishData.get("previousAmount")));
@@ -115,7 +115,7 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
     void setDefaultInputsValue() {
 
         rootPage.switchBrowserTab(adminTab);
-        rootPage.click(menuDishItemsEditButtons.get(dishIndex));
+        BaseActions.click(menuDishItemsEditButtons.get(dishIndex));
         menu.setDefaultInputsValue(previousDishData);
 
     }

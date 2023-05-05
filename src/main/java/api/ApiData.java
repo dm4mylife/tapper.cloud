@@ -52,21 +52,30 @@ public class ApiData {
                 public static final String fillingOrder = "automation/iiko/order/fill";
                 public static final String getOrderInfo = " order/get";
                 public static final String addDiscount = "automation/iiko/order/discount/create";
+                public static final String deleteDiscount = "automation/iiko/order/discount";
                 public static final String deletePosition = "automation/iiko/order/position";
             }
 
             public enum Dish {
 
                 BURGER("Бургер","0aa844b8-e0f4-4eac-9bf8-8251db6bb738"),
-                ZERO_PRICE_DISH("Блюдо 0", "6dca3bc0-8644-4caf-80eb-c4b0b0811f31"),
+                BURGER_CHEESE_PAID_NOT_NECESSARY_MODIFIER("Сыр","ddc71378-7936-40d5-9a0e-d0105f757400"),
+                BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER("Бекон","98285efa-8f26-4a33-9a38-a8a2f792f2ea"),
+                BURGER_TOMATO_PAID_NOT_NECESSARY_MODIFIER("Томаты","b3df18b6-f8ec-4fdf-ba97-65108e76589c"),
+                BURGER_ONION_PAID_NOT_NECESSARY_MODIFIER("Лук фри","11cf9cc9-658e-40f1-bceb-18d42c11742b"),
+                ZERO_PRICE_DISH_TEA("Чай", "0c430780-b082-43af-adec-d56057968083"),
+                ZERO_PRICE_DISH_TEA_PAID_NOT_NECESSARY_MODIFIER
+                        ("Имбирь", "017a8a9d-abca-45c9-9797-caa6d1415dfc"),
                 ESPRESSO("Эспрессо", "9124e406-e8d8-42de-b2d1-0ce2493d994e"),
                 SHASHLIK_GOVYADINA("Шашлык из говядины", "86a6f1ea-7246-4b05-a74c-50782a8ef7b8"),
                 SHASHLIK_SVININA("Шашлык из свинины", "f6b417ed-69af-4abb-a829-3932c4af6a15"),
+                SHASHLIK_GOVYADINA_LAVASH_PAID_NOT_NECESSARY_MODIFIER
+                        ("Лаваш", "b8d02dde-de4f-48d7-b95f-5a228672a110"),
                 CUSTOM_DISCOUNT_ID("Ручная скидка",
                         "378c83a7-2a7a-4460-9077-790797b23b8d"),
                 HOT_DOG("Хот-дог", "22b38c79-1267-445f-a29f-91bae8e2e24c"),
-                HOT_DOG_GORCHIZA_MODIFIER("Горчица", "3a4b1637-118d-4f60-a9e7-0f888f343c35"),
-                HOT_DOG_SOUS_MODIFIER("Сливочный соус", "a643b67f-4dfd-4412-bbb3-0ee71b6fd417");
+                HOT_DOG_GORCHIZA_FREE_NECESSARY_MODIFIER("Горчица", "3a4b1637-118d-4f60-a9e7-0f888f343c35"),
+                HOT_DOG_SOUS_FREE_NECESSARY_MODIFIER("Сливочный соус", "a643b67f-4dfd-4412-bbb3-0ee71b6fd417");
 
                 private final String name;
                 private final String id;
@@ -109,6 +118,7 @@ public class ApiData {
         public static final String TABLE_AUTO_111_ID = "1000046";
         public static final String IIKO_TABLE_AUTO_111_ID = "111";
         public static final String IIKO_TABLE_AUTO_222_ID = "222";
+        public static final String IIKO_TABLE_AUTO_333_ID = "333";
         public static final String TABLE_AUTO_222_ID = "1000397";
         public static final String TABLE_AUTO_10_ID = "1000044";
         public static final String TABLE_AUTO_333_ID = "1000398";
@@ -126,8 +136,8 @@ public class ApiData {
         public static final String WEIGHT_DISH = "1000458";
         public static final String TORT = "1000385";
         public static final String SOLYANKA = "1000364";
-        public static final String DISCOUNT_WITH_CUSTOM_SUM_ID = "1000057";
-        public static final String DISCOUNT_BY_ID = "1000343";
+        public static final String DISCOUNT_WITH_CUSTOM_SUM_ID = "1000503";
+        public static final String DISCOUNT_BY_ID = "1000505";
         public static final String BARANINA = "1000367";
         public static final String LIMONAD = "1000362";
         public static final String ZERO_PRICE_DISH = "1000187";

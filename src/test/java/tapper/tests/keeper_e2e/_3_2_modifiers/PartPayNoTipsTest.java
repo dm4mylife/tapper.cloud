@@ -46,7 +46,6 @@ public class PartPayNoTipsTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
-    static HashMap<Integer, Map<String, Double>> orderInKeeper;
 
 
     RootPage rootPage = new RootPage();

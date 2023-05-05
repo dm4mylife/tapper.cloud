@@ -3,7 +3,6 @@ package tapper.tests.iiko_e2e._6_0_common;
 
 import api.ApiData;
 import api.ApiIiko;
-import common.BaseActions;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -18,13 +17,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.IikoData.Dish.BURGER;
-import static api.ApiData.IikoData.Dish.CUSTOM_DISCOUNT_ID;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.hidden;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
-import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 import static data.selectors.TapperTable.RootPage.DishList.dishPriceWithDiscountSelector;
 
 
@@ -65,7 +61,7 @@ class LastDishWithZeroPriceTest extends BaseTest {
         guid =  apiIiko.createOrder(apiIiko.rqBodyCreateOrder(tableId));
         apiIiko.fillingOrder(apiIiko.rqBodyFillingOrder(guid,BURGER.getId(),amountDishesForFillingOrder));
         apiIiko.fillingOrder(apiIiko.rqBodyFillingOrder(guid,
-                ApiData.IikoData.Dish.ZERO_PRICE_DISH.getId(),amountDishesForFillingOrder));
+                ApiData.IikoData.Dish.ZERO_PRICE_DISH_TEA.getId(),amountDishesForFillingOrder));
 
         rootPage.openNotEmptyTable(tableUrl);
 

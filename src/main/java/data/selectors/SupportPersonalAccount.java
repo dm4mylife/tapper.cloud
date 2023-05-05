@@ -319,6 +319,7 @@ public class SupportPersonalAccount {
         public static final SelenideElement preloader = $(".vPreloader");
         public static final SelenideElement emptyOperationsList = $(".VSectionOrderHistory__empty-label");
         public static final String deleteCurrentFilterButton = ".crossOrderStatus";
+        public static final ElementsCollection deleteFilterButtons= $$(".crossOrderStatus");
 
         public static final SelenideElement operationsListTab =
                 $x("//*[contains(@class,'VSectionOrderHistory__switching__tabs') " +
@@ -362,9 +363,25 @@ public class SupportPersonalAccount {
         public static final SelenideElement orderStatusFilterButton =
                 $x("//*[contains(@class,'VFiltersRestaurant__tabs')]" +
                         "[./div/./p[contains(text(),'Статус заказа')]]");
+
+        public static final SelenideElement orderStatusFilterContainer = $(".VModalOrderStatus");
+        public static final SelenideElement orderStatusFilterOpenButton=
+                $(".VModalOrderStatus__choice button:first-child");
+        public static final SelenideElement orderStatusFilterCloseButton =
+                $(".VModalOrderStatus__choice button:last-child");
+
         public static final SelenideElement waiterFilterButton =
                 $x("//*[contains(@class,'VFiltersRestaurant__tabs')]" +
                         "[./div/./p[contains(text(),'Официант')]]");
+
+        public static final SelenideElement waiterFilterContainer = $(".VModalChoosingWaiter");
+        public static final SelenideElement waiterFilterSearch= $(".VModalChoosingWaiter__search");
+        public static final SelenideElement waiterFilterSearchInput = $(".VModalChoosingWaiter__search input");
+        public static final ElementsCollection waiterFilterItems =
+                $$(".VModalChoosingWaiter__list .VModalChoosingWaiter__list__item");
+
+
+
         public static final SelenideElement dayPeriodButton = $(".vTimePeriod [for=\"day\"]");
         public static final SelenideElement monthPeriodButton = $(".vTimePeriod [for=\"month\"]");
         public static final SelenideElement customPeriodButton = $(".vTimePeriod .vTimePeriod__period");
@@ -382,6 +399,7 @@ public class SupportPersonalAccount {
         public static final ElementsCollection operationsItems = $$(".VOrderHistoryTableItem");
 
         public static final ElementsCollection restaurantName = $$(".widthName span");
+
         public static final ElementsCollection tableNumber =
                 $$(".VOrderHistoryTableItem tr th:nth-child(2) span");
         public static final ElementsCollection orderId =
@@ -401,8 +419,15 @@ public class SupportPersonalAccount {
                 $$(".VOrderHistoryTableItem tr th:nth-child(8) span");
         public static final ElementsCollection serviceCharge =
                 $$(".VOrderHistoryTableItem tr th:nth-child(9) span");
+        public static final ElementsCollection refundSum =
+                $$x("//*[@class='VOrderHistoryTableItem']//tr/th[10]/span");
+
+        public static final ElementsCollection openedRefundSum =
+                $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[6]/span");
+
+
         public static final ElementsCollection waiterName =
-                $$(".VOrderHistoryTableItem tr th:nth-child(10) span");
+                $$x("//*[@class='VOrderHistoryTableItem']//tr/th[11]/span");
 
         public static final SelenideElement loadMoreButton = $(".VSectionOrderHistory__loadMore");
 
@@ -428,6 +453,7 @@ public class SupportPersonalAccount {
 
         public static final ElementsCollection generalDateAndTime =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(4) span");
+
         public static final ElementsCollection generalTotalsum =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(5) span");
 
@@ -438,7 +464,7 @@ public class SupportPersonalAccount {
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(7) span");
 
         public static final ElementsCollection generalComment =
-                $$(".VSectionOrderHistory__containerTableItem div th:nth-child(7) span");
+                $$(".VSectionOrderHistory__containerTableItem div th:nth-child(8) span");
 
 
 
