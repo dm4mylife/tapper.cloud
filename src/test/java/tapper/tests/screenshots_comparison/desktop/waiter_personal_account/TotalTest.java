@@ -2,6 +2,7 @@ package tapper.tests.screenshots_comparison.desktop.waiter_personal_account;
 
 
 import data.ScreenLayout;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import tapper_table.RootPage;
 import tests.ScreenDesktopTest;
-import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 import waiter_personal_account.Waiter;

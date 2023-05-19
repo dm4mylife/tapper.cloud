@@ -4,11 +4,7 @@ import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
-import java.time.Duration;
-
-import static com.codeborne.selenide.Condition.exist;
 import static data.Constants.TestData.Best2Pay;
-import static data.Constants.TestData.Best2Pay.BEST2PAY_NAME;
 import static data.Constants.TestData.Best2Pay.TEST_PAYMENT_CARD_CVV;
 import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
 import static data.selectors.TapperTable.Best2PayPage.*;
@@ -17,18 +13,6 @@ import static data.selectors.TapperTable.Best2PayPage.*;
 public class Best2PayPage extends BaseActions {
 
     BaseActions baseActions = new BaseActions();
-
-    @Step("Проверка что мы находимся на странице эквайринга")
-    public void isTestBest2PayUrl() {
-        baseActions.isTextContainsInURL(BEST2PAY_NAME);
-    }
-
-    @Step("Проверка попапа и что форма оплаты появилась")
-    public void isPaymentContainerCorrect() {
-
-        paymentContainer.shouldBe(exist, Duration.ofSeconds(45));
-
-    }
 
     @Step("Проверка что доступны 3 способа оплаты")
     public void checkPayMethods() {
@@ -64,7 +48,7 @@ public class Best2PayPage extends BaseActions {
     @Step("Клик по кнопке отправить по email и ввод почты")
     public void typeEmail() {
 
-        baseActions.click(sendCheckByEmail);
+        click(sendCheckByEmail);
 
         if(email.isDisplayed()) {
 
@@ -86,7 +70,7 @@ public class Best2PayPage extends BaseActions {
 
     @Step("Клик по кнопке оплатить")
     public void clickPayButton() {
-        baseActions.click(payButton);
+        click(payButton);
     }
 
     @Step("Забрать итоговую сумму для оплаты со страницы транзакции")

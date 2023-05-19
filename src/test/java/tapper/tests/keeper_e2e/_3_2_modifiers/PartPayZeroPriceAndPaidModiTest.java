@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.ABISTA_PAID_NECESSART_MODI;
+import static api.ApiData.OrderData.ABISTA_ZERO_PRICE;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 
 @Epic("RKeeper")
@@ -29,7 +30,7 @@ import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisab
 @DisplayName("Частичная оплата позиции с ценой 0 и платным модификатором ")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartPayZeroPriceAndPaidModiTest extends BaseTest {
+class PartPayZeroPriceAndPaidModiTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_333.tableCode;

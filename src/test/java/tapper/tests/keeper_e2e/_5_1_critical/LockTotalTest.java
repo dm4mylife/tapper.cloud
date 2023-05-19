@@ -1,6 +1,7 @@
 package tapper.tests.keeper_e2e._5_1_critical;
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -31,7 +32,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 @DisplayName("Проверка всех элементов заглушки, заглушаем все рестораны, сперва весь сервис, потом только оплату")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class LockTotalTest extends PersonalAccountTest {
+class LockTotalTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiter = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     static String guid;
     static int amountDishesForFillingOrder = 7;
@@ -39,7 +47,6 @@ public class LockTotalTest extends PersonalAccountTest {
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Lock lock = new Lock();
-
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
 
@@ -50,8 +57,8 @@ public class LockTotalTest extends PersonalAccountTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode,waiter, apiUri,
+                dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -88,7 +95,7 @@ public class LockTotalTest extends PersonalAccountTest {
     @DisplayName("1.5. Проверяем на выбранном столе, что есть предупреждение")
     public void checkOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_222);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.isServiceUnavailable();
         rootPage.switchBrowserTab(0);
 

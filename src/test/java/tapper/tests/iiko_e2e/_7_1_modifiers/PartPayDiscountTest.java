@@ -2,12 +2,10 @@ package tapper.tests.iiko_e2e._7_1_modifiers;
 
 
 import api.ApiIiko;
-import api.ApiRKeeper;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -20,8 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static api.ApiData.IikoData.Dish.*;
-import static api.ApiData.IikoData.Dish.CUSTOM_DISCOUNT_ID;
-import static api.ApiData.OrderData.*;
 
 @Epic("Iiko")
 @Feature("Модификаторы")

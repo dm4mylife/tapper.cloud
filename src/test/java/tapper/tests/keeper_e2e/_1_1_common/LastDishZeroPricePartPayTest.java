@@ -2,6 +2,8 @@ package tapper.tests.keeper_e2e._1_1_common;
 
 
 import api.ApiRKeeper;
+import common.BaseActions;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -31,12 +33,12 @@ import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisab
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LastDishZeroPricePartPayTest extends BaseTest {
 
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_111;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
-    protected final String tableId = TABLE_AUTO_111_ID;
+    protected final String restaurantName = TableData.Keeper.Table_111.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_111.tableCode;
+    protected final String waiter = TableData.Keeper.Table_111.waiter;
+    protected final String apiUri = TableData.Keeper.Table_111.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_111.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_111.tableId;
 
     static String guid;
     static double totalPay;
@@ -55,7 +57,8 @@ class LastDishZeroPricePartPayTest extends BaseTest {
 
     @Test
     @Order(1)
-    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable + " Добавляем блюдо с нулевой ценой")
+    @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable +
+            " Добавляем блюдо с нулевой ценой")
     void createAndFillOrder() {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
@@ -77,7 +80,7 @@ class LastDishZeroPricePartPayTest extends BaseTest {
     void chooseDishesAndCheckAfterDivided() {
 
         rootPage.activateDivideCheckSliderIfDeactivated();
-        rootPage.click(allNonPaidAndNonDisabledDishesName.first());
+        BaseActions.click(allNonPaidAndNonDisabledDishesName.first());
         rootPageNestedTests.activateRandomTipsAndActivateSc();
 
     }

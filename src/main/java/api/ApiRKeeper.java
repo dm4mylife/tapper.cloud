@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 import static api.ApiData.KeeperEndPoints;
 import static api.ApiData.KeeperEndPoints.*;
-import static api.ApiData.QueryParams.*;
 import static api.ApiData.OrderData.R_KEEPER_RESTAURANT;
+import static api.ApiData.QueryParams.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK;
 import static io.restassured.RestAssured.given;
@@ -72,14 +72,13 @@ public class ApiRKeeper {
                     .extract()
                     .response();
 
-            Assertions.assertTrue(response.jsonPath().getBoolean("success"));
+            Assertions.assertTrue(response.jsonPath().getBoolean("success"),"Не удалось наполнить заказ");
 
             hasError = response.jsonPath().getString("result.Errors");
 
             if (hasError != null) {
 
                 errorCounter++;
-                System.out.println("Ошибка запроса -> " + hasError);
 
             } else {
 
@@ -298,7 +297,7 @@ public class ApiRKeeper {
                 .when()
                 .get(getOrderInfo)
                 .then()
-                //.log().body()
+                //.log().ifError()
                 .extract()
                 .response();
 
@@ -345,7 +344,7 @@ public class ApiRKeeper {
                 .when()
                 .post(checkPrepayment)
                 .then()
-                .log().body()
+                //.log().body()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -606,8 +605,6 @@ public class ApiRKeeper {
 
     }
 
-
-
     public void deleteAdmin(String email,String password) {
 
         int adminId = apiRKeeper.adminLogin(apiRKeeper.rqBodyAdminLogin(email, password),AUTO_API_URI);
@@ -661,7 +658,6 @@ public class ApiRKeeper {
         return rsBody;
 
     }
-
 
     public Map<String, Object> rqBodyLoginPersonalAccount(String email, String password) {
 
@@ -828,12 +824,6 @@ public class ApiRKeeper {
     public String getOrderSumFromGetOrder(Response rs) {
 
         return rs.jsonPath().getString("result.CommandResult.Order[\"@attributes\"].orderSum");
-
-    }
-
-    public String getUnpaidSumFromGetOrder(Response rs) {
-
-        return rs.jsonPath().getString("result.CommandResult.Order[\"@attributes\"].unpaidSum");
 
     }
 

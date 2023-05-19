@@ -11,7 +11,6 @@ import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
 import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
 import static data.selectors.AdminPersonalAccount.Waiters.enterEmailField;
 
@@ -27,7 +26,6 @@ class ErrorWithTheSameMailTest extends PersonalAccountTest {
 
     static String emailFromVerifiedUser;
 
-    BaseActions baseActions = new BaseActions();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Waiters waiters = new Waiters();
 

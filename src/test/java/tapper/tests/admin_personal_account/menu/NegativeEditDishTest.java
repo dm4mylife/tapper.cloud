@@ -1,6 +1,7 @@
 package tapper.tests.admin_personal_account.menu;
 
 import admin_personal_account.menu.Menu;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -21,6 +22,13 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class NegativeEditDishTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     static int categoryIndex = 0;
     static int adminBrowserTab = 0;
@@ -62,7 +70,7 @@ class NegativeEditDishTest extends PersonalAccountTest {
     @DisplayName("Проверяем изменения на столе")
     void openUrl() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.switchBrowserTab(adminBrowserTab);
 
     }

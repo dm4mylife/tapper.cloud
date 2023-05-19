@@ -2,6 +2,8 @@ package tapper.tests.admin_personal_account.customization;
 
 import admin_personal_account.customization.Customization;
 import api.ApiRKeeper;
+import common.BaseActions;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -32,6 +34,13 @@ import static data.selectors.TapperTable.Common.wiFiIcon;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class WiFiTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     int adminTab = 0;
     int tappetTab = 1;
@@ -68,7 +77,7 @@ class WiFiTest extends PersonalAccountTest {
     @DisplayName("Переходим на вайфай, проверяем формы")
     void isWifiTabCorrect() {
 
-        rootPage.click(wifiTab);
+        BaseActions.click(wifiTab);
         pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
         customization.isWiFiTabCorrect();
 
@@ -91,10 +100,10 @@ class WiFiTest extends PersonalAccountTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_555, WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_555_ID);
+        rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiterName, apiUri,dishesForFillingOrder,
+                tableId);
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.isTableHasOrder();
 
         rootPage.checkWiFiOnTapperTable(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);

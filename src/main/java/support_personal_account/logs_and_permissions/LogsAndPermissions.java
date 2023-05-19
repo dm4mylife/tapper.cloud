@@ -19,31 +19,26 @@ import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.util.Objects;
 
+import static api.ApiData.OrderData.IIKO_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT;
+import static api.ApiData.OrderData.R_KEEPER_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-import static data.Constants.*;
 import static data.Constants.TestData.SupportPersonalAccount.*;
+import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
-import static data.selectors.AdminPersonalAccount.OperationsHistory.paginationPages;
-import static data.selectors.AdminPersonalAccount.OperationsHistory.*;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
-import static data.selectors.SupportPersonalAccount.Common.pagePreloader;
 import static data.selectors.SupportPersonalAccount.Common.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.Common.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.acquiringTab.*;
-import static data.selectors.SupportPersonalAccount.LogsAndPermissions.cashDesksTab.cashDeskTab;
+import static data.selectors.SupportPersonalAccount.LogsAndPermissions.cashDesksTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.customizationTab.customizationTab;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.customizationTab.vtbLink;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.licenseTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.loaderTab.*;
-import static data.selectors.SupportPersonalAccount.LogsAndPermissions.logsTab.logsTab;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.loyaltyTab.*;
-import static data.selectors.SupportPersonalAccount.LogsAndPermissions.operationsTab.operationStatus;
-import static data.selectors.SupportPersonalAccount.LogsAndPermissions.operationsTab.operationsTab;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.permissionsTab.id;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.permissionsTab.*;
-import static data.selectors.SupportPersonalAccount.LogsAndPermissions.statisticsTab.dateRangeContainer;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.statisticsTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tablesTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tipsTab.saveButton;
@@ -66,7 +61,6 @@ public class LogsAndPermissions extends BaseActions {
 
     }
 
-
     public void goToLogsAndPermissionsKeeperRestaurant() {
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
@@ -74,16 +68,6 @@ public class LogsAndPermissions extends BaseActions {
         chooseRestaurant(KEEPER_RESTAURANT_NAME);
 
     }
-
-    public void isPermissionsCorrect() {
-
-
-
-
-    }
-
-
-
 
     @Step("Выбор тестового ресторана")
     public void chooseRestaurant(String restaurantName) {
@@ -101,7 +85,20 @@ public class LogsAndPermissions extends BaseActions {
         clearText(searchRestaurantInput);
         sendKeys(searchRestaurantInput,restaurantName);
 
-        searchResultList.first().shouldHave(matchText(restaurantName),Duration.ofSeconds(5));
+        if (restaurantName.equals("testrkeeper")) {
+
+            searchResultList.first()
+                    .shouldHave(matchText(restaurantName + R_KEEPER_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT),
+                            Duration.ofSeconds(5));
+
+        } else {
+
+            searchResultList.first()
+                    .shouldHave(matchText(restaurantName + IIKO_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT),
+                            Duration.ofSeconds(5));
+
+        }
+
         click(searchResultList.first());
 
         pagePreloader.shouldNotHave(attributeMatching("style", "background: transparent;")
@@ -120,8 +117,6 @@ public class LogsAndPermissions extends BaseActions {
         sendKeys(element,value);
 
     }
-
-
 
     @Step("Проверка таба Доступы если тип ресторана iiko")
     public void isIikoPermissionTabCorrect() {
@@ -388,14 +383,6 @@ public class LogsAndPermissions extends BaseActions {
 
     }
 
-    @Step("Проверка отображения элементов во вкладке Логи")
-    public void isLogsTabCorrect() {
-
-        click(logsTab);
-        tabPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
-
-    }
-
     @Step("Проверка отображения элементов во вкладке Доступы")
     public void isPermissionsTabCorrect() {
 
@@ -423,6 +410,8 @@ public class LogsAndPermissions extends BaseActions {
     @Step("Выбираем вид лицензии XML интерфейс для приложения")
     public void choseXmlApplicationOption() {
 
+        licenseIdContainer.shouldBe(appear);
+
         isElementVisible(xmlApplicationButton);
         isElementVisible(xmlOrderSaveButton);
 
@@ -439,10 +428,118 @@ public class LogsAndPermissions extends BaseActions {
         licenseIdInput.shouldNotHave(empty);
         licenseDateInput.shouldNotHave(empty);
 
+        saveXmlApplicationOption();
+
+    }
+
+    public void saveXmlApplicationOption() {
+
+        click(xmlApplicationButton);
+
+        click(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
+
+        isSaveChangesCorrect();
+
+        click(saveChangesSaveButton);
+
+        xmlApplicationInput.shouldBe(checked);
+        xmlOrderSaveInput.shouldNotBe(checked);
+
+    }
+
+    @Step("Проверка отмены сохранения изменений во вкладке r-keeper/iiko")
+    public void notSaveChangesKeeperAndIikoTab(String restaurantName) {
+
+        SelenideElement selectedElementInput;
+
+        if (rkeeperOptionInput.isSelected()) {
+
+            selectedElementInput = iikoOptionInput;
+            click(iikoOption);
+
+
+        } else {
+
+            selectedElementInput = rkeeperOptionInput;
+            click(rkeeperOption);
+
+        }
+
+        click(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
+        isSaveChangesCorrect();
+        click(saveChangesCancelButton);
+
+        Selenide.refresh();
+
+        chooseRestaurant(restaurantName);
+
+        click(cashDeskTab);
+
+        cashDeskContainer.shouldBe(appear);
+
+        selectedElementInput.shouldBe(selected);
+
+    }
+
+    @Step("Проверка отмены сохранения изменений во вкладке Лицензия R-keeper")
+    public void notSaveChangesLicenseTab(String restaurantName) {
+
+        SelenideElement selectedElement;
+
+        if (xmlApplicationInput.isSelected()) {
+
+            selectedElement = xmlApplicationInput;
+            click(xmlOrderSaveButton);
+
+        } else {
+
+            selectedElement = xmlOrderSaveInput;
+            click(xmlApplicationButton);
+
+        }
+
+        click(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
+        isSaveChangesCorrect();
+        click(saveChangesCancelButton);
+
+        Selenide.refresh();
+
+        chooseRestaurant(restaurantName);
+
+        click(licenseIdTab);
+
+        selectedElement.shouldBe(selected);
+
+    }
+
+    public void saveOrderSaveOption() {
+
+        click(xmlOrderSaveButton);
+
+        click(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
+
+        isSaveChangesCorrect();
+
+        click(saveChangesSaveButton);
+
+        xmlApplicationInput.shouldNotBe(checked);
+        xmlOrderSaveInput.shouldBe(checked);
+
+    }
+
+
+    public void isSaveChangesCorrect() {
+
+        isElementVisible(saveChangesContainer);
+        isElementVisible(saveChangesSaveButton);
+        isElementVisible(saveChangesCancelButton);
+
     }
 
     @Step("Выбираем вид лицензии XML сохранение заказов")
     public void choseXmlSaveOrderOption() {
+
+        licenseIdContainer.shouldBe(appear);
 
         isElementVisible(xmlApplicationButton);
         isElementVisible(xmlOrderSaveButton);
@@ -458,55 +555,68 @@ public class LogsAndPermissions extends BaseActions {
 
         licenseDateInput.shouldNotHave(empty);
 
-    }
-
-
-    public void isChangesSaved() {
-
-        choseXmlSaveOrderOption();
-        saveData();
-        xmlOrderSaveButton.shouldBe(checked);
-        xmlApplicationButton.shouldNotBe(checked);
-
-
+        saveOrderSaveOption();
 
     }
 
     @Step("Проверка отображения элементов во вкладке r-keeper/iiko")
-    public void isCashDeskTabCorrect() {
+    public void isCashDeskTabCorrect(String restaurantName) {
 
         click(cashDeskTab);
         tabPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
 
-    }
+        isElementVisible(rkeeperOption);
+        isElementVisible(iikoOption);
+        isElementVisible(otherOption);
 
-    @Step("Проверка отображения элементов во вкладке Операции")
-    public void isOperationsTabCorrect() {
+        setIikoCashdeskType();
 
-        click(operationsTab);
-        tabPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
+        click(cashDeskTab);
 
-        isElementVisible(operationsHistoryContainer);
-        isElementVisible(forWeekPeriodButton);
-        isElementVisible(forMonthPeriodButton);
-        isElementVisible(AdminPersonalAccount.OperationsHistory.dateRangeContainer);
-        isElementVisible(operationStatus);
-        isElementVisible(historyPeriodDate);
-        isElementVisible(totalSum);
-        isElementVisible(totalTips);
-        isElementVisible(operationsHistoryListContainer);
-        isElementsListVisible(operationsHistoryListItems);
-        isElementsListVisible(operationsHistoryListItemsWaiter);
-        isElementsListVisible(operationsHistoryListItemsTable);
-        isElementsListVisible(operationsHistoryListItemsTips);
-        isElementsListVisible(operationsHistoryListItemsStatus);
-        isElementsListVisible(operationsHistoryListItemsSum);
-        paginationContainer.shouldBe(visible.because("На странице не оказалось элемента пагинации"));
-        scrollTillBottom();
-        isElementVisible(paginationContainer);
-        isElementsListVisible(paginationPages);
+        setRkeeperCashDeskType();
+
+        click(cashDeskTab);
+
+        notSaveChangesKeeperAndIikoTab(restaurantName);
 
     }
+
+    @Step("Выбор айко типа кассы")
+    public void setIikoCashdeskType() {
+
+        click(iikoOption);
+
+        click(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
+
+        isSaveChangesCorrect();
+
+        click(saveChangesSaveButton);
+        iikoOptionInput.shouldBe(checked);
+
+        click(permissionsTab);
+
+        isIikoPermissionTabCorrect();
+
+    }
+
+    public void setRkeeperCashDeskType() {
+
+        click(rkeeperOption);
+
+        click(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
+
+        isSaveChangesCorrect();
+
+        click(saveChangesSaveButton);
+        rkeeperOptionInput.shouldBe(checked);
+
+        click(permissionsTab);
+
+        isKeeperPermissionTabCorrect();
+
+    }
+
+
 
     @Step("Проверка отображения элементов во вкладке Эквайринг")
     public void isAcquiringTabCorrect() {
@@ -633,7 +743,6 @@ public class LogsAndPermissions extends BaseActions {
         isElementVisible(waitersBalance);
 
     }
-
 
     @Step("Проверка отображения элементов во вкладке Система лояльности")
     public void isLoyaltyTabCorrect() {
@@ -786,7 +895,6 @@ public class LogsAndPermissions extends BaseActions {
         tablesAndQrCodes.resetTableSearch();
 
     }
-
 
     @Step("Поиск стола")
     public void searchTable(int fromTableSearchValue, int toTableSearchValue ) {

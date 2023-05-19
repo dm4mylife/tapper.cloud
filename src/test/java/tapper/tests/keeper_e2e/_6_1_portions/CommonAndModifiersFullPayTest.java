@@ -44,6 +44,7 @@ class CommonAndModifiersFullPayTest extends BaseTest {
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
     static int amountDishesForFillingOrder = 1;
+    double dishQuantity = 0.5;
 
 
     RootPage rootPage = new RootPage();
@@ -57,7 +58,8 @@ class CommonAndModifiersFullPayTest extends BaseTest {
     void createAndFillOrder() {
 
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
-        apiRKeeper.createDishObject(dishesForFillingOrder, WEIGHT_DISH, amountDishesForFillingOrder);
+
+        apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
         Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode,
                 waiter, apiUri,dishesForFillingOrder,tableId);
@@ -65,10 +67,10 @@ class CommonAndModifiersFullPayTest extends BaseTest {
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
         ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
             {
-                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, 1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(FREE_MODI_SOLT_ZERO_PRICE,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
 
                     }
                 }));

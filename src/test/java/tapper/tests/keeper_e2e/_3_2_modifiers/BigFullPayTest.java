@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_2_modifiers;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -19,8 +20,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.QueryParams.allTypesModificatorList;
 import static api.ApiData.OrderData.*;
+import static api.ApiData.QueryParams.allTypesModificatorList;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
@@ -30,7 +31,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 @DisplayName("Все вариации модификаторов. Полная оплата без чаевых")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class BigFullPayTest extends BaseTest {
+class BigFullPayTest extends BaseTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = TableData.Keeper.Table_333.waiter;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
 
     protected static String guid;
     protected static double totalPay;
@@ -39,7 +47,6 @@ public class BigFullPayTest extends BaseTest {
     protected static LinkedHashMap<String, String> tapperDataForTgMsg;
     protected static LinkedHashMap<String, String> telegramDataForTgMsg;
     protected static String transactionId;
-    protected static HashMap<Integer, Map<String, Double>> orderInKeeper;
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -51,12 +58,11 @@ public class BigFullPayTest extends BaseTest {
     public void createAndFillOrder() {
 
         Response rs = rootPageNestedTests.createAndFillOrderOnlyWithModifiers
-                (R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,allTypesModificatorList,
-                        TABLE_AUTO_333_ID);
+                (restaurantName, tableCode,waiter, apiUri,allTypesModificatorList, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
 
@@ -64,7 +70,7 @@ public class BigFullPayTest extends BaseTest {
     @DisplayName("2. Проверка что заказ с кассы совпадает со столом")
     public void matchTapperOrderWithOrderInKeeper() {
 
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_333_ID);
+        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(tableId);
 
     }
 
@@ -85,7 +91,7 @@ public class BigFullPayTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 

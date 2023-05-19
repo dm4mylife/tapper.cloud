@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.QueryParams.rqParamsDeletePosition;
 import static api.ApiData.OrderData.BARNOE_PIVO;
 import static api.ApiData.OrderData.TORT;
+import static api.ApiData.QueryParams.rqParamsDeletePosition;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 
 

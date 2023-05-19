@@ -3,6 +3,7 @@ package tapper.tests.support_personal_account.history_operations;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import support_personal_account.history_operations.HistoryOperations;
 import tapper_table.RootPage;
@@ -13,11 +14,11 @@ import java.text.ParseException;
 
 import static data.Constants.TestData.SupportPersonalAccount.*;
 import static data.selectors.SupportPersonalAccount.HistoryOperations.operationsListTab;
-import static data.selectors.SupportPersonalAccount.HistoryOperations.restaurantFilterButton;
 
 
 @Epic("Личный кабинет техподдержки")
 @Feature("История операций")
+@Story("Проверка категории Истории операций")
 @DisplayName("Проверка истории операций")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -159,6 +160,34 @@ class TotalTest extends PersonalAccountTest {
 
         rootPage.refreshPage();
         historyOperations.isShowOnlyRefundsCorrect();
+
+    }
+
+    @Test
+    @Order(15)
+    @DisplayName("Проверка раскрытой истории операции по возврату")
+    void isOpenedRefundOperationCorrect()  {
+
+        rootPage.refreshPage();
+        historyOperations.isOpenedRefundOperationCorrect();
+
+    }
+
+    @Test
+    @Order(16)
+    @DisplayName("Проверка что после обновления страницы мы остаемся в этой вкладке")
+    void isCorrectAfterRefreshPage()  {
+
+        historyOperations.isCorrectAfterRefreshPage();
+
+    }
+
+    @Test
+    @Order(17)
+    @DisplayName("Проверка периода за который не было операций")
+    void noResultsOperationPeriod() throws ParseException {
+
+        historyOperations.noResultsOperationPeriod();
 
     }
 

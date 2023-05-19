@@ -28,12 +28,12 @@ import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LockAcquiringTotalTest extends PersonalAccountTest {
 
-    protected final String restaurantName = TableData.Keeper.Table_222.restaurantName;
-    protected final String tableCode = TableData.Keeper.Table_222.tableCode;
-    protected final String waiter = TableData.Keeper.Table_222.waiter;
-    protected final String apiUri = TableData.Keeper.Table_222.apiUri;
-    protected final String tableUrl = TableData.Keeper.Table_222.tableUrl;
-    protected final String tableId = TableData.Keeper.Table_222.tableId;
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiter = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     static int amountDishesForFillingOrder = 7;
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();

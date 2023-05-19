@@ -14,11 +14,15 @@ import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-import static com.codeborne.selenide.Condition.*;
-import static data.Constants.TestData.TapperTable.*;
-import static data.ScreenLayout.Tapper.*;
+import static com.codeborne.selenide.Condition.matchText;
+import static com.codeborne.selenide.Condition.visible;
+import static data.Constants.TestData.TapperTable.REFRESH_TABLE_BUTTON_TEXT;
+import static data.ScreenLayout.Tapper.tapperTableEmpty;
+import static data.ScreenLayout.Tapper.tapperTableRefreshTable;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.RootPage.DishList.*;
 
@@ -61,14 +65,12 @@ class EmptyTableTest extends ScreenMobileTest {
         apiRKeeper.isTableEmpty(restaurantName, tableId, apiUri);
         rootPage.openPage(tableUrl);
         rootPage.isEmptyOrderAfterClosing();
-       // rootPage.ignoreWifiIcon();
         ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize, isScreenShot, tapperTableEmpty, diffPercent, imagePixelSize,ignoredElements);
+                (browserTypeSize, isScreenShot, tapperTableEmpty, diffPercent, imagePixelSize, ignoredElements);
 
 
     }
 
-    @Disabled
     @Test
     @Order(2)
     @DisplayName("Пустой стол с уведомление по кнопке 'Обновить'")

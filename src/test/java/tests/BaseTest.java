@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,22 +38,22 @@ public class BaseTest {
         Configuration.browser = CHROME;
         Configuration.remote = selenoidUiHubUrl;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
+        Configuration.pageLoadStrategy = "eager";
         Configuration.savePageSource = false;
 
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
         LoggingPreferences loggingPreferences = new LoggingPreferences();
 
         loggingPreferences.enable(LogType.BROWSER, Level.WARNING);
-        desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
-        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
-        options.setCapability(ChromeOptions.LOGGING_PREFS, loggingPreferences);
+        Configuration.browserCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
+        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        Configuration.browserCapabilities.setCapability(ChromeOptions.LOGGING_PREFS, loggingPreferences);
 
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPhone 12 Pro");
         options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
-        options.setCapability("selenoid:options", new HashMap<String, Object>() {{
+        Configuration.browserCapabilities.setCapability("selenoid:options", new HashMap<String, Object>() {{
             put("name","E2E test");
             put("labels", new HashMap<String, Object>() {{
                 put("manual", "true");
@@ -75,8 +75,6 @@ public class BaseTest {
         options.addArguments("--incognito");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
-
-        Configuration.browserCapabilities = options;
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .includeSelenideSteps(false)

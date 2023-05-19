@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static data.ScreenLayout.Tapper.*;
+import static data.ScreenLayout.Tapper.openedCallWaiterWithReceiptMessagePartOne;
+import static data.ScreenLayout.Tapper.openedCallWaiterWithReceiptMessagePartTwo;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 

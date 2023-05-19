@@ -1,5 +1,7 @@
 package tapper.tests.support_personal_account.logs_and_permissions;
 
+import common.BaseActions;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -12,12 +14,14 @@ import total_personal_account_actions.AuthorizationPage;
 import java.io.FileNotFoundException;
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.LOADER_GIF_PATH;
 import static data.Constants.OLD_LOADER_GIF_PATH;
 import static data.Constants.TestData.SupportPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.Common.tabPreloader;
+import static data.selectors.SupportPersonalAccount.LogsAndPermissions.licenseTab.licenseIdContainer;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.licenseTab.licenseIdTab;
 import static data.selectors.TapperTable.Common.startScreenLogoContainerImageNotSelenide;
 
@@ -29,6 +33,13 @@ import static data.selectors.TapperTable.Common.startScreenLogoContainerImageNot
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TotalTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     LogsAndPermissions logsAndPermissions = new LogsAndPermissions();
@@ -68,32 +79,46 @@ class TotalTest extends PersonalAccountTest {
 
     }
 
-    @Test
-    @Order(6)
-    @DisplayName("Переход и проверка элементов в разделе Лицензия R-keeper c опцией XML интерфейс для приложения")
-    void goToLicenseTab() {
 
-        rootPage.click(licenseIdTab);
+    @Test
+    @Order(5)
+    @DisplayName("Переход и проверка элементов в разделе Лицензия R-keeper c опцией XML интерфейс для приложения")
+    void choseXmlSaveOrderOption() {
+
+        BaseActions.click(licenseIdTab);
         tabPreloader.shouldNotBe(visible, Duration.ofSeconds(10));
+
+
         logsAndPermissions.choseXmlApplicationOption();
 
     }
 
+
     @Test
-    @Order(7)
+    @Order(6)
     @DisplayName("Переход и проверка элементов в разделе Лицензия R-keeper c опцией XML сохранение заказов")
-    void choseXmlSaveOrderOption() {
+    void goToLicenseTab() {
 
         logsAndPermissions.choseXmlSaveOrderOption();
 
     }
 
     @Test
+    @Order(7)
+    @DisplayName("Возвращаем исходные значения и проверяем форму отмены изменения")
+    void notSaveChanges() {
+
+        logsAndPermissions.notSaveChangesLicenseTab(KEEPER_RESTAURANT_NAME);
+
+    }
+
+
+    @Test
     @Order(8)
     @DisplayName("Переход и проверка элементов в разделе rkeeper/iiko")
     void isCashDeskTabCorrect() {
 
-        logsAndPermissions.isCashDeskTabCorrect();
+        logsAndPermissions.isCashDeskTabCorrect(KEEPER_RESTAURANT_NAME);
 
     }
 
@@ -147,7 +172,7 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Проверяем его на столе")
     void isLoaderCorrect() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.isImageCorrect(startScreenLogoContainerImageNotSelenide,
                 "Изображение\\гиф на столе не корректная");
 

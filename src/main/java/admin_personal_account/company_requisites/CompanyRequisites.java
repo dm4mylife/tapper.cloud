@@ -19,7 +19,6 @@ public class CompanyRequisites extends BaseActions {
     RootPage rootPage = new RootPage();
 
     @Step("Переход в категорию реквизиты компании")
-
     public void goToCompanyRequisitesCategory() {
 
         click(companyRequisitesCategory);

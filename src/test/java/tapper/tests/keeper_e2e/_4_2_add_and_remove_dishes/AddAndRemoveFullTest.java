@@ -20,8 +20,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.TORT;
 import static api.ApiData.QueryParams.rqParamsDeletePosition;
-import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;

@@ -25,7 +25,7 @@ import static api.ApiData.IikoData.Dish.*;
 @DisplayName("Полная оплата без чаевых")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FullPayNoTipsTest extends BaseTest {
+class FullPayNoTipsTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_222.tableUrl;

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
 
 
 @Epic("RKeeper")
@@ -132,7 +132,7 @@ class AddAndPartTest extends BaseTest {
     @DisplayName("Проверка сообщения в телеграмме")
     void clearDataAndChoseAgain() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

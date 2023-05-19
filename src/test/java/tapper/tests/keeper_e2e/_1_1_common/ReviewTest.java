@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._1_1_common;
 
 
 import data.AnnotationAndStepNaming;
+import data.TableData;
 import data.selectors.TapperTable;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -35,12 +36,12 @@ import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReviewTest extends BaseTest {
 
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_111;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
-    protected final String tableId = TABLE_AUTO_111_ID;
+    protected final String restaurantName = TableData.Keeper.Table_111.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_111.tableCode;
+    protected final String waiter = TableData.Keeper.Table_111.waiter;
+    protected final String apiUri = TableData.Keeper.Table_111.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_111.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_111.tableId;
 
     static String guid;
     static double totalPay;
@@ -62,7 +63,8 @@ class ReviewTest extends BaseTest {
 
     @Test
     @Order(1)
-    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.createOrderInKeeper + AnnotationAndStepNaming.DisplayName.TapperTable.isDishesCorrectInCashDeskAndTapperTable)
+    @DisplayName(AnnotationAndStepNaming.DisplayName.TapperTable.createOrderInKeeper +
+            AnnotationAndStepNaming.DisplayName.TapperTable.isDishesCorrectInCashDeskAndTapperTable)
     void createAndFillOrder() {
 
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
@@ -82,7 +84,7 @@ class ReviewTest extends BaseTest {
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
         transactionId = nestedTests.acquiringPayment(totalPay);
         pagePreLoader.shouldNotBe(visible, Duration.ofSeconds(15));
-        reviewPageNestedTests.paymentCorrect(orderType = "full");
+        reviewPageNestedTests.paymentCorrect("full");
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
         reviewPage.isReviewBlockCorrect();
 

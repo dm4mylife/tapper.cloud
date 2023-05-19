@@ -28,7 +28,7 @@ import static data.Constants.TestData.TapperTable.COOKIE_SESSION_SECOND_USER;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class TipsNoScTest extends BaseTest {
+class TipsNoScTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_111.tableUrl;

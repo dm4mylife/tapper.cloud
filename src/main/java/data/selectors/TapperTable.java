@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
 import static data.Constants.TestData.TapperTable.TEST_WAITER_COMMENT;
+import static data.selectors.TapperTable.ReviewPage.thanksReviewCloseButton;
 
 public class TapperTable {
 
@@ -129,6 +130,8 @@ public class TapperTable {
                     $("[data-auto=\"markedDishesField\"] span+span");
             public static final SelenideElement discountField = $("[data-auto=\"discountField\"]");
             public static final SelenideElement discountSum = $("[data-auto=\"discountField\"]+span");
+            public static final SelenideElement markupSum = $("[data-auto=\"markupField\"]+span");
+
             public static final SelenideElement resetTipsButton = $("[data-auto=\"resetTipsButton\"]");
             public static final SelenideElement tipsContainer = $("[data-auto=\"tipsContainer\"]");
             public static final SelenideElement totalTipsSumInMiddle =
@@ -188,6 +191,16 @@ public class TapperTable {
             public static final ElementsCollection paymentBanksPriorityBanks =
                     $$(".paymentBanksPriority__item");
             public static final SelenideElement paymentBanksAllBanksButton = $(".paymentAllBanksButton");
+            public static final SelenideElement searchBankInput = $(".baseSearch__input");
+
+            public static final ElementsCollection bankListItems = $$(".paymentAllBanks-list__inner");
+            public static final SelenideElement choseBankCloseModal = thanksReviewCloseButton;
+
+
+            public static final SelenideElement emptyBankListItems = $(".paymentAllBanks__empty");
+
+
+            public static final SelenideElement searchBankClearButton = $(".baseSearch__clear");
             public static final SelenideElement paymentBanksDescription = $(".paymentBanks__description");
             public static final SelenideElement paymentBanksReceipt = $(".paymentBanks__check");
             public static final SelenideElement emailReceiptInput = $(".baseInput input");

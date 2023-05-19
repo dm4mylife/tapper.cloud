@@ -5,7 +5,6 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import support_personal_account.logs_and_permissions.LogsAndPermissions;
-import tapper_table.RootPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 

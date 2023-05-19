@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_2_modifiers;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -19,8 +20,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.QueryParams.allTypesModificatorList;
 import static api.ApiData.OrderData.*;
+import static api.ApiData.QueryParams.allTypesModificatorList;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
@@ -31,7 +32,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 
-public class BigPartPayTest extends BaseTest {
+class BigPartPayTest extends BaseTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = TableData.Keeper.Table_333.waiter;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
 
     static String guid;
     static double totalPay;
@@ -53,15 +61,14 @@ public class BigPartPayTest extends BaseTest {
     public void createAndFillOrder() {
 
         Response rs = rootPageNestedTests.createAndFillOrderOnlyWithModifiers
-                (R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,
-                        allTypesModificatorList, TABLE_AUTO_333_ID);
+                (restaurantName, tableCode,waiter, apiUri, allTypesModificatorList, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        Response rsOrderInfo = apiRKeeper.getOrderInfo(TABLE_AUTO_333_ID, AUTO_API_URI);
+        Response rsOrderInfo = apiRKeeper.getOrderInfo(tableId, apiUri);
         orderInKeeper = rootPageNestedTests.saveOrderDataWithAllModi(rsOrderInfo);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(tableUrl);
         rootPage.isTableHasOrder();
 
     }
@@ -91,7 +98,7 @@ public class BigPartPayTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -115,7 +122,7 @@ public class BigPartPayTest extends BaseTest {
     @DisplayName("7. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
@@ -123,7 +130,7 @@ public class BigPartPayTest extends BaseTest {
     @DisplayName("8. Закрываем заказ")
     public void closeOrderByAPI() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_333_ID,guid);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

@@ -1,19 +1,19 @@
 package layout_screen_compare;
 
-import com.codeborne.selenide.Driver;
-import com.codeborne.selenide.WebDriverRunner;
 import common.BaseActions;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
-import ru.yandex.qatools.ashot.comparison.*;
+import ru.yandex.qatools.ashot.comparison.ImageDiff;
+import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 import ru.yandex.qatools.ashot.coordinates.Coords;
-import ru.yandex.qatools.ashot.coordinates.CoordsPreparationStrategy;
 import ru.yandex.qatools.ashot.coordinates.WebDriverCoordsProvider;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
-import tapper_table.RootPage;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategy;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,14 +23,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static com.codeborne.selenide.WebDriverRunner.source;
 import static data.Constants.*;
-import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 public class ScreenShotComparison {
 
@@ -124,9 +121,6 @@ public class ScreenShotComparison {
 
         double diffPixelPercentRatio = imagePixelSize * (diffPercent / 100);
 
-        System.out.println("Общее количество различающихся пикселей " + diff.getDiffSize() +
-                "\nДопустимое количество различающихся пикселей " + diffPixelPercentRatio);
-
         Assertions.assertFalse(diff.getDiffSize() > diffPixelPercentRatio,
                 "Скриншоты различаются в более чем " + diffPercent + "%");
 
@@ -168,54 +162,30 @@ public class ScreenShotComparison {
 
         int diffPixelPercentRatio = (int) (imagePixelSize * (diffPercent / 100));
 
-        System.out.println(ignoredElements);
-
-
-        Screenshot actualIgnore = new AShot()
+        Screenshot actual = new AShot()
 
                 .ignoredElements(ignoredElements)
                 .coordsProvider(new WebDriverCoordsProvider())
                 .takeScreenshot(getWebDriver());
 
-        Screenshot actualNoIgnore = new AShot()
-                .coordsProvider(new WebDriverCoordsProvider())
-                .takeScreenshot(getWebDriver());
-
-
         Screenshot original = new Screenshot(ImageIO.read(new File(fullPathNameOriginal)));
 
+        original.setIgnoredAreas(actual.getIgnoredAreas());
+        original.setCoordsToCompare(actual.getCoordsToCompare());
 
-        original.setIgnoredAreas(actualIgnore.getIgnoredAreas());
-        original.setCoordsToCompare(actualIgnore.getCoordsToCompare());
-
-        System.out.println(actualIgnore.getIgnoredAreas());
-
-
-        ImageDiff diff = new ImageDiffer().makeDiff(actualIgnore, original);
-        int noIgnoreScreeDiffSize = new ImageDiffer().makeDiff(actualNoIgnore, original).getDiffSize();
-        int totalDiffSize = noIgnoreScreeDiffSize - diff.getDiffSize();
-
-        System.out.println(noIgnoreScreeDiffSize + " noIgnoreScreeDiffSize");
-        System.out.println(diffPixelPercentRatio + " diffPixelPercentRatio");
-        System.out.println(diff.getDiffSize() + " diff size");
-        System.out.println(totalDiffSize + " total diff size");
-
-
+        ImageDiff diff = new ImageDiffer().makeDiff(actual, original);
 
         BufferedImage diffImage = diff.getMarkedImage();
-        ImageIO.write(actualIgnore.getImage(), "png", new File(fullPathNameActual));
+        ImageIO.write(actual.getImage(), "png", new File(fullPathNameActual));
         ImageIO.write(diffImage, "png", new File(fullPathNameDiff));
 
         attachScreenToAllureReport(fullPathNameDiff,"diff");
         attachScreenToAllureReport(fullPathNameOriginal,"actual");
         attachScreenToAllureReport(fullPathNameActual,"expected");
 
-        System.out.println(diff.getDiffSize() + " Общее количество различающихся пикселей");
-        System.out.println(diffPixelPercentRatio + " Допустимое количество различающихся пикселей");
-
-        Assertions.assertFalse(totalDiffSize > diffPixelPercentRatio,
+        Assertions.assertFalse(diff.getDiffSize() > diffPixelPercentRatio,
                 "Скриншоты различаются в более чем " + diffPercent +
-                        "%.\nОбщее количество различающихся пикселей " + totalDiffSize +
+                        "%.\nОбщее количество различающихся пикселей " + diff.getDiffSize() +
                         "\nДопустимое количество различающихся пикселей " + diffPixelPercentRatio);
 
     }
@@ -267,8 +237,5 @@ public class ScreenShotComparison {
         return new HashSet<>(elements);
 
     }
-
-
-
 
 }

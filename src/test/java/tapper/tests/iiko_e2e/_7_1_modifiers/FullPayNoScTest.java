@@ -2,12 +2,10 @@ package tapper.tests.iiko_e2e._7_1_modifiers;
 
 
 import api.ApiIiko;
-import api.ApiRKeeper;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -19,8 +17,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.IikoData.Dish.*;
-import static api.ApiData.IikoData.Dish.HOT_DOG;
-import static api.ApiData.OrderData.*;
 
 
 @Epic("Iiko")
@@ -29,7 +25,7 @@ import static api.ApiData.OrderData.*;
 @DisplayName("Полная оплата без сервисного сбора")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FullPayNoScTest extends BaseTest {
+class FullPayNoScTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_222.tableUrl;

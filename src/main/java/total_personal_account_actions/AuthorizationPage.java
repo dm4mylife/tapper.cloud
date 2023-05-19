@@ -16,10 +16,7 @@ import static data.selectors.AuthAndRegistrationPage.RootTapperPage.signInButton
 
 public class AuthorizationPage extends BaseActions {
 
-
-
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-
 
     @Step("Переход на страницу авторизации")
     public void goToAuthorizationPage() {
@@ -84,7 +81,6 @@ public class AuthorizationPage extends BaseActions {
 
     }
 
-
     @Step("Заполняем пароль и отправляем заявку на восстановление пароля")
     public void recoverPassword(String email) {
 
@@ -120,7 +116,6 @@ public class AuthorizationPage extends BaseActions {
         isElementInvisible(confPolicyContainer);
 
     }
-
 
     @Step("Авторизуемся под админом ресторана")
     public void authorizeFromMailUrl(String login, String password, String url, boolean hasExistingMailError) {

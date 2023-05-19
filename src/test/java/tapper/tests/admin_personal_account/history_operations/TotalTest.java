@@ -3,6 +3,7 @@ package tapper.tests.admin_personal_account.history_operations;
 
 import admin_personal_account.history_operations.HistoryOperations;
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -19,10 +20,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
-import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 
 
 
@@ -33,6 +33,13 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TotalTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiter = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     static String guid;
     static double totalPay;
@@ -49,7 +56,7 @@ class TotalTest extends PersonalAccountTest {
     NestedTests nestedTests = new NestedTests();
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
 
-    @Disabled
+
     @Test
     @Order(1)
     @DisplayName("Оплачиваем заказ на столе чтобы была хоть одна транзакция в истории операций")
@@ -58,9 +65,8 @@ class TotalTest extends PersonalAccountTest {
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT,
-                TABLE_CODE_555,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,
-                STAGE_RKEEPER_TABLE_555,TABLE_AUTO_555_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode,waiter,
+                apiUri,dishesForFillingOrder, tableUrl,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -77,9 +83,7 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Авторизация под администратором в личном кабинете")
     void authorizeUser() {
 
-       // authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
-        authorizationPage.authorizationByToken
-                (PERSONAL_ACCOUNT_PROFILE_STAGE_URL,ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
+        authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
 
     }
 
@@ -88,9 +92,7 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Переход на категорию история операций")
     void goToOperationsHistory() {
 
-        //authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         operationsHistory.goToHistoryOperationsCategory();
-
 
     }
 
@@ -99,9 +101,7 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Проверка что все элементы корректны")
     void isOperationsHistoryCorrect() {
 
-        rootPage.forceWait(10000);
         operationsHistory.isHistoryOperationsCorrect();
-
 
     }
 
@@ -125,7 +125,7 @@ class TotalTest extends PersonalAccountTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     @DisplayName("Проверка месячного фильтра")
     void isMonthPeriodCorrect() {
 
@@ -134,7 +134,7 @@ class TotalTest extends PersonalAccountTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     @DisplayName("Сброс периода фильтра")
     void resetPeriod() {
 
@@ -143,11 +143,29 @@ class TotalTest extends PersonalAccountTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     @DisplayName("Установка и проверка кастомного периода")
     void isCustomPeriodCorrect() throws ParseException {
 
         operationsHistory.setCustomPeriod();
+
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("Проверка периода за который не было операций")
+    void noResultsOperationPeriod(){
+
+        operationsHistory.noResultsOperationPeriod();
+
+    }
+
+    @Test
+    @Order(11)
+    @DisplayName("Проверка что после обновления страницы мы остаемся на этой вкладке")
+    void isCorrectAfterRefreshPage(){
+
+        operationsHistory.isCorrectAfterRefreshPage();
 
     }
 

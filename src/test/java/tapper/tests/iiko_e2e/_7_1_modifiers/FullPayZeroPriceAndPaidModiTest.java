@@ -2,12 +2,10 @@ package tapper.tests.iiko_e2e._7_1_modifiers;
 
 
 import api.ApiIiko;
-import api.ApiRKeeper;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -18,9 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.IikoData.Dish.*;
-import static api.ApiData.OrderData.ABISTA_PAID_NECESSART_MODI;
-import static api.ApiData.OrderData.ABISTA_ZERO_PRICE;
+import static api.ApiData.IikoData.Dish.ZERO_PRICE_DISH_TEA;
+import static api.ApiData.IikoData.Dish.ZERO_PRICE_DISH_TEA_PAID_NOT_NECESSARY_MODIFIER;
 
 @Epic("Iiko")
 @Feature("Модификаторы")
@@ -28,7 +25,7 @@ import static api.ApiData.OrderData.ABISTA_ZERO_PRICE;
 @DisplayName("Полная оплата позиций с ценой 0 и платным модификатором ")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FullPayZeroPriceAndPaidModiTest extends BaseTest {
+class FullPayZeroPriceAndPaidModiTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_222.tableUrl;

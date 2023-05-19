@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_1_waiter;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -30,7 +31,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 @DisplayName("Официант верифицирован, без привязанной карты, полная оплата -СБ")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class VerifiedFullNoCardNoScTest extends BaseTest {
+class VerifiedFullNoCardNoScTest extends BaseTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = WAITER_TERMINATOR_VERIFIED_NON_CARD;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
 
     static int amountDishesForFillingOrder = 6;
     static String guid;
@@ -53,9 +61,8 @@ public class VerifiedFullNoCardNoScTest extends BaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_333,
-                WAITER_TERMINATOR_VERIFIED_NON_CARD, AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_333,
-                TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode,
+                waiter, apiUri,dishesForFillingOrder,tableUrl, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -77,7 +84,7 @@ public class VerifiedFullNoCardNoScTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 

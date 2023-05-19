@@ -44,10 +44,9 @@ class BigOrderPartPayTillEndTest extends BaseTest {
     static String guid;
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
-    static String orderType;
-    static int amountDishesToFillOrder = 8;
-    static int amountDishesToBeChosen = 4;
-
+    static String orderType = "part";
+    static int amountDishesToFillOrder = 10;
+    static int amountDishesToBeChosen = 5;
 
 
     RootPage rootPage = new RootPage();
@@ -66,13 +65,10 @@ class BigOrderPartPayTillEndTest extends BaseTest {
         Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName, tableId, apiUri),
                 "На столе был прошлый заказ, его не удалось закрыть");
 
-        dishesForFillingOrder = apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO,
-                amountDishesToFillOrder);
+        dishesForFillingOrder = apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesToFillOrder);
         dishesForFillingOrder = apiRKeeper.createDishObject(dishesForFillingOrder, GLAZUNYA, amountDishesToFillOrder);
         dishesForFillingOrder = apiRKeeper.createDishObject(dishesForFillingOrder, SOLYANKA, amountDishesToFillOrder);
         dishesForFillingOrder = apiRKeeper.createDishObject(dishesForFillingOrder, TORT, amountDishesToFillOrder);
-        dishesForFillingOrder = apiRKeeper.createDishObject(dishesForFillingOrder, GOVYADINA_PORTION,
-                amountDishesToFillOrder);
 
         Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode,waiter,
                 apiUri,dishesForFillingOrder,tableUrl,tableId);
@@ -116,7 +112,7 @@ class BigOrderPartPayTillEndTest extends BaseTest {
     @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     void checkPayment() {
 
-        nestedTests.checkPaymentAndB2pTransaction(orderType = "part", transactionId, paymentDataKeeper);
+        nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 

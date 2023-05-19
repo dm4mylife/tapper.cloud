@@ -1,6 +1,5 @@
 package admin_personal_account.tables_and_qr_codes;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
@@ -104,7 +103,6 @@ public class TablesAndQrCodes extends BaseActions {
         isTableAndQrCodesCorrect();
 
     }
-
 
     @Step("Поиск столов с начального и до конечного значения")
     public void searchTableRange(int min, int max) {
@@ -222,9 +220,10 @@ public class TablesAndQrCodes extends BaseActions {
 
         isElementVisible(backToTableList);
         isElementVisible(tableItem);
-        Assertions.assertTrue(tableItem.isDisplayed());
-        Assertions.assertTrue(qrBlockWhite.isDisplayed());
-        Assertions.assertTrue(qrBlockBlack.isDisplayed());
+
+        isElementVisible(tableItem);
+        isElementVisible(qrBlockBlack);
+        isElementVisible(qrBlockWhite);
 
     }
 

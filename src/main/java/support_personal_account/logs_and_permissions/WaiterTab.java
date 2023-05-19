@@ -78,5 +78,4 @@ public class WaiterTab extends BaseActions {
 
     }
 
-
 }

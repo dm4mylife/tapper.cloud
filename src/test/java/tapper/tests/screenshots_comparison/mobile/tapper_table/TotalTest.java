@@ -1,6 +1,7 @@
 package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
+import common.BaseActions;
 import data.ScreenLayout;
 import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.text;
 import static data.ScreenLayout.Tapper.*;
@@ -110,7 +111,7 @@ class TotalTest extends ScreenMobileTest {
     void tapperWithTipsAndChosenDishes() throws IOException {
 
         rootPageNestedTests.chooseAllNonPaidDishes();
-        rootPage.click(tips25);
+        BaseActions.click(tips25);
 
         ScreenShotComparison.isScreenOrDiff
                 (browserTypeSize, isScreenShot, tapperWithTipsAndChosenDishes, diffPercent, imagePixelSize,
@@ -126,14 +127,14 @@ class TotalTest extends ScreenMobileTest {
 
         rootPage.deactivateDivideCheckSliderIfActivated();
         rootPage.changePaymentTypeOnSBP();
-        rootPage.click(paymentButton);
+        BaseActions.click(paymentButton);
 
         ScreenShotComparison.isScreenOrDiff
                 (browserTypeSize, isScreenShot, openedPaymentByCreditCardModal, diffPercent, imagePixelSize,
                         ignoredElements);
 
-        rootPage.click(paymentOverlay);
-        rootPage.click(cancelProcessPayingContainerSaveBtn);
+        BaseActions.click(paymentOverlay);
+        BaseActions.click(cancelProcessPayingContainerSaveBtn);
 
     }
 
@@ -142,13 +143,13 @@ class TotalTest extends ScreenMobileTest {
     @DisplayName("Форма выбора способа оплаты")
     void openedPaymentOptionsModal() throws IOException {
 
-        rootPage.click(paymentOptionsContainer);
+        BaseActions.click(paymentOptionsContainer);
 
         ScreenShotComparison.isScreenOrDiff
                 (browserTypeSize, isScreenShot, openedPaymentOptionsModal, diffPercent, imagePixelSize,
                         ignoredElements);
 
-        rootPage.click(paymentOverlay);
+        BaseActions.click(paymentOverlay);
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();

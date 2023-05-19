@@ -1,6 +1,7 @@
 package tapper.tests.admin_personal_account.customization;
 
 import admin_personal_account.customization.Customization;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -19,7 +20,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 @DisplayName("Проверка переключения типу получателя, замена шаблона, проверка на столе")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TotalTest extends PersonalAccountTest {
+class TotalTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     int adminTab = 0;
     int tapperTableTab = 1;
@@ -63,7 +71,7 @@ public class TotalTest extends PersonalAccountTest {
 
         customization.choseOnlyManager();
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         customization.checkCallWaiterButtonTypeOnTable("Написать\nменеджеру","Вызов менеджера");
 
 

@@ -2,12 +2,10 @@ package tapper.tests.iiko_e2e._7_1_modifiers;
 
 
 import api.ApiIiko;
-import api.ApiRKeeper;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -19,10 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.IikoData.Dish.*;
-import static api.ApiData.IikoData.Dish.HOT_DOG;
-import static api.ApiData.OrderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
+import static api.ApiData.OrderData.TABLE_AUTO_333_ID;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 
 @Epic("Iiko")
@@ -31,7 +26,7 @@ import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisab
 @DisplayName("Частичная оплата нескольких позиций последняя с модификатором")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CommonButLastModiDishPartPayTest extends BaseTest {
+class CommonButLastModiDishPartPayTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_222.tableUrl;

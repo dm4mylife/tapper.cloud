@@ -17,7 +17,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.IikoData.Dish.BURGER;
-import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.TapperTable.COOKIE_GUEST_SECOND_USER;
+import static data.Constants.TestData.TapperTable.COOKIE_SESSION_SECOND_USER;
 
 
 @Epic("Iiko")
@@ -27,7 +28,7 @@ import static data.Constants.TestData.TapperTable.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class TipsScTest extends BaseTest {
+class TipsScTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_111.tableUrl;

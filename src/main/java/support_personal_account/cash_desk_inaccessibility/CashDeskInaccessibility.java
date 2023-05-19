@@ -1,7 +1,6 @@
 package support_personal_account.cash_desk_inaccessibility;
 
 import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
@@ -15,6 +14,7 @@ import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.CashDeskInaccessibility.*;
 import static data.selectors.SupportPersonalAccount.Common.cashDeskInaccessibilityCategory;
+import static data.selectors.SupportPersonalAccount.Lock.dropdownListItemCheckboxSelector;
 import static data.selectors.SupportPersonalAccount.Lock.dropdownWhereToLockRestaurants;
 
 public class CashDeskInaccessibility extends BaseActions {
@@ -48,11 +48,13 @@ public class CashDeskInaccessibility extends BaseActions {
 
         choseRestaurantButton.shouldBe(visible,enabled).click();
 
+        isElementsCollectionVisible(dropdownWhereToLockRestaurants);
+
         ElementsCollection onlyTestrkeeperRestaurants =
                 dropdownWhereToLockRestaurants.filter(matchText(restaurant));
 
-        onlyTestrkeeperRestaurants.asDynamicIterable().stream().forEach(
-                element -> click(element.$(".vPlugLst__checkbox")));
+        onlyTestrkeeperRestaurants.asFixedIterable().stream().forEach(
+                element -> click(element.$(dropdownListItemCheckboxSelector)));
 
         click(applyButton);
 

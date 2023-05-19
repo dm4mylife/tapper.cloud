@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.TORT;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
 
 

@@ -16,8 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import static com.codeborne.selenide.CollectionCondition.*;
-import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import static data.selectors.TapperTable.RootPage.PayBlock.paymentOptionsContainer;
@@ -38,8 +38,6 @@ public class BaseActions {
         element.shouldBe(visible,enabled).click();
 
     }
-
-
 
     public void clickByJs(String selector) {
 
@@ -79,8 +77,6 @@ public class BaseActions {
                 (allMatch("Все элементы должны быть видны",WebElement::isDisplayed),Duration.ofSeconds(time));
 
     }
-
-
 
     @Step("Смена разрешения браузера")
     public void changeBrowserSizeDuringTest(int width,int height) {

@@ -1,5 +1,6 @@
 package tapper.tests.support_personal_account.sending;
 
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
@@ -24,6 +25,13 @@ import static data.selectors.SupportPersonalAccount.Sending.sendToManagerContain
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TotalTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -63,7 +71,7 @@ class TotalTest extends PersonalAccountTest {
     void checkMsgInTgToAll() {
 
         rootPage.getAdminSendingMsgData
-                (TABLE_AUTO_555_ID, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ALL, WAIT_FOR_TELEGRAM_SUPPORT_SENDING);
+                (tableId, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ALL, WAIT_FOR_TELEGRAM_SUPPORT_SENDING);
 
     }
 
@@ -82,7 +90,7 @@ class TotalTest extends PersonalAccountTest {
     public void checkMsgInTgToAdmins() {
 
         rootPage.getAdminSendingMsgData
-                (TABLE_AUTO_555_ID, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS, WAIT_FOR_TELEGRAM_SUPPORT_SENDING);
+                (tableId, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS, WAIT_FOR_TELEGRAM_SUPPORT_SENDING);
 
     }
 

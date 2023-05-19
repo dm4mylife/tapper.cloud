@@ -18,7 +18,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.DISCOUNT_WITH_CUSTOM_SUM_ID;
 
 
 @Epic("RKeeper")

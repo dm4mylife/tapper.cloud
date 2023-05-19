@@ -7,7 +7,6 @@ import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -16,8 +15,6 @@ import tests.BaseTest;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import static api.ApiData.IikoData.Dish.BURGER;
 import static data.Constants.TestData.TapperTable.COOKIE_GUEST_SECOND_USER;
@@ -31,7 +28,7 @@ import static data.Constants.TestData.TapperTable.COOKIE_SESSION_SECOND_USER;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class ChoseAndPartPayTillEndTest extends BaseTest {
+class ChoseAndPartPayTillEndTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_111.tableUrl;

@@ -2,12 +2,10 @@ package tapper.tests.iiko_e2e._7_1_modifiers;
 
 
 import api.ApiIiko;
-import api.ApiRKeeper;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -20,8 +18,6 @@ import java.util.LinkedHashMap;
 
 import static api.ApiData.IikoData.Dish.ZERO_PRICE_DISH_TEA;
 import static api.ApiData.IikoData.Dish.ZERO_PRICE_DISH_TEA_PAID_NOT_NECESSARY_MODIFIER;
-import static api.ApiData.OrderData.ABISTA_PAID_NECESSART_MODI;
-import static api.ApiData.OrderData.ABISTA_ZERO_PRICE;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 
 @Epic("Iiko")

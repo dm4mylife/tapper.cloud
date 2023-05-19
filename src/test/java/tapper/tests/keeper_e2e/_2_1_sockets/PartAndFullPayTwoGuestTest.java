@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -36,7 +37,14 @@ import static data.selectors.TapperTable.RootPage.DishList.allDishesDisabledStat
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
+class PartAndFullPayTwoGuestTest extends TwoBrowsers {
+
+    protected final String restaurantName = TableData.Keeper.Table_222.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_222.tableCode;
+    protected final String waiter = TableData.Keeper.Table_222.waiter;
+    protected final String apiUri = TableData.Keeper.Table_222.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_222.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_222.tableId;
 
     static String guid;
     static HashMap<Integer, Map<String, Double>> chosenDishes;
@@ -62,8 +70,8 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode,
+                waiter, apiUri,dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -73,8 +81,8 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
     @DisplayName("1.2. Открываем стол на двух разных устройствах, проверяем что не пустые")
     public void openTables() {
 
-        using(firstBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
-        using(secondBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
+        using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
     }
 
@@ -114,7 +122,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
         });
 
@@ -143,7 +151,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
         using(firstBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
@@ -172,7 +180,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
         });
 
@@ -191,7 +199,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
     public void checkPayment2Guest() {
 
         using(secondBrowser, () ->
-                nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper));
+                nestedTests.checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper));
 
     }
 
@@ -201,7 +209,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
         using(secondBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });

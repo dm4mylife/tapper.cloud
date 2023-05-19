@@ -4,7 +4,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import static api.ApiData.OrderData.*;
-import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.TapperTable.AUTO_API_URI;
+import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FifthTableData {

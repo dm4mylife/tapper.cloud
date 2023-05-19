@@ -12,10 +12,11 @@ import java.io.File;
 import java.time.Duration;
 import java.util.*;
 
-import static com.codeborne.selenide.CollectionCondition.*;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-import static data.Constants.*;
+import static data.Constants.PASTA_IMG_PATH;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Common.menuCategory;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
@@ -107,28 +108,6 @@ public class Menu extends BaseActions {
 
     }
 
-
-    @Step("Делаем видимым хотя бы одно блюдо если оно скрыто")
-    public void makeVisibleMenuDish(int randomIndex) {
-
-        if (!menuDishItemsEyeIcons.get(randomIndex).getAttribute("class").matches(".*active.*")) {
-
-            menuDishItemsEyeIcons.get(randomIndex).click();
-            isElementVisible(dishPreloader);
-
-        }
-
-    }
-
-    @Step("Включить меню для посетителей. Если есть неактивные категории или само отображение выключено, включаем")
-    public void activateMenuForGuests() {
-
-        int dishIndex = getRandomActiveCategoryIndex();
-        makeVisibleMenuCategory(dishIndex);
-        activateShowGuestSliderIfDeactivated();
-
-    }
-
     @Step("Активируем категории и блюда для автоматизации")
     public void activateOnlyAllAutoCategoryAndDishes() {
 
@@ -164,8 +143,6 @@ public class Menu extends BaseActions {
 
 
     }
-
-
 
     @Step("Сопоставление количество блюд в категориях")
     public void matchDishesItemSizeWithCategorySize() {
@@ -429,7 +406,6 @@ public class Menu extends BaseActions {
 
     }
 
-
     @Step("Проверка все элементы в форме редактирования корректны")
     public void isEditContainerCorrect() {
 
@@ -491,7 +467,6 @@ public class Menu extends BaseActions {
                 .shouldHave(attributeMatching("class",".*active.*"));
 
     }
-
 
     @Step("Проверка что позиция редактируется и изменения сохраняются")
     public String changeName(int dishIndex) {
@@ -556,7 +531,6 @@ public class Menu extends BaseActions {
 
     }
 
-
     @Step("Проверка отображения вида списка блюда")
     public void isDishListTileViewCorrect() {
 
@@ -620,7 +594,7 @@ public class Menu extends BaseActions {
         String previousNameByGuest = isInputAndCounterHasCharLimit
                 (editDishNameByGuestInput,OVER_LIMIT_CHARS_NAME_BY_GUEST_INPUT,LIMIT_CHARS_NAME_BY_GUEST_INPUT,
                         editDishNameByCashDeskInputCounter,LIMIT_CHARS_NAME_BY_GUEST_COUNTER);
-        System.out.println(previousNameByGuest);
+
         previousData.put("previousNameByGuest",previousNameByGuest);
 
         String previousDescription = isInputAndCounterHasCharLimit
@@ -680,7 +654,6 @@ public class Menu extends BaseActions {
 
     }
 
-
     @Step("Проверка формы отмены внесенных изменений")
     public void isCancelConfirmationContainerCorrect() {
 
@@ -717,7 +690,6 @@ public class Menu extends BaseActions {
         return newCategoryName;
 
     }
-
 
     @Step("Проверяем что смена имени блюда корректна")
     public String isDishEditNameByGuestCorrect(int dishIndex) {
@@ -1163,6 +1135,5 @@ public class Menu extends BaseActions {
         rootPage.refreshPage();
 
     }
-
 
 }

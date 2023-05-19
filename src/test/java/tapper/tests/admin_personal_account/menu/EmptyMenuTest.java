@@ -1,6 +1,7 @@
 package tapper.tests.admin_personal_account.menu;
 
 import admin_personal_account.menu.Menu;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -20,7 +21,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 @DisplayName("Проверка что если меню отключено, то на столе отображается кнопка и информация")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class EmptyMenuTest extends PersonalAccountTest {
+class EmptyMenuTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     int adminTab = 0;
     RootPage rootPage = new RootPage();
@@ -60,7 +68,7 @@ public class EmptyMenuTest extends PersonalAccountTest {
     @DisplayName("Переходим на стол и проверяем функционал меню при отключенном в админке")
     void checkMenuIconAndContainerInTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.clickOnMenuInFooter();
 
         rootPage.emptyMenuCorrect();

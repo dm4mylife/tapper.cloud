@@ -16,14 +16,18 @@ import org.openqa.selenium.WebElement;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.ClipboardConditions.content;
 import static com.codeborne.selenide.CollectionCondition.allMatch;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$$x;
+import static com.codeborne.selenide.Selenide.clipboard;
 import static data.Constants.RegexPattern.TapperTable.*;
 import static data.Constants.RegexPattern.TelegramMessage.discountRegex;
 import static data.Constants.RegexPattern.TelegramMessage.tableRegexTelegramMessage;
@@ -85,7 +89,6 @@ public class RootPage extends BaseActions {
 
     }
 
-
     @Step("Обновляем текущую страницу")
     public void refreshTableWithOrder() {
 
@@ -119,8 +122,6 @@ public class RootPage extends BaseActions {
 
 
         if (!allDishesInfoFromKeeper.equals(tapperDishes)) {
-
-            System.out.println("Данные с кассы и столом НЕ совпадают");
 
             allDishesInfoFromKeeper.entrySet().stream()
                     .filter(entry -> !tapperDishes.containsValue(entry.getValue()))
@@ -162,14 +163,6 @@ public class RootPage extends BaseActions {
 
     }
 
-    public void isPositionsChangedStatus(ElementsCollection elements) {
-
-
-
-
-
-    }
-
     @Step("Проверки что стол освободился, статусы в заголовке корректные")
     public void isEmptyOrderAfterClosing() {
 
@@ -204,6 +197,8 @@ public class RootPage extends BaseActions {
 
         if (divideCheckSlider.isDisplayed())
             click(divideCheckSlider);
+
+        divideCheckSliderActive.shouldBe(appear);
 
     }
 
@@ -278,58 +273,6 @@ public class RootPage extends BaseActions {
 
     }
 
-    @Step("Проверка логики суммы сервисного сбора с общей суммой и чаевыми")
-    public double countServiceCharge(double totalSum) { //
-
-        if (serviceChargeContainer.exists() && serviceChargeCheckboxSvg.getCssValue("display").equals("none")) {
-
-            activateServiceChargeIfDeactivated();
-
-            double tapperDiscount = 0;
-
-            if (discountSum.exists()) {
-
-                tapperDiscount = convertSelectorTextIntoDoubleByRgx(discountSum, discountRegex);
-
-            }
-
-            totalSum -= tapperDiscount;
-            double serviceChargeSumClear =
-                    updateDoubleByDecimalFormat(totalSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
-
-            if (tipsContainer.exists()) {
-
-                int tipsCount = Integer.parseInt(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
-                double serviceChargeFromTips =
-                        updateDoubleByDecimalFormat(tipsCount * (SERVICE_CHARGE_PERCENT_FROM_TIPS / 100));
-
-                serviceChargeSumClear = updateDoubleByDecimalFormat(serviceChargeSumClear + serviceChargeFromTips);
-
-            }
-
-            double totalPaySum = convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex) - tapperDiscount;
-            double currentSumInWallet =
-                    convertSelectorTextIntoDoubleByRgx
-                            (TapBar.totalSumInWalletCounter, totalPayRegex) - tapperDiscount;
-            double serviceChargeInField =
-                    convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, "[^\\d\\.]+");
-            serviceChargeInField = updateDoubleByDecimalFormat(serviceChargeInField);
-
-
-            Assertions.assertEquals(totalPaySum, currentSumInWallet, 0.1,
-                    "Сумма в 'Итого к оплате' " + totalPaySum
-                            + " не совпадает с суммой в иконке кошелька вместе с СБ "
-                            + currentSumInWallet + "\n");
-
-            Assertions.assertEquals(serviceChargeSumClear, serviceChargeInField, 0.1,
-                    "Сервисный сбор рассчитывается не корректно из чаевых и суммы заказа");
-
-        }
-
-        return updateDoubleByDecimalFormat(totalSum * (SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM / 100));
-
-    }
-
     @Step("Ввод кастомных чаевых")
     public void setCustomTips(String value) {
 
@@ -339,14 +282,6 @@ public class RootPage extends BaseActions {
         totalTipsSumInMiddle.clear();
         sendHumanKeys(totalTipsSumInMiddle, value);
         totalTipsSumInMiddle.shouldHave(value(value));
-
-    }
-
-    @Step("Выставляем чаевые на 0 и активируем СБ")
-    public void cancelTipsAndActivateSC(double cleanTotalSum) {
-
-        checkTipsAfterReset();
-        countServiceCharge(cleanTotalSum);
 
     }
 
@@ -500,6 +435,9 @@ public class RootPage extends BaseActions {
         scrollTillBottom();
         double totalDishSum = getClearOrderAmount();
 
+        if (discountField.exists())
+            totalDishSum -= convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
+
         if (totalDishSum < 490) {
 
             if (totalDishSum != 0) {
@@ -601,7 +539,6 @@ public class RootPage extends BaseActions {
         showPaymentOptionsAndTapBar();
 
     }
-
 
     @Step("Выбираем первое")
     public void choseFirstDish(ElementsCollection elements) {
@@ -772,7 +709,6 @@ public class RootPage extends BaseActions {
 
     }
 
-
     @Step("Считаем сумму всех выбранных позиций в заказе при разделении") //
     public double countOnlyAllChosenWithFullPriceDishesDivided() {
 
@@ -797,8 +733,6 @@ public class RootPage extends BaseActions {
 
         }
 
-        System.out.println(totalSumInOrder);
-
         return totalSumInOrder;
 
     }
@@ -820,8 +754,6 @@ public class RootPage extends BaseActions {
         Assertions.assertEquals(totalCheckSum, totalClearDishSum, 0.1);
 
     }
-
-
 
     @Step("Считаем сумму не оплаченных позиций и заблокированных в заказе")
     public double countAllNonPaidAndDisabledDishesInOrder() {
@@ -905,7 +837,6 @@ public class RootPage extends BaseActions {
 
     }
 
-
     @Step("Считаем сумму не оплаченных,незаблокированных позиций в заказе со скидкой")
     public double countAllNonPaidDiscountDishesInOrder() {
 
@@ -966,8 +897,6 @@ public class RootPage extends BaseActions {
             }
 
         }
-
-        System.out.println(totalSumInOrder + " totalSumInOrder");
 
         return totalSumInOrder;
 
@@ -1330,15 +1259,9 @@ public class RootPage extends BaseActions {
 
     }
 
-
     public double getCurrentDiscount() {
 
-        double discount = 0;
-
-        if (discountField.exists())
-            discount = convertSelectorTextIntoDoubleByRgx(discountSum,discountRegex);
-
-        return discount;
+        return discountField.exists() ? convertSelectorTextIntoDoubleByRgx(discountSum,discountRegex) : 0;
 
     }
 
@@ -1423,7 +1346,6 @@ public class RootPage extends BaseActions {
 
     }
 
-
     @Step("Проверяем что сумма 'Итого к оплате' совпадает с суммой счетчика в иконке кошелька")
     public void isSumInWalletMatchWithTotalPay() {
 
@@ -1461,27 +1383,6 @@ public class RootPage extends BaseActions {
                     "Процент чаевых установленный по умолчанию не совпадает с общей ценой за все блюда без СБ");
 
         }
-
-    }
-
-    @Step("Проверка что сумма 'Другой пользователь' совпадает с суммой оплаченных позиций")
-    public void isAnotherGuestSumCorrect() {
-
-        anotherGuestField.shouldBe(visible);
-
-        double totalPaidSum = 0;
-        double anotherGuestSum =
-                convertSelectorTextIntoDoubleByRgx(TipsAndCheck.anotherGuestSum, anotherGuestSumInCheckRegex);
-
-        for (SelenideElement element : disabledAndPaidDishes) {
-
-            double currentElementSum =
-                    convertSelectorTextIntoDoubleByRgx(element.$(dishPriceTotalSelector), dishPriceRegex);
-            totalPaidSum += currentElementSum;
-
-        }
-
-        Assertions.assertEquals(anotherGuestSum, totalPaidSum, 0.1);
 
     }
 
@@ -1712,13 +1613,21 @@ public class RootPage extends BaseActions {
 
     }
 
-
     public void isCurrentTableDataCorrectAfterErrorPayment(ElementsCollection dishes,
                                                            LinkedHashMap<Integer, Map<String, Double>> previousDishList,
                                                            LinkedHashMap<String,Double> previousTableData) {
 
-        dishes.asFixedIterable().stream().forEach
-                (element -> element.$(dishOrderStatusSelector).shouldHave(text("Не оплачено")));
+        if (divideCheckSliderActive.isDisplayed()) {
+
+            dishes.asFixedIterable().stream().forEach
+                    (element -> element.$(dishOrderStatusSelector).shouldHave(text("Не оплачено")));
+
+        } else {
+
+            dishes.asFixedIterable().stream().forEach
+                    (element -> element.$(dishOrderStatusSelector).shouldBe(hidden));
+
+        }
 
         LinkedHashMap<String,Double> currentTableData = getTableData();
         LinkedHashMap<Integer, Map<String, Double>> currentDishList = getDishList(dishes);
@@ -1770,7 +1679,38 @@ public class RootPage extends BaseActions {
         changePaymentTypeOnCard();
         changePaymentTypeOnSBP();
 
+        isPositiveAndNegativeBankSearchCorrect();
+
     }
+
+    @Step("Проверка поиска банка и негативный поиск")
+    public void isPositiveAndNegativeBankSearchCorrect() {
+
+        click(paymentButton);
+
+        click(paymentBanksAllBanksButton);
+
+        sendKeys(searchBankInput,SEARCH_BANK);
+
+        bankListItems.shouldHave(size(1));
+        bankListItems.first().shouldHave(text(SEARCH_BANK));
+
+        click(searchBankClearButton);
+
+        sendKeys(searchBankInput,WRONG_SEARCH_BANK);
+
+        bankListItems.shouldHave(size(0));
+
+        emptyBankListItems.shouldBe(visible);
+
+        click(choseBankCloseModal);
+        isCancelPaymentcontainerCorrect();
+        click(cancelProcessPayingContainerSaveBtn);
+        cancelProcessPayingContainer.shouldBe(disappear);
+
+    }
+
+
 
     @Step("Сохранение общей суммы в таппере для проверки суммы в б2п")
     public double saveTotalPayForMatchWithAcquiring() {
@@ -1782,41 +1722,25 @@ public class RootPage extends BaseActions {
     @Step("Получаем чистую сумму за вычетом всех сб,чаевых,скидки,наценки,оплаченных ранее")
     public double getClearOrderAmount() {
 
-        double orderAmount;
+        double orderAmount = divideCheckSliderActive.isDisplayed() ?
+                countAllNonPaidDAndChosenDishesInOrder() : countAllNonPaidDishesInOrder() ;
 
-        if (divideCheckSliderActive.isDisplayed()) {
-
-            orderAmount = countAllNonPaidDAndChosenDishesInOrder();
-
-        } else {
-
-            orderAmount = countAllNonPaidDishesInOrder();
-
-        }
-
-        orderAmount = updateDoubleByDecimalFormat(orderAmount);
-
-        return orderAmount;
+        return updateDoubleByDecimalFormat(orderAmount);
 
     }
-
 
     @Step("Получаем чистую сумму за вычетом всех сб,чаевых,скидки,наценки,оплаченных ранее")
     public double getOrderAmountForOperationHistory() {
 
         double serviceChargeSum = 0;
-        double tips = 0;
+
+        double tips = totalTipsSumInMiddle.exists() ?
+                convertSelectorTextIntoDoubleByRgx(tipsInCheckSum, dishPriceRegex)  : 0;
 
         if (serviceChargeCheckboxSvg.getCssValue("display").equals("block")) {
 
             serviceChargeSum = convertSelectorTextIntoDoubleByRgx(serviceChargeContainer, serviceChargeRegex);
             serviceChargeSum = updateDoubleByDecimalFormat(serviceChargeSum);
-
-        }
-
-        if (totalTipsSumInMiddle.exists()) {
-
-            tips = convertSelectorTextIntoDoubleByRgx(tipsInCheckSum, dishPriceRegex);
 
         }
 
@@ -1839,7 +1763,7 @@ public class RootPage extends BaseActions {
         double orderAmountDouble = getOrderAmountForOperationHistory();
 
         String orderAmountString = String.valueOf(orderAmountDouble).matches("\\d{1,}\\.\\d{1}$") ?
-                String.valueOf(orderAmountDouble) + "0" :
+                orderAmountDouble + "0" :
                 String.valueOf(orderAmountDouble);
 
         String orderAmount = orderAmountString.replaceAll("\\.","");
@@ -2092,16 +2016,12 @@ public class RootPage extends BaseActions {
         HashMap<Integer, HashMap<String, String>> orderData = new HashMap<>();
         HashMap<String, String> temporaryHashMap = new HashMap<>();
 
-        System.out.println(tableNumber);
         String table = convertSelectorTextIntoStrByRgx(tableNumber, "Стол ");
         String name = waiterName.getText();
-        String tips = convertSelectorTextIntoStrByRgx(tipsInCheckField, tipsInCheckSumRegex);
+        String tips = convertSelectorTextIntoStrByRgx(tipsInCheckSum, tipsInCheckSumRegex);
 
-        if (Objects.equals(tips, "")) {
-
+        if (Objects.equals(tips, ""))
             tips = "0";
-
-        }
 
         double totalSum = getOrderAmountForOperationHistory();
 
@@ -2125,7 +2045,9 @@ public class RootPage extends BaseActions {
     public void matchTapperOrderDataWithAdminOrderData(HashMap<Integer, HashMap<String, String>> tapperOrderData,
                                                        HashMap<Integer, HashMap<String, String>> adminOrderData) {
 
-       // System.out.println("\n TAPPER\n" + tapperOrderData + "\n ADMIN\n" + adminOrderData + "\n");
+
+
+        System.out.println("\nTAPPER\n" + tapperOrderData + "\nADMIN\n" + adminOrderData);
 
         boolean hasOperationMatch = false;
 
@@ -2189,7 +2111,6 @@ public class RootPage extends BaseActions {
 
     }
 
-
     @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
     public LinkedHashMap<String, String> getPaymentTgMsgData(String guid,String payment) {
 
@@ -2204,6 +2125,20 @@ public class RootPage extends BaseActions {
         LinkedHashMap<String, String> parsedMsg = telegram.parseMsg(msgWithType);
 
         return parsedMsg;
+
+    }
+
+    @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
+    public String getPaymentErrorTgMsgData(String errorPaymentText) {
+
+        final String[] msg = new String[1];
+
+        Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
+                .atMost(15, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(
+                        () -> Assertions.assertNotNull(msg[0] = telegram.getLastTgErrorPayMsg(errorPaymentText),
+                                "Сообщение в телеграм не пришло или некорректное"));
+
+        return msg[0];
 
     }
 
@@ -2259,27 +2194,7 @@ public class RootPage extends BaseActions {
     public void isDishStatusChanged(ElementsCollection elements, int collectionSize) {
 
         elements.should(allMatch("Все элементы должны быть видны", WebElement::isDisplayed),
-                        Duration.ofSeconds(5)).shouldHave(size(collectionSize));
-
-    }
-
-
-    @Step("Сбор данных со стола для проверки с телеграм сообщением")
-    public LinkedHashMap<String, String> getTapperDataForReviewMsg(String tableNumber,String waiter,
-                                                                   String comment, String rating,
-                                                                   String suggestions) {
-
-        LinkedHashMap<String, String> tapperDataForTgMsg = new LinkedHashMap<>();
-
-        tapperDataForTgMsg.put("tableNumber", tableNumber);
-        tapperDataForTgMsg.put("waiter", waiter);
-        tapperDataForTgMsg.put("comment", comment);
-        tapperDataForTgMsg.put("rating", rating);
-
-        if (suggestions != null)
-            tapperDataForTgMsg.put("suggestions", suggestions);
-
-        return tapperDataForTgMsg;
+                        Duration.ofSeconds(10)).shouldHave(size(collectionSize));
 
     }
 
@@ -2314,6 +2229,7 @@ public class RootPage extends BaseActions {
 
         String payStatus;
         String orderStatus;
+        boolean hasMarkUp = false;
         double serviceChargeSumDouble = 0;
         LinkedHashMap<String, String> tapperDataForTgMsg = new LinkedHashMap<>();
 
@@ -2323,8 +2239,20 @@ public class RootPage extends BaseActions {
                 convertSelectorTextIntoDoubleByRgx(totalPay,totalPayRegex) - getCurrentTipsSum() - getCurrentSCSum();
         paySumDouble = updateDoubleByDecimalFormat(paySumDouble);
 
-        double discountDouble = discountField.isDisplayed() ?
-                 convertSelectorTextIntoDoubleByRgx(discountSum, discountInCheckRegex) : 0;
+        double discountDouble = 0;
+        double markUpDouble = 0;
+
+        if (discountField.isDisplayed()) {
+
+            discountDouble = convertSelectorTextIntoDoubleByRgx(discountSum, discountInCheckRegex);
+
+        } else if (markupSum.isDisplayed()) {
+
+            discountDouble -= convertSelectorTextIntoDoubleByRgx(markupSum, discountInCheckRegex);
+            markUpDouble = convertSelectorTextIntoDoubleByRgx(markupSum, discountInCheckRegex);
+            hasMarkUp = true;
+
+        }
 
         double restToPayDouble = divideCheckSliderActive.isDisplayed() ?
                 countAllNonPaidAndDisabledDishesInOrderDivide() - countOnlyAllChosenDishesDivided() :
@@ -2364,6 +2292,7 @@ public class RootPage extends BaseActions {
 
                 unpaidSum = rsGetOrder.jsonPath().getDouble
                      ("result.CommandResult.Order[\"@attributes\"].unpaidSum") / 100;
+
                 prepayedSum = rsGetOrder.jsonPath()
                     .getDouble("result.CommandResult.Order[\"@attributes\"].prepaySum") / 100;
 
@@ -2383,11 +2312,11 @@ public class RootPage extends BaseActions {
 
         }
 
-       /* System.out.println("\nbefore status\n");
+        /*System.out.println("\nbefore status\n");
         System.out.println(totalPaidDouble + " totalPaidDouble");
         System.out.println((totalPaidDouble + discountDouble) + " totalPaidDouble with discount");
         System.out.println(sumInCheckDouble + " sumInCheckDouble");
-        System.out.println(restToPayDouble + " restToPayDouble"); */
+        System.out.println(restToPayDouble + " restToPayDouble");*/
 
         if (totalPaidDouble == sumInCheckDouble || (totalPaidDouble + discountDouble) == sumInCheckDouble) {
 
@@ -2409,23 +2338,36 @@ public class RootPage extends BaseActions {
         String totalPaid = convDoubleWithDecimal(totalPaidDouble);
         String restToPay = convDoubleWithDecimal(restToPayDouble);
         String tips = convDoubleWithDecimal(tipsDouble);
-        String discount = discountDouble != 0 ? convDoubleWithDecimal(discountDouble) : "";
+
+        String discount = "";
+        String markUp = "";
+        
+        if (!hasMarkUp) {
+
+            discount = discountDouble != 0 ? convDoubleWithDecimal(discountDouble) : "";
+            
+        } else {
+
+            markUp = markUpDouble != 0 ? convDoubleWithDecimal(markUpDouble) : "";
+            
+        }
+
+
+       
         String waiter = tipsContainer.isDisplayed() ? waiterName.getText() : UNKNOWN_WAITER;
         String restaurantName = cashDeskType.equals("keeper") ? "'testrkeeper'" : "'office'" ;
 
         tapperDataForTgMsg = setCollectionData(restaurantName,tableString,sumInCheck,restToPay,tips,paySum,totalPaid,
-                discount,payStatus,orderStatus,waiter);
+                discount,markUp,payStatus,orderStatus,waiter);
 
         return tapperDataForTgMsg;
 
     }
 
-
-
     public LinkedHashMap<String, String> setCollectionData (String restaurantName, String table, String sumInCheck,
                                                             String restToPay, String tips, String paySum,
-                                                            String totalPaid, String discount, String payStatus,
-                                                            String orderStatus,String waiter) {
+                                                            String totalPaid, String discount, String markUp,
+                                                            String payStatus, String orderStatus,String waiter) {
 
         LinkedHashMap<String, String> tapperDataForTgMsg = new LinkedHashMap<>();
 
@@ -2439,6 +2381,9 @@ public class RootPage extends BaseActions {
 
         if (!discount.equals(""))
             tapperDataForTgMsg.put("discount", discount);
+
+        if (!markUp.equals(""))
+            tapperDataForTgMsg.put("markUp", markUp);
 
         tapperDataForTgMsg.put("payStatus", payStatus);
         tapperDataForTgMsg.put("orderStatus", orderStatus);
@@ -2483,7 +2428,6 @@ public class RootPage extends BaseActions {
 
     }
 
-
     public void matchDishesDiscountPriceAfterAddingDiscount(Map<Integer,Map<String,Double>> dishesBeforeAddingDiscount,
                                                             Map<Integer,Map<String,Double>> dishesAfterAddingDiscount) {
 
@@ -2503,7 +2447,6 @@ public class RootPage extends BaseActions {
        }
 
     }
-
 
     @Step("Сравнение данных сообщения из тг и таппера")
     public void matchTgMsgDataAndTapperData(LinkedHashMap<String, String> telegramDataForTgMsg,

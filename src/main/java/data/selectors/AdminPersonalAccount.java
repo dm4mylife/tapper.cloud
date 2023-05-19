@@ -470,6 +470,10 @@ public class AdminPersonalAccount {
         public static final By totalTipsBy =
                 By.xpath("//*[@class='vHistoryList__el' and contains(text(),'Чаевые')]/span");
         public static final SelenideElement operationsHistoryPagePreloader = $(".vLightPreloader");
+
+        public static final SelenideElement emptyOperationContainer =
+                $(".VSectionHistory__block > div:not([class])");
+
         public static final SelenideElement operationsHistoryListContainer = $(".vHistoryRows");
         public static final ElementsCollection operationsHistoryListItems = $$(".vHistoryRows li");
         public static final ElementsCollection operationsHistoryListItemsDate =

@@ -1,7 +1,9 @@
 package tapper.tests.screenshots_comparison.desktop.support_personal_account;
 
+import common.BaseActions;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -10,7 +12,6 @@ import org.junit.jupiter.api.*;
 import support_personal_account.logs_and_permissions.LogsAndPermissions;
 import tapper_table.RootPage;
 import tests.ScreenDesktopTest;
-import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -20,7 +21,6 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static data.AnnotationAndStepNaming.DisplayName.SupportPersonalAccount.searchRestaurant;
 import static data.Constants.TestData.SupportPersonalAccount.*;
-import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
 import static data.selectors.SupportPersonalAccount.Common.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.Common.currentChosenRestaurant;
 
@@ -62,10 +62,10 @@ class LogsAndPermissionsTest extends ScreenDesktopTest {
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
 
-        rootPage.click(expandLeftMenuButton);
+        BaseActions.click(expandLeftMenuButton);
         rootPage.isElementVisible(openedLeftMenuContainer);
 
-        rootPage.click(logsAndPermissionsCategoryDropdownButton);
+        BaseActions.click(logsAndPermissionsCategoryDropdownButton);
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.SupportPersonalAccount.restaurantSearch, diffPercent, imagePixelSize);
@@ -80,13 +80,13 @@ class LogsAndPermissionsTest extends ScreenDesktopTest {
         rootPage.sendKeys(searchRestaurantInput,restaurantName);
 
         searchResultList.first().shouldHave(matchText(restaurantName), Duration.ofSeconds(5));
-        rootPage.click(searchResultList.first());
+        BaseActions.click(searchResultList.first());
 
         pagePreloader.shouldNotHave(attributeMatching("style", "background: transparent;")
                 , Duration.ofSeconds(10));
         pagePreloader.shouldBe(hidden,Duration.ofSeconds(5));
 
-        rootPage.click(collapseLeftMenuButton);
+        BaseActions.click(collapseLeftMenuButton);
         rootPage.isElementInvisible(openedLeftMenuContainer);
 
 

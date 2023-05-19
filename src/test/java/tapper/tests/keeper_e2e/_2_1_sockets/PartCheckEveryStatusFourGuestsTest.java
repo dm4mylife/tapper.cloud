@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -38,8 +39,14 @@ import static data.selectors.TapperTable.RootPage.DishList.*;
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
+class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
+    protected final String restaurantName = TableData.Keeper.Table_222.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_222.tableCode;
+    protected final String waiter = TableData.Keeper.Table_222.waiter;
+    protected final String apiUri = TableData.Keeper.Table_222.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_222.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_222.tableId;
     static String guid;
     static int amountDishesToBeChosen = 2;
     static int amountDishesForFillingOrder = 8;
@@ -66,8 +73,8 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_222,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_222_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, apiUri,
+                dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
     }
@@ -76,10 +83,10 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     @DisplayName("1.2. Открываем стол на четырёх разных устройствах")
     public void openTables() {
 
-        using(firstBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
-        using(secondBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
-        using(thirdBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
-        using(fourthBrowser, () -> rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222));
+        using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
+        using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
+        using(thirdBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
+        using(fourthBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
 
     }
 
@@ -107,6 +114,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
             allDisabledDishes.shouldHave(size(amountDishesToBeChosen));
 
         });
+
         using(thirdBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
         using(fourthBrowser, () -> allDisabledDishes.shouldHave(size(amountDishesToBeChosen)));
 
@@ -120,7 +128,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
         });
 
@@ -149,7 +157,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
         using(firstBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
@@ -209,7 +217,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
         });
 
@@ -238,7 +246,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
         using(secondBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
@@ -298,7 +306,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
         });
 
@@ -327,7 +335,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
         using(thirdBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });
@@ -357,7 +365,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
             totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
             paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_222_ID, "keeper");
+            tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
             rootPage.clickOnPaymentButton();
 
@@ -399,7 +407,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
     public void checkPayment4Guest() {
 
         using(fourthBrowser, () ->
-                nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper));
+                nestedTests.checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper));
 
     }
 
@@ -409,7 +417,7 @@ public class PartCheckEveryStatusFourGuestsTest extends FourBrowsers {
 
         using(fourthBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });

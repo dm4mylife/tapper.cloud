@@ -22,7 +22,6 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 import static data.Constants.TestData.SupportPersonalAccount.*;
-import static data.Constants.downloadFolderPath;
 import static data.Constants.downloadFolderPathAdminSupport;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 
@@ -34,7 +33,7 @@ import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 @DisplayName("Проверка таба Столы")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class TablesTabTest extends PersonalAccountTest {
+class TablesTabTest extends PersonalAccountTest {
 
     static int fromTableSearchValue;
     static int toTableSearchValue;

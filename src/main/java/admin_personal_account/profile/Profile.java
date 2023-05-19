@@ -8,7 +8,6 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -24,7 +23,6 @@ public class Profile extends BaseActions {
 
     AdminAccount adminAccount = new AdminAccount();
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    BaseActions baseActions = new BaseActions();
 
     @Step("Переход в меню профиля")
     public void goToProfileCategory() {
@@ -111,7 +109,6 @@ public class Profile extends BaseActions {
         element.shouldHave(value(value));
 
     }
-
 
     @Step("Удаление телеграма")
     public void deleteTelegramLogin() {

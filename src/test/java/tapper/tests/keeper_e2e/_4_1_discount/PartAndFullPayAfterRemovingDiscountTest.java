@@ -18,7 +18,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.DISCOUNT_WITH_CUSTOM_SUM_ID;
 
 
 @Epic("RKeeper")
@@ -185,7 +186,7 @@ class PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
     void checkPaymentAfterPartialPayment() {
 
-        nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
+        nestedTests.checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper);
 
     }
 
@@ -194,7 +195,7 @@ class PartAndFullPayAfterRemovingDiscountTest extends BaseTest {
     @DisplayName("Проверка сообщения в телеграмме")
     void matchTgMsgDataAndTapperDataFullPay() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

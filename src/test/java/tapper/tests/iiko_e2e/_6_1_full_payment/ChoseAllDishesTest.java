@@ -1,8 +1,6 @@
 package tapper.tests.iiko_e2e._6_1_full_payment;
 
 
-import api.ApiData;
-import api.ApiIiko;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -16,7 +14,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.IikoData.Dish.BURGER;
-
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 
 

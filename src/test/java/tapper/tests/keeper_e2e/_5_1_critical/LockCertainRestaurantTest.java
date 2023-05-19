@@ -1,6 +1,7 @@
 package tapper.tests.keeper_e2e._5_1_critical;
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -32,7 +33,14 @@ import static data.selectors.TapperTable.Common.serviceUnavailabilityContainer;
 @DisplayName("Заглушаем только один ресторан и проверяем все вариации заглушки")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class LockCertainRestaurantTest extends PersonalAccountTest {
+class LockCertainRestaurantTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiter = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     static String guid;
     static int amountDishesForFillingOrder = 3;
@@ -41,8 +49,6 @@ public class LockCertainRestaurantTest extends PersonalAccountTest {
     AuthorizationPage authorizationPage = new AuthorizationPage();
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
-
-
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     Lock lock = new Lock();
 
@@ -53,8 +59,8 @@ public class LockCertainRestaurantTest extends PersonalAccountTest {
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_222,TABLE_AUTO_222_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode,waiter, apiUri,
+                dishesForFillingOrder,tableUrl,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -97,7 +103,7 @@ public class LockCertainRestaurantTest extends PersonalAccountTest {
     @DisplayName("1.5. Проверяем на выбранном столе, что есть предупреждение")
     public void checkOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_222);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.isServiceUnavailable();
 
     }
@@ -125,7 +131,7 @@ public class LockCertainRestaurantTest extends PersonalAccountTest {
     public void isPaymentUnavailable() {
 
         rootPage.switchBrowserTab(1);
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_222);
+        rootPage.openNotEmptyTable(tableUrl);
         rootPage.isTableHasOrder();
 
         rootPage.clickOnPaymentButton();

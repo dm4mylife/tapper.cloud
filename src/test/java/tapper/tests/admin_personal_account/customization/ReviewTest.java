@@ -2,6 +2,8 @@ package tapper.tests.admin_personal_account.customization;
 
 import admin_personal_account.customization.Customization;
 import api.ApiRKeeper;
+import common.BaseActions;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -40,10 +42,16 @@ import static data.selectors.TapperTable.ReviewPage.review5Stars;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReviewTest extends PersonalAccountTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
+
     static String guid;
     static int amountDishesForFillingOrder = 3;
     static HashMap<String, String> paymentDataKeeper;
-    static String orderType = "full";
     RootPage rootPage = new RootPage();
     static String transactionId;
     static double totalPay;
@@ -53,7 +61,6 @@ class ReviewTest extends PersonalAccountTest {
     RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
     NestedTests nestedTests = new NestedTests();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
-
     ReviewPage reviewPage = new ReviewPage();
 
 
@@ -81,7 +88,7 @@ class ReviewTest extends PersonalAccountTest {
     @DisplayName("Переходим на Отзывы на внешних сервисах, проверяем формы")
     void goToReviewTab() {
 
-        rootPage.click(reviewTab);
+        BaseActions.click(reviewTab);
         pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
         customization.isReviewCorrect();
 
@@ -124,9 +131,8 @@ class ReviewTest extends PersonalAccountTest {
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT,
-                TABLE_CODE_555,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_555,TABLE_AUTO_555_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode,waiterName,
+                apiUri,dishesForFillingOrder,tableUrl,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -141,7 +147,7 @@ class ReviewTest extends PersonalAccountTest {
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
         transactionId = nestedTests.acquiringPayment(totalPay);
         pagePreLoader.shouldNotBe(visible, Duration.ofSeconds(15));
-        reviewPageNestedTests.paymentCorrect(orderType = "full");
+        reviewPageNestedTests.paymentCorrect("full");
         reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
     }
@@ -151,7 +157,7 @@ class ReviewTest extends PersonalAccountTest {
     @DisplayName("Проверяем 'Отзывы на внешних сервисах'")
     void isThanksForReviewCorrect() {
 
-        rootPage.click(review5Stars);
+        BaseActions.click(review5Stars);
         reviewPage.isThanksForReviewCorrect();
 
     }

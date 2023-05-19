@@ -4,7 +4,9 @@ import api.ApiRKeeper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import static data.Constants.RegexPattern.TelegramMessage;
 import static data.Constants.TestData.TapperTable.TEST_REVIEW_COMMENT_NEGATIVE;
@@ -14,7 +16,7 @@ public class Telegram {
 
     ApiRKeeper apiRKeeper = new ApiRKeeper();
 
-    @Step("Получаем список всех сообщений об оплате")
+    @Step("Получаем сообщение по оплате")
     public String getLastTgPayMsg(String guid, String paymentType) {
 
         String paymentTypeFlag =
@@ -49,7 +51,30 @@ public class Telegram {
 
     }
 
-    @Step("Получаем список всех сообщений об официанте")
+    @Step("Получаем сообщение по ошибке оплаты")
+    public String getLastTgErrorPayMsg(String errorTypeText) {
+
+        List<Object> tgMessages = apiRKeeper.getUpdates();
+        String currentMsg;
+
+        for (int i = tgMessages.size() - 1; i >= 0; i--) {
+
+            currentMsg = tgMessages.get(i).toString();
+
+            if (currentMsg.contains(errorTypeText)) {
+
+                Allure.addAttachment("Сообщение в телеграмме", currentMsg);
+                return currentMsg;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    @Step("Получаем сообщение по отзыву")
     public String getLastTgWaiterMsg(String guid, String reviewType) {
 
         List<Object> tgMessages = apiRKeeper.getUpdates();
@@ -72,7 +97,7 @@ public class Telegram {
 
     }
 
-    @Step("Получаем список всех сообщений об вызове официанте")
+    @Step("Получаем сообщение по вызову официанту")
     public String getLastTgCallWaiterMsgList(String tableNumber, String waiterName) {
 
         List<Object> tgMessages = apiRKeeper.getUpdates();
@@ -107,13 +132,14 @@ public class Telegram {
         String noReviewMsg = "Рейтинг: 0";
         String menuAddMsg = "Гость попросил добавить меню";
 
+
         if (tgMsg.contains(isOrderPay)) {
 
             msgToParse.put("msgType","orderPay");
 
             if (tgMsg.contains(isOrderError)) {
 
-                msgToParse.put("msgType","orderPayError");
+                msgToParse.put("msgType","orderError");
 
             }
 
@@ -133,7 +159,7 @@ public class Telegram {
 
         msgToParse.put("msgType","menuAdd");
 
-    }
+        }
 
         msgToParse.put("message",tgMsg);
 
@@ -187,7 +213,7 @@ public class Telegram {
     }
 
     @Step("Наполнение хешкарты если сообщение типа оплаты с ошибкой")
-    public void paymentErrorFiller(String textMsg, LinkedHashMap<String, String> tgParsedText) {
+    public void orderErrorFiller(String textMsg, LinkedHashMap<String, String> tgParsedText) {
 
         LinkedHashMap<String, String> paymentData = paymentFiller(textMsg,tgParsedText);
 
@@ -253,37 +279,12 @@ public class Telegram {
 
         switch (msg.get("msgType")) {
 
-            case "orderPay" -> {
-
-                paymentFiller(textMsg,tgParsedText);
-
-            }
-            case "orderPayError" -> {
-
-                paymentErrorFiller(textMsg,tgParsedText);
-
-            }
-            case "review" -> {
-
-                reviewFiller(textMsg,tgParsedText);
-
-            }
-            case "zeroReview" -> {
-
-                zeroReviewFiller(textMsg,tgParsedText);
-
-            }
-            case "callWaiter" -> {
-
-                callWaiterFiller(textMsg,tgParsedText);
-
-            }
-
-            case "menuAdd" -> {
-
-                tgParsedText.put("message","success");
-
-            }
+            case "orderPay" -> paymentFiller(textMsg,tgParsedText);
+            case "orderError" -> orderErrorFiller(textMsg,tgParsedText);
+            case "review" -> reviewFiller(textMsg,tgParsedText);
+            case "zeroReview" -> zeroReviewFiller(textMsg,tgParsedText);
+            case "callWaiter" -> callWaiterFiller(textMsg,tgParsedText);
+            case "menuAdd" -> tgParsedText.put("message","success");
 
         }
 

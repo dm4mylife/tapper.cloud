@@ -10,7 +10,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class TwoBrowsers {
         Configuration.savePageSource = false;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--headless");
@@ -48,7 +48,7 @@ public class TwoBrowsers {
         mobileEmulation.put("deviceName", "iPhone XR");
         options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
-        capabilities.setCapability(ChromeOptions.CAPABILITY,options);
+        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY,options);
 
         firstBrowser = new ChromeDriver(options);
         firstBrowser.manage().window().setPosition(new Point(0,0));

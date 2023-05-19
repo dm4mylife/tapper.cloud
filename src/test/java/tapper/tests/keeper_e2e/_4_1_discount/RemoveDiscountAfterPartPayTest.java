@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._4_1_discount;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -30,8 +31,14 @@ import static data.Constants.TestData.TapperTable.*;
 @DisplayName("Удаление скидки после частичной оплаты")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class RemoveDiscountAfterPartPayTest extends BaseTest {
+class RemoveDiscountAfterPartPayTest extends BaseTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_444.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_444.tableCode;
+    protected final String waiter = TableData.Keeper.Table_444.waiter;
+    protected final String apiUri = TableData.Keeper.Table_444.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_444.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_444.tableId;
     static String uni;
     static String guid;
     static double totalPay;
@@ -57,8 +64,8 @@ public class RemoveDiscountAfterPartPayTest extends BaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_444,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_444_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, apiUri,
+                dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -67,9 +74,9 @@ public class RemoveDiscountAfterPartPayTest extends BaseTest {
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(R_KEEPER_RESTAURANT,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        uni = rootPageNestedTests.getOrderUni(TABLE_AUTO_444_ID,AUTO_API_URI).get(uniIndex);
+        uni = rootPageNestedTests.getOrderUni(tableId,apiUri).get(uniIndex);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_444);
+        rootPage.openNotEmptyTable(tableUrl);
 
     }
 
@@ -77,7 +84,7 @@ public class RemoveDiscountAfterPartPayTest extends BaseTest {
     @DisplayName("1.1. Проверка скидки")
     public void checkSumTipsSC() {
 
-        rootPageNestedTests.checkIsDiscountPresent(TABLE_AUTO_444_ID, "keeper");
+        rootPageNestedTests.checkIsDiscountPresent(tableId, "keeper");
 
 
     }
@@ -95,7 +102,7 @@ public class RemoveDiscountAfterPartPayTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_444_ID, "keeper");
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -119,7 +126,7 @@ public class RemoveDiscountAfterPartPayTest extends BaseTest {
     @DisplayName("1.5. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
@@ -128,7 +135,7 @@ public class RemoveDiscountAfterPartPayTest extends BaseTest {
     @DisplayName("1.6. Удаляем скидку из заказа и проверяем суммы")
     public void addDiscountAndCheckSums() {
 
-        apiRKeeper.deleteDiscount(apiRKeeper.rqBodyDeleteDiscount(R_KEEPER_RESTAURANT, guid, uni), AUTO_API_URI);
+        apiRKeeper.deleteDiscount(apiRKeeper.rqBodyDeleteDiscount(restaurantName, guid, uni), apiUri);
 
         rootPage.refreshPage();
         rootPage.isTableHasOrder();
@@ -147,15 +154,15 @@ public class RemoveDiscountAfterPartPayTest extends BaseTest {
     @DisplayName("1.9. Оплачиваем остатки")
     public void payAndGoToAcquiringAgain() {
 
-        rootPage.openTableAndSetGuest(STAGE_RKEEPER_TABLE_444, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
+        rootPage.openTableAndSetGuest(tableUrl, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
 
         savePaymentDataForAcquiring();
 
         payAndGoToAcquiring();
 
-        nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
+        nestedTests.checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper);
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

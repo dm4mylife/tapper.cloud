@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_2_modifiers;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -30,8 +31,14 @@ import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisab
 @DisplayName("Частичная оплата нескольких позиций последняя с модификатором")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class CommonButLastModiDishPartPayTest extends BaseTest {
+class CommonButLastModiDishPartPayTest extends BaseTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = TableData.Keeper.Table_333.waiter;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
     static String guid;
     static double totalPay;
     static String orderType = "part";
@@ -54,29 +61,29 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_333,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, apiUri,
+                dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
-        ArrayList<LinkedHashMap<String, Object>> modificators = new ArrayList<>() {
+        ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
             {
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(FREE_MODI_SOLT_ZERO_PRICE,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
@@ -101,9 +108,9 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
             }
         };
 
-        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(R_KEEPER_RESTAURANT,guid, modificators));
+        apiRKeeper.addModificatorOrder(apiRKeeper.rqBodyAddModificatorOrder(restaurantName,guid, modifiers));
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(tableUrl);
         rootPage.isTableHasOrder();
 
     }
@@ -131,7 +138,7 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -164,7 +171,7 @@ public class CommonButLastModiDishPartPayTest extends BaseTest {
     @DisplayName("7. Закрываем заказ")
     public void closeOrderByAPI() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_333_ID,guid);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
     }
 
 }

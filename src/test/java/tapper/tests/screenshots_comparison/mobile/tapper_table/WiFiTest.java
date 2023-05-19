@@ -2,7 +2,9 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import admin_personal_account.customization.Customization;
 import api.ApiRKeeper;
+import common.BaseActions;
 import data.ScreenLayout;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -10,7 +12,6 @@ import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tests.ScreenMobileTest;
-import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -65,7 +66,7 @@ class WiFiTest extends ScreenMobileTest {
         authorizationPage.authorizationUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
         customization.goToCustomizationCategory();
         customization.isCustomizationCategoryCorrect();
-        rootPage.click(wifiTab);
+        BaseActions.click(wifiTab);
         pagePreloader.shouldBe(hidden, Duration.ofSeconds(5));
         customization.isWiFiTabCorrect();
         customization.activateWifiIfDeactivated();
@@ -86,7 +87,7 @@ class WiFiTest extends ScreenMobileTest {
     @DisplayName("Открытая форма вайфая")
     void openedWifi() throws IOException {
 
-        rootPage.click(wiFiIcon);
+        BaseActions.click(wiFiIcon);
         rootPage.isWifiContainerCorrect(true);
 
         ScreenShotComparison.isScreenOrDiff
@@ -103,7 +104,7 @@ class WiFiTest extends ScreenMobileTest {
         customization.setWifiConfiguration(TEST_WIFI_NETWORK_NAME,TEST_WIFI_NETWORK_PASSWORD_MAX_LENGTH);
         rootPage.switchBrowserTab(tappetTab);
         rootPage.refreshPage();
-        rootPage.click(wiFiIcon);
+        BaseActions.click(wiFiIcon);
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.AdminPersonalAccount.wifiInformationMaxPassword, diffPercent, imagePixelSize);
@@ -115,7 +116,7 @@ class WiFiTest extends ScreenMobileTest {
     @DisplayName("Вайфай без пароля")
     void withoutPassword() throws IOException {
 
-        rootPage.click(wiFiCloseButton);
+        BaseActions.click(wiFiCloseButton);
         rootPage.switchBrowserTab(adminTab);
         customization.setWifiConfigurationWithoutPassword(TEST_WIFI_NETWORK_NAME);
         rootPage.switchBrowserTab(tappetTab);

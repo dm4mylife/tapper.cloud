@@ -1,9 +1,11 @@
 package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import admin_personal_account.customization.Customization;
+import common.BaseActions;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
 import data.selectors.TapperTable;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -15,7 +17,6 @@ import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tests.ScreenMobileTest;
-import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -29,7 +30,8 @@ import java.util.Set;
 import static api.ApiData.OrderData.BARNOE_PIVO;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
-import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.selectors.AdminPersonalAccount.Customization.reviewTab;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
@@ -91,7 +93,7 @@ class ThanksReviewTest extends ScreenMobileTest {
         customization.goToCustomizationCategory();
         customization.isCustomizationCategoryCorrect();
 
-        rootPage.click(reviewTab);
+        BaseActions.click(reviewTab);
         customization.clearAllForms();
         customization.fillReviewLinks();
         customization.isReviewCorrect();
@@ -132,7 +134,7 @@ class ThanksReviewTest extends ScreenMobileTest {
     @DisplayName("Оставляем позитивный отзыв.")
     void checkPayment() throws IOException {
 
-        reviewPage.click(review5Stars);
+        BaseActions.click(review5Stars);
 
         ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.thanksReview,diffPercent,imagePixelSize,ignoredElements);

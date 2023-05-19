@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -34,8 +35,14 @@ import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisab
 @DisplayName("Задержка в оплате, проверка на успешное завершение оплаты")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class HasNoOrderExpiredErrorTest extends BaseTest {
+class HasNoOrderExpiredErrorTest extends BaseTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_222.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_222.tableCode;
+    protected final String waiter = TableData.Keeper.Table_222.waiter;
+    protected final String apiUri = TableData.Keeper.Table_222.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_222.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_222.tableId;
     static String guid;
     static double totalPay;
     static HashMap<String, String> paymentDataKeeper;
@@ -58,9 +65,8 @@ public class HasNoOrderExpiredErrorTest extends BaseTest {
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT,
-                TABLE_CODE_222,WAITER_ROBOCOP_VERIFIED_WITH_CARD,
-                AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_222,TABLE_AUTO_222_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName,
+                tableCode,waiter, apiUri,dishesForFillingOrder,tableUrl,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 

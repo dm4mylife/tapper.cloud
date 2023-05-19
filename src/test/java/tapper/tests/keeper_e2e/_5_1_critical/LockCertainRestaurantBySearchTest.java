@@ -1,5 +1,6 @@
 package tapper.tests.keeper_e2e._5_1_critical;
 
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -22,7 +23,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_222;
 @DisplayName("Заглушаем только один ресторан, но через поиск, и проверяем все вариации заглушки")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class LockCertainRestaurantBySearchTest extends PersonalAccountTest {
+class LockCertainRestaurantBySearchTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiter = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -65,7 +73,7 @@ public class LockCertainRestaurantBySearchTest extends PersonalAccountTest {
     @DisplayName("1.5. Проверяем на выбранном столе, что есть предупреждение")
     public void checkOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_222);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.isServiceUnavailable();
         rootPage.switchBrowserTab(0);
 

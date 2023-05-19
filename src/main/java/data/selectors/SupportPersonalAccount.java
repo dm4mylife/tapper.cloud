@@ -141,10 +141,14 @@ public class SupportPersonalAccount {
             public static final SelenideElement licenseIdTab =
                     $x("//*[contains(@class,'logsPage-tabs__btn')" +
                             " and contains(text(),'Лицензия R-keeper')]");
+            public static final SelenideElement licenseIdContainer = $(".vLogsLicenseRkeeper");
+
+
             public static final SelenideElement licenseIdInput = $("[id=\"licenseId\"]");
             public static final SelenideElement xmlApplicationButton = $("[for=\"XML_APPLICATION\"]");
-
+            public static final SelenideElement xmlApplicationInput = $("[id=\"XML_APPLICATION\"]");
             public static final SelenideElement xmlOrderSaveButton = $("[for=\"XML_ORDER_SAVE\"]");
+            public static final SelenideElement xmlOrderSaveInput = $("[id=\"XML_ORDER_SAVE\"]");
 
             public static final SelenideElement saveButton =
                     $x("//*[contains(@class,'vButton') and text()=' Сохранить ']");
@@ -153,11 +157,36 @@ public class SupportPersonalAccount {
             public static final SelenideElement getIdLicenseButton =
                     $x("//*[text()=' Получить срок лицензии '] | //*[text()=' Получить id лицензии ']");
 
+
+            public static final SelenideElement saveChangesContainer = $(".vModalConfirmChanges__content");
+            public static final SelenideElement saveChangesCancelButton =
+                    $(".vModalConfirmChanges__cancelBtnWrapper");
+
+            public static final SelenideElement saveChangesSaveButton =
+                    $(".vModalConfirmChanges__content button.vButton");
+
+
         }
 
         public static class cashDesksTab {
+
+
+            public static final SelenideElement cashDeskContainer = $(".vLogsPaySystems");
             public static final SelenideElement cashDeskTab =
                     $x("//*[contains(@class,'logsPage-tabs__btn') and contains(text(),'r-keeper/iiko')]");
+
+            public static final SelenideElement rkeeperOption =
+                    $x("//*[contains(@class,'vRadioButton')]/label[text()='r-keeper']");
+            public static final SelenideElement iikoOption =
+                    $x("//*[contains(@class,'vRadioButton')]/label[text()='iiko']");
+            public static final SelenideElement otherOption =
+                    $x("//*[contains(@class,'vRadioButton')]/label[text()='other']");
+            public static final SelenideElement rkeeperOptionInput =
+                    $x("//*[contains(@class,'vRadioButton')]/input[@id='1']");
+            public static final SelenideElement iikoOptionInput =
+                    $x("//*[contains(@class,'vRadioButton')]/input[@id='2']");
+            public static final SelenideElement otherOptionInput =
+                    $x("//*[contains(@class,'vRadioButton')]/input[@id='3']");
 
         }
 
@@ -396,6 +425,8 @@ public class SupportPersonalAccount {
         public static final SelenideElement totalTipsContainer =
                 $(".VOrderHistoryAmountsSum__amounts__item:last-child");
 
+        public static final SelenideElement emptyOperationHistory = $(".VSectionOrderHistory__empty-label");
+
         public static final ElementsCollection operationsItems = $$(".VOrderHistoryTableItem");
 
         public static final ElementsCollection restaurantName = $$(".widthName span");
@@ -411,7 +442,7 @@ public class SupportPersonalAccount {
                 $$(".VOrderHistoryTableItem tr th:nth-child(5) span");
 
         public static final ElementsCollection totalSum =
-                $$(".VOrderHistoryTableItem tr th:nth-child(6) span");
+                $$("[class*=VOrderHistoryTableItem] tr th:nth-child(6) span");
 
         public static final ElementsCollection orderSum =
                 $$(".VOrderHistoryTableItem tr th:nth-child(7) span");
@@ -420,14 +451,36 @@ public class SupportPersonalAccount {
         public static final ElementsCollection serviceCharge =
                 $$(".VOrderHistoryTableItem tr th:nth-child(9) span");
         public static final ElementsCollection refundSum =
-                $$x("//*[@class='VOrderHistoryTableItem']//tr/th[10]/span");
+                $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/th[10]/span");
+
+        public static final ElementsCollection waiterName =
+                $$x("//*[@class='VOrderHistoryTableItem']//tr/th[last()]/span");
+
+        public static final ElementsCollection transactionsListItemsInOpenedOperation =
+                $$(".VOrderHistoryTableItem.activeTable tbody tr");
+
+        public static final String openedB2PTransactionIdSelector =
+                "//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[1]/span";
 
         public static final ElementsCollection openedRefundSum =
                 $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[6]/span");
+        public static final ElementsCollection openedTipsSum =
+                $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[4]/span");
+        public static final String openedTipsSumSelector = "tr td:nth-child(4) span";
+        public static final ElementsCollection openedOrderSum =
+                $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[3]/span");
+        public static final String openedOrderSumSelector = "tr td:nth-child(3) span";
+        public static final ElementsCollection openedB2PTransactionId =
+                $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[1]/span");
+        public static final ElementsCollection openedServiceChargeSum =
+                $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[5]/span");
+        public static final ElementsCollection openedTransactionStatus =
+                $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[7]/span");
+
+        public static final SelenideElement pushButton = $("button.pushButton");
 
 
-        public static final ElementsCollection waiterName =
-                $$x("//*[@class='VOrderHistoryTableItem']//tr/th[11]/span");
+
 
         public static final SelenideElement loadMoreButton = $(".VSectionOrderHistory__loadMore");
 
@@ -528,6 +581,9 @@ public class SupportPersonalAccount {
                 $$(".vPlugFilterList li");
         public static final ElementsCollection dropdownWhereToLockRestaurants =
                 $$(".vPlugLst .vPlugLst__item");
+        public static final String dropdownListItemCheckboxSelector = ".vPlugLst__checkbox";
+
+
         public static final SelenideElement applyButton =
                 $x("//*[contains(@class,'vButton') and text()=' Применить ']");
         public static final SelenideElement resetAllButton =

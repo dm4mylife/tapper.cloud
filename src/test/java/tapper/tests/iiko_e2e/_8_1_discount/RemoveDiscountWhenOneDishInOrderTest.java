@@ -17,9 +17,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.IikoData.Dish.*;
+import static api.ApiData.IikoData.Dish.CUSTOM_DISCOUNT_ID;
+import static api.ApiData.IikoData.Dish.ESPRESSO;
 import static data.Constants.RegexPattern.TapperTable.dishPriceRegex;
-import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.TapperTable.COOKIE_GUEST_SECOND_USER;
+import static data.Constants.TestData.TapperTable.COOKIE_SESSION_SECOND_USER;
 import static data.selectors.TapperTable.RootPage.DishList.*;
 
 

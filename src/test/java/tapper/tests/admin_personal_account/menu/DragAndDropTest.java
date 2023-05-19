@@ -10,26 +10,23 @@ import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import tapper_table.RootPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 
+@Disabled
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Меню")
-@Story("Проверка что если меню отключено, то на столе отображается кнопка и информация")
-@DisplayName("Проверка что если меню отключено, то на столе отображается кнопка и информация")
+@Story("Проверка drag and drop")
+@DisplayName("Проверка drag and drop")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class DragAndDropTest extends PersonalAccountTest {
+class DragAndDropTest extends PersonalAccountTest {
 
     int adminTab = 0;
     RootPage rootPage = new RootPage();

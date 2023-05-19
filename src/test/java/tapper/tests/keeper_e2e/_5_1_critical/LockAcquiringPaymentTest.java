@@ -15,7 +15,7 @@ import total_personal_account_actions.AuthorizationPage;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_LOGIN_EMAIL;
 import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 
@@ -28,12 +28,12 @@ import static data.Constants.TestData.SupportPersonalAccount.SUPPORT_PASSWORD;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LockAcquiringPaymentTest extends PersonalAccountTest {
 
-    protected final String restaurantName = TableData.Keeper.Table_222.restaurantName;
-    protected final String tableCode = TableData.Keeper.Table_222.tableCode;
-    protected final String waiter = TableData.Keeper.Table_222.waiter;
-    protected final String apiUri = TableData.Keeper.Table_222.apiUri;
-    protected final String tableUrl = TableData.Keeper.Table_222.tableUrl;
-    protected final String tableId = TableData.Keeper.Table_222.tableId;
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiter = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     static int amountDishesForFillingOrder = 7;
     ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();

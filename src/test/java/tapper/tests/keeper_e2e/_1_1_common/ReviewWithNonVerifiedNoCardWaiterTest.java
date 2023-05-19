@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._1_1_common;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -19,7 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
 import static com.codeborne.selenide.Condition.visible;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable.*;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
@@ -32,18 +34,15 @@ import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 @Story("Отзыв если официант не верифицирован и без привязанной карты")
 @DisplayName("Отзыв если официант не верифицирован и без привязанной карты")
 
-@FirstTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReviewWithNonVerifiedNoCardWaiterTest extends BaseTest {
 
-    FirstTableData annotation = ReviewWithNonVerifiedNoCardWaiterTest.class.getAnnotation(FirstTableData.class);
-
-    protected final String restaurantName = annotation.restaurantName();
-    protected final String tableCode = annotation.tableCode();
+    protected final String restaurantName = TableData.Keeper.Table_111.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_111.tableCode;
     protected final String waiter = WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
-    protected final String apiUri = annotation.apiUri();
-    protected final String tableUrl = annotation.tableUrl();
-    protected final String tableId = annotation.tableId();
+    protected final String apiUri = TableData.Keeper.Table_111.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_111.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_111.tableId;
 
     static String guid;
     static double totalPay;

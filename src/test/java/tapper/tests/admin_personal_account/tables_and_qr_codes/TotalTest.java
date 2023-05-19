@@ -2,6 +2,7 @@ package tapper.tests.admin_personal_account.tables_and_qr_codes;
 
 import admin_personal_account.tables_and_qr_codes.TablesAndQrCodes;
 import com.google.zxing.NotFoundException;
+import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.apache.commons.io.FileUtils;
@@ -27,7 +28,7 @@ import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 @DisplayName("Проверка поиска по столам, детальной карточки, qr-кода")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TotalTest extends PersonalAccountTest {
+class TotalTest extends PersonalAccountTest {
 
     static int fromTableSearchValue;
     static int toTableSearchValue;
@@ -218,7 +219,7 @@ public class TotalTest extends PersonalAccountTest {
     @DisplayName("Проверяем что после обновления страницы мы остаемся в этом табе")
     void isCorrectAfterRefresh() {
 
-        rootPage.click(backToTableList);
+        BaseActions.click(backToTableList);
         tablesAndQrCodes.isCorrectAfterRefresh();
 
     }

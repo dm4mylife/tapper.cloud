@@ -18,7 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static api.ApiData.IikoData.Dish.*;
-import static api.ApiData.IikoData.Dish.CUSTOM_DISCOUNT_ID;
 
 
 @Epic("Iiko")

@@ -2,6 +2,7 @@ package tapper.tests.screenshots_comparison.desktop.support_personal_account;
 
 import common.BaseActions;
 import data.ScreenLayout;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import support_personal_account.profile.Profile;
 import tests.ScreenDesktopTest;
-import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -78,7 +78,7 @@ class ProfileTest extends ScreenDesktopTest {
     @DisplayName(profilePage)
     void profile() throws IOException {
 
-        baseActions.click(closeLeftMenu);
+        BaseActions.click(closeLeftMenu);
         profile.goToProfileCategory();
 
         Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(telegramItemsInput)));

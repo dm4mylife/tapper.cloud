@@ -3,6 +3,7 @@ package tapper.tests.screenshots_comparison.mobile.admin_personal_account;
 import admin_personal_account.profile.Profile;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import tapper_table.RootPage;
 import tests.ScreenMobileTest;
-import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 

@@ -13,7 +13,8 @@ import tests.BaseTest;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.WEIGHT_DISH;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 
 
@@ -23,7 +24,7 @@ import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 @DisplayName("Полная оплата- +чай +сбор")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TipsScTest extends BaseTest {
+class TipsScTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_111.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_111.tableCode;
@@ -31,7 +32,7 @@ public class TipsScTest extends BaseTest {
     protected final String apiUri = TableData.Keeper.Table_111.apiUri;
     protected final String tableUrl = TableData.Keeper.Table_111.tableUrl;
     protected final String tableId = TableData.Keeper.Table_111.tableId;
-    protected final String dish = WEIGHT_DISH;
+    protected final String dish = BARNOE_PIVO;
 
     static String guid;
     static double totalPay;
@@ -40,8 +41,6 @@ public class TipsScTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static String transactionId;
     int amountDishesForFillingOrder = 1;
-
-
 
 
     RootPage rootPage = new RootPage();

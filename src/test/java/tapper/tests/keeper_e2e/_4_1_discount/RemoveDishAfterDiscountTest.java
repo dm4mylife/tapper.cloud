@@ -18,8 +18,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.DISCOUNT_WITH_CUSTOM_SUM_ID;
 import static api.ApiData.QueryParams.rqParamsDeletePosition;
-import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 
 
@@ -29,7 +30,7 @@ import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 @DisplayName("Удаление позиций после применения скидки")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class RemoveDishAfterDiscountTest extends BaseTest {
+class RemoveDishAfterDiscountTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_444.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_444.tableCode;
@@ -64,7 +65,7 @@ public class RemoveDishAfterDiscountTest extends BaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, AUTO_API_URI,
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode, waiter, apiUri,
                 dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
@@ -140,7 +141,7 @@ public class RemoveDishAfterDiscountTest extends BaseTest {
     @DisplayName("Проверка сообщения в телеграмме")
     void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

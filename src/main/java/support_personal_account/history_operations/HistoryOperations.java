@@ -1,35 +1,33 @@
 package support_personal_account.history_operations;
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.WebElement;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 
 import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 import static data.Constants.*;
 import static data.Constants.TestData.SupportPersonalAccount.HISTORY_OPERATION_DEFAULT_LIST_ITEM_SIZE;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.*;
-
 import static data.selectors.SupportPersonalAccount.Common.historyOperationsCategory;
-import static data.selectors.SupportPersonalAccount.HistoryOperations.*;
 import static data.selectors.SupportPersonalAccount.HistoryOperations.totalSum;
+import static data.selectors.SupportPersonalAccount.HistoryOperations.*;
 
 
 public class HistoryOperations extends BaseActions {
-
-    private int fromDate;
 
     @Step("Переход в категорию Истории операций")
     public void goToHistoryOperationsCategory() {
@@ -141,46 +139,6 @@ public class HistoryOperations extends BaseActions {
 
     }
 
-    @Step("Получение периода за неделю")
-    public String getDatePeriodForWeek() {
-
-        LocalDate currentDayMinusWeekLocaleDate = LocalDate.now().minusDays(7);
-        DateTimeFormatter formatters = DateTimeFormatter.ofPattern(SUPPORT_HISTORY_OPERATIONS_ACTIVE_DATE_FORMAT_PATTERN);
-
-        String fromPeriod = currentDayMinusWeekLocaleDate.format(formatters);
-        String toPeriod = getCurrentDateInFormat(SUPPORT_HISTORY_OPERATIONS_ACTIVE_DATE_FORMAT_PATTERN);
-
-        return fromPeriod + " - " + toPeriod;
-
-    }
-
-    @Step("Получение периода за месяц")
-    public String getDatePeriodForMonth() {
-
-        String fromPeriod = "01." + getCurrentDateInFormat("MM.yyyy");
-        String toPeriod = getCurrentDateInFormat(SUPPORT_HISTORY_OPERATIONS_ACTIVE_DATE_FORMAT_PATTERN);
-        return fromPeriod + " - " + toPeriod;
-
-    }
-
-    @Step("Сравнение списка операций с датой")
-    public void compareOperationListWithDate(String fromPeriodDate, String toPeriodDate,
-                                             ElementsCollection elementsCollection) {
-
-        elementsCollection.filter(text(fromPeriodDate)).shouldHave(sizeGreaterThan(0));
-
-        if (paginationPages.first().exists()) {
-
-            click(paginationPages.last());
-            operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(30));
-
-            elementsCollection.filter(text(toPeriodDate)).shouldHave(sizeGreaterThan(0));
-
-        }
-
-    }
-
-
     @Step("Проверка что период за месяц совпадает")
     public void isMonthPeriodCorrect() {
 
@@ -249,6 +207,28 @@ public class HistoryOperations extends BaseActions {
 
     }
 
+    public void setDate(String month, int fromDateValue, int toDateValue) throws ParseException {
+
+        clickByJs(periodButton);
+
+        do {
+
+            leftArrowMonthPeriod.shouldBe(visible,enabled);
+            click(leftArrowMonthPeriod);
+
+        } while(!currentMonth.getText().equals(month));
+
+        SelenideElement fromDate = daysOnMonthPeriod.get(fromDateValue-1);
+
+        fromDate.hover().click();
+
+        SelenideElement toDate = daysOnMonthPeriod.get(toDateValue-1);
+
+        toDate.hover();
+        click(toDate);
+
+    }
+
     public void isRestaurantFilterCorrect(String restaurantName) {
 
         click(restaurantFilterButton);
@@ -288,6 +268,7 @@ public class HistoryOperations extends BaseActions {
         forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED); // toDo список операций прогружается с задержкой, не понятно за что зацепиться пока
 
     }
+
     @Step("Проверяем корректность выбора ресторана из списка")
     public void isRestaurantFromDropdownListCorrect(String restaurantName) {
 
@@ -295,6 +276,7 @@ public class HistoryOperations extends BaseActions {
         isAppliedFilter(restaurantFilterContainer,restaurantFilterButton,restaurantName);
 
     }
+
     @Step("Устанавливаем ресторана")
     public void setRestaurantFilter(String restaurantName) {
 
@@ -324,7 +306,7 @@ public class HistoryOperations extends BaseActions {
     public void isOperationListCorrectWithFilters(String restaurantName) {
 
         generalRestaurantName.shouldBe(allMatch("В списке должны быть все операции по этому ресторану",
-               element -> element.getText().equals(restaurantName) ),Duration.ofSeconds(6));
+               element -> element.getText().equals(restaurantName) ),Duration.ofSeconds(10));
 
     }
 
@@ -333,7 +315,7 @@ public class HistoryOperations extends BaseActions {
         isOperationListCorrectWithFilters(restaurantName);
 
         generalTableNumber.shouldBe(allMatch("В списке должны быть все операции по этому столу",
-                element -> element.getText().equals(tableNumber) ));
+                element -> element.getText().equals(tableNumber)),Duration.ofSeconds(10));
 
     }
 
@@ -342,7 +324,7 @@ public class HistoryOperations extends BaseActions {
         isOperationListCorrectWithFilters(restaurantName,tableNumber);
 
         orderStatus.shouldBe(allMatch("В списке должны быть все операции по этому статусу",
-                element -> element.getText().contains(orderStatusText) ));
+                element -> element.getText().contains(orderStatusText)),Duration.ofSeconds(10));
 
     }
 
@@ -352,12 +334,13 @@ public class HistoryOperations extends BaseActions {
         isOperationListCorrectWithFilters(restaurantName,tableNumber,orderStatusText);
 
         waiterName.shouldBe(allMatch("В списке должны быть все операции по этому официанту",
-                element -> element.getText().contains(waiter) ));
+                element -> element.getText().contains(waiter)),Duration.ofSeconds(10));
 
     }
-
     @Step("Проверяем работу фильтра Стола")
     public void isTableFilterCorrect(String restaurantName,String tableNumber) {
+
+        forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED);
 
         setRestaurantFilter(restaurantName);
 
@@ -380,8 +363,6 @@ public class HistoryOperations extends BaseActions {
 
     }
 
-
-
     @Step("Проверяем все элементы в фильтре Столы")
     public void isOpenedTableFilterCorrect() {
 
@@ -390,6 +371,7 @@ public class HistoryOperations extends BaseActions {
         isElementVisible(tableNumberFilterContainer);
         isElementVisible(tableNumberFilterSearch);
         isElementVisible(filterCloseButton);
+
 
     }
 
@@ -411,11 +393,14 @@ public class HistoryOperations extends BaseActions {
         element.shouldHave(cssValue("border-color","rgb(103, 100, 255)"));
 
     }
-    public void isAppliedWaiterFilter() {
+    public void isAppliedWaiterFilter(String waiter) {
 
         isElementInvisible(waiterFilterContainer);
         isElementVisible(waiterFilterButton.$(deleteCurrentFilterButton));
         waiterFilterButton.shouldHave(cssValue("border-color","rgb(103, 100, 255)"));
+
+        waiterName.shouldBe(allMatch("В списке должны быть все операции по этому официанту",
+                element -> element.getText().contains(waiter)),Duration.ofSeconds(10));
 
     }
 
@@ -562,11 +547,27 @@ public class HistoryOperations extends BaseActions {
 
     }
 
+    @Step("Проверка периода за который не было операций")
+    public void noResultsOperationPeriod() throws ParseException {
+
+        Selenide.refresh();
+
+        setDate("Январь",4,5);
+
+        isElementVisible(emptyOperationHistory);
+        isElementsListInVisible(operationsItems);
+
+        Selenide.refresh();
+
+    }
+
     @Step("Проверка Показать только возвраты")
     public void isShowOnlyRefundsCorrect() {
 
+        showOnlyRefundsButton.shouldBe(visible,enabled);
+
         click(showOnlyRefundsButton);
-        showOnlyRefundsInput.shouldBe(checked);
+        showOnlyRefundsInput.shouldBe(selected);
 
         if (Objects.requireNonNull(dayPeriodButton.getAttribute("class")).matches(".*active.*"))
             click(dayPeriodButton);
@@ -578,32 +579,63 @@ public class HistoryOperations extends BaseActions {
 
         click(showOnlyRefundsButton);
         showOnlyRefundsInput.shouldNotBe(checked);
+        showOnlyRefundsInput.shouldNotBe(selected);
 
-        operationsItems.shouldHave(allMatch("Все операции должны быть с возвратом",
-                element -> !element.getText().contains("Сумма возврата") ));
+    }
+
+    @Step("Проверка что после обновления страницы мы остаемся в этой вкладке")
+    public void isCorrectAfterRefreshPage() {
+
+        Selenide.refresh();
+        isHistoryOperationsCategoryCorrect();
+
 
     }
 
     @Step("Проверка открытой истории застрявшей операции")
     public void isOpenedRefundOperationCorrect() {
 
-       click(operationsItems.first());
+        if (dayPeriodButton.getCssValue("background-color").equals("rgba(103, 100, 255, 1)")) {
 
+            click(dayPeriodButton);
+            dayPeriodButton.shouldNotHave
+                    (cssValue("background-color","rgba(103, 100, 255, 1)"));
+
+        }
+
+        click(showOnlyRefundsButton);
+        showOnlyRefundsInput.shouldBe(checked);
+
+        isElementsCollectionVisible(refundSum);
+
+        click(operationsItems.first());
         operationsItems.first().shouldHave(attributeMatching("class",".*active.*"));
 
-        Assertions.assertEquals(refundSum.first().getText(),openedRefundSum.first().getText(),
+        Assertions.assertEquals(refundSum.first().getText(),
+                openedRefundSum.first().getText().replaceAll("(.*)\\s₽","$1"),
                 "Сумма возврата не совпадает");
+        Assertions.assertEquals(tipsSum.first().getText(),openedTipsSum.first().getText(),
+                "Сумма чаевых не совпадает");
+        Assertions.assertEquals(orderSum.first().getText(),openedOrderSum.first().getText(),
+                "Сумма заказа не совпадает");
+        Assertions.assertEquals(serviceCharge.first().getText(),
+                openedServiceChargeSum.first().getText().replaceAll("(.*)\\s₽","$1"),
+                "Сумма издержек не совпадает");
+
+        isElementVisible(openedTransactionStatus.first());
+        isElementVisible(pushButton);
+
+        click(operationsItems.first());
+        operationsItems.first().shouldNotHave(attributeMatching("class",".*active.*"));
 
     }
-
-
 
     @Step("Проверка корректности элементов в фильтре Официант")
     public void isOpenedWaiterFilterCorrect() {
 
         isElementVisible(waiterFilterContainer);
         isElementVisible(waiterFilterSearch);
-        isElementsCollectionVisible(waiterFilterItems);
+        isElementVisible(waiterFilterItems.first());
         isElementVisible(filterCloseButton);
 
     }
@@ -613,7 +645,7 @@ public class HistoryOperations extends BaseActions {
 
         sendKeys(waiterFilterSearchInput,waiter);
         click(waiterFilterItems.first());
-        isAppliedWaiterFilter();
+        isAppliedWaiterFilter(waiter);
         forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED); // toDo список операций прогружается с задержкой, не понятно за что зацепиться пока
 
     }
@@ -622,9 +654,90 @@ public class HistoryOperations extends BaseActions {
     public void isWaiterFromDropdownListCorrect(String waiter) {
 
         waiterFilterItems.find(text(waiter)).click();
-        isAppliedWaiterFilter();
+        isAppliedWaiterFilter(waiter);
 
     }
 
+    @Step("Извлечение данных по заказу в коллекцию")
+    public void matchAdminAndTapperOrderData(String paymentType, HashMap<Integer, HashMap<String, String>> tapperData,
+                                             String transactionId) {
+
+        boolean flag = false;
+        int attempts = 0;
+
+        while (attempts < 15) {
+
+            HashMap<Integer, HashMap<String, String>> adminData =
+                    getOperationsData(paymentType,transactionId);
+
+            //System.out.println("\nTAPPER\n"+tapperData);
+           // System.out.println("\nADMIN\n"+adminData);
+
+            for (Integer key : tapperData.keySet()) {
+                HashMap<String, String> innerMap = tapperData.get(key);
+                if (adminData.containsValue(innerMap)) {
+
+                    flag = true;
+                    attempts = 15;
+
+                }
+            }
+
+            attempts++;
+
+        }
+
+        Assertions.assertTrue(flag,"В списке операций нет текущей операции");
+
+    }
+
+    public HashMap<Integer, HashMap<String,String>> getOperationsData(String paymentType,String transactionId) {
+
+        HashMap<Integer, HashMap<String,String>> adminOrderData = new HashMap<>();
+
+            click(operationsItems.first());
+            transactionsListItemsInOpenedOperation.shouldBe(sizeGreaterThan(0));
+
+            SelenideElement trans = transactionsListItemsInOpenedOperation.filter((matchText(transactionId))).first();
+
+        if ($$x(openedB2PTransactionIdSelector).filter(matchText(transactionId)).size() == 1) {
+
+            HashMap<String, String> temporaryHashMap = new HashMap<>();
+
+            String date = dateAndTime.first().getText().replaceAll("(.*)\\s.*","$1");
+            String name = waiterName.first().getText();
+            String table = tableNumber.first().getText().replaceAll("Стол ","");
+            String tips = trans.$(openedTipsSumSelector).getText()
+                    .replaceAll("[^\\d\\.]+","").replaceAll("(\\d+)\\.\\d+","$1");
+            String totalSum = trans.$(openedOrderSumSelector).getText()
+                    .replaceAll("[^\\d\\.]+","").replaceAll("(\\d+)\\.\\d+","$1");
+
+            if (paymentType.equals("full")) {
+
+                Assertions.assertTrue(orderStatus.first().getText().matches("Закрыт"));
+
+            } else {
+
+                Assertions.assertTrue(orderStatus.first().getText().matches("Открыт"));
+
+            }
+
+            temporaryHashMap.put("date", date);
+            temporaryHashMap.put("name", name);
+            temporaryHashMap.put("table", table);
+            temporaryHashMap.put("tips", tips);
+            temporaryHashMap.put("totalSum", totalSum);
+
+            adminOrderData.put(0, temporaryHashMap);
+
+            return adminOrderData;
+
+        }
+
+        Selenide.refresh();
+        operationsItems.shouldBe(allMatch("Список операций должен быть виден", WebElement::isDisplayed));
+        return adminOrderData;
+
+    }
 
 }

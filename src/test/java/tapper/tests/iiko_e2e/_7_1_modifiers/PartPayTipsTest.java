@@ -25,7 +25,7 @@ import static api.ApiData.IikoData.Dish.*;
 @DisplayName("Частичная оплата с чаевыми")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PartPayTipsTest extends BaseTest {
+class PartPayTipsTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_222.tableUrl;

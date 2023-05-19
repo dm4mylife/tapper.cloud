@@ -17,13 +17,13 @@ import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.Profile.*;
 import static data.selectors.SupportPersonalAccount.Common.profileCategory;
 import static data.selectors.SupportPersonalAccount.Profile.name;
-import static data.selectors.SupportPersonalAccount.Profile.*;
 import static data.selectors.SupportPersonalAccount.Profile.profileContainer;
 import static data.selectors.SupportPersonalAccount.Profile.profileTitle;
 import static data.selectors.SupportPersonalAccount.Profile.restaurantName;
 import static data.selectors.SupportPersonalAccount.Profile.saveButton;
 import static data.selectors.SupportPersonalAccount.Profile.telegramItems;
 import static data.selectors.SupportPersonalAccount.Profile.telegramItemsLogin;
+import static data.selectors.SupportPersonalAccount.Profile.*;
 
 
 public class Profile extends BaseActions {
@@ -58,7 +58,6 @@ public class Profile extends BaseActions {
         isElementVisible(saveButton);
 
     }
-
 
     @Step("Проверка что все элементы в боковом меню корректны")
     public void isOpenedLeftMenuCorrect() {

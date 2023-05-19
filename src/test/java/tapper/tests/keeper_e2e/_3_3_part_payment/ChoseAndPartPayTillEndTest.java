@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_3_part_payment;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -32,7 +33,14 @@ import static data.Constants.WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY;
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 
-public class ChoseAndPartPayTillEndTest extends BaseTest {
+class ChoseAndPartPayTillEndTest extends BaseTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = TableData.Keeper.Table_333.waiter;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
 
     static double totalPay;
     static HashMap<String, String> paymentDataKeeper;
@@ -56,9 +64,8 @@ public class ChoseAndPartPayTillEndTest extends BaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_333,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_333,
-                TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode, waiter,
+                apiUri,dishesForFillingOrder,tableUrl, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -79,7 +86,7 @@ public class ChoseAndPartPayTillEndTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -103,12 +110,11 @@ public class ChoseAndPartPayTillEndTest extends BaseTest {
     @DisplayName("6. Разделяем счёт, оплачиваем по позициям и так пока весь заказ не будет оплачен")
     public void payTillEnd() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
-        rootPageNestedTests.payTillFullSuccessPayment
-                (amountDishesToBeChosen, guid,
-                        WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY, WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY,TABLE_AUTO_333_ID, "keeper");
+        rootPageNestedTests.payTillFullSuccessPayment(amountDishesToBeChosen, guid, WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY,
+                WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY,tableId, "keeper");
 
     }
 

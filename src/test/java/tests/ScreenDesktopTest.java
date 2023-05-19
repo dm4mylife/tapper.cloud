@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
 
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -51,15 +51,17 @@ public class ScreenDesktopTest {
         Configuration.browser = CHROME;
         Configuration.remote = selenoidUiHubUrl;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
+        Configuration.pageLoadStrategy = "eager";
         Configuration.savePageSource = false;
 
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+
         ChromeOptions options = new ChromeOptions();
         LoggingPreferences loggingPreferences = new LoggingPreferences();
 
         loggingPreferences.enable(LogType.BROWSER, Level.WARNING);
-        desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
-        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        Configuration.browserCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
+        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
 
         options.setCapability("selenoid:options", new HashMap<String, Object>() {{
             put("name", "Screenshot test");

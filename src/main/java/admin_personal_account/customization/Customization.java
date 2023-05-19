@@ -2,10 +2,8 @@ package admin_personal_account.customization;
 
 
 import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import com.github.javafaker.Faker;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
@@ -15,7 +13,8 @@ import java.time.Duration;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.*;
+import static data.Constants.FORM_MUST_BE_FIELD_ERROR_TEXT;
+import static data.Constants.TYPE_CORRECT_LINK_ERROR_TEXT;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.Customization.*;
@@ -79,7 +78,6 @@ public class Customization extends BaseActions {
         saveButton.shouldBe(disabled);
 
     }
-
 
     @Step("Проверка изменения шаблона текста на столе")
     public void checkCallWaiterButtonTypeOnTable(String recipientsType,String heading) {
@@ -233,7 +231,6 @@ public class Customization extends BaseActions {
 
     }
 
-
     @Step("Принудительно прячем мобильное меню в футере")
     public void hideMobileMenu() {
 
@@ -318,12 +315,12 @@ public class Customization extends BaseActions {
 
     }
 
+    @Step("Проверка что после обновления страницы остаемся на этой вкладке")
     public void isSavedPageAfterReload() {
 
         rootPage.refreshPage();
         isCustomizationCategoryCorrect();
 
     }
-
 
 }

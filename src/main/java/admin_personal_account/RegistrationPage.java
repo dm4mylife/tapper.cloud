@@ -112,9 +112,6 @@ public class RegistrationPage extends BaseActions {
 
     }
 
-
-
-
     @Step("Заполняем все необходимые поля но не выставляем галочку политики конфиденциальности")
     public void isConfPolicyCorrectWhenDeactivated() {
 
@@ -129,7 +126,6 @@ public class RegistrationPage extends BaseActions {
         Assertions.assertTrue(confPolicyField.isEnabled());
 
     }
-
 
     public void registrationAdministrator(HashMap<String,String> registrationData) {
 

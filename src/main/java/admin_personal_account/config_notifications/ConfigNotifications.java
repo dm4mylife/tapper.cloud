@@ -19,7 +19,6 @@ import static data.selectors.AdminPersonalAccount.ConfigNotifications.*;
 public class ConfigNotifications extends BaseActions {
 
     @Step("Переход в категорию Настройка уведомлений")
-
     public void goToConfigNotificationsCategory() {
 
         click(configNotifications);
@@ -60,6 +59,7 @@ public class ConfigNotifications extends BaseActions {
 
     }
 
+    @Step("Добавляем тг логин")
     public void addLogin(String telegramLogin,boolean hasError) {
 
         addButton.shouldBe(visible,enabled).click();
@@ -80,7 +80,7 @@ public class ConfigNotifications extends BaseActions {
 
     }
 
-
+    @Step("Проверка на существующий тг логин")
     public boolean isTelegramLoginExist(String telegramLogin) {
 
         return telegramLoginInputs.asFixedIterable().stream()
@@ -141,7 +141,6 @@ public class ConfigNotifications extends BaseActions {
 
         click(typeNotificationList.first());
 
-        System.out.println(typeNotificationList);
         typeNotificationList.filter(attributeMatching("class",".*active"))
                 .shouldHave(size(4));
 
@@ -177,12 +176,12 @@ public class ConfigNotifications extends BaseActions {
 
     }
 
+    @Step("Проверка что после обновления страницы остаемся на этой вкладке")
     public void isCorrectAfterPageRefresh() {
 
         Selenide.refresh();
         isConfigNotificationsCategoryCorrect();
 
     }
-
 
 }

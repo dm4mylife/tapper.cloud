@@ -17,12 +17,13 @@ import java.util.Map;
 
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.RegexPattern.TapperTable.discountInCheckRegex;
+import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.REFRESH_TABLE_BUTTON_TEXT;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.RootPage.DishList.*;
 import static data.selectors.TapperTable.RootPage.TapBar.*;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.discountSum;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.*;
 
 
 public class RootPageNestedTests extends RootPage {
@@ -158,8 +159,6 @@ public class RootPageNestedTests extends RootPage {
         isTotalSumInDishesMatchWithTotalPay(cleanTotalSum, 0);
         isSumInWalletMatchWithTotalPay();
 
-        // activateRandomTipsAndActivateSc();
-
     }
 
     @Step("Отключаем чаевые и выключаем сервисный сбор")
@@ -198,7 +197,19 @@ public class RootPageNestedTests extends RootPage {
     public void checkAllDishesSumsWithAllConditionsConsideringDiscount() { //
 
         double cleanTotalSumWithDiscount = countAllNonPaidDiscountDishesInOrder();
-        cleanTotalSumWithDiscount -= convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
+
+
+        if (markupSum.isDisplayed()) {
+
+            cleanTotalSumWithDiscount += convertSelectorTextIntoDoubleByRgx(markupSum,discountInCheckRegex);
+
+        } else if (discountSum.isDisplayed()) {
+
+            cleanTotalSumWithDiscount -= convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
+
+        }
+
+
         double cleanTotalDishAmount = countAllDishes();
 
         scrollTillBottom();
@@ -240,6 +251,18 @@ public class RootPageNestedTests extends RootPage {
         double totalDiscount = convertSelectorTextIntoDoubleByRgx(discountSum, discountInCheckRegex);
 
         Assertions.assertEquals(discountSumFromDesk,totalDiscount,
+                "Скидка с кассы не соответствует скидке на столе");
+
+    }
+
+    @Step("Проверка соответствует ли наценка на кассе полю 'Наценка' на столе")
+    public void isMarkupVisible(double markupSumFromDesk) {
+
+        markupSum.shouldBe(visible);
+
+        double totalMarkup = convertSelectorTextIntoDoubleByRgx(markupSum, discountInCheckRegex);
+
+        Assertions.assertEquals(markupSumFromDesk,totalMarkup,
                 "Скидка с кассы не соответствует скидке на столе");
 
     }
@@ -363,7 +386,6 @@ public class RootPageNestedTests extends RootPage {
 
             } else {
 
-                System.out.println("Последняя оплата");
                 double totalPay = saveTotalPayForMatchWithAcquiring();
                 HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
                 LinkedHashMap<String, String> tapperDataForTgMsg =
@@ -413,8 +435,6 @@ public class RootPageNestedTests extends RootPage {
 
         }
 
-        System.out.println(sessionSize + " количество сессий\n");
-
         for (; sessionIndexCounter < sessionSize; sessionIndexCounter++) {
 
             String session;
@@ -447,9 +467,6 @@ public class RootPageNestedTests extends RootPage {
                 dishPath += "[" + dishIndexCounter + "]";
 
             }
-
-            System.out.println(dishSize + " количество блюд\n");
-            System.out.println(dishPath + " dish path");
 
             for (; dishIndexCounter < dishSize; dishIndexCounter++) {
 
@@ -681,7 +698,11 @@ public class RootPageNestedTests extends RootPage {
             for (int discountIndex = 0; discountIndex < discountSize; discountIndex++) {
 
                 String dishPath = getKeyPath(discountSize,discountIndex,totalPath);
+
+
                 String dishUni = rs.jsonPath().getString(dishPath + uni);
+
+                System.out.println(dishUni + " path");
 
                 uniData.put(totalUniIndex,dishUni);
                 totalUniIndex++;
@@ -776,6 +797,8 @@ public class RootPageNestedTests extends RootPage {
 
     }
 
+
+
     @Step("Проверка что скидка есть на столе")
     public void checkIsDiscountPresent(String tableId, String cashDeskType) {
 
@@ -807,6 +830,39 @@ public class RootPageNestedTests extends RootPage {
         isDiscountVisible(discount);
 
     }
+
+    @Step("Проверка что скидка есть на столе")
+    public void checkIsMarkupPresent(String tableId, String cashDeskType) {
+
+        double markup = 0;
+
+        if (cashDeskType.equals("keeper")) {
+
+            markup = getDiscount(tableId);
+
+        } else if (cashDeskType.equals("iiko")) {
+
+            markup = convertSelectorTextIntoDoubleByRgx(markupSum,discountInCheckRegex);
+
+        }
+
+
+        if (divideCheckSliderActive.isDisplayed()) {
+
+            allPaidDishes.asFixedIterable().stream().forEach(
+                    element -> isElementVisible(element.$(dishPriceWithoutDiscountSelector)));
+
+        } else {
+
+            allPaidDishes.asFixedIterable().stream().forEach(
+                    element -> isElementInvisible(element.$(dishPriceWithDiscountSelector)));
+
+        }
+
+        isMarkupVisible(markup);
+
+    }
+
 
     public void callWaiterAndTextMessage() {
 

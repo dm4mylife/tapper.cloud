@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_1_waiter;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -30,8 +31,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 
-public class NonVerifiedPartNoCardScTest extends BaseTest {
+class NonVerifiedPartNoCardScTest extends BaseTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
     static String guid;
     static double totalPay;
     static String orderType = "part";
@@ -55,9 +62,8 @@ public class NonVerifiedPartNoCardScTest extends BaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(R_KEEPER_RESTAURANT, TABLE_CODE_333,
-                WAITER_IRONMAN_NON_VERIFIED_NON_CARD, AUTO_API_URI,dishesForFillingOrder,STAGE_RKEEPER_TABLE_333,
-                TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode,
+                waiter, apiUri,dishesForFillingOrder,tableUrl, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -86,7 +92,7 @@ public class NonVerifiedPartNoCardScTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 
@@ -110,7 +116,7 @@ public class NonVerifiedPartNoCardScTest extends BaseTest {
     @DisplayName("7. Проверка сообщения в телеграмме")
     public void matchTgMsgDataAndTapperData() {
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }
@@ -119,7 +125,7 @@ public class NonVerifiedPartNoCardScTest extends BaseTest {
     @DisplayName("8. Закрываем заказ")
     public void clearDataAndChoseAgain() {
 
-        apiRKeeper.closedOrderByApi(R_KEEPER_RESTAURANT,TABLE_AUTO_333_ID,guid);
+        apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 
     }
 

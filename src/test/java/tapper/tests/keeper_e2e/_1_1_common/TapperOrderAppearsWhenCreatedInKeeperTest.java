@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._1_1_common;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -23,14 +24,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 @DisplayName("Переход на пустой стол, создание заказа на кассе, появление заказа в таппере")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
+class TapperOrderAppearsWhenCreatedInKeeperTest extends BaseTest {
 
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_111;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_111;
-    protected final String tableId = TABLE_AUTO_111_ID;
+    protected final String restaurantName = TableData.Keeper.Table_111.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_111.tableCode;
+    protected final String waiter = TableData.Keeper.Table_111.waiter;
+    protected final String apiUri = TableData.Keeper.Table_111.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_111.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_111.tableId;
 
     static String guid;
     static int amountDishesForFillingOrder = 3;

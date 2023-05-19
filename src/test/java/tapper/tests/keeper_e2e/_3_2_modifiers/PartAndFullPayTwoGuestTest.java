@@ -33,7 +33,7 @@ import static data.selectors.TapperTable.RootPage.DishList.allDishesPayedStatuse
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
+class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
     protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_333.tableCode;
@@ -70,16 +70,16 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
             {
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(FREE_MODI_SOLT_ZERO_PRICE,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){
@@ -227,7 +227,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
     public void checkPayment2Guest() {
 
         using(secondBrowser, () ->
-                nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper));
+                nestedTests.checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper));
 
     }
 
@@ -237,7 +237,7 @@ public class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
         using(secondBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });

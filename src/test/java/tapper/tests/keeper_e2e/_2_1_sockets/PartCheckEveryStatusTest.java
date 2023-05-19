@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -35,14 +36,14 @@ import static data.selectors.TapperTable.RootPage.DishList.allDishesPayedStatuse
 
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class PartCheckEveryStatusTest extends TwoBrowsers {
+class PartCheckEveryStatusTest extends TwoBrowsers {
 
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_222;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_222;
-    protected final String tableId = TABLE_AUTO_222_ID;
+    protected final String restaurantName = TableData.Keeper.Table_222.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_222.tableCode;
+    protected final String waiter = TableData.Keeper.Table_222.waiter;
+    protected final String apiUri = TableData.Keeper.Table_222.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_222.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_222.tableId;
     static String guid;
     static int amountDishesToBeChosen = 3;
     static int amountDishesForFillingOrder = 6;
@@ -146,7 +147,7 @@ public class PartCheckEveryStatusTest extends TwoBrowsers {
 
         using(firstBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid);
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
         });

@@ -1,6 +1,5 @@
 package tapper_table.nestedTestsManager;
 
-import admin_personal_account.menu.Menu;
 import api.ApiData;
 import api.ApiIiko;
 import api.ApiRKeeper;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
-import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -18,20 +16,17 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
-import static api.ApiData.IikoData.Dish.BURGER;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.RegexPattern.TapperTable.serviceChargeRegex;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
-import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
 import static data.Constants.WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK;
 import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.Common.pagePreLoader;
-import static data.selectors.TapperTable.RootPage.DishList.*;
+import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
 import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeContainer;
-import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalTipsSumInMiddle;
 
@@ -47,9 +42,7 @@ public class NestedTests extends RootPage {
     ReviewPage reviewPage = new ReviewPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
     ApiIiko apiIiko = new ApiIiko();
-    AuthorizationPage authorizationPage = new AuthorizationPage();
 
-    Menu menu = new Menu();
 
     @Step("Переход в эквайринг, ввод данных, оплата и возврат на стол таппер")
     public String acquiringPayment(double totalPay) {
@@ -110,7 +103,7 @@ public class NestedTests extends RootPage {
         double totalPaySum = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
         rootPage.clickOnPaymentButton();
 
-        dishesSumChangedHeading.shouldHave(visible,Duration.ofSeconds(3));
+        dishesSumChangedHeading.shouldHave(visible,Duration.ofSeconds(4));
         dishesSumChangedHeading.shouldHave(hidden,Duration.ofSeconds(8));
         pagePreLoader.shouldHave(hidden,Duration.ofSeconds(30));
 
@@ -206,9 +199,6 @@ public class NestedTests extends RootPage {
 
     }
 
-
-
-
     public void openEmptyTapperTable(String restaurantName, String tableId, String apiUri, String tableUrl) {
 
         apiRKeeper.isTableEmpty(restaurantName, tableId, apiUri);
@@ -259,33 +249,10 @@ public class NestedTests extends RootPage {
 
     }
 
-
     public void matchTgMsgDataAndTapperData(String guid, LinkedHashMap<String, String> tapperDataForTgMsg,
                                             String paymentType) {
 
         rootPage.matchTgMsgDataAndTapperData(rootPage.getPaymentTgMsgData(guid,paymentType), tapperDataForTgMsg);
-
-    }
-
-    public void isMenuCorrect() {
-
-        rootPage.click(appFooterMenuIcon);
-
-        if (emptyOrderMenuButton.isDisplayed()) {
-
-            rootPage.openPage(PERSONAL_ACCOUNT_AUTHORIZATION_STAGE_URL);
-            authorizationPage.authorizeUser(ADMIN_RESTAURANT_LOGIN_EMAIL, ADMIN_RESTAURANT_PASSWORD);
-
-            menu.goToMenuCategory();
-            menu.isMenuCategoryCorrect();
-            menu.activateFirstCategoryAndDishInMenu();
-
-            rootPage.switchBrowserTab(0);
-            rootPage.refreshPage();
-
-        }
-
-        rootPage.isElementInvisible(emptyOrderMenuButton);
 
     }
 

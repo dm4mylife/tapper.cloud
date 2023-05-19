@@ -83,7 +83,7 @@ class AuthAfterCancelingInvitationTest extends PersonalAccountTest {
         waiterData = MailByApi.getMailData
                 ("waiter.yandex.mail", "waiter.yandex.password", WAITER_REGISTRATION_EMAIL);
 
-        Assert.assertEquals(waiterData.get("url"), PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
+        Assert.assertEquals( PERSONAL_ACCOUNT_PROFILE_STAGE_URL,waiterData.get("url"));
 
     }
 

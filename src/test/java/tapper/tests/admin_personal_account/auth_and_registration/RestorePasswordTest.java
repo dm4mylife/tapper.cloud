@@ -10,7 +10,6 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
-import tapper_table.YandexPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -18,10 +17,11 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static data.Constants.ADMIN_REGISTRATION_EMAIL;
 import static data.Constants.RESTORE_PASSWORD_REGISTRATION_EMAIL;
-import static data.Constants.TestData.TapperTable.*;
-import static data.Constants.TestData.Yandex.*;
+import static data.Constants.TestData.TapperTable.NON_EXISTING_EMAIL;
+import static data.Constants.TestData.TapperTable.NON_EXISTING_PASSWORD;
+import static data.Constants.TestData.Yandex.ADMIN_RESTAURANT_TEST_LOGIN_EMAIL;
+import static data.Constants.TestData.Yandex.ADMIN_RESTAURANT_TEST_PASSWORD_MAIL;
 import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.*;
 
 

@@ -10,17 +10,12 @@ import tapper_table.RootPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
-import java.io.FileNotFoundException;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
-import static data.Constants.LOADER_GIF_PATH;
-import static data.Constants.OLD_LOADER_GIF_PATH;
 import static data.Constants.TestData.SupportPersonalAccount.*;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.Common.tabPreloader;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.licenseTab.licenseIdTab;
-import static data.selectors.TapperTable.Common.startScreenLogoContainerImageNotSelenide;
 
 
 @Epic("Личный кабинет техподдержки")
@@ -30,7 +25,7 @@ import static data.selectors.TapperTable.Common.startScreenLogoContainerImageNot
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class KeeperLicenseTabTest extends PersonalAccountTest {
-    RootPage rootPage = new RootPage();
+
     AuthorizationPage authorizationPage = new AuthorizationPage();
     LogsAndPermissions logsAndPermissions = new LogsAndPermissions();
 

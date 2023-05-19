@@ -4,6 +4,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 import api.ApiRKeeper;
 import com.codeborne.selenide.SelenideElement;
 import com.google.common.base.Stopwatch;
+import data.TableData;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -34,12 +35,12 @@ import static data.selectors.TapperTable.RootPage.DishList.allDishesStatuses;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DisabledDishesWhenDividedByTimeLimitTest extends TwoBrowsers {
 
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_222;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_222;
-    protected final String tableId = TABLE_AUTO_222_ID;
+    protected final String restaurantName = TableData.Keeper.Table_222.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_222.tableCode;
+    protected final String waiter = TableData.Keeper.Table_222.waiter;
+    protected final String apiUri = TableData.Keeper.Table_222.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_222.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_222.tableId;
 
     int amountDishesToBeChosen = 3;
     int amountDishesForFillingOrder = 6;
@@ -55,8 +56,8 @@ class DisabledDishesWhenDividedByTimeLimitTest extends TwoBrowsers {
     @DisplayName(TapperTable.createOrderInKeeper + TapperTable.isDishesCorrectInCashDeskAndTapperTable)
     void createAndFillOrder() {
 
-        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
-                restaurantName, tableCode, waiter, apiUri, tableId);
+        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO, restaurantName, tableCode,
+                waiter, apiUri, tableId);
 
     }
 
@@ -66,9 +67,7 @@ class DisabledDishesWhenDividedByTimeLimitTest extends TwoBrowsers {
     void chooseDishesAndCheckAfterDivided() {
 
         using(firstBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
-
         using(secondBrowser, () -> rootPage.openNotEmptyTable(tableUrl));
-
         using(firstBrowser, () -> rootPageNestedTests.chooseDishesWithRandomAmount(amountDishesToBeChosen));
 
     }

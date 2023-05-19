@@ -7,7 +7,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @SelectPackages({
 
     "tapper.tests.keeper_e2e._2_1_sockets",
-    "tapper.tests.keeper_e2e._2_2_stress"
+    "tapper.tests.keeper_e2e._2_2_stress",
+    "tapper.tests.screenshots_comparison"
 
 
 })

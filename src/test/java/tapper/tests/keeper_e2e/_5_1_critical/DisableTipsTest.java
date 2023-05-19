@@ -11,7 +11,6 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tests.PersonalAccountTest;
 
 import static api.ApiData.OrderData.BARNOE_PIVO;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 
 
 @Epic("Личный кабинет техподдержки")
@@ -22,12 +21,12 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DisableTipsTest extends PersonalAccountTest {
 
-    protected final String restaurantName = TableData.Keeper.Table_222.restaurantName;
-    protected final String tableCode = TableData.Keeper.Table_222.tableCode;
-    protected final String waiter = TableData.Keeper.Table_222.waiter;
-    protected final String apiUri = TableData.Keeper.Table_222.apiUri;
-    protected final String tableUrl = TableData.Keeper.Table_222.tableUrl;
-    protected final String tableId = TableData.Keeper.Table_222.tableId;
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiter = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     String guid;
     int amountDishesForFillingOrder = 3;
@@ -67,10 +66,10 @@ class DisableTipsTest extends PersonalAccountTest {
     @DisplayName("Проверяем на столе чаевые")
     void checkOnTable() {
 
-        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO,
-                restaurantName, tableCode, waiter, apiUri, tableId);
+        guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO, restaurantName, tableCode,
+                waiter, apiUri, tableId);
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.isTableHasOrder();
 
         nestedTests.payOrder(tableId,"full",guid);

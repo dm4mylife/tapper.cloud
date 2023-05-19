@@ -3,6 +3,7 @@ package tapper.tests.admin_personal_account.menu;
 import admin_personal_account.menu.Menu;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -29,6 +30,13 @@ import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MaxLimitEditDishInputsTest extends PersonalAccountTest {
+
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
 
     int adminTab = 0;
     static int categoryIndex = 0;
@@ -67,7 +75,7 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
     @DisplayName("Заполняем поля максимальными значениями")
     void isInputsLimitCorrect() {
 
-        rootPage.click(menuDishItemsEditButtons.get(dishIndex));
+        BaseActions.click(menuDishItemsEditButtons.get(dishIndex));
         previousDishData = menu.isInputsLimitCorrect();
 
     }
@@ -77,10 +85,10 @@ class MaxLimitEditDishInputsTest extends PersonalAccountTest {
     @DisplayName("Переходим на стол")
     void checkMenuIconAndContainerInTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
 
         rootPage.isElementVisibleDuringLongTime(appFooterMenuIcon,10);
-        rootPage.click(appFooterMenuIcon);
+        BaseActions.click(appFooterMenuIcon);
         rootPage.isElementVisible(menuDishContainer);
         rootPage.isElementsCollectionVisible(dishMenuItemsName);
 

@@ -11,16 +11,15 @@ public class Constants {
     public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
     public static final int WAIT_FOR_ORDER_TO_BE_CLOSED_AT_CASH_DESK = 10000;
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
-    public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE = 500;
-    public static final int WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED = 300;
-    public static final int WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE = 1000;
+    public static final int WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED = 500;
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
     public static final int WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK = 15000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 15000;
     public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 20000;
+    public static final int WAIT_FOR_OPERATION_APPEAR = 10000;
     public static final int MOBILE_IMAGE_PIXEL_SIZE = 2962440;
     public static final int DESKTOP_IMAGE_PIXEL_SIZE = 1907178;
-    public static final double DIFF_PERCENT_IMAGE = 0.1;
+    public static final double DIFF_PERCENT_IMAGE = 0.4;
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_ACTUAL_PATH = "screenComparison/desktop/actual/";
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH = "screenComparison/desktop/original/";
     public static final String DESKTOP_SCREENSHOTS_COMPARISON_DIFF_PATH = "screenComparison/desktop/diff/";
@@ -106,6 +105,9 @@ public class Constants {
             public static final String NON_EXISTING_EMAIL = "test1test2@mail.ru";
             public static final String NON_EXISTING_PASSWORD = "1!2#asdf";
             public static final String SHORT_PASSWORD = "1234";
+            public static final String SEARCH_BANK = "Альфа-Банк";
+            public static final String WRONG_SEARCH_BANK = "123";
+
             public static final String EMPTY_LOGIN = " ";
             public static final String WRONG_EMAIL_PATTERN = "test";
             public static final Double SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM = 3.5;

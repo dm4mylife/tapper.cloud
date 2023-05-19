@@ -1,18 +1,15 @@
 package admin_personal_account.waiters;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import common.BaseActions;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 import tapper_table.RootPage;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,8 +17,6 @@ import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_AUTHORIZE_PAGE;
-import static data.Constants.WAIT_FOR_INPUT_IS_FULL_LOAD_ON_PAGE;
 import static data.selectors.AdminPersonalAccount.Common.*;
 import static data.selectors.AdminPersonalAccount.Waiters.*;
 
@@ -40,7 +35,6 @@ public class Waiters extends BaseActions {
         isWaiterCategoryCorrect();
 
     }
-
 
     public void isCorrectAfterPageRefresh() {
 
@@ -96,6 +90,7 @@ public class Waiters extends BaseActions {
 
     }
 
+    @Step("Проверка отрицательного поиска без сброса")
     public void searchWaiterNegativeWithoutReset() {
 
         clearText(searchField);
@@ -104,7 +99,6 @@ public class Waiters extends BaseActions {
         searchError.shouldBe(visible, text(SEARCH_WAITER_ERROR_TEXT));
 
     }
-
 
     @Step("Проверка что сброс поиска работает корректно")
     public void resetSearchResult() {
@@ -220,7 +214,6 @@ public class Waiters extends BaseActions {
 
     }
 
-
     @Step("Проверка что элементы в карточке официанта корректны")
     public void isDetailCardCorrect() {
 
@@ -232,7 +225,7 @@ public class Waiters extends BaseActions {
 
     }
 
-
+    @Step("Проверка сортировки по алфавиту")
     public void isAlphabeticOrderCorrect() {
 
         List<String> actualTexts = new ArrayList<>();
@@ -242,7 +235,6 @@ public class Waiters extends BaseActions {
         }
 
         Collections.sort(actualTexts);
-        System.out.println(actualTexts);
 
         waiterListName.shouldHave(texts(actualTexts));
 

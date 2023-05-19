@@ -20,12 +20,15 @@ import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
-import static data.Constants.TestData.TapperTable.*;
+import static data.Constants.TestData.TapperTable.TEST_REVIEW_COMMENT_POSITIVE;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.ReviewPage.review5Stars;

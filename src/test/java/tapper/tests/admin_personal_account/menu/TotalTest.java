@@ -1,6 +1,8 @@
 package tapper.tests.admin_personal_account.menu;
 
 import admin_personal_account.menu.Menu;
+import common.BaseActions;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -25,6 +27,12 @@ import static data.selectors.TapperTable.RootPage.TapBar.appFooterMenuIcon;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TotalTest extends PersonalAccountTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
     int adminTab = 0;
     int tapperTableTab = 1;
 
@@ -66,10 +74,10 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Переходим на стол и проверяем что иконка меню есть и само меню отображается")
     void checkMenuIconAndContainerInTable() {
 
-        rootPage.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPage.openNewTabAndSwitchTo(tableUrl);
 
         rootPage.isElementVisibleDuringLongTime(appFooterMenuIcon,10);
-        rootPage.click(appFooterMenuIcon);
+        BaseActions.click(appFooterMenuIcon);
         rootPage.isElementVisible(menuDishContainer);
 
     }
@@ -80,12 +88,12 @@ class TotalTest extends PersonalAccountTest {
     public void deactivateMenuForGuest() {
 
         rootPage.switchBrowserTab(adminTab);
-        rootPage.click(enableMenuForVisitorsButton);
+        BaseActions.click(enableMenuForVisitorsButton);
 
         rootPage.switchBrowserTab(tapperTableTab);
         rootPage.refreshPage();
 
-        rootPage.click(appFooterMenuIcon);
+        BaseActions.click(appFooterMenuIcon);
         rootPage.isElementInvisible(orderContainer);
 
     }
@@ -98,12 +106,12 @@ class TotalTest extends PersonalAccountTest {
         rootPage.switchBrowserTab(adminTab);
 
         menu.deactivateAllMenuCategory();
-        rootPage.click(enableMenuForVisitorsButton);
+        BaseActions.click(enableMenuForVisitorsButton);
 
         rootPage.switchBrowserTab(tapperTableTab);
         rootPage.refreshPage();
 
-        rootPage.click(appFooterMenuIcon);
+        BaseActions.click(appFooterMenuIcon);
         rootPage.isElementInvisible(orderContainer);
 
     }

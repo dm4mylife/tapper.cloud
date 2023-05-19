@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,6 @@ public class ScreenMobileTest {
         return browserSizeType;
     }
 
-
     public int getImagePixelSize() {
         return imagePixelSize;
     }
@@ -51,15 +50,16 @@ public class ScreenMobileTest {
         Configuration.browser = CHROME;
         Configuration.remote = selenoidUiHubUrl;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
+        Configuration.pageLoadStrategy = "eager";
         Configuration.savePageSource = false;
 
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+
         ChromeOptions options = new ChromeOptions();
         LoggingPreferences loggingPreferences = new LoggingPreferences();
 
         loggingPreferences.enable(LogType.BROWSER, Level.WARNING);
-        desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
-        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        Configuration.browserCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
+        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPhone 12 Pro");

@@ -31,7 +31,7 @@ public class Waiter extends BaseActions {
     public void isWaiterProfileCorrect() {
 
         pageTitle.shouldHave(text(" Настройки профиля "));
-        isElementVisible(imageContainer);
+        isElementVisibleDuringLongTime(imageContainer,10);
         isElementVisible(restaurantName);
         restaurantName.shouldBe(disabled);
         isElementVisible(waiterNameInCashDesk);

@@ -1,27 +1,20 @@
 package api;
 
-import common.BaseActions;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import tapper_table.RootPage;
 
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-
-import static api.ApiData.IikoData.Dish.BURGER;
+import static api.ApiData.IikoData.Dish.*;
 import static api.ApiData.IikoData.IikoEndpoints.*;
-import static api.ApiData.IikoData.IikoEndpoints.deletePosition;
 import static api.ApiData.OrderData.Iiko_RESTAURANT;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK;
 import static io.restassured.RestAssured.given;
 
 public class ApiIiko {
@@ -108,12 +101,11 @@ public class ApiIiko {
                     .contentType(ContentType.JSON)
                     .and()
                     .body(rsBody)
-                   .log().body()
                     .baseUri(AUTO_API_URI)
                     .when()
                     .put(fillingOrder)
                     .then()
-                    .log().all()
+                    .log().ifError()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -233,7 +225,7 @@ public class ApiIiko {
                 .when()
                 .delete(deleteOrder)
                 .then()
-                .log().body()
+               // .log().body()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -357,7 +349,6 @@ public class ApiIiko {
 
         if (getOrder.path("result.orders[0].order_id") != null) {
 
-            System.out.println("Есть заказ");
             getDishesNameAndPositions(getOrder);
 
             deleteOrder(getOrder.jsonPath().getString("result.orders[0].order_id"));
@@ -402,7 +393,81 @@ public class ApiIiko {
 
     }
 
+    public void allTypesModifiers(String guid) {
 
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_CHEESE_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_TOMATO_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_ONION_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 2, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_CHEESE_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 2, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 2, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_CHEESE_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_TOMATO_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_ONION_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 3, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_CHEESE_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 3, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 3, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 2);
+        createModificatorObject(dishesForFillingOrder, BURGER_CHEESE_PAID_NOT_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, BURGER_ONION_PAID_NOT_NECESSARY_MODIFIER.getId(), 2);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 1, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_ONION_PAID_NOT_NECESSARY_MODIFIER.getId(), 2);
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 2);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 1, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, BURGER_BACON_PAID_NOT_NECESSARY_MODIFIER.getId(), 2);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, BURGER.getId(), 1, dishesForFillingOrder));
+
+        dishesForFillingOrder.clear();
+
+        createModificatorObject(dishesForFillingOrder, HOT_DOG_GORCHIZA_FREE_NECESSARY_MODIFIER.getId(), 1);
+        createModificatorObject(dishesForFillingOrder, HOT_DOG_SOUS_FREE_NECESSARY_MODIFIER.getId(), 1);
+
+        fillingOrder(rqBodyFillingOrderWithModifiers(guid, HOT_DOG.getId(), 1, dishesForFillingOrder));
+
+    }
 
 
 

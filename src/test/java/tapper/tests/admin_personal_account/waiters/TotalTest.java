@@ -10,7 +10,6 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import junit.framework.Assert;
 import org.junit.jupiter.api.*;
-import tapper_table.YandexPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
@@ -19,12 +18,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import static data.Constants.TestData.AdminPersonalAccount.*;
-import static data.Constants.TestData.Yandex.TEST_YANDEX_LOGIN_EMAIL;
-import static data.Constants.TestData.Yandex.TEST_YANDEX_PASSWORD_MAIL;
 import static data.Constants.WAITER_REGISTRATION_EMAIL;
 import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
-import static data.selectors.YandexMail.tapperMail;
-import static data.selectors.YandexMail.tapperMailCheckbox;
 
 
 @Epic("Личный кабинет администратора ресторана")
@@ -35,11 +30,11 @@ import static data.selectors.YandexMail.tapperMailCheckbox;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TotalTest extends PersonalAccountTest {
 
-    static String password;
+
     static HashMap<String,String> waiterData = new HashMap<>();
     AdminAccount adminAccount = new AdminAccount();
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    YandexPage yandexPage = new YandexPage();
+
     Waiters waiters = new Waiters();
 
     @Test
@@ -107,7 +102,7 @@ class TotalTest extends PersonalAccountTest {
         waiterData = MailByApi.getMailData
                 ("waiter.yandex.mail", "waiter.yandex.password", WAITER_REGISTRATION_EMAIL);
 
-        Assert.assertEquals(waiterData.get("url"), PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
+        Assert.assertEquals(PERSONAL_ACCOUNT_PROFILE_STAGE_URL,waiterData.get("url"));
 
     }
 

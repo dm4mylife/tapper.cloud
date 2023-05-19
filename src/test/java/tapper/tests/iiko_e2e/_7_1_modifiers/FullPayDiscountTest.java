@@ -25,7 +25,7 @@ import static api.ApiData.IikoData.Dish.*;
 @DisplayName("Полная оплата заказа со скидкой")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FullPayDiscountTest extends BaseTest {
+class FullPayDiscountTest extends BaseTest {
 
     protected final String restaurantName = TableData.Iiko.restaurantName;
     protected final String tableUrl = TableData.Iiko.Table_222.tableUrl;

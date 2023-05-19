@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._3_2_modifiers;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -30,8 +31,14 @@ import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 @DisplayName("Дробные позиции с несколькими модификаторами")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class DecimalModifiersTest extends BaseTest {
+class DecimalModifiersTest extends BaseTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_333.tableCode;
+    protected final String waiter = TableData.Keeper.Table_333.waiter;
+    protected final String apiUri = TableData.Keeper.Table_333.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_333.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_333.tableId;
     static String guid;
     static double totalPay;
     static String orderType = "full";
@@ -63,15 +70,14 @@ public class DecimalModifiersTest extends BaseTest {
             }
         };
 
-        Response rs = rootPageNestedTests.createAndFillOrderOnlyWithModifiers
-                (R_KEEPER_RESTAURANT, TABLE_CODE_333,WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,modifiers,
-                        TABLE_AUTO_333_ID);
+        Response rs = rootPageNestedTests.createAndFillOrderOnlyWithModifiers(restaurantName, tableCode,waiter,
+                apiUri,modifiers, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
-        rootPage.openNotEmptyTable(STAGE_RKEEPER_TABLE_333);
+        rootPage.openNotEmptyTable(tableUrl);
         rootPage.isTableHasOrder();
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_333_ID);
+        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(tableId);
 
     }
 
@@ -79,7 +85,7 @@ public class DecimalModifiersTest extends BaseTest {
     @DisplayName("2. Проверка что заказ с кассы совпадает со столом")
     public void matchTapperOrderWithOrderInKeeper() {
 
-        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(TABLE_AUTO_333_ID);
+        rootPageNestedTests.newIsOrderInKeeperCorrectWithTapper(tableId);
 
     }
 
@@ -101,7 +107,7 @@ public class DecimalModifiersTest extends BaseTest {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(TABLE_AUTO_333_ID, "keeper");
+        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
 
     }
 

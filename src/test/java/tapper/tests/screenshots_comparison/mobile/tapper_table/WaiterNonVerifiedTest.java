@@ -20,8 +20,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.OrderData.*;
-import static data.ScreenLayout.Tapper.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
+import static data.ScreenLayout.Tapper.tapperTableNonVerified;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 

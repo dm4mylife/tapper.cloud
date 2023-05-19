@@ -3,13 +3,13 @@ package tapper.tests.screenshots_comparison.desktop.admin_personal_account;
 import admin_personal_account.integrations.Integrations;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import tests.ScreenDesktopTest;
-import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 

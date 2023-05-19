@@ -5,29 +5,23 @@ import admin_personal_account.RegistrationPage;
 import api.ApiRKeeper;
 import api.MailByApi;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import common.BaseActions;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import tapper_table.RootPage;
-import tapper_table.YandexPage;
 import tests.PersonalAccountTest;
-import total_personal_account_actions.AuthorizationPage;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.HashMap;
 
-
 import static data.Constants.ADMIN_REGISTRATION_EMAIL;
 import static data.Constants.TestData.RegistrationData.EXISTING_EMAIL_ERROR_TEXT;
-import static data.Constants.TestData.Yandex.*;
-import static data.Constants.WAITER_REGISTRATION_EMAIL;
-import static data.selectors.AuthAndRegistrationPage.RegistrationPage.*;
-import static data.selectors.YandexMail.tapperMail;
-import static data.selectors.YandexMail.tapperMailCheckbox;
+import static data.Constants.TestData.Yandex.ADMIN_RESTAURANT_TEST_LOGIN_EMAIL;
+import static data.Constants.TestData.Yandex.ADMIN_RESTAURANT_TEST_PASSWORD_MAIL;
+import static data.selectors.AuthAndRegistrationPage.RegistrationPage.applyButton;
+import static data.selectors.AuthAndRegistrationPage.RegistrationPage.emailFieldError;
 
 
 @Epic("Личный кабинет администратора ресторана")
@@ -102,7 +96,7 @@ class RegistrationTest extends PersonalAccountTest {
         isRegistrationFormCorrect();
         registrationPage.fillRegistrationForm(true);
 
-        baseActions.click(applyButton);
+        BaseActions.click(applyButton);
         emailFieldError.shouldHave(Condition.matchText(EXISTING_EMAIL_ERROR_TEXT));
 
     }

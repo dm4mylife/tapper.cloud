@@ -60,21 +60,21 @@ class MixDishTypeFullPayTest extends BaseTest {
             {
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(FREE_MODI_SOLT_ZERO_PRICE,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){

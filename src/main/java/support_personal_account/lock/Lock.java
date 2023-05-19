@@ -5,14 +5,11 @@ import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
-import java.io.FileNotFoundException;
 import java.time.Duration;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
-import static data.selectors.SupportPersonalAccount.CashDeskInaccessibility.downloadTableButton;
 import static data.selectors.SupportPersonalAccount.Common.lockCategory;
 import static data.selectors.SupportPersonalAccount.Lock.*;
 
@@ -66,38 +63,6 @@ public class Lock extends BaseActions {
         } else {
 
             click(dropdownWhereToLockFilterOptions.first());
-
-            dropdownWhereToLockRestaurants.asFixedIterable().stream().forEach
-                    (element -> element.shouldHave(attributeMatching("class", ".*active")));
-
-            click(applyButton);
-
-            int restaurantsToLock = convertSelectorTextIntoIntByRgx(amountRestaurantsToLock, "\\D+");
-
-            isElementInvisible(dropdownWhereToLockTitle);
-
-            Assertions.assertEquals(restaurantsToLock, restaurantsSize, "Не все рестораны были отменены");
-
-        }
-
-    }
-
-
-    @Step("Активировать все рестораны у б2п")
-    public void activateAllRestaurantsB2P() {
-
-        int chosenRestaurants = dropdownWhereToLockRestaurants
-                .filter(attributeMatching("class", ".*active")).size();
-
-        int restaurantsSize = dropdownWhereToLockRestaurants.size();
-
-        if (chosenRestaurants == restaurantsSize) {
-
-            click(lockInfoContainer);
-
-        } else {
-
-            click(b2pLockOption);
 
             dropdownWhereToLockRestaurants.asFixedIterable().stream().forEach
                     (element -> element.shouldHave(attributeMatching("class", ".*active")));
@@ -174,7 +139,7 @@ public class Lock extends BaseActions {
         lockPreloader.shouldHave(cssValue("display","flex"));
         saveButton.shouldBe(disabled);
 
-    };
+    }
 
     @Step("Проверяем отображение элементов в открытой форме Как заглушить")
     public void isHowToLockCorrect() {
@@ -237,6 +202,7 @@ public class Lock extends BaseActions {
         saveChanges();
 
     }
+
     @Step("Выбираем только определенный ресторан и выбираем его по поиску")
     public void choseOnlyCertainRestaurantsBySearch(String restaurant) {
 

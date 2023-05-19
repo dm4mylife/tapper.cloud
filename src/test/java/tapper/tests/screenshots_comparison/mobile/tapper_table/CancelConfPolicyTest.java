@@ -1,6 +1,7 @@
 package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
+import common.BaseActions;
 import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -15,13 +16,17 @@ import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
 
-import static api.ApiData.OrderData.*;
-import static com.codeborne.selenide.Condition.*;
-import static data.ScreenLayout.Tapper.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static com.codeborne.selenide.Condition.disabled;
+import static data.ScreenLayout.Tapper.tapperTableCancelConfPolicyCheckBox;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
-import static data.selectors.TapperTable.RootPage.PayBlock.*;
+import static data.selectors.TapperTable.RootPage.PayBlock.confPolicyCheckbox;
+import static data.selectors.TapperTable.RootPage.PayBlock.paymentButton;
 
 
 @Epic("Тесты по верстке проекта (Мобильные)")
@@ -72,7 +77,7 @@ class CancelConfPolicyTest extends ScreenMobileTest {
         rootPage.ignoreWifiIcon();
         rootPage.scrollTillBottom();
 
-        rootPage.click(confPolicyCheckbox);
+        BaseActions.click(confPolicyCheckbox);
         paymentButton.shouldBe(disabled);
 
         ScreenShotComparison.isScreenOrDiff

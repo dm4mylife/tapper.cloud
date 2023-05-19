@@ -71,8 +71,8 @@ public class ApiData {
                 SHASHLIK_SVININA("Шашлык из свинины", "f6b417ed-69af-4abb-a829-3932c4af6a15"),
                 SHASHLIK_GOVYADINA_LAVASH_PAID_NOT_NECESSARY_MODIFIER
                         ("Лаваш", "b8d02dde-de4f-48d7-b95f-5a228672a110"),
-                CUSTOM_DISCOUNT_ID("Ручная скидка",
-                        "378c83a7-2a7a-4460-9077-790797b23b8d"),
+                CUSTOM_DISCOUNT_ID("Ручная скидка", "378c83a7-2a7a-4460-9077-790797b23b8d"),
+                CUSTOM_MARKUP_ID("Ручная надбавка", "dd5cc022-b5ad-4d05-aace-3d2bb9e27816"),
                 HOT_DOG("Хот-дог", "22b38c79-1267-445f-a29f-91bae8e2e24c"),
                 HOT_DOG_GORCHIZA_FREE_NECESSARY_MODIFIER("Горчица", "3a4b1637-118d-4f60-a9e7-0f888f343c35"),
                 HOT_DOG_SOUS_FREE_NECESSARY_MODIFIER("Сливочный соус", "a643b67f-4dfd-4412-bbb3-0ee71b6fd417");
@@ -106,6 +106,9 @@ public class ApiData {
         public static final String R_KEEPER_RESTAURANT = "testrkeeper";
         public static final String Iiko_RESTAURANT = "office";
 
+        public static final String R_KEEPER_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT = " #23";
+        public static final String IIKO_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT = " #12";
+
         public static final String TABLE_CODE_111 = "12";
         public static final String Iiko_TABLE_CODE_111 = "111";
         public static final String TABLE_CODE_222 = "21";
@@ -136,17 +139,59 @@ public class ApiData {
         public static final String WEIGHT_DISH = "1000458";
         public static final String TORT = "1000385";
         public static final String SOLYANKA = "1000364";
+
+
         public static final String DISCOUNT_WITH_CUSTOM_SUM_ID = "1000503";
         public static final String DISCOUNT_BY_ID = "1000505";
+
+        public static final String MARKUP_WITH_CUSTOM_SUM_ID = "1000507";
+        public static final String MARKUP_BY_ID = "1000376";
+
         public static final String BARANINA = "1000367";
-        public static final String LIMONAD = "1000362";
+
         public static final String ZERO_PRICE_DISH = "1000187";
 
         public static final String GOVYADINA_PORTION = "1000363";
-        public static final String FREE_MODI_SOLT_ZERO_PRICE = "1000388";
-        public static final String PAID_MODI_KARTOFEL_FRI = "1000117";
-        public static final String PAID_MODI_SOUS = "1000118";
-        public static final String PAID_MODI_VEG_SALAD = "1000421";
+        public static final String GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE = "1000388";
+        public static final String GOVYADINA_PAID_MODI_KARTOFEL_FRI = "1000117";
+        public static final String GOVYADINA_PAID_MODI_SOUS = "1000118";
+        public static final String GOVYADINA_PAID_MODI_VEG_SALAD = "1000421";
+
+        public static final String DOZA_DISH = "1000487";
+        public static final String DOZA_FREE_MODI_SOLT_ZERO_PRICE = GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
+        public static final String DOZA_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
+        public static final String DOZA_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
+        public static final String DOZA_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
+
+        public static final String FREE_DOZA_DISH = "1000488";
+        public static final String FREE_DOZA_FREE_MODI_SOLT_ZERO_PRICE =
+                GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
+        public static final String FREE_DOZA_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
+        public static final String FREE_DOZA_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
+        public static final String FREE_DOZA_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
+
+        public static final String WEIGHT_BY_PORTION_DISH = "1000429";
+        public static final String WEIGHT_BY_PORTION_FREE_MODI_SOLT_ZERO_PRICE =
+                GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
+        public static final String WEIGHT_BY_PORTION_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
+        public static final String WEIGHT_BY_PORTION_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
+        public static final String WEIGHT_BY_PORTION_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
+
+        public static final String FREE_WEIGHT_BY_PORTION_DISH = "1000431";
+        public static final String FREE_WEIGHT_BY_PORTION_FREE_MODI_SOLT_ZERO_PRICE =
+                GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
+        public static final String FREE_WEIGHT_BY_PORTION_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
+        public static final String FREE_WEIGHT_BY_PORTION_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
+        public static final String FREE_WEIGHT_BY_PORTION_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
+
+
+
+
+
+
+
+
+
         public static final String BORSH = "1000102";
         public static final String FREE_NECESSARY_MODI_SALT = "1000114";
         public static final String FREE_NECESSARY_MODI_PEPPER = "1000115";
@@ -393,9 +438,9 @@ public class ApiData {
 
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,2, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(FREE_MODI_SOLT_ZERO_PRICE,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,2));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,2));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
                     }
                 }));
 

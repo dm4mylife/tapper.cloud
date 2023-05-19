@@ -1,18 +1,15 @@
 package tapper.tests.admin_personal_account.integrations;
 
 import admin_personal_account.integrations.Integrations;
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
-import static data.Constants.TestData.AdminPersonalAccount.*;
-import static io.restassured.RestAssured.given;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 
 
 @Epic("Личный кабинет администратора ресторана")
@@ -20,7 +17,7 @@ import static io.restassured.RestAssured.given;
 @DisplayName("Проверка что все элементы отображаются корректно")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TotalTest extends PersonalAccountTest {
+class TotalTest extends PersonalAccountTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     Integrations integrations = new Integrations();

@@ -85,14 +85,14 @@ public class ReviewPageNestedTests {
     public void skipThanksReview() {
 
         if (thanksReviewContainer.isDisplayed())
-            reviewPage.click(thanksReviewCloseButton);
+            BaseActions.click(thanksReviewCloseButton);
 
     }
 
     @Step("Оставление отзыва 5 звезд с выбором рандомного предложения")
     public void reviewCorrectPositive() {
 
-        reviewPage.click(review5Stars);
+        BaseActions.click(review5Stars);
 
         skipThanksReview();
 
@@ -104,7 +104,7 @@ public class ReviewPageNestedTests {
     @Step("Оставление отзыва 5 звезд с выбором нескольких рандомнных предложений")
     public void reviewCorrectPositiveWithFewOptions() {
 
-        reviewPage.click(review5Stars);
+        BaseActions.click(review5Stars);
 
         skipThanksReview();
 
@@ -116,7 +116,7 @@ public class ReviewPageNestedTests {
     @Step("Оставление отзыва 1-3 звезды с выбором рандомного предложения")
     public void reviewCorrectNegative() {
 
-        reviewPage.click(review1Star);
+        BaseActions.click(review1Star);
 
         skipThanksReview();
 
@@ -128,7 +128,7 @@ public class ReviewPageNestedTests {
     @Step("Оставление отзыва 1-3 звезды с выбором рандомного предложения")
     public void reviewCorrectNegativeFewOptions() {
 
-        reviewPage.click(review1Star);
+        BaseActions.click(review1Star);
 
         skipThanksReview();
 

@@ -19,7 +19,7 @@ import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.*;
 @DisplayName("Авторизация, все кейсы")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AuthAndRegistrationTest extends PersonalAccountTest {
+class AuthAndRegistrationTest extends PersonalAccountTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     RegistrationPage registrationPage = new RegistrationPage();

@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
 
 @Epic("RKeeper")
 @Feature("Официант")
@@ -28,7 +29,7 @@ import static api.ApiData.OrderData.*;
 @DisplayName("Официант не верифицирован, без привязанной карты, полная оплата + СБ")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class NonVerifiedFullNoCardWithScTest extends BaseTest {
+class NonVerifiedFullNoCardWithScTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_333.tableCode;

@@ -18,10 +18,9 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static data.Constants.*;
 import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.WAITER_REGISTRATION_EMAIL;
 import static data.selectors.AdminPersonalAccount.Waiters.backToPreviousPage;
-import static data.selectors.WaiterPersonalAccount.confPolicyModal;
 
 
 @Epic("Личный кабинет официант ресторана")
@@ -34,7 +33,6 @@ class ConfPolicyTest extends PersonalAccountTest {
     static HashMap<String,String> waiterData = new HashMap<>();
     AdminAccount adminAccount = new AdminAccount();
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    RootPage rootPage = new RootPage();
     Waiters waiters = new Waiters();
     Waiter waiter = new Waiter();
 

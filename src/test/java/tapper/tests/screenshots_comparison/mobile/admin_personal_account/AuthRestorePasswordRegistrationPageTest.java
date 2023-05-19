@@ -1,6 +1,7 @@
 package tapper.tests.screenshots_comparison.mobile.admin_personal_account;
 
 import admin_personal_account.RegistrationPage;
+import common.BaseActions;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
 import io.qameta.allure.Epic;
@@ -69,7 +70,7 @@ class AuthRestorePasswordRegistrationPageTest extends ScreenMobileTest {
     @DisplayName(restorePasswordPage)
     void goToRestorePasswordPage() throws IOException {
 
-        rootPage.click(forgotPasswordLink);
+        BaseActions.click(forgotPasswordLink);
 
         ScreenShotComparison.isScreenOrDiff
                 (browserTypeSize,isScreenShot, ScreenLayout.Tapper.restorePasswordPage,diffPercent,imagePixelSize);

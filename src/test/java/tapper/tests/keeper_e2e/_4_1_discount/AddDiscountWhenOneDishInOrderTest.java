@@ -18,9 +18,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.OrderData.*;
-import static com.codeborne.selenide.Selenide.$;
-import static data.Constants.TestData.TapperTable.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.DISCOUNT_WITH_CUSTOM_SUM_ID;
+import static data.Constants.TestData.TapperTable.COOKIE_GUEST_SECOND_USER;
+import static data.Constants.TestData.TapperTable.COOKIE_SESSION_SECOND_USER;
 
 
 @Epic("RKeeper")
@@ -160,9 +161,9 @@ class AddDiscountWhenOneDishInOrderTest extends BaseTest {
 
         payAndGoToAcquiring();
 
-        nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper);
+        nestedTests.checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper);
 
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
     }

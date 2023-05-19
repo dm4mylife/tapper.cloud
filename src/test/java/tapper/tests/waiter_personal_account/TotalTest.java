@@ -2,6 +2,7 @@ package tapper.tests.waiter_personal_account;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
@@ -30,6 +31,13 @@ import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImage;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TotalTest extends PersonalAccountTest {
 
+    protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_555.tableCode;
+    protected final String waiterName = TableData.Keeper.Table_555.waiter;
+    protected final String apiUri = TableData.Keeper.Table_555.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_555.tableId;
+
     int adminTab = 0;
     int tapperTableTab = 1;
     static String guid;
@@ -49,8 +57,8 @@ class TotalTest extends PersonalAccountTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
-        Response rs = rootPageNestedTests.createAndFillOrder(R_KEEPER_RESTAURANT, TABLE_CODE_555,
-                WAITER_ROBOCOP_VERIFIED_WITH_CARD, AUTO_API_URI,dishesForFillingOrder,TABLE_AUTO_555_ID);
+        Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode,
+                waiterName, apiUri,dishesForFillingOrder,tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
@@ -80,7 +88,7 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Проверяем что удаленная фотография не присутствует на столе")
     void checkDownloadedWaiterImageOnTableNotExists() {
 
-        rootPageNestedTests.openNewTabAndSwitchTo(STAGE_RKEEPER_TABLE_555);
+        rootPageNestedTests.openNewTabAndSwitchTo(tableUrl);
         rootPage.isElementInvisible(waiterImage);
 
     }

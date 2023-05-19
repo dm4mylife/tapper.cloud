@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._1_1_common;
 
 
 import api.ApiRKeeper;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -32,18 +33,16 @@ import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 @Story("Отзыв если официант верифицирован но без привязанной карты")
 @DisplayName("Отзыв если официант верифицирован но без привязанной карты")
 
-@FirstTableData
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReviewWithVerifiedNoCardWaiterTest extends BaseTest {
 
-    FirstTableData annotation = ReviewWithVerifiedNoCardWaiterTest.class.getAnnotation(FirstTableData.class);
-
-    protected final String restaurantName = annotation.restaurantName();
-    protected final String tableCode = annotation.tableCode();
-    protected final String waiter = WAITER_TERMINATOR_VERIFIED_NON_CARD;
-    protected final String apiUri = annotation.apiUri();
-    protected final String tableUrl = annotation.tableUrl();
-    protected final String tableId = annotation.tableId();
+    protected final String restaurantName = TableData.Keeper.Table_111.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_111.tableCode;
+    protected final String waiter =  WAITER_TERMINATOR_VERIFIED_NON_CARD;
+    protected final String apiUri = TableData.Keeper.Table_111.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_111.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_111.tableId;
 
     static String guid;
     static double totalPay;

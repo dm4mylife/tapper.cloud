@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
-import static data.selectors.TapperTable.RootPage.PayBlock.*;
+import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeCheckboxButton;
 
 
 @Epic("Тесты по верстке проекта (Мобильные)")

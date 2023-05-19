@@ -2,6 +2,7 @@ package tapper.tests.screenshots_comparison.mobile.admin_personal_account;
 
 import admin_personal_account.menu.Menu;
 import data.AnnotationAndStepNaming;
+import data.table_data_annotation.SixTableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -9,15 +10,14 @@ import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tests.ScreenMobileTest;
-import data.table_data_annotation.SixTableData;
 import tests.TakeOrCompareScreenshots;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.io.IOException;
 
-import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 import static data.ScreenLayout.AdminPersonalAccount.adminMenu;
-import static data.selectors.AdminPersonalAccount.Menu.menuDishItems;
 
 
 @Epic("Тесты по верстке проекта (Мобильные)")

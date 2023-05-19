@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
 
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -21,7 +21,6 @@ import static api.ApiData.KeeperEndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.FileDownloadMode.FOLDER;
 import static data.Constants.*;
-import static io.restassured.RestAssured.given;
 
 @ExtendWith({
         TestListener.class,
@@ -43,13 +42,12 @@ public class PersonalAccountTest {
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
         Configuration.headless = false;
 
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
         LoggingPreferences loggingPreferences = new LoggingPreferences();
 
         loggingPreferences.enable(LogType.BROWSER, Level.WARNING);
-        desiredCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
-        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        Configuration.browserCapabilities.setCapability("goog:loggingPrefs", loggingPreferences);
+        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
         options.setCapability("selenoid:options", new HashMap<String, Object>() {{
 
@@ -62,6 +60,8 @@ public class PersonalAccountTest {
             put("enableVideo", true);
 
         }});
+
+
 
         options.addArguments("safebrowsing-disable-extension-blacklist");
         options.addArguments("--remote-allow-origins=*");
@@ -80,9 +80,6 @@ public class PersonalAccountTest {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .includeSelenideSteps(false)
                 .savePageSource(false)
-
-
-
 
         );
 

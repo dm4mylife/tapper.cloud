@@ -18,7 +18,8 @@ import tests.TakeOrCompareScreenshots;
 import java.io.IOException;
 import java.util.*;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.DISCOUNT_WITH_CUSTOM_SUM_ID;
 import static com.codeborne.selenide.Condition.visible;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;

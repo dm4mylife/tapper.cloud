@@ -17,7 +17,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static api.ApiData.IikoData.Dish.*;
+import static api.ApiData.IikoData.Dish.CUSTOM_DISCOUNT_ID;
+import static api.ApiData.IikoData.Dish.ESPRESSO;
 
 
 @Epic("Iiko")

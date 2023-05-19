@@ -29,7 +29,7 @@ import static api.ApiData.OrderData.*;
 @DisplayName("Полная оплата без сервисного сбора")
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-public class FullPayNoScTest extends BaseTest {
+class FullPayNoScTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_333.tableCode;
@@ -60,21 +60,21 @@ public class FullPayNoScTest extends BaseTest {
             {
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(FREE_MODI_SOLT_ZERO_PRICE,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(GOVYADINA_PORTION,1, new ArrayList<>(){
                     {
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_SOUS,1));
-                        add(apiRKeeper.createModificatorObject(PAID_MODI_VEG_SALAD,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(BORSH,1,new ArrayList<>(){

@@ -7,7 +7,8 @@ import org.junit.jupiter.api.*;
 import tests.PersonalAccountTest;
 import total_personal_account_actions.AuthorizationPage;
 
-import static data.Constants.TestData.AdminPersonalAccount.*;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_LOGIN_EMAIL;
+import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASSWORD;
 
 
 @Epic("Личный кабинет администратора ресторана")

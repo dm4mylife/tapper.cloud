@@ -23,11 +23,6 @@ import static data.selectors.TapperTable.RootPage.Menu.menuDishPhotosBy;
 
 
 public class HistoryOperations extends BaseActions {
-
-
-
-
-
       public static Set<By> ignoredArraySelectorsInHistoryOperations = new HashSet<>(Arrays.asList(
               menuDishPhotosBy,
               totalSumBy,
@@ -39,8 +34,6 @@ public class HistoryOperations extends BaseActions {
               operationsHistoryListItemsStatusBy,
               operationsHistoryListItemsSumBy
       ));
-
-
 
     @Step("Переход в меню история операций")
     public void goToHistoryOperationsCategory() {
@@ -61,7 +54,7 @@ public class HistoryOperations extends BaseActions {
         isElementVisible(totalSum);
         isElementVisible(totalTips);
         isElementVisible(operationsHistoryListContainer);
-        isElementsListVisible(operationsHistoryListItems);
+        isElementsCollectionVisible(operationsHistoryListItems);
         isElementsListVisible(operationsHistoryListItemsWaiter);
         isElementsListVisible(operationsHistoryListItemsTable);
         isElementsListVisible(operationsHistoryListItemsTips);
@@ -108,7 +101,6 @@ public class HistoryOperations extends BaseActions {
         return fromPeriod + " - " + toPeriod;
 
     }
-
 
     @Step("Получение периода за месяц")
     public String getDatePeriodForMonth() {
@@ -224,11 +216,45 @@ public class HistoryOperations extends BaseActions {
 
         click(fromDate);
         click(toDate);
+
         operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(40));
 
         dateRangeContainer.shouldHave(text(fromPeriodDate + " - " + toPeriodDate));
 
         compareOperationListWithDate(toPeriodDate, fromPeriodDate, operationsHistoryListItemsDate);
+
+    }
+
+    @Step("Проверка периода за который не было операций")
+    public void noResultsOperationPeriod() {
+
+        Selenide.executeJavaScript("document.querySelector('" + periodButton +"').click();");
+
+        do {
+
+            leftArrowMonthPeriod.shouldBe(visible,enabled);
+            click(leftArrowMonthPeriod);
+
+        } while(!currentMonth.getText().equals("Ноябрь"));
+
+        SelenideElement fromDate = daysOnMonthPeriod.first();
+        SelenideElement toDate = daysOnMonthPeriod.last();
+
+        click(fromDate);
+        click(toDate);
+
+        operationsHistoryPagePreloader.shouldBe(hidden,Duration.ofSeconds(40));
+        isElementVisible(emptyOperationContainer);
+
+        resetPeriodDate();
+
+    }
+
+    @Step("Проверка что после обновления страницы мы остаемся на этой вкладке")
+    public void isCorrectAfterRefreshPage() {
+
+        Selenide.refresh();
+        isHistoryOperationsCorrect();
 
     }
 
@@ -273,10 +299,5 @@ public class HistoryOperations extends BaseActions {
         return adminOrderData;
 
     }
-
-
-
-
-
 
 }
