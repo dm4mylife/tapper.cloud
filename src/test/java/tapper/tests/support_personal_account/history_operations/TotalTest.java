@@ -187,6 +187,7 @@ class TotalTest extends PersonalAccountTest {
     @DisplayName("Проверка периода за который не было операций")
     void noResultsOperationPeriod() throws ParseException {
 
+        rootPage.refreshPage();
         historyOperations.noResultsOperationPeriod();
 
     }

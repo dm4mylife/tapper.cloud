@@ -53,7 +53,7 @@ public class BaseTest {
         mobileEmulation.put("deviceName", "iPhone 12 Pro");
         options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
-        Configuration.browserCapabilities.setCapability("selenoid:options", new HashMap<String, Object>() {{
+        options.setCapability("selenoid:options", new HashMap<String, Object>() {{
             put("name","E2E test");
             put("labels", new HashMap<String, Object>() {{
                 put("manual", "true");
@@ -75,6 +75,8 @@ public class BaseTest {
         options.addArguments("--incognito");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
+
+        Configuration.browserCapabilities = options;
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .includeSelenideSteps(false)

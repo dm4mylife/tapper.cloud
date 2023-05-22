@@ -116,16 +116,21 @@ public class TapperTable {
 
         public static class TipsAndCheck {
 
-            public static final SelenideElement tipsWaiter = $("[data-auto=\"tipsWaiter\"]");
-            public static final String waiterImageNotSelenide = ".waiter .orderWaiter__photo";
-            public static final SelenideElement waiterImage = $(".waiter .orderWaiter__photo");
-            public static final SelenideElement waiterName = $(".waiter .orderWaiter__name");
-            public static final SelenideElement tipsInCheckField = $("[data-auto=\"tipsInCheckField\"]");
+            public static final SelenideElement tipsWaiter = $(".tipsProfile");
+
+            public static final SelenideElement waiterButton =
+                    $x("//*[contains(@class,'tipsButton') and contains(text(),'Официант')]");
+            public static final SelenideElement hookahServerButton =
+                    $x("//*[contains(@class,'tipsButton') and contains(text(),'Кальянщик')]");
+            public static final SelenideElement kitchenButton =
+                    $x("//*[contains(@class,'tipsButton') and contains(text(),'Кухня')]");
+
+            public static final String waiterImageNotSelenide = ".tipsProfile__photo";
+            public static final SelenideElement waiterImage = $(".tipsProfile__photo");
+            public static final SelenideElement waiterName = $(".tipsProfile__name");
+            public static final SelenideElement tipsInCheckField = $("[data-auto=\"tipsInCheckField\"][style=\"\"]");
             public static final SelenideElement tipsInCheckSum =
-                    $("[data-auto=\"tipsInCheckField\"] span+span");
-            public static final SelenideElement anotherGuestField = $("[data-auto=\"anotherGuestSumField\"]");
-            public static final SelenideElement anotherGuestSum =
-                    $("[data-auto=\"anotherGuestSumField\"] span+span");
+                    $x("//*[@data-auto='tipsInCheckField'][.//*[contains(text(),'Чаевые')]]/span[2]");
             public static final SelenideElement markedDishesSum =
                     $("[data-auto=\"markedDishesField\"] span+span");
             public static final SelenideElement discountField = $("[data-auto=\"discountField\"]");
@@ -133,31 +138,39 @@ public class TapperTable {
             public static final SelenideElement markupSum = $("[data-auto=\"markupField\"]+span");
 
             public static final SelenideElement resetTipsButton = $("[data-auto=\"resetTipsButton\"]");
-            public static final SelenideElement tipsContainer = $("[data-auto=\"tipsContainer\"]");
+            public static final SelenideElement tipsContainer =
+                    $x("//*[@class='tipsCustom'] | //*[@class='tipsPercents']");
             public static final SelenideElement totalTipsSumInMiddle =
                     $("[data-auto=\"totalTipsSumInMiddle\"]");
-            public static final SelenideElement activeTipsButton = $("[data-auto=\"activeTipsButton\"]");
-            public static final ElementsCollection tipsListItem = $$("[data-auto=\"tipsListItem\"]");
+            public static final SelenideElement activeTipsButton = $(".tipsPercents__item.active");
+            public static final ElementsCollection tipsListItem = $$(".tipsPercents__item");
             public static final SelenideElement totalPay = $("[data-auto=\"totalPay\"]+span");
+            public static final SelenideElement tipsInfo = $(".tipsInfo");
+
             public static final SelenideElement totalOrderPay = $(".orderTotal__container span+span");
 
 
-            public static final SelenideElement tipsErrorMsg = $("[data-auto=\"tipsErrorMsg\"]");
+            public static final SelenideElement tipsErrorMsg = $(".tipsBlock__error");
             public static final SelenideElement tips0 =
-                    $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '0%']]");
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '0%']]");
+
+            public static final SelenideElement tips2AndHalf =
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '2.5%']]");
+            public static final SelenideElement tips5 =
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '5%']]");
             public static final SelenideElement tips10 =
-                    $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '10%']]");
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '10%']]");
             public static final SelenideElement tips15 =
-                    $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '15%']]");
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '15%']]");
             public static final SelenideElement tips20 =
-                    $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '20%']]");
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '20%']]");
             public static final SelenideElement tips25 =
-                    $x("//*[contains(@data-auto,'ips')][text()[normalize-space() = '25%']]");
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '25%']]");
             public static final ElementsCollection notDisabledTipsPercentOptions =
-                    $$x("//*[@class='waiter__percent-wrap']//*[not(contains(@class,'disabled'))]");
+                    $$("[class='tipsPercents__item']:not([disabled])");
             public static final ElementsCollection notDisabledAndNotZeroTipsPercentOptions =
-                    $$x("//*[@class='waiter__percent-wrap']" +
-                            "//*[not(contains(@class,'disabled'))][not(text()[normalize-space() = '0%'])]");
+                    $$x("//*[@class='tipsPercents__list']" +
+                            "//*[not(contains(@disabled,'disabled'))][not(text()[normalize-space() = '0%'])]");
 
         }
 

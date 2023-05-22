@@ -34,6 +34,7 @@ public class FourBrowsers {
         Configuration.browser = CHROME;
         Configuration.savePageSource = false;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
+        Configuration.pageLoadStrategy = "eager";
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");

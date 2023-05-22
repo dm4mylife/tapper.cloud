@@ -61,8 +61,6 @@ public class PersonalAccountTest {
 
         }});
 
-
-
         options.addArguments("safebrowsing-disable-extension-blacklist");
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--safebrowsing-disable-download-protection");

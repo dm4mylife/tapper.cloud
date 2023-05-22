@@ -170,7 +170,7 @@ public class Constants {
                     "https://tapper.staging.zedform.ru/users/registration";
 
             public static final String ADMIN_RESTAURANT_LOGIN_EMAIL = "kirillk8888@yandex.ru";
-            public static final String ADMIN_RESTAURANT_PASSWORD = "777777";
+            public static final String ADMIN_RESTAURANT_PASSWORD = "999999";
             public static final String ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String WAITER_LOGIN_EMAIL = "jagexo5827@khaxan.com";
             public static final String WAITER_PASSWORD = "123456";
@@ -241,7 +241,7 @@ public class Constants {
             public static final String KEEPER_RESTAURANT_NAME = "testrkeeper";
             public static final String IIKO_RESTAURANT_NAME = "office";
             public static final String SUPPORT_LOGIN_EMAIL = "varlone_mag2@mail.ru";
-            public static final String SUPPORT_PASSWORD = "111111";
+            public static final String SUPPORT_PASSWORD = "567567";
             public static final String INCORRECT_DATA = "1111";
 
             public static final String SUPPORT_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";

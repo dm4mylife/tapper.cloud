@@ -231,6 +231,8 @@ public class HistoryOperations extends BaseActions {
 
     public void isRestaurantFilterCorrect(String restaurantName) {
 
+        forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED);
+
         click(restaurantFilterButton);
 
         isOpenedRestaurantFilterCorrect();
@@ -531,6 +533,8 @@ public class HistoryOperations extends BaseActions {
     @Step("Проверка кнопки Загрузить еще")
     public void isLoadMoreButtonCorrect(String month) throws ParseException {
 
+        forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED);
+
         setCustomPeriod(month,1,20);
 
         operationsItems.shouldHave(size(HISTORY_OPERATION_DEFAULT_LIST_ITEM_SIZE));
@@ -550,7 +554,7 @@ public class HistoryOperations extends BaseActions {
     @Step("Проверка периода за который не было операций")
     public void noResultsOperationPeriod() throws ParseException {
 
-        Selenide.refresh();
+        forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED);
 
         setDate("Январь",4,5);
 
@@ -670,8 +674,9 @@ public class HistoryOperations extends BaseActions {
             HashMap<Integer, HashMap<String, String>> adminData =
                     getOperationsData(paymentType,transactionId);
 
-            //System.out.println("\nTAPPER\n"+tapperData);
-           // System.out.println("\nADMIN\n"+adminData);
+
+            System.out.println("\nTAPPER\n"+tapperData);
+            System.out.println("\nADMIN\n"+adminData);
 
             for (Integer key : tapperData.keySet()) {
                 HashMap<String, String> innerMap = tapperData.get(key);
@@ -695,48 +700,61 @@ public class HistoryOperations extends BaseActions {
 
         HashMap<Integer, HashMap<String,String>> adminOrderData = new HashMap<>();
 
-            click(operationsItems.first());
-            transactionsListItemsInOpenedOperation.shouldBe(sizeGreaterThan(0));
+        for (int i = 0; i < operationsItems.size(); i++) {
 
-            SelenideElement trans = transactionsListItemsInOpenedOperation.filter((matchText(transactionId))).first();
+            click(operationsItems.get(i));
 
-        if ($$x(openedB2PTransactionIdSelector).filter(matchText(transactionId)).size() == 1) {
+            if ($$x(openedB2PTransactionIdSelector).filter(matchText(transactionId)).size() == 1) {
 
-            HashMap<String, String> temporaryHashMap = new HashMap<>();
+                SelenideElement trans =
+                        transactionsListItemsInOpenedOperation.filter((matchText(transactionId))).first();
+                HashMap<String, String> temporaryHashMap = new HashMap<>();
 
-            String date = dateAndTime.first().getText().replaceAll("(.*)\\s.*","$1");
-            String name = waiterName.first().getText();
-            String table = tableNumber.first().getText().replaceAll("Стол ","");
-            String tips = trans.$(openedTipsSumSelector).getText()
-                    .replaceAll("[^\\d\\.]+","").replaceAll("(\\d+)\\.\\d+","$1");
-            String totalSum = trans.$(openedOrderSumSelector).getText()
-                    .replaceAll("[^\\d\\.]+","").replaceAll("(\\d+)\\.\\d+","$1");
+                String date = activeOperationOrderStatus.$(dateAndTimeSelector)
+                        .getText().replaceAll("(.*)\\s.*","$1");
+                String name = activeOperationOrderStatus.$(waiterNameSelector).getText();
+                String table = activeOperationOrderStatus.$(tableNumberSelector).getText()
+                        .replaceAll("Стол ","");
+                String tips = trans.$(openedTipsSumSelector).getText()
+                        .replaceAll("[^\\d\\.]+","").replaceAll("(\\d+)\\.\\d+","$1");
+                String totalSum = trans.$(openedOrderSumSelector).getText()
+                        .replaceAll("[^\\d\\.]+","").replaceAll("(\\d+)\\.\\d+","$1");
 
-            if (paymentType.equals("full")) {
+                if (paymentType.equals("full")) {
 
-                Assertions.assertTrue(orderStatus.first().getText().matches("Закрыт"));
+                    Assertions.assertTrue
+                            (activeOperationOrderStatus.$(orderStatusSelector).getText().matches("Закрыт"));
+
+                } else {
+
+                    Assertions.assertTrue
+                            (activeOperationOrderStatus.$(orderStatusSelector).getText().matches("Открыт"));
+
+                }
+
+                temporaryHashMap.put("date", date);
+                temporaryHashMap.put("name", name);
+                temporaryHashMap.put("table", table);
+                temporaryHashMap.put("tips", tips);
+                temporaryHashMap.put("totalSum", totalSum);
+
+                adminOrderData.put(0, temporaryHashMap);
+
+                return adminOrderData;
 
             } else {
 
-                Assertions.assertTrue(orderStatus.first().getText().matches("Открыт"));
+                Selenide.refresh();
+                operationsItems.shouldBe(allMatch("Список операций должен быть виден", WebElement::isDisplayed));
 
             }
 
-            temporaryHashMap.put("date", date);
-            temporaryHashMap.put("name", name);
-            temporaryHashMap.put("table", table);
-            temporaryHashMap.put("tips", tips);
-            temporaryHashMap.put("totalSum", totalSum);
 
-            adminOrderData.put(0, temporaryHashMap);
-
-            return adminOrderData;
 
         }
 
-        Selenide.refresh();
-        operationsItems.shouldBe(allMatch("Список операций должен быть виден", WebElement::isDisplayed));
         return adminOrderData;
+
 
     }
 

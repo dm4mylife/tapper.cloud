@@ -122,7 +122,7 @@ class HistoryOperationsInTableTest extends PersonalAccountTest {
 
     @Test
     @Order(7)
-    @DisplayName("Делаем полную оплату на столе")
+    @DisplayName("Выставляем чаевые, сохраняем платежные данные")
     void clearDataAndChoseAgain() {
 
         rootPage.switchBrowserTab(0);
@@ -143,7 +143,7 @@ class HistoryOperationsInTableTest extends PersonalAccountTest {
 
     @Test
     @Order(10)
-    @DisplayName("Переход на эквайринг, ввод данных, полная оплата. Проверяем транзакцию")
+    @DisplayName("Проверяем транзакцию")
     void checkFullPayInAdmin() {
 
         rootPage.switchBrowserTab(1);

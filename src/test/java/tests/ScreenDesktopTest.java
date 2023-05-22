@@ -51,7 +51,6 @@ public class ScreenDesktopTest {
         Configuration.browser = CHROME;
         Configuration.remote = selenoidUiHubUrl;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
-        Configuration.pageLoadStrategy = "eager";
         Configuration.savePageSource = false;
 
 

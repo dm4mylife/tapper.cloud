@@ -43,6 +43,9 @@ public class SupportPersonalAccount {
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Аналитика']]");
 
+        public static final SelenideElement tips =
+                $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
+                        "[.//*[text()='Чаевые']]");
 
         public static final SelenideElement pagePreloader =
                 $(".vLightPreloader");
@@ -349,7 +352,6 @@ public class SupportPersonalAccount {
         public static final SelenideElement emptyOperationsList = $(".VSectionOrderHistory__empty-label");
         public static final String deleteCurrentFilterButton = ".crossOrderStatus";
         public static final ElementsCollection deleteFilterButtons= $$(".crossOrderStatus");
-
         public static final SelenideElement operationsListTab =
                 $x("//*[contains(@class,'VSectionOrderHistory__switching__tabs') " +
                         "and text()=\" Список операций \"]");
@@ -360,57 +362,37 @@ public class SupportPersonalAccount {
                         "and text()=\" Застрявшие транзакции \"]");
         public static final SelenideElement restaurantFilterButton =
                 $(".VFiltersRestaurant__tabs:first-child");
-
         public static final ElementsCollection filterButtons = $$(".VFiltersRestaurant__tabs");
-
         public static final SelenideElement restaurantFilterContainer = $(".VModalRestaurant");
         public static final SelenideElement restaurantFilterSearch = $(".VModalRestaurant__search");
         public static final SelenideElement restaurantFilterSearchInput =
                 $(".VModalRestaurant__search input");
         public static final ElementsCollection restaurantFilterListItems =
                 $$(".VModalRestaurant__list__item");
-
         public static final SelenideElement filterCloseButton= $("[class$='closeModal']");
-
-
-
-
-
-
-
         public static final SelenideElement tableNumberFilterButton =
                 $(".VFiltersRestaurant__tabs:nth-child(2)");
-
         public static final SelenideElement tableNumberFilterContainer = $(".VModalSearchTable");
         public static final SelenideElement tableNumberFilterSearch= $(".VModalSearchTable__search");
         public static final SelenideElement tableNumberFilterSearchInput =
                 $(".VModalSearchTable__search input");
         public static final SelenideElement tableNumberFilterApplyButton = $(".VModalSearchTable button");
-
-
-
         public static final SelenideElement orderStatusFilterButton =
                 $x("//*[contains(@class,'VFiltersRestaurant__tabs')]" +
                         "[./div/./p[contains(text(),'Статус заказа')]]");
-
         public static final SelenideElement orderStatusFilterContainer = $(".VModalOrderStatus");
         public static final SelenideElement orderStatusFilterOpenButton=
                 $(".VModalOrderStatus__choice button:first-child");
         public static final SelenideElement orderStatusFilterCloseButton =
                 $(".VModalOrderStatus__choice button:last-child");
-
         public static final SelenideElement waiterFilterButton =
                 $x("//*[contains(@class,'VFiltersRestaurant__tabs')]" +
                         "[./div/./p[contains(text(),'Официант')]]");
-
         public static final SelenideElement waiterFilterContainer = $(".VModalChoosingWaiter");
         public static final SelenideElement waiterFilterSearch= $(".VModalChoosingWaiter__search");
         public static final SelenideElement waiterFilterSearchInput = $(".VModalChoosingWaiter__search input");
         public static final ElementsCollection waiterFilterItems =
                 $$(".VModalChoosingWaiter__list .VModalChoosingWaiter__list__item");
-
-
-
         public static final SelenideElement dayPeriodButton = $(".vTimePeriod [for=\"day\"]");
         public static final SelenideElement monthPeriodButton = $(".vTimePeriod [for=\"month\"]");
         public static final SelenideElement customPeriodButton = $(".vTimePeriod .vTimePeriod__period");
@@ -418,32 +400,31 @@ public class SupportPersonalAccount {
 
         public static final SelenideElement showOnlyRefundsInput = $(".VFiltersRestaurant__checkbox input");
         public static final SelenideElement activePeriodDate = $(".VOrderHistoryAmountsSum__date__text");
-
         public static final SelenideElement totalSumContainer =
                 $(".VOrderHistoryAmountsSum__amounts__item:first-child");
-
         public static final SelenideElement totalTipsContainer =
                 $(".VOrderHistoryAmountsSum__amounts__item:last-child");
-
         public static final SelenideElement emptyOperationHistory = $(".VSectionOrderHistory__empty-label");
-
         public static final ElementsCollection operationsItems = $$(".VOrderHistoryTableItem");
 
         public static final ElementsCollection restaurantName = $$(".widthName span");
 
         public static final ElementsCollection tableNumber =
                 $$(".VOrderHistoryTableItem tr th:nth-child(2) span");
+        public static final String tableNumberSelector = "tr th:nth-child(2) span";
+
         public static final ElementsCollection orderId =
                 $$(".VOrderHistoryTableItem tr th:nth-child(3) span");
-
         public static final ElementsCollection dateAndTime =
                 $$(".VOrderHistoryTableItem tr th:nth-child(4) span");
+        public static final String dateAndTimeSelector = "tr th:nth-child(4) span";
         public static final ElementsCollection orderStatus =
                 $$(".VOrderHistoryTableItem tr th:nth-child(5) span");
-
+        public static final String orderStatusSelector = "tr th:nth-child(5) span";
+        public static final SelenideElement activeOperationOrderStatus =
+                $(".VOrderHistoryTableItem.activeTable");
         public static final ElementsCollection totalSum =
                 $$("[class*=VOrderHistoryTableItem] tr th:nth-child(6) span");
-
         public static final ElementsCollection orderSum =
                 $$(".VOrderHistoryTableItem tr th:nth-child(7) span");
         public static final ElementsCollection tipsSum =
@@ -455,13 +436,11 @@ public class SupportPersonalAccount {
 
         public static final ElementsCollection waiterName =
                 $$x("//*[@class='VOrderHistoryTableItem']//tr/th[last()]/span");
-
+        public static final String waiterNameSelector = "tr th:last-child span";
         public static final ElementsCollection transactionsListItemsInOpenedOperation =
                 $$(".VOrderHistoryTableItem.activeTable tbody tr");
-
         public static final String openedB2PTransactionIdSelector =
                 "//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[1]/span";
-
         public static final ElementsCollection openedRefundSum =
                 $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[6]/span");
         public static final ElementsCollection openedTipsSum =
@@ -476,83 +455,46 @@ public class SupportPersonalAccount {
                 $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[5]/span");
         public static final ElementsCollection openedTransactionStatus =
                 $$x("//*[contains(@class,'VOrderHistoryTableItem')]//tr/td[7]/span");
-
         public static final SelenideElement pushButton = $("button.pushButton");
-
-
-
-
         public static final SelenideElement loadMoreButton = $(".VSectionOrderHistory__loadMore");
-
-
         public static final SelenideElement generalCategory = $x("//button[contains(text(),'Основные')]");
         public static final SelenideElement tipsCategory = $x("//button[contains(text(),'Чаевые')]");
-
         public static final SelenideElement totalStuckSum = $(".VSectionOrderHistory__stuck__info__money");
         public static final SelenideElement totalStuckOperationsAmount =
                 $(".VSectionOrderHistory__stuck__info__numberStuckTransactions");
-
         public static final ElementsCollection generalOperationsItem =
                 $$(".VSectionOrderHistory__containerTableItem div");
-
-
-
         public static final ElementsCollection generalRestaurantName =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(1) span");
         public static final ElementsCollection generalTableNumber =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(2) span");
         public static final ElementsCollection generalB2tpId =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(3) span");
-
         public static final ElementsCollection generalDateAndTime =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(4) span");
-
         public static final ElementsCollection generalTotalsum =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(5) span");
-
         public static final ElementsCollection generalTips =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(6) span");
-
         public static final ElementsCollection generalServiceCharge =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(7) span");
-
         public static final ElementsCollection generalComment =
                 $$(".VSectionOrderHistory__containerTableItem div th:nth-child(8) span");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public static final ElementsCollection stuckRestaurantName =
                 $$(".VTippingTransactionsTable tr th:nth-child(1) span");
         public static final ElementsCollection stuckTableNumber =
                 $$(".VTippingTransactionsTable tr th:nth-child(2) span");
         public static final ElementsCollection stuckB2tpId =
                 $$(".VTippingTransactionsTable tr th:nth-child(3) span");
-
         public static final ElementsCollection stuckDateAndTime =
                 $$(".VTippingTransactionsTable tr th:nth-child(4) span");
         public static final ElementsCollection stuckTips =
                 $$(".VTippingTransactionsTable tr th:nth-child(5) span");
-
         public static final ElementsCollection stuckWaiterName =
                 $$(".VTippingTransactionsTable tr th:nth-child(6) span");
-
         public static final ElementsCollection stuckComment =
                 $$(".VTippingTransactionsTable tr th:nth-child(7) span");
-
         public static final SelenideElement stuckPushButton = $(".pushButton");
-
 
     }
 
@@ -564,10 +506,8 @@ public class SupportPersonalAccount {
         public static final SelenideElement amountRestaurantsToLock = $(".vPlugSelect__value");
         public static final SelenideElement whereToLockButton = $(".vPlugSelect>div");
         public static final SelenideElement chosenTypeOfLock = $(".vSelect__label");
-
         public static final SelenideElement b2pLockOption =
                 $x("//*[contains(@class,'vPlugFilterList__item')][.//img[contains(@src,'b2p')]]");
-
         public static final SelenideElement howToLockContainer = $(".vSelect");
         public static final SelenideElement howToLockButton = $(".vSelect .vSelect__label");
 
@@ -582,8 +522,6 @@ public class SupportPersonalAccount {
         public static final ElementsCollection dropdownWhereToLockRestaurants =
                 $$(".vPlugLst .vPlugLst__item");
         public static final String dropdownListItemCheckboxSelector = ".vPlugLst__checkbox";
-
-
         public static final SelenideElement applyButton =
                 $x("//*[contains(@class,'vButton') and text()=' Применить ']");
         public static final SelenideElement resetAllButton =
@@ -643,16 +581,14 @@ public class SupportPersonalAccount {
     public static class Analytics {
 
         public static final SelenideElement analyticsContainer = $(".vSectionAnalytics__content");
-
         public static final SelenideElement conversionStatisticsButton =
                 $x("//button[contains(text(),'Статистика по конверсиям')]");
-
         public static final SelenideElement dateRangeContainer = $(".vBlockConversionStatistics__period");
         public static final String choseDateButtonSelector = ".mx-datepicker .mx-input-wrapper";
-
-
         public static final SelenideElement downloadTable = $(".vButton");
 
     }
+
+
 
 }

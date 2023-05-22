@@ -265,9 +265,13 @@ public class RootPage extends BaseActions {
 
                 isElementVisible(totalTipsSumInMiddle);
                 isElementsListVisible(tipsListItem);
+                isElementVisible(tipsInfo);
                 checkCustomTipForError();
 
             }
+
+
+
 
         }
 
@@ -435,8 +439,12 @@ public class RootPage extends BaseActions {
         scrollTillBottom();
         double totalDishSum = getClearOrderAmount();
 
+        System.out.println(totalDishSum + " totalDishSum");
+
         if (discountField.exists())
-            totalDishSum -= convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
+            totalDishSum += convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
+
+        System.out.println(totalDishSum + " totalDishSum");
 
         if (totalDishSum < 490) {
 
@@ -1166,7 +1174,7 @@ public class RootPage extends BaseActions {
     @Step("Чаевые не должны отображаться у верифицированного официанта без привязанной карты")
     public void checkIsNoTipsElementsIfVerifiedNonCard() {
 
-        isElementVisible(tipsContainer);
+        isElementInvisible(tipsContainer);
         isImageCorrect(waiterImageNotSelenide, "Изображение официанта не корректное или битое");
         isElementVisible(tipsWaiter);
         isElementInvisible(tipsInCheckSum);
@@ -1247,6 +1255,8 @@ public class RootPage extends BaseActions {
         if (totalTipsSumInMiddle.exists()) {
 
             tipsInTheMiddleSum = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
+
+            System.out.println(tipsInCheckSum + " tipsInCheckSum");
 
             double tipsInCheck = convertSelectorTextIntoDoubleByRgx(tipsInCheckSum, tipsInCheckSumRegex);
 
@@ -2353,8 +2363,10 @@ public class RootPage extends BaseActions {
         }
 
 
+
        
         String waiter = tipsContainer.isDisplayed() ? waiterName.getText() : UNKNOWN_WAITER;
+
         String restaurantName = cashDeskType.equals("keeper") ? "'testrkeeper'" : "'office'" ;
 
         tapperDataForTgMsg = setCollectionData(restaurantName,tableString,sumInCheck,restToPay,tips,paySum,totalPaid,

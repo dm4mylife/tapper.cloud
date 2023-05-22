@@ -48,6 +48,9 @@ public class AdminPersonalAccount {
         public static final SelenideElement menuCategory =
                 $x("//*[@class='vProfileMenu__list']" +
                         "/*[contains(@class,'VMenuProfileLink')][.//*[text()='Меню']]");
+        public static final SelenideElement tipsCategory =
+                $x("//*[@class='vProfileMenu__list']" +
+                        "/*[contains(@class,'VMenuProfileLink')][.//*[text()='Чаевые']]");
         public static final SelenideElement authPassword = $x("//td[*[contains(text(),'Пароль')]]");
         public static final SelenideElement configuration =
                 $(".VMenuProfileLink:nth-of-type(2) .VMenuProfileLink__clickArea");
@@ -552,6 +555,25 @@ public class AdminPersonalAccount {
                 $(".sectionTelegram-modal__close");
         public static final SelenideElement errorTextInLoginTelegram =
                 $(".vLandingInput.err .vLandingInput__err");
+
+    }
+
+    public static class Tips {
+
+        public static final SelenideElement tipsContainer = $(".vBlockTipsTeam");
+        public static final SelenideElement tipsInfoContainer = $(".vBlockTipsTeam__info");
+        public static final SelenideElement tipsTypeButtons = $(".vSectionTips__switching-tabs");
+        public static final SelenideElement linCreditCardButton =
+                $x("//button[text()=' Привязать карту ']");
+        public static final SelenideElement changeCreditCard =
+                $x(".vBlockTipsTeam__change-map");
+        public static final SelenideElement hookahNameInput = $x("[id=\"nameHookah\"]");
+        public static final SelenideElement hookahGoalInput = $x("[id=\"purposeHookah\"]");
+        public static final SelenideElement kitchenGoalInput = $x("[id=\"purposeKitchen\"]");
+        public static final SelenideElement tipsCheckbox =
+                $(".vBlockCheckboxTips__checkbox .vClickedCheckbox__view");
+        public static final String choseDateButtonSelector = ".mx-datepicker .mx-input-wrapper";
+        public static final SelenideElement downloadTable = $(".vButton");
 
     }
 

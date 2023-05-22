@@ -30,6 +30,7 @@ public class TwoBrowsers {
         Configuration.browser = CHROME;
         Configuration.savePageSource = false;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
+        Configuration.pageLoadStrategy = "eager";
 
 
         ChromeOptions options = new ChromeOptions();

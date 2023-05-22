@@ -13,7 +13,7 @@ import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.BaseTest;
-import tests.FirstTableData;
+
 
 import java.time.Duration;
 import java.util.ArrayList;
