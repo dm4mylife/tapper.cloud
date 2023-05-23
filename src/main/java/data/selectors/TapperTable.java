@@ -118,8 +118,12 @@ public class TapperTable {
 
             public static final SelenideElement tipsWaiter = $(".tipsProfile");
 
-            public static final SelenideElement waiterButton =
+            public static final ElementsCollection roleButtons = $$(".tipsButton");
+            public static final SelenideElement waiterRoleButton =
                     $x("//*[contains(@class,'tipsButton') and contains(text(),'Официант')]");
+
+            public static final SelenideElement waiterHeading = $(".tipsProfile__position");
+
             public static final SelenideElement hookahServerButton =
                     $x("//*[contains(@class,'tipsButton') and contains(text(),'Кальянщик')]");
             public static final SelenideElement kitchenButton =

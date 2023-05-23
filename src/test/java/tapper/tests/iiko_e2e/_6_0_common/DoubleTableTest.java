@@ -68,7 +68,7 @@ class DoubleTableTest extends BaseTest {
     @DisplayName(TapperTable.createOrderInIiko)
     void createAndFillOrder() {
 
-       nestedTests.createOrderAndOpenTable(tableId,tableUrl, BURGER, amountDishesForFillingOrder);
+       nestedTests.createAndFillOrderAndOpenTapperTable(tableId,tableUrl, BURGER, amountDishesForFillingOrder);
 
 
         dishListOriginalTable = rootPage.getDishList(allDishesInOrder);

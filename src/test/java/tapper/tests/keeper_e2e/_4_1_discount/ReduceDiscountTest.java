@@ -22,8 +22,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static api.ApiData.OrderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_444;
 
 
 @Epic("RKeeper")
@@ -76,7 +74,8 @@ class ReduceDiscountTest extends BaseTest {
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        uni = rootPageNestedTests.getOrderUni(tableId,apiUri).get(0);
+        uni = rootPageNestedTests.getDiscountUni(tableId,apiUri).get(0);
+
 
         rootPage.openNotEmptyTable(tableUrl);
 
@@ -103,6 +102,8 @@ class ReduceDiscountTest extends BaseTest {
     @Test
     @DisplayName("4. Удаляем скидку из заказа, добавляем новую но с меньшим значением и проверяем суммы")
     public void addDiscountAndCheckSums() {
+
+
 
         apiRKeeper.deleteDiscount(apiRKeeper.rqBodyDeleteDiscount(restaurantName, guid, uni), apiUri);
 

@@ -49,7 +49,7 @@ class AddAfterPartAndPartTest extends BaseTest {
     @DisplayName("Создание заказа в iiko открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
     void createAndFillOrder() {
 
-        guid = nestedTests.createOrderAndOpenTable(tableId,tableUrl, BURGER, amountDishesForFillingOrder);
+        guid = nestedTests.createAndFillOrderAndOpenTapperTable(tableId,tableUrl, BURGER, amountDishesForFillingOrder);
 
     }
 

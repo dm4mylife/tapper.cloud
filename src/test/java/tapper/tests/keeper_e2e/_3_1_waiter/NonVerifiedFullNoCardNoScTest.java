@@ -7,10 +7,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -28,7 +25,7 @@ import static api.ApiData.OrderData.WAITER_IRONMAN_NON_VERIFIED_NON_CARD;
 @Story("Официант не верифицирован, без привязанной карты, полная оплата - СБ")
 @DisplayName("Официант не верифицирован, без привязанной карты, полная оплата - СБ")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class NonVerifiedFullNoCardNoScTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_333.restaurantName;
@@ -53,8 +50,9 @@ class NonVerifiedFullNoCardNoScTest extends BaseTest {
     NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName("Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
+    void createAndFillOrder() {
 
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
@@ -68,8 +66,9 @@ class NonVerifiedFullNoCardNoScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("2. Проверка суммы, отсутствия чаевых, корректности сервисного сбора")
-    public void checkSumTipsSC() {
+    @Order(2)
+    @DisplayName("Проверка суммы, отсутствия чаевых, корректности сервисного сбора")
+    void checkSumTipsSC() {
 
         double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
         rootPageNestedTests.checkSumWithAllConditionsWithNonVerifiedWaiter(cleanDishesSum);
@@ -78,8 +77,9 @@ class NonVerifiedFullNoCardNoScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
@@ -88,24 +88,27 @@ class NonVerifiedFullNoCardNoScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiring() {
+    @Order(4)
+    @DisplayName("Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName("5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    public void checkPayment() {
+    @Order(5)
+    @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("6. Проверка сообщения в телеграмме")
-    public void matchTgMsgDataAndTapperData() {
+    @Order(6)
+    @DisplayName("Проверка сообщения в телеграмме")
+    void matchTgMsgDataAndTapperData() {
 
         telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);

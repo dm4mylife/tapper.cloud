@@ -22,11 +22,11 @@ import static data.AnnotationAndStepNaming.DisplayName.TapperTable.*;
 
 @Epic("RKeeper")
 @Feature("Порционные")
-@Story("Заказ со штучными позициями, и одной порционной 0.5")
-@DisplayName("Заказ со штучными позициями, и одной порционной 0.5")
+@Story("Порционная позиция с одним бесплатным модификатором")
+@DisplayName("Порционная позиция с одним бесплатным модификатором")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class CommonAndModifiersFullPayTest extends BaseTest {
+class OneFreeModifiersFullPayTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_666.tableCode;
@@ -43,7 +43,7 @@ class CommonAndModifiersFullPayTest extends BaseTest {
     static LinkedHashMap<String, String> tapperDataForTgMsg;
     static LinkedHashMap<String, String> telegramDataForTgMsg;
     static String transactionId;
-    static int amountDishesForFillingOrder = 1;
+    static int amountDishesForFillingOrder = 2;
     double dishQuantity = 0.5;
 
 
@@ -60,6 +60,7 @@ class CommonAndModifiersFullPayTest extends BaseTest {
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
+        apiRKeeper.createDishObject(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
 
         Response rs = rootPageNestedTests.createAndFillOrder(restaurantName, tableCode,
                 waiter, apiUri,dishesForFillingOrder,tableId);
@@ -68,12 +69,33 @@ class CommonAndModifiersFullPayTest extends BaseTest {
         ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
             {
                 add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));}
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
+                    }
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,2));}
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,2));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,2));
+                    }
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,2));}
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
                         add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
-
                     }
                 }));
+
             }
         };
 

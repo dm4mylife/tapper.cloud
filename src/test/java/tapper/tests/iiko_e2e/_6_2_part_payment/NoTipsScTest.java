@@ -57,7 +57,7 @@ class NoTipsScTest extends BaseTest {
             AnnotationAndStepNaming.DisplayName.TapperTable.isDishesCorrectInCashDeskAndTapperTable)
     void createAndFillOrder() {
 
-        orderId = nestedTests.createOrderAndOpenTable(tableId,tableUrl, BURGER, amountDishesForFillingOrder);
+        orderId = nestedTests.createAndFillOrderAndOpenTapperTable(tableId,tableUrl, BURGER, amountDishesForFillingOrder);
 
     }
 

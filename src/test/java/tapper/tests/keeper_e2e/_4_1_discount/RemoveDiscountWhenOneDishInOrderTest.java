@@ -78,7 +78,7 @@ class RemoveDiscountWhenOneDishInOrderTest extends BaseTest {
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        uni = rootPageNestedTests.getOrderUni(tableId,apiUri).get(firstUni);
+        uni = rootPageNestedTests.getDiscountUni(tableId,apiUri).get(firstUni);
 
         rootPage.openNotEmptyTable(tableUrl);
 

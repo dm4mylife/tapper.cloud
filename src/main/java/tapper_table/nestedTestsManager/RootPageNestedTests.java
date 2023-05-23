@@ -17,7 +17,6 @@ import java.util.Map;
 
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.RegexPattern.TapperTable.discountInCheckRegex;
-import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.TestData.TapperTable.REFRESH_TABLE_BUTTON_TEXT;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
@@ -570,11 +569,9 @@ public class RootPageNestedTests extends RootPage {
 
         Object keySizeFlag = response.path(totalPath);
 
-        int keySize;
-
         if (keySizeFlag instanceof LinkedHashMap) {
 
-            keySize = 1;
+            return 1;
 
         } else if (keySizeFlag == null) {
 
@@ -582,11 +579,9 @@ public class RootPageNestedTests extends RootPage {
 
         } else {
 
-            keySize = response.jsonPath().getList(totalPath).size();
+            return response.jsonPath().getList(totalPath).size();
 
         }
-
-        return keySize;
 
     }
 
@@ -615,6 +610,8 @@ public class RootPageNestedTests extends RootPage {
 
         LinkedHashMap<Integer,Map<String,Double>> orderData = new LinkedHashMap<>();
 
+        System.out.println(sessionSize + " sessionSize");
+
         for (int sessionIndex = 0; sessionIndex < sessionSize; sessionIndex++) {
 
             String sessionPath = getKeyPath(sessionSize,sessionIndex,session);
@@ -622,6 +619,8 @@ public class RootPageNestedTests extends RootPage {
             totalPath = sessionPath + "." + dish;
 
             int dishSize = getKeySize(rs,totalPath);
+
+            System.out.println(dishSize + " dishSize");
 
             for (int dishIndex = 0; dishIndex < dishSize; dishIndex++) {
 
@@ -631,20 +630,20 @@ public class RootPageNestedTests extends RootPage {
 
                 double dishPrice = rs.jsonPath().getDouble(dishPath + price) / 100;
                 String dishName = rs.jsonPath().getString(dishPath + name);
-                int dishQuantity = rs.jsonPath().getInt(dishPath + quantity) / 1000;
+                double dishQuantity = rs.jsonPath().getDouble(dishPath + quantity) / 1000;
 
-                //System.out.println(dishQuantity + " quantity");
+                System.out.println(dishQuantity + " quantity");
 
-                if (dishQuantity != 1) {
+                if (dishQuantity % 1 == 0 && dishQuantity > 1) {
 
                     int dishQuantityIndex = 0;
 
                     for (; dishQuantityIndex < dishQuantity; dishQuantityIndex++) {
 
-                       // System.out.println(totalDishIndex+dishQuantityIndex + " counter");
+                        System.out.println(totalDishIndex+dishQuantityIndex + " counter");
                         tempData.put(dishName,dishPrice / dishQuantity);
                         orderData.put(totalDishIndex + dishQuantityIndex,tempData);
-                      //  System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
+                        System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
 
                     }
 
@@ -656,7 +655,7 @@ public class RootPageNestedTests extends RootPage {
                     orderData.put(totalDishIndex,tempData);
                     totalDishIndex++;
 
-                    // System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
+                     System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
 
                 }
 
@@ -666,31 +665,28 @@ public class RootPageNestedTests extends RootPage {
 
         }
 
-
+        System.out.println(orderData + " orderData");
         return orderData;
 
     }
 
 
-    public HashMap<Integer,String> getOrderUni(String tableId, String apiUri) {
+    public HashMap<Integer,String> getDiscountUni(String tableId, String apiUri) {
 
         Response rs = apiRKeeper.getOrderInfo(tableId, apiUri);
 
-        String totalPath = "";
+        String totalPath;
         String session = "result.CommandResult.Order.Session";
-        String dish = "Dish";
+        String dish = "Discount";
         String uni = "[\"@attributes\"].uni";
 
         int totalUniIndex = 0;
-
         int sessionSize = getKeySize(rs,session);
-
         HashMap<Integer,String> uniData = new HashMap<>();
 
         for (int sessionIndex = 0; sessionIndex < sessionSize; sessionIndex++) {
 
             String sessionPath = getKeyPath(sessionSize,sessionIndex,session);
-
             totalPath = sessionPath + "." + dish;
 
             int discountSize = getKeySize(rs,totalPath);
@@ -698,11 +694,7 @@ public class RootPageNestedTests extends RootPage {
             for (int discountIndex = 0; discountIndex < discountSize; discountIndex++) {
 
                 String dishPath = getKeyPath(discountSize,discountIndex,totalPath);
-
-
                 String dishUni = rs.jsonPath().getString(dishPath + uni);
-
-                System.out.println(dishUni + " path");
 
                 uniData.put(totalUniIndex,dishUni);
                 totalUniIndex++;

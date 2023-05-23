@@ -67,6 +67,7 @@ class RemoveAfterPartAndPartTest extends BaseTest {
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
         uni = apiRKeeper.getUniFirstValueFromOrderInfo(tableId,apiUri);
+        System.out.println(uni);
 
     }
 

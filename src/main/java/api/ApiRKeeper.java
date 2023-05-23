@@ -144,7 +144,7 @@ public class ApiRKeeper {
                     .when()
                     .delete(deletePosition)
                     .then()
-                    .log().ifError()
+                    .log().body()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -297,7 +297,7 @@ public class ApiRKeeper {
                 .when()
                 .get(getOrderInfo)
                 .then()
-                //.log().ifError()
+               // .log().body()
                 .extract()
                 .response();
 

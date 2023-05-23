@@ -74,7 +74,7 @@ class ReduceDecimalDiscountTest extends BaseTest {
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        uni = rootPageNestedTests.getOrderUni(tableId,apiUri).get(0);
+        uni = rootPageNestedTests.getDiscountUni(tableId,apiUri).get(0);
 
         rootPage.openNotEmptyTable(tableUrl);
 

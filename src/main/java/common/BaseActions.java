@@ -217,8 +217,10 @@ public class BaseActions {
 
     public double convertSelectorTextIntoDoubleByRgx(@NotNull SelenideElement selector, String regex) {
 
-        String text = selector.getText().replaceAll(regex, "");
-        return Double.parseDouble(text);
+        double text = Double.parseDouble(selector.getText().replaceAll(regex, ""));
+
+        String formattedDouble = new DecimalFormat("#0.00").format(text).replace(",", ".");
+        return Double.parseDouble(formattedDouble);
 
     }
 

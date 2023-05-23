@@ -85,6 +85,7 @@ class RemoveChosenDishAndFullTest extends BaseTest {
     void checkChangedSumAfterDeleting() {
 
         nestedTests.checkIfSumsChangedAfterEditingOrder();
+        rootPage.deactivateDivideCheckSliderIfActivated();
 
     }
 

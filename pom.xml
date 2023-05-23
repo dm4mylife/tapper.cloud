@@ -267,7 +267,7 @@
                 <configuration>
                     <allureDownloadUrl>https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/%s/allure-commandline-%s.zip</allureDownloadUrl>
                     <properties>
-                        <allure.sort.order>ALLURE_TEST_CASE</allure.sort.order>
+                        <allure.sort.order>NATURAL_ASC</allure.sort.order>
                     </properties>
                     <reportVersion>2.18.0</reportVersion>
                     <outputDirectory>${basedir}/target/allure-reports/</outputDirectory>

@@ -75,7 +75,7 @@ class ReduceDiscountAfterPartPayTest extends BaseTest {
         Map<String, Object> rsBodyCreateDiscount = apiRKeeper.rqBodyAddDiscount(restaurantName,guid,discounts);
         apiRKeeper.createDiscount(rsBodyCreateDiscount);
 
-        uni = rootPageNestedTests.getOrderUni(tableId,apiUri).get(uniIndex);
+        uni = rootPageNestedTests.getDiscountUni(tableId,apiUri).get(uniIndex);
 
         rootPage.openNotEmptyTable(tableUrl);
 

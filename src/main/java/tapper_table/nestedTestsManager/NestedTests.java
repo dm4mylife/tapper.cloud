@@ -266,7 +266,7 @@ public class NestedTests extends RootPage {
 
     }
 
-    public String createOrderAndOpenTable(String tableId, String tableUrl, ApiData.IikoData.Dish dish, int amountDishesForFillingOrder) {
+    public String createAndFillOrderAndOpenTapperTable(String tableId, String tableUrl, ApiData.IikoData.Dish dish, int amountDishesForFillingOrder) {
 
         apiIiko.closedOrderByApi(tableId);
 

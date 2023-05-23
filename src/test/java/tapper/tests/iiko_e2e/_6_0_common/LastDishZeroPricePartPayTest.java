@@ -1,6 +1,7 @@
 package tapper.tests.iiko_e2e._6_0_common;
 
 
+import api.ApiData;
 import api.ApiIiko;
 import api.ApiRKeeper;
 import common.BaseActions;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.IikoData.Dish.BURGER;
+import static api.ApiData.IikoData.Dish.ZERO_PRICE_DISH_TEA;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 
@@ -57,18 +59,23 @@ class LastDishZeroPricePartPayTest extends BaseTest {
             " Добавляем блюдо с нулевой ценой")
     void createAndFillOrder() {
 
-       guid = nestedTests.createOrderAndOpenTable(tableId,tableUrl, BURGER, amountDishesForFillingOrder);
+        apiIiko.closedOrderByApi(tableId);
 
+        guid =  apiIiko.createOrder(apiIiko.rqBodyCreateOrder(tableId));
+        apiIiko.fillingOrder(apiIiko.rqBodyFillingOrder(guid,BURGER.getId(),amountDishesForFillingOrder));
+        apiIiko.fillingOrder(apiIiko.rqBodyFillingOrder(guid, ZERO_PRICE_DISH_TEA.getId(),amountDishesForFillingOrder));
+
+        rootPage.openNotEmptyTable(tableUrl);
     }
 
     @Test
     @Order(2)
-    @DisplayName("Выбираем рандомно блюда, проверяем все суммы и условия, " +
+    @DisplayName("Выбираем не нулевое блюдо, проверяем все суммы и условия, " +
             "проверяем что после шаринга выбранные позиции в ожидаются")
     void chooseDishesAndCheckAfterDivided() {
 
         rootPage.activateDivideCheckSliderIfDeactivated();
-        BaseActions.click(allNonPaidAndNonDisabledDishesName.first());
+        rootPage.choseFirstDish(allNonPaidAndNonDisabledDishesName);
         rootPageNestedTests.activateRandomTipsAndActivateSc();
 
     }
