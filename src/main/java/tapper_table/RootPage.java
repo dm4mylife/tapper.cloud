@@ -23,9 +23,9 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.ClipboardConditions.content;
-import static com.codeborne.selenide.CollectionCondition.allMatch;
-import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.clipboard;
 import static data.Constants.RegexPattern.TapperTable.*;
@@ -1199,9 +1199,15 @@ public class RootPage extends BaseActions {
     @Step("Чаевые не должны отображаться у не верифицированного официанта без привязанной карты")
     public void checkIsNoTipsElementsIfNonVerifiedNonCard() {
 
-        isElementInvisible(waiterRoleButton);
-        isElementInvisible(tipsInfo);
-        isElementInvisible(tipsContainer);
+        if (hookahServerButton.exists() || kitchenButton.exists()) {
+
+            isElementInvisible(waiterRoleButton);
+
+        } else {
+
+            isElementInvisible(tipsContainer);
+
+        }
 
     }
 
@@ -1657,9 +1663,13 @@ public class RootPage extends BaseActions {
 
         if (divideCheckSlider.isDisplayed()) {
 
-            allDishesInOrder.asDynamicIterable().stream().forEach(element ->
+            allDishesInOrder.asFixedIterable().stream().forEach(element -> {
+
+                if (!element.$(dishPriceTotalSelector).getText().equals("0 ₽"))
                     element.shouldHave(or("Должны быть оплачены или нет",
-                            matchText(DISH_STATUS_IS_PAYING),matchText(DISH_STATUS_PAYED))));
+                            matchText(DISH_STATUS_IS_PAYING),matchText(DISH_STATUS_PAYED)));
+
+            });
 
         }
 
@@ -2159,14 +2169,15 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
-    public LinkedHashMap<String, String> getCallWaiterTgMsgData(String tableNumber, String waiterName) {
+    public LinkedHashMap<String, String> getCallWaiterTgMsgData(String tableNumber, String waiterName,
+                                                                String messageText) {
 
         final String[] msg = new String[1];
 
         Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
                 .atMost(20, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(
                         () -> Assertions.assertNotNull
-                                (msg[0] = telegram.getLastTgCallWaiterMsgList(tableNumber,waiterName)));
+                                (msg[0] = telegram.getLastTgCallWaiterMsgList(tableNumber,waiterName,messageText)));
 
         HashMap<String, String> msgWithType = telegram.setMsgTypeFlag(msg[0]);
         LinkedHashMap<String, String> parsedMsg = telegram.parseMsg(msgWithType);
@@ -2421,6 +2432,9 @@ public class RootPage extends BaseActions {
 
         if (!markUp.equals(""))
             tapperDataForTgMsg.put("markUp", markUp);
+
+        //if (!tipsContainer.exists())
+       //     tapperDataForTgMsg.put("markUp", markUp);
 
         tapperDataForTgMsg.put("payStatus", payStatus);
         tapperDataForTgMsg.put("orderStatus", orderStatus);

@@ -225,7 +225,7 @@ public class ApiIiko {
                 .when()
                 .delete(deleteOrder)
                 .then()
-               // .log().body()
+                .log().body()
                 .statusCode(200)
                 .extract()
                 .response();

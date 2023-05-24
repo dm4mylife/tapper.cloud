@@ -868,13 +868,12 @@ public class LogsAndPermissions extends BaseActions {
         }
 
         click(findTableButton);
-        tableLoader.shouldHave(attribute("style",""),Duration.ofSeconds(2));
-        resetTableButton.shouldBe(visible);
+        isElementsCollectionVisible(tableListItem);
+        isElementVisible(resetTableButton);
 
         if (AdminPersonalAccount.TableAndQrCodes.paginationPages.size() == 1) {
 
             click(AdminPersonalAccount.TableAndQrCodes.paginationPages.first());
-            //pagePreloader.shouldBe(visible,Duration.ofSeconds(2));
 
             if(!Objects.equals(tableSearchFrom.getValue(), ""))
                 tableListItem.filter(matchText(String.valueOf(min))).shouldHave(sizeGreaterThanOrEqual(1));

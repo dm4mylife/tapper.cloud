@@ -17,18 +17,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static api.ApiData.OrderData.*;
+import static api.ApiData.OrderData.BARNOE_PIVO;
+import static api.ApiData.OrderData.TORT;
 import static api.ApiData.QueryParams.rqParamsDeletePosition;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishesName;
 
 
 @Epic("RKeeper")
 @Feature("Добавление и удаление позиций из заказа")
-@Story("Удаление позиции которая выбрана на столе, полная оплата")
-@DisplayName("Удаление позиции которая выбрана на столе, полная оплата")
+@Story("Удаление позиции которая выбрана на столе и в заказе остается только одна позиция c разделенным счетом")
+@DisplayName("Удаление позиции которая выбрана на столе и в заказе остается только одна позиция c разделенным счетом")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class RemoveChosenDishAndFullTest extends BaseTest {
+class RemoveChosenDishIfOnlyOneOnTableAndFullTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_444.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_444.tableCode;
@@ -39,12 +40,6 @@ class RemoveChosenDishAndFullTest extends BaseTest {
 
     static String guid;
     static String uni;
-    static double totalPay;
-    static String orderType = "full";
-    static HashMap<String, String> paymentDataKeeper;
-    static LinkedHashMap<String, String> tapperDataForTgMsg;
-    static LinkedHashMap<String, String> telegramDataForTgMsg;
-    static String transactionId;
     static int amountDishesForFillingOrder = 1;
 
 
@@ -62,7 +57,6 @@ class RemoveChosenDishAndFullTest extends BaseTest {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
         apiRKeeper.createDishObject(dishesForFillingOrder, TORT, amountDishesForFillingOrder);
-        apiRKeeper.createDishObject(dishesForFillingOrder, SOLYANKA, amountDishesForFillingOrder);
 
         Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode, waiter,
                 apiUri,dishesForFillingOrder,tableUrl, tableId);
@@ -97,46 +91,15 @@ class RemoveChosenDishAndFullTest extends BaseTest {
     void checkChangedSumAfterDeleting() {
 
         nestedTests.checkIfSumsChangedAfterEditingOrder();
-        rootPage.deactivateDivideCheckSliderIfActivated();
 
     }
 
     @Test
     @Order(5)
-    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    @DisplayName("Проверяем что заказ на столе не должен быть заблокирован к оплате")
     void savePaymentDataForAcquiring() {
 
-        totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
-        paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
-
-    }
-
-    @Test
-    @Order(6)
-    @DisplayName("Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    void payAndGoToAcquiring() {
-
-        transactionId = nestedTests.acquiringPayment(totalPay);
-
-    }
-
-    @Test
-    @Order(7)
-    @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    void checkPayment() {
-
-        nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
-
-    }
-
-    @Test
-    @Order(8)
-    @DisplayName("Проверка сообщения в телеграмме")
-    void clearDataAndChoseAgain() {
-
-        telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
-        rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
+        rootPage.isPaymentDisabled();
 
     }
 

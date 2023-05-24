@@ -145,9 +145,9 @@ class RemoveAndPartTest extends BaseTest {
     @Test
     @Order(10)
     @DisplayName("Закрываем заказ")
-    void closeOrder() {
+    void payOrder() {
 
-        apiIiko.closedOrderByApi(tableId);
+        nestedTests.payOrder(tableId,"iiko",guid);
 
     }
 

@@ -132,7 +132,7 @@ class AddAndPartTest extends BaseTest {
     @DisplayName("Закрываем заказ")
     void closeOrder() {
 
-
+        nestedTests.payOrder(tableId,"iiko",guid);
 
     }
 

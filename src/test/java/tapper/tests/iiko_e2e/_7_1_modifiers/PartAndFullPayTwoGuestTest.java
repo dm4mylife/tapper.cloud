@@ -231,7 +231,7 @@ class PartAndFullPayTwoGuestTest extends TwoBrowsers {
     void checkPayment2Guest() {
 
         using(secondBrowser, () ->
-                nestedTests.checkPaymentAndB2pTransaction(orderType = "full", transactionId, paymentDataKeeper));
+                nestedTests.checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper));
 
     }
 
@@ -242,7 +242,7 @@ class PartAndFullPayTwoGuestTest extends TwoBrowsers {
 
         using(secondBrowser, () -> {
 
-            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType = "full");
+            telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
             rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
 
         });

@@ -84,13 +84,13 @@ public class NestedTests extends RootPage {
     }
 
 
-    public void payOrder(String tableId, String orderType, String guid) {
+    public void payOrder(String tableId, String cashDeskType, String guid) {
 
         double totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, "keeper");
+        LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, cashDeskType);
         String transactionId = acquiringPayment(totalPay);
-        checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
+        checkPaymentAndB2pTransaction("full", transactionId, paymentDataKeeper);
         matchTgMsgDataAndTapperData(guid, tapperDataForTgMsg, "full");
 
     }

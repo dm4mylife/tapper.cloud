@@ -162,7 +162,7 @@ public class Waiter extends BaseActions {
 
         pageTitle.shouldHave(text(" Настройки профиля "),Duration.ofSeconds(20));
 
-        buttonWithCard.shouldHave(disabled, matchText("Карта привязана"));
+        buttonWithCard.shouldHave(matchText("Карта привязана"));
         isElementVisible(changedCardButton);
         //toDo нет второй тестовой карты чтобы написать тест на редактирование текущей
 

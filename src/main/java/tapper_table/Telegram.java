@@ -98,7 +98,7 @@ public class Telegram {
     }
 
     @Step("Получаем сообщение по вызову официанту")
-    public String getLastTgCallWaiterMsgList(String tableNumber, String waiterName) {
+    public String getLastTgCallWaiterMsgList(String tableNumber, String waiterName, String messageText) {
 
         List<Object> tgMessages = apiRKeeper.getUpdates();
 
@@ -106,10 +106,8 @@ public class Telegram {
 
             String currentMsg = tgMessage.toString();
 
-            if (currentMsg.contains(tableNumber) &&
-                    currentMsg.contains(waiterName) &&
-                    currentMsg.contains("Вызов официанта")) {
-
+            if (currentMsg.contains(tableNumber) && currentMsg.contains(waiterName) &&
+                    currentMsg.contains("Вызов официанта") && currentMsg.contains(messageText)) {
                 return currentMsg;
 
             }

@@ -22,11 +22,11 @@ import static data.AnnotationAndStepNaming.DisplayName.TapperTable.*;
 
 @Epic("RKeeper")
 @Feature("Порционные")
-@Story("Порционная позиция с одним бесплатным модификатором")
-@DisplayName("Порционная позиция с одним бесплатным модификатором")
+@Story("Порционная позиция с различными модификаторами и количеством")
+@DisplayName("Порционная позиция с различными модификаторами и количеством")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class OneFreeModifiersFullPayTest extends BaseTest {
+class MixModifiersFullPayTest extends BaseTest {
 
     protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_666.tableCode;
@@ -34,7 +34,6 @@ class OneFreeModifiersFullPayTest extends BaseTest {
     protected final String apiUri = TableData.Keeper.Table_666.apiUri;
     protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
     protected final String tableId = TableData.Keeper.Table_666.tableId;
-
 
     static String guid;
     static double totalPay;
@@ -93,6 +92,32 @@ class OneFreeModifiersFullPayTest extends BaseTest {
                     {
                         add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
                         add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
+                    }
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,2));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
+                    }
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,2));
+                    }
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,2));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,2));
+                    }
+                }));
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH, dishQuantity, new ArrayList<>(){
+                    {
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_KARTOFEL_FRI,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_SOUS,1));
+                        add(apiRKeeper.createModificatorObject(GOVYADINA_PAID_MODI_VEG_SALAD,1));
                     }
                 }));
 

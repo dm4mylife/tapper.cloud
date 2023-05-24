@@ -19,7 +19,7 @@ import static api.ApiData.OrderData.BARNOE_PIVO;
 @DisplayName("Выключение чаевых")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class DisableTipsTest extends PersonalAccountTest {
+class DisableTips extends PersonalAccountTest {
 
     protected final String restaurantName = TableData.Keeper.Table_555.restaurantName;
     protected final String tableCode = TableData.Keeper.Table_555.tableCode;
@@ -63,7 +63,7 @@ class DisableTipsTest extends PersonalAccountTest {
 
     @Test
     @Order(4)
-    @DisplayName("Проверяем на столе чаевые")
+    @DisplayName("Проверяем на столе чаевые и оплачиваем заказ")
     void checkOnTable() {
 
         guid = nestedTests.createAndFillOrder(amountDishesForFillingOrder, BARNOE_PIVO, restaurantName, tableCode,
@@ -72,7 +72,7 @@ class DisableTipsTest extends PersonalAccountTest {
         rootPage.openNewTabAndSwitchTo(tableUrl);
         rootPage.isTableHasOrder();
 
-        nestedTests.payOrder(tableId,"full",guid);
+        nestedTests.payOrder(tableId,"keeper", guid);
 
     }
 

@@ -154,9 +154,9 @@ class PartPayDiscountTest extends BaseTest {
     @Test
     @Order(7)
     @DisplayName("Закрываем заказ")
-    void closeOrderByAPI() {
+    public void payOrder() {
 
-        apiIiko.closedOrderByApi(tableId);
+        nestedTests.payOrder(tableId,"iiko", guid);
 
     }
 

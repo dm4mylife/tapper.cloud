@@ -243,7 +243,10 @@ public class TablesAndQrCodes extends BaseActions {
         rootPage.skipStartScreenLogo();
         isElementVisible(TapperTable.RootPage.DishList.tableNumber);
 
-        String tapperTableNumber = TapperTable.RootPage.DishList.tableNumber.getText();
+        System.out.println(TapperTable.RootPage.DishList.tableNumber.getText());
+
+        String tapperTableNumber = TapperTable.RootPage.DishList.tableNumber.getText()
+                .replaceAll("\\D+", "");;
 
         Assertions.assertEquals(tableNumber, tapperTableNumber,
                 "Номера столов не совпадают в админке и в таппере");

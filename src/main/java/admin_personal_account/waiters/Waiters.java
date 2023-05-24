@@ -243,14 +243,18 @@ public class Waiters extends BaseActions {
     @Step("Поиск первого совпадения карточки официанта по статусу '{waiterStatus}' и клик в неё")
     public void findFirstMatchByStatusAndClickInWaiterCard(String waiterStatus) {
 
-        for (int index = 0; index < waiterPaginationList.size(); index++) {
+        for (SelenideElement paginationPage : waiterPaginationList) {
+
+            click(paginationPage);
+            isElementsCollectionVisible(waiterList);
 
             for (SelenideElement element: waiterList) {
 
                 if(element.$(waiterStatusSelector).getText().equals(waiterStatus)) {
 
-                    element.click();
-                    break;
+                    click(element);
+                    isDetailCardCorrect();
+                    return;
 
                 }
 

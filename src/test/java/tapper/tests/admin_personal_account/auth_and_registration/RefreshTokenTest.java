@@ -17,7 +17,7 @@ import static data.Constants.TestData.AdminPersonalAccount.PERSONAL_ACCOUNT_PROF
 
 @Epic("Личный кабинет администратора ресторана")
 @Feature("Авторизация\\регистрация")
-@Story("Авторизация")
+@Story("Проверка что refreshToken обновляется после истечения")
 @DisplayName("Проверка что refreshToken обновляется после истечения")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -33,12 +33,18 @@ class RefreshTokenTest extends PersonalAccountTest {
     void isRefreshCorrect() {
 
         Selenide.open(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
+        System.out.println(1);
+        rootPage.forceWait(10000);
 
         Selenide.localStorage().setItem("userTokenData",EXPIRED_USER_TOKEN);
         Selenide.localStorage().setItem("refreshTokenData",EXPIRED_REFRESH_TOKEN);
 
+        rootPage.forceWait(10000);
+        System.out.println(2);
         Selenide.open(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
 
+        rootPage.forceWait(10000);
+        System.out.println(3);
         String newRefreshToken = Selenide.localStorage().getItem("refreshTokenData");
         Assertions.assertNotEquals(EXPIRED_REFRESH_TOKEN,newRefreshToken,"Токен не изменился");
 

@@ -26,7 +26,7 @@ import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASS
 @DisplayName("Проверка drag and drop")
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class DragAndDropTest extends PersonalAccountTest {
+class DragAndDrop extends PersonalAccountTest {
 
     int adminTab = 0;
     RootPage rootPage = new RootPage();

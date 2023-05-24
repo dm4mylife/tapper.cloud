@@ -73,7 +73,7 @@ class CheckCallWaiterTgMsgTest extends BaseTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void getTgAndTapperMsgData() {
 
-        telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, UNKNOWN_WAITER);
+        telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, UNKNOWN_WAITER,TEST_WAITER_COMMENT);
         tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg(UNKNOWN_WAITER, TEST_WAITER_COMMENT, tapperTable);
 
         Assertions.assertEquals(telegramDataForTgMsg, tapperDataForTgMsg,
@@ -115,7 +115,7 @@ class CheckCallWaiterTgMsgTest extends BaseTest {
     @DisplayName(TapperTable.isTelegramMessageCorrect)
     void getTgAndTapperMsgDataAgain() {
 
-        telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, ROBOCOP_WAITER);
+        telegramDataForTgMsg = rootPage.getCallWaiterTgMsgData(tapperTable, ROBOCOP_WAITER,TEST_WAITER_COMMENT);
         tapperDataForTgMsg = rootPage.getTapperDataForTgCallWaiterMsg(ROBOCOP_WAITER, TEST_WAITER_COMMENT, tapperTable);
 
         Assertions.assertEquals(telegramDataForTgMsg, tapperDataForTgMsg,

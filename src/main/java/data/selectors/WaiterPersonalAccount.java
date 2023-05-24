@@ -39,7 +39,7 @@ public class WaiterPersonalAccount {
     public static final SelenideElement saveButton =
             $x("//*[contains(@class,'vButton')][@type=\"submit\"]");
     public static final SelenideElement buttonWithCard =
-            $x("//*[contains(@class,'vButton')][@disabled]");
+            $x("//*[contains(@class,'vButton vButton--gray')]");
     public static final SelenideElement changedCardButton = $(".change-card");
     public static final SelenideElement b2pContainer = $("[id=\"payForm\"]");
     public static final SelenideElement b2pCardNumber = $("[id=\"pan\"]");
