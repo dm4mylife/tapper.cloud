@@ -133,7 +133,7 @@ public class Constants {
         }
 
         public static class Yandex {
-            public static final String TEST_YANDEX_LOGIN_EMAIL = "autotests@tapper.cloud";
+            public static final String TEST_YANDEX_LOGIN_EMAIL = "autoteststapper@yandex.ru";
             public static final String TEST_YANDEX_PASSWORD_MAIL = "V8JRPGwr";
             public static final String ADMIN_RESTAURANT_TEST_LOGIN_EMAIL = "autotests_admin_restaurant@tapper.cloud";
             public static final String ADMIN_RESTAURANT_TEST_PASSWORD_MAIL = "SxyvGCseCS*a";

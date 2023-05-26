@@ -4,10 +4,11 @@ import com.codeborne.selenide.ElementsCollection;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.Common.lockCategory;
@@ -191,11 +192,19 @@ public class Lock extends BaseActions {
 
         click(whereToLockButton);
 
+        dropdownWhereToLockRestaurants.should
+                (anyMatch("Должен быть виден список ресторанов", WebElement::isDisplayed));
+
         ElementsCollection onlyTestrkeeperRestaurants =
            dropdownWhereToLockRestaurants.filter(matchText(restaurant));
 
-        onlyTestrkeeperRestaurants.asFixedIterable().stream().forEach
-            (element -> element.$(".vPlugLst__checkbox").click());
+        onlyTestrkeeperRestaurants.asFixedIterable().stream().forEach(element ->  {
+
+                click(element.$(dropdownListItemCheckboxSelector));
+                element.$(dropdownListItemCheckboxSelector)
+                        .shouldHave(attributeMatching("class",".*active.*"));
+
+        });
 
         click(applyButton);
 
@@ -216,7 +225,7 @@ public class Lock extends BaseActions {
                 dropdownWhereToLockRestaurants.filter(matchText(restaurant));
 
         onlyTestrkeeperRestaurants.asFixedIterable().stream().forEach
-                (element -> element.$(".vPlugLst__checkbox").click());
+                (element -> click(element.$(dropdownListItemCheckboxSelector)));
 
         click(applyButton);
 

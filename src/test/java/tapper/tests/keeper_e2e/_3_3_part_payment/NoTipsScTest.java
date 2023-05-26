@@ -7,10 +7,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
@@ -28,7 +25,7 @@ import static data.Constants.TestData.TapperTable.*;
 @Story("Частичная оплата - -чай +сбор")
 @DisplayName("Частичная оплата - -чай +сбор")
 
-@TestMethodOrder(MethodOrderer.DisplayName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 class NoTipsScTest extends BaseTest {
 
@@ -55,21 +52,23 @@ class NoTipsScTest extends BaseTest {
     NestedTests nestedTests = new NestedTests();
 
     @Test
-    @DisplayName("1. Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
-    public void createAndFillOrder() {
+    @Order(1)
+    @DisplayName("Создание заказа в r_keeper и открытие стола, проверка что позиции на кассе совпадают с позициями в таппере")
+    void createAndFillOrder() {
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
         Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode, waiter,
-                AUTO_API_URI,dishesForFillingOrder,tableUrl, tableId);
+                apiUri,dishesForFillingOrder,tableUrl, tableId);
 
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
     }
 
     @Test
-    @DisplayName("2. Выбираем рандомно блюда, проверяем все суммы и условия, без чая но с СБ")
-    public void chooseDishesAndCheckAfterDivided() {
+    @Order(2)
+    @DisplayName("Выбираем рандомно блюда, проверяем все суммы и условия, без чая но с СБ")
+    void chooseDishesAndCheckAfterDivided() {
 
         rootPageNestedTests.chooseDishesWithRandomAmount(amountDishesToBeChosen);
         rootPageNestedTests.deactivateTipsAndActivateSc();
@@ -77,8 +76,9 @@ class NoTipsScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("3. Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
-    public void savePaymentDataForAcquiring() {
+    @Order(3)
+    @DisplayName("Сохраняем данные по оплате для проверки их корректности на эквайринге, и транзакции б2п")
+    void savePaymentDataForAcquiring() {
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
@@ -87,24 +87,27 @@ class NoTipsScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("4. Переходим на эквайринг, вводим данные, оплачиваем заказ")
-    public void payAndGoToAcquiring() {
+    @Order(4)
+    @DisplayName("Переходим на эквайринг, вводим данные, оплачиваем заказ")
+    void payAndGoToAcquiring() {
 
         transactionId = nestedTests.acquiringPayment(totalPay);
 
     }
 
     @Test
-    @DisplayName("5. Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
-    public void checkPayment() {
+    @Order(5)
+    @DisplayName("Проверяем корректность оплаты, проверяем что транзакция в б2п соответствует оплате")
+    void checkPayment() {
 
         nestedTests.checkPaymentAndB2pTransaction(orderType, transactionId, paymentDataKeeper);
 
     }
 
     @Test
-    @DisplayName("6. Проверка сообщения в телеграмме")
-    public void clearDataAndChoseAgain() {
+    @Order(6)
+    @DisplayName("Проверка сообщения в телеграмме")
+    void clearDataAndChoseAgain() {
 
         telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,orderType);
         rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg, tapperDataForTgMsg);
@@ -112,8 +115,9 @@ class NoTipsScTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("7. Переход на эквайринг, ввод данных, оплата")
-    public void payAndGoToAcquiringAgain() {
+    @Order(7)
+    @DisplayName("Переход на эквайринг, ввод данных, оплата")
+    void payAndGoToAcquiringAgain() {
 
         rootPage.openTableAndSetGuest(tableUrl, COOKIE_GUEST_SECOND_USER, COOKIE_SESSION_SECOND_USER);
 

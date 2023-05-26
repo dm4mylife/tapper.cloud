@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.OrderData.*;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_333;
 
 
 @Epic("RKeeper")
@@ -59,7 +57,7 @@ class DecimalModifiersTest extends BaseTest {
 
         ArrayList<LinkedHashMap<String, Object>> modifiers = new ArrayList<>() {
             {
-                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(WEIGHT_DISH,1, new ArrayList<>(){
+                add(apiRKeeper.rqBodyFillModificatorArrayWithDishes(PORTION_DISH_BY_WEIGHT,1, new ArrayList<>(){
                     {
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MODI_KARTOSHKA_FRI,1));
                         add(apiRKeeper.createModificatorObject(PAID_NON_NECESSARY_MODI_SOUS,1));

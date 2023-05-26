@@ -72,7 +72,8 @@ public class ApiRKeeper {
                     .extract()
                     .response();
 
-            Assertions.assertTrue(response.jsonPath().getBoolean("success"),"Не удалось наполнить заказ");
+            Assertions.assertTrue(response.jsonPath().getBoolean("success"),
+                    "Не удалось наполнить заказ: " + response.jsonPath().getString("result"));
 
             hasError = response.jsonPath().getString("result.Errors");
 
@@ -671,6 +672,20 @@ public class ApiRKeeper {
 
     public ArrayList<LinkedHashMap<String, Object>>
     createDishObject(ArrayList<LinkedHashMap<String, Object>> array, String dishId, int quantity) {
+
+        LinkedHashMap<String, Object> dishObject = new LinkedHashMap<>();
+
+        dishObject.put("id", dishId);
+        dishObject.put("quantity", quantity);
+
+        array.add(dishObject);
+
+        return array;
+
+    }
+
+    public ArrayList<LinkedHashMap<String, Object>>
+    createDishObject(ArrayList<LinkedHashMap<String, Object>> array, String dishId, double quantity) {
 
         LinkedHashMap<String, Object> dishObject = new LinkedHashMap<>();
 

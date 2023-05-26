@@ -25,6 +25,7 @@ import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
+import static data.selectors.TapperTable.RootPage.DishList.divideCheckSliderActive;
 import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeContainer;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.*;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.discountSum;
@@ -101,8 +102,7 @@ public class NestedTests extends RootPage {
         double totalPaySum = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
         rootPage.clickOnPaymentButton();
 
-        dishesSumChangedHeading.shouldHave(visible,Duration.ofSeconds(4));
-        dishesSumChangedHeading.shouldHave(hidden,Duration.ofSeconds(8));
+        dishesSumChangedHeading.shouldHave(visible).shouldHave(hidden,Duration.ofSeconds(8));
         pagePreLoader.shouldHave(hidden,Duration.ofSeconds(30));
 
         double totalPaySumAfterChanging = rootPage.convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);

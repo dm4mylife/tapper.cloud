@@ -29,7 +29,7 @@ public class Best2PayPageNestedTests extends Best2PayPage {
         best2PayPage.typeCardNumber();
         best2PayPage.typeDateExpire();
         best2PayPage.typeCVV();
-        //best2PayPage.typeEmail();
+        best2PayPage.typeEmail();
 
     }
     @Step("Ввод данных и оплата")
@@ -40,7 +40,7 @@ public class Best2PayPageNestedTests extends Best2PayPage {
         best2PayPage.typeCardNumber();
         best2PayPage.typeDateExpire();
         best2PayPage.typeCVV();
-        //best2PayPage.typeEmail();
+        best2PayPage.typeEmail();
 
     }
 

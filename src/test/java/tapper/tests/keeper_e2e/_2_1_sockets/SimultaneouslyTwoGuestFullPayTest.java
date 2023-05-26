@@ -7,10 +7,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.TwoBrowsers;
@@ -98,6 +95,14 @@ class SimultaneouslyTwoGuestFullPayTest extends TwoBrowsers {
     public void closeOrder() {
 
         apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
+
+    }
+
+    @Test
+    @DisplayName("1.6. Закрываем заказ, очищаем кассу")
+    public void assertTrue() {
+
+        Assertions.assertTrue(1>1);
 
     }
 

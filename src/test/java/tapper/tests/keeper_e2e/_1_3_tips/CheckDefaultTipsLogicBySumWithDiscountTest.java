@@ -41,7 +41,7 @@ class CheckDefaultTipsLogicBySumWithDiscountTest extends BaseTest {
 
     static String guid;
     static double tapperTotalPay;
-    int amountDishesForFillingOrder = 2;
+    int amountDishesForFillingOrder = 1;
     ArrayList<LinkedHashMap<String, Object>> discounts = new ArrayList<>();
 
     RootPage rootPage = new RootPage();

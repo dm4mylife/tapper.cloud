@@ -215,6 +215,12 @@
             <artifactId>json</artifactId>
             <version>20230227</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.automation-remarks/video-recorder-junit -->
+        <dependency>
+            <groupId>com.automation-remarks</groupId>
+            <artifactId>video-recorder-junit</artifactId>
+            <version>2.0</version>
+        </dependency>
 
 
 
@@ -239,7 +245,7 @@
                         <include>.*TestSuite.java</include>
                     </includes>
                     <parallel>suites</parallel>
-                    <forkCount>7</forkCount>
+                    <forkCount>6</forkCount>
                     <reuseForks>false</reuseForks>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.4/aspectjweaver-1.9.4.jar"

@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static api.ApiData.OrderData.BARNOE_PIVO;
-import static api.ApiData.OrderData.WEIGHT_DISH;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 
 

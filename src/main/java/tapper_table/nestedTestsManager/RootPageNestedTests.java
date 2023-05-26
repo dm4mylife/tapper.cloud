@@ -195,8 +195,7 @@ public class RootPageNestedTests extends RootPage {
     @Step("Проверяем сумму всего не оплаченного заказа c чаевыми и с СБ и со скидкой")
     public void checkAllDishesSumsWithAllConditionsConsideringDiscount() { //
 
-        double cleanTotalSumWithDiscount = countAllNonPaidDiscountDishesInOrder();
-
+        double cleanTotalSumWithDiscount = countAllNonPaidDishesInOrder();
 
         if (markupSum.isDisplayed()) {
 
@@ -320,7 +319,6 @@ public class RootPageNestedTests extends RootPage {
 
         }
 
-
     }
 
 
@@ -400,6 +398,7 @@ public class RootPageNestedTests extends RootPage {
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
                 forceWait(timeoutFullPay);
+
                 LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
                 rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
@@ -416,10 +415,8 @@ public class RootPageNestedTests extends RootPage {
 
         HashMap<Integer, Map<String, Double>> allDishesInfo = new HashMap<>();
 
-
         int totalDishIndex = 0;
         String currentDishName;
-
         Object sessionSizeFlag = rs.path("result.CommandResult.Order.Session");
         int sessionSize;
         int sessionIndexCounter = 0;
@@ -610,8 +607,6 @@ public class RootPageNestedTests extends RootPage {
 
         LinkedHashMap<Integer,Map<String,Double>> orderData = new LinkedHashMap<>();
 
-        System.out.println(sessionSize + " sessionSize");
-
         for (int sessionIndex = 0; sessionIndex < sessionSize; sessionIndex++) {
 
             String sessionPath = getKeyPath(sessionSize,sessionIndex,session);
@@ -619,8 +614,6 @@ public class RootPageNestedTests extends RootPage {
             totalPath = sessionPath + "." + dish;
 
             int dishSize = getKeySize(rs,totalPath);
-
-            System.out.println(dishSize + " dishSize");
 
             for (int dishIndex = 0; dishIndex < dishSize; dishIndex++) {
 
@@ -632,18 +625,14 @@ public class RootPageNestedTests extends RootPage {
                 String dishName = rs.jsonPath().getString(dishPath + name);
                 double dishQuantity = rs.jsonPath().getDouble(dishPath + quantity) / 1000;
 
-                System.out.println(dishQuantity + " quantity");
-
                 if (dishQuantity % 1 == 0 && dishQuantity > 1) {
 
                     int dishQuantityIndex = 0;
 
                     for (; dishQuantityIndex < dishQuantity; dishQuantityIndex++) {
 
-                        System.out.println(totalDishIndex+dishQuantityIndex + " counter");
                         tempData.put(dishName,dishPrice / dishQuantity);
                         orderData.put(totalDishIndex + dishQuantityIndex,tempData);
-                        System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
 
                     }
 
@@ -655,8 +644,6 @@ public class RootPageNestedTests extends RootPage {
                     orderData.put(totalDishIndex,tempData);
                     totalDishIndex++;
 
-                     System.out.println("Имя блюда : " + dishName + "\nЦена блюда : " + dishPrice + "\n");
-
                 }
 
             }
@@ -665,7 +652,6 @@ public class RootPageNestedTests extends RootPage {
 
         }
 
-        System.out.println(orderData + " orderData");
         return orderData;
 
     }

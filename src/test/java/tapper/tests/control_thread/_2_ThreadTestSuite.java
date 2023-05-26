@@ -8,7 +8,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
     "tapper.tests.keeper_e2e._2_1_sockets",
     "tapper.tests.keeper_e2e._2_2_stress",
-    "tapper.tests.screenshots_comparison"
+    "tapper.tests.screenshots_comparison",
+    "tapper.tests.keeper_e2e._2_3_critical"
 
 
 })

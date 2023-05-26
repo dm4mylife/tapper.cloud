@@ -9,8 +9,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
     "tapper.tests.admin_personal_account",
     "tapper.tests.waiter_personal_account",
-    "tapper.tests.support_personal_account",
-    "tapper.tests.keeper_e2e._5_1_critical"
+    "tapper.tests.support_personal_account"
+
 
 })
 @Suite

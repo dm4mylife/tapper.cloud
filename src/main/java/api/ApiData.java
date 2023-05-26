@@ -136,7 +136,7 @@ public class ApiData {
         public static final String BARNOE_PIVO = "1000361";
 
         public static final String GLAZUNYA = "1000368";
-        public static final String WEIGHT_DISH = "1000458";
+
         public static final String TORT = "1000385";
         public static final String SOLYANKA = "1000364";
 
@@ -151,6 +151,7 @@ public class ApiData {
 
         public static final String ZERO_PRICE_DISH = "1000187";
 
+        public static final String PORTION_DISH_BY_WEIGHT = "1000484";
         public static final String GOVYADINA_PORTION = "1000363";
         public static final String GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE = "1000388";
         public static final String GOVYADINA_PAID_MODI_KARTOFEL_FRI = "1000117";
@@ -164,15 +165,13 @@ public class ApiData {
         public static final String DOZA_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
 
         public static final String FREE_DOZA_DISH = "1000488";
-        public static final String FREE_DOZA_FREE_MODI_SOLT_ZERO_PRICE =
-                GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
+        public static final String FREE_DOZA_FREE_MODI_SOLT_ZERO_PRICE = GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
         public static final String FREE_DOZA_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
         public static final String FREE_DOZA_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
         public static final String FREE_DOZA_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
 
         public static final String WEIGHT_BY_PORTION_DISH = "1000429";
-        public static final String WEIGHT_BY_PORTION_FREE_MODI_SOLT_ZERO_PRICE =
-                GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
+        public static final String WEIGHT_BY_PORTION_FREE_MODI_SOLT_ZERO_PRICE = GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
         public static final String WEIGHT_BY_PORTION_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
         public static final String WEIGHT_BY_PORTION_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
         public static final String WEIGHT_BY_PORTION_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;

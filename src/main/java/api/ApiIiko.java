@@ -266,7 +266,7 @@ public class ApiIiko {
                 totalSum +=  (int) order.get("finalPrice");
         }
 
-        return totalSum /= 100;
+        return totalSum / 100;
 
     }
 

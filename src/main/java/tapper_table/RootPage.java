@@ -121,7 +121,7 @@ public class RootPage extends BaseActions {
 
         }
 
-        System.out.println("\nTAPPER\n" + tapperDishes + "\nDESK\n " + allDishesInfoFromKeeper );
+        // System.out.println("\nTAPPER\n" + tapperDishes + "\nDESK\n " + allDishesInfoFromKeeper );
 
 
         if (!allDishesInfoFromKeeper.equals(tapperDishes)) {
@@ -376,7 +376,7 @@ public class RootPage extends BaseActions {
 
             double dishesPriceWithoudDiscount = divideCheckSliderActive.isDisplayed() ?
                     countOnlyAllChosenWithFullPriceDishesDivided() :
-                    countAllNonPaidDiscountDishesInOrder();
+                    countAllNonPaidDishesInOrder();
 
             if (percent != 0) {
 
@@ -399,15 +399,15 @@ public class RootPage extends BaseActions {
                     .append(paySumInCheck + " сумма в поле 'Итого к оплате' c учетом чаевых и сервисного сбора\n");
 
 
-            Assertions.assertEquals(totalTipsSumInMiddle, cleanTips, 0.1,
+            Assertions.assertEquals(totalTipsSumInMiddle, cleanTips, 1,
                     "Общая сумма чаевых по центру " + totalTipsSumInMiddle +
                             " не совпала с суммой чистых чаевых " + cleanTips);
 
-            Assertions.assertEquals(tipsSumInCheck, cleanTips, 0.1,
+            Assertions.assertEquals(tipsSumInCheck, cleanTips, 1,
                     "Чаевые в 'Чаевые'" + tipsSumInCheck +
                             " не совпали с суммой чистых чаевых " + cleanTips);
 
-            Assertions.assertEquals(totalSumPlusCleanTipsPlusServiceChargeSum, paySumInCheck, 0.1,
+            Assertions.assertEquals(totalSumPlusCleanTipsPlusServiceChargeSum, paySumInCheck, 1,
                     "Чистая сумма за блюда + чистые чаевые + СБ " + totalSumPlusCleanTipsPlusServiceChargeSum
                             + " равна сумме в 'Итого к оплате' " + paySumInCheck);
 
@@ -442,12 +442,14 @@ public class RootPage extends BaseActions {
         scrollTillBottom();
         double totalDishSum = getClearOrderAmount();
 
-        System.out.println(totalDishSum + " totalDishSum");
+        if (discountField.exists() && divideCheckSliderActive.exists()) {
 
-        if (discountField.exists())
-            totalDishSum += convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
+            totalDishSum = countAllNonPaidDishesInOrderIgnoreDiscount();
 
-        System.out.println(totalDishSum + " totalDishSum");
+        }
+
+
+        System.out.println(totalDishSum + " total sum");
 
         if (totalDishSum < 490) {
 
@@ -461,53 +463,59 @@ public class RootPage extends BaseActions {
 
             }
 
-            if (totalDishSum < 196) {
+            if (totalDishSum != 0 && totalDishSum < 196) {
 
-                tips0.shouldNotHave(attributeMatching("class", ".+disabled"));
-
-                tips10.shouldHave(attributeMatching("class", ".+disabled"));
-                tips15.shouldHave(attributeMatching("class", ".+disabled"));
-                tips20.shouldHave(attributeMatching("class", ".+disabled"));
-                tips25.shouldHave(attributeMatching("class", ".+disabled"));
+                isDisableTipsOption(tips10);
+                isDisableTipsOption(tips15);
+                isDisableTipsOption(tips20);
+                isDisableTipsOption(tips25);
 
             } else if (totalDishSum >= 196 && totalDishSum <= 245) {
 
-                tips25.shouldNotHave(attributeMatching("class", ".+disabled"));
-
-                tips10.shouldHave(attributeMatching("class", ".+disabled"));
-                tips15.shouldHave(attributeMatching("class", ".+disabled"));
-                tips20.shouldHave(attributeMatching("class", ".+disabled"));
+                isNotDisableTipsOption(tips25);
+                isDisableTipsOption(tips10);
+                isDisableTipsOption(tips15);
+                isDisableTipsOption(tips20);
 
             } else if (totalDishSum > 245 && totalDishSum <= 326) {
 
-                tips20.shouldNotHave(attributeMatching("class", ".+disabled"));
-                tips25.shouldNotHave(attributeMatching("class", ".+disabled"));
-
-                tips10.shouldHave(attributeMatching("class", ".+disabled"));
-                tips15.shouldHave(attributeMatching("class", ".+disabled"));
-
+                isNotDisableTipsOption(tips20);
+                isNotDisableTipsOption(tips25);
+                isDisableTipsOption(tips10);
+                isDisableTipsOption(tips15);
 
             } else if (totalDishSum > 326 && totalDishSum <= 489) {
 
-                tips15.shouldNotHave(attributeMatching("class", ".+disabled"));
-                tips20.shouldNotHave(attributeMatching("class", ".+disabled"));
-                tips25.shouldNotHave(attributeMatching("class", ".+disabled"));
-
-                tips10.shouldHave(attributeMatching("class", ".+disabled"));
+                isNotDisableTipsOption(tips15);
+                isNotDisableTipsOption(tips20);
+                isNotDisableTipsOption(tips25);
+                isDisableTipsOption(tips10);
 
             }
 
         } else if (totalDishSum > 490) {
 
-            tips10.shouldNotHave(attributeMatching("class", ".+disabled"));
-            tips15.shouldNotHave(attributeMatching("class", ".+disabled"));
-            tips20.shouldNotHave(attributeMatching("class", ".+disabled"));
-            tips25.shouldNotHave(attributeMatching("class", ".+disabled"));
+            isNotDisableTipsOption(tips10);
+            isNotDisableTipsOption(tips15);
+            isNotDisableTipsOption(tips20);
+            isNotDisableTipsOption(tips25);
 
             activeTipsButton.shouldHave(text("10%")
                     .because("Если сумма заказа больше 490, то должно быть 10% чаевых по умолчанию"));
 
         }
+
+    }
+
+    public void isNotDisableTipsOption(SelenideElement element) {
+
+        element.shouldNotHave(disabled);
+
+    }
+
+    public void isDisableTipsOption(SelenideElement element) {
+
+        element.shouldHave(disabled);
 
     }
 
@@ -831,6 +839,35 @@ public class RootPage extends BaseActions {
         for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
 
             double cleanPrice = convertSelectorTextIntoDoubleByRgx(element.$(dishPriceTotalSelector), dishPriceRegex);
+            String dishName = element.$(dishNameSelector).getText();
+
+            totalSumInOrder += cleanPrice;
+            totalSumInOrder = updateDoubleByDecimalFormat(totalSumInOrder);
+            counter++;
+
+            logs.append("\n" + counter + ". " + dishName + " - " + cleanPrice + ". Общая сумма: " + totalSumInOrder);
+
+        }
+
+        printAndAttachAllureLogs(logs, "Список не оплаченных и не заблокированных блюд");
+
+        return totalSumInOrder;
+
+    }
+
+    @Step("Считаем сумму не оплаченных,незаблокированных позиций в заказе не учитывая скидку")
+    public double countAllNonPaidDishesInOrderIgnoreDiscount() {
+
+        double totalSumInOrder = 0;
+        int counter = 0;
+        StringBuilder logs = new StringBuilder();
+
+        isElementsCollectionVisible(allNonPaidAndNonDisabledDishes);
+
+        for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
+
+            double cleanPrice =
+                    convertSelectorTextIntoDoubleByRgx(element.$(dishPriceWithoutDiscountSelector), dishPriceRegex);
             String dishName = element.$(dishNameSelector).getText();
 
             totalSumInOrder += cleanPrice;

@@ -9,7 +9,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
     "tapper.tests.keeper_e2e._3_1_waiter",
     "tapper.tests.keeper_e2e._3_2_modifiers",
-    "tapper.tests.keeper_e2e._3_3_part_payment"
+    "tapper.tests.keeper_e2e._3_3_part_payment",
+    "tapper.tests.keeper_e2e._3_4_portions"
 
 })
 @Suite

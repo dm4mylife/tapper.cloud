@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import static api.ApiData.IikoData.Dish.ZERO_PRICE_DISH_TEA;
 import static api.ApiData.IikoData.Dish.ZERO_PRICE_DISH_TEA_PAID_NOT_NECESSARY_MODIFIER;
 
+@Disabled("Пока не починят добавление платного модика к бесплатному блюдо по api iiko")
 @Epic("Iiko")
 @Feature("Модификаторы")
 @Story("Полная оплата позиций с ценой 0 и платным модификатором ")

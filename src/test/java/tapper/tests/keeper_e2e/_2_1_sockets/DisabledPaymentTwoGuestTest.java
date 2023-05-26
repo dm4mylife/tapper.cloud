@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._2_1_sockets;
 
 
 import api.ApiRKeeper;
+import com.automation.remarks.video.annotations.Video;
 import data.AnnotationAndStepNaming;
 import data.TableData;
 import io.qameta.allure.Epic;
