@@ -22,8 +22,6 @@ import java.util.LinkedHashMap;
 import static api.ApiData.OrderData.*;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_111;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 
@@ -78,7 +76,7 @@ class ReviewTest extends BaseTest {
     void payAndGoToReviewPage() {
 
         tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,tableNumberRegex);
-        waiterName = TapperTable.RootPage.TipsAndCheck.waiterName.getText();
+        waiterName = TapperTable.RootPage.TipsAndCheck.serviceWorkerName.getText();
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();

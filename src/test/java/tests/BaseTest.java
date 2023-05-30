@@ -5,10 +5,14 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.Rule;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.rules.TestName;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
@@ -29,6 +33,7 @@ import static data.Constants.*;
         AddSelenoidVideoToAllure.class
 })
 public class BaseTest {
+
 
     @BeforeAll
     public static void setUp() {
@@ -53,8 +58,10 @@ public class BaseTest {
         mobileEmulation.put("deviceName", "iPhone 12 Pro");
         options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
+
+
         options.setCapability("selenoid:options", new HashMap<String, Object>() {{
-            put("name","E2E test");
+            put("name", "test_name");
             put("labels", new HashMap<String, Object>() {{
                 put("manual", "true");
             }});

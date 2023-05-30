@@ -78,7 +78,7 @@ class PaymentErrorTest extends ScreenMobileTest {
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
         rootPage.ignoreWifiIcon();
         tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,tableNumberRegex);
-        waiterName = TapperTable.RootPage.TipsAndCheck.waiterName.getText();
+        waiterName = TapperTable.RootPage.TipsAndCheck.serviceWorkerName.getText();
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();

@@ -102,7 +102,7 @@ class TotalTest extends PersonalAccountTest {
         waiterData = MailByApi.getMailData
                 ("waiter.yandex.mail", "waiter.yandex.password", WAITER_REGISTRATION_EMAIL);
 
-        Assert.assertEquals(PERSONAL_ACCOUNT_PROFILE_STAGE_URL,waiterData.get("url"));
+        Assertions.assertEquals(PERSONAL_ACCOUNT_PROFILE_STAGE_URL, waiterData.get("url"));
 
     }
 

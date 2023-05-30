@@ -9,15 +9,10 @@ public class WaiterPersonalAccount {
 
     public static final SelenideElement confPolicyModal = $(".vModalPolitics");
     public static final SelenideElement confPolicyModalDonTAgreeButton = $(".vModalPolitics__cancelBtn");
-
     public static final SelenideElement confPolicyError = $(".sign__error");
-
     public static final SelenideElement confPolicyModalAgreeButton = $(".vModalPolitics__buttons .vButton");
     public static final SelenideElement pageTitle = $(".section-profile__title");
     public static final SelenideElement imageContainer = $(".section-profile__photo-block");
-
-    public static final SelenideElement profileCategory = $(".vProfileMenu__list a[href=\"/profile\"]");
-
     public static final SelenideElement imageContainerDownloadImageButton =
             $(".section-profile__photo-block .section-profile__file");
     public static final SelenideElement imageContainerDownloadedImage = $(".section-profile__photo-wrapper");
@@ -26,15 +21,17 @@ public class WaiterPersonalAccount {
     public static final SelenideElement waiterNameInCashDesk = $("[id=\"name\"][disabled]");
     public static final SelenideElement waiterName = $("[id=\"display_name\"]:not([disabled])");
     public static final SelenideElement telegramLogin = $(".section-profile__login");
+    public static final SelenideElement waiterGoalInput = $("[id=\"purposeWaiter\"]");
+    public static final SelenideElement waiterGoalErrorInput = $(".vLandingInput__err");
+    public static final SelenideElement tipsBlockInfoContainer = $(".blockTipsWaiter__info");
+    public static final SelenideElement waiterGoalContainer = $("div>[id=\"purposeWaiter\"]");
+    public static final SelenideElement waiterGoalMaxCharsCounter = $(".blockTipsWaiter__input-number");
+
     public static final SelenideElement waiterEmail = $("[id=\"email\"]");
     public static final SelenideElement waiterPassword = $("[id=\"password\"]");
     public static final SelenideElement waiterPasswordConfirmation = $("[id=\"confirmation\"]");
+    public static final SelenideElement linkTelegramLogin = $(".section-profile__button-text.blue");
     public static final SelenideElement unlinkTelegramLogin = $(".section-profile__button.red");
-
-
-
-    public static final SelenideElement telegramInstruction = $(".modalInstruction");
-    public static final SelenideElement telegramInstructionCloseButton = $(".vCloseButton");
     public static final SelenideElement linkWaiterCard = $x("//*[@class='vButton']");
     public static final SelenideElement saveButton =
             $x("//*[contains(@class,'vButton')][@type=\"submit\"]");

@@ -11,15 +11,13 @@ import io.restassured.response.Response;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.ClipboardConditions.content;
@@ -262,7 +260,7 @@ public class RootPage extends BaseActions {
 
             if (totalTipsSumInMiddle.exists()) {
 
-                isImageCorrect(waiterImageNotSelenide, "Изображение официанта не корректное или битое");
+                isImageCorrect(serviceWorkerImageSelector, "Изображение официанта не корректное или битое");
 
                 isElementVisible(tipsWaiter);
 
@@ -455,7 +453,7 @@ public class RootPage extends BaseActions {
 
             if (totalDishSum != 0) {
 
-                totalTipsSumInMiddle.shouldHave(value(MIN_SUM_TIPS_));
+                totalTipsSumInMiddle.shouldHave(value(MIN_SUM_TIPS));
 
             } else {
 
@@ -1214,7 +1212,7 @@ public class RootPage extends BaseActions {
     public void checkIsNoTipsElementsIfVerifiedNonCard() {
 
         isElementInvisible(tipsContainer);
-        isImageCorrect(waiterImageNotSelenide, "Изображение официанта не корректное или битое");
+        isImageCorrect(serviceWorkerImageSelector, "Изображение официанта не корректное или битое");
         isElementVisible(tipsWaiter);
 
         if (roleButtons.size() != 0) {
@@ -1236,7 +1234,7 @@ public class RootPage extends BaseActions {
     @Step("Чаевые не должны отображаться у не верифицированного официанта без привязанной карты")
     public void checkIsNoTipsElementsIfNonVerifiedNonCard() {
 
-        if (hookahServerButton.exists() || kitchenButton.exists()) {
+        if (hookahButton.exists() || kitchenButton.exists()) {
 
             isElementInvisible(waiterRoleButton);
 
@@ -1306,20 +1304,21 @@ public class RootPage extends BaseActions {
     @Step("Проверяем что текущие чаевые в поле 'Чаевые' сходятся с чаевыми по центру. Отдаём чаевые")
     public double getCurrentTipsSum() {
 
-        double tipsInTheMiddleSum = 0;
+        double tipsInCheck = 0;
 
         if (totalTipsSumInMiddle.exists()) {
 
-            tipsInTheMiddleSum = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
+            double tipsInTheMiddleSum = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
 
-            double tipsInCheck = convertSelectorTextIntoDoubleByRgx(tipsInCheckSum, tipsInCheckSumRegex);
+            tipsInCheck = convertSelectorTextIntoDoubleByRgx(tipsInCheckSum, tipsInCheckSumRegex);
 
-            Assertions.assertEquals(tipsInTheMiddleSum, tipsInCheck,
+            if (!hookahButton.exists() && !kitchenButton.exists())
+                Assertions.assertEquals(tipsInTheMiddleSum, tipsInCheck,
                     "Чаевые по центру не совпадают с чаевыми в поле 'Чаевые'");
 
         }
 
-        return tipsInTheMiddleSum;
+        return tipsInCheck;
 
     }
 
@@ -1373,6 +1372,39 @@ public class RootPage extends BaseActions {
         }
 
     }
+
+    @Step("Устанавливаем определенные чаевые")
+    public double setCertainTipsOption(String role,SelenideElement tips) {
+
+        scrollTillBottom();
+
+        switch (role) {
+
+            case "hookah":
+                click(hookahButton);
+                hookahButton.shouldHave(cssValue("border-color",ACTIVE_ROLE_BUTTON_BORDER_COLOR));
+                isElementVisible(tips5);
+                isElementVisible(tips10);
+                isElementVisible(tips15);
+                break;
+
+            case "kitchen" :
+                click(kitchenButton);
+                kitchenButton.shouldHave(cssValue("border-color",ACTIVE_ROLE_BUTTON_BORDER_COLOR));
+                isElementVisible(tips2AndHalf);
+                isElementVisible(tips5);
+                isElementVisible(tips10);
+                break;
+
+        }
+
+        click(tips);
+        activeTipsButton.shouldHave(attributeMatching("class", ".*active.*"));
+
+        return convertSelectorTextIntoDoubleByRgx(tipsInCheckSum,tipsInCheckSumRegex);
+
+    }
+
 
     @Step("Сброс чаевых и проверка на всех полях")
     public void checkTipsAfterReset() {
@@ -2080,7 +2112,7 @@ public class RootPage extends BaseActions {
         HashMap<String, String> temporaryHashMap = new HashMap<>();
 
         String table = convertSelectorTextIntoStrByRgx(tableNumber, "Стол ");
-        String name = waiterName.getText();
+        String name = serviceWorkerName.getText();
         String tips = convertSelectorTextIntoStrByRgx(tipsInCheckSum, tipsInCheckSumRegex);
 
         if (Objects.equals(tips, ""))
@@ -2431,8 +2463,11 @@ public class RootPage extends BaseActions {
 
     public String getWaiterNameFromTapper() {
 
+        if (waiterRoleButton.exists())
+            click(waiterRoleButton);
+
         return waiterRoleButton.exists() || waiterHeading.exists() || tipsInfo.exists() ?
-                waiterName.getText() : UNKNOWN_WAITER;
+                serviceWorkerName.getText() : UNKNOWN_WAITER;
 
     }
 
@@ -2629,6 +2664,139 @@ public class RootPage extends BaseActions {
 
         if(hasPassword)
             isElementVisible(wiFiPassword);
+
+    }
+
+    public void switchAndRefreshBrowserTabWithOrder(String browserTitle) {
+
+        WebDriver driver = WebDriverRunner.getWebDriver();
+        Set<String> handles = driver.getWindowHandles();
+
+        for (String handle : handles) {
+            driver.switchTo().window(handle);
+
+            if (driver.getTitle().matches(browserTitle)) {
+
+                Selenide.refresh();
+                isTableHasOrder();
+                break;
+
+            }
+        }
+    }
+
+    @Step("Проверка цели накоплений на столе")
+    public void isGoalCorrect(String serviceWorkerRole,String goalText) {
+
+        switch (serviceWorkerRole) {
+
+            case "hookah" -> clickRoleButton(hookahButton);
+            case "kitchen"  -> clickRoleButton(kitchenButton);
+            case "no_card_waiter" -> isElementInvisible(tipsContainer);
+
+        }
+
+        if (!goalText.equals("") && !serviceWorkerRole.equals("no_card_waiter") ) {
+
+            isElementVisible(tipsGoalContainer);
+
+        } else if (serviceWorkerRole.equals("no_card_waiter") && !goalText.equals("")) {
+
+            isElementInvisible(waiterRoleButton);
+
+        } else  {
+
+            isElementInvisible(tipsGoalContainer);
+
+        }
+
+        tipsGoalContainer.shouldHave(text(goalText));
+
+    }
+
+    @Step("Проверка что установленное значение по умолчанию чаевыех у кальянщика и кухни это 0%")
+    public void clickRoleButton(SelenideElement roleElement) {
+
+        click(roleElement);
+        Assertions.assertEquals(getCurrentTipsSum(),0 | Integer.parseInt(MIN_SUM_TIPS),
+                "Значение по умолчанию у чаевых не ровно 0 или 49");
+        activeTipsButton.shouldHave(matchText("0%"));
+
+    }
+
+    public void isServiceWorkerButtonActive(String typeAvatar) {
+
+        switch (typeAvatar) {
+
+            case "hookah" ->
+                    waiterRoleButton.shouldHave(cssValue("border-color",ACTIVE_ROLE_BUTTON_BORDER_COLOR));
+            case "kitchen" ->
+                    kitchenButton.shouldHave(cssValue("border-color",ACTIVE_ROLE_BUTTON_BORDER_COLOR));
+
+        }
+
+    }
+
+    @Step("Проверка что на столе отключены чаевые для определенной роли")
+    public void isTipsDeactivated(String serviceWorkerRole) {
+
+        switch (serviceWorkerRole) {
+
+            case "hookah" -> isElementInvisible(hookahButton);
+            case "kitchen" -> isElementInvisible(kitchenButton);
+
+        }
+
+    }
+
+
+    public void isAvatarCorrect(boolean isAvatar) {
+
+        if (isAvatar) {
+
+            isImageCorrect(serviceWorkerImageSelector, "Аватарка должна быть корректной");
+            isElementVisible(serviceWorkerImage);
+
+        } else {
+
+            isElementInvisible(serviceWorkerImage);
+
+        }
+
+    }
+
+    @Step("Проверка аватарки на столе")
+    public void isServiceWorkerAvatarCorrect(String typeAvatar, boolean isAvatar) {
+
+        switch (typeAvatar) {
+
+            case "waiter":
+
+                isAvatarCorrect(isAvatar);
+                break;
+
+            case "hookah":
+
+                click(hookahButton);
+                isAvatarCorrect(isAvatar);
+                break;
+
+            case "kitchen":
+
+                click(kitchenButton);
+                isAvatarCorrect(isAvatar);
+                break;
+
+        }
+
+    }
+
+    @Step("Проверка имени работника на столе")
+    public void isServiceWorkerNameCorrect(String waiterName) {
+
+        click(hookahButton);
+        isElementVisible(serviceWorkerName);
+        serviceWorkerName.shouldHave(text(waiterName));
 
     }
 

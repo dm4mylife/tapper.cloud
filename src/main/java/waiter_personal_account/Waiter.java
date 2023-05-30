@@ -2,9 +2,11 @@ package waiter_personal_account;
 
 import admin_personal_account.AdminAccount;
 import com.codeborne.selenide.SelenideElement;
+import com.github.javafaker.Faker;
 import common.BaseActions;
 import data.selectors.WaiterPersonalAccount;
 import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
 import total_personal_account_actions.AuthorizationPage;
 
 import java.io.File;
@@ -15,8 +17,8 @@ import static data.Constants.ROBOCOP_IMG_PATH;
 import static data.Constants.TestData.AdminPersonalAccount.*;
 import static data.Constants.TestData.Best2Pay.*;
 import static data.selectors.AdminPersonalAccount.Profile.*;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImage;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImageNotSelenide;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.serviceWorkerImage;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.serviceWorkerImageSelector;
 import static data.selectors.WaiterPersonalAccount.saveButton;
 import static data.selectors.WaiterPersonalAccount.*;
 
@@ -39,6 +41,17 @@ public class Waiter extends BaseActions {
         isElementVisible(WaiterPersonalAccount.waiterName);
         isElementVisible(privateDataContainer);
 
+        if (linkTelegramLogin.exists()) {
+
+            isElementVisible(linkTelegramLogin);
+
+        } else {
+
+            isElementVisible(telegramLogin);
+            isElementVisible(unlinkTelegramLogin);
+
+        }
+
         isElementVisible(waiterEmail);
         waiterEmail.shouldBe(disabled);
         isElementVisible(personalInformationContainer);
@@ -48,6 +61,9 @@ public class Waiter extends BaseActions {
         waiterPasswordConfirmation.shouldHave(empty);
         isElementVisible(linkWaiterCard);
         isElementVisible(saveButton);
+        isElementVisible(waiterGoalContainer);
+        isElementVisible(waiterGoalMaxCharsCounter);
+        isElementVisible(tipsBlockInfoContainer);
 
     }
 
@@ -69,8 +85,8 @@ public class Waiter extends BaseActions {
     @Step("Проверка добавленной фотографии на столе")
     public void checkDownloadedWaiterImageOnTable() {
 
-        isElementVisible(waiterImage);
-        isImageCorrect(waiterImageNotSelenide,"Изображение официанта не корректное или битое");
+        Assertions.assertTrue(serviceWorkerImage.isDisplayed());
+        isImageCorrect(serviceWorkerImageSelector,"Изображение официанта не корректное или битое");
 
     }
 
@@ -105,11 +121,11 @@ public class Waiter extends BaseActions {
     @Step("Проверка смены имени официанта на столе")
     public void checkChangedNameOnTable() {
 
-        data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName.shouldHave(text(ROBOCOP_WAITER_CHANGED_NAME));
+        data.selectors.TapperTable.RootPage.TipsAndCheck.serviceWorkerName.shouldHave(text(ROBOCOP_WAITER_CHANGED_NAME));
 
     }
 
-    @Step("Проверка изменения телеграмм логина")
+    @Step("Проверка изменения имени официанта")
     public void setNameToDefault() {
 
         clearText(WaiterPersonalAccount.waiterName);
@@ -196,7 +212,6 @@ public class Waiter extends BaseActions {
         isElementInvisible(confPolicyModal);
         isElementVisible(confPolicyError);
 
-
     }
 
     @Step("Соглашаемся с политикой конфиденциальности")
@@ -207,5 +222,51 @@ public class Waiter extends BaseActions {
         isTextContainsInURL(PERSONAL_ACCOUNT_PROFILE_STAGE_URL);
 
     }
+
+    @Step("Устанавливаем цель накоплений")
+    public String setWaiterGoal() {
+
+        Faker faker = new Faker();
+        String newGoal = faker.superhero().name();
+
+        setGoal(newGoal);
+
+        return newGoal;
+
+    }
+
+    @Step("Устанавливаем цель накоплений с превышением максимального количества символов")
+    public void setWaiterGoalMaxLimit() {
+
+        Faker faker = new Faker();
+        String newGoal = faker.lorem().fixedString(91);
+
+        setGoal(newGoal);
+
+        isElementVisible(waiterGoalErrorInput);
+
+        clearWaiterGoal();
+
+    }
+
+    @Step("Очищаем цель накоплений")
+    public void clearWaiterGoal() {
+
+        setGoal("");
+
+    }
+
+    public void setGoal(String value) {
+
+        clearText(waiterGoalInput);
+        sendKeys(waiterGoalInput,value);
+
+        click(saveButton);
+
+        waiterGoalInput.shouldHave(value(value));
+
+    }
+
+
 
 }

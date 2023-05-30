@@ -101,7 +101,7 @@ class EveryDishStatusTest extends ScreenMobileTest {
         rootPageNestedTests.chooseLastDish(allDishesInOrder);
 
         tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,tableNumberRegex);
-        waiterName = TapperTable.RootPage.TipsAndCheck.waiterName.getText();
+        waiterName = TapperTable.RootPage.TipsAndCheck.serviceWorkerName.getText();
 
         totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();

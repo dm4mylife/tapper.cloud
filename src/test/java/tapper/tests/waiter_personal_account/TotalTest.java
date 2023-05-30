@@ -2,6 +2,7 @@ package tapper.tests.waiter_personal_account;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Selenide;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -19,9 +20,7 @@ import java.util.LinkedHashMap;
 import static api.ApiData.OrderData.*;
 import static data.Constants.TestData.AdminPersonalAccount.WAITER_LOGIN_EMAIL;
 import static data.Constants.TestData.AdminPersonalAccount.WAITER_PASSWORD;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_555;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterImage;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.serviceWorkerImage;
 
 
 @Epic("Личный кабинет официант ресторана")
@@ -42,7 +41,8 @@ class TotalTest extends PersonalAccountTest {
     int tapperTableTab = 1;
     static String guid;
     static int amountDishesForFillingOrder = 3;
-    ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
+    static String waiterGoal;
+
 
     RootPage rootPage = new RootPage();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
@@ -54,6 +54,8 @@ class TotalTest extends PersonalAccountTest {
     @Order(1)
     @DisplayName("Создание заказа на кассе")
     void createAndFillOrder() {
+
+        ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
 
@@ -89,7 +91,7 @@ class TotalTest extends PersonalAccountTest {
     void checkDownloadedWaiterImageOnTableNotExists() {
 
         rootPageNestedTests.openNewTabAndSwitchTo(tableUrl);
-        rootPage.isElementInvisible(waiterImage);
+        rootPage.isElementInvisible(serviceWorkerImage);
 
     }
 
@@ -153,6 +155,54 @@ class TotalTest extends PersonalAccountTest {
     void changeWaiterPassword() {
 
         waiter.changeWaiterPassword();
+
+    }
+
+    @Test
+    @Order(11)
+    @DisplayName("Устанавливаем цель накоплений у официанта c превышением лимита символов")
+    void setWaiterGoalMaxLimit() {
+
+        waiter.setWaiterGoalMaxLimit();
+
+    }
+
+    @Test
+    @Order(12)
+    @DisplayName("Устанавливаем цель накоплений у официанта")
+    void setWaiterGoal() {
+
+      waiterGoal = waiter.setWaiterGoal();
+
+    }
+
+    @Test
+    @Order(13)
+    @DisplayName("Проверяем на столе цель накоплений")
+    void checkGoalOnTable() {
+
+        rootPage.switchBrowserTab(tapperTableTab);
+        rootPage.isGoalCorrect("waiter",waiterGoal);
+
+    }
+
+    @Test
+    @Order(14)
+    @DisplayName("Очищаем цель накоплений в админке")
+    void clearGoal() {
+
+        rootPage.switchBrowserTab(adminTab);
+        waiter.clearWaiterGoal();
+
+    }
+
+    @Test
+    @Order(15)
+    @DisplayName("Проверяем на столе что цель накоплений удалилась")
+    void isClearGoalCorrect() {
+
+        rootPage.switchBrowserTab(tapperTableTab);
+        rootPage.isGoalCorrect("waiter","");
 
     }
 

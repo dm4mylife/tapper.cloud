@@ -117,6 +117,8 @@ public class TapperTable {
         public static class TipsAndCheck {
 
             public static final SelenideElement tipsWaiter = $(".tipsProfile");
+            public static final SelenideElement tipsGoalContainer = $(".tipsProfile__dream");
+
 
             public static final ElementsCollection roleButtons = $$(".tipsButton");
             public static final SelenideElement waiterRoleButton =
@@ -124,14 +126,14 @@ public class TapperTable {
 
             public static final SelenideElement waiterHeading = $(".tipsProfile__position");
 
-            public static final SelenideElement hookahServerButton =
+            public static final SelenideElement hookahButton =
                     $x("//*[contains(@class,'tipsButton') and contains(text(),'Кальянщик')]");
             public static final SelenideElement kitchenButton =
                     $x("//*[contains(@class,'tipsButton') and contains(text(),'Кухня')]");
 
-            public static final String waiterImageNotSelenide = ".tipsProfile__photo";
-            public static final SelenideElement waiterImage = $(".tipsProfile__photo");
-            public static final SelenideElement waiterName = $(".tipsProfile__name");
+            public static final String serviceWorkerImageSelector = ".tipsProfile__photo";
+            public static final SelenideElement serviceWorkerImage = $(".tipsProfile__photo");
+            public static final SelenideElement serviceWorkerName = $(".tipsProfile__name");
             public static final SelenideElement tipsInCheckField = $("[data-auto=\"tipsInCheckField\"][style=\"\"]");
             public static final SelenideElement tipsInCheckSum =
                     $x("//*[@data-auto='tipsInCheckField'][.//*[contains(text(),'Чаевые')]]/span[2]");

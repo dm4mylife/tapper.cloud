@@ -87,7 +87,7 @@ public class BaseActions {
 
     }
 
-    @Step("Переключение на другого гостя ({guest})")
+    @Step("Переключение на другого гостя")
     public void switchTab(int tabIndex) {
 
         Selenide.switchTo().window(tabIndex);
@@ -153,6 +153,7 @@ public class BaseActions {
         Selenide.switchTo().window(tabIndex);
 
     }
+
 
     @Step("Принудительно прячем способы оплаты и футер")
     public void hidePaymentOptionsAndTapBar() {

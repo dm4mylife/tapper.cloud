@@ -111,6 +111,7 @@ public class ApiData {
 
         public static final String TABLE_CODE_111 = "12";
         public static final String Iiko_TABLE_CODE_111 = "111";
+
         public static final String TABLE_CODE_222 = "21";
         public static final String TABLE_CODE_10 = "10";
         public static final String TABLE_CODE_333 = "22";
@@ -133,6 +134,9 @@ public class ApiData {
         public static final String WAITER_MEGATRON_VERIFIED_WITH_CARD = "33";
         public static final String WAITER_TERMINATOR_VERIFIED_NON_CARD = "233";
         public static final String WAITER_IRONMAN_NON_VERIFIED_NON_CARD = "2333";
+
+        public static final String WAITER_NON_CARD_NEVER_INVITED = "39";
+        public static final String WAITER_NON_CARD_HAS_GOAL = "40";
         public static final String BARNOE_PIVO = "1000361";
 
         public static final String GLAZUNYA = "1000368";

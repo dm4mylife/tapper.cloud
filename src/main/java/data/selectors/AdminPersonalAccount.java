@@ -88,11 +88,12 @@ public class AdminPersonalAccount {
         public static final String telegramItemsLoginInputSelector = "input";
         public static final SelenideElement privateDataContainer =
                 $x("//*[@class='section-profile__legend'][..//*[contains(text(),'Личные данные')]]");
+
+
         public static final SelenideElement personalInformationContainer =
                 $x("//*[@class='section-profile__legend']" +
                         "[..//*[contains(text(),'Персональная информация')]]");
-        public static final SelenideElement masterInformationContainer =
-                $(".section-profile__legend-star-container");
+
         public static final ElementsCollection telegramItemsMasterIcon = $$(".section-profile__star");
         public static final String telegramItemsMasterSvgSelector = ".section-profile__star svg path";
         public static final ElementsCollection telegramItemsMasterSvg =
@@ -561,19 +562,49 @@ public class AdminPersonalAccount {
     public static class Tips {
 
         public static final SelenideElement tipsContainer = $(".vBlockTipsTeam");
-        public static final SelenideElement tipsInfoContainer = $(".vBlockTipsTeam__info");
+        public static final SelenideElement tipsInfoContainer = $(".vSectionTips__content [class$='__info']");
+        public static final SelenideElement imageContainer = $(".section-profile__photo-block");
+        public static final SelenideElement avatarStub =
+                $(".section-profile__photo-wrapper img[src*=v-icon-avatar]");
+        public static final SelenideElement avatarImage =
+                $(".section-profile__photo-wrapper img:not([src*=v-icon-avatar])");
+        public static final String avatarImgSelector = ".section-profile__photo-wrapper img";
+
+        public static final SelenideElement deleteAvatarButton = $(".section-profile__photo-del");
         public static final SelenideElement tipsTypeButtons = $(".vSectionTips__switching-tabs");
+        public static final SelenideElement kitchenTipsButton =
+                $x("//*[contains(@class,'vSectionTips__switching-tabs') and contains(.,'Чаевые кухне')]");
+        public static final SelenideElement downloadAvatarInput = $(".section-profile__file");
+
         public static final SelenideElement linCreditCardButton =
                 $x("//button[text()=' Привязать карту ']");
-        public static final SelenideElement changeCreditCard =
-                $x(".vBlockTipsTeam__change-map");
-        public static final SelenideElement hookahNameInput = $x("[id=\"nameHookah\"]");
-        public static final SelenideElement hookahGoalInput = $x("[id=\"purposeHookah\"]");
-        public static final SelenideElement kitchenGoalInput = $x("[id=\"purposeKitchen\"]");
-        public static final SelenideElement tipsCheckbox =
-                $(".vBlockCheckboxTips__checkbox .vClickedCheckbox__view");
+
+        public static final SelenideElement hookahNameContainer = $("div>[id=\"nameHookah\"]");
+        public static final SelenideElement hookahNameInput = $("[id=\"nameHookah\"]");
+        public static final SelenideElement hookahGoaContainer = $("div>[id=\"purposeHookah\"]");
+        public static final SelenideElement inputError = $(".vLandingInput.err");
+
+
+
+        public static final SelenideElement hookahGoalInput = $("[id=\"purposeHookah\"]");
+        public static final SelenideElement kitchenGoalContainer = $("div>[id=\"purposeKitchen\"]");
+
+        public static final SelenideElement kitchenGoalInput = $("[id=\"purposeKitchen\"]");
+        public static final SelenideElement tipsCheckbox = $(".vBlockCheckboxTips .vClickedCheckbox__view");
+
+        public static final SelenideElement maxGoalCharsCounter = $("[class$='__input-number']");
+        public static final SelenideElement changeCreditCard = $("[class$='__change-map']");
+
+        public static final SelenideElement linkedCardButton =
+                $x("//*[contains(@class,'vButton')][contains(.,'Карта привязана')]");
+        public static final SelenideElement toLinkCardButton =
+                $x("//*[contains(@class,'vButton')][contains(.,'Привязать карту')]");
+        public static final SelenideElement saveButton =
+                $x("//*[contains(@class,'vButton')][contains(.,'Сохранить')]");
         public static final String choseDateButtonSelector = ".mx-datepicker .mx-input-wrapper";
         public static final SelenideElement downloadTable = $(".vButton");
+
+
 
     }
 

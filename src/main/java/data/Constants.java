@@ -33,6 +33,7 @@ public class Constants {
             "Вы отправили запрос на восстановление пароля от личного кабинета";
     public static final String PASTA_IMG_PATH = "src/main/resources/pasta.jpg";
     public static final String LOADER_GIF_PATH = "src/main/resources/loader.gif";
+    public static final String HOOKAH_AVATAR_JPG = "src/main/resources/hookahAvatar.jpg";
     public static final String OLD_LOADER_GIF_PATH = "src/main/resources/oldLoader.gif";
     public static final String ROBOCOP_IMG_PATH = "src/main/resources/robocop.jpeg";
     public static final String downloadFolderPath = "build/downloads/qr";
@@ -115,11 +116,13 @@ public class Constants {
             public static final double SERVICE_CHARGE_MAX = 299.0;
             public static final String TIPS_ERROR_MSG = " Минимальная сумма чаевых 49 ₽ ";
             public static final String MIN_SUM_FOR_TIPS_ERROR = "48";
-            public static final String MIN_SUM_TIPS_ = "49";
+            public static final String MIN_SUM_TIPS = "49";
             public static final String COOKIE_GUEST_SECOND_USER = "123457";
             public static final String COOKIE_SESSION_SECOND_USER = "1235";
             public static final String PART_PAY_STATUS_TEXT = " Статус заказа: Частично оплачен ";
             public static final String FULL_PAY_STATUS_TEXT = " Статус заказа: Полностью оплачен ";
+
+            public static final String ACTIVE_ROLE_BUTTON_BORDER_COLOR = "rgb(103, 100, 255)";
 
         }
 
@@ -171,9 +174,16 @@ public class Constants {
 
             public static final String ADMIN_RESTAURANT_LOGIN_EMAIL = "kirillk8888@yandex.ru";
             public static final String ADMIN_RESTAURANT_PASSWORD = "999999";
+
             public static final String ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String WAITER_LOGIN_EMAIL = "jagexo5827@khaxan.com";
             public static final String WAITER_PASSWORD = "123456";
+
+            public static final String WAITER_NO_CARD_HAS_GOAL_LOGIN_EMAIL = "webohe1675@mevori.com";
+            public static final String WAITER_NO_CARD_HAS_GOAL_PASSWORD = "590f0017-8464-4259-b3d5-8425855073b0";
+            public static final String WAITER_GOAL_TEXT = "У самурая нет цели, только путь";
+
+
             public static final String WAITER_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String ROBOCOP_WAITER_CHANGED_NAME = "Робокопище";
             public static final String TELEGRAM_AUTO_CHANNEL_LOGIN = "-1001764474981";

@@ -19,7 +19,7 @@ import static com.codeborne.selenide.Condition.text;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.TestData.AdminPersonalAccount.MEGATRON_WAITER;
 import static data.Constants.TestData.AdminPersonalAccount.MEGATRON_WAITER_ID;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.waiterName;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.serviceWorkerName;
 
 
 @Epic("RKeeper")
@@ -75,7 +75,7 @@ class ChangedWaiterTest extends BaseTest {
 
         rootPage.refreshPage();
         rootPage.isTableHasOrder();
-        waiterName.shouldHave(text(MEGATRON_WAITER));
+        serviceWorkerName.shouldHave(text(MEGATRON_WAITER));
 
     }
 

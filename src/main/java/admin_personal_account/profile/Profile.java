@@ -53,7 +53,7 @@ public class Profile extends BaseActions {
         isElementsListVisible(telegramItemsCloseIcon);
         isElementVisible(privateDataContainer);
         isElementVisible(profileContainer);
-        isElementVisible(masterInformationContainer);
+
 
     }
 
