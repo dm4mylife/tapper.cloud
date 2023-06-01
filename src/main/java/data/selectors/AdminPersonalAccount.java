@@ -443,6 +443,52 @@ public class AdminPersonalAccount {
     public static class OperationsHistory {
 
         public static final SelenideElement operationsHistoryContainer = $(".VSectionHistory");
+        public static final SelenideElement historyOperationTabButton =
+                $x("//*[contains(@class,'tabsHeader__btn') and text()='История операций']");
+
+
+
+
+        public static final SelenideElement reportTabButton =
+                $x("//*[contains(@class,'tabsHeader__btn') and text()='Отчет']");
+        public static final SelenideElement reportContainer = $(".reportAdmin");
+        public static final SelenideElement choseOnlyOneDayCheckbox = $(".reportAdmin .vCheckbox");
+        public static final SelenideElement oneDayReportContainer = $(".reportAdmin__container.halfWidth");
+        public static final SelenideElement fromDateCalendarInput =
+                $(".reportAdmin__calendar div:nth-child(1) input");
+        public static final SelenideElement toDateCalendarInput =
+                $(".reportAdmin__calendar div:nth-child(3) input");
+        public static final SelenideElement fromDateCalendarContainer = $(".reportAdmin__field:nth-child(1)");
+        public static final SelenideElement toDateCalendarContainer = $(".reportAdmin__field:nth-child(3)");
+        public static final SelenideElement fromTimeCalendarContainer = $(".reportAdmin__field:nth-child(2)");
+        public static final SelenideElement toTimeCalendarContainer = $(".reportAdmin__field:nth-child(4)");
+
+        public static final SelenideElement openedCalendarContainer =
+                $(".mx-datepicker-main.mx-datepicker-popup");
+
+        public static final ElementsCollection hoursCalendar = $$(".mx-time-column:first-child .mx-time-item");
+
+        public static final ElementsCollection minutesCalendar =
+                $$(".mx-time-column:last-child .mx-time-item");
+
+        public static final String fromDateCalendarSelector =
+                ".reportAdmin__calendar .reportAdmin__field:nth-of-type(1) .mx-datepicker .mx-input-wrapper";
+        public static final String fromTimeCalendarSelector =
+                ".reportAdmin__calendar .reportAdmin__field:nth-of-type(2) .mx-datepicker .mx-input-wrapper";
+        public static final String toDateCalendarSelector =
+                ".reportAdmin__calendar .reportAdmin__field:nth-of-type(3) .mx-datepicker .mx-input-wrapper";
+        public static final String toTimeCalendarSelector =
+                ".reportAdmin__calendar .reportAdmin__field:nth-of-type(4) .mx-datepicker .mx-input-wrapper";
+
+
+
+
+
+        public static final SelenideElement reportInfoContainer = $(".reportAdmin .reportAdmin__fieldset");
+        public static final SelenideElement downloadReportButton =
+                $x("//*[contains(@class,'vButton') and contains(.,'Выгрузить отчет')]");
+
+
         public static final SelenideElement forWeekPeriodButton =
                 $(".vHistoryBlockHeader__switcher [for=\"day\"]");
         public static final SelenideElement forMonthPeriodButton =

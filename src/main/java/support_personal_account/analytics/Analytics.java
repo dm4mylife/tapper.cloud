@@ -9,6 +9,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.files.FileFilters.withExtension;
 import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.Analytics.*;
@@ -49,8 +50,11 @@ public class Analytics extends BaseActions {
     @Step("Загружаем таблицу")
     public void downloadFile() throws FileNotFoundException {
 
-        Assertions.assertNotNull(downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
-                "Файл не может быть скачен");
+        downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("png"));
+
+
+        //Assertions.assertNotNull(downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("png")),
+               // "Файл не может быть скачен");
 
     }
 

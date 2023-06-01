@@ -54,6 +54,8 @@ public class BaseTest {
         Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
         Configuration.browserCapabilities.setCapability(ChromeOptions.LOGGING_PREFS, loggingPreferences);
 
+        Configuration.browserCapabilities.setCapability("webdriver.chrome.args", new String[]{"--log-level=3"});
+
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", "iPhone 12 Pro");
         options.setExperimentalOption("mobileEmulation", mobileEmulation);

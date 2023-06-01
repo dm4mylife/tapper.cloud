@@ -95,7 +95,7 @@ class TipsLogicBySumWith2GuestsTest extends BaseTest {
     @DisplayName("Проверяем что логика чаевых по сумме всех позиций и в б2п корректна у второго гостя")
     void checkDishesByDefaultBySecondGuest() {
 
-        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
+        double cleanDishesSum = rootPage.countAllNonPaidDAndChosenDishesInOrder();
         nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
 
     }

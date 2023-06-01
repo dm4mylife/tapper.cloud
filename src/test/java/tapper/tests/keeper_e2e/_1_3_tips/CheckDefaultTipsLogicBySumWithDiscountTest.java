@@ -2,6 +2,7 @@ package tapper.tests.keeper_e2e._1_3_tips;
 
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Selenide;
 import common.BaseActions;
 import data.TableData;
 import io.qameta.allure.Epic;
@@ -19,6 +20,8 @@ import java.util.Map;
 import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.TapperTable;
 import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
+import static data.Constants.TestData.TapperTable.COOKIE_GUEST_SECOND_USER;
+import static data.Constants.TestData.TapperTable.COOKIE_SESSION_SECOND_USER;
 import static data.selectors.TapperTable.RootPage.DishList.allNonPaidAndNonDisabledDishes;
 import static data.selectors.TapperTable.RootPage.DishList.dishNameSelector;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
@@ -97,7 +100,7 @@ class CheckDefaultTipsLogicBySumWithDiscountTest extends BaseTest {
 
         rootPage.activateDivideCheckSliderIfDeactivated();
         rootPage.chooseAllNonPaidDishes();
-        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrder();
+        double cleanDishesSum = rootPage.countAllNonPaidDishesInOrderIgnoreDiscount();
         nestedTests.checkDefaultTipsBySumAndScLogicBySumAndB2P(cleanDishesSum);
 
     }
@@ -180,11 +183,10 @@ class CheckDefaultTipsLogicBySumWithDiscountTest extends BaseTest {
         allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
             BaseActions.click(element.$(dishNameSelector));
-            rootPage.isDefaultTipsBySumLogicCorrect();
+            double cleanDishesSum = rootPage.countOnlyAllChosenWithFullPriceDishesDivided();
+            rootPage.isDefaultTipsBySumLogicCorrect(cleanDishesSum);
 
         });
-
-        rootPage.deactivateDivideCheckSliderIfActivated();
 
     }
 

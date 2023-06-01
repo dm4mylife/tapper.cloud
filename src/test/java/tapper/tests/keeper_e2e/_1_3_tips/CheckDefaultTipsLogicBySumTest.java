@@ -179,7 +179,8 @@ class CheckDefaultTipsLogicBySumTest extends BaseTest {
         allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
             BaseActions.click(element.$(dishNameSelector));
-            rootPage.isDefaultTipsBySumLogicCorrect();
+            double cleanDishesSum = rootPage.countOnlyAllChosenDishesDivided();
+            rootPage.isDefaultTipsBySumLogicCorrect(cleanDishesSum);
 
         });
 

@@ -435,19 +435,14 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Проверка что логика установленных чаевых по умолчанию от общей суммы корректна")
-    public void isDefaultTipsBySumLogicCorrect() {
+    public void isDefaultTipsBySumLogicCorrect(double totalDishSum) {
 
         scrollTillBottom();
-        double totalDishSum = getClearOrderAmount();
 
-        if (discountField.exists() && divideCheckSliderActive.exists()) {
+       // double totalDishSum = getClearOrderAmount();
 
-            totalDishSum = countAllNonPaidDishesInOrderIgnoreDiscount();
-
-        }
-
-
-        System.out.println(totalDishSum + " total sum");
+       // if (divideCheckSliderActive.exists())
+          //  totalDishSum = countAllNonPaidDishesInOrderIgnoreDiscount();
 
         if (totalDishSum < 490) {
 
@@ -546,6 +541,7 @@ public class RootPage extends BaseActions {
         showPaymentOptionsAndTapBar();
 
     }
+
 
     @Step("Выбираем первое и последнее блюдо")
     public void choseFirstAndLastDishes(ElementsCollection elements) {
@@ -881,6 +877,7 @@ public class RootPage extends BaseActions {
         return totalSumInOrder;
 
     }
+
 
     @Step("Считаем сумму не оплаченных,незаблокированных позиций в заказе со скидкой")
     public double countAllNonPaidDiscountDishesInOrder() {
@@ -1864,8 +1861,20 @@ public class RootPage extends BaseActions {
         String orderAmount = orderAmountString.replaceAll("\\.","");
         paymentData.put("order_amount", orderAmount);
 
-        String tips = totalTipsSumInMiddle.exists() && !totalTipsSumInMiddle.getValue().equals("0") ?
-                totalTipsSumInMiddle.getValue() + "00" : "0";
+        String tips;
+        String waiter = getWaiterNameFromTapper();
+
+        if (waiter.equals(UNKNOWN_WAITER)) {
+
+            tips = "0";
+
+        } else {
+
+            tips = totalTipsSumInMiddle.exists() && !totalTipsSumInMiddle.getValue().equals("0") ?
+                    totalTipsSumInMiddle.getValue() + "00" : "0";
+
+        }
+
 
         paymentData.put("tips", tips);
 
@@ -2274,7 +2283,8 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Сбор данных со стола для проверки с телеграм сообщением")
-    public LinkedHashMap<String, String> getTapperDataForTgCallWaiterMsg(String waiter,String callWaiterComment, String tableNumber) {
+    public LinkedHashMap<String, String> getTapperDataForTgCallWaiterMsg(String waiter,String callWaiterComment,
+                                                                         String tableNumber) {
 
         LinkedHashMap<String, String> tapperDataForTgMsg = new LinkedHashMap<>();
 
@@ -2355,7 +2365,11 @@ public class RootPage extends BaseActions {
                 getClearOrderAmount() - getCurrentSCSum() - getCurrentTipsSum();
         restToPayDouble = updateDoubleByDecimalFormat(restToPayDouble);
 
+        String waiter = getWaiterNameFromTapper();
         double tipsDouble = getTipsFromTapper();
+
+        if (waiter.equals(UNKNOWN_WAITER))
+            tipsDouble = 0;
 
         if (serviceChargeCheckboxSvg.getCssValue("display").equals("none")) {
 
@@ -2442,7 +2456,7 @@ public class RootPage extends BaseActions {
             
         }
 
-        String waiter = getWaiterNameFromTapper();
+
         String restaurantName = getRestaurantNameFromTapper(cashDeskType);
 
        /* System.out.println("\nbefore status\n");
@@ -2466,8 +2480,14 @@ public class RootPage extends BaseActions {
         if (waiterRoleButton.exists())
             click(waiterRoleButton);
 
-        return waiterRoleButton.exists() || waiterHeading.exists() || tipsInfo.exists() ?
-                serviceWorkerName.getText() : UNKNOWN_WAITER;
+        if ((waiterHeading.exists() && waiterHeading.getText().equals("Официант")) ||
+                (tipsInfo.exists() && tipsInfo.getText().matches("Деньги сразу поступят официанту на карту"))) {
+
+            return serviceWorkerName.getText();
+
+        }
+
+        return UNKNOWN_WAITER;
 
     }
 
@@ -2491,8 +2511,9 @@ public class RootPage extends BaseActions {
 
         LinkedHashMap<String, String> tapperDataForTgMsg = new LinkedHashMap<>();
 
-        tapperDataForTgMsg.put("restaurantName", restaurantName);
         tapperDataForTgMsg.put("table", table);
+
+
         tapperDataForTgMsg.put("sumInCheck", sumInCheck);
         tapperDataForTgMsg.put("restToPay", restToPay);
         tapperDataForTgMsg.put("tips", tips);
@@ -2511,6 +2532,7 @@ public class RootPage extends BaseActions {
         tapperDataForTgMsg.put("payStatus", payStatus);
         tapperDataForTgMsg.put("orderStatus", orderStatus);
         tapperDataForTgMsg.put("waiter", waiter);
+        tapperDataForTgMsg.put("restaurantName", restaurantName);
 
         return tapperDataForTgMsg;
 

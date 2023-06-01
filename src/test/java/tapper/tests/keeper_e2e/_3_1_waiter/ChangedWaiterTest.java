@@ -23,7 +23,7 @@ import static data.selectors.TapperTable.RootPage.TipsAndCheck.serviceWorkerName
 
 
 @Epic("RKeeper")
-@Feature("Полная оплата")
+@Feature("Официант")
 @Story("Смена официанта в заказе")
 @DisplayName("Смена официанта в заказе")
 

@@ -57,6 +57,10 @@ public class BaseActions {
         element.shouldBe(visible);
     }
 
+    public void isElementVisibleOnPage(@NotNull SelenideElement element) {
+        Assertions.assertTrue(element.isDisplayed());
+    }
+
     @Step("Элемент присутствует на странице в ходе длительной загрузки ({time}сек.)")
     public void isElementVisibleDuringLongTime(@NotNull SelenideElement element, int time) {
 

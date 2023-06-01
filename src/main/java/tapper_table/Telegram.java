@@ -188,7 +188,6 @@ public class Telegram {
         tgParsedText.put("tips", tips);
         tgParsedText.put("paySum", paySum);
         tgParsedText.put("totalPaid", totalPaid);
-        tgParsedText.put("restaurantName", restaurantName);
 
         if (textMsg.contains("Скидка:")) {
 
@@ -205,6 +204,7 @@ public class Telegram {
         tgParsedText.put("payStatus", payStatus);
         tgParsedText.put("orderStatus", orderStatus);
         tgParsedText.put("waiter", waiter);
+        tgParsedText.put("restaurantName", restaurantName);
 
         return tgParsedText;
 

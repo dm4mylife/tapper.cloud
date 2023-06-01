@@ -215,6 +215,9 @@ public class Constants {
             public static final String LIMIT_CHARS_NAME_BY_GUEST_COUNTER = "61 / 61";
             public static final String CHOSEN_MENU_CATEGORY = "rgb(213, 219, 241)";
             public static final String EDIT_DISH_ERROR = "rgba(236, 78, 78, 1)";
+            public static final String PERIOD_BUTTON_BORDER = "rgba(103, 100, 255, 1)";
+
+
             static Faker faker = new Faker();
             static String randomWords = faker.lorem().fixedString(7);
             public static final String OVER_LIMIT_CHARS_DESCRIPTIONS_INPUT =

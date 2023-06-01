@@ -13,8 +13,4 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
 })
 @Suite
-@SuiteDisplayName("fourth")
-public class _4_ThreadTestSuite {
-
-
-}
+class _4_ThreadTestSuite { }

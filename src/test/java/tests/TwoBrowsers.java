@@ -42,7 +42,7 @@ public class TwoBrowsers {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-infobars");
         options.addArguments("--disable-notifications");

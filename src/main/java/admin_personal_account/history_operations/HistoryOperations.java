@@ -9,6 +9,7 @@ import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -17,6 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.codeborne.selenide.Condition.*;
+import static data.Constants.SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN;
+import static data.Constants.TestData.AdminPersonalAccount.PERIOD_BUTTON_BORDER;
+import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.*;
 import static data.selectors.TapperTable.RootPage.Menu.menuDishPhotosBy;
@@ -43,6 +47,123 @@ public class HistoryOperations extends BaseActions {
         operationsHistoryContainer.shouldBe(visible);
 
     }
+
+    @Step("Переход в таб Отчет")
+    public void goToReportTab() {
+
+        click(reportTabButton);
+        isElementVisible(reportContainer);
+        isElementVisible(choseOnlyOneDayCheckbox);
+        isElementVisible(fromDateCalendarContainer);
+        isElementVisible(toDateCalendarContainer);
+        isElementVisible(fromTimeCalendarContainer);
+        isElementVisible(toTimeCalendarContainer);
+        isElementVisible(reportInfoContainer);
+        isElementVisible(downloadReportButton);
+
+        isElementVisibleOnPage(fromDateCalendarContainer);
+
+    }
+
+    @Step("Проверка элементов, выставление диапазона в отчете одного дня")
+    public void isOneDayReportCorrect(String month,int day) {
+
+        click(choseOnlyOneDayCheckbox);
+        isElementVisible(oneDayReportContainer);
+
+        choseFromDatePeriod(month,day);
+
+    }
+
+
+    @Step("Выбор диапазона одним днем")
+    public void choseFromDatePeriod(String month,int day) {
+
+        clickByJs(fromDateCalendarSelector);
+        isElementVisible(openedCalendarContainer);
+
+        if (!currentMonth.getText().equals(month)) {
+
+            do {
+
+                leftArrowMonthPeriod.shouldBe(visible,enabled);
+                click(leftArrowMonthPeriod);
+
+            } while(!currentMonth.getText().equals(month));
+
+        }
+
+        click(daysOnMonthPeriod.get(day - 1));
+        isElementInvisible(openedCalendarContainer);
+        fromDateCalendarInput.shouldNotHave(empty);
+
+    }
+
+    @Step("Выбор диапазона даты")
+    public void choseFromAndToDatePeriod(String month,int from, int to) {
+
+        clickByJs(fromDateCalendarSelector);
+        isElementVisible(openedCalendarContainer);
+
+        setDate(month,from,fromDateCalendarInput);
+
+        clickByJs(toDateCalendarSelector);
+        isElementVisible(openedCalendarContainer);
+
+        setDate(month,to,toDateCalendarInput);
+
+    }
+
+    public void setDate(String month,int day, SelenideElement input) {
+
+        if (!currentMonth.getText().equals(month)) {
+
+            do {
+
+                leftArrowMonthPeriod.shouldBe(visible,enabled);
+                click(leftArrowMonthPeriod);
+
+            } while(!currentMonth.getText().equals(month));
+
+        }
+
+        click(daysOnMonthPeriod.get(day - 1));
+        isElementInvisible(openedCalendarContainer);
+        input.shouldNotHave(empty);
+
+    }
+
+
+    @Step("Выбор диапазона времени")
+    public void choseTimePeriod(int fromHour, int toHour, int fromMin, int toMin) {
+
+        clickByJs(fromTimeCalendarSelector);
+        isElementVisible(openedCalendarContainer);
+
+        click(hoursCalendar.get(fromHour));
+        click(minutesCalendar.get(fromMin));
+
+        clickByJs(toTimeCalendarSelector);
+
+        click(hoursCalendar.get(toHour));
+        click(minutesCalendar.get(toMin));
+
+        fromTimeCalendarContainer.shouldNotHave(empty);
+        toTimeCalendarContainer.shouldNotHave(empty);
+
+    }
+
+    @Step("Загружаем отчет")
+    public void downloadFile() throws FileNotFoundException {
+
+        downloadReportButton.shouldBe(enabled);
+
+        Assertions.assertNotNull(downloadReportButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
+                "Файл не может быть скачен");
+
+    }
+
+
 
     @Step("Проверка всех элементов")
     public void isHistoryOperationsCorrect() {
@@ -129,23 +250,30 @@ public class HistoryOperations extends BaseActions {
 
     }
 
+    public void setPeriod(SelenideElement periodElement) {
+
+        click(periodElement);
+        operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(20));
+        periodElement.shouldHave(cssValue("background-color",PERIOD_BUTTON_BORDER));
+        isElementVisible(resetPeriodButton);
+
+    }
+
+
     @Step("Проверка что период за неделю совпадает")
     public void isWeekPeriodCorrect() {
 
-        click(forWeekPeriodButton);
-        operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(20));
-        forWeekPeriodButton.shouldHave(cssValue("background-color","rgba(103, 100, 255, 1)"));
-        isElementVisible(resetPeriodButton);
+        setPeriod(forWeekPeriodButton);
 
         checkTipsAndSumNotEmpty();
 
         String periodDate = getDatePeriodForWeek();
 
         LocalDate currentDayMinusWeekLocaleDate = LocalDate.now().minusDays(7);
-        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern(SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN);
 
         String fromPeriodDate = currentDayMinusWeekLocaleDate.format(formatters);
-        String toPeriodDate = getCurrentDateInFormat("dd.MM.yyyy");
+        String toPeriodDate = getCurrentDateInFormat(SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN);
 
         historyTotalPeriodDate.shouldHave(text(periodDate));
 
@@ -153,13 +281,12 @@ public class HistoryOperations extends BaseActions {
 
     }
 
+
+
     @Step("Проверка что период за месяц совпадает")
     public void isMonthPeriodCorrect() {
 
-        click(forMonthPeriodButton);
-        operationsHistoryPagePreloader.shouldNotBe(visible,Duration.ofSeconds(20));
-        forMonthPeriodButton.shouldHave(cssValue("background-color","rgba(103, 100, 255, 1)"));
-        isElementVisible(resetPeriodButton);
+        setPeriod(forMonthPeriodButton);
 
         checkTipsAndSumNotEmpty();
 
@@ -199,7 +326,7 @@ public class HistoryOperations extends BaseActions {
     @Step("Выбор диапазона из календаря")
     public void setCustomPeriod() throws ParseException {
 
-        Selenide.executeJavaScript("document.querySelector('" + periodButton +"').click();");
+        clickByJs(periodButton);
 
         do {
 

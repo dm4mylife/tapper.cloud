@@ -116,10 +116,10 @@ public class NestedTests extends RootPage {
             " и корректность суммы оплаты в таппере и б2п")
     public void checkDefaultTipsBySumAndScLogicBySumAndB2P(double cleanDishesSum) {
 
-        rootPage.isDefaultTipsBySumLogicCorrect();
+        rootPage.isDefaultTipsBySumLogicCorrect(cleanDishesSum);
 
-        if (discountField.exists())
-            cleanDishesSum += convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
+       // if (discountField.exists())
+           // cleanDishesSum += convertSelectorTextIntoDoubleByRgx(discountSum,discountInCheckRegex);
 
         double tipsSumInTheMiddle = Double.parseDouble(Objects.requireNonNull(totalTipsSumInMiddle.getValue()));
         double serviceChargeInField =
