@@ -87,6 +87,8 @@ public class NestedTests extends RootPage {
 
     public void payOrder(String tableId, String cashDeskType, String guid) {
 
+
+
         double totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
         LinkedHashMap<String, String> tapperDataForTgMsg = rootPage.getTapperDataForTgPaymentMsg(tableId, cashDeskType);
@@ -115,6 +117,8 @@ public class NestedTests extends RootPage {
     @Step("Проверяем установку чаевых по умолчанию по сумме, формирование СБ от чаевых," +
             " и корректность суммы оплаты в таппере и б2п")
     public void checkDefaultTipsBySumAndScLogicBySumAndB2P(double cleanDishesSum) {
+
+        scrollTillBottom();
 
         rootPage.isDefaultTipsBySumLogicCorrect(cleanDishesSum);
 

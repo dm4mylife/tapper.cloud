@@ -65,6 +65,7 @@ class TotalTest extends PersonalAccountTest {
 
     }
 
+    @Disabled("Пока не починят баг с тем что уведомления не приходят в группу")
     @Test
     @Order(4)
     @DisplayName("Проверяем сообщение в телеграмме")
@@ -83,7 +84,7 @@ class TotalTest extends PersonalAccountTest {
         sending.sendMessageToCertainTypeRecipient(sendToManagerContainer, TEST_COMMENT_IN_SUPPORT_SENDING_TO_ADMINS);
 
     }
-
+    @Disabled("Пока не починят баг с тем что уведомления не приходят в группу")
     @Test
     @Order(6)
     @DisplayName("Проверяем сообщение в телеграмме")

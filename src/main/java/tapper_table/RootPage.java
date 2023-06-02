@@ -4,7 +4,6 @@ import api.ApiIiko;
 import api.ApiRKeeper;
 import com.codeborne.selenide.*;
 import common.BaseActions;
-import data.Constants;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -14,8 +13,6 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +26,8 @@ import static com.codeborne.selenide.Selenide.clipboard;
 import static data.Constants.RegexPattern.TapperTable.*;
 import static data.Constants.RegexPattern.TelegramMessage.discountRegex;
 import static data.Constants.RegexPattern.TelegramMessage.tableRegexTelegramMessage;
+import static data.Constants.SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED;
+import static data.Constants.SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED_IN_SUPPORT;
 import static data.Constants.TestData.TapperTable;
 import static data.Constants.TestData.TapperTable.*;
 import static data.Constants.TestData.Yandex;
@@ -87,6 +86,13 @@ public class RootPage extends BaseActions {
 
         if (wiFiIcon.exists())
             Selenide.executeJavaScript("document.querySelector('.appHeader__wifi').style.display = \"none\";");
+
+    }
+
+    public void ignoreServiceWorkerRoles(){
+
+        if (roleButtonsContainer.exists())
+            Selenide.executeJavaScript("document.querySelector('.tipsBlock__buttons').style.display = \"none\";");
 
     }
 
@@ -161,6 +167,21 @@ public class RootPage extends BaseActions {
 
         if (!menuDishContainer.isDisplayed())
             click(appFooterMenuIcon);
+
+    }
+
+    public void isServiceChargeDeactivatedByDefault() {
+
+        serviceChargeContainer.shouldBe(exist).shouldHave(matchText(SERVICE_CHARGE_TEXT_WHEN_DEACTIVATED));
+        serviceChargeCheckboxSvg.getCssValue("display").equals("none");
+
+        isElementVisible(tips7andHalf);
+        isElementVisible(tips12andHalf);
+        isElementVisible(tips20);
+        isElementVisible(tips25);
+        activeTipsButton.shouldHave(text("12.5%"));
+
+
 
     }
 
@@ -436,8 +457,6 @@ public class RootPage extends BaseActions {
 
     @Step("Проверка что логика установленных чаевых по умолчанию от общей суммы корректна")
     public void isDefaultTipsBySumLogicCorrect(double totalDishSum) {
-
-        scrollTillBottom();
 
        // double totalDishSum = getClearOrderAmount();
 
@@ -2333,78 +2352,56 @@ public class RootPage extends BaseActions {
     @Step("Сбор данных со стола для проверки с телеграм сообщением")
     public LinkedHashMap<String, String> getTapperDataForTgPaymentMsg(String tableId, String cashDeskType) {
 
-        String payStatus;
-        String orderStatus;
+        String discount = "";
+        String markUp = "";
         boolean hasMarkUp = false;
+        String keeperPrepaySumPath = "result.CommandResult.Order[\"@attributes\"].prepaySum";
+        String keeperUnpaidSumPath = "result.CommandResult.Order[\"@attributes\"].unpaidSum";
+        String payStatus = "Частично оплачено";
+        String orderStatus = "Предоплата успешно прошла по кассе";
         double serviceChargeSumDouble = 0;
+        Response rsGetOrder = null;
+        double unpaidSum = 0;
+        double prepayedSum = 0;
         LinkedHashMap<String, String> tapperDataForTgMsg = new LinkedHashMap<>();
 
+
         double sumInCheckDouble = countAllDishes();
+        double paySumDouble = getPaySum();
+        double discountDouble = getDiscount();
+        double markUpDouble = getMarkup();
+        double totalPaidDouble = countAllNonPaidDishesInOrder();
+        double restToPayDouble = getRestToPay();
+        String waiter = getWaiterNameFromTapper();
+        String restaurantName = getRestaurantNameFromTapper(cashDeskType);
+        double tipsDouble = waiter.equals(UNKNOWN_WAITER) ? 0 : getTipsFromTapper();
 
-        double paySumDouble = convertSelectorTextIntoDoubleByRgx(totalPay,totalPayRegex)
-                - getCurrentTipsSum() - getCurrentSCSum();
-        paySumDouble = updateDoubleByDecimalFormat(paySumDouble);
+        if (markupSum.isDisplayed()) {
 
-        double discountDouble = 0;
-        double markUpDouble = 0;
-
-        if (discountField.isDisplayed()) {
-
-            discountDouble = convertSelectorTextIntoDoubleByRgx(discountSum, discountInCheckRegex);
-
-        } else if (markupSum.isDisplayed()) {
-
-            discountDouble -= convertSelectorTextIntoDoubleByRgx(markupSum, discountInCheckRegex);
-            markUpDouble = convertSelectorTextIntoDoubleByRgx(markupSum, discountInCheckRegex);
+            discountDouble -= markUpDouble;
             hasMarkUp = true;
 
         }
 
-        double restToPayDouble = divideCheckSliderActive.isDisplayed() ?
-                countAllNonPaidAndDisabledDishesInOrderDivide() - countOnlyAllChosenDishesDivided() :
-                getClearOrderAmount() - getCurrentSCSum() - getCurrentTipsSum();
-        restToPayDouble = updateDoubleByDecimalFormat(restToPayDouble);
-
-        String waiter = getWaiterNameFromTapper();
-        double tipsDouble = getTipsFromTapper();
-
-        if (waiter.equals(UNKNOWN_WAITER))
-            tipsDouble = 0;
-
         if (serviceChargeCheckboxSvg.getCssValue("display").equals("none")) {
 
-            serviceChargeSumDouble = tipsDouble / 100 * Constants.SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED;
-
-            BigDecimal bd = new BigDecimal(Double.toString(serviceChargeSumDouble));
-            BigDecimal serviceChargeSum = bd.setScale(2, RoundingMode.HALF_UP);
-
-            tipsDouble -= Double.parseDouble(String.valueOf(serviceChargeSum));
+            serviceChargeSumDouble = tipsDouble / 100 * countTipsPercentFromServiceCharge();
+            tipsDouble -= convertAndUpdateTipsDouble(serviceChargeSumDouble);
 
         }
-
-        Response rsGetOrder = null;
-        double unpaidSum = 0;
-        double prepayedSum = 0;
-
-        double totalPaidDouble = countAllNonPaidDishesInOrder();
 
         if (cashDeskType.equals("keeper")) {
 
             rsGetOrder = apiRKeeper.getOrderInfo(tableId, AUTO_API_URI);
 
-            if (rsGetOrder.path("result.CommandResult.Order[\"@attributes\"].prepaySum") == null) {
+            if (rsGetOrder.path(keeperPrepaySumPath) == null) {
 
                 totalPaidDouble = paySumDouble;
 
-
             } else {
 
-                unpaidSum = rsGetOrder.jsonPath().getDouble
-                     ("result.CommandResult.Order[\"@attributes\"].unpaidSum") / 100;
-
-                prepayedSum = rsGetOrder.jsonPath()
-                    .getDouble("result.CommandResult.Order[\"@attributes\"].prepaySum") / 100;
-
+                unpaidSum = rsGetOrder.jsonPath().getDouble(keeperUnpaidSumPath) / 100;
+                prepayedSum = rsGetOrder.jsonPath().getDouble(keeperPrepaySumPath) / 100;
                 totalPaidDouble = paySumDouble + prepayedSum;
 
             }
@@ -2425,14 +2422,8 @@ public class RootPage extends BaseActions {
 
             payStatus = "Полностью оплачено";
             orderStatus = "Успешно закрыт на кассе";
-
             restToPayDouble = sumInCheckDouble - (totalPaidDouble + discountDouble);
             restToPayDouble = updateDoubleByDecimalFormat(restToPayDouble);
-
-        } else {
-
-            payStatus = "Частично оплачено";
-            orderStatus = "Предоплата успешно прошла по кассе";
 
         }
 
@@ -2443,9 +2434,6 @@ public class RootPage extends BaseActions {
         String restToPay = convDoubleWithDecimal(restToPayDouble);
         String tips = convDoubleWithDecimal(tipsDouble);
 
-        String discount = "";
-        String markUp = "";
-        
         if (!hasMarkUp) {
 
             discount = discountDouble != 0 ? convDoubleWithDecimal(discountDouble) : "";
@@ -2456,17 +2444,14 @@ public class RootPage extends BaseActions {
             
         }
 
-
-        String restaurantName = getRestaurantNameFromTapper(cashDeskType);
-
-       /* System.out.println("\nbefore status\n");
+        System.out.println("\nbefore status\n");
         System.out.println(totalPaidDouble + " totalPaidDouble");
         System.out.println((totalPaidDouble + discountDouble) + " totalPaidDouble with discount");
         System.out.println(sumInCheckDouble + " sumInCheckDouble");
         System.out.println(restToPayDouble + " restToPayDouble");
         System.out.println(tips + " tips");
         System.out.println(waiter + " waiter");
-        System.out.println(restaurantName + " restaurantName");*/
+        System.out.println(restaurantName + " restaurantName");
 
         tapperDataForTgMsg = setCollectionData(restaurantName,tableString,sumInCheck,restToPay,tips,paySum,totalPaid,
                 discount,markUp,payStatus,orderStatus,waiter);
@@ -2475,10 +2460,43 @@ public class RootPage extends BaseActions {
 
     }
 
+    public double getPaySum() {
+
+        double paySumDouble = convertSelectorTextIntoDoubleByRgx(totalPay,totalPayRegex) - getCurrentTipsSum() -
+                getCurrentSCSum();
+        return paySumDouble = updateDoubleByDecimalFormat(paySumDouble);
+
+    }
+
+    public double getRestToPay() {
+
+        double restToPayDouble = divideCheckSliderActive.isDisplayed() ?
+                countAllNonPaidAndDisabledDishesInOrderDivide() - countOnlyAllChosenDishesDivided() :
+                getClearOrderAmount() - getCurrentSCSum() - getCurrentTipsSum();
+       return restToPayDouble = updateDoubleByDecimalFormat(restToPayDouble);
+
+    }
+
+    public double getDiscount() {
+
+        return discountField.isDisplayed() ? convertSelectorTextIntoDoubleByRgx(discountSum, discountInCheckRegex) : 0;
+
+    }
+    public double getMarkup() {
+
+        return markupSum.isDisplayed() ? convertSelectorTextIntoDoubleByRgx(markupSum, discountInCheckRegex) : 0;
+
+    }
+
+
     public String getWaiterNameFromTapper() {
 
-        if (waiterRoleButton.exists())
+        if (waiterRoleButton.exists()) {
+
+            scrollTillBottom();
             click(waiterRoleButton);
+
+        }
 
         if ((waiterHeading.exists() && waiterHeading.getText().equals("Официант")) ||
                 (tipsInfo.exists() && tipsInfo.getText().matches("Деньги сразу поступят официанту на карту"))) {
@@ -2488,6 +2506,13 @@ public class RootPage extends BaseActions {
         }
 
         return UNKNOWN_WAITER;
+
+    }
+
+    public double countTipsPercentFromServiceCharge() {
+
+        return tips12andHalf.isDisplayed() && tips7andHalf.isDisplayed() ?
+                SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED_IN_SUPPORT : SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED;
 
     }
 

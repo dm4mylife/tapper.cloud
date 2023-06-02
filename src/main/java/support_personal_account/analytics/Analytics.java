@@ -53,9 +53,6 @@ public class Analytics extends BaseActions {
         downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("png"));
 
 
-        //Assertions.assertNotNull(downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("png")),
-               // "Файл не может быть скачен");
-
     }
 
 }

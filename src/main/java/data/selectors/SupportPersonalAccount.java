@@ -306,6 +306,12 @@ public class SupportPersonalAccount {
 
             public static final SelenideElement saveButton =
                     $x("//*[@class='vButton' and text()=' Сохранить ']");
+            public static final SelenideElement serviceChargeContainer = $(".vSwitch");
+            public static final SelenideElement serviceChargeInput= $(".vSwitch input");
+
+            public static final SelenideElement confirmationContainer= $(".vModalChangeCustomisationSwitches");
+
+            public static final SelenideElement confirmButton = $x("//button[contains(.,'Подтвердить')]");
 
         }
 
@@ -521,6 +527,7 @@ public class SupportPersonalAccount {
                 $$(".vPlugFilterList li");
         public static final ElementsCollection dropdownWhereToLockRestaurants =
                 $$(".vPlugLst .vPlugLst__item");
+        public static final SelenideElement dropdownContainer = $(".vPlugSelect");
         public static final String dropdownListItemCheckboxSelector = ".vPlugLst__checkbox";
         public static final SelenideElement applyButton =
                 $x("//*[contains(@class,'vButton') and text()=' Применить ']");

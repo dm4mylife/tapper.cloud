@@ -8,6 +8,7 @@ import layout_screen_compare.ScreenShotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.NestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
@@ -46,6 +47,7 @@ class CallWaiterTest extends ScreenMobileTest {
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
     RootPage rootPage = new RootPage();
+    NestedTests nestedTests = new NestedTests();
 
 
     @Test
@@ -53,7 +55,8 @@ class CallWaiterTest extends ScreenMobileTest {
     @DisplayName("Вызов официанта")
     void callWaiter() throws IOException {
 
-        rootPage.openPage(tableUrl);
+        nestedTests.clearTableAndOpenEmptyTable(restaurantName,tableId,apiUri,tableUrl);
+
         rootPage.ignoreWifiIcon();
         rootPage.openCallWaiterForm();
 

@@ -19,6 +19,8 @@ public class TapperTable {
         public static final SelenideElement techWorkInfoContainer = $(".payBlocked__description");
         public static final SelenideElement techWorkCloseButton = $(".baseModal button");
         public static final SelenideElement wiFiIcon = $(".appHeader__wifi");
+
+
         public static final By wiFiIconBy = By.cssSelector(".appHeader__wifi");
         public static final SelenideElement wiFiContainer = $(".wifiModal");
         public static final SelenideElement wiFiHeader = $(".wifiModal__header");
@@ -121,6 +123,7 @@ public class TapperTable {
 
 
             public static final ElementsCollection roleButtons = $$(".tipsButton");
+            public static final SelenideElement roleButtonsContainer = $(".tipsBlock__buttons");
             public static final SelenideElement waiterRoleButton =
                     $x("//*[contains(@class,'tipsButton') and contains(text(),'Официант')]");
 
@@ -164,8 +167,12 @@ public class TapperTable {
                     $x("//*[contains(@class,'ips')][text()[normalize-space() = '2.5%']]");
             public static final SelenideElement tips5 =
                     $x("//*[contains(@class,'ips')][text()[normalize-space() = '5%']]");
+            public static final SelenideElement tips7andHalf =
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '7.5%']]");
             public static final SelenideElement tips10 =
                     $x("//*[contains(@class,'ips')][text()[normalize-space() = '10%']]");
+            public static final SelenideElement tips12andHalf =
+                    $x("//*[contains(@class,'ips')][text()[normalize-space() = '12.5%']]");
             public static final SelenideElement tips15 =
                     $x("//*[contains(@class,'ips')][text()[normalize-space() = '15%']]");
             public static final SelenideElement tips20 =

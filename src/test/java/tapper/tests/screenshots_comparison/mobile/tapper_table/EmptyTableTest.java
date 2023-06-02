@@ -21,6 +21,7 @@ import java.util.Set;
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.TestData.TapperTable.REFRESH_TABLE_BUTTON_TEXT;
+import static data.Constants.WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN;
 import static data.ScreenLayout.Tapper.tapperTableEmpty;
 import static data.ScreenLayout.Tapper.tapperTableRefreshTable;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
@@ -79,6 +80,7 @@ class EmptyTableTest extends ScreenMobileTest {
         rootPage.isElementVisible(refreshButtonEmptyPage);
         BaseActions.click(refreshButtonEmptyPage);
         dishesSumChangedHeading.shouldBe(visible,matchText(REFRESH_TABLE_BUTTON_TEXT));
+        rootPage.forceWait(WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN);
 
         ScreenShotComparison.isScreenOrDiff
                 (browserTypeSize, isScreenShot, tapperTableRefreshTable, diffPercent, imagePixelSize,ignoredElements);

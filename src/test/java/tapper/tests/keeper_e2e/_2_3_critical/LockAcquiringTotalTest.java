@@ -54,7 +54,8 @@ class LockAcquiringTotalTest extends PersonalAccountTest {
         rootPageNestedTests.createAndFillOrder(restaurantName, tableCode,waiter, apiUri, dishesForFillingOrder,tableId);
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
-
+        rootPage.openNewTabAndSwitchTo(tableUrl);
+        rootPage.switchTab(0);
     }
 
     @Test
@@ -90,7 +91,8 @@ class LockAcquiringTotalTest extends PersonalAccountTest {
     @DisplayName("Проверяем на выбранном столе, что есть предупреждение")
     void checkOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(tableUrl);
+        rootPage.switchBrowserTab(1);
+        rootPage.refreshPage();
         rootPage.isServiceUnavailable();
 
     }

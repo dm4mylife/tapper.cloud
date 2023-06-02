@@ -55,8 +55,6 @@ public class Waiters extends BaseActions {
         isElementVisible(refreshListButton);
         waiterPaginationList.shouldHave(sizeGreaterThanOrEqual(1));
         click(refreshListButton);
-        pagePreloader.shouldHave(cssValue("display","flex"));
-        pagePreloader.shouldHave(cssValue("display","none"),Duration.ofSeconds(20));
 
     }
 

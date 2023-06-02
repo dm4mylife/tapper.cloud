@@ -80,7 +80,9 @@ class PartPayTest extends ScreenMobileTest {
 
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
+
         rootPage.ignoreWifiIcon();
+        rootPage.ignoreServiceWorkerRoles();
 
         rootPage.activateDivideCheckSliderIfDeactivated();
         rootPage.chooseLastDish(allDishesInOrder);

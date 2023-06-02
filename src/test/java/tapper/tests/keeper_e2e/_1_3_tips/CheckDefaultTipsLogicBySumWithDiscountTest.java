@@ -180,6 +180,8 @@ class CheckDefaultTipsLogicBySumWithDiscountTest extends BaseTest {
     @DisplayName("Выбираем все блюда и по одному отщелкиваем, проверяя как выставляются чаевые")
     void checkTipsLogicByRemovingPositions() {
 
+        rootPage.hidePaymentOptionsAndTapBar();
+
         allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
             BaseActions.click(element.$(dishNameSelector));

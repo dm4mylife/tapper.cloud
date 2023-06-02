@@ -1,6 +1,7 @@
 package tapper.tests.keeper_e2e._2_3_critical;
 
 import api.ApiRKeeper;
+import com.codeborne.selenide.Selenide;
 import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -42,6 +43,11 @@ class LockCertainRestaurantTest extends PersonalAccountTest {
     protected final String tableUrl = TableData.Keeper.Table_555.tableUrl;
     protected final String tableId = TableData.Keeper.Table_555.tableId;
 
+    int admin = 0;
+    int tapperKeeper = 1;
+    int tapperIiko = 2;
+
+
     AuthorizationPage authorizationPage = new AuthorizationPage();
     RootPage rootPage = new RootPage();
     Lock lock = new Lock();
@@ -51,7 +57,9 @@ class LockCertainRestaurantTest extends PersonalAccountTest {
     public void authorizeUser() {
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
-
+        rootPage.openNewTabAndSwitchTo(tableUrl);
+        rootPage.openNewTabAndSwitchToCertainIndex(STAGE_IIKO_TABLE_3,tapperIiko);
+        rootPage.switchTab(admin);
     }
 
     @Test
@@ -83,7 +91,8 @@ class LockCertainRestaurantTest extends PersonalAccountTest {
     @DisplayName("1.5. Проверяем на выбранном столе, что есть предупреждение")
     public void checkOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(tableUrl);
+        rootPage.switchTab(tapperKeeper);
+        rootPage.refreshPage();
         rootPage.isServiceUnavailable();
 
     }
@@ -92,9 +101,10 @@ class LockCertainRestaurantTest extends PersonalAccountTest {
     @DisplayName("1.6. Проверяем в другом ресторане, что нет предупреждения")
     public void checkOnTableAnotherRestaurant() {
 
-        rootPage.openPage(STAGE_IIKO_TABLE_3);
+        rootPage.switchBrowserTab(tapperIiko);
+        rootPage.refreshPage();
         serviceUnavailabilityContainer.shouldHave(disappear);
-        rootPage.switchBrowserTab(0);
+        rootPage.switchBrowserTab(admin);
 
     }
 
@@ -110,9 +120,8 @@ class LockCertainRestaurantTest extends PersonalAccountTest {
     @DisplayName("1.8. Проверяем на выбранном столе, что оплата заглушена")
     public void isPaymentUnavailable() {
 
-        rootPage.switchBrowserTab(1);
+        rootPage.switchBrowserTab(tapperKeeper);
         rootPage.openNotEmptyTable(tableUrl);
-        rootPage.isTableHasOrder();
 
         rootPage.clickOnPaymentButton();
         rootPage.isPaymentUnavailable();
@@ -123,9 +132,7 @@ class LockCertainRestaurantTest extends PersonalAccountTest {
     @DisplayName("1.9. Проверяем в другом ресторане, что оплата не будет заглушена")
     public void  isPaymentUnavailableAnotherRestaurant() {
 
-        rootPage.switchBrowserTab(1);
-        rootPage.openPage(STAGE_IIKO_TABLE_3);
-        rootPage.isTableHasOrder();
+        rootPage.switchBrowserTab(tapperIiko);
 
         rootPage.clickOnPaymentButton();
         rootPage.isTextContainsInURL(BEST2PAY_NAME);
@@ -136,7 +143,7 @@ class LockCertainRestaurantTest extends PersonalAccountTest {
     @DisplayName("2.0. Отключаем все рестораны в админке, очищаем тестовое окружение")
     public void resetAllRestaurants() {
 
-        rootPage.switchBrowserTab(0);
+        rootPage.switchBrowserTab(admin);
         lock.resetAllRestaurants();
 
     }

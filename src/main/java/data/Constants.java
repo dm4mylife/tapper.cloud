@@ -11,6 +11,7 @@ public class Constants {
     public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
     public static final int WAIT_FOR_ORDER_TO_BE_CLOSED_AT_CASH_DESK = 10000;
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
+    public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED_IN_SUPPORT = 25.0;
     public static final int WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED = 500;
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
     public static final int WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK = 15000;
@@ -123,6 +124,12 @@ public class Constants {
             public static final String FULL_PAY_STATUS_TEXT = " Статус заказа: Полностью оплачен ";
 
             public static final String ACTIVE_ROLE_BUTTON_BORDER_COLOR = "rgb(103, 100, 255)";
+            public static final String SERVICE_CHARGE_TEXT_WHEN_DEACTIVATED =
+                    "Я хочу взять на себя транзакционные издержки (\\(.*₽\\)), чтобы сотрудник получил полную сумму чая";
+
+
+
+
 
         }
 
@@ -321,6 +328,8 @@ public class Constants {
             public static final String serviceChargeRegex = "[^\\d\\.\\-]+";
             public static final String percentRegex = "\\D+";
             public static final String tableNumberRegex = "\\D+";
+
+
 
         }
 

@@ -40,7 +40,8 @@ class LockCertainRestaurantBySearchTest extends PersonalAccountTest {
     public void authorizeUser() {
 
         authorizationPage.authorizationUser(SUPPORT_LOGIN_EMAIL, SUPPORT_PASSWORD);
-
+        rootPage.openNewTabAndSwitchTo(tableUrl);
+        rootPage.switchTab(0);
     }
 
     @Test
@@ -72,7 +73,8 @@ class LockCertainRestaurantBySearchTest extends PersonalAccountTest {
     @DisplayName("1.5. Проверяем на выбранном столе, что есть предупреждение")
     public void checkOnTable() {
 
-        rootPage.openNewTabAndSwitchTo(tableUrl);
+        rootPage.switchTab(1);
+        rootPage.refreshPage();
         rootPage.isServiceUnavailable();
         rootPage.switchBrowserTab(0);
 

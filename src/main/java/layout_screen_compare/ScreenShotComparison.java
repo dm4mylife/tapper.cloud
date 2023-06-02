@@ -54,6 +54,26 @@ public class ScreenShotComparison {
 
         String pathname = fullPath + "original_" + expectedName + ".png";
         Screenshot actual = new AShot()
+
+                .coordsProvider(new WebDriverCoordsProvider())
+                .takeScreenshot(getWebDriver());
+        ImageIO.write(actual.getImage(), "png", new File(pathname));
+
+    }
+    public static void makeOriginalScreenshot(String type,String expectedName, Set<By> ignoredElements)
+            throws IOException {
+
+        baseActions.forceWait(WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN);
+
+        String fullPath = type.equals("desktop") ?
+                DESKTOP_SCREENSHOTS_COMPARISON_ORIGINAL_PATH :
+                MOBILE_SCREENSHOTS_COMPARISON_ORIGINAL_PATH;
+
+        createDirectory(fullPath);
+
+        String pathname = fullPath + "original_" + expectedName + ".png";
+        Screenshot actual = new AShot()
+                .ignoredElements(ignoredElements)
                 .coordsProvider(new WebDriverCoordsProvider())
                 .takeScreenshot(getWebDriver());
         ImageIO.write(actual.getImage(), "png", new File(pathname));
@@ -170,10 +190,26 @@ public class ScreenShotComparison {
 
         Screenshot original = new Screenshot(ImageIO.read(new File(fullPathNameOriginal)));
 
-        original.setIgnoredAreas(actual.getIgnoredAreas());
-        original.setCoordsToCompare(actual.getCoordsToCompare());
+
+
+
+        Screenshot actualNoIgnore = new AShot()
+
+
+                .coordsProvider(new WebDriverCoordsProvider())
+                .takeScreenshot(getWebDriver());
+
+        original.setIgnoredAreas(getCoords(ignoredElements));
+        original.setCoordsToCompare(getCoords(ignoredElements));
+
+        System.out.println(original.getIgnoredAreas() + " ignored areas");
 
         ImageDiff diff = new ImageDiffer().makeDiff(actual, original);
+        ImageDiff diffNoIgnore = new ImageDiffer().makeDiff(actualNoIgnore, original);
+
+        System.out.println(diffPixelPercentRatio + " acceptable diff size");
+        System.out.println(diff.getDiffSize() + " diff size");
+        System.out.println(diffNoIgnore.getDiffSize() + " no ignore diff size");
 
         BufferedImage diffImage = diff.getMarkedImage();
         ImageIO.write(actual.getImage(), "png", new File(fullPathNameActual));
@@ -222,7 +258,7 @@ public class ScreenShotComparison {
 
         if (type) {
 
-            makeOriginalScreenshot(browserSizeType,expectedName);
+            makeOriginalScreenshot(browserSizeType,expectedName,ignoredElements);
 
         } else {
 

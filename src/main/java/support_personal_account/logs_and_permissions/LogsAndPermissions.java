@@ -27,13 +27,14 @@ import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.TestData.SupportPersonalAccount.*;
 import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
+import static data.selectors.AdminPersonalAccount.OperationsHistory.currentMonth;
+import static data.selectors.AdminPersonalAccount.OperationsHistory.leftArrowMonthPeriod;
 import static data.selectors.AdminPersonalAccount.TableAndQrCodes.*;
 import static data.selectors.SupportPersonalAccount.Common.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.Common.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.acquiringTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.cashDesksTab.*;
-import static data.selectors.SupportPersonalAccount.LogsAndPermissions.customizationTab.customizationTab;
-import static data.selectors.SupportPersonalAccount.LogsAndPermissions.customizationTab.vtbLink;
+import static data.selectors.SupportPersonalAccount.LogsAndPermissions.customizationTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.licenseTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.loaderTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.loyaltyTab.*;
@@ -43,6 +44,7 @@ import static data.selectors.SupportPersonalAccount.LogsAndPermissions.statistic
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tablesTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tipsTab.saveButton;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tipsTab.*;
+import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tipsTab.tapperLink;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.waitersTab.waitersTab;
 
 
@@ -759,20 +761,25 @@ public class LogsAndPermissions extends BaseActions {
     public void downloadStatisticsData() throws FileNotFoundException {
 
         isElementVisible(dateRangeContainer);
-        Selenide.executeJavaScript("document.querySelector('" + dateRangeInputSelector + "').click();");
+        clickByJs(dateRangeInputSelector);
+
+        do {
+
+            leftArrowMonthPeriod.shouldBe(visible,enabled);
+            click(leftArrowMonthPeriod);
+
+        } while(!currentMonth.getText().equals("Май"));
 
         click(daysInDateRange.get(10));
         click(daysInDateRange.get(15));
 
         isElementVisible(resetButton);
 
-        File downloadedTable = downloadTable.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
+        Assertions.assertNotNull(downloadTable.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
+                "Файл 'Выгрузить таблицу' не может быть скачен");
 
-        Assertions.assertNotNull(downloadedTable, "Файл 'Выгрузить таблицу' не может быть скачен");
-
-        File waitersBalanceDownloaded = waitersBalance.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED);
-
-        Assertions.assertNotNull(waitersBalanceDownloaded, "Файл 'Балансы официантов' не может быть скачен");
+        Assertions.assertNotNull(waitersBalance.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
+                "Файл 'Балансы официантов' не может быть скачен");
 
     }
 
@@ -819,6 +826,46 @@ public class LogsAndPermissions extends BaseActions {
         isElementVisible(SupportPersonalAccount.LogsAndPermissions.customizationTab.tapperLink);
         isElementVisible(vtbLink);
         isElementVisibleAndClickable(SupportPersonalAccount.LogsAndPermissions.customizationTab.saveButton);
+        isElementVisible(SupportPersonalAccount.LogsAndPermissions.customizationTab.serviceChargeContainer);
+
+    }
+
+    @Step("Активируем сервисный сбор в кастомизации")
+    public void activateServiceCharge() {
+
+        if (!serviceChargeInput.has(checked)) {
+
+            click(serviceChargeContainer);
+
+            isElementVisible(confirmationContainer);
+            click(confirmButton);
+
+            isElementInvisible(confirmationContainer);
+
+            click(SupportPersonalAccount.LogsAndPermissions.customizationTab.saveButton);
+            serviceChargeInput.shouldBe(checked);
+            System.out.println("Включили");
+
+        }
+
+    }
+
+    @Step("Деактивируем сервисный сбор в кастомизации")
+    public void deactivateServiceCharge() {
+
+        if (serviceChargeInput.has(checked)) {
+
+            click(serviceChargeContainer);
+
+            isElementVisible(confirmationContainer);
+            click(confirmButton);
+
+            isElementInvisible(confirmationContainer);
+
+            click(SupportPersonalAccount.LogsAndPermissions.customizationTab.saveButton);
+            serviceChargeInput.shouldNot(checked);
+            System.out.println("Выключили");
+        }
 
     }
 

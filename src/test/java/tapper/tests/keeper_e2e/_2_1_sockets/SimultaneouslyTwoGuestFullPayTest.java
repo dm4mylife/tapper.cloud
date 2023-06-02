@@ -98,12 +98,4 @@ class SimultaneouslyTwoGuestFullPayTest extends TwoBrowsers {
 
     }
 
-    @Test
-    @DisplayName("1.6. Закрываем заказ, очищаем кассу")
-    public void assertTrue() {
-
-        Assertions.assertTrue(1>1);
-
-    }
-
 }

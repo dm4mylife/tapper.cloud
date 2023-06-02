@@ -191,18 +191,24 @@ public class Lock extends BaseActions {
         resetAllRestaurants();
 
         click(whereToLockButton);
+        dropdownContainer.shouldHave(attributeMatching("class",".*active.*"));
 
-        dropdownWhereToLockRestaurants.should
-                (anyMatch("Должен быть виден список ресторанов", WebElement::isDisplayed));
+        //Assertions.assertTrue(dropdownWhereToLockRestaurants.first().isDisplayed(),
+          //      "Должен быть виден список ресторанов");
 
-        ElementsCollection onlyTestrkeeperRestaurants =
-           dropdownWhereToLockRestaurants.filter(matchText(restaurant));
+       // ElementsCollection onlyTestrkeeperRestaurants =
+        //   dropdownWhereToLockRestaurants.filter(text(restaurant));
 
-        onlyTestrkeeperRestaurants.asFixedIterable().stream().forEach(element ->  {
+        dropdownWhereToLockRestaurants.asFixedIterable().stream().forEach(element ->  {
+
+            if (element.getText().equals(restaurant)) {
 
                 click(element.$(dropdownListItemCheckboxSelector));
                 element.$(dropdownListItemCheckboxSelector)
                         .shouldHave(attributeMatching("class",".*active.*"));
+
+            }
+
 
         });
 

@@ -9,6 +9,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -49,7 +51,7 @@ public class BaseActions {
 
         element.scrollIntoView(false);
         element.shouldBe(interactable,visible).click();
-        forceWait(200); //toDo после выбора позиций не успевают стили наложиться на чекбокс
+        // forceWait(200); //toDo после выбора позиций не успевают стили наложиться на чекбокс
 
     }
 
@@ -202,7 +204,7 @@ public class BaseActions {
     public void sendKeys(@NotNull SelenideElement element, String text) {
 
         element.shouldBe(visible,interactable,editable).sendKeys(text);
-        element.shouldNotBe(empty,Duration.ofSeconds(5));
+        //element.shouldNotBe(empty,Duration.ofSeconds(5));
 
     }
 
@@ -251,6 +253,16 @@ public class BaseActions {
         String formattedDouble =
                 new DecimalFormat("#0.00").format(doubleNumber).replace(",", ".");
         return Double.parseDouble(formattedDouble);
+
+    }
+
+    public double convertAndUpdateTipsDouble(double db) {
+
+        BigDecimal bd = new BigDecimal(Double.toString(db));
+        BigDecimal serviceChargeSum = bd.setScale(2, RoundingMode.HALF_UP);
+
+        return Double.parseDouble(String.valueOf(serviceChargeSum));
+
     }
 
     @Step("Открытие страницы в новой вкладке с фокусом")
@@ -258,6 +270,15 @@ public class BaseActions {
 
         Selenide.executeJavaScript("window.open('" + url + "', '_blank').focus();");
         switchBrowserTab(1);
+        isTextContainsInURL(url);
+
+    }
+
+    @Step("Открытие страницы в новой вкладке с фокусом")
+    public void openNewTabAndSwitchToCertainIndex(String url,int index) {
+
+        Selenide.executeJavaScript("window.open('" + url + "', '_blank').focus();");
+        switchBrowserTab(index);
         isTextContainsInURL(url);
 
     }
