@@ -26,7 +26,6 @@ public class WaiterPersonalAccount {
     public static final SelenideElement tipsBlockInfoContainer = $(".blockTipsWaiter__info");
     public static final SelenideElement waiterGoalContainer = $("div>[id=\"purposeWaiter\"]");
     public static final SelenideElement waiterGoalMaxCharsCounter = $(".blockTipsWaiter__input-number");
-
     public static final SelenideElement waiterEmail = $("[id=\"email\"]");
     public static final SelenideElement waiterPassword = $("[id=\"password\"]");
     public static final SelenideElement waiterPasswordConfirmation = $("[id=\"confirmation\"]");

@@ -1,0 +1,1878 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x000001ebb6699149, pid=14264, tid=19756
+#
+# JRE version: OpenJDK Runtime Environment (20.0.1+9) (build 20.0.1+9-29)
+# Java VM: OpenJDK 64-Bit Server VM (20.0.1+9-29, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# Problematic frame:
+# J 1931 c2 org.aspectj.weaver.World$TypeMap.get(Ljava/lang/String;)Lorg/aspectj/weaver/ResolvedType; (95 bytes) @ 0x000001ebb6699149 [0x000001ebb66990c0+0x0000000000000089]
+#
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -ea -javaagent:C:\Users\user\.m2\repository/org/aspectj/aspectjweaver/1.9.4/aspectjweaver-1.9.4.jar -Didea.test.cyclic.buffer.size=1048576 -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\lib\idea_rt.jar=52113:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\bin -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 com.intellij.rt.junit.JUnitStarter -ideVersion5 -junit5 tapper.tests.keeper._1_2_full_payment.ChoseAllDishesTest
+
+Host: AMD Ryzen 5 2600X Six-Core Processor           , 12 cores, 14G,  Windows 10 , 64 bit Build 19041 (10.0.19041.3031)
+Time: Thu Jun 15 12:12:25 2023 RTZ 4 (s 10 , 64 bit Build 19041 (10.0.19041.3031) elapsed time: 1.719896 seconds (0d 0h 0m 1s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000001eba5224540):  JavaThread "main" [_thread_in_Java, id=19756, stack(0x0000006e73800000,0x0000006e73900000)]
+
+Stack: [0x0000006e73800000,0x0000006e73900000],  sp=0x0000006e738f9d00,  free space=999k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  0x000001ebb6699149
+
+
+siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0x000000039c7cf7cc
+
+
+Registers:
+RAX=0x000001ebc6cb02a0, RBX=0x000001ebc6cb02a0, RCX=0x000000000008da78, RDX=0x000000071c3fd1d0
+RSP=0x0000006e738f9d00, RBP=0x0000006e738f9e10, RSI=0x00000000000019e0, RDI=0x0000000000000182
+R8 =0x000000000000001f, R9 =0x000000039c7cf7c0, R10=0x00000000e387fa57, R11=0x000000071c3fd1d0
+R12=0x0000000000000000, R13=0x0000006e738f9db8, R14=0x0000000000000000, R15=0x000001eba5224540
+RIP=0x000001ebb6699149, EFLAGS=0x0000000000010212
+
+
+Register to memory mapping:
+
+RIP=0x000001ebb6699149 is at entry_point+137 in (nmethod*)0x000001ebb6698e10
+Compiled method (c2)    1725 1931       4       org.aspectj.weaver.World$TypeMap::get (95 bytes)
+ total in heap  [0x000001ebb6698e10,0x000001ebb669bb30] = 11552
+ relocation     [0x000001ebb6698f58,0x000001ebb66990a8] = 336
+ main code      [0x000001ebb66990c0,0x000001ebb669a9a0] = 6368
+ stub code      [0x000001ebb669a9a0,0x000001ebb669aa40] = 160
+ oops           [0x000001ebb669aa40,0x000001ebb669aa48] = 8
+ metadata       [0x000001ebb669aa48,0x000001ebb669ab60] = 280
+ scopes data    [0x000001ebb669ab60,0x000001ebb669b4d0] = 2416
+ scopes pcs     [0x000001ebb669b4d0,0x000001ebb669b920] = 1104
+ dependencies   [0x000001ebb669b920,0x000001ebb669b968] = 72
+ handler table  [0x000001ebb669b968,0x000001ebb669bad0] = 360
+ nul chk table  [0x000001ebb669bad0,0x000001ebb669bb30] = 96
+RAX={method} {0x000001ebc6cb02a8} 'get' '(Ljava/lang/String;)Lorg/aspectj/weaver/ResolvedType;' in 'org/aspectj/weaver/World$TypeMap'
+RBX={method} {0x000001ebc6cb02a8} 'get' '(Ljava/lang/String;)Lorg/aspectj/weaver/ResolvedType;' in 'org/aspectj/weaver/World$TypeMap'
+RCX=580216 is a compressed pointer to class: 0x000000080008da78
+java.util.HashMap {0x000000080008da80}
+ - instance size:     6
+ - klass size:        126
+ - access:            public synchronized 
+ - state:             fully_initialized
+ - name:              'java/util/HashMap'
+ - super:             'java/util/AbstractMap'
+ - sub:               'java/lang/ProcessEnvironment'   'java/util/LinkedHashMap'   
+ - arrays:            NULL
+ - methods:           Array<T>(0x00000008006e0b30)
+ - method ordering:   Array<T>(0x00000008006e0d18)
+ - default_methods:   Array<T>(0x0000000000000000)
+ - local interfaces:  Array<T>(0x00000008006e0cf8)
+ - trans. interfaces: Array<T>(0x00000008006df678)
+ - constants:         constant pool [632] {0x00000008006df6a0} for 'java/util/HashMap' cache=0x0000000800404520
+ - class loader data:  loader data: 0x000001eba52def20 of 'bootstrap'
+ - source file:       'HashMap.java'
+ - class annotations:       Array<T>(0x0000000000000000)
+ - class type annotations:  Array<T>(0x0000000000000000)
+ - field annotations:       Array<T>(0x0000000000000000)
+ - field type annotations:  Array<T>(0x0000000000000000)
+ - generic signature: '<K:Ljava/lang/Object;V:Ljava/lang/Object;>Ljava/util/AbstractMap<TK;TV;>;Ljava/util/Map<TK;TV;>;Ljava/lang/Cloneable;Ljava/io/Serializable;'
+ - inner classes:     Array<T>(0x00000008006e0aa0)
+ - nest members:     Array<T>(0x00000008006e0e00)
+ - permitted subclasses:     Array<T>(0x000000080060e1a0)
+ - java mirror:       a 'java/lang/Class'{0x00000007110ddcc0} = 'java/util/HashMap'
+ - vtable length      39  (start addr: 0x000000080008dc38)
+ - itable length      29 (start addr: 0x000000080008dd70)
+ - ---- static fields (4 words):
+ - private static final 'serialVersionUID' 'J' @112 
+ - static final 'DEFAULT_INITIAL_CAPACITY' 'I' @120 
+ - static final 'MAXIMUM_CAPACITY' 'I' @124 
+ - static final 'DEFAULT_LOAD_FACTOR' 'F' @128 
+ - static final 'TREEIFY_THRESHOLD' 'I' @132 
+ - static final 'UNTREEIFY_THRESHOLD' 'I' @136 
+ - static final 'MIN_TREEIFY_CAPACITY' 'I' @140 
+ - ---- non-static fields (8 words):
+ - transient 'keySet' 'Ljava/util/Set;' @12 
+ - transient 'values' 'Ljava/util/Collection;' @16 
+ - transient 'size' 'I' @20 
+ - transient 'modCount' 'I' @24 
+ - 'threshold' 'I' @28 
+ - final 'loadFactor' 'F' @32 
+ - transient 'table' '[Ljava/util/HashMap$Node;' @36 
+ - transient 'entrySet' 'Ljava/util/Set;' @40 
+ - non-static oop maps: 12-16 36-40 
+RDX=0x000000071c3fd1d0 is an oop: org.aspectj.weaver.World$TypeMap 
+{0x000000071c3fd1d0} - klass: 'org/aspectj/weaver/World$TypeMap'
+ - ---- fields (total size 7 words):
+ - public 'policy' 'I' @12  1 (0x00000001)
+ - private 'maxExpendableMapSize' 'I' @16  -1 (0xffffffff)
+ - private 'collectedTypes' 'I' @20  0 (0x00000000)
+ - private 'demotionSystemActive' 'Z' @24  true (0x01)
+ - private 'debugDemotion' 'Z' @25  false (0x00)
+ - private 'memoryProfiling' 'Z' @26  false (0x00)
+ - public 'addedSinceLastDemote' 'Ljava/util/List;' @28  a 'java/util/ArrayList'{0x000000071c3fd208} (0xe387fa41)
+ - public 'writtenClasses' 'Ljava/util/List;' @32  a 'java/util/ArrayList'{0x000000071c3fd270} (0xe387fa4e)
+ - final 'tMap' 'Ljava/util/Map;' @36  a 'java/util/HashMap'{0x000000071c3fd288} (0xe387fa51)
+ - final 'expendableMap' 'Ljava/util/Map;' @40  a 'java/util/Collections$SynchronizedMap'{0x000000071c3fd4a8} (0xe387fa95)
+ - private final 'w' 'Lorg/aspectj/weaver/World;' @44  a 'org/aspectj/weaver/ltw/LTWWorld'{0x000000071c400410} (0xe3880082)
+ - private final 'rq' 'Ljava/lang/ref/ReferenceQueue;' @48  a 'java/lang/ref/ReferenceQueue'{0x000000071c06bb20} (0xe380d764)
+RSP=0x0000006e738f9d00 is pointing into the stack for thread: 0x000001eba5224540
+RBP=0x0000006e738f9e10 is pointing into the stack for thread: 0x000001eba5224540
+RSI=0x00000000000019e0 is an unknown value
+RDI=0x0000000000000182 is an unknown value
+R8 =0x000000000000001f is an unknown value
+R9 =0x000000039c7cf7c0 is an unknown value
+R10=3817339479 is a compressed pointer to object: [Ljava.util.HashMap$Node; 
+{0x000000071c3fd2b8} - klass: 'java/util/HashMap$Node'[]
+ - length: 32
+R11=0x000000071c3fd1d0 is an oop: org.aspectj.weaver.World$TypeMap 
+{0x000000071c3fd1d0} - klass: 'org/aspectj/weaver/World$TypeMap'
+ - ---- fields (total size 7 words):
+ - public 'policy' 'I' @12  1 (0x00000001)
+ - private 'maxExpendableMapSize' 'I' @16  -1 (0xffffffff)
+ - private 'collectedTypes' 'I' @20  0 (0x00000000)
+ - private 'demotionSystemActive' 'Z' @24  true (0x01)
+ - private 'debugDemotion' 'Z' @25  false (0x00)
+ - private 'memoryProfiling' 'Z' @26  false (0x00)
+ - public 'addedSinceLastDemote' 'Ljava/util/List;' @28  a 'java/util/ArrayList'{0x000000071c3fd208} (0xe387fa41)
+ - public 'writtenClasses' 'Ljava/util/List;' @32  a 'java/util/ArrayList'{0x000000071c3fd270} (0xe387fa4e)
+ - final 'tMap' 'Ljava/util/Map;' @36  a 'java/util/HashMap'{0x000000071c3fd288} (0xe387fa51)
+ - final 'expendableMap' 'Ljava/util/Map;' @40  a 'java/util/Collections$SynchronizedMap'{0x000000071c3fd4a8} (0xe387fa95)
+ - private final 'w' 'Lorg/aspectj/weaver/World;' @44  a 'org/aspectj/weaver/ltw/LTWWorld'{0x000000071c400410} (0xe3880082)
+ - private final 'rq' 'Ljava/lang/ref/ReferenceQueue;' @48  a 'java/lang/ref/ReferenceQueue'{0x000000071c06bb20} (0xe380d764)
+R12=0x0 is NULL
+R13=0x0000006e738f9db8 is pointing into the stack for thread: 0x000001eba5224540
+R14=0x0 is NULL
+R15=0x000001eba5224540 is a thread
+
+
+Top of Stack: (sp=0x0000006e738f9d00)
+0x0000006e738f9d00:   0000006e738f9d50 000001ebc75252e0
+0x0000006e738f9d10:   0000000000000000 000000071ccd36c8
+0x0000006e738f9d20:   0000000000000182 00007ffeec0cb0cf
+0x0000006e738f9d30:   3ff0000000000000 000001eba5224540
+0x0000006e738f9d40:   00000000000019e0 00007ffeec0d1929
+0x0000006e738f9d50:   000001ebc6c2bd78 000001eba5224540
+0x0000006e738f9d60:   000001eba5224540 00007ffeebe38d51
+0x0000006e738f9d70:   0000000000000000 0000000000000000
+0x0000006e738f9d80:   000001ebc6c2bd78 0000006e738f9e28
+0x0000006e738f9d90:   0000000000000182 000001ebb5ff0f79
+0x0000006e738f9da0:   0000006e738f9e10 000001ebb5fedfe3
+0x0000006e738f9db0:   000001ebb5fedfe3 000000039c7cf7c0
+0x0000006e738f9dc0:   000000071c3fd1d0 0000006e738f9dc8
+0x0000006e738f9dd0:   000001ebc6c2bd4d 0000006e738f9e28
+0x0000006e738f9de0:   000001ebc6c8a000 0000000000000000
+0x0000006e738f9df0:   000000071184c780 000001ebc6c2bd78
+0x0000006e738f9e00:   0000006e738f9db8 0000006e738f9e20
+0x0000006e738f9e10:   0000006e738f9e78 000001ebb5fedfe3
+0x0000006e738f9e20:   000000039c7cf7c0 000000071c400410
+0x0000006e738f9e30:   0000006e738f9e30 000001ebc6c1eaa7
+0x0000006e738f9e40:   0000006e738f9f08 000001ebc6ca9e48
+0x0000006e738f9e50:   0000000000000000 00000007119ea080
+0x0000006e738f9e60:   000001ebc6c251e0 0000006e738f9e20
+0x0000006e738f9e70:   0000006e738f9ef8 0000006e738f9f48
+0x0000006e738f9e80:   000001ebb5fedfe3 0000000000000000
+0x0000006e738f9e90:   0000000000000000 0000000000000000
+0x0000006e738f9ea0:   0000000000000000 0000000000000000
+0x0000006e738f9eb0:   0000000000000000 0000000000000000
+0x0000006e738f9ec0:   0000000000000000 0000000000000000
+0x0000006e738f9ed0:   0000000000000000 0000000000000000
+0x0000006e738f9ee0:   0000000000000000 0000000000000000
+0x0000006e738f9ef0:   000000039c7cf7c0 000000071c400410 
+
+Instructions: (pc=0x000001ebb6699149)
+0x000001ebb6699049:   7c ed e8 05 28 00 60 0a 32 01 7c 9d e8 05 28 00
+0x000001ebb6699059:   60 0a 32 05 32 0f 32 01 7c d1 fa 05 28 01 7c c9
+0x000001ebb6699069:   f7 00 28 01 7c 25 f8 00 28 01 7c 39 f9 00 28 00
+0x000001ebb6699079:   60 0a 32 01 7c 39 fa 05 28 01 7c 4d f7 00 28 01
+0x000001ebb6699089:   7c a9 f9 00 28 00 60 0a 32 01 7c 3d ed 05 28 01
+0x000001ebb6699099:   7c 6d f6 00 28 00 60 0a 32 00 00 00 00 00 00 00
+0x000001ebb66990a9:   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0x000001ebb66990b9:   00 00 00 00 00 00 00 44 8b 52 08 49 bb 00 00 00
+0x000001ebb66990c9:   00 08 00 00 00 4d 03 d3 49 3b c2 0f 85 26 ad 99
+0x000001ebb66990d9:   ff 66 90 0f 1f 40 00 89 84 24 00 80 ff ff 55 48
+0x000001ebb66990e9:   81 ec a0 00 00 00 90 41 81 7f 20 01 00 00 00 0f
+0x000001ebb66990f9:   85 94 18 00 00 4d 8b c8 4c 8b da 44 0f b6 52 1a
+0x000001ebb6699109:   45 85 d2 0f 85 1e 0b 00 00 44 8b 52 24 43 8b 4c
+0x000001ebb6699119:   d4 08 81 f9 78 da 08 00 0f 85 32 0a 00 00 49 c1
+0x000001ebb6699129:   e2 03 45 8b 52 24 45 85 d2 0f 84 2d 06 00 00 47
+0x000001ebb6699139:   8b 44 d4 0c 45 85 c0 0f 86 82 0b 00 00 41 ff c8
+0x000001ebb6699149:   41 8b 79 0c 4b 8d 0c d4 85 ff 0f 84 f1 04 00 00
+0x000001ebb6699159:   8b df c1 eb 10 33 df 44 23 c3 42 8b 7c 81 10 85
+0x000001ebb6699169:   ff 0f 85 e3 03 00 00 45 33 d2 41 8b 4b 0c 83 f9
+0x000001ebb6699179:   01 0f 85 64 0b 00 00 45 8b 5b 28 43 8b 4c dc 08
+0x000001ebb6699189:   81 f9 88 79 1d 00 0f 85 f3 09 00 00 4b 8d 2c dc
+0x000001ebb6699199:   44 8b 45 10 44 89 44 24 38 45 85 c0 0f 84 c9 09
+0x000001ebb66991a9:   00 00 4b 8d 14 c4 48 8d 9c 24 80 00 00 00 48 8b
+0x000001ebb66991b9:   02 a8 02 75 23 48 83 c8 01 48 89 03 f0 48 0f b1
+0x000001ebb66991c9:   1a 0f 84 37 00 00 00 48 2b c4 48 25 07 f0 ff ff
+0x000001ebb66991d9:   48 89 03 e9 24 00 00 00 4c 8b d8 48 33 c0 f0 4d
+0x000001ebb66991e9:   0f b1 7b 3e 48 c7 03 03 00 00 00 74 11 4c 3b f8
+0x000001ebb66991f9:   75 15 49 ff 83 86 00 00 00 48 33 c0 75 09 49 ff
+0x000001ebb6699209:   87 78 04 00 00 33 c0 0f 85 8a 09 00 00 44 8b 45
+0x000001ebb6699219:   0c 47 8b 5c c4 08 4b 8d 0c c4 41 81 fb b8 54 10
+0x000001ebb6699229:   00 0f 85 78 05 00 00 48 89 4c 24 48 45 8b 41 0c
+0x000001ebb6699239:   45 85 c0 0f 84 95 04 00 00 41 8b c8 c1 e9 0c 41 
+
+
+Stack slot to memory mapping:
+stack at sp + 0 slots: 0x0000006e738f9d50 is pointing into the stack for thread: 0x000001eba5224540
+stack at sp + 1 slots: 0x000001ebc75252e0 is pointing into metadata
+stack at sp + 2 slots: 0x0 is NULL
+stack at sp + 3 slots: 0x000000071ccd36c8 is an oop: org.aspectj.weaver.ReferenceType 
+{0x000000071ccd36c8} - klass: 'org/aspectj/weaver/ReferenceType'
+ - ---- fields (total size 18 words):
+ - private 'size' 'I' @12  1 (0x00000001)
+ - private 'needsModifiableDelegate' 'Z' @16  false (0x00)
+ - protected 'typeKind' 'Lorg/aspectj/weaver/UnresolvedType$TypeKind;' @20  a 'org/aspectj/weaver/UnresolvedType$TypeKind'{0x000000071c40a168} (0xe388142d)
+ - protected 'signature' 'Ljava/lang/String;' @24  "Lio/qameta/allure/listener/LifecycleListener;"{0x000000071ccd3640} (0xe399a6c8)
+ - protected 'signatureErasure' 'Ljava/lang/String;' @28  "Lio/qameta/allure/listener/LifecycleListener;"{0x000000071ccd3640} (0xe399a6c8)
+ - private 'packageName' 'Ljava/lang/String;' @32  "io.qameta.allure.listener"{0x000000071ccd8878} (0xe399b10f)
+ - private 'className' 'Ljava/lang/String;' @36  NULL (0x00000000)
+ - protected 'typeParameters' '[Lorg/aspectj/weaver/UnresolvedType;' @40  NULL (0x00000000)
+ - protected 'typeVariables' '[Lorg/aspectj/weaver/TypeVariable;' @44  NULL (0x00000000)
+ - protected 'bits' 'I' @48  16 (0x00000010)
+ - public 'temporaryAnnotationTypes' '[Lorg/aspectj/weaver/ResolvedType;' @52  NULL (0x00000000)
+ - private 'resolvedTypeParams' '[Lorg/aspectj/weaver/ResolvedType;' @56  NULL (0x00000000)
+ - private 'binaryPath' 'Ljava/lang/String;' @60  NULL (0x00000000)
+ - protected 'world' 'Lorg/aspectj/weaver/World;' @64  a 'org/aspectj/weaver/ltw/LTWWorld'{0x000000071c400410} (0xe3880082)
+ - public 'crosscuttingMembers' 'Lorg/aspectj/weaver/CrosscuttingMembers;' @68  NULL (0x00000000)
+ - protected 'interTypeMungers' 'Ljava/util/List;' @72  a 'java/util/ArrayList'{0x000000071ccfc250} (0xe399f84a)
+ - private 'parameterizedWithTypeVariable' 'Lorg/aspectj/util/FuzzyBoolean;' @76  a 'org/aspectj/util/FuzzyBoolean$MaybeFuzzyBoolean'{0x000000071c40a1f8} (0xe388143f)
+ - 'startPos' 'I' @80  0 (0x00000000)
+ - 'endPos' 'I' @84  0 (0x00000000)
+ - private final 'derivativeTypes' 'Ljava/util/List;' @88  a 'java/util/ArrayList'{0x000000071ccd3770} (0xe399a6ee)
+ - 'genericType' 'Lorg/aspectj/weaver/ReferenceType;' @92  NULL (0x00000000)
+ - 'rawType' 'Lorg/aspectj/weaver/ReferenceType;' @96  NULL (0x00000000)
+ - 'delegate' 'Lorg/aspectj/weaver/ReferenceTypeDelegate;' @100  a 'org/aspectj/weaver/bcel/BcelObjectType'{0x000000071ccfb210} (0xe399f642)
+ - 'parameterizedMethods' '[Lorg/aspectj/weaver/ResolvedMember;' @104  NULL (0x00000000)
+ - 'parameterizedFields' '[Lorg/aspectj/weaver/ResolvedMember;' @108  NULL (0x00000000)
+ - 'parameterizedPointcuts' '[Lorg/aspectj/weaver/ResolvedMember;' @112  NULL (0x00000000)
+ - 'parameterizedInterfaces' 'Ljava/lang/ref/WeakReference;' @116  a 'java/lang/ref/WeakReference'{0x000000071ccfc138} (0xe399f827)
+ - 'parameterizedDeclares' 'Ljava/util/Collection;' @120  NULL (0x00000000)
+ - private 'annotationTypes' '[Lorg/aspectj/weaver/ResolvedType;' @124  NULL (0x00000000)
+ - private 'annotations' '[Lorg/aspectj/weaver/AnnotationAJ;' @128  NULL (0x00000000)
+ - private 'newSuperclass' 'Lorg/aspectj/weaver/ResolvedType;' @132  NULL (0x00000000)
+ - private 'newInterfaces' '[Lorg/aspectj/weaver/ResolvedType;' @136  NULL (0x00000000)
+ - 'superclassReference' 'Ljava/lang/ref/WeakReference;' @140  a 'java/lang/ref/WeakReference'{0x000000071cd0e660} (0xe39a1ccc)
+stack at sp + 4 slots: 0x0000000000000182 is an unknown value
+stack at sp + 5 slots: 0x00007ffeec0cb0cf jvm.dll
+stack at sp + 6 slots: 0x3ff0000000000000 is an unknown value
+stack at sp + 7 slots: 0x000001eba5224540 is a thread
+
+
+Compiled method (c2)    1758 1931       4       org.aspectj.weaver.World$TypeMap::get (95 bytes)
+ total in heap  [0x000001ebb6698e10,0x000001ebb669bb30] = 11552
+ relocation     [0x000001ebb6698f58,0x000001ebb66990a8] = 336
+ main code      [0x000001ebb66990c0,0x000001ebb669a9a0] = 6368
+ stub code      [0x000001ebb669a9a0,0x000001ebb669aa40] = 160
+ oops           [0x000001ebb669aa40,0x000001ebb669aa48] = 8
+ metadata       [0x000001ebb669aa48,0x000001ebb669ab60] = 280
+ scopes data    [0x000001ebb669ab60,0x000001ebb669b4d0] = 2416
+ scopes pcs     [0x000001ebb669b4d0,0x000001ebb669b920] = 1104
+ dependencies   [0x000001ebb669b920,0x000001ebb669b968] = 72
+ handler table  [0x000001ebb669b968,0x000001ebb669bad0] = 360
+ nul chk table  [0x000001ebb669bad0,0x000001ebb669bb30] = 96
+
+[Constant Pool (empty)]
+
+[MachCode]
+[Entry Point]
+  # {method} {0x000001ebc6cb02a8} 'get' '(Ljava/lang/String;)Lorg/aspectj/weaver/ResolvedType;' in 'org/aspectj/weaver/World$TypeMap'
+  # this:     rdx:rdx   = 'org/aspectj/weaver/World$TypeMap'
+  # parm0:    r8:r8     = 'java/lang/String'
+  #           [sp+0xb0]  (sp of caller)
+  0x000001ebb66990c0: 448b 5208 | 49bb 0000 | 0000 0800 | 0000 4d03 | d349 3bc2 
+
+  0x000001ebb66990d4: ;   {runtime_call ic_miss_stub}
+  0x000001ebb66990d4: 0f85 26ad | 99ff 6690 | 0f1f 4000 
+[Verified Entry Point]
+  0x000001ebb66990e0: 8984 2400 | 80ff ff55 | 4881 eca0 | 0000 0090 | 4181 7f20 | 0100 0000 | 0f85 9418 | 0000 4d8b 
+  0x000001ebb6699100: c84c 8bda | 440f b652 | 1a45 85d2 | 0f85 1e0b | 0000 448b | 5224 438b 
+
+  0x000001ebb6699118: ;   {metadata('java/util/HashMap')}
+  0x000001ebb6699118: 4cd4 0881 | f978 da08 | 000f 8532 | 0a00 0049 | c1e2 0345 | 8b52 2445 | 85d2 0f84 | 2d06 0000 
+  0x000001ebb6699138: 478b 44d4 | 0c45 85c0 | 0f86 820b | 0000 41ff | c841 8b79 | 0c4b 8d0c | d485 ff0f | 84f1 0400 
+  0x000001ebb6699158: 008b dfc1 | eb10 33df | 4423 c342 | 8b7c 8110 | 85ff 0f85 | e303 0000 | 4533 d241 | 8b4b 0c83 
+  0x000001ebb6699178: f901 0f85 | 640b 0000 | 458b 5b28 
+
+  0x000001ebb6699184: ; implicit exception: dispatches to 0x000001ebb669a624
+  0x000001ebb6699184: 438b 4cdc 
+
+  0x000001ebb6699188: ;   {metadata('java/util/Collections$SynchronizedMap')}
+  0x000001ebb6699188: 0881 f988 | 791d 000f | 85f3 0900 | 004b 8d2c | dc44 8b45 | 1044 8944 | 2438 4585 | c00f 84c9 
+  0x000001ebb66991a8: 0900 004b | 8d14 c448 | 8d9c 2480 | 0000 0048 | 8b02 a802 | 7523 4883 | c801 4889 | 03f0 480f 
+  0x000001ebb66991c8: b11a 0f84 | 3700 0000 | 482b c448 | 2507 f0ff | ff48 8903 | e924 0000 | 004c 8bd8 | 4833 c0f0 
+  0x000001ebb66991e8: 4d0f b17b | 3e48 c703 | 0300 0000 | 7411 4c3b | f875 1549 | ff83 8600 | 0000 4833 | c075 0949 
+  0x000001ebb6699208: ff87 7804 | 0000 33c0 | 0f85 8a09 | 0000 448b | 450c 478b | 5cc4 084b 
+
+  0x000001ebb6699220: ;   {metadata('java/util/WeakHashMap')}
+  0x000001ebb6699220: 8d0c c441 | 81fb b854 | 1000 0f85 | 7805 0000 | 4889 4c24 | 4845 8b41 | 0c45 85c0 | 0f84 9504 
+  0x000001ebb6699240: 0000 418b | c8c1 e90c | 418b f8c1 | ef14 33f9 | 4133 f88b | f7c1 ee04 | 448b df41 | c1eb 0744 
+  0x000001ebb6699260: 33df 4c8b | 4424 4841 | 8b48 2844 | 33de 418b 
+
+  0x000001ebb6699270: ;   {metadata('java/lang/ref/ReferenceQueue')}
+  0x000001ebb6699270: 5ccc 0881 | fbd8 0404 | 000f 85cd | 0900 004d | 8d04 cc45 | 3b60 0c0f | 857e 0700 | 0045 33ed 
+  0x000001ebb6699290: 4c8b 4424 | 4841 8b48 | 2441 8b7c | cc0c 448d | 47ff 4523 | c385 ff0f | 86d7 0900 | 0048 c1e1 
+  0x000001ebb66992b0: 0346 8b44 | 8110 4585 | c00f 849f | 0400 004f | 8d34 c441 | 8b4e 1c41 | 3bcb 0f85 | e903 0000 
+  0x000001ebb66992d0: 418b 4e0c | 4c8b c149 | c1e0 034d | 3bc1 0f84 | 5c01 0000 | 418b 6e0c | 4180 7f40 | 000f 85c0 
+  0x000001ebb66992f0: 0700 0041 | 8b4c ec08 | 4d8d 04ec | 4d3b c80f | 843b 0100 
+
+  0x000001ebb6699304: ;   {metadata('java/lang/String')}
+  0x000001ebb6699304: 0081 f930 | eb00 000f | 85cb 1200 | 0041 0fbe | 4910 410f | be68 103b | cd0f 8587 | 0a00 0041 
+  0x000001ebb6699324: 8b58 1445 | 8b41 1441 | 8b44 dc0c | 438b 4cc4 | 0c3b c80f | 85cf 0000 | 004d 8d14 | dc49 8d74 
+  0x000001ebb6699344: dc10 4f8d | 14c4 4b8d | 7cc4 1085 | c90f 849d | 0000 008b | c183 e01f | 83e1 e00f | 844b 0000 
+  0x000001ebb6699364: 0048 8d3c | 0f48 8d34 | 0e48 f7d9 | c5fe 6f0c | 0fc5 fe6f | 040e c5f5 | efc8 c4e2 | 7d17 c90f 
+  0x000001ebb6699384: 8572 0000 | 0048 83c1 | 2075 e185 | c00f 845d | 0000 00c5 | fe6f 4c07 | e0c5 fe6f | 4406 e0c5 
+  0x000001ebb66993a4: f5ef c8c4 | e27d 17c9 | 754d eb44 | 8bc8 83e1 | fc74 1948 | 8d3c 0f48 | 8d34 0e48 | f7d9 8b1c 
+  0x000001ebb66993c4: 0f3b 1c0e | 7531 4883 | c104 75f2 | a802 7412 | 0fb7 1f0f | b70e 3bd9 | 751d 488d | 7f02 488d 
+  0x000001ebb66993e4: 7602 a801 | 740a 0fb6 | 1f0f b60e | 3bd9 7507 | b801 0000 | 00eb 0233 | c0c5 f5ef | c9c5 fdef 
+  0x000001ebb6699404: c085 c075 | 3744 8bd0 | ba45 ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2420 488b | 4424 f84c 
+  0x000001ebb6699424: 894c 2430 | 4489 5c24 | 244c 8974 | 2438 4489 | 5424 4090 
+
+  0x000001ebb6699438: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699438: c5f8 77e8 
+
+  0x000001ebb669943c: ; ImmutableOopMap {[32]=NarrowOop [48]=Oop [56]=Oop [72]=Oop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.WeakHashMap::matchesKey@24 (line 298)
+                      ; - java.util.WeakHashMap::get@51 (line 413)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669943c: 4008 9aff | 458b 5e20 | 498b db48 | c1e3 0348 | 8d84 2480 | 0000 0048 | 8338 000f | 8475 0000 
+  0x000001ebb669945c: 004c 8b12 | 41f6 c202 | 7462 4983 | ba86 0000 | 0000 7409 | 49ff 8a86 | 0000 00eb | 4b49 8b82 
+  0x000001ebb669947c: 9600 0000 | 490b 828e | 0000 0075 | 0a49 c742 | 3e00 0000 | 00eb 3d49 | 83ba 9e00 | 0000 0074 
+  0x000001ebb669949c: 2248 33c0 | 49c7 423e | 0000 0000 | f083 0424 | 0049 83ba | 9e00 0000 | 0075 0df0 | 4d0f b17a 
+  0x000001ebb66994bc: 3e75 0583 | c801 eb0c | a800 eb08 | 4c8b 10f0 | 4c0f b112 | 750a 49ff | 8f78 0400 | 0045 33d2 
+  0x000001ebb66994dc: 0f85 1b07 | 0000 4885 | db74 5044 
+
+  0x000001ebb66994e8: ;   {metadata('java/lang/ref/WeakReference')}
+  0x000001ebb66994e8: 8b5b 0841 | 81fb 68e2 | 0300 0f85 | d410 0000 | 8b7b 0c41 | 807f 4000 | 0f85 b704 | 0000 85ff 
+  0x000001ebb6699508: 742d 458b | 5cfc 0849 | ba00 0000 | 0008 0000 | 004d 03d3 | 4d8b 5240 
+
+  0x000001ebb6699520: ;   {metadata('org/aspectj/weaver/ResolvedType')}
+  0x000001ebb6699520: 49bb d06b | 0001 0800 | 0000 4d3b | d30f 85ed | 0600 004d | 8d2c fc49 | 8bc5 c5f8 | 7748 81c4 
+  0x000001ebb6699540: a000 0000 
+
+  0x000001ebb6699544: ;   {poll_return}
+  0x000001ebb6699544: 5d49 3ba7 | 7803 0000 | 0f87 2a14 | 0000 c345 | 8b54 fc0c | 443b d374 | 6545 8b44 | fc18 4585 
+  0x000001ebb6699564: c075 0845 | 33d2 e904 | fcff ff45 | 8b54 fc08 
+
+  0x000001ebb6699574: ;   {metadata('java/util/HashMap$TreeNode')}
+  0x000001ebb6699574: 4181 fac8 | 9c1a 000f | 8497 0700 | 004b 8d2c | c445 33d2 | 8b4d 0c3b | cb74 1a49 | 8bbf 8003 
+  0x000001ebb6699594: 0000 8b4d 
+
+  0x000001ebb6699598: ; ImmutableOopMap {r11=Oop r9=Oop rcx=NarrowOop }
+                      ;*ifnonnull {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@145 (line 587)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+                      ;   {poll}
+  0x000001ebb6699598: 1885 0785 | c90f 84d0 | fbff ff49 | 8d2c cceb | df8b 4d10 | 4c8b c149 | c1e0 034d | 3bc1 0f85 
+  0x000001ebb66995b8: b101 0000 | 418b 4b0c | eb4b 458b | 54fc 1049 | 8d2c fc4d | 8bc2 49c1 | e003 4d3b | c174 2f89 
+  0x000001ebb66995d8: 7c24 3089 | 5c24 344c | 894c 2428 | 4c89 5c24 | 2049 8bd1 
+
+  0x000001ebb66995ec: ;   {optimized virtual_call}
+  0x000001ebb66995ec: c5f8 77e8 
+
+  0x000001ebb66995f0: ; ImmutableOopMap {rbp=Oop [32]=Oop [40]=Oop [48]=NarrowOop }
+                      ;*invokevirtual equals {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.HashMap::getNode@63 (line 578)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb66995f0: ac4a eeff | 85c0 0f84 | 1408 0000 | 4c8b 5c24 | 204c 8b4c | 2428 418b | 4b0c 4533 | d28b 5d14 
+  0x000001ebb6699610: 85db 0f84 | 5ffb ffff | 458b 54dc | 0849 bb00 | 0000 0008 | 0000 004d | 03da 4d8b 
+
+  0x000001ebb669962c: ;   {metadata('org/aspectj/weaver/ResolvedType')}
+  0x000001ebb669962c: 5340 49bb | d06b 0001 | 0800 0000 | 4d3b d30f | 8577 0600 | 004d 8d2c | dce9 edfe | ffff 410f 
+  0x000001ebb669964c: b659 1185 | db0f 8598 | 0300 0041 | 0fbe 5910 | 85db 0f85 | d406 0000 | 4889 4c24 | 3844 8944 
+  0x000001ebb669966c: 2430 4889 | 5424 2045 | 8b59 1449 | 8bd3 48c1 | e203 498b | e966 6690 
+
+  0x000001ebb6699684: ;   {static_call}
+  0x000001ebb6699684: c5f8 77e8 
+
+  0x000001ebb6699688: ; ImmutableOopMap {rbp=Oop [32]=Oop [56]=Oop }
+                      ;*invokestatic hashCode {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.String::hashCode@27 (line 2355)
+                      ; - java.util.HashMap::hash@9 (line 338)
+                      ; - java.util.HashMap::getNode@23 (line 576)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb6699688: f473 edff | 85c0 0f84 | 5104 0000 | 4c8b cd41 | 8941 0c8b | d8c1 eb10 | 33d8 448b | 4424 3044 
+  0x000001ebb66996a8: 23c3 4c8b | 5c24 2048 | 8b4c 2438 | e9aa faff | ff41 8b4e | 2449 8b9f 
+
+  0x000001ebb66996c0: ; ImmutableOopMap {r9=Oop rcx=NarrowOop rdx=Oop [56]=NarrowOop [72]=Oop }
+                      ;*goto {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.WeakHashMap::get@70 (line 415)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb66996c0: 8003 0000 
+
+  0x000001ebb66996c4: ;   {poll}
+  0x000001ebb66996c4: 8503 85c9 | 0f84 9000 | 0000 4d8d | 34cc e9ec | fbff ff45 | 0fb6 5911 | 4585 db0f | 851c 0300 
+  0x000001ebb66996e4: 0045 0fbe | 5910 4585 | db0f 85e9 | 0600 0048 | 8954 2440 | 4489 5424 | 2845 8b51 | 144c 894c 
+  0x000001ebb6699704: 2420 498b | d248 c1e2 | 0348 8b6c | 2440 6690 
+
+  0x000001ebb6699714: ;   {static_call}
+  0x000001ebb6699714: c5f8 77e8 
+
+  0x000001ebb6699718: ; ImmutableOopMap {rbp=Oop [32]=Oop [56]=NarrowOop [64]=Oop [72]=Oop }
+                      ;*invokestatic hashCode {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.String::hashCode@27 (line 2355)
+                      ; - java.util.WeakHashMap::hash@1 (line 309)
+                      ; - java.util.WeakHashMap::get@7 (line 408)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699718: e4af 99ff | 85c0 0f84 | dd03 0000 | 4c8b 4c24 | 2041 8941 | 0c44 8bc0 | 41c1 e814 | 448b d841 
+  0x000001ebb6699738: c1eb 0c45 | 33c3 4433 | c041 8bf0 | c1ee 0445 | 8bd8 41c1 | eb07 4533 | d844 8b54 | 2428 488b 
+  0x000001ebb6699758: d5e9 04fb | ffff 33db | e9e6 fcff | ff45 33d2 | e906 faff | ff89 5c24 | 3844 8954 | 2430 4c89 
+  0x000001ebb6699778: 4c24 284c | 895c 2420 | 498b d190 
+
+  0x000001ebb6699784: ;   {optimized virtual_call}
+  0x000001ebb6699784: c5f8 77e8 
+
+  0x000001ebb6699788: ; ImmutableOopMap {rbp=Oop [32]=Oop [40]=Oop }
+                      ;*invokevirtual equals {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.HashMap::getNode@128 (line 585)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb6699788: 1449 eeff | 85c0 0f84 | 5009 0000 | 4c8b 5c24 | 204c 8b4c | 2428 448b | 5424 30e9 | 14fe ffff 
+  0x000001ebb66997a8: ;   {metadata('java/util/HashMap')}
+  0x000001ebb66997a8: 4181 fb78 | da08 000f | 8517 0900 | 004c 8bd9 | 458b 5b24 | 4585 db0f | 8434 0200 | 0047 8b44 
+  0x000001ebb66997c8: dc0c 4585 | c00f 8625 | 0900 0041 | ffc8 418b | 590c 4b8d | 0cdc 85db | 0f84 3901 | 0000 448b 
+  0x000001ebb66997e8: d341 c1ea | 1044 33d3 | 4523 c242 | 8b5c 8110 | 85db 750a | 4533 ed33 | dbe9 45fc | ffff 458b 
+  0x000001ebb6699808: 44dc 0c45 | 3bc2 0f84 | a300 0000 | 458b 44dc | 1845 85c0 | 7505 4533 | edeb dc45 | 8b5c dc08 
+  0x000001ebb6699828: ;   {metadata('java/util/HashMap$TreeNode')}
+  0x000001ebb6699828: 4181 fbc8 | 9c1a 000f | 84d7 0800 | 004b 8d2c | c445 33ed | 448b 450c | 453b c274 | 1849 8b9f 
+  0x000001ebb6699848: 8003 0000 
+
+  0x000001ebb669984c: ; ImmutableOopMap {r11=NarrowOop r9=Oop rdx=Oop [56]=NarrowOop }
+                      ;*ifnonnull {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@145 (line 587)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669984c: 448b 5d18 
+
+  0x000001ebb6699850: ;   {poll}
+  0x000001ebb6699850: 8503 4585 | db74 a84b | 8d2c dceb | df44 8b45 | 1049 c1e0 | 034d 3bc1 | 0f84 a100 | 0000 4889 
+  0x000001ebb6699870: 5424 4048 | 8944 24f8 | 8b44 2438 | 8944 2434 | 488b 4424 | f84c 896c | 2420 4489 | 5424 304c 
+  0x000001ebb6699890: 894c 2428 | 498b d190 
+
+  0x000001ebb6699898: ;   {optimized virtual_call}
+  0x000001ebb6699898: c5f8 77e8 
+
+  0x000001ebb669989c: ; ImmutableOopMap {rbp=Oop [40]=Oop [52]=NarrowOop [64]=Oop }
+                      ;*invokevirtual equals {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.HashMap::getNode@128 (line 585)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669989c: 60a8 99ff | 85c0 0f84 | cc09 0000 | 4c8b 6c24 | 204c 8b54 | 2440 498b | d2eb 5845 | 8b5c dc10 
+  0x000001ebb66998bc: 498d 2cdc | 4d8b c349 | c1e0 034d | 3bc1 7440 | 895c 2430 | 4889 5424 | 4048 8944 | 24f8 8b44 
+  0x000001ebb66998dc: 2438 8944 | 2420 488b | 4424 f844 | 8954 2424 | 4c89 4c24 | 2849 8bd1 
+
+  0x000001ebb66998f4: ;   {optimized virtual_call}
+  0x000001ebb66998f4: c5f8 77e8 
+
+  0x000001ebb66998f8: ; ImmutableOopMap {rbp=Oop [32]=NarrowOop [40]=Oop [48]=NarrowOop [64]=Oop }
+                      ;*invokevirtual equals {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.HashMap::getNode@63 (line 578)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb66998f8: 04a8 99ff | 85c0 0f84 | f808 0000 | 4c8b 5424 | 4049 8bd2 | 4533 ed44 | 8b5d 1449 | 8bdb 48c1 
+  0x000001ebb6699918: e303 e92c | fbff ff41 | 0fb6 5911 | 85db 0f85 | f101 0000 | 410f be59 | 1085 db0f | 8588 0800 
+  0x000001ebb6699938: 0048 894c | 2430 4489 | 4424 2848 | 8954 2440 | 4889 4424 | f88b 4424 | 3889 4424 | 2448 8b44 
+  0x000001ebb6699958: 24f8 4489 | 5424 2045 | 8b59 1449 | 8be9 498b | d348 c1e2 | 0366 6690 
+
+  0x000001ebb6699970: ;   {static_call}
+  0x000001ebb6699970: c5f8 77e8 
+
+  0x000001ebb6699974: ; ImmutableOopMap {rbp=Oop [36]=NarrowOop [48]=Oop [64]=Oop }
+                      ;*invokestatic hashCode {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.String::hashCode@27 (line 2355)
+                      ; - java.util.HashMap::hash@9 (line 338)
+                      ; - java.util.HashMap::getNode@23 (line 576)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699974: 88ad 99ff | 85c0 0f84 | a501 0000 | 4c8b cd41 | 8941 0c44 | 8bd0 41c1 | ea10 4433 | d044 8b44 
+  0x000001ebb6699994: 2428 4523 | c248 8944 | 24f8 8b44 | 2424 8944 | 2438 488b | 4424 f84c | 8b5c 2440 | 488b 4c24 
+  0x000001ebb66999b4: 3049 8bd3 | e936 feff | ff85 ff0f | 8441 fbff | ff4d 8b57 | 2848 8bcf | 48c1 e103 | 4d85 d20f 
+  0x000001ebb66999d4: 8427 0300 | 004d 8b5f | 384b 894c | 13f8 4983 | c2f8 4d89 | 5728 e917 | fbff ff45 | 33c0 33db 
+  0x000001ebb66999f4: e96a f7ff | ff45 33ed | e9fe fdff | ff33 f645 | 33db e957 | f8ff ff41 | 8b48 1885 | c90f 84fd 
+  0x000001ebb6699a14: 0700 0049 | 8be8 4489 | 5c24 3c48 | 8954 2440 | 4889 4424 | f88b 4424 | 3889 4424 | 2448 8b44 
+  0x000001ebb6699a34: 24f8 4489 | 5424 204c | 894c 2430 | 498d 14cc 
+
+  0x000001ebb6699a44: ;   {optimized virtual_call}
+  0x000001ebb6699a44: c5f8 77e8 
+
+  0x000001ebb6699a48: ; ImmutableOopMap {rbp=Oop [36]=NarrowOop [48]=Oop [64]=Oop [72]=Oop }
+                      ;*invokevirtual lock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@13 (line 182)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699a48: b4a6 99ff | 488b d590 
+
+  0x000001ebb6699a50: ;   {optimized virtual_call}
+  0x000001ebb6699a50: c5f8 77e8 
+
+  0x000001ebb6699a54: ; ImmutableOopMap {rbp=Oop [36]=NarrowOop [48]=Oop [64]=Oop [72]=Oop }
+                      ;*invokevirtual poll0 {reexecute=0 rethrow=0 return_oop=1}
+                      ; - java.lang.ref.ReferenceQueue::poll@17 (line 184)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699a54: a8a6 99ff | 4889 4424 | 5044 8b5d | 1845 85db | 0f84 e207 | 0000 4b8d | 14dc 488b | 6c24 4090 
+  0x000001ebb6699a74: ;   {optimized virtual_call}
+  0x000001ebb6699a74: c5f8 77e8 
+
+  0x000001ebb6699a78: ; ImmutableOopMap {rbp=Oop [36]=NarrowOop [48]=Oop [64]=Oop [72]=Oop [80]=Oop }
+                      ;*invokevirtual unlock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@25 (line 186)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699a78: 84a6 99ff | 4c8b 5424 | 504d 85d2 | 0f85 9e03 | 0000 4c8b | 4c24 3044 | 8b54 2420 | 4889 4424 
+  0x000001ebb6699a98: f88b 4424 | 2489 4424 | 3848 8b44 | 24f8 448b | 5c24 3c48 | 8bd5 e9da | f7ff ff85 | ed0f 8438 
+  0x000001ebb6699ab8: f8ff ff4d | 8b47 2848 | 8bcd 48c1 | e103 4d85 | c00f 849d | 0200 0049 | 8b5f 384a | 894c 03f8 
+  0x000001ebb6699ad8: 4983 c0f8 | 4d89 4728 | e90e f8ff | ff4c 8bcd | 41c6 4111 | 0145 33c0 | 33db 4c8b | 5c24 2048 
+  0x000001ebb6699af8: 8b4c 2438 | e962 f6ff | ff4c 8b4c | 2420 41c6 | 4111 0133 | f645 33db | 448b 5424 | 2848 8bd5 
+  0x000001ebb6699b18: e945 f7ff | ff45 33c0 | e9ce fcff | ff4c 8bcd | 41c6 4111 | 0145 33c0 | 448b 5424 | 2048 8944 
+  0x000001ebb6699b38: 24f8 8b44 | 2424 8944 | 2438 488b | 4424 f84c | 8b5c 2440 | 488b 4c24 | 3049 8bd3 | e99a fcff 
+  0x000001ebb6699b58: ffba deff | ffff 498b | eb44 8954 | 2428 4c89 | 4424 3090 
+
+  0x000001ebb6699b6c: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699b6c: c5f8 77e8 
+
+  0x000001ebb6699b70: ; ImmutableOopMap {rbp=Oop [40]=NarrowOop [48]=Oop }
+                      ;*invokeinterface get {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb6699b70: 0c01 9aff | baf6 ffff | ff4c 894c | 2420 6690 
+
+  0x000001ebb6699b80: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699b80: c5f8 77e8 
+
+  0x000001ebb6699b84: ; ImmutableOopMap {rbp=Oop [32]=Oop }
+                      ;*monitorenter {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.Collections$SynchronizedMap::get@6 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699b84: f800 9aff | bade ffff | ff41 8beb | 4c89 4c24 | 2066 6690 
+
+  0x000001ebb6699b98: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699b98: c5f8 77e8 
+
+  0x000001ebb6699b9c: ; ImmutableOopMap {rbp=NarrowOop [32]=Oop }
+                      ;*invokeinterface get {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699b9c: e000 9aff | 4889 5424 | 3048 8944 | 24f8 8b44 | 2438 8944 | 242c 488b | 4424 f844 | 8954 2428 
+  0x000001ebb6699bbc: 4c89 4c24 | 204c 8d84 | 2480 0000 | 0066 6690 
+
+  0x000001ebb6699bcc: ;   {runtime_call _complete_monitor_locking_Java}
+  0x000001ebb6699bcc: c5f8 77e8 
+
+  0x000001ebb6699bd0: ; ImmutableOopMap {rbp=Oop [32]=Oop [44]=NarrowOop [48]=Oop }
+                      ;*monitorenter {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.Collections$SynchronizedMap::get@6 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699bd0: 2c21 a6ff | 4c8b 4c24 | 2044 8b54 | 2428 4889 | 4424 f88b | 4424 2c89 | 4424 3848 | 8b44 24f8 
+  0x000001ebb6699bf0: 4c8b 5c24 | 3049 8bd3 | e919 f6ff | ff48 8bca | 488d 9424 | 8000 0000 | 4d8b c7c5 | f877 49ba 
+  0x000001ebb6699c10: b0f4 17ec | fe7f 0000 | 41ff d2e9 | c2f8 ffff | bade ffff | ff8b ef90 
+
+  0x000001ebb6699c28: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699c28: c5f8 77e8 
+
+  0x000001ebb6699c2c: ; ImmutableOopMap {rbp=NarrowOop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.aspectj.weaver.World$TypeMap::get@52 (line 1328)
+  0x000001ebb6699c2c: 5000 9aff | ba45 ffff | ff4c 8944 | 2420 4c89 | 5c24 2844 | 8954 2430 
+
+  0x000001ebb6699c44: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699c44: c5f8 77e8 
+
+  0x000001ebb6699c48: ; ImmutableOopMap {[32]=Oop [40]=Oop }
+                      ;*ifne {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) org.aspectj.weaver.World$TypeMap::checkq@4 (line 1309)
+                      ; - org.aspectj.weaver.World$TypeMap::get@1 (line 1322)
+  0x000001ebb6699c48: 3400 9aff | bade ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2420 488b | 4424 f84c | 894c 2430 
+  0x000001ebb6699c68: 4489 5c24 | 244c 8944 | 2438 4c89 | 4424 4089 | 4c24 4890 
+
+  0x000001ebb6699c7c: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699c7c: c5f8 77e8 
+
+  0x000001ebb6699c80: ; ImmutableOopMap {[32]=NarrowOop [48]=Oop [56]=Oop [64]=Oop [72]=NarrowOop }
+                      ;*invokevirtual poll {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699c80: fcff 99ff | bae4 ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2420 488b | 4424 f84c | 894c 2430 
+  0x000001ebb6699ca0: 4489 5c24 | 2489 4c24 | 3844 8944 | 243c 6690 
+
+  0x000001ebb6699cb0: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699cb0: c5f8 77e8 
+
+  0x000001ebb6699cb4: ; ImmutableOopMap {[32]=NarrowOop [48]=Oop [56]=NarrowOop [72]=Oop }
+                      ;*aaload {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::get@30 (line 411)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699cb4: c8ff 99ff | bade ffff | ff8b eb90 
+
+  0x000001ebb6699cc0: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699cc0: c5f8 77e8 
+
+  0x000001ebb6699cc4: ; ImmutableOopMap {rbp=NarrowOop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.aspectj.weaver.World$TypeMap::get@14 (line 1323)
+  0x000001ebb6699cc4: b8ff 99ff | ba45 ffff | ff49 8beb | 4c89 4c24 | 2044 8944 | 2428 6690 
+
+  0x000001ebb6699cdc: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699cdc: c5f8 77e8 
+
+  0x000001ebb6699ce0: ; ImmutableOopMap {rbp=Oop [32]=Oop }
+                      ;*ifle {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@14 (line 575)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb6699ce0: 9cff 99ff | ba45 ffff | ff49 8beb | 4c89 4c24 | 2089 4c24 | 2866 6690 
+
+  0x000001ebb6699cf8: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699cf8: c5f8 77e8 
+
+  0x000001ebb6699cfc: ; ImmutableOopMap {rbp=Oop [32]=Oop }
+                      ;*if_icmpne {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) org.aspectj.weaver.World$TypeMap::get@27 (line 1325)
+  0x000001ebb6699cfc: 80ff 99ff | 498b d7c5 | f877 49ba | 003d d8eb | fe7f 0000 | 41ff d2e9 | eef7 ffff | ba45 ffff 
+  0x000001ebb6699d1c: ff49 8beb | 4c89 4c24 | 2889 7c24 | 3089 5c24 | 3466 6690 
+
+  0x000001ebb6699d30: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699d30: c5f8 77e8 
+
+  0x000001ebb6699d34: ; ImmutableOopMap {rbp=Oop [40]=Oop [48]=NarrowOop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@85 (line 581)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb6699d34: 48ff 99ff | 85db 400f | 95c5 400f | b6ed 83f5 | 01ba 45ff | ffff 4c89 | 5c24 204c | 894c 2430 
+  0x000001ebb6699d54: 4489 5424 | 3844 8944 | 243c 4c89 | 4c24 4090 
+
+  0x000001ebb6699d64: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699d64: c5f8 77e8 
+
+  0x000001ebb6699d68: ; ImmutableOopMap {[32]=Oop [48]=Oop [56]=NarrowOop [64]=Oop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.lang.String::hashCode@20 (line 2355)
+                      ; - java.util.HashMap::hash@9 (line 338)
+                      ; - java.util.HashMap::getNode@23 (line 576)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb6699d68: 14ff 99ff | 4489 5c24 | 2448 8954 | 2428 498b | f541 8bfa | 498b d949 | 8bd7 c5f8 | 7749 ba00 
+  0x000001ebb6699d88: 3dd8 ebfe | 7f00 0041 | ffd2 4c8b | cb44 8bd7 | 4c8b ee44 | 8b5c 2424 | 488b 5424 | 28e9 49f5 
+  0x000001ebb6699da8: ffff ba45 | ffff ff48 | 8944 24f8 | 8b44 2438 | 8944 2424 | 488b 4424 | f84c 894c | 2430 4489 
+  0x000001ebb6699dc8: 5c24 384c | 8974 2440 | 894c 243c 
+
+  0x000001ebb6699dd4: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699dd4: c5f8 77e8 
+
+  0x000001ebb6699dd8: ; ImmutableOopMap {[36]=NarrowOop [48]=Oop [64]=Oop [72]=Oop }
+                      ;*if_icmpne {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.lang.String::equals@33 (line 1841)
+                      ; - java.util.WeakHashMap::matchesKey@21 (line 298)
+                      ; - java.util.WeakHashMap::get@51 (line 413)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699dd8: a4fe 99ff | 4585 db40 | 0f95 c540 | 0fb6 ed83 | f501 ba45 | ffff ff48 | 8944 24f8 | 8b44 2438 
+  0x000001ebb6699df8: 8944 2424 | 488b 4424 | f84c 894c | 2438 6690 
+
+  0x000001ebb6699e08: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699e08: c5f8 77e8 
+
+  0x000001ebb6699e0c: ; ImmutableOopMap {[36]=NarrowOop [56]=Oop [72]=Oop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.lang.String::hashCode@20 (line 2355)
+                      ; - java.util.WeakHashMap::hash@1 (line 309)
+                      ; - java.util.WeakHashMap::get@7 (line 408)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb6699e0c: 70fe 99ff | ba45 ffff | ff48 8b6c | 2420 8944 | 2438 6690 
+
+  0x000001ebb6699e20: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb6699e20: c5f8 77e8 
+
+  0x000001ebb6699e24: ; ImmutableOopMap {rbp=Oop [40]=Oop [48]=NarrowOop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@66 (line 578)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb6699e24: 58fe 99ff | 4c89 5424 | 7045 33ed | 4c8b 5424 | 4845 8b5a | 2845 85db | 0f84 bc05 | 0000 4f8d 
+  0x000001ebb6699e44: 04dc 488d | 9c24 8800 | 0000 498b | 00a8 0275 | 2348 83c8 | 0148 8903 | f049 0fb1 | 180f 8437 
+  0x000001ebb6699e64: 0000 0048 | 2bc4 4825 | 07f0 ffff | 4889 03e9 | 2400 0000 | 4c8b d048 | 33c0 f04d | 0fb1 7a3e 
+  0x000001ebb6699e84: 48c7 0303 | 0000 0074 | 114c 3bf8 | 7515 49ff | 8286 0000 | 0048 33c0 | 7509 49ff | 8778 0400 
+  0x000001ebb6699ea4: 0033 c00f | 8583 0500 | 004c 8b54 | 2470 458b 
+
+  0x000001ebb6699eb4: ;   {metadata('java/util/WeakHashMap$Entry')}
+  0x000001ebb6699eb4: 4a08 4181 | f958 5121 | 000f 85d5 | 0600 004c | 8b4c 2448 | 418b 4924 | 458b 4a1c 
+
+  0x000001ebb6699ed0: ; implicit exception: dispatches to 0x000001ebb669a738
+  0x000001ebb6699ed0: 418b 7ccc | 0c8d 6fff | 4123 e985 | ff0f 8695 | 0500 004d | 8d1c cc49 | 8d5c ab10 | 448b 0b45 
+  0x000001ebb6699ef0: 85c9 0f84 | e600 0000 | 49c1 e103 | 498b f14d | 8bf5 48ff | 7424 4848 | 8f44 2428 | 4c89 4424 
+  0x000001ebb6699f10: 50e9 9400 | 0000 4d8b | c249 3bf2 | 0f84 0602 | 0000 4180 | 7f40 000f | 859a 0300 | 0089 7e24 
+  0x000001ebb6699f30: 4d8b d54c | 8bde 4d33 | d349 c1ea | 154d 85d2 | 741f 85ff | 741b 49c1 | eb09 49b9 | 0080 62bb 
+  0x000001ebb6699f50: eb01 0000 | 4d03 cb41 | 8039 020f | 85a3 0300 | 0041 807f | 4000 0f85 | 2403 0000 | 4589 6020 
+  0x000001ebb6699f70: 48ff 7424 | 2848 8f44 | 2448 4c8b | 5424 4845 | 8b5a 1441 | ffcb 4589 | 5a14 4d8b | ee4c 8b44 
+  0x000001ebb6699f90: 2450 eb4a | 660f 1f44 | 0000 660f | 1f44 0000 | 4d8d 04fc | 498b f14d | 8bc8 418b | 7924 4c8b 
+  0x000001ebb6699fb0: ef49 c1e5 | 034d 3bca | 0f84 58ff | ffff 4d8b | 8780 0300 
+
+  0x000001ebb6699fc4: ; ImmutableOopMap {r10=Oop r11=Oop rbx=Derived_oop_r11 r9=Oop rdi=NarrowOop r13=Oop [36]=NarrowOop [40]=Oop [48]=Oop [64]=Oop [80]=Oop }
+                      ;*goto {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.WeakHashMap::expungeStaleEntries@120 (line 352)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+                      ;   {poll}
+  0x000001ebb6699fc4: 0041 8500 | 85ff 75d4 | 4d8b ee48 | ff74 2428 | 488f 4424 | 484c 8b44 | 2450 488d | 8424 8800 
+  0x000001ebb6699fe4: 0000 4883 | 3800 0f84 | 7500 0000 | 4d8b 1041 | f6c2 0274 | 6249 83ba | 8600 0000 | 0074 0949 
+  0x000001ebb669a004: ff8a 8600 | 0000 eb4b | 498b 8296 | 0000 0049 | 0b82 8e00 | 0000 750a | 49c7 423e | 0000 0000 
+  0x000001ebb669a024: eb3d 4983 | ba9e 0000 | 0000 7422 | 4833 c049 | c742 3e00 | 0000 00f0 | 8304 2400 | 4983 ba9e 
+  0x000001ebb669a044: 0000 0000 | 750d f04d | 0fb1 7a3e | 7505 83c8 | 01eb 0ca8 | 00eb 084c | 8b10 f04d | 0fb1 1075 
+  0x000001ebb669a064: 0a49 ff8f | 7804 0000 | 4533 d20f | 852b 0400 | 004c 8b54 | 2448 418b | 6a28 458b 
+
+  0x000001ebb669a080: ;   {metadata('java/lang/ref/ReferenceQueue')}
+  0x000001ebb669a080: 54ec 0841 | 81fa d804 | 0400 0f85 | 3304 0000 | 4d8d 1cec | 453b 630c | 0f85 b902 | 0000 4c8b 
+  0x000001ebb669a0a0: 4c24 3044 | 8b54 2420 | 4889 4424 | f88b 4424 | 2489 4424 | 3848 8b44 | 24f8 4c8b | 4424 4044 
+  0x000001ebb669a0c0: 8b5c 243c | 498b d0e9 | c4f1 ffff | bac6 ffff | ff44 8944 | 2420 4c89 | 4c24 2890 
+
+  0x000001ebb669a0dc: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a0dc: c5f8 77e8 
+
+  0x000001ebb669a0e0: ; ImmutableOopMap {[32]=NarrowOop [40]=Oop [56]=NarrowOop }
+                      ;*invokeinterface get {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a0e0: 9cfb 99ff | ba45 ffff | ff89 4424 | 3c66 6690 
+
+  0x000001ebb669a0f0: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a0f0: c5f8 77e8 
+
+  0x000001ebb669a0f4: ; ImmutableOopMap {rbp=Oop [32]=Oop [40]=Oop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@131 (line 585)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb669a0f4: 88fb 99ff | ba45 ffff | ff44 8944 | 2424 6690 
+
+  0x000001ebb669a104: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a104: c5f8 77e8 
+
+  0x000001ebb669a108: ; ImmutableOopMap {[56]=NarrowOop }
+                      ;*ifle {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@14 (line 575)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a108: 74fb 99ff | ba45 ffff | ff4c 894c | 2428 4489 | 5424 2489 | 5c24 3090 
+
+  0x000001ebb669a120: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a120: c5f8 77e8 
+
+  0x000001ebb669a124: ; ImmutableOopMap {[40]=Oop [48]=NarrowOop [56]=NarrowOop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@85 (line 581)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a124: 58fb 99ff | 4180 7f40 | 000f 858f | 0200 0089 | 3b4d 8bd5 | 4c8b db4d | 33d3 49c1 | ea15 4d85 
+  0x000001ebb669a144: d20f 8416 | feff ff85 | ff0f 840e | feff ff49 | c1eb 0949 | b900 8062 | bbeb 0100 | 004d 03cb 
+  0x000001ebb669a164: 4180 3902 | 0f84 f3fd | ffff 4d8b | 5748 4d8b | 5f58 f083 | 4424 c000 | 4180 3900 | 0f84 dbfd 
+  0x000001ebb669a184: ffff 4588 | 214d 85d2 | 7521 498b | d849 8bc9 | 498b d7c5 | f877 49ba | e03c d8eb | fe7f 0000 
+  0x000001ebb669a1a4: 41ff d24c | 8bc3 e9b2 | fdff ff4f | 894c 13f8 | 4983 c2f8 | 4d89 5748 | e9a0 fdff | ff85 db40 
+  0x000001ebb669a1c4: 0f95 c540 | 0fb6 ed83 | f501 ba45 | ffff ff48 | 8944 24f8 | 8b44 2438 | 8944 2424 | 488b 4424 
+  0x000001ebb669a1e4: f84c 894c | 2430 4489 | 5c24 3844 | 8944 243c 
+
+  0x000001ebb669a1f4: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a1f4: c5f8 77e8 
+
+  0x000001ebb669a1f8: ; ImmutableOopMap {[36]=NarrowOop [48]=Oop [56]=NarrowOop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.lang.String::hashCode@20 (line 2355)
+                      ; - java.util.HashMap::hash@9 (line 338)
+                      ; - java.util.HashMap::getNode@23 (line 576)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a1f8: 84fa 99ff | ba45 ffff | ff8b 6c24 | 2089 4424 | 3466 6690 
+
+  0x000001ebb669a20c: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a20c: c5f8 77e8 
+
+  0x000001ebb669a210: ; ImmutableOopMap {rbp=NarrowOop [40]=Oop [48]=NarrowOop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@66 (line 578)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a210: 6cfa 99ff | baf6 ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2420 488b | 4424 f848 | ff74 2448 
+  0x000001ebb669a230: 488f 4424 | 284c 894c | 2430 4489 | 5c24 244c | 8944 2448 
+
+  0x000001ebb669a244: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a244: c5f8 77e8 
+
+  0x000001ebb669a248: ; ImmutableOopMap {[32]=NarrowOop [40]=Oop [48]=Oop [72]=Oop }
+                      ;*invokevirtual lock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@13 (line 182)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a248: 34fa 99ff | baf6 ffff | ff8b 6c24 | 244c 8b54 | 2448 4c89 | 5424 2844 | 8b54 243c | 4489 5424 
+  0x000001ebb669a268: 2466 6690 
+
+  0x000001ebb669a26c: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a26c: c5f8 77e8 
+
+  0x000001ebb669a270: ; ImmutableOopMap {rbp=NarrowOop [40]=Oop [48]=Oop [80]=Oop }
+                      ;*invokevirtual unlock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@25 (line 186)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a270: 0cfa 99ff | ba45 ffff | ff44 8b44 | 2434 4489 | 4424 2489 | 4424 3490 
+
+  0x000001ebb669a288: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a288: c5f8 77e8 
+
+  0x000001ebb669a28c: ; ImmutableOopMap {rbp=Oop [36]=NarrowOop [40]=Oop }
+                      ;*ifeq {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::getNode@131 (line 585)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a28c: f0f9 99ff | 458b 5020 | 4585 d20f | 84cf fcff | ff4d 8b5f | 2849 8bca | 48c1 e103 | 4d85 db0f 
+  0x000001ebb669a2ac: 841f 0200 | 004d 8b57 | 384b 894c | 1af8 4983 | c3f8 4d89 | 5f28 e9a5 | fcff ff44 | 8b56 2445 
+  0x000001ebb669a2cc: 85d2 0f84 | 59fc ffff | 4d8b 5f28 | 498b ca48 | c1e1 034d | 85db 0f84 | 0602 0000 | 498b d84d 
+  0x000001ebb669a2ec: 8b57 384b | 894c 1af8 | 4983 c3f8 | 4d89 5f28 | 4c8b c3e9 | 29fc ffff | 4d8b 5748 | 4d8b 5f58 
+  0x000001ebb669a30c: f083 4424 | c000 4180 | 3900 0f84 | 45fc ffff | 4588 214d | 85d2 7521 | 498b d849 | 8bc9 498b 
+  0x000001ebb669a32c: d7c5 f877 | 49ba e03c | d8eb fe7f | 0000 41ff | d24c 8bc3 | e91c fcff | ff4f 894c | 13f8 4983 
+  0x000001ebb669a34c: c2f8 4d89 | 5748 e90a | fcff ff45 | 8b53 1845 | 85d2 0f84 | cd01 0000 | 4c89 5c24 | 2849 8bed 
+  0x000001ebb669a36c: 4b8d 14d4 
+
+  0x000001ebb669a370: ;   {optimized virtual_call}
+  0x000001ebb669a370: c5f8 77e8 
+
+  0x000001ebb669a374: ; ImmutableOopMap {[36]=NarrowOop [40]=Oop [48]=Oop [64]=Oop [72]=Oop }
+                      ;*invokevirtual lock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@13 (line 182)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a374: 889d 99ff | 488b 5424 | 2866 6690 
+
+  0x000001ebb669a380: ;   {optimized virtual_call}
+  0x000001ebb669a380: c5f8 77e8 
+
+  0x000001ebb669a384: ; ImmutableOopMap {[36]=NarrowOop [40]=Oop [48]=Oop [64]=Oop [72]=Oop }
+                      ;*invokevirtual poll0 {reexecute=0 rethrow=0 return_oop=1}
+                      ; - java.lang.ref.ReferenceQueue::poll@17 (line 184)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a384: 789d 99ff | 4889 4424 | 504c 8b54 | 2428 458b | 5a18 4585 | db0f 84c9 | 0100 004b | 8d14 dc90 
+  0x000001ebb669a3a4: ;   {optimized virtual_call}
+  0x000001ebb669a3a4: c5f8 77e8 
+
+  0x000001ebb669a3a8: ; ImmutableOopMap {[36]=NarrowOop [48]=Oop [64]=Oop [72]=Oop [80]=Oop }
+                      ;*invokevirtual unlock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@25 (line 186)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a3a8: 549d 99ff | 4c8b 5424 | 504d 85d2 | 0f85 4f01 | 0000 4c8b | ede9 dcfc | ffff 448b | 1b45 85db 
+  0x000001ebb669a3c8: 0f84 65fd | ffff 4d8b | 5728 498b | cb48 c1e1 | 034d 85d2 | 0f84 3401 | 0000 498b | f04d 8b5f 
+  0x000001ebb669a3e8: 384b 894c | 13f8 4983 | c2f8 4d89 | 5728 4c8b | c6e9 35fd | ffff baf6 | ffff ff8b | 6c24 2444 
+  0x000001ebb669a408: 8b5c 243c | 4489 5c24 | 2448 ff74 | 2448 488f | 4424 3848 | ff74 2448 | 488f 4424 | 4066 6690 
+  0x000001ebb669a428: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a428: c5f8 77e8 
+
+  0x000001ebb669a42c: ; ImmutableOopMap {rbp=NarrowOop [48]=Oop [56]=Oop [64]=Oop [112]=Oop }
+                      ;*monitorenter {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@18 (line 330)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a42c: 50f8 99ff | 4c89 4424 | 5044 895c | 2438 48ff | 7424 4848 | 8f44 2428 | 498b ed49 | 8bd0 4c8d 
+  0x000001ebb669a44c: 8424 8800 | 0000 6690 
+
+  0x000001ebb669a454: ;   {runtime_call _complete_monitor_locking_Java}
+  0x000001ebb669a454: c5f8 77e8 
+
+  0x000001ebb669a458: ; ImmutableOopMap {[36]=NarrowOop [40]=Oop [48]=Oop [56]=NarrowOop [64]=Oop [80]=Oop [112]=Oop }
+                      ;*monitorenter {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@18 (line 330)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a458: a418 a6ff | 4c8b ed48 | ff74 2428 | 488f 4424 | 4844 8b5c | 2438 4c8b | 4424 50e9 | 35fa ffff 
+  0x000001ebb669a478: bae4 ffff | ff44 8b44 | 243c 4489 | 4424 384c | 8954 2450 | 894c 2458 | 4489 5c24 | 5c66 6690 
+  0x000001ebb669a498: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a498: c5f8 77e8 
+
+  0x000001ebb669a49c: ; ImmutableOopMap {[36]=NarrowOop [48]=Oop [72]=Oop [80]=Oop [88]=NarrowOop [92]=NarrowOop }
+                      ;*aaload {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@44 (line 335)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a49c: e0f7 99ff | 498b c848 | 8d94 2488 | 0000 004d | 8bc7 c5f8 | 7749 bab0 | f417 ecfe | 7f00 0041 
+  0x000001ebb669a4bc: ffd2 e9b2 | fbff ffba | deff ffff 
+
+  0x000001ebb669a4c8: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a4c8: c5f8 77e8 
+
+  0x000001ebb669a4cc: ; ImmutableOopMap {rbp=NarrowOop [36]=NarrowOop [48]=Oop [72]=Oop }
+                      ;*invokevirtual poll {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a4cc: b0f7 99ff | 498b d849 | 8bd7 c5f8 | 7749 ba00 | 3dd8 ebfe | 7f00 0041 | ffd2 4c8b | c3e9 7efa 
+  0x000001ebb669a4ec: ffff 498b | d849 8bd7 | c5f8 7749 | ba00 3dd8 | ebfe 7f00 | 0041 ffd2 | e9f3 fdff | ff4c 8954 
+  0x000001ebb669a50c: 2470 4c8b | ede9 1af9 | ffff 498b | f049 8bd7 | c5f8 7749 | ba00 3dd8 | ebfe 7f00 | 0041 ffd2 
+  0x000001ebb669a52c: e9c5 feff | ffba f6ff | ffff 8b6c | 2424 448b | 5424 3c44 | 8954 2424 | 48ff 7424 | 4848 8f44 
+  0x000001ebb669a54c: 2438 48ff | 7424 4848 | 8f44 2440 | 4c89 5c24 | 4866 6690 
+
+  0x000001ebb669a560: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a560: c5f8 77e8 
+
+  0x000001ebb669a564: ; ImmutableOopMap {rbp=NarrowOop [48]=Oop [56]=Oop [64]=Oop [72]=Oop }
+                      ;*invokevirtual lock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@13 (line 182)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a564: 18f7 99ff | baf6 ffff | ff8b 6c24 | 2444 8b54 | 243c 4489 | 5424 2448 | ff74 2448 | 488f 4424 
+  0x000001ebb669a584: 384c 8b54 | 2448 4c89 | 5424 4090 
+
+  0x000001ebb669a590: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a590: c5f8 77e8 
+
+  0x000001ebb669a594: ; ImmutableOopMap {rbp=NarrowOop [48]=Oop [56]=Oop [64]=Oop [80]=Oop }
+                      ;*invokevirtual unlock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@25 (line 186)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a594: e8f6 99ff | bade ffff | ff8b 6c24 | 2444 8b44 | 243c 4489 | 4424 2448 | ff74 2448 | 488f 4424 
+  0x000001ebb669a5b4: 3848 ff74 | 2448 488f | 4424 4044 | 895c 244c 
+
+  0x000001ebb669a5c4: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a5c4: c5f8 77e8 
+
+  0x000001ebb669a5c8: ; ImmutableOopMap {rbp=NarrowOop [48]=Oop [56]=Oop [64]=Oop [76]=NarrowOop [112]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@20 (line 332)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a5c8: b4f6 99ff | bade ffff | ff48 8beb 
+
+  0x000001ebb669a5d4: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a5d4: c5f8 77e8 
+
+  0x000001ebb669a5d8: ; ImmutableOopMap {rbp=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.aspectj.weaver.World$TypeMap::get@40 (line 1326)
+  0x000001ebb669a5d8: a4f6 99ff | bade ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2424 488b | 4424 f848 | ff74 2448 
+  0x000001ebb669a5f8: 488f 4424 | 2844 895c | 2438 4c89 | 7424 404c | 894c 2448 
+
+  0x000001ebb669a60c: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a60c: c5f8 77e8 
+
+  0x000001ebb669a610: ; ImmutableOopMap {rbp=NarrowOop [36]=NarrowOop [40]=Oop [64]=Oop [72]=Oop }
+                      ;*instanceof {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.String::equals@8 (line 1843)
+                      ; - java.util.WeakHashMap::matchesKey@21 (line 298)
+                      ; - java.util.WeakHashMap::get@51 (line 413)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a610: 6cf6 99ff | baf6 ffff | ff49 8be8 
+
+  0x000001ebb669a61c: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a61c: c5f8 77e8 
+
+  0x000001ebb669a620: ; ImmutableOopMap {rbp=Oop }
+                      ;*invokeinterface get {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb669a620: 5cf6 99ff | baf6 ffff | ff49 8be9 
+
+  0x000001ebb669a62c: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a62c: c5f8 77e8 
+
+  0x000001ebb669a630: ; ImmutableOopMap {rbp=Oop }
+                      ;*invokeinterface get {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a630: 4cf6 99ff | baf6 ffff | ff4c 894c | 2420 6690 
+
+  0x000001ebb669a640: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a640: c5f8 77e8 
+
+  0x000001ebb669a644: ; ImmutableOopMap {[32]=Oop [56]=NarrowOop }
+                      ;*invokeinterface get {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a644: 38f6 99ff | baf6 ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2420 488b | 4424 f84c | 894c 2430 
+  0x000001ebb669a664: 4489 5c24 | 244c 8944 | 2438 4c89 | 4424 4090 
+
+  0x000001ebb669a674: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a674: c5f8 77e8 
+
+  0x000001ebb669a678: ; ImmutableOopMap {[32]=NarrowOop [48]=Oop [56]=Oop [64]=Oop }
+                      ;*invokevirtual poll {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a678: 04f6 99ff | baf6 ffff | ff66 6690 
+
+  0x000001ebb669a684: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a684: c5f8 77e8 
+
+  0x000001ebb669a688: ; ImmutableOopMap {[56]=NarrowOop }
+                      ;*arraylength {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::get@20 (line 410)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a688: f4f5 99ff | ba45 ffff | ff49 8beb | 4c89 4c24 | 2844 8954 | 2430 4489 | 4424 344c | 894c 2438 
+  0x000001ebb669a6a8: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a6a8: c5f8 77e8 
+
+  0x000001ebb669a6ac: ; ImmutableOopMap {rbp=Oop [40]=Oop [48]=NarrowOop [56]=Oop }
+                      ;*ifnonnull {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::hash@1 (line 338)
+                      ; - java.util.HashMap::getNode@23 (line 576)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - org.aspectj.weaver.World$TypeMap::get@9 (line 1323)
+  0x000001ebb669a6ac: d0f5 99ff | ba45 ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2420 488b | 4424 f84c | 894c 2438 
+  0x000001ebb669a6cc: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a6cc: c5f8 77e8 
+
+  0x000001ebb669a6d0: ; ImmutableOopMap {[32]=NarrowOop [56]=Oop [72]=Oop }
+                      ;*ifnonnull {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.WeakHashMap::maskNull@1 (line 277)
+                      ; - java.util.WeakHashMap::get@1 (line 407)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a6d0: acf5 99ff | ba45 ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2424 488b | 4424 f84c | 894c 2430 
+  0x000001ebb669a6f0: 4489 5c24 | 384c 8974 | 2440 6690 
+
+  0x000001ebb669a6fc: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a6fc: c5f8 77e8 
+
+  0x000001ebb669a700: ; ImmutableOopMap {rbp=NarrowOop [36]=NarrowOop [48]=Oop [64]=Oop [72]=Oop }
+                      ;*ifnull {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.WeakHashMap::matchesKey@16 (line 298)
+                      ; - java.util.WeakHashMap::get@51 (line 413)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a700: 7cf5 99ff | ba45 ffff | ff48 8944 | 24f8 8b44 | 2438 8944 | 2420 488b | 4424 f84c | 894c 2430 
+  0x000001ebb669a720: 4c89 4c24 | 3844 895c | 2424 4489 | 4424 4090 
+
+  0x000001ebb669a730: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a730: c5f8 77e8 
+
+  0x000001ebb669a734: ; ImmutableOopMap {[32]=NarrowOop [36]=NarrowOop [48]=Oop [56]=Oop }
+                      ;*ifnonnull {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.HashMap::hash@1 (line 338)
+                      ; - java.util.HashMap::getNode@23 (line 576)
+                      ; - java.util.HashMap::get@2 (line 564)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a734: 48f5 99ff | baf6 ffff | ff8b 6c24 | 2444 8b44 | 243c 4489 | 4424 2448 | ff74 2448 | 488f 4424 
+  0x000001ebb669a754: 3848 ff74 | 2448 488f | 4424 404c | 8954 2450 | 4489 4c24 | 4c44 895c | 2458 6690 
+
+  0x000001ebb669a770: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a770: c5f8 77e8 
+
+  0x000001ebb669a774: ; ImmutableOopMap {rbp=NarrowOop [48]=Oop [56]=Oop [64]=Oop [80]=Oop [88]=NarrowOop }
+                      ;*arraylength {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@32 (line 333)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a774: 08f5 99ff | baf6 ffff | ff8b 6c24 | 2444 8b54 | 243c 4489 | 5424 2490 
+
+  0x000001ebb669a78c: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a78c: c5f8 77e8 
+
+  0x000001ebb669a790: ; ImmutableOopMap {rbp=NarrowOop [48]=Oop [72]=Oop }
+                      ;*invokevirtual poll {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a790: ecf4 99ff | 488b d8e9 | bb00 0000 | 4889 4424 | 504c 8b54 | 2428 458b | 5a18 4585 | db0f 8499 
+  0x000001ebb669a7b0: 0100 004b | 8d14 dc48 | 8b6c 2448 | 4c8b 5424 | 304c 8954 | 2420 448b | 5c24 3c44 | 895c 2428 
+  0x000001ebb669a7d0: ;   {optimized virtual_call}
+  0x000001ebb669a7d0: c5f8 77e8 
+
+  0x000001ebb669a7d4: ; ImmutableOopMap {rbp=Oop [32]=Oop [64]=Oop [80]=Oop }
+                      ;*invokevirtual unlock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@35 (line 186)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a7d4: 2899 99ff | 488b 5c24 | 50eb 7848 | 8bd8 eb73 | 488b d8eb | 6e48 8bd8 | eb69 4889 | 4424 5044 
+  0x000001ebb669a7f4: 8b55 1845 | 85d2 0f84 | 2401 0000 | 4b8d 14d4 | 488b 6c24 | 484c 8b54 | 2430 4c89 | 5424 2044 
+  0x000001ebb669a814: 8b5c 243c | 4489 5c24 | 2866 6690 
+
+  0x000001ebb669a820: ;   {optimized virtual_call}
+  0x000001ebb669a820: c5f8 77e8 
+
+  0x000001ebb669a824: ; ImmutableOopMap {rbp=Oop [32]=Oop [64]=Oop [80]=Oop }
+                      ;*invokevirtual unlock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@35 (line 186)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a824: d898 99ff | 488b 5c24 | 50eb 2848 | 8bd8 eb23 | 488b d8eb | 1e48 8bd8 | eb19 488b | d8eb 1448 
+  0x000001ebb669a844: 8bd8 eb0f | eb02 eb00 | 488b d0e9 | 9e00 0000 | 488b d84c | 8b5c 2440 | 488d 8424 | 8000 0000 
+  0x000001ebb669a864: 4883 3800 | 0f84 7500 | 0000 4d8b | 1341 f6c2 | 0274 6249 | 83ba 8600 | 0000 0074 | 0949 ff8a 
+  0x000001ebb669a884: 8600 0000 | eb4b 498b | 8296 0000 | 0049 0b82 | 8e00 0000 | 750a 49c7 | 423e 0000 | 0000 eb3d 
+  0x000001ebb669a8a4: 4983 ba9e | 0000 0000 | 7422 4833 | c049 c742 | 3e00 0000 | 00f0 8304 | 2400 4983 | ba9e 0000 
+  0x000001ebb669a8c4: 0000 750d | f04d 0fb1 | 7a3e 7505 | 83c8 01eb | 0ca8 00eb | 084c 8b10 | f04d 0fb1 | 1375 0a49 
+  0x000001ebb669a8e4: ff8f 7804 | 0000 4533 | d275 1348 | 8bd3 c5f8 | 7748 81c4 | a000 0000 
+
+  0x000001ebb669a8fc: ;   {runtime_call _rethrow_Java}
+  0x000001ebb669a8fc: 5de9 fe0a | a6ff 488b | 4c24 4048 | 8d94 2480 | 0000 004d | 8bc7 c5f8 | 7749 bab0 | f417 ecfe 
+  0x000001ebb669a91c: 7f00 0041 | ffd2 ebcb | baf6 ffff | ff8b 6c24 | 244c 8b54 | 2448 4c89 | 5424 2844 | 8b54 243c 
+  0x000001ebb669a93c: 4489 5424 | 2466 6690 
+
+  0x000001ebb669a944: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a944: c5f8 77e8 
+
+  0x000001ebb669a948: ; ImmutableOopMap {rbp=NarrowOop [40]=Oop [48]=Oop [80]=Oop }
+                      ;*invokevirtual unlock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@35 (line 186)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a948: 34f3 99ff | baf6 ffff | ff8b 6c24 | 2444 8b54 | 243c 4489 | 5424 2448 | ff74 2448 | 488f 4424 
+  0x000001ebb669a968: 384c 8b54 | 2448 4c89 | 5424 4090 
+
+  0x000001ebb669a974: ;   {runtime_call UncommonTrapBlob}
+  0x000001ebb669a974: c5f8 77e8 
+
+  0x000001ebb669a978: ; ImmutableOopMap {rbp=NarrowOop [48]=Oop [56]=Oop [64]=Oop [80]=Oop }
+                      ;*invokevirtual unlock {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ref.ReferenceQueue::poll@35 (line 186)
+                      ; - java.util.WeakHashMap::expungeStaleEntries@4 (line 329)
+                      ; - java.util.WeakHashMap::getTable@1 (line 361)
+                      ; - java.util.WeakHashMap::get@12 (line 409)
+                      ; - java.util.Collections$SynchronizedMap::get@12 (line 2673)
+                      ; - org.aspectj.weaver.World$TypeMap::get@35 (line 1326)
+  0x000001ebb669a978: 04f3 99ff 
+
+  0x000001ebb669a97c: ;   {internal_word}
+  0x000001ebb669a97c: 49ba 4595 | 69b6 eb01 | 0000 4d89 | 9790 0300 
+
+  0x000001ebb669a98c: ;   {runtime_call SafepointBlob}
+  0x000001ebb669a98c: 00e9 ee03 
+
+  0x000001ebb669a990: ;   {runtime_call StubRoutines (2)}
+  0x000001ebb669a990: 9aff e849 | dd97 ffe9 | 62e7 ffff | f4f4 f4f4 
+[Stub Code]
+  0x000001ebb669a9a0: ;   {no_reloc}
+  0x000001ebb669a9a0: 48bb 0000 | 0000 0000 
+
+  0x000001ebb669a9a8: ;   {runtime_call}
+  0x000001ebb669a9a8: 0000 e9fb 
+
+  0x000001ebb669a9ac: ;   {static_stub}
+  0x000001ebb669a9ac: ffff ff48 | bb00 0000 | 0000 0000 
+
+  0x000001ebb669a9b8: ;   {runtime_call}
+  0x000001ebb669a9b8: 00e9 fbff 
+
+  0x000001ebb669a9bc: ;   {static_stub}
+  0x000001ebb669a9bc: ffff 48bb | 0000 0000 | 0000 0000 
+
+  0x000001ebb669a9c8: ;   {runtime_call}
+  0x000001ebb669a9c8: e9fb ffff 
+
+  0x000001ebb669a9cc: ;   {static_stub}
+  0x000001ebb669a9cc: ff48 bb00 | 0000 0000 
+
+  0x000001ebb669a9d4: ;   {runtime_call}
+  0x000001ebb669a9d4: 0000 00e9 | fbff ffff 
+
+  0x000001ebb669a9dc: ;   {static_stub}
+  0x000001ebb669a9dc: 48bb 0000 | 0000 0000 
+
+  0x000001ebb669a9e4: ;   {runtime_call}
+  0x000001ebb669a9e4: 0000 e9fb 
+
+  0x000001ebb669a9e8: ;   {static_stub}
+  0x000001ebb669a9e8: ffff ff48 | bb00 0000 | 0000 0000 
+
+  0x000001ebb669a9f4: ;   {runtime_call}
+  0x000001ebb669a9f4: 00e9 fbff 
+
+  0x000001ebb669a9f8: ;   {runtime_call ExceptionBlob}
+  0x000001ebb669a9f8: ffff e901 | 5aa5 ffe8 | 0000 0000 | 4883 2c24 
+
+  0x000001ebb669aa08: ;   {runtime_call DeoptimizationBlob}
+  0x000001ebb669aa08: 05e9 12f6 
+
+  0x000001ebb669aa0c: ;   {static_stub}
+  0x000001ebb669aa0c: 99ff 48bb | 0000 0000 | 0000 0000 
+
+  0x000001ebb669aa18: ;   {runtime_call}
+  0x000001ebb669aa18: e9fb ffff 
+
+  0x000001ebb669aa1c: ;   {static_stub}
+  0x000001ebb669aa1c: ff48 bb00 | 0000 0000 
+
+  0x000001ebb669aa24: ;   {runtime_call}
+  0x000001ebb669aa24: 0000 00e9 | fbff ffff 
+
+  0x000001ebb669aa2c: ;   {static_stub}
+  0x000001ebb669aa2c: 48bb 0000 | 0000 0000 
+
+  0x000001ebb669aa34: ;   {runtime_call}
+  0x000001ebb669aa34: 0000 e9fb | ffff fff4 | f4f4 f4f4 
+[/MachCode]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x000001ebcc262ab0, length=14, elements={
+0x000001eba5224540, 0x000001ebc6650ac0, 0x000001ebc66516c0, 0x000001ebc66542d0,
+0x000001ebc6655f80, 0x000001ebc66568c0, 0x000001ebc6657200, 0x000001ebc6657e70,
+0x000001ebc665dd00, 0x000001ebc6619590, 0x000001ebcaaf7fd0, 0x000001ebcb88d0d0,
+0x000001ebcb3246a0, 0x000001ebcb36fc80
+}
+
+Java Threads: ( => current thread )
+=>0x000001eba5224540 JavaThread "main" [_thread_in_Java, id=19756, stack(0x0000006e73800000,0x0000006e73900000)]
+  0x000001ebc6650ac0 JavaThread "Reference Handler" daemon [_thread_blocked, id=4452, stack(0x0000006e73f00000,0x0000006e74000000)]
+  0x000001ebc66516c0 JavaThread "Finalizer" daemon [_thread_blocked, id=14388, stack(0x0000006e74000000,0x0000006e74100000)]
+  0x000001ebc66542d0 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=20236, stack(0x0000006e74100000,0x0000006e74200000)]
+  0x000001ebc6655f80 JavaThread "Attach Listener" daemon [_thread_blocked, id=13372, stack(0x0000006e74200000,0x0000006e74300000)]
+  0x000001ebc66568c0 JavaThread "Service Thread" daemon [_thread_blocked, id=17580, stack(0x0000006e74300000,0x0000006e74400000)]
+  0x000001ebc6657200 JavaThread "Monitor Deflation Thread" daemon [_thread_blocked, id=19264, stack(0x0000006e74400000,0x0000006e74500000)]
+  0x000001ebc6657e70 JavaThread "C2 CompilerThread0" daemon [_thread_in_native, id=7552, stack(0x0000006e74500000,0x0000006e74600000)]
+  0x000001ebc665dd00 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=19648, stack(0x0000006e74600000,0x0000006e74700000)]
+  0x000001ebc6619590 JavaThread "Common-Cleaner" daemon [_thread_blocked, id=11852, stack(0x0000006e74700000,0x0000006e74800000)]
+  0x000001ebcaaf7fd0 JavaThread "C2 CompilerThread1" daemon [_thread_in_native, id=9100, stack(0x0000006e74800000,0x0000006e74900000)]
+  0x000001ebcb88d0d0 JavaThread "C2 CompilerThread2" daemon [_thread_in_native, id=10676, stack(0x0000006e74d00000,0x0000006e74e00000)]
+  0x000001ebcb3246a0 JavaThread "Monitor Ctrl-Break" daemon [_thread_in_native, id=8140, stack(0x0000006e74e00000,0x0000006e74f00000)]
+  0x000001ebcb36fc80 JavaThread "Notification Thread" daemon [_thread_blocked, id=3280, stack(0x0000006e74f00000,0x0000006e75000000)]
+
+Other Threads:
+  0x000001ebc6633370 VMThread "VM Thread" [stack: 0x0000006e73e00000,0x0000006e73f00000] [id=13212]
+  0x000001eba5225240 WatcherThread "VM Periodic Task Thread" [stack: 0x0000006e75000000,0x0000006e75100000] [id=19868]
+  0x000001eba52900a0 WorkerThread "GC Thread#0" [stack: 0x0000006e73900000,0x0000006e73a00000] [id=20916]
+  0x000001ebcbd4c560 WorkerThread "GC Thread#1" [stack: 0x0000006e74900000,0x0000006e74a00000] [id=16208]
+  0x000001ebcaf85ad0 WorkerThread "GC Thread#2" [stack: 0x0000006e74a00000,0x0000006e74b00000] [id=9152]
+  0x000001ebcb7fc0e0 WorkerThread "GC Thread#3" [stack: 0x0000006e74b00000,0x0000006e74c00000] [id=8692]
+  0x000001ebcb7fd1c0 WorkerThread "GC Thread#4" [stack: 0x0000006e74c00000,0x0000006e74d00000] [id=12360]
+  0x000001ebcb7fc950 WorkerThread "GC Thread#5" [stack: 0x0000006e75100000,0x0000006e75200000] [id=11188]
+  0x000001ebcb7fcc20 WorkerThread "GC Thread#6" [stack: 0x0000006e75200000,0x0000006e75300000] [id=2416]
+  0x000001ebcb7fcef0 WorkerThread "GC Thread#7" [stack: 0x0000006e75300000,0x0000006e75400000] [id=7216]
+  0x000001ebcb7fb5a0 WorkerThread "GC Thread#8" [stack: 0x0000006e75400000,0x0000006e75500000] [id=11628]
+  0x000001ebcb601000 WorkerThread "GC Thread#9" [stack: 0x0000006e75500000,0x0000006e75600000] [id=20952]
+  0x000001eba52a0f70 ConcurrentGCThread "G1 Main Marker" [stack: 0x0000006e73a00000,0x0000006e73b00000] [id=12968]
+  0x000001eba52a18b0 WorkerThread "G1 Conc#0" [stack: 0x0000006e73b00000,0x0000006e73c00000] [id=10332]
+  0x000001ebc64eb570 ConcurrentGCThread "G1 Refine#0" [stack: 0x0000006e73c00000,0x0000006e73d00000] [id=19460]
+  0x000001ebc64edcd0 ConcurrentGCThread "G1 Service" [stack: 0x0000006e73d00000,0x0000006e73e00000] [id=5152]
+
+Threads with active compile tasks:
+C2 CompilerThread1     1831 2240       4       org.aspectj.weaver.UnresolvedType::signatureToName (682 bytes)
+C2 CompilerThread2     1831 2045       4       java.lang.String::regionMatches (150 bytes)
+
+VM state: not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap address: 0x0000000711000000, size: 3824 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+
+CDS archive(s) mapped at: [0x0000000800000000-0x0000000800c60000-0x0000000800c60000), size 12976128, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+Compressed class space mapped at: 0x0000000801000000-0x0000000841000000, reserved size: 1073741824
+Narrow klass base: 0x0000000800000000, Narrow klass shift: 0, Narrow klass range: 0x100000000
+
+GC Precious Log:
+ CardTable entry size: 512
+ Card Set container configuration: InlinePtr #cards 4 size 8 Array Of Cards #cards 16 size 48 Howl #buckets 8 coarsen threshold 3686 Howl Bitmap #cards 512 size 80 coarsen threshold 460 Card regions per heap region 1 cards per card region 4096
+ CPUs: 12 total, 12 available
+ Memory: 15295M
+ Large Page Support: Disabled
+ NUMA Support: Disabled
+ Compressed Oops: Enabled (Zero based)
+ Heap Region Size: 2M
+ Heap Min Capacity: 8M
+ Heap Initial Capacity: 240M
+ Heap Max Capacity: 3824M
+ Pre-touch: Disabled
+ Parallel Workers: 10
+ Concurrent Workers: 3
+ Concurrent Refinement Workers: 10
+ Periodic GC: Disabled
+
+Heap:
+ garbage-first heap   total 245760K, used 75004K [0x0000000711000000, 0x0000000800000000)
+  region size 2048K, 30 young (61440K), 4 survivors (8192K)
+ Metaspace       used 14103K, committed 14272K, reserved 1114112K
+  class space    used 1219K, committed 1280K, reserved 1048576K
+
+Heap Regions: E=young(eden), S=young(survivor), O=old, HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, OA=open archive, CA=closed archive, TAMS=top-at-mark-start, PB=parsable bottom
+|   0|0x0000000711000000, 0x0000000711200000, 0x0000000711200000|100%| O|  |TAMS 0x0000000711000000| PB 0x0000000711000000| Untracked 
+|   1|0x0000000711200000, 0x0000000711400000, 0x0000000711400000|100%| O|  |TAMS 0x0000000711200000| PB 0x0000000711200000| Untracked 
+|   2|0x0000000711400000, 0x0000000711600000, 0x0000000711600000|100%| O|  |TAMS 0x0000000711400000| PB 0x0000000711400000| Untracked 
+|   3|0x0000000711600000, 0x0000000711800000, 0x0000000711800000|100%| O|  |TAMS 0x0000000711600000| PB 0x0000000711600000| Untracked 
+|   4|0x0000000711800000, 0x0000000711a00000, 0x0000000711a00000|100%| O|  |TAMS 0x0000000711800000| PB 0x0000000711800000| Untracked 
+|   5|0x0000000711a00000, 0x0000000711c00000, 0x0000000711c00000|100%| O|  |TAMS 0x0000000711a00000| PB 0x0000000711a00000| Untracked 
+|   6|0x0000000711c00000, 0x0000000711e00000, 0x0000000711e00000|100%| O|  |TAMS 0x0000000711c00000| PB 0x0000000711c00000| Untracked 
+|   7|0x0000000711e00000, 0x0000000712000000, 0x0000000712000000|100%| O|  |TAMS 0x0000000711e00000| PB 0x0000000711e00000| Untracked 
+|   8|0x0000000712000000, 0x000000071213f200, 0x0000000712200000| 62%| O|  |TAMS 0x0000000712000000| PB 0x0000000712000000| Untracked 
+|   9|0x0000000712200000, 0x0000000712200000, 0x0000000712400000|  0%| F|  |TAMS 0x0000000712200000| PB 0x0000000712200000| Untracked 
+|  10|0x0000000712400000, 0x0000000712400000, 0x0000000712600000|  0%| F|  |TAMS 0x0000000712400000| PB 0x0000000712400000| Untracked 
+|  11|0x0000000712600000, 0x0000000712600000, 0x0000000712800000|  0%| F|  |TAMS 0x0000000712600000| PB 0x0000000712600000| Untracked 
+|  12|0x0000000712800000, 0x0000000712800000, 0x0000000712a00000|  0%| F|  |TAMS 0x0000000712800000| PB 0x0000000712800000| Untracked 
+|  13|0x0000000712a00000, 0x0000000712a00000, 0x0000000712c00000|  0%| F|  |TAMS 0x0000000712a00000| PB 0x0000000712a00000| Untracked 
+|  14|0x0000000712c00000, 0x0000000712c00000, 0x0000000712e00000|  0%| F|  |TAMS 0x0000000712c00000| PB 0x0000000712c00000| Untracked 
+|  15|0x0000000712e00000, 0x0000000712e00000, 0x0000000713000000|  0%| F|  |TAMS 0x0000000712e00000| PB 0x0000000712e00000| Untracked 
+|  16|0x0000000713000000, 0x0000000713000000, 0x0000000713200000|  0%| F|  |TAMS 0x0000000713000000| PB 0x0000000713000000| Untracked 
+|  17|0x0000000713200000, 0x0000000713200000, 0x0000000713400000|  0%| F|  |TAMS 0x0000000713200000| PB 0x0000000713200000| Untracked 
+|  18|0x0000000713400000, 0x0000000713400000, 0x0000000713600000|  0%| F|  |TAMS 0x0000000713400000| PB 0x0000000713400000| Untracked 
+|  19|0x0000000713600000, 0x0000000713600000, 0x0000000713800000|  0%| F|  |TAMS 0x0000000713600000| PB 0x0000000713600000| Untracked 
+|  20|0x0000000713800000, 0x0000000713800000, 0x0000000713a00000|  0%| F|  |TAMS 0x0000000713800000| PB 0x0000000713800000| Untracked 
+|  21|0x0000000713a00000, 0x0000000713a00000, 0x0000000713c00000|  0%| F|  |TAMS 0x0000000713a00000| PB 0x0000000713a00000| Untracked 
+|  22|0x0000000713c00000, 0x0000000713c00000, 0x0000000713e00000|  0%| F|  |TAMS 0x0000000713c00000| PB 0x0000000713c00000| Untracked 
+|  23|0x0000000713e00000, 0x0000000713e00000, 0x0000000714000000|  0%| F|  |TAMS 0x0000000713e00000| PB 0x0000000713e00000| Untracked 
+|  24|0x0000000714000000, 0x0000000714000000, 0x0000000714200000|  0%| F|  |TAMS 0x0000000714000000| PB 0x0000000714000000| Untracked 
+|  25|0x0000000714200000, 0x0000000714200000, 0x0000000714400000|  0%| F|  |TAMS 0x0000000714200000| PB 0x0000000714200000| Untracked 
+|  26|0x0000000714400000, 0x0000000714400000, 0x0000000714600000|  0%| F|  |TAMS 0x0000000714400000| PB 0x0000000714400000| Untracked 
+|  27|0x0000000714600000, 0x0000000714600000, 0x0000000714800000|  0%| F|  |TAMS 0x0000000714600000| PB 0x0000000714600000| Untracked 
+|  28|0x0000000714800000, 0x0000000714800000, 0x0000000714a00000|  0%| F|  |TAMS 0x0000000714800000| PB 0x0000000714800000| Untracked 
+|  29|0x0000000714a00000, 0x0000000714a00000, 0x0000000714c00000|  0%| F|  |TAMS 0x0000000714a00000| PB 0x0000000714a00000| Untracked 
+|  30|0x0000000714c00000, 0x0000000714c00000, 0x0000000714e00000|  0%| F|  |TAMS 0x0000000714c00000| PB 0x0000000714c00000| Untracked 
+|  31|0x0000000714e00000, 0x0000000714e00000, 0x0000000715000000|  0%| F|  |TAMS 0x0000000714e00000| PB 0x0000000714e00000| Untracked 
+|  32|0x0000000715000000, 0x0000000715000000, 0x0000000715200000|  0%| F|  |TAMS 0x0000000715000000| PB 0x0000000715000000| Untracked 
+|  33|0x0000000715200000, 0x0000000715200000, 0x0000000715400000|  0%| F|  |TAMS 0x0000000715200000| PB 0x0000000715200000| Untracked 
+|  34|0x0000000715400000, 0x0000000715400000, 0x0000000715600000|  0%| F|  |TAMS 0x0000000715400000| PB 0x0000000715400000| Untracked 
+|  35|0x0000000715600000, 0x0000000715600000, 0x0000000715800000|  0%| F|  |TAMS 0x0000000715600000| PB 0x0000000715600000| Untracked 
+|  36|0x0000000715800000, 0x0000000715800000, 0x0000000715a00000|  0%| F|  |TAMS 0x0000000715800000| PB 0x0000000715800000| Untracked 
+|  37|0x0000000715a00000, 0x0000000715a00000, 0x0000000715c00000|  0%| F|  |TAMS 0x0000000715a00000| PB 0x0000000715a00000| Untracked 
+|  38|0x0000000715c00000, 0x0000000715c00000, 0x0000000715e00000|  0%| F|  |TAMS 0x0000000715c00000| PB 0x0000000715c00000| Untracked 
+|  39|0x0000000715e00000, 0x0000000715e00000, 0x0000000716000000|  0%| F|  |TAMS 0x0000000715e00000| PB 0x0000000715e00000| Untracked 
+|  40|0x0000000716000000, 0x0000000716000000, 0x0000000716200000|  0%| F|  |TAMS 0x0000000716000000| PB 0x0000000716000000| Untracked 
+|  41|0x0000000716200000, 0x0000000716200000, 0x0000000716400000|  0%| F|  |TAMS 0x0000000716200000| PB 0x0000000716200000| Untracked 
+|  42|0x0000000716400000, 0x0000000716400000, 0x0000000716600000|  0%| F|  |TAMS 0x0000000716400000| PB 0x0000000716400000| Untracked 
+|  43|0x0000000716600000, 0x0000000716600000, 0x0000000716800000|  0%| F|  |TAMS 0x0000000716600000| PB 0x0000000716600000| Untracked 
+|  44|0x0000000716800000, 0x0000000716800000, 0x0000000716a00000|  0%| F|  |TAMS 0x0000000716800000| PB 0x0000000716800000| Untracked 
+|  45|0x0000000716a00000, 0x0000000716a00000, 0x0000000716c00000|  0%| F|  |TAMS 0x0000000716a00000| PB 0x0000000716a00000| Untracked 
+|  46|0x0000000716c00000, 0x0000000716c00000, 0x0000000716e00000|  0%| F|  |TAMS 0x0000000716c00000| PB 0x0000000716c00000| Untracked 
+|  47|0x0000000716e00000, 0x0000000716e00000, 0x0000000717000000|  0%| F|  |TAMS 0x0000000716e00000| PB 0x0000000716e00000| Untracked 
+|  48|0x0000000717000000, 0x0000000717000000, 0x0000000717200000|  0%| F|  |TAMS 0x0000000717000000| PB 0x0000000717000000| Untracked 
+|  49|0x0000000717200000, 0x0000000717200000, 0x0000000717400000|  0%| F|  |TAMS 0x0000000717200000| PB 0x0000000717200000| Untracked 
+|  50|0x0000000717400000, 0x0000000717400000, 0x0000000717600000|  0%| F|  |TAMS 0x0000000717400000| PB 0x0000000717400000| Untracked 
+|  51|0x0000000717600000, 0x0000000717600000, 0x0000000717800000|  0%| F|  |TAMS 0x0000000717600000| PB 0x0000000717600000| Untracked 
+|  52|0x0000000717800000, 0x0000000717800000, 0x0000000717a00000|  0%| F|  |TAMS 0x0000000717800000| PB 0x0000000717800000| Untracked 
+|  53|0x0000000717a00000, 0x0000000717a00000, 0x0000000717c00000|  0%| F|  |TAMS 0x0000000717a00000| PB 0x0000000717a00000| Untracked 
+|  54|0x0000000717c00000, 0x0000000717c00000, 0x0000000717e00000|  0%| F|  |TAMS 0x0000000717c00000| PB 0x0000000717c00000| Untracked 
+|  55|0x0000000717e00000, 0x0000000717e00000, 0x0000000718000000|  0%| F|  |TAMS 0x0000000717e00000| PB 0x0000000717e00000| Untracked 
+|  56|0x0000000718000000, 0x0000000718000000, 0x0000000718200000|  0%| F|  |TAMS 0x0000000718000000| PB 0x0000000718000000| Untracked 
+|  57|0x0000000718200000, 0x0000000718200000, 0x0000000718400000|  0%| F|  |TAMS 0x0000000718200000| PB 0x0000000718200000| Untracked 
+|  58|0x0000000718400000, 0x0000000718400000, 0x0000000718600000|  0%| F|  |TAMS 0x0000000718400000| PB 0x0000000718400000| Untracked 
+|  59|0x0000000718600000, 0x0000000718600000, 0x0000000718800000|  0%| F|  |TAMS 0x0000000718600000| PB 0x0000000718600000| Untracked 
+|  60|0x0000000718800000, 0x0000000718800000, 0x0000000718a00000|  0%| F|  |TAMS 0x0000000718800000| PB 0x0000000718800000| Untracked 
+|  61|0x0000000718a00000, 0x0000000718a00000, 0x0000000718c00000|  0%| F|  |TAMS 0x0000000718a00000| PB 0x0000000718a00000| Untracked 
+|  62|0x0000000718c00000, 0x0000000718c00000, 0x0000000718e00000|  0%| F|  |TAMS 0x0000000718c00000| PB 0x0000000718c00000| Untracked 
+|  63|0x0000000718e00000, 0x0000000718e00000, 0x0000000719000000|  0%| F|  |TAMS 0x0000000718e00000| PB 0x0000000718e00000| Untracked 
+|  64|0x0000000719000000, 0x0000000719000000, 0x0000000719200000|  0%| F|  |TAMS 0x0000000719000000| PB 0x0000000719000000| Untracked 
+|  65|0x0000000719200000, 0x0000000719200000, 0x0000000719400000|  0%| F|  |TAMS 0x0000000719200000| PB 0x0000000719200000| Untracked 
+|  66|0x0000000719400000, 0x0000000719400000, 0x0000000719600000|  0%| F|  |TAMS 0x0000000719400000| PB 0x0000000719400000| Untracked 
+|  67|0x0000000719600000, 0x0000000719600000, 0x0000000719800000|  0%| F|  |TAMS 0x0000000719600000| PB 0x0000000719600000| Untracked 
+|  68|0x0000000719800000, 0x0000000719800000, 0x0000000719a00000|  0%| F|  |TAMS 0x0000000719800000| PB 0x0000000719800000| Untracked 
+|  69|0x0000000719a00000, 0x0000000719a00000, 0x0000000719c00000|  0%| F|  |TAMS 0x0000000719a00000| PB 0x0000000719a00000| Untracked 
+|  70|0x0000000719c00000, 0x0000000719c00000, 0x0000000719e00000|  0%| F|  |TAMS 0x0000000719c00000| PB 0x0000000719c00000| Untracked 
+|  71|0x0000000719e00000, 0x0000000719e00000, 0x000000071a000000|  0%| F|  |TAMS 0x0000000719e00000| PB 0x0000000719e00000| Untracked 
+|  72|0x000000071a000000, 0x000000071a000000, 0x000000071a200000|  0%| F|  |TAMS 0x000000071a000000| PB 0x000000071a000000| Untracked 
+|  73|0x000000071a200000, 0x000000071a200000, 0x000000071a400000|  0%| F|  |TAMS 0x000000071a200000| PB 0x000000071a200000| Untracked 
+|  74|0x000000071a400000, 0x000000071a400000, 0x000000071a600000|  0%| F|  |TAMS 0x000000071a400000| PB 0x000000071a400000| Untracked 
+|  75|0x000000071a600000, 0x000000071a600000, 0x000000071a800000|  0%| F|  |TAMS 0x000000071a600000| PB 0x000000071a600000| Untracked 
+|  76|0x000000071a800000, 0x000000071a800000, 0x000000071aa00000|  0%| F|  |TAMS 0x000000071a800000| PB 0x000000071a800000| Untracked 
+|  77|0x000000071aa00000, 0x000000071aa00000, 0x000000071ac00000|  0%| F|  |TAMS 0x000000071aa00000| PB 0x000000071aa00000| Untracked 
+|  78|0x000000071ac00000, 0x000000071ac00000, 0x000000071ae00000|  0%| F|  |TAMS 0x000000071ac00000| PB 0x000000071ac00000| Untracked 
+|  79|0x000000071ae00000, 0x000000071ae00000, 0x000000071b000000|  0%| F|  |TAMS 0x000000071ae00000| PB 0x000000071ae00000| Untracked 
+|  80|0x000000071b000000, 0x000000071b000000, 0x000000071b200000|  0%| F|  |TAMS 0x000000071b000000| PB 0x000000071b000000| Untracked 
+|  81|0x000000071b200000, 0x000000071b200000, 0x000000071b400000|  0%| F|  |TAMS 0x000000071b200000| PB 0x000000071b200000| Untracked 
+|  82|0x000000071b400000, 0x000000071b400000, 0x000000071b600000|  0%| F|  |TAMS 0x000000071b400000| PB 0x000000071b400000| Untracked 
+|  83|0x000000071b600000, 0x000000071b600000, 0x000000071b800000|  0%| F|  |TAMS 0x000000071b600000| PB 0x000000071b600000| Untracked 
+|  84|0x000000071b800000, 0x000000071b800000, 0x000000071ba00000|  0%| F|  |TAMS 0x000000071b800000| PB 0x000000071b800000| Untracked 
+|  85|0x000000071ba00000, 0x000000071ba00000, 0x000000071bc00000|  0%| F|  |TAMS 0x000000071ba00000| PB 0x000000071ba00000| Untracked 
+|  86|0x000000071bc00000, 0x000000071bc00000, 0x000000071be00000|  0%| F|  |TAMS 0x000000071bc00000| PB 0x000000071bc00000| Untracked 
+|  87|0x000000071be00000, 0x000000071c000000, 0x000000071c000000|100%| S|CS|TAMS 0x000000071be00000| PB 0x000000071be00000| Complete 
+|  88|0x000000071c000000, 0x000000071c200000, 0x000000071c200000|100%| S|CS|TAMS 0x000000071c000000| PB 0x000000071c000000| Complete 
+|  89|0x000000071c200000, 0x000000071c400000, 0x000000071c400000|100%| S|CS|TAMS 0x000000071c200000| PB 0x000000071c200000| Complete 
+|  90|0x000000071c400000, 0x000000071c600000, 0x000000071c600000|100%| S|CS|TAMS 0x000000071c400000| PB 0x000000071c400000| Complete 
+|  91|0x000000071c600000, 0x000000071c600000, 0x000000071c800000|  0%| F|  |TAMS 0x000000071c600000| PB 0x000000071c600000| Untracked 
+|  92|0x000000071c800000, 0x000000071c800000, 0x000000071ca00000|  0%| F|  |TAMS 0x000000071c800000| PB 0x000000071c800000| Untracked 
+|  93|0x000000071ca00000, 0x000000071ca00000, 0x000000071cc00000|  0%| F|  |TAMS 0x000000071ca00000| PB 0x000000071ca00000| Untracked 
+|  94|0x000000071cc00000, 0x000000071cde5ee8, 0x000000071ce00000| 94%| E|  |TAMS 0x000000071cc00000| PB 0x000000071cc00000| Complete 
+|  95|0x000000071ce00000, 0x000000071d000000, 0x000000071d000000|100%| E|CS|TAMS 0x000000071ce00000| PB 0x000000071ce00000| Complete 
+|  96|0x000000071d000000, 0x000000071d200000, 0x000000071d200000|100%| E|CS|TAMS 0x000000071d000000| PB 0x000000071d000000| Complete 
+|  97|0x000000071d200000, 0x000000071d400000, 0x000000071d400000|100%| E|CS|TAMS 0x000000071d200000| PB 0x000000071d200000| Complete 
+|  98|0x000000071d400000, 0x000000071d600000, 0x000000071d600000|100%| E|CS|TAMS 0x000000071d400000| PB 0x000000071d400000| Complete 
+|  99|0x000000071d600000, 0x000000071d800000, 0x000000071d800000|100%| E|CS|TAMS 0x000000071d600000| PB 0x000000071d600000| Complete 
+| 100|0x000000071d800000, 0x000000071da00000, 0x000000071da00000|100%| E|CS|TAMS 0x000000071d800000| PB 0x000000071d800000| Complete 
+| 101|0x000000071da00000, 0x000000071dc00000, 0x000000071dc00000|100%| E|CS|TAMS 0x000000071da00000| PB 0x000000071da00000| Complete 
+| 102|0x000000071dc00000, 0x000000071de00000, 0x000000071de00000|100%| E|CS|TAMS 0x000000071dc00000| PB 0x000000071dc00000| Complete 
+| 103|0x000000071de00000, 0x000000071e000000, 0x000000071e000000|100%| E|CS|TAMS 0x000000071de00000| PB 0x000000071de00000| Complete 
+| 104|0x000000071e000000, 0x000000071e200000, 0x000000071e200000|100%| E|CS|TAMS 0x000000071e000000| PB 0x000000071e000000| Complete 
+| 105|0x000000071e200000, 0x000000071e400000, 0x000000071e400000|100%| E|  |TAMS 0x000000071e200000| PB 0x000000071e200000| Complete 
+| 106|0x000000071e400000, 0x000000071e600000, 0x000000071e600000|100%| E|CS|TAMS 0x000000071e400000| PB 0x000000071e400000| Complete 
+| 107|0x000000071e600000, 0x000000071e800000, 0x000000071e800000|100%| E|CS|TAMS 0x000000071e600000| PB 0x000000071e600000| Complete 
+| 108|0x000000071e800000, 0x000000071ea00000, 0x000000071ea00000|100%| E|CS|TAMS 0x000000071e800000| PB 0x000000071e800000| Complete 
+| 109|0x000000071ea00000, 0x000000071ec00000, 0x000000071ec00000|100%| E|CS|TAMS 0x000000071ea00000| PB 0x000000071ea00000| Complete 
+| 110|0x000000071ec00000, 0x000000071ee00000, 0x000000071ee00000|100%| E|CS|TAMS 0x000000071ec00000| PB 0x000000071ec00000| Complete 
+| 111|0x000000071ee00000, 0x000000071f000000, 0x000000071f000000|100%| E|CS|TAMS 0x000000071ee00000| PB 0x000000071ee00000| Complete 
+| 112|0x000000071f000000, 0x000000071f200000, 0x000000071f200000|100%| E|CS|TAMS 0x000000071f000000| PB 0x000000071f000000| Complete 
+| 113|0x000000071f200000, 0x000000071f400000, 0x000000071f400000|100%| E|CS|TAMS 0x000000071f200000| PB 0x000000071f200000| Complete 
+| 114|0x000000071f400000, 0x000000071f600000, 0x000000071f600000|100%| E|CS|TAMS 0x000000071f400000| PB 0x000000071f400000| Complete 
+| 115|0x000000071f600000, 0x000000071f800000, 0x000000071f800000|100%| E|CS|TAMS 0x000000071f600000| PB 0x000000071f600000| Complete 
+| 116|0x000000071f800000, 0x000000071fa00000, 0x000000071fa00000|100%| E|CS|TAMS 0x000000071f800000| PB 0x000000071f800000| Complete 
+| 117|0x000000071fa00000, 0x000000071fc00000, 0x000000071fc00000|100%| E|CS|TAMS 0x000000071fa00000| PB 0x000000071fa00000| Complete 
+| 118|0x000000071fc00000, 0x000000071fe00000, 0x000000071fe00000|100%| E|CS|TAMS 0x000000071fc00000| PB 0x000000071fc00000| Complete 
+| 119|0x000000071fe00000, 0x0000000720000000, 0x0000000720000000|100%| E|CS|TAMS 0x000000071fe00000| PB 0x000000071fe00000| Complete 
+
+Card table byte_map: [0x000001ebbeeb0000,0x000001ebbf630000] _byte_map_base: 0x000001ebbb628000
+
+Marking Bits: (CMBitMap*) 0x000001eba52915f0
+ Bits: [0x000001ebbfdb0000, 0x000001ebc3970000)
+
+Polling page: 0x000001eba52e0000
+
+Metaspace:
+
+Usage:
+  Non-class:     12.58 MB used.
+      Class:      1.19 MB used.
+       Both:     13.77 MB used.
+
+Virtual space:
+  Non-class space:       64.00 MB reserved,      12.69 MB ( 20%) committed,  1 nodes.
+      Class space:        1.00 GB reserved,       1.25 MB ( <1%) committed,  1 nodes.
+             Both:        1.06 GB reserved,      13.94 MB (  1%) committed. 
+
+Chunk freelists:
+   Non-Class:  2.84 MB
+       Class:  2.69 MB
+        Both:  5.53 MB
+
+MaxMetaspaceSize: unlimited
+CompressedClassSpaceSize: 1.00 GB
+Initial GC threshold: 21.00 MB
+Current GC threshold: 21.00 MB
+CDS: on
+MetaspaceReclaimPolicy: balanced
+ - commit_granule_bytes: 65536.
+ - commit_granule_words: 8192.
+ - virtual_space_node_default_size: 8388608.
+ - enlarge_chunks_in_place: 1.
+ - new_chunks_are_fully_committed: 0.
+ - uncommit_free_chunks: 1.
+ - use_allocation_guard: 0.
+
+
+Internal statistics:
+
+num_allocs_failed_limit: 0.
+num_arena_births: 78.
+num_arena_deaths: 0.
+num_vsnodes_births: 2.
+num_vsnodes_deaths: 0.
+num_space_committed: 223.
+num_space_uncommitted: 0.
+num_chunks_returned_to_freelist: 0.
+num_chunks_taken_from_freelist: 406.
+num_chunk_merges: 0.
+num_chunk_splits: 321.
+num_chunks_enlarged: 271.
+num_inconsistent_stats: 0.
+
+CodeHeap 'non-profiled nmethods': size=120000Kb used=1595Kb max_used=1595Kb free=118404Kb
+ bounds [0x000001ebb6570000, 0x000001ebb67e0000, 0x000001ebbdaa0000]
+CodeHeap 'profiled nmethods': size=120000Kb used=5390Kb max_used=5390Kb free=114610Kb
+ bounds [0x000001ebaeaa0000, 0x000001ebaeff0000, 0x000001ebb5fd0000]
+CodeHeap 'non-nmethods': size=5760Kb used=1463Kb max_used=1538Kb free=4296Kb
+ bounds [0x000001ebb5fd0000, 0x000001ebb6240000, 0x000001ebb6570000]
+ total_blobs=2732 nmethods=2239 adapters=403
+ compilation: enabled
+              stopped_count=0, restarted_count=0
+ full_count=0
+
+Compilation events (20 events):
+Event: 1.685 Thread 0x000001ebc665dd00 nmethod 2230 0x000001ebaefc5610 code [0x000001ebaefc5860, 0x000001ebaefc6468]
+Event: 1.687 Thread 0x000001ebcaaf7fd0 nmethod 2193 0x000001ebb66dc110 code [0x000001ebb66dc2c0, 0x000001ebb66dc830]
+Event: 1.687 Thread 0x000001ebcaaf7fd0 2189       4       org.aspectj.apache.bcel.generic.InstructionHandle::addTargeter (33 bytes)
+Event: 1.693 Thread 0x000001ebc665dd00 2232       3       org.aspectj.weaver.ArrayReferenceType::isParameterizedType (16 bytes)
+Event: 1.693 Thread 0x000001ebc665dd00 nmethod 2232 0x000001ebaefc6790 code [0x000001ebaefc6920, 0x000001ebaefc6a98]
+Event: 1.697 Thread 0x000001ebc665dd00 2234   !   3       org.aspectj.weaver.bcel.BcelObjectType::getTypeVariables (145 bytes)
+Event: 1.698 Thread 0x000001ebc665dd00 nmethod 2234 0x000001ebaefc6b10 code [0x000001ebaefc6e40, 0x000001ebaefc8070]
+Event: 1.698 Thread 0x000001ebc665dd00 2235       3       org.aspectj.weaver.UnresolvedType::hashCode (8 bytes)
+Event: 1.698 Thread 0x000001ebc665dd00 nmethod 2235 0x000001ebaefc8790 code [0x000001ebaefc8920, 0x000001ebaefc8a60]
+Event: 1.699 Thread 0x000001ebc665dd00 2236       3       org.aspectj.weaver.ReferenceType::getDeclaredFields (97 bytes)
+Event: 1.699 Thread 0x000001ebc665dd00 nmethod 2236 0x000001ebaefc8b10 code [0x000001ebaefc8d60, 0x000001ebaefc9960]
+Event: 1.703 Thread 0x000001ebc665dd00 2237       3       java.util.HashSet::contains (9 bytes)
+Event: 1.704 Thread 0x000001ebc665dd00 nmethod 2237 0x000001ebaefc9c10 code [0x000001ebaefc9da0, 0x000001ebaefc9f78]
+Event: 1.705 Thread 0x000001ebc665dd00 2238       3       org.aspectj.weaver.ArrayReferenceType::isRawType (16 bytes)
+Event: 1.706 Thread 0x000001ebc665dd00 nmethod 2238 0x000001ebaefca010 code [0x000001ebaefca1a0, 0x000001ebaefca318]
+Event: 1.709 Thread 0x000001ebcaaf7fd0 nmethod 2189 0x000001ebb66dcb10 code [0x000001ebb66dcd80, 0x000001ebb66de148]
+Event: 1.710 Thread 0x000001ebcaaf7fd0 2231   !   4       org.aspectj.weaver.World::resolve (297 bytes)
+Event: 1.713 Thread 0x000001ebc665dd00 2239       3       org.aspectj.weaver.bcel.BcelClassWeaver::addSuperInitializer (62 bytes)
+Event: 1.714 Thread 0x000001ebc665dd00 nmethod 2239 0x000001ebaefca390 code [0x000001ebaefca5c0, 0x000001ebaefcb0f8]
+Event: 1.715 Thread 0x000001ebc665dd00 2241       3       org.aspectj.weaver.bcel.BcelClassWeaver::weaveDeclareAtMethodCtor (1334 bytes)
+
+GC Heap History (6 events):
+Event: 0.372 GC heap before
+{Heap before GC invocations=0 (full 0):
+ garbage-first heap   total 245760K, used 20480K [0x0000000711000000, 0x0000000800000000)
+  region size 2048K, 11 young (22528K), 0 survivors (0K)
+ Metaspace       used 890K, committed 1088K, reserved 1114112K
+  class space    used 44K, committed 128K, reserved 1048576K
+}
+Event: 0.376 GC heap after
+{Heap after GC invocations=1 (full 0):
+ garbage-first heap   total 245760K, used 12592K [0x0000000711000000, 0x0000000800000000)
+  region size 2048K, 2 young (4096K), 2 survivors (4096K)
+ Metaspace       used 890K, committed 1088K, reserved 1114112K
+  class space    used 44K, committed 128K, reserved 1048576K
+}
+Event: 0.622 GC heap before
+{Heap before GC invocations=1 (full 0):
+ garbage-first heap   total 245760K, used 26928K [0x0000000711000000, 0x0000000800000000)
+  region size 2048K, 9 young (18432K), 2 survivors (4096K)
+ Metaspace       used 5871K, committed 6016K, reserved 1114112K
+  class space    used 534K, committed 576K, reserved 1048576K
+}
+Event: 0.624 GC heap after
+{Heap after GC invocations=2 (full 0):
+ garbage-first heap   total 245760K, used 13717K [0x0000000711000000, 0x0000000800000000)
+  region size 2048K, 1 young (2048K), 1 survivors (2048K)
+ Metaspace       used 5871K, committed 6016K, reserved 1114112K
+  class space    used 534K, committed 576K, reserved 1048576K
+}
+Event: 1.201 GC heap before
+{Heap before GC invocations=2 (full 0):
+ garbage-first heap   total 245760K, used 71061K [0x0000000711000000, 0x0000000800000000)
+  region size 2048K, 29 young (59392K), 1 survivors (2048K)
+ Metaspace       used 11474K, committed 11648K, reserved 1114112K
+  class space    used 945K, committed 1024K, reserved 1048576K
+}
+Event: 1.209 GC heap after
+{Heap after GC invocations=3 (full 0):
+ garbage-first heap   total 245760K, used 25852K [0x0000000711000000, 0x0000000800000000)
+  region size 2048K, 4 young (8192K), 4 survivors (8192K)
+ Metaspace       used 11474K, committed 11648K, reserved 1114112K
+  class space    used 945K, committed 1024K, reserved 1048576K
+}
+
+Dll operation events (10 events):
+Event: 0.005 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\java.dll
+Event: 0.011 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\jsvml.dll
+Event: 0.192 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\zip.dll
+Event: 0.194 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\instrument.dll
+Event: 0.198 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\net.dll
+Event: 0.199 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\nio.dll
+Event: 0.204 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\zip.dll
+Event: 0.287 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\jimage.dll
+Event: 0.628 Loaded shared library C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\bin\breakgen64.dll
+Event: 0.639 Loaded shared library C:\Users\user\.jdks\openjdk-20.0.1\bin\extnet.dll
+
+Deoptimization events (20 events):
+Event: 1.596 Thread 0x000001eba5224540 DEOPT PACKING pc=0x000001ebb66c2d9c sp=0x0000006e738fb940
+Event: 1.596 Thread 0x000001eba5224540 DEOPT UNPACKING pc=0x000001ebb6039d22 sp=0x0000006e738fb910 mode 2
+Event: 1.633 Thread 0x000001eba5224540 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000001ebb667ce10 relative=0x00000000000008d0
+Event: 1.633 Thread 0x000001eba5224540 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000001ebb667ce10 method=java.io.BufferedInputStream.implRead([BII)I @ 104 c2
+Event: 1.633 Thread 0x000001eba5224540 DEOPT PACKING pc=0x000001ebb667ce10 sp=0x0000006e738fe980
+Event: 1.633 Thread 0x000001eba5224540 DEOPT UNPACKING pc=0x000001ebb6039d22 sp=0x0000006e738fe8d8 mode 2
+Event: 1.633 Thread 0x000001eba5224540 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000001ebb667b290 relative=0x00000000000004b0
+Event: 1.633 Thread 0x000001eba5224540 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000001ebb667b290 method=java.io.BufferedInputStream.implRead([BII)I @ 56 c2
+Event: 1.633 Thread 0x000001eba5224540 DEOPT PACKING pc=0x000001ebb667b290 sp=0x0000006e738fe8f0
+Event: 1.633 Thread 0x000001eba5224540 DEOPT UNPACKING pc=0x000001ebb6039d22 sp=0x0000006e738fe8d8 mode 2
+Event: 1.636 Thread 0x000001eba5224540 Uncommon trap: trap_request=0xffffffc6 fr.pc=0x000001ebb65fd044 relative=0x0000000000000304
+Event: 1.636 Thread 0x000001eba5224540 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001ebb65fd044 method=java.util.concurrent.ConcurrentHashMap.get(Ljava/lang/Object;)Ljava/lang/Object; @ 149 c2
+Event: 1.636 Thread 0x000001eba5224540 DEOPT PACKING pc=0x000001ebb65fd044 sp=0x0000006e738fdd90
+Event: 1.636 Thread 0x000001eba5224540 DEOPT UNPACKING pc=0x000001ebb6039d22 sp=0x0000006e738fdd00 mode 2
+Event: 1.662 Thread 0x000001eba5224540 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000001ebb65da424 relative=0x0000000000000d24
+Event: 1.662 Thread 0x000001eba5224540 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000001ebb65da424 method=jdk.internal.loader.URLClassPath.getResource(Ljava/lang/String;Z)Ljdk/internal/loader/Resource; @ 47 c2
+Event: 1.662 Thread 0x000001eba5224540 DEOPT PACKING pc=0x000001ebb65da424 sp=0x0000006e738fdb80
+Event: 1.662 Thread 0x000001eba5224540 DEOPT UNPACKING pc=0x000001ebb6039d22 sp=0x0000006e738fdb50 mode 2
+Event: 1.690 Thread 0x000001eba5224540 DEOPT PACKING pc=0x000001ebaefc2065 sp=0x0000006e738fd8f0
+Event: 1.690 Thread 0x000001eba5224540 DEOPT UNPACKING pc=0x000001ebb603a4c2 sp=0x0000006e738fcd78 mode 0
+
+Classes loaded (20 events):
+Event: 1.574 Loading class java/util/concurrent/atomic/AtomicBoolean
+Event: 1.574 Loading class java/util/concurrent/atomic/AtomicBoolean done
+Event: 1.590 Loading class java/lang/ProcessEnvironment
+Event: 1.590 Loading class java/lang/ProcessEnvironment done
+Event: 1.591 Loading class java/lang/ProcessEnvironment$NameComparator
+Event: 1.591 Loading class java/lang/ProcessEnvironment$NameComparator done
+Event: 1.591 Loading class java/lang/ProcessEnvironment$EntryComparator
+Event: 1.591 Loading class java/lang/ProcessEnvironment$EntryComparator done
+Event: 1.591 Loading class java/lang/ProcessEnvironment$CheckedEntrySet
+Event: 1.591 Loading class java/lang/ProcessEnvironment$CheckedEntrySet done
+Event: 1.591 Loading class java/lang/ProcessEnvironment$CheckedEntrySet$1
+Event: 1.592 Loading class java/lang/ProcessEnvironment$CheckedEntrySet$1 done
+Event: 1.592 Loading class java/lang/ProcessEnvironment$CheckedEntry
+Event: 1.592 Loading class java/lang/ProcessEnvironment$CheckedEntry done
+Event: 1.592 Loading class java/lang/invoke/DirectMethodHandle$Special
+Event: 1.593 Loading class java/lang/invoke/DirectMethodHandle$Special done
+Event: 1.631 Loading class jdk/internal/loader/URLClassPath$FileLoader$1
+Event: 1.631 Loading class jdk/internal/loader/URLClassPath$FileLoader$1 done
+Event: 1.640 Loading class java/util/stream/ForEachOps$ForEachOp$OfRef
+Event: 1.640 Loading class java/util/stream/ForEachOps$ForEachOp$OfRef done
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (20 events):
+Event: 0.574 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f4f85d8}: Index 7 out of bounds for length 7> (0x000000071f4f85d8) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.574 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f4f8bb0}: Index 7 out of bounds for length 7> (0x000000071f4f8bb0) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.574 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f4f9188}: Index 7 out of bounds for length 7> (0x000000071f4f9188) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.578 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f528228}: Index 11 out of bounds for length 11> (0x000000071f528228) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.578 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f528800}: Index 11 out of bounds for length 11> (0x000000071f528800) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.578 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f528dd8}: Index 11 out of bounds for length 11> (0x000000071f528dd8) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.578 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f52a280}: Index 9 out of bounds for length 9> (0x000000071f52a280) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.578 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f52a858}: Index 9 out of bounds for length 9> (0x000000071f52a858) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.578 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f52ae30}: Index 9 out of bounds for length 9> (0x000000071f52ae30) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.579 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f5300e8}: Index 7 out of bounds for length 7> (0x000000071f5300e8) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.579 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f5306c0}: Index 7 out of bounds for length 7> (0x000000071f5306c0) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.579 Thread 0x000001eba5224540 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000071f530c98}: Index 7 out of bounds for length 7> (0x000000071f530c98) 
+thrown [s\open\src\hotspot\share\interpreter\interpreterRuntime.cpp, line 439]
+Event: 0.641 Thread 0x000001ebcb3246a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000071fffec00}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object)'> (0x000000071fffec00) 
+thrown [s\open\src\hotspot\share\interpreter\linkResolver.cpp, line 773]
+Event: 0.672 Thread 0x000001eba5224540 Exception <a 'java/lang/NoSuchMethodError'{0x000000071fa5c9a0}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeStaticInit(java.lang.Object, int)'> (0x000000071fa5c9a0) 
+thrown [s\open\src\hotspot\share\interpreter\linkResolver.cpp, line 773]
+Event: 0.690 Thread 0x000001eba5224540 Exception <a 'java/lang/NoSuchMethodError'{0x000000071fb6b750}: 'long java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(java.lang.Object, java.lang.Object)'> (0x000000071fb6b750) 
+thrown [s\open\src\hotspot\share\interpreter\linkResolver.cpp, line 773]
+Event: 0.691 Thread 0x000001eba5224540 Exception <a 'java/lang/NoSuchMethodError'{0x000000071fb6ec80}: 'long java.lang.invoke.Invokers$Holder.invokeExact_MT(java.lang.Object, java.lang.Object)'> (0x000000071fb6ec80) 
+thrown [s\open\src\hotspot\share\interpreter\linkResolver.cpp, line 773]
+Event: 0.697 Thread 0x000001eba5224540 Exception <a 'java/lang/NoSuchMethodError'{0x000000071fba3618}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeInterface(java.lang.Object, java.lang.Object)'> (0x000000071fba3618) 
+thrown [s\open\src\hotspot\share\interpreter\linkResolver.cpp, line 773]
+Event: 1.098 Thread 0x000001ebc6655f80 Exception <a 'java/lang/NoSuchMethodError'{0x000000071cf118c0}: 'java.lang.Object java.lang.invoke.Invokers$Holder.invokeExact_MT(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)'> (0x000000071cf118c0) 
+thrown [s\open\src\hotspot\share\interpreter\linkResolver.cpp, line 773]
+Event: 1.209 Thread 0x000001eba5224540 Implicit null exception at 0x000001ebb665d81e to 0x000001ebb665e93c
+Event: 1.244 Thread 0x000001eba5224540 Implicit null exception at 0x000001ebb668d892 to 0x000001ebb6692678
+
+VM Operations (20 events):
+Event: 0.684 Executing VM operation: HandshakeAllThreads
+Event: 0.684 Executing VM operation: HandshakeAllThreads done
+Event: 0.688 Executing VM operation: HandshakeAllThreads
+Event: 0.688 Executing VM operation: HandshakeAllThreads done
+Event: 0.701 Executing VM operation: HandshakeAllThreads
+Event: 0.701 Executing VM operation: HandshakeAllThreads done
+Event: 0.779 Executing VM operation: HandshakeAllThreads
+Event: 0.779 Executing VM operation: HandshakeAllThreads done
+Event: 0.840 Executing VM operation: ICBufferFull
+Event: 0.841 Executing VM operation: ICBufferFull done
+Event: 1.201 Executing VM operation: G1CollectForAllocation
+Event: 1.209 Executing VM operation: G1CollectForAllocation done
+Event: 1.400 Executing VM operation: HandshakeAllThreads
+Event: 1.400 Executing VM operation: HandshakeAllThreads done
+Event: 1.400 Executing VM operation: HandshakeAllThreads
+Event: 1.400 Executing VM operation: HandshakeAllThreads done
+Event: 1.402 Executing VM operation: ICBufferFull
+Event: 1.402 Executing VM operation: ICBufferFull done
+Event: 1.590 Executing VM operation: HandshakeAllThreads
+Event: 1.591 Executing VM operation: HandshakeAllThreads done
+
+Events (14 events):
+Event: 0.012 Thread 0x000001eba5224540 Thread added: 0x000001eba5224540
+Event: 0.022 Thread 0x000001ebc6650ac0 Thread added: 0x000001ebc6650ac0
+Event: 0.022 Thread 0x000001ebc66516c0 Thread added: 0x000001ebc66516c0
+Event: 0.022 Thread 0x000001ebc66542d0 Thread added: 0x000001ebc66542d0
+Event: 0.022 Thread 0x000001ebc6655f80 Thread added: 0x000001ebc6655f80
+Event: 0.022 Thread 0x000001ebc66568c0 Thread added: 0x000001ebc66568c0
+Event: 0.022 Thread 0x000001ebc6657200 Thread added: 0x000001ebc6657200
+Event: 0.023 Thread 0x000001ebc6657e70 Thread added: 0x000001ebc6657e70
+Event: 0.023 Thread 0x000001ebc665dd00 Thread added: 0x000001ebc665dd00
+Event: 0.178 Thread 0x000001ebc6619590 Thread added: 0x000001ebc6619590
+Event: 0.218 Thread 0x000001ebcaaf7fd0 Thread added: 0x000001ebcaaf7fd0
+Event: 0.388 Thread 0x000001ebcb88d0d0 Thread added: 0x000001ebcb88d0d0
+Event: 0.628 Thread 0x000001ebcb3246a0 Thread added: 0x000001ebcb3246a0
+Event: 0.628 Thread 0x000001ebcb36fc80 Thread added: 0x000001ebcb36fc80
+
+
+Dynamic libraries:
+0x00007ff748a00000 - 0x00007ff748a0e000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\java.exe
+0x00007fff2f210000 - 0x00007fff2f408000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007fff2e7e0000 - 0x00007fff2e89f000 	C:\Windows\System32\KERNEL32.DLL
+0x00007fff2ccd0000 - 0x00007fff2cfc6000 	C:\Windows\System32\KERNELBASE.dll
+0x00007fff2cbd0000 - 0x00007fff2ccd0000 	C:\Windows\System32\ucrtbase.dll
+0x00007fff20340000 - 0x00007fff20357000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\jli.dll
+0x00007fff26ec0000 - 0x00007fff26edb000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\VCRUNTIME140.dll
+0x00007fff2d270000 - 0x00007fff2d40d000 	C:\Windows\System32\USER32.dll
+0x00007fff2cfd0000 - 0x00007fff2cff2000 	C:\Windows\System32\win32u.dll
+0x00007fff2b590000 - 0x00007fff2b82a000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.1110_none_60b5254171f9507e\COMCTL32.dll
+0x00007fff2d4d0000 - 0x00007fff2d4fc000 	C:\Windows\System32\GDI32.dll
+0x00007fff2e140000 - 0x00007fff2e1de000 	C:\Windows\System32\msvcrt.dll
+0x00007fff2d030000 - 0x00007fff2d145000 	C:\Windows\System32\gdi32full.dll
+0x00007fff2cae0000 - 0x00007fff2cb7d000 	C:\Windows\System32\msvcp_win.dll
+0x00007fff2df90000 - 0x00007fff2dfc0000 	C:\Windows\System32\IMM32.DLL
+0x00007fff26e60000 - 0x00007fff26e6c000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\vcruntime140_1.dll
+0x00007ffefabb0000 - 0x00007ffefac3e000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\msvcp140.dll
+0x00007ffeeba60000 - 0x00007ffeec6f7000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\server\jvm.dll
+0x00007fff2d410000 - 0x00007fff2d4bf000 	C:\Windows\System32\ADVAPI32.dll
+0x00007fff2d520000 - 0x00007fff2d5bc000 	C:\Windows\System32\sechost.dll
+0x00007fff2ec70000 - 0x00007fff2ed96000 	C:\Windows\System32\RPCRT4.dll
+0x00007ffed60d0000 - 0x00007ffed60d9000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007fff2e910000 - 0x00007fff2e97b000 	C:\Windows\System32\WS2_32.dll
+0x00007fff22e20000 - 0x00007fff22e2a000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00007fff2adc0000 - 0x00007fff2ade7000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007fff2a4b0000 - 0x00007fff2a4c2000 	C:\Windows\SYSTEM32\kernel.appcore.dll
+0x00007fff25ee0000 - 0x00007fff25eea000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\jimage.dll
+0x00007fff20500000 - 0x00007fff206e4000 	C:\Windows\SYSTEM32\DBGHELP.DLL
+0x00007fff0d1c0000 - 0x00007fff0d1f4000 	C:\Windows\SYSTEM32\dbgcore.DLL
+0x00007fff2c8f0000 - 0x00007fff2c972000 	C:\Windows\System32\bcryptPrimitives.dll
+0x00007fff27500000 - 0x00007fff2750e000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\instrument.dll
+0x00007fff1d0f0000 - 0x00007fff1d116000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\java.dll
+0x00007ffef4660000 - 0x00007ffef4737000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\jsvml.dll
+0x00007fff2d840000 - 0x00007fff2df84000 	C:\Windows\System32\SHELL32.dll
+0x00007fff2adf0000 - 0x00007fff2b583000 	C:\Windows\SYSTEM32\windows.storage.dll
+0x00007fff2ee70000 - 0x00007fff2f1c4000 	C:\Windows\System32\combase.dll
+0x00007fff2c260000 - 0x00007fff2c28e000 	C:\Windows\SYSTEM32\Wldp.dll
+0x00007fff2d730000 - 0x00007fff2d7dd000 	C:\Windows\System32\SHCORE.dll
+0x00007fff2e780000 - 0x00007fff2e7d5000 	C:\Windows\System32\shlwapi.dll
+0x00007fff2c830000 - 0x00007fff2c84f000 	C:\Windows\SYSTEM32\profapi.dll
+0x00007fff1d520000 - 0x00007fff1d538000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\zip.dll
+0x00007fff1eae0000 - 0x00007fff1eaf3000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\net.dll
+0x00007fff255d0000 - 0x00007fff256da000 	C:\Windows\SYSTEM32\WINHTTP.dll
+0x00007fff2c040000 - 0x00007fff2c0aa000 	C:\Windows\system32\mswsock.dll
+0x00007fff1d5c0000 - 0x00007fff1d5d6000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\nio.dll
+0x00007fff27190000 - 0x00007fff271aa000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\bin\breakgen64.dll
+0x00007fff25100000 - 0x00007fff25107000 	C:\Users\user\.jdks\openjdk-20.0.1\bin\extnet.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Users\user\.jdks\openjdk-20.0.1\bin;C:\Windows\SYSTEM32;C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.1110_none_60b5254171f9507e;C:\Users\user\.jdks\openjdk-20.0.1\bin\server;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\bin
+
+VM Arguments:
+jvm_args: -ea -javaagent:C:\Users\user\.m2\repository/org/aspectj/aspectjweaver/1.9.4/aspectjweaver-1.9.4.jar -Didea.test.cyclic.buffer.size=1048576 -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\lib\idea_rt.jar=52113:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\bin -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 
+java_command: com.intellij.rt.junit.JUnitStarter -ideVersion5 -junit5 tapper.tests.keeper._1_2_full_payment.ChoseAllDishesTest
+java_class_path (initial): C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\lib\idea_rt.jar;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\plugins\junit\lib\junit5-rt.jar;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\plugins\junit\lib\junit-rt.jar;C:\tapper.cloud\target\test-classes;C:\tapper.cloud\target\classes;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-java\4.8.1\selenium-java-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.8.1\selenium-chrome-driver-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.8.1\selenium-chromium-driver-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v108\4.8.1\selenium-devtools-v108-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v109\4.8.1\selenium-devtools-v109-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v110\4.8.1\selenium-devtools-v110-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v85\4.8.1\selenium-devtools-v85-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.8.1\selenium-edge-driver-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.8.1\selenium-firefox-driver-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-http\4.8.1\selenium-http-4.8.1.jar;C:\Users\user\.m2\repository\dev\failsafe\failsafe\3.3.0\failsafe-3.3.0.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.8.1\selenium-ie-driver-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.8.1\selenium-remote-driver-4.8.1.jar;C:\Users\user\.m2\repository\io\netty\netty-buffer\4.1.87.Final\netty-buffer-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-http\4.1.87.Final\netty-codec-http-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-common\4.1.87.Final\netty-common-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-classes-epoll\4.1.87.Final\netty-transport-classes-epoll-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-classes-kqueue\4.1.87.Final\netty-transport-classes-kqueue-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.87.Final\netty-transport-native-epoll-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.87.Final\netty-transport-native-kqueue-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-unix-common\4.1.87.Final\netty-transport-native-unix-common-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport\4.1.87.Final\netty-transport-4.1.87.Final.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-api\1.22.0\opentelemetry-api-1.22.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-context\1.22.0\opentelemetry-context-1.22.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.22.0\opentelemetry-exporter-logging-1.22.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.22.0\opentelemetry-sdk-metrics-1.22.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.22.0-alpha\opentelemetry-sdk-logs-1.22.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-api-logs\1.22.0-alpha\opentelemetry-api-logs-1.22.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.22.0\opentelemetry-sdk-common-1.22.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.22.0\opentelemetry-sdk-extension-autoconfigure-spi-1.22.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.22.0-alpha\opentelemetry-sdk-extension-autoconfigure-1.22.0-alpha.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.22.0\opentelemetry-sdk-trace-1.22.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.22.0\opentelemetry-sdk-1.22.0.jar;C:\Users\user\.m2\repository\io\opentelemetry\opentelemetry-semconv\1.22.0-alpha\opentelemetry-semconv-1.22.0-alpha.jar;C:\Users\user\.m2\repository\io\ous\jtoml\2.0.0\jtoml-2.0.0.jar;C:\Users\user\.m2\repository\org\asynchttpclient\async-http-client\2.12.3\async-http-client-2.12.3.jar;C:\Users\user\.m2\repository\org\asynchttpclient\async-http-client-netty-utils\2.12.3\async-http-client-netty-utils-2.12.3.jar;C:\Users\user\.m2\repository\org\reactivestreams\reactive-streams\1.0.3\reactive-streams-1.0.3.jar;C:\Users\user\.m2\repository\com\typesafe\netty\netty-reactive-streams\2.0.4\netty-reactive-streams-2.0.4.jar;C:\Users\user\.m2\repository\com\sun\activation\jakarta.activation\1.2.2\jakarta.activation-1.2.2.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.8.1\selenium-manager-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.8.1\selenium-safari-driver-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-api\4.8.1\selenium-api-4.8.1.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-support\4.8.1\selenium-support-4.8.1.jar;C:\Users\user\.m2\repository\com\google\auto\service\auto-service-annotations\1.0.1\auto-service-annotations-1.0.1.jar;C:\Users\user\.m2\repository\com\google\auto\service\auto-service\1.0.1\auto-service-1.0.1.jar;C:\Users\user\.m2\repository\com\google\auto\auto-common\1.2\auto-common-1.2.jar;C:\Users\user\.m2\repository\com\google\guava\guava\31.1-jre\guava-31.1-jre.jar;C:\Users\user\.m2\repository\com\google\guava\failureaccess\1.0.1\failureaccess-1.0.1.jar;C:\Users\user\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\user\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\user\.m2\repository\org\checkerframework\checker-qual\3.12.0\checker-qual-3.12.0.jar;C:\Users\user\.m2\repository\com\google\errorprone\error_prone_annotations\2.11.0\error_prone_annotations-2.11.0.jar;C:\Users\user\.m2\repository\com\google\j2objc\j2objc-annotations\1.3\j2objc-annotations-1.3.jar;C:\Users\user\.m2\repository\net\bytebuddy\byte-buddy\1.12.22\byte-buddy-1.12.22.jar;C:\Users\user\.m2\repository\org\seleniumhq\selenium\selenium-json\4.8.1\selenium-json-4.8.1.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\user\.m2\repository\io\rest-assured\rest-assured\5.3.0\rest-assured-5.3.0.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy\4.0.6\groovy-4.0.6.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy-xml\4.0.6\groovy-xml-4.0.6.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\user\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\user\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\user\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\user\.m2\repository\io\rest-assured\xml-path\5.3.0\xml-path-5.3.0.jar;C:\Users\user\.m2\repository\io\rest-assured\json-path\5.3.0\json-path-5.3.0.jar;C:\Users\user\.m2\repository\org\apache\groovy\groovy-json\4.0.6\groovy-json-4.0.6.jar;C:\Users\user\.m2\repository\io\rest-assured\rest-assured-common\5.3.0\rest-assured-common-5.3.0.jar;C:\Users\user\.m2\repository\io\rest-assured\json-schema-validator\5.3.0\json-schema-validator-5.3.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\json-schema-validator\2.2.14\json-schema-validator-2.2.14.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\jackson-coreutils-equivalence\1.0\jackson-coreutils-equivalence-1.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\jackson-coreutils\2.0\jackson-coreutils-2.0.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\msg-simple\1.2\msg-simple-1.2.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\btf\1.3\btf-1.3.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\json-schema-core\1.2.14\json-schema-core-1.2.14.jar;C:\Users\user\.m2\repository\com\github\java-json-tools\uri-template\0.10\uri-template-0.10.jar;C:\Users\user\.m2\repository\org\mozilla\rhino\1.7.7.2\rhino-1.7.7.2.jar;C:\Users\user\.m2\repository\com\sun\mail\mailapi\1.6.2\mailapi-1.6.2.jar;C:\Users\user\.m2\repository\joda-time\joda-time\2.10.5\joda-time-2.10.5.jar;C:\Users\user\.m2\repository\com\googlecode\libphonenumber\libphonenumber\8.11.1\libphonenumber-8.11.1.jar;C:\Users\user\.m2\repository\net\sf\jopt-simple\jopt-simple\5.0.4\jopt-simple-5.0.4.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter\5.9.2\junit-jupiter-5.9.2.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.2\junit-jupiter-params-5.9.2.jar;C:\Users\user\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;C:\Users\user\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-launcher\1.9.2\junit-platform-launcher-1.9.2.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite\1.9.2\junit-platform-suite-1.9.2.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-api\1.9.2\junit-platform-suite-api-1.9.2.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-engine\1.9.2\junit-platform-suite-engine-1.9.2.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-suite-commons\1.9.2\junit-platform-suite-commons-1.9.2.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-junit5\2.21.0\allure-junit5-2.21.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-junit-platform\2.21.0\allure-junit-platform-2.21.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-test-filter\2.21.0\allure-test-filter-2.21.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-maven\2.12.0\allure-maven-2.12.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.14.0\jackson-databind-2.14.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.14.0\jackson-annotations-2.14.0.jar;C:\Users\user\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.14.0\jackson-core-2.14.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-plugin-api\3.8.6\maven-plugin-api-3.8.6.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-utils\3.3.1\plexus-utils-3.3.1.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.6.0\plexus-classworlds-2.6.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-core\3.8.6\maven-core-3.8.6.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-model\3.8.6\maven-model-3.8.6.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-settings\3.8.6\maven-settings-3.8.6.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-settings-builder\3.8.6\maven-settings-builder-3.8.6.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-sec-dispatcher\2.0\plexus-sec-dispatcher-2.0.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-cipher\2.0\plexus-cipher-2.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-builder-support\3.8.6\maven-builder-support-3.8.6.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-repository-metadata\3.8.6\maven-repository-metadata-3.8.6.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-artifact\3.8.6\maven-artifact-3.8.6.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-model-builder\3.8.6\maven-model-builder-3.8.6.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-resolver-provider\3.8.6\maven-resolver-provider-3.8.6.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-impl\1.6.3\maven-resolver-impl-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-api\1.6.3\maven-resolver-api-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-spi\1.6.3\maven-resolver-spi-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\resolver\maven-resolver-util\1.6.3\maven-resolver-util-1.6.3.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-shared-utils\3.3.4\maven-shared-utils-3.3.4.jar;C:\Users\user\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.plexus\0.3.5\org.eclipse.sisu.plexus-0.3.5.jar;C:\Users\user\.m2\repository\javax\annotation\javax.annotation-api\1.2\javax.annotation-api-1.2.jar;C:\Users\user\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.3.5\org.eclipse.sisu.inject-0.3.5.jar;C:\Users\user\.m2\repository\com\google\inject\guice\4.2.2\guice-4.2.2-no_aop.jar;C:\Users\user\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar;C:\Users\user\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.26\plexus-interpolation-1.26.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-component-annotations\2.1.0\plexus-component-annotations-2.1.0.jar;C:\Users\user\.m2\repository\org\apache\maven\reporting\maven-reporting-impl\3.0.0\maven-reporting-impl-3.0.0.jar;C:\Users\user\.m2\repository\org\apache\maven\reporting\maven-reporting-api\3.0\maven-reporting-api-3.0.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-sink-api\1.7\doxia-sink-api-1.7.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-logging-api\1.7\doxia-logging-api-1.7.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-decoration-model\1.7.4\doxia-decoration-model-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-core\1.7\doxia-core-1.7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-container-default\1.0-alpha-30\plexus-container-default-1.0-alpha-30.jar;C:\Users\user\.m2\repository\commons-lang\commons-lang\2.4\commons-lang-2.4.jar;C:\Users\user\.m2\repository\xmlunit\xmlunit\1.5\xmlunit-1.5.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-site-renderer\1.7.4\doxia-site-renderer-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-skin-model\1.7.4\doxia-skin-model-1.7.4.jar;C:\Users\user\.m2\repository\org\apache\maven\doxia\doxia-module-xhtml\1.7\doxia-module-xhtml-1.7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-i18n\1.0-beta-7\plexus-i18n-1.0-beta-7.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-velocity\1.2\plexus-velocity-1.2.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity\1.7\velocity-1.7.jar;C:\Users\user\.m2\repository\org\apache\velocity\velocity-tools\2.0\velocity-tools-2.0.jar;C:\Users\user\.m2\repository\commons-digester\commons-digester\1.8\commons-digester-1.8.jar;C:\Users\user\.m2\repository\commons-chain\commons-chain\1.1\commons-chain-1.1.jar;C:\Users\user\.m2\repository\commons-validator\commons-validator\1.3.1\commons-validator-1.3.1.jar;C:\Users\user\.m2\repository\dom4j\dom4j\1.1\dom4j-1.1.jar;C:\Users\user\.m2\repository\oro\oro\2.0.8\oro-2.0.8.jar;C:\Users\user\.m2\repository\sslext\sslext\1.2-0\sslext-1.2-0.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-core\1.3.8\struts-core-1.3.8.jar;C:\Users\user\.m2\repository\antlr\antlr\2.7.2\antlr-2.7.2.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-taglib\1.3.8\struts-taglib-1.3.8.jar;C:\Users\user\.m2\repository\org\apache\struts\struts-tiles\1.3.8\struts-tiles-1.3.8.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-artifact-transfer\0.13.1\maven-artifact-transfer-0.13.1.jar;C:\Users\user\.m2\repository\org\apache\maven\shared\maven-common-artifact-filters\3.1.0\maven-common-artifact-filters-3.1.0.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-inject-plexus\1.4.2\sisu-inject-plexus-1.4.2.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-inject-bean\1.4.2\sisu-inject-bean-1.4.2.jar;C:\Users\user\.m2\repository\org\sonatype\sisu\sisu-guice\2.1.7\sisu-guice-2.1.7-noaop.jar;C:\Users\user\.m2\repository\commons-beanutils\commons-beanutils\1.9.4\commons-beanutils-1.9.4.jar;C:\Users\user\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\user\.m2\repository\net\lingala\zip4j\zip4j\1.3.3\zip4j-1.3.3.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-exec\1.3\commons-exec-1.3.jar;C:\Users\user\.m2\repository\org\apache\maven\plugin-tools\maven-plugin-annotations\3.7.0\maven-plugin-annotations-3.7.0.jar;C:\Users\user\.m2\repository\org\apache\maven\plugins\maven-jxr-plugin\3.3.0\maven-jxr-plugin-3.3.0.jar;C:\Users\user\.m2\repository\org\apache\maven\maven-jxr\3.3.0\maven-jxr-3.3.0.jar;C:\Users\user\.m2\repository\org\apache\maven\wagon\wagon-provider-api\2.8\wagon-provider-api-2.8.jar;C:\Users\user\.m2\repository\org\codehaus\plexus\plexus-java\1.1.1\plexus-java-1.1.1.jar;C:\Users\user\.m2\repository\org\ow2\asm\asm\9.2\asm-9.2.jar;C:\Users\user\.m2\repository\com\thoughtworks\qdox\qdox\2.0.1\qdox-2.0.1.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-java-commons\2.21.0\allure-java-commons-2.21.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-model\2.21.0\allure-model-2.21.0.jar;C:\Users\user\.m2\repository\org\aspectj\aspectjweaver\1.9.19\aspectjweaver-1.9.19.jar;C:\Users\user\.m2\repository\org\apache\maven\plugins\maven-surefire-plugin\3.0.0\maven-surefire-plugin-3.0.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\maven-surefire-common\3.0.0\maven-surefire-common-3.0.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-extensions-api\3.0.0\surefire-extensions-api-3.0.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-booter\3.0.0\surefire-booter-3.0.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.0.0\surefire-extensions-spi-3.0.0.jar;C:\Users\user\.m2\repository\org\eclipse\aether\aether-util\1.0.0.v20140518\aether-util-1.0.0.v20140518.jar;C:\Users\user\.m2\repository\org\eclipse\aether\aether-api\1.0.0.v20140518\aether-api-1.0.0.v20140518.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.0.0\surefire-shared-utils-3.0.0.jar;C:\Users\user\.m2\repository\io\qameta\allure\allure-selenide\2.21.0\allure-selenide-2.21.0.jar;C:\Users\user\.m2\repository\com\codeborne\selenide-core\6.13.0\selenide-core-6.13.0.jar;C:\Users\user\.m2\repository\io\github\bonigarcia\webdrivermanager\5.3.2\webdrivermanager-5.3.2.jar;C:\Users\user\.m2\repository\org\brotli\dec\0.1.2\dec-0.1.2.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-lang3\3.12.0\commons-lang3-3.12.0.jar;C:\Users\user\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-compress\1.23.0\commons-compress-1.23.0.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.2.1\httpclient5-5.2.1.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.2\httpcore5-5.2.jar;C:\Users\user\.m2\repository\org\apache\httpcomponents\core5\httpcore5-h2\5.2\httpcore5-h2-5.2.jar;C:\Users\user\.m2\repository\com\codeborne\selenide-proxy\6.13.0\selenide-proxy-6.13.0.jar;C:\Users\user\.m2\repository\com\github\valfirst\browserup-proxy\browserup-proxy-core\2.2.9\browserup-proxy-core-2.2.9.jar;C:\Users\user\.m2\repository\de\sstoehr\har-reader\2.2.1\har-reader-2.2.1.jar;C:\Users\user\.m2\repository\com\github\valfirst\browserup-proxy\browserup-proxy-mitm\2.2.9\browserup-proxy-mitm-2.2.9.jar;C:\Users\user\.m2\repository\javax\xml\bind\jaxb-api\2.3.1\jaxb-api-2.3.1.jar;C:\Users\user\.m2\repository\javax\activation\javax.activation-api\1.2.0\javax.activation-api-1.2.0.jar;C:\Users\user\.m2\repository\com\jcraft\jzlib\1.1.3\jzlib-1.1.3.jar;C:\Users\user\.m2\repository\dnsjava\dnsjava\3.5.2\dnsjava-3.5.2.jar;C:\Users\user\.m2\repository\org\bouncycastle\bcpkix-jdk18on\1.72\bcpkix-jdk18on-1.72.jar;C:\Users\user\.m2\repository\org\bouncycastle\bcutil-jdk18on\1.72\bcutil-jdk18on-1.72.jar;C:\Users\user\.m2\repository\org\bouncycastle\bcprov-jdk18on\1.72\bcprov-jdk18on-1.72.jar;C:\Users\user\.m2\repository\org\slf4j\jcl-over-slf4j\2.0.7\jcl-over-slf4j-2.0.7.jar;C:\Users\user\.m2\repository\com\squareup\okhttp3\okhttp\4.10.0\okhttp-4.10.0.jar;C:\Users\user\.m2\repository\com\squareup\okio\okio-jvm\3.0.0\okio-jvm-3.0.0.jar;C:\Users\user\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-jdk8\1.5.31\kotlin-stdlib-jdk8-1.5.31.jar;C:\Users\user\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-jdk7\1.5.31\kotlin-stdlib-jdk7-1.5.31.jar;C:\Users\user\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-common\1.5.31\kotlin-stdlib-common-1.5.31.jar;C:\Users\user\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib\1.6.20\kotlin-stdlib-1.6.20.jar;C:\Users\user\.m2\repository\org\zeroturnaround\zt-exec\1.12\zt-exec-1.12.jar;C:\Users\user\.m2\repository\xyz\rogfam\littleproxy\2.0.17\littleproxy-2.0.17.jar;C:\Users\user\.m2\repository\com\barchart\udt\barchart-udt-bundle\2.3.0\barchart-udt-bundle-2.3.0.jar;C:\Users\user\.m2\repository\io\netty\netty-all\4.1.91.Final\netty-all-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec\4.1.91.Final\netty-codec-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-dns\4.1.91.Final\netty-codec-dns-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-haproxy\4.1.91.Final\netty-codec-haproxy-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-http2\4.1.91.Final\netty-codec-http2-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-memcache\4.1.91.Final\netty-codec-memcache-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-mqtt\4.1.91.Final\netty-codec-mqtt-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-redis\4.1.91.Final\netty-codec-redis-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-smtp\4.1.91.Final\netty-codec-smtp-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-socks\4.1.91.Final\netty-codec-socks-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-stomp\4.1.91.Final\netty-codec-stomp-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-codec-xml\4.1.91.Final\netty-codec-xml-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler\4.1.91.Final\netty-handler-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler-proxy\4.1.91.Final\netty-handler-proxy-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-handler-ssl-ocsp\4.1.91.Final\netty-handler-ssl-ocsp-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-resolver\4.1.91.Final\netty-resolver-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-resolver-dns\4.1.91.Final\netty-resolver-dns-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-rxtx\4.1.91.Final\netty-transport-rxtx-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-sctp\4.1.91.Final\netty-transport-sctp-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-udt\4.1.91.Final\netty-transport-udt-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-resolver-dns-classes-macos\4.1.91.Final\netty-resolver-dns-classes-macos-4.1.91.Final.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.91.Final\netty-transport-native-epoll-4.1.91.Final-linux-x86_64.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-epoll\4.1.91.Final\netty-transport-native-epoll-4.1.91.Final-linux-aarch_64.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.91.Final\netty-transport-native-kqueue-4.1.91.Final-osx-x86_64.jar;C:\Users\user\.m2\repository\io\netty\netty-transport-native-kqueue\4.1.91.Final\netty-transport-native-kqueue-4.1.91.Final-osx-aarch_64.jar;C:\Users\user\.m2\repository\io\netty\netty-resolver-dns-native-macos\4.1.91.Final\netty-resolver-dns-native-macos-4.1.91.Final-osx-x86_64.jar;C:\Users\user\.m2\repository\io\netty\netty-resolver-dns-native-macos\4.1.91.Final\netty-resolver-dns-native-macos-4.1.91.Final-osx-aarch_64.jar;C:\Users\user\.m2\repository\com\codeborne\selenide\6.13.0\selenide-6.13.0.jar;C:\Users\user\.m2\repository\org\slf4j\slf4j-jdk14\2.0.6\slf4j-jdk14-2.0.6.jar;C:\Users\user\.m2\repository\org\slf4j\slf4j-api\2.0.6\slf4j-api-2.0.6.jar;C:\Users\user\.m2\repository\io\github\artsok\rerunner-jupiter\2.1.6\rerunner-jupiter-2.1.6.jar;C:\Users\user\.m2\repository\org\jetbrains\annotations\24.0.1\annotations-24.0.1.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-surefire-provider\1.3.2\junit-platform-surefire-provider-1.3.2.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-api\2.22.0\surefire-api-2.22.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\surefire-logger-api\2.22.0\surefire-logger-api-2.22.0.jar;C:\Users\user\.m2\repository\org\apache\maven\surefire\common-java5\2.22.0\common-java5-2.22.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\user\.m2\repository\com\google\zxing\core\3.5.1\core-3.5.1.jar;C:\Users\user\.m2\repository\com\google\zxing\javase\3.5.1\javase-3.5.1.jar;C:\Users\user\.m2\repository\com\beust\jcommander\1.82\jcommander-1.82.jar;C:\Users\user\.m2\repository\com\github\jai-imageio\jai-imageio-core\1.4.0\jai-imageio-core-1.4.0.jar;C:\Users\user\.m2\repository\com\github\javafaker\javafaker\1.0.2\javafaker-1.0.2.jar;C:\Users\user\.m2\repository\org\yaml\snakeyaml\1.23\snakeyaml-1.23-android.jar;C:\Users\user\.m2\repository\com\github\mifmif\generex\1.0.2\generex-1.0.2.jar;C:\Users\user\.m2\repository\dk\brics\automaton\automaton\1.11-8\automaton-1.11-8.jar;C:\Users\user\.m2\repository\org\awaitility\awaitility\4.2.0\awaitility-4.2.0.jar;C:\Users\user\.m2\repository\org\selenide\selenide-selenoid\2.3.5\selenide-selenoid-2.3.5.jar;C:\Users\user\.m2\repository\ru\yandex\qatools\ashot\ashot\1.5.4\ashot-1.5.4.jar;C:\Users\user\.m2\repository\com\google\code\gson\gson\2.6.2\gson-2.6.2.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\user\.m2\repository\com\sun\mail\javax.mail\1.6.2\javax.mail-1.6.2.jar;C:\Users\user\.m2\repository\javax\activation\activation\1.1\activation-1.1.jar;C:\Users\user\.m2\repository\org\json\json\20230227\json-20230227.jar;C:\Users\user\.m2\repository\com\automation-remarks\video-recorder-junit\2.0\video-recorder-junit-2.0.jar;C:\Users\user\.m2\repository\com\automation-remarks\video-recorder-core\2.0\video-recorder-core-2.0.jar;C:\Users\user\.m2\repository\org\aeonbits\owner\owner-java8\1.0.10\owner-java8-1.0.10.jar;C:\Users\user\.m2\repository\org\aeonbits\owner\owner\1.0.10\owner-1.0.10.jar;C:\Users\user\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\user\.m2\repository\junit\junit\4.12\junit-4.12.jar;C:\Users\user\.m2\repository\org\apache\poi\poi-ooxml\5.0.0\poi-ooxml-5.0.0.jar;C:\Users\user\.m2\repository\org\apache\poi\poi\5.0.0\poi-5.0.0.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-collections4\4.4\commons-collections4-4.4.jar;C:\Users\user\.m2\repository\org\apache\commons\commons-math3\3.6.1\commons-math3-3.6.1.jar;C:\Users\user\.m2\repository\com\zaxxer\SparseBitSet\1.2\SparseBitSet-1.2.jar;C:\Users\user\.m2\repository\org\apache\poi\poi-ooxml-lite\5.0.0\poi-ooxml-lite-5.0.0.jar;C:\Users\user\.m2\repository\org\apache\xmlbeans\xmlbeans\4.0.0\xmlbeans-4.0.0.jar;C:\Users\user\.m2\repository\com\github\virtuald\curvesapi\1.06\curvesapi-1.06.jar;C:\Users\user\.m2\repository\org\bouncycastle\bcpkix-jdk15on\1.68\bcpkix-jdk15on-1.68.jar;C:\Users\user\.m2\repository\org\bouncycastle\bcprov-jdk15on\1.68\bcprov-jdk15on-1.68.jar;C:\Users\user\.m2\repository\org\apache\santuario\xmlsec\2.2.1\xmlsec-2.2.1.jar;C:\Users\user\.m2\repository\com\fasterxml\woodstox\woodstox-core\5.2.1\woodstox-core-5.2.1.jar;C:\Users\user\.m2\repository\org\codehaus\woodstox\stax2-api\4.2\stax2-api-4.2.jar;C:\Users\user\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\2.3.2\jakarta.xml.bind-api-2.3.2.jar;C:\Users\user\.m2\repository\jakarta\activation\jakarta.activation-api\1.2.1\jakarta.activation-api-1.2.1.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-all\1.13\batik-all-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-anim\1.13\batik-anim-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-shared-resources\1.13\batik-shared-resources-1.13.jar;C:\Users\user\.m2\repository\xml-apis\xml-apis-ext\1.3.04\xml-apis-ext-1.3.04.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-awt-util\1.13\batik-awt-util-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\xmlgraphics-commons\2.4\xmlgraphics-commons-2.4.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-bridge\1.13\batik-bridge-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-codec\1.13\batik-codec-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-constants\1.13\batik-constants-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-css\1.13\batik-css-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-dom\1.13\batik-dom-1.13.jar;C:\Users\user\.m2\repository\xalan\xalan\2.7.2\xalan-2.7.2.jar;C:\Users\user\.m2\repository\xalan\serializer\2.7.2\serializer-2.7.2.jar;C:\Users\user\.m2\repository\xml-apis\xml-apis\1.4.01\xml-apis-1.4.01.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-ext\1.13\batik-ext-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-extension\1.13\batik-extension-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-gui-util\1.13\batik-gui-util-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-gvt\1.13\batik-gvt-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-i18n\1.13\batik-i18n-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-parser\1.13\batik-parser-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-rasterizer-ext\1.13\batik-rasterizer-ext-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-rasterizer\1.13\batik-rasterizer-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-script\1.13\batik-script-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-slideshow\1.13\batik-slideshow-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-squiggle-ext\1.13\batik-squiggle-ext-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-squiggle\1.13\batik-squiggle-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-svg-dom\1.13\batik-svg-dom-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-svgbrowser\1.13\batik-svgbrowser-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-svggen\1.13\batik-svggen-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-svgpp\1.13\batik-svgpp-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-svgrasterizer\1.13\batik-svgrasterizer-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-swing\1.13\batik-swing-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-transcoder\1.13\batik-transcoder-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-util\1.13\batik-util-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-ttf2svg\1.13\batik-ttf2svg-1.13.jar;C:\Users\user\.m2\repository\org\apache\xmlgraphics\batik-xml\1.13\batik-xml-1.13.jar;C:\Users\user\.m2\repository\de\rototor\pdfbox\graphics2d\0.30\graphics2d-0.30.jar;C:\Users\user\.m2\repository\org\apache\pdfbox\pdfbox\2.0.22\pdfbox-2.0.22.jar;C:\Users\user\.m2\repository\org\apache\pdfbox\fontbox\2.0.22\fontbox-2.0.22.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 3                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 10                                        {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 251658240                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 4009754624                                {product} {ergonomic}
+   size_t MaxNewSize                               = 2405433344                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 4009754624                             {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags foldmultilines=false
+ #1: stderr all=off uptime,level,tags foldmultilines=false
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk-16.0.2
+PATH=C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\work\apache-maven-3.8.1\bin;C:\Program Files\Java\jdk-16.0.2\bin;;C:\Program Files\Docker\Docker\resources\bin;C:\Users\user\scoop\shims;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\user\AppData\Roaming\npm;C:\Program Files\Java\jdk-16.0.2\bin;C:\work\apache-maven-3.8.1\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2\bin;;C:\Users\user\AppData\Local\GitHubDesktop\bin;C:\Program Files\TestProject Agent
+USERNAME=user
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 23 Model 8 Stepping 2, AuthenticAMD
+TMP=C:\Users\user\AppData\Local\Temp
+TEMP=C:\Users\user\AppData\Local\Temp
+
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 10 , 64 bit Build 19041 (10.0.19041.3031)
+OS uptime: 0 days 22:16 hours
+Hyper-V role detected
+
+CPU: total 12 (initial active 12) (12 cores per cpu, 2 threads per core) family 23 model 8 stepping 2 microcode 0x0, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4a, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, clmul, bmi1, bmi2, adx, sha, fma, vzeroupper, clflush, clflushopt, hv, rdtscp, f16c
+
+Memory: 4k page, system-wide physical 15295M (1236M free)
+TotalPageFile size 36543M (AvailPageFile size 14386M)
+current process WorkingSet (physical memory assigned to process): 188M, peak: 199M
+current process commit charge ("private bytes"): 398M, peak: 408M
+
+vm_info: OpenJDK 64-Bit Server VM (20.0.1+9-29) for windows-amd64 JRE (20.0.1+9-29), built on 2023-03-07T13:56:11Z by "mach5one" with MS VC++ 17.1 (VS2022)
+
+END.

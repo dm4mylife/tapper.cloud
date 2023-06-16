@@ -11,6 +11,7 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static data.Constants.TestData.TapperTable.FULL_PAY_STATUS_TEXT;
 import static data.Constants.TestData.TapperTable.PART_PAY_STATUS_TEXT;
+import static data.selectors.TapperTable.Common.orderPageContainer;
 import static data.selectors.TapperTable.ReviewPage.*;
 
 public class ReviewPage extends BaseActions {
@@ -195,6 +196,8 @@ public class ReviewPage extends BaseActions {
     public void clickOnFinishButton() {
 
         click(finishReviewButton);
+        isElementInvisible(reviewContainer);
+        isElementVisible(orderPageContainer);
 
     }
 

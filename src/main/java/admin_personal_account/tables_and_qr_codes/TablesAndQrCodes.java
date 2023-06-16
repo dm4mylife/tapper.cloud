@@ -14,7 +14,6 @@ import tapper_table.RootPage;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,7 +25,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.files.FileFilters.withExtension;
-import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
+import static data.Constants.*;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.Common.tablesAndQrCodesCategory;
 import static data.selectors.AdminPersonalAccount.Profile.pagePreloader;
@@ -243,8 +242,6 @@ public class TablesAndQrCodes extends BaseActions {
         rootPage.skipStartScreenLogo();
         isElementVisible(TapperTable.RootPage.DishList.tableNumber);
 
-        System.out.println(TapperTable.RootPage.DishList.tableNumber.getText());
-
         String tapperTableNumber = TapperTable.RootPage.DishList.tableNumber.getText()
                 .replaceAll("\\D+", "");;
 
@@ -273,13 +270,13 @@ public class TablesAndQrCodes extends BaseActions {
     }
 
     @Step("Проверка что qr-код скачивается")
-    public void isDownloadQrCorrect(SelenideElement element) throws FileNotFoundException {
+    public void isDownloadQrCorrect(SelenideElement element) throws IOException {
 
-        element.shouldBe(interactable);
+       File file =  element.shouldBe(interactable).download(TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("png"));
 
-        File file = element.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("png"));
+       String qrPath = element.equals(qrDownloadImageBlack) ? QR_WHITE_WITH_TABLE_PATH  : QR_BLACK_WITH_TABLE_PATH ;
 
-        Assertions.assertNotNull(file, "Файл не может быть скачен");
+       isImageEqualsOriginal(qrPath,file);
 
     }
 
@@ -287,7 +284,6 @@ public class TablesAndQrCodes extends BaseActions {
     public void isDownloadedQrCorrect(String type,String downloadFolder, String tableName, String tableUrl) {
 
         File root = new File(downloadFolder);
-
         boolean hasMatch = false;
 
         try {
@@ -321,11 +317,8 @@ public class TablesAndQrCodes extends BaseActions {
 
             }
 
-            if (!hasMatch) {
-
+            if (!hasMatch)
                 Assertions.fail("Скаченный файл не найден");
-
-            }
 
         } catch (Exception e) {
 
@@ -335,5 +328,39 @@ public class TablesAndQrCodes extends BaseActions {
         }
 
     }
+
+    @Step("Проверка что скаченный куар совпадает с оригиналом")
+    public void isImageEqualsOriginal(String qrPath,File downloadedQrPath) throws IOException {
+
+        BufferedImage originalImage = ImageIO.read(downloadedQrPath);
+        BufferedImage actualImage = ImageIO.read(new File(qrPath));
+
+        int width = originalImage.getWidth();
+        int height = originalImage.getHeight();
+
+        boolean isIdentical = true;
+
+        if (width == actualImage.getWidth() && height == actualImage.getHeight()) {
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (originalImage.getRGB(x, y) != actualImage.getRGB(x, y)) {
+
+                        isIdentical = false;
+                        break;
+                    }
+                }
+                if (!isIdentical) {
+                    break;
+                }
+            }
+        } else {
+            isIdentical = false;
+        }
+
+        Assertions.assertTrue(isIdentical,"Скаченный куар отличается от оригинала");
+
+    }
+
+
 
 }

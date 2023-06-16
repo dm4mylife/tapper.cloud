@@ -21,15 +21,12 @@ public class ScreenLayout {
         public static final String tapperTableWithOrdinaryOrderDivide = "tapper_table_with_order_divide";
         public static final String tapperTableWithModifiersOrderPartOne = "tapper_table_with_modifiers_part1";
         public static final String tapperTableWithModifiersOrderPartTwo = "tapper_table_with_modifiers_part2";
-
         public static final String tapperTableWithDiscountOrderPartOne = "tapper_table_with_discount_part1";
         public static final String tapperTableWithDiscountOrderPartTwo = "tapper_table_with_discount_part2";
-
         public static final String tapperTableWithDiscountAndModifiersOrderPartOne =
                 "tapper_table_with_discount_and_modifiers_part1";
         public static final String tapperTableWithDiscountAndModifiersOrderPartTwo =
                 "tapper_table_with_discount_and_modifiers_part2";
-
         public static final String tapperTableWithDiscountAndZeroPriceDishOrderPartOne =
                 "tapper_table_with_discount_and_zero_price_dish_part1";
         public static final String tapperTableWithDiscountAndZeroPriceDishOrderPartTwo =
@@ -43,7 +40,6 @@ public class ScreenLayout {
         public static final String openedPaymentOptionsModal = "opened_payment_options_modal";
         public static final String openedPaymentByCreditCardModal = "opened_payment_by_credit_card_modal";
         public static final String tapperWithTipsAndChosenDishes = "tapper_table_with_tips_and_chosen_dishes";
-
         public static final String menu = "menu";
         public static final String emptyMenu = "empty_menu";
         public static final String thanksReview = "thanks_review";
@@ -51,7 +47,6 @@ public class ScreenLayout {
         public static final String reviewPositive = "review_positive";
         public static final String detailCardMenu = "detail_card_menu";
         public static final String paymentInProcess = "payment_in_process";
-
         public static final String authorizePage = "authorize_page";
         public static final String registrationPage = "registration_page";
         public static final String restorePasswordPage = "restore_password_page";
@@ -65,23 +60,19 @@ public class ScreenLayout {
         public static final String rootPageMobile = "admin_root_page";
         public static final String profilePartOne = "admin_profile_1";
         public static final String profilePartTwo = "admin_profile_2";
-
         public static final String openedLeftMenu = "admin_opened_left_nav_menu";
         public static final String integrations = "admin_integrations";
         public static final String waiters = "admin_waiters";
         public static final String waitersSearch = "admin_waiters_search";
         public static final String waitersSearchNegative = "admin_waiters_negative_search";
         public static final String detailWaiterCard = "admin_waiters_detail_card";
-
         public static final String customization = "admin_customization";
         public static final String wifiInformation = "admin_customization_wifi_tab";
         public static final String wifiInformationMaxPassword = "admin_customization_wifi_tab_max_password";
         public static final String wifiInformationWithoutPassword = "admin_customization_wifi_tab_without_password";
         public static final String reviews = "admin_customization_review_tab";
-
         public static final String tablesAndQRCodes = "admin_tables_and_qr_codes";
         public static final String tablesAndQRCodesSearch = "admin_tables_and_qr_codes_search";
-
         public static final String tableDetailCard = "admin_tables_and_qr_codes_detail_card";
         public static final String historyOperations = "admin_history_operations";
         public static final String historyOperationsWeekFilter = "admin_history_operations_week_filter";

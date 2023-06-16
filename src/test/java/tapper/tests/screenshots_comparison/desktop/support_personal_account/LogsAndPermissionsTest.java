@@ -3,11 +3,11 @@ package tapper.tests.screenshots_comparison.desktop.support_personal_account;
 import common.BaseActions;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import support_personal_account.logs_and_permissions.LogsAndPermissions;
 import tapper_table.RootPage;
@@ -29,23 +29,17 @@ import static data.selectors.SupportPersonalAccount.LogsAndPermissions.Common.cu
 @Feature("Администратор техподдержки")
 @Story("Логи/доступы")
 @DisplayName("Логи/доступы")
-
 @TakeOrCompareScreenshots()
-@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LogsAndPermissionsTest extends ScreenDesktopTest {
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
 
-    SixTableData data = LogsAndPermissionsTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            LogsAndPermissionsTest.class.getAnnotation(TakeOrCompareScreenshots.class);
-
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
-    boolean isScreenShot = annotation.isTakeScreenshot();
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
@@ -67,7 +61,7 @@ class LogsAndPermissionsTest extends ScreenDesktopTest {
 
         BaseActions.click(logsAndPermissionsCategoryDropdownButton);
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.SupportPersonalAccount.restaurantSearch, diffPercent, imagePixelSize);
 
     }
@@ -95,7 +89,7 @@ class LogsAndPermissionsTest extends ScreenDesktopTest {
         logsAndPermissions.isPermissionsTabCorrect();
 
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.SupportPersonalAccount.logsAndPermissions, diffPercent, imagePixelSize);
 
     }

@@ -2,11 +2,11 @@ package tapper.tests.screenshots_comparison.desktop.admin_personal_account;
 
 import admin_personal_account.menu.Menu;
 import data.AnnotationAndStepNaming;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import tests.ScreenDesktopTest;
 import tests.TakeOrCompareScreenshots;
@@ -25,23 +25,18 @@ import static data.selectors.AdminPersonalAccount.Menu.helpAdminContainer;
 @Feature("Администратор ресторана")
 @Story("Меню")
 @DisplayName("Меню")
-
 @TakeOrCompareScreenshots()
-@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MenuTest extends ScreenDesktopTest {
 
-    SixTableData data = MenuTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            MenuTest.class.getAnnotation(TakeOrCompareScreenshots.class);
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
-    boolean isScreenShot = annotation.isTakeScreenshot();
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
@@ -62,7 +57,7 @@ class MenuTest extends ScreenDesktopTest {
         menu.activateOnlyAllAutoCategoryAndDishes();
         menu.activateShowActiveForGuest();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, adminMenu, diffPercent, imagePixelSize);
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, adminMenu, diffPercent, imagePixelSize);
 
     }
 
@@ -73,7 +68,7 @@ class MenuTest extends ScreenDesktopTest {
 
         helpAdminContainer.hover();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, adminMenuNTooltip, diffPercent, imagePixelSize);
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, adminMenuNTooltip, diffPercent, imagePixelSize);
 
     }
 

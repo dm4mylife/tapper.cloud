@@ -136,7 +136,7 @@ public class RegistrationPage extends BaseActions {
         applyButton.shouldNotBe(disabled);
         click(applyButton);
 
-        successRegistrationModal.shouldBe(visible, Duration.ofSeconds(30));
+        successRegistrationModal.shouldBe(visible, Duration.ofSeconds(15));
         successRegistrationModalDescription.shouldBe(visible);
         isImageCorrect(successRegistrationImageSelector,"Иконка успешной регистрации некорректна");
 

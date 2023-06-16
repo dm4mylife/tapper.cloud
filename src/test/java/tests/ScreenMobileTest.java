@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -71,7 +70,7 @@ public class ScreenMobileTest {
                 put("manual", "true");
             }});
             put("sessionTimeout", "7m");
-            //put("enableVideo", true);
+            put("enableVideo", true);
             put("enableVNC", true);
 
         }});

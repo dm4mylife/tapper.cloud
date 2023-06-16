@@ -31,6 +31,7 @@ public class SafariTest {
         Configuration.browser = SAFARI;
         Configuration.remote = selenoidUiHubUrl;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
+        Configuration.savePageSource = false;
 
         SafariOptions options = new SafariOptions();
 

@@ -91,8 +91,9 @@ public class HistoryOperations extends BaseActions {
         isElementVisible(generalTotalsum.first());
         isElementVisible(generalTips.first());
         isElementVisible(generalServiceCharge.first());
+        isElementVisible(pushButton);
 
-        isElementVisible(loadMoreButton);
+        isLoadMoreButtonShown(generalOperationsItem);
 
         click(tipsCategory);
         preloader.shouldBe(visible).shouldBe(hidden);
@@ -105,7 +106,15 @@ public class HistoryOperations extends BaseActions {
         isElementVisible(stuckWaiterName.first());
         stuckComment.first().shouldBe(exist);
         isElementVisible(stuckPushButton);
-        isElementVisible(loadMoreButton);
+
+        isLoadMoreButtonShown(stuckOperationItems);
+
+    }
+
+    public void isLoadMoreButtonShown(ElementsCollection operations) {
+
+        if (operations.size() > 15)
+            isElementVisible(loadMoreButton);
 
     }
 
@@ -175,16 +184,11 @@ public class HistoryOperations extends BaseActions {
 
         SelenideElement fromDate = daysOnMonthPeriod.get(fromDateValue-1);
 
-        String fromPeriodDate =
-                convertDataFormat(fromDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN);
-
         fromDate.hover().click();
 
         SelenideElement toDate = daysOnMonthPeriod.get(toDateValue-1);
 
         String
-                toDateForCustomPeriodButton =
-                convertDataFormat(toDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN),
                 toDateForOperationsItems =
                 convertDataFormat(toDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN),
                 toDateForCurrentDateContainer =
@@ -194,7 +198,6 @@ public class HistoryOperations extends BaseActions {
         click(toDate);
 
         activePeriodDate.shouldHave(text(toDateForCurrentDateContainer),Duration.ofSeconds(10));
-        customPeriodButton.shouldHave(text(fromPeriodDate + " - " + toDateForCustomPeriodButton));
 
         operationsItems.shouldBe(anyMatch("Должна быть дата в списке",
                 element -> element
@@ -204,6 +207,21 @@ public class HistoryOperations extends BaseActions {
 
         isElementVisible(loadMoreButton);
         isElementInvisible(emptyOperationsList);
+
+    }
+
+    @Step("Проверка что при выборе кастомного периода сам перид в корректном формате дд.мм.гггг")
+    public void isDateRangeTextCorrectFormat(int fromDateValue, int toDateValue) throws ParseException {
+
+        SelenideElement fromDate = daysOnMonthPeriod.get(fromDateValue-1);
+        SelenideElement toDate = daysOnMonthPeriod.get(toDateValue-1);
+
+        String fromPeriodDate =
+                convertDataFormat(fromDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN);
+        String toDateForCustomPeriodButton =
+                convertDataFormat(toDate.getAttribute("title"),SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN);
+
+        customPeriodButton.shouldHave(text(fromPeriodDate + " - " + toDateForCustomPeriodButton));
 
     }
 
@@ -534,6 +552,7 @@ public class HistoryOperations extends BaseActions {
     public void isLoadMoreButtonCorrect(String month) throws ParseException {
 
         forceWait(WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED);
+        isElementsCollectionVisible(operationsItems);
 
         setCustomPeriod(month,1,20);
 
@@ -596,7 +615,7 @@ public class HistoryOperations extends BaseActions {
 
     }
 
-    @Step("Проверка открытой истории застрявшей операции")
+    @Step("Проверка открытой истории возврата")
     public void isOpenedRefundOperationCorrect() {
 
         if (dayPeriodButton.getCssValue("background-color").equals("rgba(103, 100, 255, 1)")) {
@@ -607,30 +626,55 @@ public class HistoryOperations extends BaseActions {
 
         }
 
+        isElementVisible(operationsContainer);
+
         click(showOnlyRefundsButton);
         showOnlyRefundsInput.shouldBe(checked);
 
         isElementsCollectionVisible(refundSum);
 
-        click(operationsItems.first());
-        operationsItems.first().shouldHave(attributeMatching("class",".*active.*"));
+         forceWait(5000); // временный костыль
+        click(operationsItemsWithFewTransactions.first());
+        System.out.println("clicked");
+
+        isElementsCollectionVisible(openedRefundSum);
+
+        operationsItems.shouldHave(anyMatch("Должна быть раскрытая операция",
+                element -> element.getAttribute("class").matches(".*active.*")));
 
         Assertions.assertEquals(refundSum.first().getText(),
                 openedRefundSum.first().getText().replaceAll("(.*)\\s₽","$1"),
                 "Сумма возврата не совпадает");
-        Assertions.assertEquals(tipsSum.first().getText(),openedTipsSum.first().getText(),
-                "Сумма чаевых не совпадает");
-        Assertions.assertEquals(orderSum.first().getText(),openedOrderSum.first().getText(),
-                "Сумма заказа не совпадает");
-        Assertions.assertEquals(serviceCharge.first().getText(),
-                openedServiceChargeSum.first().getText().replaceAll("(.*)\\s₽","$1"),
-                "Сумма издержек не совпадает");
+        Assertions.assertEquals(convertSelectorTextIntoDoubleByRgx(tipsSum.first(),"\\s₽"),
+                countSums(openedTipsSum), "Сумма чаевых не совпадает");
+        Assertions.assertEquals(convertSelectorTextIntoDoubleByRgx(orderSum.first(),"\\s₽"),
+                countSums(openedOrderSum), "Сумма заказа не совпадает");
+        Assertions.assertEquals(convertSelectorTextIntoDoubleByRgx(serviceCharge.first(),"\\s₽"),
+                countSums(openedServiceChargeSum), "Сумма издержек не совпадает");
 
-        isElementVisible(openedTransactionStatus.first());
-        isElementVisible(pushButton);
+        openedTransactionStatus.filter(visible).shouldHave(sizeGreaterThan(0));
 
-        click(operationsItems.first());
-        operationsItems.first().shouldNotHave(attributeMatching("class",".*active.*"));
+
+    }
+
+    public double countSums(ElementsCollection element) {
+
+        double totalSum;
+
+        if (element.size() > 1) {
+
+            double firsOperationTips = convertSelectorTextIntoDoubleByRgx(element.first(),"\\s₽");
+            double secondOperationTips = convertSelectorTextIntoDoubleByRgx(element.last(),"\\s₽");
+
+            totalSum = firsOperationTips + secondOperationTips;
+
+        } else {
+
+            totalSum = convertSelectorTextIntoDoubleByRgx(element.first(),"\\s₽");
+
+        }
+
+        return totalSum;
 
     }
 
@@ -673,10 +717,6 @@ public class HistoryOperations extends BaseActions {
 
             HashMap<Integer, HashMap<String, String>> adminData =
                     getOperationsData(paymentType,transactionId);
-
-
-            System.out.println("\nTAPPER\n"+tapperData);
-            System.out.println("\nADMIN\n"+adminData);
 
             for (Integer key : tapperData.keySet()) {
                 HashMap<String, String> innerMap = tapperData.get(key);

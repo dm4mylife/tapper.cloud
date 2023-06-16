@@ -10,39 +10,26 @@ public class ApiData {
     public static class KeeperEndPoints {
 
         public static final String selenoidUiHubUrl = "http://localhost:4444/wd/hub";
-        public static final String selenoidHubUrl = "http://localhost:8081";
+        public static final String selenoidHubUrl = "http://localhost:8080";
         public static final String createOrder = "rkeeper/createorder";
-
         public static final String getOrderInfo = " rkeeper-automation/order";
         public static final String fillingOrder = "rkeeper-automation/order/fill";
         public static final String deleteOrder = "rkeeper/delorder";
-        public static final String checkOrderClosed = "rkeeper-automation/check-order-closed";
         public static final String checkPrepayment = "rkeeper-automation/check-prepayment";
         public static final String getPrepayment = "rkeeper-automation/prepayment";
         public static final String orderPay = "rkeeper-automation/order/pay";
         public static final String deletePosition = "rkeeper-automation/position";
-
         public static final String changeWaiter = "rkeeper-automation/order/waiter/change";
         public static final String deleteDiscount = "rkeeper-automation/discount";
         public static final String deleteRestaurantAdmin = "automation/admin";
         public static final String adminLogin = "users/login";
-
-
         public static final String addDiscount = "rkeeper-automation/create-discount";
         public static final String addModificatorOrder = "rkeeper-automation/add-modificator-order";
         public static final String b2bPaymentTransactionStatus =
                 "https://apitapper.zedform.ru/api/payment/transaction-status/";
         public static final String loginPersonalAccount = "https://apitapper.zedform.ru/api/users/login";
 
-
-
     }
-
-
-
-
-
-
         public static class IikoData {
 
             public static class IikoEndpoints {
@@ -94,65 +81,43 @@ public class ApiData {
 
             }
 
-
         }
-
-
-
-
 
     public static class OrderData {
 
         public static final String R_KEEPER_RESTAURANT = "testrkeeper";
-        public static final String Iiko_RESTAURANT = "office";
-
-        public static final String R_KEEPER_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT = " #23";
-        public static final String IIKO_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT = " #12";
-
+        public static final String IIKO_RESTAURANT = "office";
+        public static final String R_KEEPER_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT = "#23";
+        public static final String IIKO_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT = "#12";
         public static final String TABLE_CODE_111 = "12";
-        public static final String Iiko_TABLE_CODE_111 = "111";
-
         public static final String TABLE_CODE_222 = "21";
-        public static final String TABLE_CODE_10 = "10";
         public static final String TABLE_CODE_333 = "22";
         public static final String TABLE_CODE_444 = "18";
         public static final String TABLE_CODE_555 = "17";
         public static final String TABLE_CODE_666 = "20";
-
         public static final String TABLE_AUTO_111_ID = "1000046";
         public static final String IIKO_TABLE_AUTO_111_ID = "111";
         public static final String IIKO_TABLE_AUTO_222_ID = "222";
         public static final String IIKO_TABLE_AUTO_333_ID = "333";
         public static final String TABLE_AUTO_222_ID = "1000397";
-        public static final String TABLE_AUTO_10_ID = "1000044";
         public static final String TABLE_AUTO_333_ID = "1000398";
         public static final String TABLE_AUTO_444_ID = "1000423";
         public static final String TABLE_AUTO_555_ID = "1000437";
         public static final String TABLE_AUTO_666_ID = "1000438";
-
         public static final String WAITER_ROBOCOP_VERIFIED_WITH_CARD = "23";
         public static final String WAITER_MEGATRON_VERIFIED_WITH_CARD = "33";
         public static final String WAITER_TERMINATOR_VERIFIED_NON_CARD = "233";
         public static final String WAITER_IRONMAN_NON_VERIFIED_NON_CARD = "2333";
-
         public static final String WAITER_NON_CARD_NEVER_INVITED = "39";
         public static final String WAITER_NON_CARD_HAS_GOAL = "40";
         public static final String BARNOE_PIVO = "1000361";
-
         public static final String GLAZUNYA = "1000368";
-
         public static final String TORT = "1000385";
         public static final String SOLYANKA = "1000364";
-
-
         public static final String DISCOUNT_WITH_CUSTOM_SUM_ID = "1000503";
         public static final String DISCOUNT_BY_ID = "1000505";
-
         public static final String MARKUP_WITH_CUSTOM_SUM_ID = "1000507";
         public static final String MARKUP_BY_ID = "1000376";
-
-        public static final String BARANINA = "1000367";
-
         public static final String ZERO_PRICE_DISH = "1000187";
 
         public static final String PORTION_DISH_BY_WEIGHT = "1000484";
@@ -161,50 +126,40 @@ public class ApiData {
         public static final String GOVYADINA_PAID_MODI_KARTOFEL_FRI = "1000117";
         public static final String GOVYADINA_PAID_MODI_SOUS = "1000118";
         public static final String GOVYADINA_PAID_MODI_VEG_SALAD = "1000421";
-
         public static final String DOZA_DISH = "1000487";
         public static final String DOZA_FREE_MODI_SOLT_ZERO_PRICE = GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
         public static final String DOZA_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
         public static final String DOZA_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
         public static final String DOZA_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
-
         public static final String FREE_DOZA_DISH = "1000488";
         public static final String FREE_DOZA_FREE_MODI_SOLT_ZERO_PRICE = GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
         public static final String FREE_DOZA_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
         public static final String FREE_DOZA_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
         public static final String FREE_DOZA_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
-
         public static final String WEIGHT_BY_PORTION_DISH = "1000429";
         public static final String WEIGHT_BY_PORTION_FREE_MODI_SOLT_ZERO_PRICE = GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
         public static final String WEIGHT_BY_PORTION_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
         public static final String WEIGHT_BY_PORTION_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
         public static final String WEIGHT_BY_PORTION_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
-
         public static final String FREE_WEIGHT_BY_PORTION_DISH = "1000431";
         public static final String FREE_WEIGHT_BY_PORTION_FREE_MODI_SOLT_ZERO_PRICE =
                 GOVYADINA_FREE_MODI_SOLT_ZERO_PRICE;
         public static final String FREE_WEIGHT_BY_PORTION_PAID_MODI_KARTOFEL_FRI = GOVYADINA_PAID_MODI_KARTOFEL_FRI;
         public static final String FREE_WEIGHT_BY_PORTION_PAID_MODI_SOUS = GOVYADINA_PAID_MODI_SOUS;
         public static final String FREE_WEIGHT_BY_PORTION_PAID_MODI_VEG_SALAD = GOVYADINA_PAID_MODI_VEG_SALAD;
-
-
-
-
-
-
-
-
-
         public static final String BORSH = "1000512";
         public static final String FREE_NECESSARY_MODI_SALT = "1000114";
         public static final String FREE_NECESSARY_MODI_PEPPER = "1000115";
         public static final String FREE_NECESSARY_MODI_GARLIC = "1000420";
-
         public static final String ABISTA_ZERO_PRICE = "1000283";
         public static final String ABISTA_PAID_NECESSART_MODI = "1000308";
         public static final String XOLODEC = "1000108";
         public static final String FREE_NON_NECESSARY_MODI_BUTTER = "1000120";
         public static final String FREE_NON_NECESSARY_MODI_MAYONES = "1000121";
+
+        public static final String ZERO_PRICE_DISH_WITH_MODI = "1000528";
+        public static final String FREE_NON_NECESSARY_MODI_ZERO_PRICE_DISH = "1000120";
+
         public static final String CAESAR = "1000101";
         public static final String PAID_NECESSARY_MODI_BANAN_SIROP = "1000112";
         public static final String PAID_NECESSARY_MODI_KARAMEL_SIROP = "1000111";
@@ -223,26 +178,6 @@ public class ApiData {
     }
 
     public static class QueryParams {
-
-        public static String rqParamsDeletePosition(String domen, String guid, String uni, int quantity) {
-
-            return "{\n" +
-                    "  \"domen\": \"" + domen + "\",\n" +
-                    "  \"guid\": \"" + guid + "\",\n" +
-                    "  \"station\": 1,\n" +
-                    "  \"uni\": \"" + uni + "\",\n" +
-                    "  \"quantity\": " + quantity + "\n" +
-                    "}";
-
-        }
-
-        public static String rqParamsCheckPrePayment(String transactionId){
-
-            return "{\n" +
-                    "  \"transaction_id\": \"" + transactionId + "\"\n" +
-                    "}";
-
-        }
 
         static ApiRKeeper apiRKeeper = new ApiRKeeper();
         public static ArrayList<LinkedHashMap<String, Object>> allTypesModificatorList = new ArrayList<>() {

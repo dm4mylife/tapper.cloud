@@ -25,7 +25,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static data.Constants.TestData.SupportPersonalAccount.*;
-import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
+import static data.Constants.TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.currentMonth;
 import static data.selectors.AdminPersonalAccount.OperationsHistory.leftArrowMonthPeriod;
@@ -43,8 +43,8 @@ import static data.selectors.SupportPersonalAccount.LogsAndPermissions.permissio
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.statisticsTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tablesTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tipsTab.saveButton;
-import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tipsTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tipsTab.tapperLink;
+import static data.selectors.SupportPersonalAccount.LogsAndPermissions.tipsTab.*;
 import static data.selectors.SupportPersonalAccount.LogsAndPermissions.waitersTab.waitersTab;
 
 
@@ -84,24 +84,14 @@ public class LogsAndPermissions extends BaseActions {
 
         }
 
-        clearText(searchRestaurantInput);
-        sendKeys(searchRestaurantInput,restaurantName);
+        setInputValue(searchRestaurantInput,restaurantName);
 
-        if (restaurantName.equals("testrkeeper")) {
+        String restaurantId = restaurantName.equals("testrkeeper") ?
+                R_KEEPER_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT:
+                IIKO_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT;
 
-            searchResultList.first()
-                    .shouldHave(matchText(restaurantName + R_KEEPER_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT),
-                            Duration.ofSeconds(5));
-
-        } else {
-
-            searchResultList.first()
-                    .shouldHave(matchText(restaurantName + IIKO_RESTAURANT_ID_SUPPORT_SEARCH_RESTAURANT),
-                            Duration.ofSeconds(5));
-
-        }
-
-        click(searchResultList.first());
+        searchResultList.findBy(and("В списке ресторанов должен быть " + restaurantName,
+                matchText(restaurantId),matchText(restaurantName))).click();
 
         pagePreloader.shouldNotHave(attributeMatching("style", "background: transparent;")
                 , Duration.ofSeconds(10));
@@ -452,34 +442,19 @@ public class LogsAndPermissions extends BaseActions {
     @Step("Проверка отмены сохранения изменений во вкладке r-keeper/iiko")
     public void notSaveChangesKeeperAndIikoTab(String restaurantName) {
 
-        SelenideElement selectedElementInput;
-
-        if (rkeeperOptionInput.isSelected()) {
-
-            selectedElementInput = iikoOptionInput;
-            click(iikoOption);
-
-
-        } else {
-
-            selectedElementInput = rkeeperOptionInput;
-            click(rkeeperOption);
-
-        }
+        click(iikoOption);
+        iikoOptionInput.shouldBe(selected);
 
         click(SupportPersonalAccount.LogsAndPermissions.licenseTab.saveButton);
         isSaveChangesCorrect();
         click(saveChangesCancelButton);
 
         Selenide.refresh();
-
         chooseRestaurant(restaurantName);
-
         click(cashDeskTab);
 
         cashDeskContainer.shouldBe(appear);
-
-        selectedElementInput.shouldBe(selected);
+        rkeeperOptionInput.shouldBe(selected);
 
     }
 
@@ -775,10 +750,10 @@ public class LogsAndPermissions extends BaseActions {
 
         isElementVisible(resetButton);
 
-        Assertions.assertNotNull(downloadTable.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
+        Assertions.assertNotNull(downloadTable.download(TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED),
                 "Файл 'Выгрузить таблицу' не может быть скачен");
 
-        Assertions.assertNotNull(waitersBalance.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
+        Assertions.assertNotNull(waitersBalance.download(TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED),
                 "Файл 'Балансы официантов' не может быть скачен");
 
     }
@@ -844,7 +819,6 @@ public class LogsAndPermissions extends BaseActions {
 
             click(SupportPersonalAccount.LogsAndPermissions.customizationTab.saveButton);
             serviceChargeInput.shouldBe(checked);
-            System.out.println("Включили");
 
         }
 
@@ -864,7 +838,7 @@ public class LogsAndPermissions extends BaseActions {
 
             click(SupportPersonalAccount.LogsAndPermissions.customizationTab.saveButton);
             serviceChargeInput.shouldNot(checked);
-            System.out.println("Выключили");
+
         }
 
     }

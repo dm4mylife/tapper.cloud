@@ -73,6 +73,7 @@ public class Waiters extends BaseActions {
 
         isElementVisibleDuringLongTime(waiterList.first(),5);
         click(waiterList.first());
+        isDetailCardCorrect();
 
     }
 
@@ -153,11 +154,11 @@ public class Waiters extends BaseActions {
 
         clickInFirstResult();
 
-        if (waiterStatusInCard.getText().matches(INVITED_IN_SERVICE_TEXT)) {
+        if (waiterStatusInCard.has(matchText(INVITED_IN_SERVICE_TEXT))) {
 
             cancelEMailWaiterInvitationInCard();
 
-        } else if (waiterStatusInCard.getText().matches(VERIFIED_WAITER_TEXT)) {
+        } else if (waiterStatusInCard.has(matchText(VERIFIED_WAITER_TEXT))) {
 
             unlinkMailWaiterInCard();
 

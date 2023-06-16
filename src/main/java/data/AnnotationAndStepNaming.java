@@ -77,11 +77,9 @@ public class AnnotationAndStepNaming {
 
         public static class AuthorizationAndRegistrationAdminPage {
 
-
             public static final String authorizationPage = "Страница авторизации";
             public static final String restorePasswordPage = "Страница восстановления пароля";
             public static final String registrationPage = "Страница регистрации";
-
 
         }
 

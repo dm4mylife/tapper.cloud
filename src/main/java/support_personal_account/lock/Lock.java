@@ -4,11 +4,10 @@ import com.codeborne.selenide.ElementsCollection;
 import common.BaseActions;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.CollectionCondition.*;
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.Common.lockCategory;

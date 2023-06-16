@@ -283,8 +283,11 @@ public class Menu extends BaseActions {
     public void deleteDishImage(int dishIndex) {
 
         click(menuDishItemsEditButtons.get(dishIndex));
+        isElementVisible(editDishContainer);
 
-        if (!imagePreviewIcon.isDisplayed()) {
+        if (!downloadedPreviewImage.exists() && !imagePreviewIcon.exists()) {
+
+            System.out.println("going to delete");
 
             click(deleteDishImageButton);
 
@@ -321,9 +324,9 @@ public class Menu extends BaseActions {
                             .shouldHave(attribute("src"));
 
         isImageCorrect(editDishImageSelector,"Изображение блюда загрузилось корректно");
-
         downloadedPreviewImage.shouldBe(visible,enabled);
-        click(downloadedPreviewImage);
+
+        clickByJs(downloadedPreviewImageSelector);
         isImageCorrectInPreview();
 
         click(saveButton);
@@ -948,20 +951,9 @@ public class Menu extends BaseActions {
 
         click(element);
 
-        String neededText;
+        String neededText = type.equals("description") ? data.get("description") : data.get("ingredients");
 
-        if (type.equals("description")) {
-
-            neededText = data.get("description");
-
-        } else {
-
-            neededText = data.get("ingredients");
-
-        }
-
-        Assertions.assertNotNull(dishDetailCardContent,"Элемент " + neededText +
-                " не в карточке товара");
+        Assertions.assertNotNull(dishDetailCardContent,"Элемент " + neededText + " не в карточке товара");
 
         click(dishDetailCardCloseButton);
 
@@ -978,10 +970,9 @@ public class Menu extends BaseActions {
 
         click(element);
 
-        Assertions.assertNotNull(element,"Элемент " + textToFind +
-                " не в карточке товара");
+        Assertions.assertNotNull(element,"Элемент " + textToFind + " не в карточке товара");
 
-        click(dishDetailCardOverlay);
+        click(dishDetailCardCloseButton);
 
     }
     public void isDishEditModalCorrect() {

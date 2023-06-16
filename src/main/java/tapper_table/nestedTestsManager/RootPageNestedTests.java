@@ -68,7 +68,7 @@ public class RootPageNestedTests extends RootPage {
         isElementVisible(appFooter);
         isElementVisible(callWaiterButton);
         isElementVisible(totalSumInWalletCounter);
-        totalSumInWalletCounter.shouldHave(matchText("0 ₽"));
+        totalSumInWalletCounter.shouldHave(exactText("0 ₽"));
 
     }
 
@@ -122,6 +122,7 @@ public class RootPageNestedTests extends RootPage {
 
         scrollTillBottom();
         checkCleanSumMatchWithTotalPay(cleanDishesSum);
+        isServiceChargeTextCorrect();
         checkTipsOptionWithSC(cleanDishesSum);
         checkTipsOptionWithoutSC(cleanDishesSum);
         checkScLogic(cleanDishesSum);
@@ -350,12 +351,12 @@ public class RootPageNestedTests extends RootPage {
     }
 
     @Step("Оплачиваем по позициям до тех пор пока весь заказ не будет закрыт")
-    public void payTillFullSuccessPayment(int amountDishes, String guid, int timeoutPartPay, int timeoutFullPay, String
+    public void payTillFullSuccessPayment(int amountDishes, String guid, String
             tableId, String cashDeskType) {
 
-        isTableHasOrder();
-
         while (!allNonPaidAndNonDisabledDishes.isEmpty()) {
+
+            System.out.println(allNonPaidAndNonDisabledDishes.size() + " : " + amountDishes);
 
             if (allNonPaidAndNonDisabledDishes.size() != amountDishes) {
 
@@ -376,9 +377,8 @@ public class RootPageNestedTests extends RootPage {
                 reviewPageNestedTests.paymentCorrect("part");
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
-                forceWait(timeoutPartPay);
-
-                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"part");
+                LinkedHashMap<String, String> telegramDataForTgMsg =
+                        rootPage.getPaymentTgMsgData(guid,"part",tapperDataForTgMsg.get("paySum"));
                 rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             } else {
@@ -387,6 +387,9 @@ public class RootPageNestedTests extends RootPage {
                 HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
                 LinkedHashMap<String, String> tapperDataForTgMsg =
                         rootPage.getTapperDataForTgPaymentMsg(tableId, cashDeskType);
+
+                System.out.println(activeTipsButton);
+                System.out.println(totalTipsSumInMiddle);
 
                 clickPayment();
 
@@ -397,9 +400,8 @@ public class RootPageNestedTests extends RootPage {
                 reviewPageNestedTests.fullPaymentCorrect();
                 reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
 
-                forceWait(timeoutFullPay);
-
-                LinkedHashMap<String, String> telegramDataForTgMsg = rootPage.getPaymentTgMsgData(guid,"full");
+                LinkedHashMap<String, String> telegramDataForTgMsg =
+                        rootPage.getPaymentTgMsgData(guid,"full",tapperDataForTgMsg.get("paySum"));
                 rootPage.matchTgMsgDataAndTapperData(telegramDataForTgMsg,tapperDataForTgMsg);
 
             }
@@ -689,7 +691,7 @@ public class RootPageNestedTests extends RootPage {
 
         }
 
-        System.out.println(uniData);
+
         return uniData;
 
     }
@@ -741,6 +743,7 @@ public class RootPageNestedTests extends RootPage {
     public Response createAndFillOrder(String restaurantName, String tableCode, String waiter, String apiUri,
                                        ArrayList<LinkedHashMap<String, Object>> dishes, String tableId) {
 
+
         Assertions.assertTrue(apiRKeeper.isTableEmpty(restaurantName,tableId,apiUri),
                 "На столе был прошлый заказ, его не удалось закрыть");
 
@@ -749,6 +752,7 @@ public class RootPageNestedTests extends RootPage {
         Response rs = apiRKeeper.createOrder(rqCreateOrder,apiUri);
 
         String guid = apiRKeeper.getGuidFromCreateOrder(rs);
+
 
         apiRKeeper.fillingOrder(apiRKeeper.rqBodyFillingOrder(restaurantName, guid, dishes));
 

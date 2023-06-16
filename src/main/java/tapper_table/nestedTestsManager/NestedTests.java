@@ -17,7 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.RegexPattern.TapperTable.*;
+import static data.Constants.RegexPattern.TapperTable.serviceChargeRegex;
+import static data.Constants.RegexPattern.TapperTable.totalPayRegex;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TIPS;
 import static data.Constants.TestData.TapperTable.SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM;
 import static data.Constants.WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK;
@@ -25,10 +26,9 @@ import static data.selectors.TapperTable.Best2PayPage.paymentContainer;
 import static data.selectors.TapperTable.Best2PayPage.transaction_id;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.RootPage.DishList.dishesSumChangedHeading;
-import static data.selectors.TapperTable.RootPage.DishList.divideCheckSliderActive;
 import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeContainer;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.*;
-import static data.selectors.TapperTable.RootPage.TipsAndCheck.discountSum;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalPay;
+import static data.selectors.TapperTable.RootPage.TipsAndCheck.totalTipsSumInMiddle;
 
 
 public class NestedTests extends RootPage {
@@ -86,8 +86,6 @@ public class NestedTests extends RootPage {
 
 
     public void payOrder(String tableId, String cashDeskType, String guid) {
-
-
 
         double totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
         HashMap<String, String> paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();

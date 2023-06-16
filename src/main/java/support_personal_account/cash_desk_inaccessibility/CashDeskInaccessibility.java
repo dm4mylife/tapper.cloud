@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
+import static data.Constants.TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.CashDeskInaccessibility.*;
 import static data.selectors.SupportPersonalAccount.Common.cashDeskInaccessibilityCategory;
@@ -71,7 +71,7 @@ public class CashDeskInaccessibility extends BaseActions {
     @Step("Загружаем таблицу")
     public void downloadFile() throws FileNotFoundException {
 
-        Assertions.assertNotNull(downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED),
+        Assertions.assertNotNull(downloadTableButton.download(TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED),
                 "Файл не может быть скачен");
 
     }

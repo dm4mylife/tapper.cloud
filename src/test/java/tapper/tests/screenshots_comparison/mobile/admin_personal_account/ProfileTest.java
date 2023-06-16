@@ -3,11 +3,11 @@ package tapper.tests.screenshots_comparison.mobile.admin_personal_account;
 import admin_personal_account.profile.Profile;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import tapper_table.RootPage;
@@ -30,23 +30,18 @@ import static data.selectors.AdminPersonalAccount.Profile.telegramItemsInput;
 @Feature("Администратор ресторана")
 @Story("Профиль")
 @DisplayName("Профиль")
-
 @TakeOrCompareScreenshots()
-@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProfileTest extends ScreenMobileTest {
 
-    SixTableData data = ProfileTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            ProfileTest.class.getAnnotation(TakeOrCompareScreenshots.class);
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
-    boolean isScreenShot = annotation.isTakeScreenshot();
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
@@ -66,7 +61,7 @@ class ProfileTest extends ScreenMobileTest {
 
         profile.isOpenedLeftMenuCorrect();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize, isScreenShot, rootPageMobile, diffPercent, imagePixelSize);
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize, isScreenShot, rootPageMobile, diffPercent, imagePixelSize);
 
     }
 
@@ -77,14 +72,14 @@ class ProfileTest extends ScreenMobileTest {
 
         profile.goToProfileCategory();
 
-        Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(telegramItemsInput)));
+        Set<By> ignoredElements = ScreenshotComparison.setIgnoredElements(new ArrayList<>(List.of(telegramItemsInput)));
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize, isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize, isScreenShot,
                 ScreenLayout.AdminPersonalAccount.profilePartOne, diffPercent, imagePixelSize, ignoredElements);
 
         rootPage.scrollTillBottom();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize, isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize, isScreenShot,
                 ScreenLayout.AdminPersonalAccount.profilePartTwo, diffPercent, imagePixelSize, ignoredElements);
 
     }

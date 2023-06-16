@@ -77,7 +77,7 @@ public class TableData {
     public static class Iiko {
 
 
-        public static final String restaurantName = Iiko_RESTAURANT;
+        public static final String restaurantName = IIKO_RESTAURANT;
 
         public static class Table_111 {
 
@@ -105,7 +105,15 @@ public class TableData {
 
         }
 
-    }
+        public static class Table_444 {
 
+            public static final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
+            public static final String apiUri = AUTO_API_URI;
+            public static final String tableUrl = STAGE_IIKO_TABLE_444;
+            public static final String tableId = IIKO_TABLE_AUTO_333_ID;
+
+        }
+
+    }
 
 }

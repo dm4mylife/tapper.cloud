@@ -60,7 +60,7 @@ public class BaseActions {
     }
 
     public void isElementVisibleOnPage(@NotNull SelenideElement element) {
-        Assertions.assertTrue(element.isDisplayed());
+        Assertions.assertTrue(element.isDisplayed(),"Элемент не видно на странице");
     }
 
     @Step("Элемент присутствует на странице в ходе длительной загрузки ({time}сек.)")
@@ -72,7 +72,8 @@ public class BaseActions {
     @Step("Коллекция элементов на странице")
     public void isElementsCollectionVisible(@NotNull ElementsCollection Elementcollections) {
 
-        Elementcollections.should(allMatch("Все элементы должны быть видны",WebElement::isDisplayed));
+        Elementcollections.should(allMatch("Все элементы должны быть видны",WebElement::isDisplayed),
+                Duration.ofSeconds(4));
 
     }
 
@@ -150,7 +151,7 @@ public class BaseActions {
 
         Selenide.executeJavaScript
                 ("window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: \"smooth\" });\n;");
-        Selenide.sleep(1000);
+        Selenide.sleep(1200);
 
     }
 
@@ -224,7 +225,7 @@ public class BaseActions {
 
     public double convertSelectorTextIntoDoubleByRgx(@NotNull SelenideElement selector, String regex) {
 
-        double text = Double.parseDouble(selector.getText().replaceAll(regex, ""));
+        double text = Double.parseDouble(selector.getText().replaceAll(regex, "").trim());
 
         String formattedDouble = new DecimalFormat("#0.00").format(text).replace(",", ".");
         return Double.parseDouble(formattedDouble);
@@ -233,7 +234,7 @@ public class BaseActions {
 
     public String convertSelectorTextIntoStrByRgx(@NotNull SelenideElement selector, String regex) {
 
-        return selector.getText().replaceAll(regex, "");
+        return selector.getText().replaceAll(regex, "").trim();
 
     }
 

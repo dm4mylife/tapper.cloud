@@ -13,15 +13,13 @@ import java.time.Duration;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static data.Constants.*;
+import static data.Constants.HOOKAH_AVATAR_JPG;
 import static data.Constants.TestData.Best2Pay.*;
-import static data.Constants.TestData.Best2Pay.TEST_PAYMENT_CARD_CVV;
-import static data.selectors.AdminPersonalAccount.Common.*;
-import static data.selectors.AdminPersonalAccount.Tips.*;
+import static data.selectors.AdminPersonalAccount.Common.pageHeading;
+import static data.selectors.AdminPersonalAccount.Common.tipsCategory;
 import static data.selectors.AdminPersonalAccount.Tips.imageContainer;
+import static data.selectors.AdminPersonalAccount.Tips.*;
 import static data.selectors.WaiterPersonalAccount.*;
-import static data.selectors.WaiterPersonalAccount.changedCardButton;
 
 public class Tips extends BaseActions {
 

@@ -85,7 +85,10 @@ public class MailByApi {
         }
     }
 
-    return filteredMessages.get(filteredMessages.size()-1);
+    String finalMessage = filteredMessages.get(filteredMessages.size()-1);
+    Assertions.assertNotNull(finalMessage,"Нет сообщения на почте");
+
+    return finalMessage;
 
     }
 

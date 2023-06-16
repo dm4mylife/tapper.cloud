@@ -2,7 +2,6 @@ package support_personal_account.analytics;
 
 import common.BaseActions;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 
 import java.io.FileNotFoundException;
 import java.time.Duration;
@@ -10,7 +9,7 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.files.FileFilters.withExtension;
-import static data.Constants.WAIT_FOR_FILE_TO_BE_DOWNLOADED;
+import static data.Constants.TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED;
 import static data.selectors.AdminPersonalAccount.Common.pageHeading;
 import static data.selectors.SupportPersonalAccount.Analytics.*;
 import static data.selectors.SupportPersonalAccount.CashDeskInaccessibility.choseDateButtonSelector;
@@ -50,7 +49,7 @@ public class Analytics extends BaseActions {
     @Step("Загружаем таблицу")
     public void downloadFile() throws FileNotFoundException {
 
-        downloadTableButton.download(WAIT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("png"));
+        downloadTableButton.download(TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED,withExtension("xlsx"));
 
 
     }

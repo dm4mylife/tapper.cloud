@@ -51,6 +51,36 @@ public class Telegram {
 
     }
 
+    @Step("Получаем сообщение по оплате")
+    public String getLastTgPayMsg(String guid, String paymentType,String totalSum) {
+
+        totalSum = "Сумма оплаты: " + totalSum + "₽";
+
+        String paymentTypeFlag =
+                paymentType != null && paymentType.equals("full") ? "Полностью оплачено" : "Частично оплачено" ;
+
+        List<Object> tgMessages = apiRKeeper.getUpdates();
+        String currentMsg;
+
+        for (int i = tgMessages.size() - 1; i >= 0; i--) {
+
+            currentMsg = tgMessages.get(i).toString();
+
+            if (currentMsg.contains(guid) && currentMsg.contains(paymentTypeFlag) && currentMsg.contains(totalSum)) {
+
+                Allure.addAttachment("Сообщение в телеграмме", currentMsg);
+                return currentMsg;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+
+
     @Step("Получаем сообщение по ошибке оплаты")
     public String getLastTgErrorPayMsg(String errorTypeText) {
 

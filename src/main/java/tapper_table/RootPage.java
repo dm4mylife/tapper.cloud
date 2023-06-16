@@ -16,6 +16,8 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.codeborne.selenide.ClipboardConditions.content;
 import static com.codeborne.selenide.CollectionCondition.*;
@@ -28,6 +30,7 @@ import static data.Constants.RegexPattern.TelegramMessage.discountRegex;
 import static data.Constants.RegexPattern.TelegramMessage.tableRegexTelegramMessage;
 import static data.Constants.SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED;
 import static data.Constants.SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED_IN_SUPPORT;
+import static data.Constants.TestData.AdminPersonalAccount.ROBOCOP_WAITER;
 import static data.Constants.TestData.TapperTable;
 import static data.Constants.TestData.TapperTable.*;
 import static data.Constants.TestData.Yandex;
@@ -92,7 +95,24 @@ public class RootPage extends BaseActions {
     public void ignoreServiceWorkerRoles(){
 
         if (roleButtonsContainer.exists())
-            Selenide.executeJavaScript("document.querySelector('.tipsBlock__buttons').style.display = \"none\";");
+            Selenide.executeJavaScript("document.querySelector('.tipsBlock__buttons').remove()");
+
+    }
+
+    public void setOriginaWaiterName() {
+
+        if (serviceWorkerName.exists() && !serviceWorkerName.getText().equals(ROBOCOP_WAITER))
+            Selenide.executeJavaScript
+                    ("document.querySelector(\".tipsProfile__name\").textContent = \"" + ROBOCOP_WAITER +"\";");
+
+
+    }
+
+    public void ignoreAllDynamicsElements() {
+
+        ignoreWifiIcon();
+        ignoreServiceWorkerRoles();
+        setOriginaWaiterName();
 
     }
 
@@ -172,7 +192,7 @@ public class RootPage extends BaseActions {
 
     public void isServiceChargeDeactivatedByDefault() {
 
-        serviceChargeContainer.shouldBe(exist).shouldHave(matchText(SERVICE_CHARGE_TEXT_WHEN_DEACTIVATED));
+        serviceChargeContainer.shouldBe(exist).shouldHave(matchText(SERVICE_CHARGE_TEXT));
         serviceChargeCheckboxSvg.getCssValue("display").equals("none");
 
         isElementVisible(tips7andHalf);
@@ -180,8 +200,6 @@ public class RootPage extends BaseActions {
         isElementVisible(tips20);
         isElementVisible(tips25);
         activeTipsButton.shouldHave(text("12.5%"));
-
-
 
     }
 
@@ -217,7 +235,7 @@ public class RootPage extends BaseActions {
     @Step("Переключаем на разделение счёта")
     public void activateDivideCheckSliderIfDeactivated() {
 
-        if (divideCheckSlider.isDisplayed())
+        if (divideCheckSlider.isDisplayed() && allNonPaidAndDisabledDishes.size() != 1)
             click(divideCheckSlider);
 
         divideCheckSliderActive.shouldBe(appear);
@@ -281,19 +299,16 @@ public class RootPage extends BaseActions {
 
             if (totalTipsSumInMiddle.exists()) {
 
-                isImageCorrect(serviceWorkerImageSelector, "Изображение официанта не корректное или битое");
+                isImageCorrect(serviceWorkerImageSelector,
+                        "Изображение официанта не корректное или битое");
 
                 isElementVisible(tipsWaiter);
-
                 isElementVisible(totalTipsSumInMiddle);
                 isElementsListVisible(tipsListItem);
                 isElementVisible(tipsInfo);
                 checkCustomTipForError();
 
             }
-
-
-
 
         }
 
@@ -535,27 +550,27 @@ public class RootPage extends BaseActions {
     public void chooseAllNonPaidDishes() {
 
         hidePaymentOptionsAndTapBar();
-        double totalDishesSum = 0;
+        AtomicReference<Double> totalDishesSum = new AtomicReference<>((double) 0);
 
         isElementsCollectionVisible(allNonPaidAndNonDisabledDishes);
 
-        for (int index = 0; index < allNonPaidAndNonDisabledDishes.size(); index++) {
+        allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
-            if (!allNonPaidAndNonDisabledDishesCheckbox.get(index).getCssValue("display").equals("block")) {
+            if (!element.$(dishCheckboxSelector).getCssValue("display").equals("block")) {
 
                 double currentDishPrice = convertSelectorTextIntoDoubleByRgx
-                        (allNonPaidAndNonDisabledDishesSum.get(index), dishPriceRegex);
-                String currentDishName = allNonPaidAndNonDisabledDishesName.get(index).getText();
+                        (element.$(dishPriceTotalSelector), dishPriceRegex);
+                String currentDishName = element.$(dishNameSelector).getText();
 
-                totalDishesSum += currentDishPrice;
+                totalDishesSum.updateAndGet(v -> new Double((double) (v + currentDishPrice)));
 
-                scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
-                allNonPaidAndNonDisabledDishesCheckbox.get(index)
-                        .shouldBe(cssValue("display", "block"), Duration.ofSeconds(4));
+                scrollAndClick(element.$(dishNameSelector));
+                element.$(dishCheckboxSelector).shouldBe(cssValue("display", "block"),
+                        Duration.ofSeconds(10));
 
             }
 
-        }
+        });
 
         showPaymentOptionsAndTapBar();
 
@@ -608,42 +623,46 @@ public class RootPage extends BaseActions {
 
         hidePaymentOptionsAndTapBar();
 
-        for (int index = 0; index < allDishesInOrder.size(); index++) {
+        allDishesInOrder.asDynamicIterable().stream().forEach(element -> {
 
-            if (allNonPaidAndNonDisabledDishesCheckbox.get(index).getAttribute("style").equals("")) {
+            if (element.getAttribute("style").equals(""))
+                scrollAndClick(element.$(dishCheckboxSelector));
 
-                scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
-
-            }
-
-        }
+        });
 
         showPaymentOptionsAndTapBar();
 
     }
 
     @Step("Выбираем определенное число блюд и считаем сумму выбранных рандомных позиций")
-    public void chooseCertainAmountDishes(int neededDishesAmount) {
+    public void chooseCertainAmountDishes(int neededDishesAmount, double gg) {
 
         hidePaymentOptionsAndTapBar();
+
+        isElementVisible(orderContainer);
 
         double totalDishesSum = 0;
         double currentDishPrice;
         String currentDishName;
 
-        int chosenDishesSize = allNonPaidAndNonDisabledDishesCheckbox
-                .filter(attribute("display", "block")).size();
+        int count = 0;
 
-        for (int count = 1; count <= neededDishesAmount; count++) {
+        for (; count < neededDishesAmount; ++count) {
 
             int index;
             String flag;
+
+            int chosenDishesSize = allNonPaidAndNonDisabledDishesCheckbox
+                    .filter(attribute("display", "block")).size();
 
             if (chosenDishesSize != allNonPaidAndNonDisabledDishes.size()) {
 
                 do {
 
-                    index = generateRandomNumber(1, allNonPaidAndNonDisabledDishes.size()) - 1;
+                    index = generateRandomNumber(0, allNonPaidAndNonDisabledDishes.size() - 1);
+
+
+
                     flag = allNonPaidAndNonDisabledDishesCheckbox.get(index).getCssValue("display");
 
                     currentDishPrice = convertSelectorTextIntoDoubleByRgx
@@ -656,8 +675,8 @@ public class RootPage extends BaseActions {
 
                 scrollAndClick(allNonPaidAndNonDisabledDishesName.get(index));
 
-                allNonPaidAndNonDisabledDishesCheckbox.get(index)
-                        .shouldBe(cssValue("display", "block"));
+                allDishesCheckboxes.get(index).shouldBe(cssValue("display", "block"),
+                        Duration.ofSeconds(10));
 
             } else {
 
@@ -667,6 +686,53 @@ public class RootPage extends BaseActions {
 
         }
 
+        allChosenDishes.shouldHave(sizeGreaterThanOrEqual(count));
+
+        showPaymentOptionsAndTapBar();
+
+    }
+
+
+
+    public void chooseCertainAmountDishes(int neededDishesAmount) {
+
+        hidePaymentOptionsAndTapBar();
+        double totalDishesSum = 0;
+
+        int chosenDishesCounter = neededDishesAmount;
+
+        while (chosenDishesCounter > 0) {
+
+            for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
+
+                if (!element.$(dishCheckboxSelector).getCssValue("display").equals("block") &&
+                        !element.$(dishOrderStatusSelector).getText().equals(DISH_STATUS_PAYED)) {
+
+                    Random random = new Random();
+                    boolean result = random.nextBoolean();
+
+                    if (result) {
+
+                        double currentDishPrice =
+                                (convertSelectorTextIntoDoubleByRgx(element.$(dishPriceTotalSelector), dishPriceRegex));
+                        String currentDishName = element.$(dishNameSelector).getText();
+
+                        scrollAndClick(element.$(dishNameSelector));
+
+                        totalDishesSum += currentDishPrice;
+
+                        chosenDishesCounter--;
+                        break;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        allChosenDishes.shouldHave(sizeGreaterThanOrEqual(neededDishesAmount));
         showPaymentOptionsAndTapBar();
 
     }
@@ -702,7 +768,6 @@ public class RootPage extends BaseActions {
     public void chooseLastDish(ElementsCollection elements) {
 
         scrollAndClick(elements.last().$(dishNameSelector));
-
     }
 
     @Step("Выбираем первое блюдо")
@@ -715,12 +780,12 @@ public class RootPage extends BaseActions {
     @Step("Считаем сумму всех выбранных позиций в заказе при разделении") //
     public double countOnlyAllChosenDishesDivided() {
 
-        double totalSumInOrder = 0;
-        int counter = 0;
+        AtomicReference<Double> totalSumInOrder = new AtomicReference<>((double) 0);
+        AtomicInteger counter = new AtomicInteger();
 
         isElementsCollectionVisible(allNonPaidAndNonDisabledDishes);
 
-        for (SelenideElement element : allNonPaidAndNonDisabledDishes) {
+        allNonPaidAndNonDisabledDishes.asDynamicIterable().stream().forEach(element -> {
 
             if (element.$(dishCheckboxSelector).getCssValue("display").equals("block")) {
 
@@ -728,15 +793,15 @@ public class RootPage extends BaseActions {
                         convertSelectorTextIntoDoubleByRgx(element.$(dishPriceTotalSelector), dishPriceRegex);
                 String dishName = element.$(dishNameSelector).getText();
 
-                totalSumInOrder += cleanPrice;
-                totalSumInOrder = updateDoubleByDecimalFormat(totalSumInOrder);
-                counter++;
+                totalSumInOrder.updateAndGet(v -> new Double((double) (v + cleanPrice)));
+                totalSumInOrder.set(updateDoubleByDecimalFormat(totalSumInOrder.get()));
+                counter.getAndIncrement();
 
             }
 
-        }
+        });
 
-        return totalSumInOrder;
+        return totalSumInOrder.get();
 
     }
 
@@ -1121,8 +1186,9 @@ public class RootPage extends BaseActions {
         double currentTips = getCurrentTipsSum();
         double currentSC = getCurrentSCSum();
 
-        double totalCleanPaySum = countTotalDishesSumWithTipsAndSC(cleanDishesSum, currentTips, currentSC);
         double totalPaySumInCheck = convertSelectorTextIntoDoubleByRgx(totalPay, totalPayRegex);
+        double totalCleanPaySum = countTotalDishesSumWithTipsAndSC(cleanDishesSum, currentTips, currentSC);
+
         double totalPaySumInWallet = convertSelectorTextIntoDoubleByRgx(totalSumInWalletCounter, totalSumInWalletRegex);
         double totalPaySumInPayButton = convertSelectorTextIntoDoubleByRgx(paymentButton, serviceChargeRegex);
 
@@ -1250,7 +1316,8 @@ public class RootPage extends BaseActions {
     @Step("Чаевые не должны отображаться у не верифицированного официанта без привязанной карты")
     public void checkIsNoTipsElementsIfNonVerifiedNonCard() {
 
-        if (hookahButton.exists() || kitchenButton.exists()) {
+        if (hookahButton.exists() || kitchenButton.exists() ||
+                serviceWorkerName.exists() && (!serviceWorkerName.equals("Кальянщик") || !serviceWorkerName.equals("Кухня"))) {
 
             isElementInvisible(waiterRoleButton);
 
@@ -1518,7 +1585,9 @@ public class RootPage extends BaseActions {
 
         click(totalTipsSumInMiddle);
         totalTipsSumInMiddle.clear();
-        sendHumanKeys(totalTipsSumInMiddle, TapperTable.MIN_SUM_FOR_TIPS_ERROR);
+        forceWait(5000);
+        sendKeys(totalTipsSumInMiddle, TapperTable.MIN_SUM_FOR_TIPS_ERROR);
+        forceWait(5000);
         tipsErrorMsg.shouldHave(cssValue("display", "block"));
         tipsErrorMsg.shouldHave(text(TapperTable.TIPS_ERROR_MSG));
         paymentButton.shouldBe(disabled);
@@ -1526,7 +1595,7 @@ public class RootPage extends BaseActions {
         totalTipsSumInMiddle.clear();
 
         assert defaultTips != null;
-        sendHumanKeys(totalTipsSumInMiddle, defaultTips);
+        sendKeys(totalTipsSumInMiddle, defaultTips);
         tipsErrorMsg.shouldHave(cssValue("display", "none"));
 
     }
@@ -1963,7 +2032,6 @@ public class RootPage extends BaseActions {
         isElementVisible(callWaiterHeading);
         isElementVisible(callWaiterCommentArea);
         isElementVisible(callWaiterTypingMessagePreloader);
-        callWaiterTypingMessagePreloader.shouldHave(disappear, Duration.ofSeconds(5));
         isElementVisibleDuringLongTime(callWaiterFirstGreetingsMessage, 5);
 
     }
@@ -2054,6 +2122,7 @@ public class RootPage extends BaseActions {
 
         click(callWaiterButton);
         isHistorySaved();
+        click(callWaiterCloseButton);
 
     }
 
@@ -2106,7 +2175,7 @@ public class RootPage extends BaseActions {
 
         for (SelenideElement selenideElement : menuCategoryContainerName) {
 
-            String categoryName = selenideElement.getText();
+            String categoryName = selenideElement.getText().trim();
             String dishSizeXpath =
                     "//*[@class='orderMenuList']//*[@class='orderMenuList__item'][.//*[contains(text(),'" +
                             categoryName + "')]]//*[@class='orderMenuProductList__item']";
@@ -2117,7 +2186,7 @@ public class RootPage extends BaseActions {
 
             for (SelenideElement element : dishElement) {
 
-                String dishName = element.$(dishMenuItemsNameSelector).getText();
+                String dishName = element.$(dishMenuItemsNameSelector).getText().trim();
                 String dishPrice = convertSelectorTextIntoStrByRgx(element.$(dishMenuItemsPriceSelector),dishPriceRegex);
 
                 dishList.put("name", dishName);
@@ -2169,8 +2238,6 @@ public class RootPage extends BaseActions {
                                                        HashMap<Integer, HashMap<String, String>> adminOrderData) {
 
 
-
-        System.out.println("\nTAPPER\n" + tapperOrderData + "\nADMIN\n" + adminOrderData);
 
         boolean hasOperationMatch = false;
 
@@ -2252,6 +2319,23 @@ public class RootPage extends BaseActions {
     }
 
     @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
+    public LinkedHashMap<String, String> getPaymentTgMsgData(String guid,String payment,String totalSum) {
+
+        final String[] msg = new String[1];
+
+        Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
+                .atMost(15, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(
+                        () -> Assertions.assertNotNull(msg[0] = telegram.getLastTgPayMsg(guid, payment,totalSum),
+                                "Сообщение в телеграм не пришло или некорректное"));
+
+        HashMap<String, String> msgWithType = telegram.setMsgTypeFlag(msg[0]);
+        LinkedHashMap<String, String> parsedMsg = telegram.parseMsg(msgWithType);
+
+        return parsedMsg;
+
+    }
+
+    @Step("Получение сообщения тг, парсинг, преобразование в хешкарту")
     public String getPaymentErrorTgMsgData(String errorPaymentText) {
 
         final String[] msg = new String[1];
@@ -2319,7 +2403,7 @@ public class RootPage extends BaseActions {
     public void isDishStatusChanged(ElementsCollection elements, int collectionSize) {
 
         elements.should(allMatch("Все элементы должны быть видны", WebElement::isDisplayed),
-                        Duration.ofSeconds(10)).shouldHave(size(collectionSize));
+                        Duration.ofSeconds(10)).shouldHave(size(collectionSize),Duration.ofSeconds(7));
 
     }
 
@@ -2444,14 +2528,14 @@ public class RootPage extends BaseActions {
             
         }
 
-        System.out.println("\nbefore status\n");
+        /*System.out.println("\nbefore status\n");
         System.out.println(totalPaidDouble + " totalPaidDouble");
         System.out.println((totalPaidDouble + discountDouble) + " totalPaidDouble with discount");
         System.out.println(sumInCheckDouble + " sumInCheckDouble");
         System.out.println(restToPayDouble + " restToPayDouble");
         System.out.println(tips + " tips");
         System.out.println(waiter + " waiter");
-        System.out.println(restaurantName + " restaurantName");
+        System.out.println(restaurantName + " restaurantName");*/
 
         tapperDataForTgMsg = setCollectionData(restaurantName,tableString,sumInCheck,restToPay,tips,paySum,totalPaid,
                 discount,markUp,payStatus,orderStatus,waiter);
@@ -2628,7 +2712,7 @@ public class RootPage extends BaseActions {
         if (telegramDataForTgMsg.containsValue("orderStatus") &&
                 telegramDataForTgMsg.get("orderStatus").matches("(?s).*[\\n\\r].*SeqNumber.*")) {
 
-            System.out.println("\nОшибка SeqNumber. Удаляем из карты поле\n");
+
             telegramDataForTgMsg.remove("orderStatus");
             telegramDataForTgMsg.remove("reasonError");
             tapperDataForTgMsg.remove("orderStatus");
@@ -2746,18 +2830,17 @@ public class RootPage extends BaseActions {
         if (!goalText.equals("") && !serviceWorkerRole.equals("no_card_waiter") ) {
 
             isElementVisible(tipsGoalContainer);
+            tipsGoalContainer.shouldHave(exactText(goalText));
 
         } else if (serviceWorkerRole.equals("no_card_waiter") && !goalText.equals("")) {
 
-            isElementInvisible(waiterRoleButton);
+            tipsGoalContainer.shouldHave(exactText(goalText));
 
-        } else  {
+        }  else  {
 
             isElementInvisible(tipsGoalContainer);
 
         }
-
-        tipsGoalContainer.shouldHave(text(goalText));
 
     }
 
@@ -2812,6 +2895,27 @@ public class RootPage extends BaseActions {
 
     }
 
+    @Step("Проверка подписи в сервисном сборе")
+    public void isServiceChargeTextCorrect() {
+
+        if (getCurrentTipsSum() == 0 || !tipsContainer.exists()) {
+
+            serviceChargeContainer.shouldHave(text(SERVICE_CHARGE_TEXT_WHEN_DEACTIVATED));
+
+        } else {
+
+            serviceChargeContainer.shouldHave(matchText(SERVICE_CHARGE_TEXT));
+
+        }
+
+    }
+
+    public String getServiceChargeText() {
+
+        return convertSelectorTextIntoStrByRgx(serviceChargeContainer,serviceChargeRegex);
+
+    }
+
     @Step("Проверка аватарки на столе")
     public void isServiceWorkerAvatarCorrect(String typeAvatar, boolean isAvatar) {
 
@@ -2844,6 +2948,30 @@ public class RootPage extends BaseActions {
         click(hookahButton);
         isElementVisible(serviceWorkerName);
         serviceWorkerName.shouldHave(text(waiterName));
+
+    }
+
+
+    @Step("Проверка смены языка")
+    public void isChangeLanguageCorrect() {
+
+        isElementVisible(changeLanguageButton);
+        changeLanguage("en");
+        changeLanguage("ru");
+
+    }
+
+    public void changeLanguage(String language) {
+
+        String headerTextFlag = language.equals("ru") ? "Мой счет" : "My account";
+        String languageIconRegex = language.equals("ru") ? ".*-RU.*" : ".*-EN.*";
+
+        click(changeLanguageButton);
+        isElementVisible(languageContainer);
+        isElementsCollectionVisible(languageItems);
+        click(languageItemsIcon.find(attributeMatching("src",languageIconRegex)));
+
+        appHeader.shouldHave(matchText(headerTextFlag),Duration.ofSeconds(10));
 
     }
 

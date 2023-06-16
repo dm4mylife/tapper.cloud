@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import static api.ApiData.IikoData.Dish.*;
 import static api.ApiData.IikoData.IikoEndpoints.*;
-import static api.ApiData.OrderData.Iiko_RESTAURANT;
+import static api.ApiData.OrderData.IIKO_RESTAURANT;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static io.restassured.RestAssured.given;
 
@@ -24,7 +24,7 @@ public class ApiIiko {
 
         LinkedHashMap<String, Object> createOrderDataMap = new LinkedHashMap<>();
 
-        createOrderDataMap.put("domen", Iiko_RESTAURANT);
+        createOrderDataMap.put("domen", IIKO_RESTAURANT);
         createOrderDataMap.put("table_id", tableId);
         createOrderDataMap.put("comment", "test");
 
@@ -59,7 +59,7 @@ public class ApiIiko {
     public Map<String, Object> rqBodyFillingOrder(String order_id, String product_id, int amount) {
 
         Map<String, Object> rsBody = new LinkedHashMap<>();
-        rsBody.put("domen", Iiko_RESTAURANT);
+        rsBody.put("domen", IIKO_RESTAURANT);
         rsBody.put("order_id", order_id);
         rsBody.put("product_id", product_id);
         rsBody.put("amount", amount);
@@ -120,7 +120,7 @@ public class ApiIiko {
 
         Map<String,Object> map = new HashMap<>();
             map.put("table_id",tableId);
-            map.put("domen",Iiko_RESTAURANT);
+            map.put("domen", IIKO_RESTAURANT);
 
         return given()
                 .contentType(ContentType.JSON)
@@ -139,7 +139,7 @@ public class ApiIiko {
     public Map<String, Object> rqBodyAddDiscount(String orderId, String discountId, int amount) {
 
         Map<String, Object> rsBody = new LinkedHashMap<>();
-        rsBody.put("domen", Iiko_RESTAURANT);
+        rsBody.put("domen", IIKO_RESTAURANT);
         rsBody.put("order_id", orderId);
         rsBody.put("discount", discountId);
         rsBody.put("sum", amount);
@@ -192,7 +192,7 @@ public class ApiIiko {
     public Map<String, Object> rqBodyDeletePosition(String orderId, String positionId, String productId) {
 
         Map<String, Object> rsBody = new LinkedHashMap<>();
-        rsBody.put("domen", Iiko_RESTAURANT);
+        rsBody.put("domen", IIKO_RESTAURANT);
         rsBody.put("order_id", orderId);
         rsBody.put("position_id", positionId);
         rsBody.put("product_id", productId);
@@ -203,7 +203,7 @@ public class ApiIiko {
     public Map<String, Object> rqBodyDeleteDiscount(String orderId, String discountId) {
 
         Map<String, Object> rsBody = new LinkedHashMap<>();
-        rsBody.put("domen", Iiko_RESTAURANT);
+        rsBody.put("domen", IIKO_RESTAURANT);
         rsBody.put("order_id", orderId);
         rsBody.put("discount", discountId);
         return rsBody;
@@ -214,7 +214,7 @@ public class ApiIiko {
     public boolean deleteOrder(String orderId) {
 
         Map<String,Object> map = new HashMap<>();
-        map.put("domen",Iiko_RESTAURANT);
+        map.put("domen", IIKO_RESTAURANT);
         map.put("order_id",orderId);
 
         Response response = given()

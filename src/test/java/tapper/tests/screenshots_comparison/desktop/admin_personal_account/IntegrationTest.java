@@ -3,11 +3,11 @@ package tapper.tests.screenshots_comparison.desktop.admin_personal_account;
 import admin_personal_account.integrations.Integrations;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import tests.ScreenDesktopTest;
 import tests.TakeOrCompareScreenshots;
@@ -23,23 +23,17 @@ import static data.Constants.TestData.AdminPersonalAccount.ADMIN_RESTAURANT_PASS
 @Feature("Администратор ресторана")
 @Story("Интеграции")
 @DisplayName("Интеграции")
-
 @TakeOrCompareScreenshots()
-@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class IntegrationTest extends ScreenDesktopTest {
 
-    SixTableData data = IntegrationTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            IntegrationTest.class.getAnnotation(TakeOrCompareScreenshots.class);
-
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
-    boolean isScreenShot = annotation.isTakeScreenshot();
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
@@ -56,7 +50,7 @@ class IntegrationTest extends ScreenDesktopTest {
         integrations.goToIntegrationsCategory();
         integrations.isIntegrationsCategoryCorrect();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                         ScreenLayout.AdminPersonalAccount.integrations, diffPercent, imagePixelSize);
 
     }

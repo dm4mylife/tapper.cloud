@@ -2,15 +2,14 @@ package tapper.tests.control_thread;
 
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
-import org.junit.platform.suite.api.SuiteDisplayName;
 
 
 @SelectPackages({
 
-    "tapper.tests.keeper_e2e._3_1_waiter",
-    "tapper.tests.keeper_e2e._3_2_modifiers",
-    "tapper.tests.keeper_e2e._3_3_part_payment",
-    "tapper.tests.keeper_e2e._3_4_portions"
+    "tapper.tests.keeper._3_1_waiter",
+    "tapper.tests.keeper._3_2_modifiers",
+    "tapper.tests.keeper._3_3_part_payment",
+    "tapper.tests.keeper._3_4_portions"
 
 })
 @Suite

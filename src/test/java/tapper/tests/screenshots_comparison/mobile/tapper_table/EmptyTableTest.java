@@ -2,11 +2,11 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
 import common.BaseActions;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import tapper_table.RootPage;
@@ -21,7 +21,6 @@ import java.util.Set;
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.visible;
 import static data.Constants.TestData.TapperTable.REFRESH_TABLE_BUTTON_TEXT;
-import static data.Constants.WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN;
 import static data.ScreenLayout.Tapper.tapperTableEmpty;
 import static data.ScreenLayout.Tapper.tapperTableRefreshTable;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
@@ -32,25 +31,20 @@ import static data.selectors.TapperTable.RootPage.DishList.*;
 @Feature("Стол")
 @Story("Заказ")
 @DisplayName("Пустой стол")
-@SixTableData
 @TakeOrCompareScreenshots()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class EmptyTableTest extends ScreenMobileTest {
-    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            EmptyTableTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
     Set<By> ignoredElements =
-            ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy,refreshButtonEmptyPageBy)));
+            ScreenshotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy,refreshButtonEmptyPageBy)));
 
-
-    public static boolean isScreenShot = annotation.isTakeScreenshot();
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
@@ -66,7 +60,7 @@ class EmptyTableTest extends ScreenMobileTest {
         apiRKeeper.isTableEmpty(restaurantName, tableId, apiUri);
         rootPage.openPage(tableUrl);
         rootPage.isEmptyOrderAfterClosing();
-        ScreenShotComparison.isScreenOrDiff
+        ScreenshotComparison.isScreenOrDiff
                 (browserTypeSize, isScreenShot, tapperTableEmpty, diffPercent, imagePixelSize, ignoredElements);
 
 
@@ -80,9 +74,8 @@ class EmptyTableTest extends ScreenMobileTest {
         rootPage.isElementVisible(refreshButtonEmptyPage);
         BaseActions.click(refreshButtonEmptyPage);
         dishesSumChangedHeading.shouldBe(visible,matchText(REFRESH_TABLE_BUTTON_TEXT));
-        rootPage.forceWait(WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN);
 
-        ScreenShotComparison.isScreenOrDiff
+        ScreenshotComparison.isScreenOrDiff
                 (browserTypeSize, isScreenShot, tapperTableRefreshTable, diffPercent, imagePixelSize,ignoredElements);
 
     }

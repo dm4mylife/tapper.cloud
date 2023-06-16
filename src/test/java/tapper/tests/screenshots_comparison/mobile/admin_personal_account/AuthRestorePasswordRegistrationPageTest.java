@@ -4,10 +4,11 @@ import admin_personal_account.RegistrationPage;
 import common.BaseActions;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tests.ScreenMobileTest;
@@ -16,10 +17,7 @@ import total_personal_account_actions.AuthorizationPage;
 
 import java.io.IOException;
 
-import static api.ApiData.OrderData.*;
 import static data.AnnotationAndStepNaming.DisplayName.AuthorizationAndRegistrationAdminPage.restorePasswordPage;
-import static data.Constants.TestData.TapperTable.AUTO_API_URI;
-import static data.Constants.TestData.TapperTable.STAGE_RKEEPER_TABLE_666;
 import static data.ScreenLayout.Tapper.authorizePage;
 import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.forgotPasswordLink;
 
@@ -28,7 +26,6 @@ import static data.selectors.AuthAndRegistrationPage.AuthorizationPage.forgotPas
 @Feature("Администратор ресторана")
 @Story("Страница авторизации,регистрации,восстановления администратора ресторана")
 @DisplayName("Страница авторизации,регистрации,восстановления администратора ресторана")
-
 @TakeOrCompareScreenshots()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AuthRestorePasswordRegistrationPageTest extends ScreenMobileTest {
@@ -36,12 +33,12 @@ class AuthRestorePasswordRegistrationPageTest extends ScreenMobileTest {
     static TakeOrCompareScreenshots annotation =
             AuthRestorePasswordRegistrationPageTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = R_KEEPER_RESTAURANT;
-    protected final String tableCode = TABLE_CODE_666;
-    protected final String waiter = WAITER_ROBOCOP_VERIFIED_WITH_CARD;
-    protected final String apiUri = AUTO_API_URI;
-    protected final String tableUrl = STAGE_RKEEPER_TABLE_666;
-    protected final String tableId = TABLE_AUTO_666_ID;
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
 
     boolean isScreenShot = annotation.isTakeScreenshot();
     double diffPercent = getDiffPercent();
@@ -61,7 +58,7 @@ class AuthRestorePasswordRegistrationPageTest extends ScreenMobileTest {
 
         authorizationPage.goToAuthorizationPage();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, authorizePage,diffPercent,imagePixelSize);
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, authorizePage,diffPercent,imagePixelSize);
 
     }
 
@@ -72,7 +69,7 @@ class AuthRestorePasswordRegistrationPageTest extends ScreenMobileTest {
 
         BaseActions.click(forgotPasswordLink);
 
-        ScreenShotComparison.isScreenOrDiff
+        ScreenshotComparison.isScreenOrDiff
                 (browserTypeSize,isScreenShot, ScreenLayout.Tapper.restorePasswordPage,diffPercent,imagePixelSize);
 
     }
@@ -84,7 +81,7 @@ class AuthRestorePasswordRegistrationPageTest extends ScreenMobileTest {
 
         registrationPage.goToRegistrationPage();
 
-        ScreenShotComparison.isScreenOrDiff
+        ScreenshotComparison.isScreenOrDiff
                 (browserTypeSize,isScreenShot, ScreenLayout.Tapper.registrationPage,diffPercent,imagePixelSize);
 
     }

@@ -3,35 +3,31 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
 import data.ScreenLayout;
-import data.selectors.TapperTable;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import tapper_table.Best2PayPage;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
+import tapper_table.nestedTestsManager.Best2PayPageNestedTests;
 import tapper_table.nestedTestsManager.NestedTests;
 import tapper_table.nestedTestsManager.ReviewPageNestedTests;
+import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static api.ApiData.OrderData.BARNOE_PIVO;
 import static com.codeborne.selenide.Condition.visible;
-import static data.Constants.RegexPattern.TapperTable.tableNumberRegex;
 import static data.selectors.TapperTable.Common.pagePreLoader;
 import static data.selectors.TapperTable.Common.wiFiIconBy;
-import static data.selectors.TapperTable.RootPage.DishList.allDishesInOrder;
-import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 
 
 @Epic("Тесты по верстке проекта (Мобильные)")
@@ -39,68 +35,58 @@ import static data.selectors.TapperTable.RootPage.DishList.tableNumber;
 @Story("Заказ")
 @DisplayName("Частичная оплата")
 @TakeOrCompareScreenshots()
-@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PartPayTest extends ScreenMobileTest {
-    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            PartPayTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
-    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
+    Set<By> ignoredElements = ScreenshotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
 
-
-    public static boolean isScreenShot = annotation.isTakeScreenshot();
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
-    static String guid;
-    static double totalPay;
-    static String orderType = "full";
-    static HashMap<String, String> paymentDataKeeper;
-    static String transactionId;
-    static int amountDishesForFillingOrder = 2;
-    static String tapperTable;
-    static String waiterName;
+
     RootPage rootPage = new RootPage();
     NestedTests nestedTests = new NestedTests();
     ReviewPage reviewPage = new ReviewPage();
     ReviewPageNestedTests reviewPageNestedTests = new ReviewPageNestedTests();
     ApiRKeeper apiRKeeper = new ApiRKeeper();
+    Best2PayPageNestedTests best2PayPageNestedTests = new Best2PayPageNestedTests();
+    RootPageNestedTests rootPageNestedTests = new RootPageNestedTests();
+    Best2PayPage best2PayPage = new Best2PayPage();
 
     @Test
     @Order(1)
     @DisplayName("Частичная оплата")
     void createAndFillOrder() throws IOException {
 
+        String guid;
+        int amountDishesForFillingOrder = 3;
+
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
 
-        rootPage.ignoreWifiIcon();
-        rootPage.ignoreServiceWorkerRoles();
+        rootPage.ignoreAllDynamicsElements();
 
         rootPage.activateDivideCheckSliderIfDeactivated();
-        rootPage.chooseLastDish(allDishesInOrder);
+        rootPage.chooseCertainAmountDishes(1);
 
-        tapperTable = rootPage.convertSelectorTextIntoStrByRgx(tableNumber,tableNumberRegex);
-        waiterName = TapperTable.RootPage.TipsAndCheck.serviceWorkerName.getText();
+        rootPageNestedTests.clickPayment();
+        best2PayPageNestedTests.typeDataAndPay();
 
-        totalPay = rootPage.saveTotalPayForMatchWithAcquiring();
-        paymentDataKeeper = rootPage.savePaymentDataTapperForB2b();
-        transactionId = nestedTests.acquiringPayment(totalPay);
+        best2PayPage.clickPayButton();
+
         pagePreLoader.shouldNotBe(visible, Duration.ofSeconds(15));
-        reviewPageNestedTests.paymentCorrect(orderType = "part");
-        reviewPageNestedTests.getTransactionAndMatchSums(transactionId, paymentDataKeeper);
-        reviewPage.isReviewBlockCorrect();
-        reviewPage.clickOnFinishButton();
-        rootPage.isTableHasOrder();
+        reviewPageNestedTests.paymentCorrect("part");
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        reviewPage.isReviewBlockCorrect();
+
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperTablePartPay,diffPercent,imagePixelSize,ignoredElements);
 
         apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);

@@ -11,19 +11,14 @@ public class AdminPersonalAccount {
     public static class Common {
 
         public static final SelenideElement mobileFooter = $(".vProfileMobileMenu");
-
         public static final SelenideElement mainMenuIcon = $(".vProfileMenu__info");
         public static final SelenideElement exitFromAdmin = $(".vProfileMenu__exit");
         public static final SelenideElement closeLeftMenu = $(".vProfileMenu__resize");
-
         public static final SelenideElement leftMenuOpened = $("[class='vProfileMenu']");
         public static final SelenideElement profileCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Профиль']]");
-
         public static final String integrationCategorySelector = "a[href*=\"integration\"]";
-
-
         public static final SelenideElement integrationCategory =
                 $x("//*[@class='vProfileMenu__list']/*[contains(@class,'VMenuProfileLink')]" +
                         "[.//*[text()='Интеграции']]");
@@ -51,7 +46,6 @@ public class AdminPersonalAccount {
         public static final SelenideElement tipsCategory =
                 $x("//*[@class='vProfileMenu__list']" +
                         "/*[contains(@class,'VMenuProfileLink')][.//*[text()='Чаевые']]");
-        public static final SelenideElement authPassword = $x("//td[*[contains(text(),'Пароль')]]");
         public static final SelenideElement configuration =
                 $(".VMenuProfileLink:nth-of-type(2) .VMenuProfileLink__clickArea");
         public static final SelenideElement pageHeading = $(".vProfileHeader__breadcrumbs-item");
@@ -77,7 +71,6 @@ public class AdminPersonalAccount {
         public static final ElementsCollection telegramItemsIcons =
                 $$(".section-profile__inputs-list-item .vMessengerInput__telega");
         public static final By telegramItemsInput = By.cssSelector(".vMessengerInput__container input");
-        public static final By telegramItemsInput2 = By.cssSelector(".vMessengerInput__container input");
         public static final ElementsCollection telegramItemsHelpTooltip =
                 $$(".section-profile__inputs-list-item .vMessengerInput__tooltip");
         public static final ElementsCollection telegramItemsHelp =
@@ -88,17 +81,13 @@ public class AdminPersonalAccount {
         public static final String telegramItemsLoginInputSelector = "input";
         public static final SelenideElement privateDataContainer =
                 $x("//*[@class='section-profile__legend'][..//*[contains(text(),'Личные данные')]]");
-
-
         public static final SelenideElement personalInformationContainer =
                 $x("//*[@class='section-profile__legend']" +
                         "[..//*[contains(text(),'Персональная информация')]]");
-
         public static final ElementsCollection telegramItemsMasterIcon = $$(".section-profile__star");
         public static final String telegramItemsMasterSvgSelector = ".section-profile__star svg path";
         public static final ElementsCollection telegramItemsMasterSvg =
                 $$(".section-profile__star svg path");
-
         public static final String telegramItemsMasterIconSelector = ".section-profile__star";
 
     }
@@ -119,9 +108,6 @@ public class AdminPersonalAccount {
         public static final SelenideElement refreshListButton = $(".vSectionWaitersection__btn");
         public static final ElementsCollection waiterPaginationList = $$(".vPagination .vPagination__item");
         public static final SelenideElement pagePreloader = $(".vLightPreloader");
-        public static final By waiterAvatarBy = By.cssSelector(" .vWaiterItem__ava");
-
-
         public static final SelenideElement errorMsgEmailWasApplied =
                 $x("//*[@class='section-profile__group']" +
                         "[.//*[contains(text(),'Пригласить официанта в систему')]]//*[@class='vLandingInput__err']");
@@ -134,11 +120,6 @@ public class AdminPersonalAccount {
                 $$(".vSectionWaitersection__container .vWaiterItem");
         public static final ElementsCollection waiterListName =
                 $$(".vSectionWaitersection__container .vWaiterItem .vWaiterItem__waiterName");
-        public static final By waiterListNameBy =
-                By.cssSelector(".vSectionWaitersection__container .vWaiterItem .vWaiterItem__waiterName");
-        public static final SelenideElement waiterCashDeskNameInCard =
-                $x("//*[@class='vLandingInput'][.//*[@id='name']]");
-
         public static final SelenideElement inviteButton = $(".vSectionWaitersection__container .vButton");
         public static final SelenideElement cancelInvitationButton =
                 $(".vSectionWaitersection__container .vButtonRed");
@@ -181,13 +162,8 @@ public class AdminPersonalAccount {
                         "and contains(text(),'Отзывы на внешних сервисах')]");
         public static final SelenideElement wifiSlider =
                 $(".vAdminDisplayingWiFi__switch");
-
-        public static final SelenideElement wifiActivatedSlider =
-                $(".vBlockWiFiInformation input[id='network']:not([disabled])");
         public static final SelenideElement wifiSliderInput =
                 $(".vAdminDisplayingWiFi__switch input");
-        public static final SelenideElement wifiDeactivatedSlider =
-                $(".vBlockWiFiInformation input[id='network'][disabled]");
         public static final SelenideElement wifiNetworkName = $("[id=\"network\"]");
         public static final SelenideElement wifiNetworkPassword = $("[id=\"password\"]");
         public static final SelenideElement saveWifiButton = $(".vBlockWiFiInformation__container .vButton");
@@ -206,8 +182,6 @@ public class AdminPersonalAccount {
                 $(".vBlockCallingWaiter__recipient-info g+rect");
         public static final SelenideElement recipientManagerIcon =
                 $(".vBlockCallingWaiter__recipient-info g+rect+rect");
-
-
         public static final SelenideElement reviewContainer = $(".vBlockReview");
 
         public static final SelenideElement yandexInput = $("[id=\"yandex\"]");
@@ -221,7 +195,6 @@ public class AdminPersonalAccount {
                 $(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle");
         public static final ElementsCollection reviewToggleInfo =
                 $$(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle .vBlockReviewInfo__toggle-list");
-
         public static final SelenideElement reviewToggleInfoElement =
                 $(".vSectionCustomization__reviewInfo .vBlockReviewInfo__toggle .vBlockReviewInfo__toggle-list");
         public static final SelenideElement yandexTextLabel = $("[for=\"checkYandex\"]");
@@ -267,20 +240,13 @@ public class AdminPersonalAccount {
                 $("[class='vSectionQr__qr'] [class='vSectionQr__download']");
         public static final SelenideElement qrDownloadImageBlack =
                 $(".vSectionQr__qr--black .vSectionQr__download");
-        public static final String qrWhiteImage = "[class='vSectionQr__qr'] img";
-        public static final String qrBlackImage = "[class='vSectionQr__qr vSectionQr__qr--black'] img";
 
     }
 
     public static class Menu {
 
-
-
         public static final SelenideElement menuMobilePlug = $(".vSectionMenuAdmin__zaglushka");
         public static final SelenideElement menuPagePreLoader = $(".vPreloader");
-        public static final SelenideElement menuDishListPreLoader = $(".vLightPreloader.notFixed");
-
-
         public static final SelenideElement menuContainer = $(".vSectionMenuAdmin__container");
         public static final SelenideElement refreshMenuButton = $(".vAdminMenuAside .vButton");
         public static final SelenideElement categoryTitle = $(".vAdminMenuAside__title");
@@ -306,11 +272,9 @@ public class AdminPersonalAccount {
         public static final SelenideElement deleteDishImageButton = $(".image__delete-icon");
         public static final SelenideElement deleteImageContainer = $(".modal__confirmation .modal__content");
         public static final SelenideElement imagePreviewIcon = $(".image__preview .image__preview-icon");
-        public static final SelenideElement imageUploadInput = $("[ id=\"uploadImg\"]");
-        public static final SelenideElement downloadedPreviewImage = $(".image__lot-img");
-
-
-
+        public static final SelenideElement imageUploadInput = $("[id=\"uploadImg\"]");
+        public static final SelenideElement downloadedPreviewImage = $(".image__lot .image__lot-img");
+        public static final String downloadedPreviewImageSelector = ".image__lot .image__lot-img";
         public static final SelenideElement deleteImageContainerDeleteButton =
                 $(".modal__confirmation [class='vButton']");
         public static final SelenideElement deleteImageContainerCancelButton =
@@ -319,8 +283,6 @@ public class AdminPersonalAccount {
                 $(".vAdmiMenuTable__picture-modal-content");
         public static final SelenideElement imagePreviewContainerCloseButton =
                 $(".vAdmiMenuTable__picture-modal-content .vCloseButton");
-        public static final SelenideElement imagePreviewContainerImage =
-                $(".vAdmiMenuTable__picture-modal-content img");
         public static final SelenideElement dishPreloader =
                 $(".vSectionMenuAdmin__main-side .vLightPreloader");
         public static final SelenideElement helpAdminContainer = $(".vAdminMenuHelp__description");
@@ -337,21 +299,14 @@ public class AdminPersonalAccount {
         public static final String categoryItemsNamesSelector = ".vAdminMenuCategoryItem__info-bottom";
         public static final ElementsCollection categoryItemsSize =
                 $$(".vAdminMenuCategoryItem__info-top");
-        public static final ElementsCollection categoryEditButton =
-                $$(".vAdminMenuCategoryItem .vAdminMenuCategoryItem__btn:nth-child(2)");
-
         public static final String categoryEditButtonSelector =
                 ".vAdminMenuCategoryItem__btn:nth-child(2)";
         public static final ElementsCollection categoryEyeIcons =
                 $$("[class='vAdminMenuAside__category'] .vAdminMenuCategoryItem__btn:nth-child(3)");
-
         public static final ElementsCollection notAutoMenuCategory =
                 $$x("//*[@class='vAdminMenuCategoryItem']" +
                         "[..//*[@class='vAdminMenuCategoryItem__info-bottom'" +
                         " and not(contains(text(),'Не трогать эту категорию'))]]");
-
-
-
         public static final String categoryEyeIconSelector = ".--eye";
 
         public static final String categoryNameTotalSelector = ".vAdminMenuCategoryItem__info";
@@ -427,8 +382,7 @@ public class AdminPersonalAccount {
                 $x("//*[@class='vLimitedInput__wrapper'][..//input[@id='count']]/following::div[1]");
         public static final SelenideElement editDishAmountErrorContainer =
                 $x("//*[@class='vLimitedInput__wrapper'][..//input[@id='count']]");
-        public static final SelenideElement editDishMeasureUnitErrorContainer =
-                $(".vSelect__err");
+        public static final SelenideElement editDishMeasureUnitErrorContainer = $(".vSelect__err");
         public static final SelenideElement editDishCaloriesInput = $("[id=\"calories\"]");
         public static final SelenideElement editDishCaloriesInputCounter = $("[id=\"calories\"]+div+span");
         public static final SelenideElement editDishMarksSelect =
@@ -445,32 +399,31 @@ public class AdminPersonalAccount {
         public static final SelenideElement operationsHistoryContainer = $(".VSectionHistory");
         public static final SelenideElement historyOperationTabButton =
                 $x("//*[contains(@class,'tabsHeader__btn') and text()='История операций']");
-
-
-
-
         public static final SelenideElement reportTabButton =
                 $x("//*[contains(@class,'tabsHeader__btn') and text()='Отчет']");
         public static final SelenideElement reportContainer = $(".reportAdmin");
+        public static final SelenideElement title = $(".section-profile__title");
         public static final SelenideElement choseOnlyOneDayCheckbox = $(".reportAdmin .vCheckbox");
         public static final SelenideElement oneDayReportContainer = $(".reportAdmin__container.halfWidth");
         public static final SelenideElement fromDateCalendarInput =
                 $(".reportAdmin__calendar div:nth-child(1) input");
         public static final SelenideElement toDateCalendarInput =
                 $(".reportAdmin__calendar div:nth-child(3) input");
+        public static final SelenideElement fromTimeCalendarInput =
+                $(".reportAdmin__calendar div:nth-child(2) input");
+        public static final SelenideElement toTimeCalendarInput =
+                $(".reportAdmin__calendar div:nth-child(4) input");
         public static final SelenideElement fromDateCalendarContainer = $(".reportAdmin__field:nth-child(1)");
         public static final SelenideElement toDateCalendarContainer = $(".reportAdmin__field:nth-child(3)");
         public static final SelenideElement fromTimeCalendarContainer = $(".reportAdmin__field:nth-child(2)");
         public static final SelenideElement toTimeCalendarContainer = $(".reportAdmin__field:nth-child(4)");
-
-        public static final SelenideElement openedCalendarContainer =
+        public static final SelenideElement openedCalendarDateContainer =
                 $(".mx-datepicker-main.mx-datepicker-popup");
-
-        public static final ElementsCollection hoursCalendar = $$(".mx-time-column:first-child .mx-time-item");
-
+        public static final SelenideElement openedCalendarTimeContainer = $(".mx-time-content");
+        public static final ElementsCollection hoursCalendar =
+                $$(".mx-time-column:first-child .mx-time-item");
         public static final ElementsCollection minutesCalendar =
                 $$(".mx-time-column:last-child .mx-time-item");
-
         public static final String fromDateCalendarSelector =
                 ".reportAdmin__calendar .reportAdmin__field:nth-of-type(1) .mx-datepicker .mx-input-wrapper";
         public static final String fromTimeCalendarSelector =
@@ -479,22 +432,14 @@ public class AdminPersonalAccount {
                 ".reportAdmin__calendar .reportAdmin__field:nth-of-type(3) .mx-datepicker .mx-input-wrapper";
         public static final String toTimeCalendarSelector =
                 ".reportAdmin__calendar .reportAdmin__field:nth-of-type(4) .mx-datepicker .mx-input-wrapper";
-
-
-
-
-
         public static final SelenideElement reportInfoContainer = $(".reportAdmin .reportAdmin__fieldset");
         public static final SelenideElement downloadReportButton =
                 $x("//*[contains(@class,'vButton') and contains(.,'Выгрузить отчет')]");
-
-
         public static final SelenideElement forWeekPeriodButton =
                 $(".vHistoryBlockHeader__switcher [for=\"day\"]");
         public static final SelenideElement forMonthPeriodButton =
                 $(".vHistoryBlockHeader__switcher [for=\"month\"]");
         public static final ElementsCollection allPeriodButtons = $$(".vHistoryBlockHeader>div");
-        public static final SelenideElement dateRangeContainer = $(".vHistoryBlockHeader__period");
         public static final String periodButton = ".mx-input-wrapper";
         public static final SelenideElement leftArrowMonthPeriod =
                 $(".mx-calendar:first-child .mx-btn-icon-left");
@@ -506,52 +451,32 @@ public class AdminPersonalAccount {
         public static final SelenideElement resetPeriodButton = $(".vHistoryBlockHeader__period-reset");
         public static final SelenideElement historyTotalPeriodDate = $(".vHistoryTotalPeriod__date");
         public static final SelenideElement historyPeriodDate = $(".vHistoryList__date");
-        public static final By historyPeriodDateBy = By.cssSelector(".vHistoryList__date");
-
         public static final SelenideElement totalSum =
                 $x("//*[contains(@class,'vHistory') and contains(text(),'Итого:')]");
-
-        public static final By totalSumBy =
-                By.xpath("//*[@class='vHistoryList__el' and contains(text(),'Итого')]/span");
-
         public static final SelenideElement totalTips =
                 $x("//*[contains(@class,'vHistory') and contains(text(),'Чаевые:')]");
-
-        public static final By totalTipsBy =
-                By.xpath("//*[@class='vHistoryList__el' and contains(text(),'Чаевые')]/span");
         public static final SelenideElement operationsHistoryPagePreloader = $(".vLightPreloader");
-
         public static final SelenideElement emptyOperationContainer =
                 $(".VSectionHistory__block > div:not([class])");
-
         public static final SelenideElement operationsHistoryListContainer = $(".vHistoryRows");
         public static final ElementsCollection operationsHistoryListItems = $$(".vHistoryRows li");
         public static final ElementsCollection operationsHistoryListItemsDate =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(1) span");
-        public static final By operationsHistoryListItemsDateBy =
-                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(1)");
+        public static final String operationsHistoryListItemsDateSelector = ".vHistoryRows__col:nth-child(1)";
+        public static final String operationsHistoryListItemsWaiterSelector = ".vHistoryRows__col:nth-child(2) p";
+        public static final String operationsHistoryListItemsTableSelector = ".vHistoryRows__col:nth-child(3) p";
+        public static final String operationsHistoryListItemsTipsSelector = ".vHistoryRows__col:nth-child(4)";
+        public static final String operationsHistoryListItemsTotalOrderSumSelector = ".vHistoryRows__col:nth-child(6)";
         public static final ElementsCollection operationsHistoryListItemsWaiter =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(2) p");
-
-        public static final By operationsHistoryListItemsWaiterBy =
-                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(2) p");
         public static final ElementsCollection operationsHistoryListItemsTable =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(3) p");
-
-        public static final By operationsHistoryListItemsTableBy =
-                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(3) p");
         public static final ElementsCollection operationsHistoryListItemsTips =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(4)");
-        public static final By operationsHistoryListItemsTipsBy =
-                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(4)");
         public static final ElementsCollection operationsHistoryListItemsStatus =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(5) p");
-        public static final By operationsHistoryListItemsStatusBy =
-                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(5) p");
         public static final ElementsCollection operationsHistoryListItemsSum =
                 $$(".vHistoryRows li .vHistoryRows__col:nth-child(6)");
-        public static final By operationsHistoryListItemsSumBy =
-                By.cssSelector(".vHistoryRows li .vHistoryRows__col:nth-child(6)");
         public static final SelenideElement paginationContainer =
                 $("div>.Pagination");
         public static final ElementsCollection paginationPages =
@@ -597,7 +522,6 @@ public class AdminPersonalAccount {
         public static final SelenideElement typePaymentNotificationOption =
                 $x("//*[contains(@class,'sectionTelegram-modal__checkboxItem')" +
                         " and text()=' Сообщения об оплатах ']");
-
         public static final SelenideElement deleteTelegramContainerCloseButton =
                 $(".sectionTelegram-modal__close");
         public static final SelenideElement errorTextInLoginTelegram =
@@ -607,7 +531,6 @@ public class AdminPersonalAccount {
 
     public static class Tips {
 
-        public static final SelenideElement tipsContainer = $(".vBlockTipsTeam");
         public static final SelenideElement tipsInfoContainer = $(".vSectionTips__content [class$='__info']");
         public static final SelenideElement imageContainer = $(".section-profile__photo-block");
         public static final SelenideElement avatarStub =
@@ -615,42 +538,27 @@ public class AdminPersonalAccount {
         public static final SelenideElement avatarImage =
                 $(".section-profile__photo-wrapper img:not([src*=v-icon-avatar])");
         public static final String avatarImgSelector = ".section-profile__photo-wrapper img";
-
         public static final SelenideElement deleteAvatarButton = $(".section-profile__photo-del");
         public static final SelenideElement tipsTypeButtons = $(".vSectionTips__switching-tabs");
         public static final SelenideElement kitchenTipsButton =
                 $x("//*[contains(@class,'vSectionTips__switching-tabs') and contains(.,'Чаевые кухне')]");
         public static final SelenideElement downloadAvatarInput = $(".section-profile__file");
-
-        public static final SelenideElement linCreditCardButton =
-                $x("//button[text()=' Привязать карту ']");
-
         public static final SelenideElement hookahNameContainer = $("div>[id=\"nameHookah\"]");
         public static final SelenideElement hookahNameInput = $("[id=\"nameHookah\"]");
         public static final SelenideElement hookahGoaContainer = $("div>[id=\"purposeHookah\"]");
         public static final SelenideElement inputError = $(".vLandingInput.err");
-
-
-
         public static final SelenideElement hookahGoalInput = $("[id=\"purposeHookah\"]");
         public static final SelenideElement kitchenGoalContainer = $("div>[id=\"purposeKitchen\"]");
-
         public static final SelenideElement kitchenGoalInput = $("[id=\"purposeKitchen\"]");
         public static final SelenideElement tipsCheckbox = $(".vBlockCheckboxTips .vClickedCheckbox__view");
-
         public static final SelenideElement maxGoalCharsCounter = $("[class$='__input-number']");
         public static final SelenideElement changeCreditCard = $("[class$='__change-map']");
-
         public static final SelenideElement linkedCardButton =
                 $x("//*[contains(@class,'vButton')][contains(.,'Карта привязана')]");
         public static final SelenideElement toLinkCardButton =
                 $x("//*[contains(@class,'vButton')][contains(.,'Привязать карту')]");
         public static final SelenideElement saveButton =
                 $x("//*[contains(@class,'vButton')][contains(.,'Сохранить')]");
-        public static final String choseDateButtonSelector = ".mx-datepicker .mx-input-wrapper";
-        public static final SelenideElement downloadTable = $(".vButton");
-
-
 
     }
 

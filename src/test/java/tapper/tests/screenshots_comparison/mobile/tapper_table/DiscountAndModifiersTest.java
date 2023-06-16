@@ -3,12 +3,12 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
 import data.ScreenLayout;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import tapper_table.RootPage;
@@ -28,28 +28,23 @@ import static data.selectors.TapperTable.Common.wiFiIconBy;
 @Story("Заказ")
 @DisplayName("Скидка с модификаторами")
 @TakeOrCompareScreenshots()
-@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DiscountAndModifiersTest extends ScreenMobileTest {
-    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            PaymentErrorTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
 
-    public static boolean isScreenShot = annotation.isTakeScreenshot();
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
     static String guid;
     static int amountDishesForFillingOrder = 1;
-    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
-
+    Set<By> ignoredElements = ScreenshotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
     static String discountAmount = "10000";
 
     RootPage rootPage = new RootPage();
@@ -100,14 +95,14 @@ class DiscountAndModifiersTest extends ScreenMobileTest {
         apiRKeeper.createDiscount(rqBodyCreateDiscount);
 
         rootPage.openNotEmptyTable(tableUrl);
-        rootPage.ignoreWifiIcon();
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        rootPage.ignoreAllDynamicsElements();
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperTableWithDiscountAndModifiersOrderPartOne,diffPercent,imagePixelSize,
                 ignoredElements);
 
         rootPage.scrollTillBottom();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.tapperTableWithDiscountAndModifiersOrderPartTwo,diffPercent,imagePixelSize,
                 ignoredElements);
 

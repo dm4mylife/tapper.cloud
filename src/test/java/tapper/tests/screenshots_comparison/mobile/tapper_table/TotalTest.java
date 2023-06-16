@@ -3,14 +3,13 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 import api.ApiRKeeper;
 import common.BaseActions;
 import data.ScreenLayout;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import tapper_table.ReviewPage;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
@@ -26,7 +25,6 @@ import static api.ApiData.OrderData.BARNOE_PIVO;
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.text;
 import static data.ScreenLayout.Tapper.*;
-import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.ReviewPage.*;
 import static data.selectors.TapperTable.RootPage.PayBlock.*;
 import static data.selectors.TapperTable.RootPage.TipsAndCheck.tips25;
@@ -36,22 +34,17 @@ import static data.selectors.TapperTable.RootPage.TipsAndCheck.tips25;
 @Feature("Стол")
 @Story("Заказ")
 @DisplayName("Общие тесты")
-@SixTableData
 @TakeOrCompareScreenshots()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TotalTest extends ScreenMobileTest {
-    SixTableData data = ThanksReviewTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            TotalTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
-    public static boolean isScreenShot = annotation.isTakeScreenshot();
-    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
 
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
@@ -84,11 +77,10 @@ class TotalTest extends ScreenMobileTest {
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
         rootPage.openNotEmptyTable(tableUrl);
-        rootPage.ignoreWifiIcon();
+        rootPage.ignoreAllDynamicsElements();
 
-        ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize, isScreenShot, tapperTableWithOrdinaryOrder, diffPercent, imagePixelSize,
-                        ignoredElements);
+        ScreenshotComparison.isScreenOrDiff
+                (browserTypeSize, isScreenShot, tapperTableWithOrdinaryOrder, diffPercent, imagePixelSize);
 
     }
 
@@ -98,9 +90,8 @@ class TotalTest extends ScreenMobileTest {
     void tableWithOrderDivided() throws IOException {
 
         rootPage.activateDivideCheckSliderIfDeactivated();
-        ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize, isScreenShot, tapperTableWithOrdinaryOrderDivide, diffPercent, imagePixelSize,
-                        ignoredElements);
+        ScreenshotComparison.isScreenOrDiff
+                (browserTypeSize, isScreenShot, tapperTableWithOrdinaryOrderDivide, diffPercent, imagePixelSize);
 
     }
 
@@ -113,9 +104,8 @@ class TotalTest extends ScreenMobileTest {
         rootPageNestedTests.chooseAllNonPaidDishes();
         BaseActions.click(tips25);
 
-        ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize, isScreenShot, tapperWithTipsAndChosenDishes, diffPercent, imagePixelSize,
-                        ignoredElements);
+        ScreenshotComparison.isScreenOrDiff
+                (browserTypeSize, isScreenShot, tapperWithTipsAndChosenDishes, diffPercent, imagePixelSize);
 
     }
 
@@ -129,9 +119,8 @@ class TotalTest extends ScreenMobileTest {
         rootPage.changePaymentTypeOnSBP();
         BaseActions.click(paymentButton);
 
-        ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize, isScreenShot, openedPaymentByCreditCardModal, diffPercent, imagePixelSize,
-                        ignoredElements);
+        ScreenshotComparison.isScreenOrDiff
+                (browserTypeSize, isScreenShot, openedPaymentByCreditCardModal, diffPercent, imagePixelSize);
 
         BaseActions.click(paymentOverlay);
         BaseActions.click(cancelProcessPayingContainerSaveBtn);
@@ -145,9 +134,8 @@ class TotalTest extends ScreenMobileTest {
 
         BaseActions.click(paymentOptionsContainer);
 
-        ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize, isScreenShot, openedPaymentOptionsModal, diffPercent, imagePixelSize,
-                        ignoredElements);
+        ScreenshotComparison.isScreenOrDiff
+                (browserTypeSize, isScreenShot, openedPaymentOptionsModal, diffPercent, imagePixelSize);
 
         BaseActions.click(paymentOverlay);
 
@@ -164,14 +152,14 @@ class TotalTest extends ScreenMobileTest {
     void paymentInProcess() throws IOException {
 
         rootPage.isElementVisibleDuringLongTime(paymentProcessContainer, 30);
-        rootPage.ignoreWifiIcon();
+        rootPage.ignoreAllDynamicsElements();
         rootPage.isElementVisible(paymentProcessGifProcessing);
         rootPage.isElementVisible(paymentProcessStatus);
         rootPage.isElementVisible(paymentProcessText);
         paymentProcessStatus.shouldHave(matchText("Производится оплата"), Duration.ofSeconds(30));
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize, isScreenShot, paymentInProcess, diffPercent,
-                imagePixelSize,ignoredElements);
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize, isScreenShot, paymentInProcess, diffPercent,
+                imagePixelSize);
 
     }
 
@@ -184,8 +172,7 @@ class TotalTest extends ScreenMobileTest {
                 .shouldHave(matchText("Оплата прошла успешно!"), Duration.ofSeconds(30));
         rootPage.isElementVisible(paymentProcessGifSuccess);
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize, isScreenShot, paymentSuccess, diffPercent, imagePixelSize,
-                ignoredElements);
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize, isScreenShot, paymentSuccess, diffPercent, imagePixelSize);
     }
 
     @Test
@@ -195,9 +182,8 @@ class TotalTest extends ScreenMobileTest {
 
         reviewPage.isReviewBlockCorrect();
 
-        ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize, isScreenShot, ScreenLayout.Tapper.reviewPage, diffPercent, imagePixelSize,
-                        ignoredElements);
+        ScreenshotComparison.isScreenOrDiff
+                (browserTypeSize, isScreenShot, ScreenLayout.Tapper.reviewPage, diffPercent, imagePixelSize);
 
     }
 

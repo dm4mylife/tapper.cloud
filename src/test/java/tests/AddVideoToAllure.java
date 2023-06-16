@@ -1,23 +1,15 @@
 package tests;
 
-import com.automation.remarks.junit.VideoRule;
-import com.automation.remarks.video.annotations.Video;
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import io.restassured.internal.util.IOUtils;
-import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class AddVideoToAllure implements TestWatcher {
 
@@ -47,7 +39,7 @@ public class AddVideoToAllure implements TestWatcher {
                 folder.mkdirs(); //if it doesn't exist, create it along with any intermediate directories
             }
             file.createNewFile(); //create the file
-            System.out.println("File created successfully!");
+
         } catch (IOException e) {
             System.err.println("An error occurred while creating the file: " + e.getMessage());
         }

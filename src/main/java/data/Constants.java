@@ -8,16 +8,13 @@ public class Constants {
     public static final Integer WAIT_FOR_DELETE_ARTEFACT_BEFORE_SCREEN = 200;
     public static final Integer WAIT_UNTIL_TRANSACTION_EXPIRED = 250000;
     public static final Integer WAIT_UNTIL_TRANSACTION_STILL_ALIVE = 200000;
-    public static final int WAIT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
+    public static final int TIMEOUT_FOR_FILE_TO_BE_DOWNLOADED = 15000;
     public static final int WAIT_FOR_ORDER_TO_BE_CLOSED_AT_CASH_DESK = 10000;
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED = 6.5;
     public static final Double SERVICE_CHARGE_PERCENT_WHEN_DEACTIVATED_IN_SUPPORT = 25.0;
     public static final int WAIT_TILL_OPERATION_HISTORY_LIST_IS_UPDATED = 500;
     public static final int WAIT_FOR_TELEGRAM_SUPPORT_SENDING = 30000;
     public static final int WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK = 15000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_PART_PAY = 15000;
-    public static final int WAIT_FOR_TELEGRAM_MESSAGE_FULL_PAY = 20000;
-    public static final int WAIT_FOR_OPERATION_APPEAR = 10000;
     public static final int MOBILE_IMAGE_PIXEL_SIZE = 2962440;
     public static final int DESKTOP_IMAGE_PIXEL_SIZE = 1907178;
     public static final double DIFF_PERCENT_IMAGE = 0.4;
@@ -37,6 +34,8 @@ public class Constants {
     public static final String HOOKAH_AVATAR_JPG = "src/main/resources/hookahAvatar.jpg";
     public static final String OLD_LOADER_GIF_PATH = "src/main/resources/oldLoader.gif";
     public static final String ROBOCOP_IMG_PATH = "src/main/resources/robocop.jpeg";
+    public static final String QR_BLACK_WITH_TABLE_PATH = "src/main/resources/qr_black_with_table.png";
+    public static final String QR_WHITE_WITH_TABLE_PATH = "src/main/resources/qr_white_with_table.png";
     public static final String downloadFolderPath = "build/downloads/qr";
     public static final String downloadFolderPathAdminSupport = "build/downloads/qrAdminSupport";
     public static final String FORM_MUST_BE_FIELD_ERROR_TEXT = "Для сохранения необходимо заполнить поле";
@@ -47,12 +46,9 @@ public class Constants {
     public static final String MOBILE_BROWSER_POSITION = "600x20";
     public static final String SUPPORT_HISTORY_OPERATIONS_ACTIVE_DATE_FORMAT_PATTERN = "dd-MM-yyyy";
     public static final String SUPPORT_HISTORY_OPERATIONS_ITEM_PATTERN = "dd.MM.yyyy";
-    public static final String SUPPORT_HISTORY_OPERATIONS_CUSTOM_DATE_PATTERN = "MM/d/yyyy";
-
     public static final String EXPIRED_USER_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmbGVldCIsImlhdC" +
             "I6MTY4MDg0NzQzNCwiZXhwIjoxNjgwODUxMDM0LCJzdWIiOjU4Mywicm9sZXNfaWQiOjR9.0wRDY-wr-GAcs1h7lfDowi6BDg0cLQ0P" +
             "7lQ1-kdZcWY";
-
     public static final String EXPIRED_REFRESH_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmbGVldCIsIml" +
             "hdCI6MTY4MDg0NzQzNCwiZXhwIjoxNjgzNDM5NDM0LCJzdWIiOjU4Mywicm9sZXNfaWQiOjR9.xJto6ERVyBac_xouQM7zgPDhtvF2f" +
             "mA9iEMqb2r1M5k";
@@ -65,6 +61,7 @@ public class Constants {
             public static final String STAGE_IIKO_TABLE_111 = "https://stage-ssr.zedform.ru/office/111";
             public static final String STAGE_IIKO_TABLE_222 = "https://stage-ssr.zedform.ru/office/222";
             public static final String STAGE_IIKO_TABLE_333 = "https://stage-ssr.zedform.ru/office/333";
+            public static final String STAGE_IIKO_TABLE_444 = "https://stage-ssr.zedform.ru/office/333";
             public static final String STAGE_RKEEPER_TABLE_222 = "https://stage-ssr.zedform.ru/testrkeeper/1000397";
             public static final String STAGE_RKEEPER_TABLE_333 = "https://stage-ssr.zedform.ru/testrkeeper/1000398";
             public static final String STAGE_RKEEPER_TABLE_444 = "https://stage-ssr.zedform.ru/testrkeeper/1000423";
@@ -72,7 +69,6 @@ public class Constants {
             public static final String STAGE_RKEEPER_TABLE_666 = "https://stage-ssr.zedform.ru/testrkeeper/1000438";
             public static final String STAGE_IIKO_TABLE_3 = "https://stage-ssr.zedform.ru/office/3";
             public static final String AUTO_API_URI = "https://apitapper.zedform.ru/api/";
-
 
            /*  public static final String STAGE_RKEEPER_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/testrkeeper/1000046";
             public static final String STAGE_IIKO_TABLE_111 = "https://auto-ssr-tapper.zedform.ru/office/111";
@@ -109,12 +105,11 @@ public class Constants {
             public static final String SHORT_PASSWORD = "1234";
             public static final String SEARCH_BANK = "Альфа-Банк";
             public static final String WRONG_SEARCH_BANK = "123";
-
             public static final String EMPTY_LOGIN = " ";
             public static final String WRONG_EMAIL_PATTERN = "test";
             public static final Double SERVICE_CHARGE_PERCENT_FROM_TOTAL_SUM = 3.5;
             public static final Double SERVICE_CHARGE_PERCENT_FROM_TIPS = 5.0;
-            public static final double SERVICE_CHARGE_MAX = 299.0;
+            public static final double SERVICE_CHARGE_MAX = 199.0;
             public static final String TIPS_ERROR_MSG = " Минимальная сумма чаевых 49 ₽ ";
             public static final String MIN_SUM_FOR_TIPS_ERROR = "48";
             public static final String MIN_SUM_TIPS = "49";
@@ -122,14 +117,12 @@ public class Constants {
             public static final String COOKIE_SESSION_SECOND_USER = "1235";
             public static final String PART_PAY_STATUS_TEXT = " Статус заказа: Частично оплачен ";
             public static final String FULL_PAY_STATUS_TEXT = " Статус заказа: Полностью оплачен ";
-
             public static final String ACTIVE_ROLE_BUTTON_BORDER_COLOR = "rgb(103, 100, 255)";
-            public static final String SERVICE_CHARGE_TEXT_WHEN_DEACTIVATED =
+            public static final String SERVICE_CHARGE_TEXT =
                     "Я хочу взять на себя транзакционные издержки (\\(.*₽\\)), чтобы сотрудник получил полную сумму чая";
 
-
-
-
+            public static final String SERVICE_CHARGE_TEXT_WHEN_DEACTIVATED =
+                    "Я хочу взять на себя транзакционные издержки сервиса";
 
         }
 
@@ -150,9 +143,7 @@ public class Constants {
             public static final String WAITER_LOGIN_EMAIL = "autotests_waiter@tapper.cloud";
             public static final String EXISTING_ADMIN_RESTAURANT_MAIL = "veydedumli@gufum.com";
             public static final String WAITER_PASSWORD_MAIL = "W1LrKR29xwp9";
-            public static final String YANDEX_MAIL_URL =
-                    "https://passport.yandex.ru/auth?retpath=https%3A%2F%2Fmail.yandex.ru%2F&backpath=https%3A%2F%2F" +
-                            "mail.yandex.ru%2F%3Fnoretpath%3D1&from=mail&origin=hostroot_homer_auth_ru";
+
         }
 
         public static class AdminPersonalAccount {
@@ -181,16 +172,12 @@ public class Constants {
 
             public static final String ADMIN_RESTAURANT_LOGIN_EMAIL = "kirillk8888@yandex.ru";
             public static final String ADMIN_RESTAURANT_PASSWORD = "999999";
-
             public static final String ADMIN_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String WAITER_LOGIN_EMAIL = "jagexo5827@khaxan.com";
             public static final String WAITER_PASSWORD = "123456";
-
             public static final String WAITER_NO_CARD_HAS_GOAL_LOGIN_EMAIL = "webohe1675@mevori.com";
             public static final String WAITER_NO_CARD_HAS_GOAL_PASSWORD = "590f0017-8464-4259-b3d5-8425855073b0";
             public static final String WAITER_GOAL_TEXT = "У самурая нет цели, только путь";
-
-
             public static final String WAITER_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String ROBOCOP_WAITER_CHANGED_NAME = "Робокопище";
             public static final String TELEGRAM_AUTO_CHANNEL_LOGIN = "-1001764474981";
@@ -199,10 +186,6 @@ public class Constants {
             public static final String IS_WAITING_WAITER_TEXT = "Ожидает приглашения";
             public static final String INVITED_IN_SERVICE_TEXT = "Приглаш(е|ё)н в систему";
             public static final String NOT_CHOSEN_DISH_AMOUNT_INPUT_ERROR = "Не выбрано количество ";
-            public static final String FORBIDDEN_CHARS_FOR_NAME_BY_GUEST_AND_INGREDIENTS = "!\"№;%:?*()_+,,,";
-            public static final String ACCEPTABLE_CHARS_FOR_NAME_BY_GUEST_AND_INGREDIENTS = ",,,";
-            public static final String FORBIDDEN_CHARS_FOR_DESCRIPTION = "@#$[]{}%!?()";
-            public static final String ACCEPTABLE_CHARS_FOR_DESCRIPTION = "%!?()";
             public static final String FIRST_AUTO_MENU_CATEGORY = "Не трогать эту категорию №1";
             public static final String SECOND_AUTO_MENU_CATEGORY = "Не трогать эту категорию №2";
             public static final String YANDEX_REVIEW_LINK =
@@ -223,8 +206,6 @@ public class Constants {
             public static final String CHOSEN_MENU_CATEGORY = "rgb(213, 219, 241)";
             public static final String EDIT_DISH_ERROR = "rgba(236, 78, 78, 1)";
             public static final String PERIOD_BUTTON_BORDER = "rgba(103, 100, 255, 1)";
-
-
             static Faker faker = new Faker();
             static String randomWords = faker.lorem().fixedString(7);
             public static final String OVER_LIMIT_CHARS_DESCRIPTIONS_INPUT =
@@ -263,14 +244,9 @@ public class Constants {
             public static final String SUPPORT_LOGIN_EMAIL = "varlone_mag2@mail.ru";
             public static final String SUPPORT_PASSWORD = "567567";
             public static final String INCORRECT_DATA = "1111";
-
             public static final String SUPPORT_RESTAURANT_NEW_PASSWORD_FOR_TEST = "123456";
             public static final String SUPPORT_TEST_PHONE = "+7(123) 456-78-90";
-
             public static final int HISTORY_OPERATION_DEFAULT_LIST_ITEM_SIZE = 15;
-
-
-
 
         }
 
@@ -283,7 +259,6 @@ public class Constants {
             public static final String CONFIRMATION_PASSWORD = Yandex.ADMIN_RESTAURANT_TEST_PASSWORD_MAIL;
             public static final String RESTAURANT_NAME = "show me your love";
             public static final String EXISTING_EMAIL_ERROR_TEXT = "Этот E-mail уже зарегистрирован";
-
 
         }
 
@@ -318,18 +293,15 @@ public class Constants {
 
         public static class TapperTable {
 
-            public static final String totalPayRegex = "\\s₽";
-            public static final String totalSumInWalletRegex = "\\s₽";
-            public static final String dishPriceRegex = "\\s₽";
-            public static final String tipsInCheckSumRegex = "\\s₽";
-            public static final String markedDishesRegex = "\\s₽";
+            public static final String totalPayRegex = "[^\\d\\.]+";
+            public static final String totalSumInWalletRegex = "₽";
+            public static final String dishPriceRegex = "(\\S|\\s)₽";
+            public static final String tipsInCheckSumRegex = "[^\\d\\.]+";
+            public static final String markedDishesRegex = "₽";
             public static final String discountInCheckRegex = "[^\\d\\.]+";
-            public static final String anotherGuestSumInCheckRegex = "[^\\d\\.]+";
             public static final String serviceChargeRegex = "[^\\d\\.\\-]+";
             public static final String percentRegex = "\\D+";
             public static final String tableNumberRegex = "\\D+";
-
-
 
         }
 

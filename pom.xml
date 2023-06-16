@@ -216,9 +216,17 @@
             <artifactId>video-recorder-junit</artifactId>
             <version>2.0</version>
         </dependency>
-
-
-
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.codeborne/selenide-selenoid -->
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide-selenoid</artifactId>
+            <version>6.15.0</version>
+        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>16</maven.compiler.source>

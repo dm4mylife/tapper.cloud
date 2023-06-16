@@ -16,7 +16,6 @@ public class AuthAndRegistrationPage {
     public static class AuthorizationPage {
 
         public static final SelenideElement pagePreloader = $(".vPreloader");
-
         public static final SelenideElement welcomeHeading = $(".sign__container .sign__welcome");
         public static final SelenideElement titleHeading = $(".sign__container .sign__title");
         public static final SelenideElement emailInput = $("#email");
@@ -73,11 +72,6 @@ public class AuthAndRegistrationPage {
         public static final SelenideElement logoAtBottom = $("a[href='/']");
         public static final SelenideElement copyright = $(".sign__copyright");
         public static final SelenideElement confPolicyContainer = $(".vLandingPoliticModal");
-
-
-
-
-
         public static final SelenideElement recoveryButton = applyButton;
         public static final SelenideElement saveButton = applyButton;
 

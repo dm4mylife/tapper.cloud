@@ -5,11 +5,11 @@ import admin_personal_account.menu.Menu;
 import common.BaseActions;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import tapper_table.RootPage;
@@ -33,27 +33,21 @@ import static data.selectors.TapperTable.RootPage.Menu.firstTestDish;
 @Feature("Стол")
 @Story("Меню")
 @DisplayName("Меню таппера")
-@SixTableData
 @TakeOrCompareScreenshots()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MenuTest extends ScreenDesktopTest {
-    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            WaiterNonVerifiedTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
 
-    public static boolean isScreenShot = annotation.isTakeScreenshot();
-    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
-
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
+    Set<By> ignoredElements = ScreenshotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
-
     String browserTypeSize = getBrowserSizeType();
     RootPage rootPage = new RootPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
@@ -79,7 +73,7 @@ class MenuTest extends ScreenDesktopTest {
 
         rootPage.emptyMenuCorrect();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.emptyMenu,diffPercent,imagePixelSize,ignoredElements);
 
     }
@@ -100,7 +94,7 @@ class MenuTest extends ScreenDesktopTest {
         rootPage.changeBrowserSizeDuringTest(400,1020);
         rootPage.clickOnMenuInFooter();
         rootPage.ignoreWifiIcon();
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, ScreenLayout.Tapper.menu,diffPercent,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, ScreenLayout.Tapper.menu,diffPercent,
                 imagePixelSize,ignoredElements);
 
     }
@@ -112,7 +106,7 @@ class MenuTest extends ScreenDesktopTest {
 
         BaseActions.click(firstTestDish.first());
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.Tapper.detailCardMenu,diffPercent, imagePixelSize,ignoredElements);
 
     }

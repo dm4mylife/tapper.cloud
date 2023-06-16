@@ -13,13 +13,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 
-
 import java.util.HashMap;
 import java.util.logging.Level;
 
 import static api.ApiData.KeeperEndPoints.selenoidUiHubUrl;
 import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.FileDownloadMode.FOLDER;
+import static com.codeborne.selenide.FileDownloadMode.PROXY;
 import static data.Constants.*;
 
 @ExtendWith({
@@ -38,6 +38,7 @@ public class PersonalAccountTest {
         Configuration.savePageSource = false;
         Configuration.remote = selenoidUiHubUrl;
         Configuration.downloadsFolder = downloadFolderPath;
+        //Configuration.proxyEnabled = true;
         Configuration.fileDownload = FOLDER;
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
         Configuration.headless = false;

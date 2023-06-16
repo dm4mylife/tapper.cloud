@@ -1,14 +1,13 @@
 package tapper.tests.screenshots_comparison.mobile.tapper_table;
 
 import api.ApiRKeeper;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.RootPageNestedTests;
 import tests.ScreenMobileTest;
@@ -17,38 +16,28 @@ import tests.TakeOrCompareScreenshots;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
 
 import static api.ApiData.OrderData.BARNOE_PIVO;
 import static api.ApiData.OrderData.WAITER_TERMINATOR_VERIFIED_NON_CARD;
 import static data.ScreenLayout.Tapper.tapperTableNoCardWaiter;
-import static data.selectors.TapperTable.Common.wiFiIconBy;
 
 
 @Epic("Тесты по верстке проекта (Мобильные)")
 @Feature("Стол")
 @Story("Заказ")
 @DisplayName("Официант верифицирован но без карты")
-@SixTableData
 @TakeOrCompareScreenshots()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class WaiterNoCardTest extends ScreenMobileTest {
 
-    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            WaiterNoCardTest.class.getAnnotation(TakeOrCompareScreenshots.class);
-
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
     protected final String waiter = WAITER_TERMINATOR_VERIFIED_NON_CARD;
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
 
-
-    public static boolean isScreenShot = annotation.isTakeScreenshot();
-    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
 
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
@@ -68,21 +57,17 @@ class WaiterNoCardTest extends ScreenMobileTest {
         ArrayList<LinkedHashMap<String, Object>> dishesForFillingOrder = new ArrayList<>();
 
         apiRKeeper.createDishObject(dishesForFillingOrder, BARNOE_PIVO, amountDishesForFillingOrder);
-
         Response rs = rootPageNestedTests.createAndFillOrderAndOpenTapperTable(restaurantName, tableCode, waiter,
                 apiUri,dishesForFillingOrder,tableUrl, tableId);
 
-
-
         rootPage.ignoreWifiIcon();
-
-
+        rootPage.ignoreServiceWorkerRoles();
         guid = apiRKeeper.getGuidFromCreateOrder(rs);
 
         rootPage.scrollTillBottom();
 
-        ScreenShotComparison.isScreenOrDiff
-                (browserTypeSize, isScreenShot, tapperTableNoCardWaiter, diffPercent, imagePixelSize,ignoredElements);
+        ScreenshotComparison.isScreenOrDiff
+                (browserTypeSize, isScreenShot, tapperTableNoCardWaiter, diffPercent, imagePixelSize);
 
         apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 

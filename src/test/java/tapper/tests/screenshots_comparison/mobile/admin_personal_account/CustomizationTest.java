@@ -4,11 +4,11 @@ import admin_personal_account.customization.Customization;
 import common.BaseActions;
 import data.AnnotationAndStepNaming;
 import data.ScreenLayout;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
 import tapper_table.RootPage;
 import tests.ScreenMobileTest;
@@ -26,23 +26,18 @@ import static data.selectors.AdminPersonalAccount.Customization.wifiTab;
 @Feature("Администратор ресторана")
 @Story("Кастомизация")
 @DisplayName("Кастомизация")
-
 @TakeOrCompareScreenshots()
-@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomizationTest extends ScreenMobileTest {
 
-    SixTableData data = CustomizationTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            CustomizationTest.class.getAnnotation(TakeOrCompareScreenshots.class);
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
-    boolean isScreenShot = annotation.isTakeScreenshot();
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     String browserTypeSize = getBrowserSizeType();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
@@ -62,7 +57,7 @@ class CustomizationTest extends ScreenMobileTest {
         customization.goToCustomizationCategory();
         customization.isCustomizationCategoryCorrect();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.AdminPersonalAccount.customization, diffPercent, imagePixelSize);
 
     }
@@ -77,7 +72,7 @@ class CustomizationTest extends ScreenMobileTest {
         customization.activateWifiIfDeactivated();
         customization.setWifiConfiguration(TEST_WIFI_NETWORK_NAME, TEST_WIFI_NETWORK_PASSWORD);
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
                 ScreenLayout.AdminPersonalAccount.wifiInformation, diffPercent, imagePixelSize);
 
     }
@@ -91,7 +86,7 @@ class CustomizationTest extends ScreenMobileTest {
         customization.fillReviewLinks();
         customization.isReviewCorrect();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, ScreenLayout.AdminPersonalAccount.reviews,
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot, ScreenLayout.AdminPersonalAccount.reviews,
                 diffPercent, imagePixelSize);
 
     }

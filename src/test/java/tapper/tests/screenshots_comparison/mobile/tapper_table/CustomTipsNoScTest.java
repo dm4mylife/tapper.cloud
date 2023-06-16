@@ -4,25 +4,20 @@ package tapper.tests.screenshots_comparison.mobile.tapper_table;
 import api.ApiRKeeper;
 import common.BaseActions;
 import data.ScreenLayout;
-import data.table_data_annotation.SixTableData;
+import data.TableData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import layout_screen_compare.ScreenShotComparison;
+import layout_screen_compare.ScreenshotComparison;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import tapper_table.RootPage;
 import tapper_table.nestedTestsManager.NestedTests;
 import tests.ScreenMobileTest;
 import tests.TakeOrCompareScreenshots;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import static api.ApiData.OrderData.BARNOE_PIVO;
-import static data.selectors.TapperTable.Common.wiFiIconBy;
 import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeCheckboxButton;
 
 
@@ -31,23 +26,16 @@ import static data.selectors.TapperTable.RootPage.PayBlock.serviceChargeCheckbox
 @Story("Заказ")
 @DisplayName("Отмена сервисного сбора и ручной ввод чаевых")
 @TakeOrCompareScreenshots()
-@SixTableData
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomTipsNoScTest extends ScreenMobileTest {
-    SixTableData data = WiFiTest.class.getAnnotation(SixTableData.class);
-    static TakeOrCompareScreenshots annotation =
-            PaymentErrorTest.class.getAnnotation(TakeOrCompareScreenshots.class);
 
-    protected final String restaurantName = data.restaurantName();
-    protected final String tableCode = data.tableCode();
-    protected final String waiter = data.waiter();
-    protected final String apiUri = data.apiUri();
-    protected final String tableUrl = data.tableUrl();
-    protected final String tableId = data.tableId();
-    Set<By> ignoredElements = ScreenShotComparison.setIgnoredElements(new ArrayList<>(List.of(wiFiIconBy)));
-
-
-    public static boolean isScreenShot = annotation.isTakeScreenshot();
+    protected final String restaurantName = TableData.Keeper.Table_666.restaurantName;
+    protected final String tableCode = TableData.Keeper.Table_666.tableCode;
+    protected final String waiter = TableData.Keeper.Table_666.waiter;
+    protected final String apiUri = TableData.Keeper.Table_666.apiUri;
+    protected final String tableUrl = TableData.Keeper.Table_666.tableUrl;
+    protected final String tableId = TableData.Keeper.Table_666.tableId;
+    boolean isScreenShot = getClass().getAnnotation(TakeOrCompareScreenshots.class).isTakeScreenshot();
     double diffPercent = getDiffPercent();
     int imagePixelSize = getImagePixelSize();
     String browserTypeSize = getBrowserSizeType();
@@ -64,13 +52,13 @@ class CustomTipsNoScTest extends ScreenMobileTest {
 
         guid = nestedTests.createAndFillOrderAndOpenTapperTable(amountDishesForFillingOrder, BARNOE_PIVO,
                 restaurantName, tableCode, waiter, apiUri, tableUrl, tableId);
-        rootPage.ignoreWifiIcon();
+        rootPage.ignoreAllDynamicsElements();
         rootPage.scrollTillBottom();
 
         BaseActions.click(serviceChargeCheckboxButton);
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.tapperTableServiceChargePopUp,diffPercent,imagePixelSize,ignoredElements);
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+                ScreenLayout.Tapper.tapperTableServiceChargePopUp,diffPercent,imagePixelSize);
 
         rootPage.disableScPopUp();
 
@@ -85,8 +73,8 @@ class CustomTipsNoScTest extends ScreenMobileTest {
 
         rootPage.deactivateServiceChargeIfActivated();
 
-        ScreenShotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
-                ScreenLayout.Tapper.tapperTableCustomTipsAndNoSc,diffPercent,imagePixelSize,ignoredElements);
+        ScreenshotComparison.isScreenOrDiff(browserTypeSize,isScreenShot,
+                ScreenLayout.Tapper.tapperTableCustomTipsAndNoSc,diffPercent,imagePixelSize);
 
         apiRKeeper.closedOrderByApi(restaurantName,tableId,guid);
 

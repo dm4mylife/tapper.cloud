@@ -6,7 +6,6 @@ import common.BaseActions;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 
 import java.time.Duration;
@@ -23,6 +22,8 @@ import static api.ApiData.QueryParams.*;
 import static data.Constants.TestData.TapperTable.AUTO_API_URI;
 import static data.Constants.WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK;
 import static io.restassured.RestAssured.given;
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ApiRKeeper {
 
@@ -39,10 +40,16 @@ public class ApiRKeeper {
                 .when()
                 .post(createOrder)
                 .then()
-                .log().ifError()
+               // .log().ifError()
                 .statusCode(200)
                 .extract()
                 .response();
+
+
+        if (response.getStatusCode() != 200)
+            await().atMost(10, TimeUnit.SECONDS).untilAsserted
+                    (() -> Assertions.assertEquals(response.getStatusCode(), 200,
+                            "Запрос не выполнился за определенный тауймаут"));
 
         Assertions.assertTrue(response.jsonPath().getBoolean("success"));
 
@@ -122,7 +129,7 @@ public class ApiRKeeper {
                 .when()
                 .get(b2bPaymentTransactionStatus + transaction_id)
                 .then()
-                // .log().body()
+                //  .log().body()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -135,13 +142,13 @@ public class ApiRKeeper {
     }
 
     @Step("Удаление позиции заказа")
-    public boolean deletePosition(String requestBody, String baseUri) {
+    public boolean deletePosition(Map<String, Object> rsBody) {
 
            Response response = given()
                     .contentType(ContentType.JSON)
                     .and()
-                    .baseUri(baseUri)
-                    .body(requestBody)
+                    .baseUri(AUTO_API_URI)
+                    .body(rsBody)
                     .when()
                     .delete(deletePosition)
                     .then()
@@ -154,12 +161,33 @@ public class ApiRKeeper {
 
 
     }
-    public void isDeletedDishPositions(String restaurantName, String guid, String uni, int quantity, String apiUri) {
 
-        Awaitility.await().pollInterval(2, TimeUnit.SECONDS)
+    @Step("Удаление позиции заказа")
+    public boolean deletePosition(String requestBody, String baseUri) {
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .and()
+                .baseUri(baseUri)
+                .body(requestBody)
+                .when()
+                .delete(deletePosition)
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        return response.path("message").equals("Операция прошла успешно");
+
+
+    }
+
+    public void isDeletedDishPositions(String guid, String uni, int quantity) {
+
+        await().pollInterval(2, TimeUnit.SECONDS)
                 .atMost(20, TimeUnit.MINUTES).timeout(Duration.ofSeconds(20)).untilAsserted(() ->
-                        Assertions.assertTrue(deletePosition
-                                (rqParamsDeletePosition(restaurantName, guid, uni, quantity), apiUri)));
+                        Assertions.assertTrue(deletePosition(rqBodyDeletePosition(guid, uni, quantity))));
 
     }
 
@@ -179,7 +207,7 @@ public class ApiRKeeper {
                     .when()
                     .post(deleteOrder)
                     .then()
-                    .log().body()
+                     .log().body()
                     .statusCode(200)
                     .extract()
                     .response();
@@ -258,12 +286,10 @@ public class ApiRKeeper {
                     .when()
                     .delete(deleteDiscount)
                     .then()
-                    .log().body()
+                    //.log().body()
                     .statusCode(200)
                     .extract()
                     .response();
-
-            System.out.println(response.getTimeIn(TimeUnit.SECONDS) + "sec response time");
 
             hasError = response.path("message").equals("Операция прошла успешно");
 
@@ -335,13 +361,13 @@ public class ApiRKeeper {
     }
 
     @Step("Проверка пришла ли предоплата")
-    public boolean checkPrepayment(String requestBody, String baseUri) {
+    public boolean checkPrepayment(Map<String, Object> rsBody) {
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .and()
-                .body(requestBody)
-                .baseUri(baseUri)
+                .body(rsBody)
+                .baseUri(AUTO_API_URI)
                 .when()
                 .post(checkPrepayment)
                 .then()
@@ -351,6 +377,24 @@ public class ApiRKeeper {
                 .response();
 
         return response.jsonPath().getBoolean("success");
+
+    }
+
+    @Step("Проверка пришла ли предоплата")
+    public Response checkPrepaymentOnlyKeeper(Map<String, Object> rsBody) {
+
+        return given()
+                .contentType(ContentType.JSON)
+                .and()
+                .body(rsBody)
+                .baseUri(AUTO_API_URI)
+                .when()
+                .post(getPrepayment)
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract()
+                .response();
 
     }
 
@@ -365,7 +409,7 @@ public class ApiRKeeper {
                 .when()
                 .post(orderPay)
                 .then()
-                .log().ifError()
+              //  .log().body()
                 .statusCode(200)
                 .extract()
                 .response();
@@ -403,7 +447,6 @@ public class ApiRKeeper {
                 .when()
                 .post(adminLogin)
                 .then()
-                .log().ifError()
                 .extract()
                 .response();
 
@@ -416,9 +459,9 @@ public class ApiRKeeper {
     @Step("Проверка что оплата прошла")
     public void isPaymentSuccess(String restaurantName, String guid, int paySum) {
 
-        Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
+        await().pollInterval(1, TimeUnit.SECONDS)
                 .atMost(WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK, TimeUnit.MILLISECONDS)
-                .timeout(Duration.ofSeconds(WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK)).untilAsserted(() ->
+                .timeout(Duration.ofMillis(WAIT_FOR_PREPAYMENT_DELIVERED_TO_CASH_DESK)).untilAsserted(() ->
                         Assertions.assertTrue(orderPay(rqBodyOrderPay(restaurantName,guid,paySum),AUTO_API_URI)));
 
     }
@@ -426,10 +469,20 @@ public class ApiRKeeper {
     @Step("Проверка что предоплата пришла")
     public void isPrepaymentSuccess(String transactionId, int maxTimeout) {
 
-        Awaitility.await().pollInterval(1, TimeUnit.SECONDS)
+        await().pollInterval(1, TimeUnit.SECONDS)
                 .atMost(maxTimeout, TimeUnit.MILLISECONDS).timeout(Duration.ofMillis(maxTimeout)).untilAsserted(() ->
-                        Assertions.assertTrue(checkPrepayment(rqParamsCheckPrePayment(transactionId), AUTO_API_URI),
+                        Assertions.assertTrue(checkPrepayment(rqBodyCheckPrePayment(transactionId)),
                                 "Предоплата не пришла на кассу"));
+
+    }
+
+    @Step("Проверка что предоплата пришла на кипере")
+    public void isPrepaymentSuccessOnlyKeeper(String guid, int maxTimeout) {
+
+        await().pollInterval(1, TimeUnit.SECONDS)
+                .atMost(maxTimeout, TimeUnit.MILLISECONDS).timeout(Duration.ofMillis(maxTimeout)).untilAsserted(() ->
+                        Assertions.assertTrue(checkPrepaymentOnlyKeeper(rqBodyHasPrepaymentOnlyKeeper(guid)).jsonPath()
+                                        .getBoolean("has_prepayment"), "Предоплата не пришла на кассу"));
 
     }
 
@@ -530,10 +583,12 @@ public class ApiRKeeper {
 
             }
 
+
             isTableEmpty(restaurantName,tableId,apiUri);
             isSuccess = true;
 
         } else {
+
 
             String errorMessage = rs.jsonPath().getString("errors.error");
 
@@ -670,6 +725,28 @@ public class ApiRKeeper {
 
     }
 
+    public Map<String, Object> rqBodyCheckPrePayment(String transactionId) {
+
+        Map<String, Object> rsBody = new LinkedHashMap<>();
+        rsBody.put("transaction_id", transactionId);
+
+        return rsBody;
+
+    }
+
+    public Map<String, Object> rqBodyDeletePosition(String guid, String uni, int quantity) {
+
+        Map<String, Object> rsBody = new LinkedHashMap<>();
+        rsBody.put("domen", R_KEEPER_RESTAURANT);
+        rsBody.put("guid", guid);
+        rsBody.put("station", 1);
+        rsBody.put("uni", uni);
+        rsBody.put("quantity", quantity);
+
+        return rsBody;
+
+    }
+
     public ArrayList<LinkedHashMap<String, Object>>
     createDishObject(ArrayList<LinkedHashMap<String, Object>> array, String dishId, int quantity) {
 
@@ -766,6 +843,18 @@ public class ApiRKeeper {
         dishObject.put("quantity", quantity);
         dishObject.put("modificators", modifiers);
 
+
+        return dishObject;
+
+    }
+
+    public Map<String, Object> rqBodyHasPrepaymentOnlyKeeper(String guid) {
+
+        Map<String, Object> dishObject = new LinkedHashMap<>();
+
+        dishObject.put("domen", "testrkeeper");
+        dishObject.put("guid", guid);
+        dishObject.put("station", 1);
 
         return dishObject;
 
