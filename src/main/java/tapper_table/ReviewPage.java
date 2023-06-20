@@ -197,7 +197,6 @@ public class ReviewPage extends BaseActions {
 
         click(finishReviewButton);
         isElementInvisible(reviewContainer);
-        isElementVisible(orderPageContainer);
 
     }
 

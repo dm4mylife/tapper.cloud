@@ -345,8 +345,7 @@ public class RootPage extends BaseActions {
     @Step("Активируем СБ если не активен")
     public void activateServiceChargeIfDeactivated() {
 
-        if (serviceChargeContainer.exists() &&
-                serviceChargeCheckboxSvg.getCssValue("display").equals("none"))
+        if (serviceChargeContainer.exists() && !isServiceChargeCheckboxActivated())
             click(serviceChargeCheckboxButton);
 
     }
@@ -354,13 +353,12 @@ public class RootPage extends BaseActions {
     @Step("Деактивируем СБ если активен")
     public void deactivateServiceChargeIfActivated() {
 
-        if (serviceChargeContainer.exists() && serviceChargeCheckboxSvg.getCssValue("display").equals("block")) {
+        if (isServiceChargeCheckboxActivated()) {
 
             click(serviceChargeCheckboxButton);
             disableScPopUp();
 
         }
-
 
     }
 
@@ -2433,6 +2431,12 @@ public class RootPage extends BaseActions {
 
     }
 
+    public boolean isServiceChargeCheckboxActivated() {
+
+        return serviceChargeCheckboxSvg.getCssValue("display").equals("none") ? false : true;
+
+    }
+
     @Step("Сбор данных со стола для проверки с телеграм сообщением")
     public LinkedHashMap<String, String> getTapperDataForTgPaymentMsg(String tableId, String cashDeskType) {
 
@@ -2459,6 +2463,7 @@ public class RootPage extends BaseActions {
         String waiter = getWaiterNameFromTapper();
         String restaurantName = getRestaurantNameFromTapper(cashDeskType);
         double tipsDouble = waiter.equals(UNKNOWN_WAITER) ? 0 : getTipsFromTapper();
+        System.out.println(tipsDouble);
 
         if (markupSum.isDisplayed()) {
 
@@ -2467,8 +2472,8 @@ public class RootPage extends BaseActions {
 
         }
 
-        if (serviceChargeCheckboxSvg.getCssValue("display").equals("none")) {
-
+        if (!isServiceChargeCheckboxActivated()) {
+            System.out.println("minus tips from sc");
             serviceChargeSumDouble = tipsDouble / 100 * countTipsPercentFromServiceCharge();
             tipsDouble -= convertAndUpdateTipsDouble(serviceChargeSumDouble);
 
