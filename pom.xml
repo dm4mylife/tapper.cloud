@@ -229,8 +229,6 @@
         </dependency>
     </dependencies>
     <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
         <junit.jupiter.version>5.9</junit.jupiter.version>
         <junit.platform.version>1.9</junit.platform.version>
         <aspectj.version>1.9.4</aspectj.version>
